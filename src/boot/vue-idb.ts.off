@@ -1,0 +1,7 @@
+import VueIdb from 'vue-idb'
+import { boot } from "quasar/wrappers"
+
+export default boot(({ app }) => {
+  app.use(VueIdb)
+
+})

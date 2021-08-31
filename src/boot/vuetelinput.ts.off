@@ -1,0 +1,8 @@
+import VueTelInput from 'vue-tel-input'
+import { boot } from "quasar/wrappers"
+
+// "async" is optional
+export default boot(async ({ app }) => {
+  // something to do
+  app.use(VueTelInput)
+})

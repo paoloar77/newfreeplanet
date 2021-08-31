@@ -1,0 +1,6 @@
+import VeeValidate from 'vee-validate'
+import { boot } from 'quasar/wrappers'
+
+export default boot(({ app }) => {
+  app.use(VeeValidate, { inject: false })
+})

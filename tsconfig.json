@@ -1,0 +1,41 @@
+{
+  "extends": "@quasar/app/tsconfig-preset",
+  "include": [
+    // repeated from base config's "include" setting
+    "src",
+    "tests",
+
+    // these are the eslint-only inclusions
+    ".eslintrc.js"
+  ],
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components": ["src/components/index.ts"],
+      "@costanti": ["src/store/Modules/costanti.ts"],
+      "@boot": ["src/boot/*"],
+      "@views": ["src/views/*"],
+      "@src/*": ["src/*"],
+      "@/*": ["src/*"],
+      "@css": ["src/public/css/variables.scss"],
+      "@icons": ["src/public/icons/*"],
+      "@images": ["src/public/images/*"],
+      "@classes": ["src/classes/index.ts"],
+      "@utils": ["src/utils/index.ts"],
+      "@router": ["src/router/index.ts"],
+      "@validators": ["src/utils/validators.ts"],
+      "@methods": ["src/utils/methods.ts"],
+      "@api": ["src/store/Api/index.ts"],
+      "@api/*": ["src/store/Api/*"],
+      "@paths": ["src/store/Api/ApiRoutes.ts"],
+      "@storemod": ["src/store/Modules/*"],
+      "@store/*": ["src/store/*"],
+      "@modules": ["src/store/Modules/index.ts"],
+      "@model": ["src/model/index.ts"],
+      "@model/*": ["src/model/*"],
+      "model": ["src/model/index.ts"],
+      "enums": ["src/enums/*"]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+import { Vue, Options } from "vue-class-component"
+// import { Vue2Dragula } from 'vue2-dragula'
+
+import { boot } from 'quasar/wrappers'
+
+export default ({ app }) => {
+  app.use(Vue2Dragula, {
+    logging: {
+      service: false // to only log methods in service (DragulaService)
+    }
+  })
+}

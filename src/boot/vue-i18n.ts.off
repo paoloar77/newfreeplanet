@@ -1,0 +1,34 @@
+// src/boot/vue-i18n.js
+import { createI18n } from 'vue-i18n'
+import { toolsext } from '@src/store/Modules/toolsext'
+import messages from '../statics/i18n'
+import { tools } from '../store/Modules/tools'
+import { createPinia } from 'pinia'
+
+export default ({ app }: { app: any }) => {
+  // Vue.config.lang = process.env.LANG_DEFAULT;
+
+  const pinia = createPinia()
+  app.use(pinia)
+
+  let mylang = tools.getItemLS(toolsext.localStorage.lang)
+  console.log(`LANG LocalStorage ${mylang}`)
+
+  if ((navigator)) {
+    const mylangnav = navigator.language
+    console.log(`LANG NAVIGATOR ${mylangnav}`)
+    if (mylang === '') mylang = mylangnav
+  }
+
+  mylang = toolsext.checkLangPassed(mylang)
+
+  app.config.globalProperties.lang = mylang
+
+  const i18n = createI18n({
+    fallbackLocale: mylang,
+    locale: 'en-US',
+    messages,
+  })
+
+  app.use(i18n)
+}
