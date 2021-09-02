@@ -137,16 +137,16 @@ v-if="tools.getHttpForTelegram(rec.usertelegram)" fab-mini
                         <div v-if="myitemmenu.infooter && tools.visumenu(myitemmenu)">
 
                             <div v-if="myitemmenu.solotitle">
-                                <span class="footer_link">{{tools.getLabelByItem(myitemmenu, mythisfoot)}}</span><br/>
+                                <span class="footer_link">{{tools.getLabelByItem(myitemmenu)}}</span><br/>
                             </div>
                             <div v-else>
                                 <router-link :to="myitemmenu.path" custom v-slot="{ navigate }">
                                     <span class="footer_link"  @click="navigate" @keypress.enter="navigate" role="link"><span
                                             v-if="myitemmenu.level_child > 0">&nbsp;&nbsp;&nbsp;</span>
-                                        {{tools.getLabelByItem(myitemmenu, mythisfoot)}}</span><br/>
+                                        {{tools.getLabelByItem(myitemmenu)}}</span><br/>
                                 </router-link>
                             </div>
-                            <!--<a :href="myitemmenu.path"><span class="footer_link">{{tools.getLabelByItem(myitemmenu, mythisfoot)}}</span></a><br/>-->
+                            <!--<a :href="myitemmenu.path"><span class="footer_link">{{tools.getLabelByItem(myitemmenu)}}</span></a><br/>-->
                         </div>
                     </div>
                 </div>

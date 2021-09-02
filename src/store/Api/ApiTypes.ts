@@ -14,17 +14,17 @@ export class AxiosSuccess {
 }
 
 export class AxiosError {
-  public success: boolean = false
+  public success = false
 
-  public status: number = 0
+  public status = 0
 
   public data: any
 
   public code: any = 0
 
-  public msgerr: string = ''
+  public msgerr = ''
 
-  constructor(status: number, data?: any, code?: any, msgerr: string = '') {
+  constructor(status: number, data?: any, code?: any, msgerr = '') {
     this.status = status
     this.data = data
     this.code = code

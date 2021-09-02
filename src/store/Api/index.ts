@@ -86,7 +86,7 @@ export namespace ApiTool {
     })
   }
 
-  export async function SendReq(url: string, method: string, mydata: any, setAuthToken: boolean = false): Promise<Types.AxiosSuccess | Types.AxiosError> {
+  export async function SendReq(url: string, method: string, mydata: any, setAuthToken = false): Promise<Types.AxiosSuccess | Types.AxiosError> {
     const mydataout = {
       ...mydata,
       keyappid: process.env.PAO_APP_ID,
@@ -160,7 +160,7 @@ export namespace ApiTool {
           let lettoqualcosa = false
 
           // console.log('A1) INIZIO.............................................................')
-          return globalroutines(null, 'readall', tablesync, null)
+          return globalroutines( 'readall', tablesync, null)
             .then((alldata) => {
               if (alldata === undefined) {
                 console.log('alldata NON DEFINITA')
@@ -182,10 +182,10 @@ export namespace ApiTool {
                   .then((ris) => {
                     ReceiveResponsefromServer(tablesync, nametab, method, ris.data)
                     lettoqualcosa = true
-                    return globalroutines(null, 'delete', tablesync, null, rec._id)
+                    return globalroutines( 'delete', tablesync, null, rec._id)
                   })
                   .then(() => {
-                    return globalroutines(null, 'delete', 'swmsg', null, mystrparam)
+                    return globalroutines( 'delete', 'swmsg', null, mystrparam)
                   }).catch((err) => {
                     if (err.msgerr) {
                       if (err.msgerr.message.includes('Failed to fetch') || err.msgerr.message.includes('Network Error')) {
@@ -194,7 +194,7 @@ export namespace ApiTool {
                     }
                     console.log(' [Alternative] !!!!!!!!!!!!!!!   Error while sending data', err, errorfromserver, 'lettoqualcosa', lettoqualcosa)
                     if (!errorfromserver) {
-                      return globalroutines(null, 'delete', 'swmsg', null, mystrparam)
+                      return globalroutines( 'delete', 'swmsg', null, mystrparam)
                     }
                   })
               })

@@ -13,14 +13,11 @@ import { RouteNames } from '@src/router/route-names'
 import * as Types from '@src/store/Api/ApiTypes'
 import { serv_constants } from '@src/store/Modules/serv_constants'
 import { static_data } from '@src/db/static_data'
-import { defineStore } from "pinia"
-import { useUserStore } from "@store/UserStore"
-import { useGlobalStore } from "@store/globalStore"
+import { defineStore } from 'pinia'
+import { useUserStore } from '@store/UserStore'
+import { useGlobalStore } from '@store/globalStore'
 
 const nametable = 'projects'
-
-// import _ from 'lodash'
-
 
 const listFieldsToChange: string [] = ['descr', 'respUsername', 'viceRespUsername', 'vice2RespUsername', 'longdescr', 'hoursplanned', 'hoursleft', 'hoursworked', 'id_parent', 'statusproj',
   'category', 'expiring_at', 'priority', 'pos', 'groupId', 'enableExpiring', 'progressCalc', 'live_url', 'test_url',
@@ -34,7 +31,7 @@ export const useProjectStore = defineStore('Projects', {
     showtype: costanti.ShowTypeTask.SHOW_LAST_N_COMPLETED,
     projects: [],
     insidePending: false,
-    visuLastCompleted: 10
+    visuLastCompleted: 10,
   }),
 
   getters: {
@@ -80,7 +77,7 @@ export const useProjectStore = defineStore('Projects', {
         respUsername: '',
         viceRespUsername: '',
         vice2RespUsername: '',
-        tipovisu: 0
+        tipovisu: 0,
       }
 
       return obj
@@ -118,11 +115,13 @@ export const useProjectStore = defineStore('Projects', {
       if (state.projects) {
         // console.log('listagerarchia', idparent)
         const myarrgerarchia: IMenuList[] = []
-        let myidparent = idparent
+        let myidparent: string = idparent
         let precmyparent = '-1'
 
         while (state.projects && myidparent) {
-          const proj = state.projects.find((rec) => rec._id === myidparent)
+          // @ts-ignore
+          const proj = this.getRecordById(myidparent)
+          // const proj = state.projects.find((rec: IProject) => rec._id === myidparent)
           if (proj) {
             myarrgerarchia.push({ nametranslate: '', description: proj.descr, idelem: proj._id })
           } else {
@@ -131,7 +130,7 @@ export const useProjectStore = defineStore('Projects', {
           if (myidparent === proj.id_parent || (!proj.id_parent && (precmyparent === myidparent)))
             break
           precmyparent = myidparent
-          myidparent = proj.id_parent!
+          myidparent = proj.id_parent ? proj.id_parent : ''
         }
         // console.log('  myarrgerarchia', myarrgerarchia)
         return myarrgerarchia.reverse()
@@ -250,7 +249,7 @@ export const useProjectStore = defineStore('Projects', {
     getFirstInherited(proj: IProject, idparent: string) {
       let myprojtocheck = null
       while (proj.privacyread === Privacy.inherited) {
-        myprojtocheck = this.projects.find((rec) => rec._id === idparent)
+        myprojtocheck = this.getRecordById(idparent)
         if (!myprojtocheck)
           return null
 
@@ -263,7 +262,7 @@ export const useProjectStore = defineStore('Projects', {
     getFirstInheritedTipoVisu(proj: IProject, idparent: string) {
       let tipovisuproj = null
       while (!proj.tipovisu || proj.tipovisu <= 0) {
-        tipovisuproj = this.projects.find((rec) => rec._id === idparent)
+        tipovisuproj = this.getRecordById(idparent)
         if (!tipovisuproj)
           return null
 
@@ -309,10 +308,9 @@ export const useProjectStore = defineStore('Projects', {
       else
         ris = projects.filter((proj: IProject) => (proj.id_parent === idproj))
 
-      if (ris)
-        { // @ts-ignore
-          ris = ris.sort((a: IProject, b: IProject) => a.pos - b.pos)
-        }
+      if (ris) { // @ts-ignore
+        ris = ris.sort((a: IProject, b: IProject) => a.pos - b.pos)
+      }
       // console.log('idproj', idproj, 'projects', projects, 'getproj', tipoproj, 'ris=', ris)
 
       return ris
@@ -396,7 +394,7 @@ export const useProjectStore = defineStore('Projects', {
 
           this.showtype = parseInt(globalStore.getConfigStringbyId({
             id: costanti.CONFIG_ID_SHOW_TYPE_TODOS,
-            default: costanti.ShowTypeTask.SHOW_LAST_N_COMPLETED
+            default: costanti.ShowTypeTask.SHOW_LAST_N_COMPLETED,
           }), 10)
 
           if (process.env.DEBUG === '1') {
@@ -432,7 +430,7 @@ export const useProjectStore = defineStore('Projects', {
       return ris
     },
 
-    async deleteItem({ idobj }: { idobj: any }) {
+    async deleteItem({ idobj }: {idobj: any}) {
       console.log('deleteItem: KEY = ', idobj)
 
       const myarr = this.getarrByCategory('')
@@ -458,7 +456,7 @@ export const useProjectStore = defineStore('Projects', {
       }
     },
 
-    async dbInsert({ myobj, atfirst }: { myobj: IProject, atfirst: boolean}) {
+    async dbInsert({ myobj, atfirst }: { myobj: IProject, atfirst: boolean }) {
 
       const objproj = this.initcat()
 
@@ -472,7 +470,7 @@ export const useProjectStore = defineStore('Projects', {
       objproj.actualphase = myobj.actualphase
       objproj.tipovisu = myobj.tipovisu
 
-      let elemtochange: IProject = {  }
+      let elemtochange: IProject = {}
 
       const myarr = this.getarrByCategory(objproj.category!)
 
@@ -513,7 +511,7 @@ export const useProjectStore = defineStore('Projects', {
       return id
     },
 
-    async modify({ myitem, field }: { myitem: any, field: any } ) {
+    async modify({ myitem, field }: {myitem: any, field: any}) {
       return ApiTables.table_ModifyRecord(nametable, myitem, listFieldsToChange, field)
     },
 

@@ -3,7 +3,7 @@ import {
   ITodosState,
   IParamTodo,
   IDrag,
-  IAction
+  IAction,
 } from 'model'
 
 import Api from '@api'
@@ -16,28 +16,16 @@ import objectId from '@src/js/objectId'
 import { costanti } from '@src/store/Modules/costanti'
 import * as Types from '@src/store/Api/ApiTypes'
 import { static_data } from '@src/db/static_data'
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
 import { useUserStore } from '@store/UserStore'
-import { useGlobalStore } from "@store/globalStore"
-import { toolsext } from "@store/Modules/toolsext"
+import { useGlobalStore } from '@store/globalStore'
+import { toolsext } from '@store/Modules/toolsext'
 
 const nametable = 'todos'
 
 // import _ from 'lodash'
 
-const state: ITodosState = {
-  showtype: costanti.ShowTypeTask.SHOW_LAST_N_COMPLETED,
-  todos: {},
-  categories: [],
-  // todos_changed: 1,
-  reload_fromServer: 0,
-  testpao: 'Test',
-  insidePending: false,
-  visuLastCompleted: 10
-}
-
 const listFieldsToChange: string [] = ['descr', 'statustodo', 'category', 'expiring_at', 'priority', 'pos', 'enableExpiring', 'progress', 'phase', 'assigned_to_userId', 'hoursplanned', 'hoursworked', 'start_date', 'completed_at', 'themecolor', 'themebgcolor', 'assignedToUsers']
-
 
 export const useTodoStore = defineStore('Todos', {
   state: (): ITodosState => (
@@ -53,9 +41,9 @@ export const useTodoStore = defineStore('Todos', {
     }),
 
   getters: {
-    getindexbycategory: (state: ITodosState) => (category: string): number => {
-      if (state.categories) {
-        return state.categories.indexOf(category)
+    getindexbycategory: (mystate: ITodosState) => (category: string): number => {
+      if (mystate.categories) {
+        return mystate.categories.indexOf(category)
       }
       return -1
     },
@@ -92,7 +80,7 @@ export const useTodoStore = defineStore('Todos', {
         start_date: tools.getDateNull(),
         themecolor: 'blue',
         themebgcolor: 'white',
-        assignedToUsers: []
+        assignedToUsers: [],
       }
       // return this.copy(objtodo)
       return objtodo
@@ -112,10 +100,9 @@ export const useTodoStore = defineStore('Todos', {
         }
       }
 
-      if (arrout)
-        { // @ts-ignore
-          arrout = arrout.sort((a: ITodo, b: ITodo) => a.pos - b.pos)
-        }
+      if (arrout) { // @ts-ignore
+        arrout = arrout.sort((a: ITodo, b: ITodo) => a.pos - b.pos)
+      }
 
       // return tools.mapSort(arrout)
       return arrout
@@ -123,7 +110,7 @@ export const useTodoStore = defineStore('Todos', {
 
     todos_completati: (state: ITodosState) => (cat: string): ITodo[] => {
       // @ts-ignore
-      let indcat = this.getindexbycategory(cat)
+      const indcat = this.getindexbycategory(cat)
       // console.log('todos_completati', cat, 'indcat=', indcat, 'this.categories=', this.categories)
       // @ts-ignore
       if (state.todos[indcat]) {
@@ -140,10 +127,9 @@ export const useTodoStore = defineStore('Todos', {
           arrout = []
         }
 
-        if (arrout)
-          { // @ts-ignore
-            arrout = arrout.sort((a: ITodo, b: ITodo) => a.pos - b.pos)
-          }
+        if (arrout) { // @ts-ignore
+          arrout = arrout.sort((a: ITodo, b: ITodo) => a.pos - b.pos)
+        }
 
         // console.log('arrout', arrout)
 
@@ -163,7 +149,6 @@ export const useTodoStore = defineStore('Todos', {
     TodosCount: (state: ITodosState) => (cat: string): number => {
       // @ts-ignore
       const indcat = this.getindexbycategory(cat)
-      // @ts-ignore
       if (state.todos[indcat]) {
         // @ts-ignore
         return state.todos[indcat].length
@@ -188,7 +173,6 @@ export const useTodoStore = defineStore('Todos', {
   actions: {
     gettodosByCategory(category: string): any[] {
       const indcat = this.categories.indexOf(category)
-      // @ts-ignore
       if (!this.todos[indcat]) {
         return []
       }
@@ -216,7 +200,7 @@ export const useTodoStore = defineStore('Todos', {
     },
 
     createNewItem({ objtodo, atfirst, categorySel }: { objtodo: ITodo, atfirst: boolean, categorySel: string }) {
-      let indcat = state.categories.indexOf(categorySel)
+      let indcat = this.categories.indexOf(categorySel)
       if (indcat === -1) {
         this.categories.push(categorySel)
         indcat = this.categories.indexOf(categorySel)
@@ -295,7 +279,7 @@ export const useTodoStore = defineStore('Todos', {
 
           this.showtype = parseInt(globalStore.getConfigStringbyId({
             id: costanti.CONFIG_ID_SHOW_TYPE_TODOS,
-            default: costanti.ShowTypeTask.SHOW_LAST_N_COMPLETED
+            default: costanti.ShowTypeTask.SHOW_LAST_N_COMPLETED,
           }), 10)
 
           // console.log('ARRAY TODOS = ', this.todos)
@@ -421,7 +405,7 @@ export const useTodoStore = defineStore('Todos', {
                   idelemtochange: objtodo._id,
                   prioritychosen: objtodo.priority,
                   category: objtodo.category,
-                  atfirst
+                  atfirst,
                 }
               }
             }
@@ -437,7 +421,7 @@ export const useTodoStore = defineStore('Todos', {
                   idelemtochange: objtodo._id,
                   prioritychosen: objtodo.priority,
                   category: objtodo.category,
-                  atfirst
+                  atfirst,
                 }
               }
             }
@@ -491,11 +475,11 @@ export const useTodoStore = defineStore('Todos', {
 
             globalStore.lastaction.type = 0
 
-            return await this.movemyitem({ myitemorig: orig_obj, myitemdest: dest_obj })
+            return this.movemyitem({ myitemorig: orig_obj, myitemdest: dest_obj })
           }
         }
       }
     },
 
-  }
+  },
 })

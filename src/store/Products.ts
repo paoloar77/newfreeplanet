@@ -5,16 +5,16 @@ import { serv_constants } from '@src/store/Modules/serv_constants'
 import * as Types from '@src/store/Api/ApiTypes'
 import { static_data } from '@src/db/static_data'
 import { shared_consts } from '@src/common/shared_vuejs'
-import { tools } from "@store/Modules/tools"
-import { defineStore } from "pinia"
+import { tools } from '@store/Modules/tools'
+import { defineStore } from 'pinia'
 import { useUserStore } from '@store/UserStore'
-import { toolsext } from "@store/Modules/toolsext"
+import { toolsext } from '@store/Modules/toolsext'
 
 export const useProducts = defineStore('Products', {
   state: (): IProductsState => ({
     products: [],
     cart: { items: [], totalPrice: 0, totalQty: 0, userId: '' },
-    orders: []
+    orders: [],
   }),
 
   getters: {
@@ -80,9 +80,9 @@ export const useProducts = defineStore('Products', {
         stars: 0,
         date: tools.getDateNow(),
         icon: '',
-        img: ''
+        img: '',
       }
-    }
+    },
 
   },
 
@@ -106,7 +106,7 @@ export const useProducts = defineStore('Products', {
         weight: product.weight,
 
         quantity: order.quantity,
-        idStorehouse: order.idStorehouse
+        idStorehouse: order.idStorehouse,
       }
 
       if (product.storehouses.length === 1) {
@@ -166,7 +166,7 @@ export const useProducts = defineStore('Products', {
       return ris
     },
 
-    async loadProduct({ code }: {code: any}) {
+    async loadProduct({ code }: { code: any }) {
 
       console.log('loadProduct', code)
       const userStore = useUserStore()
@@ -237,11 +237,11 @@ export const useProducts = defineStore('Products', {
       return ris
     },
 
-    async removeFromCart({ order }: {order: IOrder}) {
+    async removeFromCart({ order }: { order: IOrder }) {
 
       const userStore = useUserStore()
 
-      return await Api.SendReq('/cart/' + userStore.my._id, 'DELETE', { orderId: order._id })
+      return Api.SendReq('/cart/' + userStore.my._id, 'DELETE', { orderId: order._id })
         .then((res) => {
           if (res.data.cart) {  // console.log('RISULTANTE CATEGORIES DAL SERVER = ', res.data.categories)
             this.cart = res.data.cart
@@ -253,7 +253,7 @@ export const useProducts = defineStore('Products', {
         })
     },
 
-    async addToCart({ product, order }: {product: IProduct, order: IOrder}) {
+    async addToCart({ product, order }: { product: IProduct, order: IOrder }) {
 
       const userStore = useUserStore()
 
@@ -290,7 +290,7 @@ export const useProducts = defineStore('Products', {
       return ris
     },
 
-    async addSubQtyToItem({ addqty, subqty, order } : { addqty: number, subqty: number, order: IOrder}) {
+    async addSubQtyToItem({ addqty, subqty, order } : { addqty: number, subqty: number, order: IOrder }) {
 
       const userStore = useUserStore()
       if (!static_data.functionality.ENABLE_ECOMMERCE)
@@ -376,7 +376,7 @@ export const useProducts = defineStore('Products', {
 
       return ris
     },
-  }
+  },
 
 })
 

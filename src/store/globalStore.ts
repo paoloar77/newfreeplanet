@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia'
 import {
-  ICfgServer, IColGridTable, IConfig, IDataPass, IGlobalState, IListRoutes, ISettings, StateConnection,
+  ICfgServer, IColGridTable, IConfig, IDataToSet, IGlobalState, IListRoutes, IParamsQuery, ISettings, StateConnection,
 } from '@model'
 import { static_data } from '@src/db/static_data'
 import * as Types from '@src/store/Api/ApiTypes'
 import { useUserStore } from '@store/UserStore'
 import { serv_constants } from '@store/Modules/serv_constants'
 import * as ApiTables from '@src/store/Modules/ApiTables'
-import globalroutines from '@src/boot/globalroutines'
 import { useRouter } from 'vue-router'
 import { cfgrouter } from '@src/router/route-config'
 import Api from './Api'
@@ -16,8 +15,32 @@ import { costanti } from '@costanti'
 import { fieldsTable } from '@store/Modules/fieldsTable'
 import { tools } from '@store/Modules/tools'
 import { shared_consts } from '@src/common/shared_vuejs'
+import globalroutines from '../globalroutines/index'
+import { useCalendarStore } from '@store/CalendarStore'
+import urlBase64ToUint8Array from '@src/js/utility'
+import translate from '@src/globalroutines/util'
+
 
 const stateConnDefault = 'online'
+
+async function getConfig(id: any) {
+  return globalroutines('read', 'config', null, id)
+}
+
+async function getstateConnSaved() {
+  const config = await getConfig(costanti.CONFIG_ID_CFG)
+  // console.log('config', config)
+  if (config) {
+    if (config.length > 1) {
+      const cfgstateconn = config[1]
+      return cfgstateconn.stateconn
+    } else {
+      return 'online'
+    }
+  } else {
+    return 'offline'
+  }
+}
 
 export const useGlobalStore = defineStore('GlobalStore', {
   state: (): IGlobalState => ({
@@ -137,21 +160,27 @@ export const useGlobalStore = defineStore('GlobalStore', {
       cfgrouter.getmenu()
     },
 
-    getListByTable: (state: IGlobalState) => (table: string): any => {
-      /* if (table === costanti.TABEVENTS)
-        return CalendarStore.eventlist
-      else if (table === 'operators')
-        return CalendarStore.operators
-      else if (table === 'internalpages')
-        return CalendarStore.internalpages
-      else if (table === 'wheres')
-        return CalendarStore.wheres
-      else if (table === 'contribtype')
-        return CalendarStore.contribtype */
+    getRespByUsername: (state: IGlobalState) => (username: string) => {
+      const rec = state.resps.find((recin: any) => recin.username === username)
+      return !!rec ? rec.name + ' ' + rec.surname : ''
+    },
 
+    getListByTable: (state: IGlobalState) => (table: string): any => {
       let ris = null
 
-      if (table === 'disciplines') ris = state.disciplines
+      const calendarStore = useCalendarStore()
+
+      if (table === costanti.TABEVENTS)
+        return calendarStore.eventlist
+      else if (table === 'operators')
+        return calendarStore.operators
+      else if (table === 'internalpages')
+        return calendarStore.internalpages
+      else if (table === 'wheres')
+        return calendarStore.wheres
+      else if (table === 'contribtype')
+        return calendarStore.contribtype
+      else if (table === 'disciplines') ris = state.disciplines
       else if (table === toolsext.TABNEWSLETTER) ris = state.newstosent
       else if (table === toolsext.TABGALLERY) ris = state.gallery
       else if (table === toolsext.TABTEMPLEMAIL) ris = state.templemail
@@ -168,7 +197,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       else if (table === 'sharewithus') ris = state.sharewithus
       else if (table === 'paymenttypes') ris = state.paymenttypes
       /* else if (table === 'bookings')
-        return CalendarStore.bookedevent
+        return calendarStore.bookedevent
       else if (table === 'users')
         return userStore.usersList
       else if (table === 'sendmsgs')
@@ -187,9 +216,14 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
     getCmdClick: (state: IGlobalState): string => (state.clickcmd ? state.clickcmd : ''),
 
+    gettemplemailbyId: (mystate: IGlobalState) => (templid: string): string => {
+      const myrec = mystate.templemail.find((rec) => rec._id === templid)
+      return (!!myrec) ? myrec.subject! : ''
+    },
+
     getValueSettingsByKey: (state: IGlobalState) => (key: any, serv: any): any | undefined => {
       // @ts-ignore
-      const myrec = getrecSettingsByKey(key, serv)
+      const myrec = this.getrecSettingsByKey(key, serv)
 
       if (myrec) {
         if ((myrec.type === costanti.FieldType.date) || (myrec.type === costanti.FieldType.onlydate)) return myrec.value_date
@@ -200,8 +234,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return ''
     },
 
-    // @ts-ignore
-    setValueSettingsByKey: (state: IGlobalState) => ({ key, value, serv }): any => {
+    setValueSettingsByKey: (state: IGlobalState) => ({ key, value, serv }: { key: string, value: any, serv: boolean }): any => {
       // Update the Server
 
       // Update in Memory
@@ -218,6 +251,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         console.log('setValueSettingsByKey value', value, 'myrec', myrec)
       }
     },
+
   },
 
   actions: {
@@ -303,63 +337,6 @@ export const useGlobalStore = defineStore('GlobalStore', {
        */
     },
 
-    async loadPage(path: string) {
-      const userStore = useUserStore()
-
-      path = path.substring(1)
-      const mypage = this.getPage(`/${path}`)
-
-      // Controlla se l'ho già caricato
-      if (!!mypage && !!mypage.content) {
-        return mypage
-      }
-
-      console.log('loadPage', path)
-
-      return Api.SendReq('/getpage', 'POST', { path })
-        .then((res) => {
-          // console.table(res)
-          if (res) {
-            const index = this.mypage.findIndex((rec) => rec.path === path)
-            if (index >= 0) {
-              this.mypage[index] = res.data.mypage
-            }
-            return res.data.mypage
-          }
-          return null
-        })
-        .catch((error) => {
-          console.log('error loadTable', error)
-          userStore.setErrorCatch(error)
-          return null
-        })
-    },
-    async saveTable(mydata: object) {
-      // console.log('saveTable', mydata)
-      const userStore = useUserStore()
-
-      return Api.SendReq('/settable', 'POST', mydata)
-        .then((res) => res.data)
-        .catch((error) => {
-          console.log('error saveTable', error)
-          userStore.setErrorCatch(error)
-          return null
-        })
-    },
-
-    async saveFieldValue(mydata: IDataPass) {
-      // const userStore = useUserStore()
-      return Api.SendReq('/chval', 'PATCH', { data: mydata })
-        .then((res) => {
-          if (res) {
-            this.UpdateValuesInMemory(mydata)
-            return (res.data.code === serv_constants.RIS_CODE_OK)
-          }
-          return false
-        })
-        .catch((error) => false)
-    },
-
     setPaoArray_Delete(state: IGlobalState) {
       state.testp1.mioarray.pop()
     },
@@ -387,17 +364,31 @@ export const useGlobalStore = defineStore('GlobalStore', {
     saveConfig(data: IConfig) {
       let dataout
       // this.$set(dataout, data.value, {'value': 'default value'})
-      // @ts-ignore
-      return globalroutines(null, 'write', 'config', { _id: data._id, value: data.value })
+      return globalroutines('write', 'config', { _id: data._id, value: data.value })
     },
 
-    UpdateValuesInMemory(mydata: IDataPass): void {
+    /*setShowType(state: IGlobalState, showtype: number) {
+      console.log('setShowType', showtype)
+      const config = Getters.getConfigbyId(costanti.CONFIG_ID_SHOW_TYPE_TODOS)
+      console.log('config', config)
+      if (config) {
+        config.value = String(showtype)
+        Todos.showtype = parseInt(config.value, 10)
+      } else {
+        Todos.showtype = showtype
+      }
+      console.log('Todos.showtype', Todos.showtype)
+      GlobalStore.saveConfig({ _id: costanti.CONFIG_ID_SHOW_TYPE_TODOS, value: String(showtype) })
+
+    },*/
+
+    UpdateValuesInMemory(mydata: IDataToSet): void {
       const { id } = mydata
       const { table } = mydata
 
       try {
-        const mylist = this.getListByTable(table)
-        const mykey = fieldsTable.getKeyByTable(table)
+        const mylist = this.getListByTable(table!)
+        const mykey = fieldsTable.getKeyByTable(table!)
 
         if (mylist) {
           const myrec = mylist.find((event: any) => event[mykey] === id)
@@ -414,6 +405,121 @@ export const useGlobalStore = defineStore('GlobalStore', {
       }
     },
 
+    createPushSubscription() {
+
+      // If Already subscribed, don't send to the Server DB
+      // if (state.wasAlreadySubOnDb) {
+      //   // console.log('wasAlreadySubOnDb!')
+      //   return
+      // }
+
+      if (!static_data.functionality.PWA)
+        return
+
+      if (!('serviceWorker' in navigator)) {
+        return
+      }
+
+      if (!('PushManager' in window)) {
+        return
+      }
+
+      console.log('createPushSubscription')
+
+      let reg: any
+      const mykey = process.env.PUBLICKEY_PUSH
+      return navigator.serviceWorker.ready
+        .then((swreg) => {
+          reg = swreg
+          return swreg.pushManager.getSubscription()
+        })
+        .then((subscription) => {
+          console.log('subscription = ', subscription)
+
+          this.wasAlreadySubscribed = !(subscription === null)
+
+          if (this.wasAlreadySubscribed) {
+            // console.log('User is already SAVED Subscribe on DB!')
+            // return null
+            return subscription
+          } else {
+            // Create a new subscription
+            console.log('Create a new subscription')
+            const convertedVapidPublicKey = urlBase64ToUint8Array(mykey)
+            return reg.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: convertedVapidPublicKey,
+            })
+          }
+        })
+        .then((newSub) => {
+          this.saveNewSubscriptionToServer(newSub)
+        })
+        .catch((err) => {
+          console.log('ERR createPushSubscription:', err)
+        })
+    },
+
+    // Calling the Server to Save in the MongoDB the Subscriber
+    saveNewSubscriptionToServer(newSub: any) {
+
+      const userStore = useUserStore()
+
+
+      if (!newSub) {
+        return
+      }
+
+      if (userStore.isUserInvalid) {
+        return
+      }
+
+      // console.log('saveSubscriptionToServer: ', newSub)
+      // console.log('context', context)
+
+      let options = null
+      let notreg = false
+
+      if (userStore.isTokenInvalid) {
+        notreg = true
+      }
+
+      // If is not already stored in DB, then show the message to the user.
+      if (!this.wasAlreadySubscribed || notreg) {
+        options = {
+          title: tools.translate('notification.title_subscribed', [{
+            strin: 'sitename',
+            strout: translate('ws.sitename'),
+          }]),
+          content: translate('notification.subscribed'),
+          openUrl: '/',
+        }
+      }
+
+      const myres = {
+        options,
+        subs: newSub,
+        others: {
+          userId: userStore.my._id,
+          access: userStore.my.tokens![0].access,
+        },
+      }
+
+      return Api.SendReq('/subscribe', 'POST', myres)
+        .then((res) => {
+          this.wasAlreadySubscribed = true
+          this.wasAlreadySubOnDb = true
+
+          if (res)
+            console.log('saveNewSubscriptionToServer: OK')
+
+          localStorage.setItem(toolsext.localStorage.wasAlreadySubOnDb, String(this.wasAlreadySubOnDb))
+        })
+        .catch((e) => {
+          console.log('Error during Subscription!', e)
+        })
+    },
+
     async deleteSubscriptionToServer() {
       console.log('DeleteSubscriptionToServer: ')
 
@@ -426,10 +532,9 @@ export const useGlobalStore = defineStore('GlobalStore', {
     async clearDataAfterLogout() {
       console.log('clearDataAfterLogout')
 
-      // Clear all data from the IndexedDB
-      // for (const table of ApiTables.allTables()) {
-      // ++Todo conv: await globalroutines(null, 'clearalldata', table, null)
-      // }
+      for (const table of ApiTables.allTables()) {
+        await globalroutines('clearalldata', table, null)
+      }
 
       if (static_data.functionality.PWA) {
         if ('serviceWorker' in navigator) {
@@ -474,7 +579,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         isok = true
       }
 
-      // ++Todo conv: this.arrConfig = await globalroutines(null, 'readall', 'config', null)
+      // ++Todo conv: this.arrConfig = await globalroutines( 'readall', 'config', null)
 
       return isok
     },
@@ -531,26 +636,416 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
+    async sendPushNotif({ params }: { params: any }) {
+
+      return Api.SendReq('/push/send', 'POST', { params })
+        .then((res) => {
+          // console.table(res)
+          return res.data
+        })
+        .catch((error) => {
+          console.log('error sendPushNotif', error)
+          return null
+        })
+    },
+
+    async loadTable(params: IParamsQuery) {
+      // console.log('loadTable', params)
+      const userStore = useUserStore()
+
+      return Api.SendReq('/gettable', 'POST', params)
+        .then((res) => {
+          // console.table(res)
+          return res.data
+        })
+        .catch((error) => {
+          console.log('error loadTable', error)
+          userStore.setErrorCatch(error)
+          return null
+        })
+    },
+
+    async loadPage(path: string) {
+      const userStore = useUserStore()
+
+      path = path.substring(1)
+      const mypage = this.getPage(`/${path}`)
+
+      // Controlla se l'ho già caricato
+      if (!!mypage && !!mypage.content) {
+        return mypage
+      }
+
+      console.log('loadPage', path)
+
+      return Api.SendReq('/getpage', 'POST', { path })
+        .then((res) => {
+          // console.table(res)
+          if (res) {
+            const index = this.mypage.findIndex((rec) => rec.path === path)
+            if (index >= 0) {
+              this.mypage[index] = res.data.mypage
+            }
+            return res.data.mypage
+          }
+          return null
+        })
+        .catch((error) => {
+          console.log('error loadTable', error)
+          userStore.setErrorCatch(error)
+          return null
+        })
+    },
+
+    async saveTable(mydata: object) {
+      // console.log('saveTable', mydata)
+      const userStore = useUserStore()
+
+      return Api.SendReq('/settable', 'POST', mydata)
+        .then((res) => res.data)
+        .catch((error) => {
+          console.log('error saveTable', error)
+          userStore.setErrorCatch(error)
+          return null
+        })
+    },
+
+    async saveFieldValue(mydata: IDataToSet) {
+      // const userStore = useUserStore()
+      return Api.SendReq('/chval', 'PATCH', { data: mydata })
+        .then((res) => {
+          if (res) {
+            this.UpdateValuesInMemory(mydata)
+            return (res.data.code === serv_constants.RIS_CODE_OK)
+          }
+          return false
+        })
+        .catch((error) => false)
+    },
+
+    async callFunz({ mydata }: { mydata: any }) {
+      // console.log('saveFieldValue', mydata)
+
+      return Api.SendReq('/callfunz', 'PATCH', { data: mydata })
+        .then((res) => {
+          if (res) {
+            return (res.data.code === serv_constants.RIS_CODE_OK)
+          } else
+            return false
+        })
+        .catch((error) => {
+          return false
+        })
+    },
+
+    async askFunz({ mydata }: { mydata: any }) {
+      // console.log('saveFieldValue', mydata)
+
+      return Api.SendReq('/askfunz', 'PATCH', { data: mydata })
+        .then((ris) => {
+          return ris.data.out
+        })
+        .catch((error) => {
+          return null
+        })
+    },
+
+    async DeleteRec({ table, id }: { table: string, id: string }) {
+      console.log('DeleteRec', table, id)
+
+      return Api.SendReq('/delrec/' + table + '/' + id, 'DELETE', null)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return true
+            }
+          }
+          return false
+        })
+        .catch((error) => {
+          console.error(error)
+          return false
+        })
+    },
+
+    async DeleteFile({ filename }: { filename: string }) {
+      console.log('DeleteFile', filename)
+
+      return Api.SendReq('/delfile', 'DELETE', { filename })
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return true
+            }
+          }
+          return false
+        })
+        .catch((error) => {
+          console.error(error)
+          return false
+        })
+    },
+
+    async DuplicateRec({ table, id }: { table: string, id: string }) {
+      console.log('DuplicateRec', id)
+
+      return Api.SendReq('/duprec/' + table + '/' + id, 'POST', null)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return res.data.record
+            }
+          }
+          return null
+        })
+        .catch((error) => {
+          console.error(error)
+          return null
+        })
+    },
+
+    async InviaMsgADonatori({ msgobj, navemediatore, tipomsg }: { msgobj: any, navemediatore: any, tipomsg: any }) {
+      console.log('InviaMsgADonatori', msgobj)
+
+      const mydata = {
+        idapp: process.env.APP_ID,
+        msgextra: msgobj.msgextra,
+        msgpar1: msgobj.msgpar1,
+        username: msgobj.username,
+        username_mitt: msgobj.username_mitt,
+        tipomsg,
+        inviareale: msgobj.inviareale,
+        navemediatore,
+      }
+
+      return Api.SendReq('/dashboard/msgnave', 'POST', mydata)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return res.data.ris
+            }
+          }
+          return null
+        })
+        .catch((error) => {
+          console.error(error)
+          return null
+        })
+    },
+
+    async InviaMsgAFlotta({ flotta, inviareale, inviaemail, tipomsg }: { flotta: any, inviareale: boolean, inviaemail: boolean, tipomsg: any }) {
+      console.log('InviaMsgAFlotta')
+
+      const mydata = {
+        idapp: process.env.APP_ID,
+        tipomsg,
+        flotta,
+        inviareale,
+        inviaemail,
+      }
+
+      return Api.SendReq('/dashboard/msgflotta', 'POST', mydata)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return res.data.ris
+            }
+          }
+          return null
+        })
+        .catch((error) => {
+          console.error(error)
+          return null
+        })
+    },
+
+    async GetArrNavi() {
+      console.log('GetArrNavi')
+
+      const mydata = {
+        idapp: process.env.APP_ID,
+      }
+
+      return Api.SendReq('/dashboard/getnavi', 'POST', mydata)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return res.data.ris
+            }
+          }
+          return null
+        })
+        .catch((error) => {
+          console.error(error)
+          return null
+        })
+    },
+
+    async GetMsgTemplates() {
+      console.log('GetMsgTemplates')
+
+      const mydata = {
+        idapp: process.env.APP_ID,
+      }
+
+      return Api.SendReq('/dashboard/getmsg_templates', 'POST', mydata)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return res.data.ris
+            }
+          }
+          return null
+        })
+        .catch((error) => {
+          console.error(error)
+          return null
+        })
+    },
+
+    async GetNave({ riga, col, riga1don, col1don, ind_order }: { riga: any, col: any, riga1don: any, col1don: any, ind_order: number }) {
+      // console.log('GetNave')
+
+      const mydata = {
+        idapp: process.env.APP_ID,
+        riga,
+        col,
+        riga1don,
+        col1don,
+        ind_order,
+      }
+
+      return Api.SendReq('/dashboard/getnave', 'POST', mydata)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return res.data.ris
+            }
+          }
+          return null
+        })
+        .catch((error) => {
+          console.error(error)
+          return null
+        })
+    },
+
+    async GetData({ data }: { data: any }) {
+      console.log('GetData')
+
+      const mydata = {
+        idapp: process.env.APP_ID,
+        data,
+      }
+
+      return Api.SendReq('/dashboard/getdata', 'POST', mydata)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return res.data.ris
+            }
+          }
+          return null
+        })
+        .catch((error) => {
+          console.error(error)
+          return null
+        })
+    },
+
+    async GetArrDoniNavi({ ricalcola, showall }: { ricalcola: boolean, showall: boolean }) {
+      console.log('GetArrDoniNavi')
+
+      const mydata = {
+        idapp: process.env.APP_ID,
+        ricalcola,
+        showall,
+      }
+
+      return Api.SendReq('/dashboard/getdoninavi', 'POST', mydata)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return res.data.ris
+            }
+          }
+          return null
+        })
+        .catch((error) => {
+          console.error(error)
+          return null
+        })
+    },
+
+    async GetFlotte({ ricalcola, showall }: { ricalcola: boolean, showall: boolean }) {
+      console.log('GetFlotte')
+
+      const mydata = {
+        idapp: process.env.APP_ID,
+        ricalcola,
+        showall,
+      }
+
+      return Api.SendReq('/dashboard/getflotte', 'POST', mydata)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return res.data.arrflotte
+            }
+          }
+          return null
+        })
+        .catch((error) => {
+          console.error(error)
+          return null
+        })
+    },
+
+    async GetFlotta({ riga, col_prima, col_ultima }: { riga: any, col_prima: any, col_ultima: any }) {
+      console.log('GetFlotta')
+
+      const mydata = {
+        idapp: process.env.APP_ID,
+        riga,
+        col_prima,
+        col_ultima,
+      }
+
+      return Api.SendReq('/dashboard/getflotta', 'POST', mydata)
+        .then((res) => {
+          if (res.status === 200) {
+            if (res.data.code === serv_constants.RIS_CODE_OK) {
+              return res.data
+            }
+          }
+          return null
+        })
+        .catch((error) => {
+          console.error(error)
+          return null
+        })
+    },
+
     async loadSite() {
       const userStore = useUserStore()
-      // console.log('CalendarStore: loadAfterLogin')
+      // console.log('calendarStore: loadAfterLogin')
       // Load local data
       const showall = userStore.isAdmin || userStore.isManager ? '1' : '0'
 
       const myuserid = (userStore.my._id) ? userStore.my._id : '0'
 
-      // CalendarStore.editable = false
+      // calendarStore.editable = false
 
       return Api.SendReq(`/loadsite/${myuserid}/${process.env.APP_ID}/${process.env.APP_VERSION}`, 'GET', null)
         .then((res) => {
           // console.log('____________________________  res', res)
           if (res.status === 200) {
-            /* CalendarStore.bookedevent = (res.data.bookedevent) ? res.data.bookedevent : []
-            CalendarStore.eventlist = (res.data.eventlist) ? res.data.eventlist : []
-            CalendarStore.operators = (res.data.operators) ? res.data.operators : []
-            CalendarStore.internalpages = (res.data.internalpages) ? res.data.internalpages : []
-            CalendarStore.wheres = (res.data.wheres) ? res.data.wheres : []
-            CalendarStore.contribtype = (res.data.contribtype) ? res.data.contribtype : []
+            /* calendarStore.bookedevent = (res.data.bookedevent) ? res.data.bookedevent : []
+            calendarStore.eventlist = (res.data.eventlist) ? res.data.eventlist : []
+            calendarStore.operators = (res.data.operators) ? res.data.operators : []
+            calendarStore.internalpages = (res.data.internalpages) ? res.data.internalpages : []
+            calendarStore.wheres = (res.data.wheres) ? res.data.wheres : []
+            calendarStore.contribtype = (res.data.contribtype) ? res.data.contribtype : []
 
              */
             this.settings = (res.data.settings) ? [...res.data.settings] : []
@@ -563,7 +1058,6 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.groups = (res.data.groups) ? [...res.data.groups] : []
             this.resps = (res.data.resps) ? [...res.data.resps] : []
             this.workers = (res.data.workers) ? [...res.data.workers] : []
-            // @ts-ignore
             this.departments = (res.data.departments) ? [...res.data.departments] : []
 
             // console.log('res.data.cart', res.data.cart)
@@ -595,7 +1089,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
             const islogged = localStorage.getItem(toolsext.localStorage.username)
             console.log('islogged', islogged)
 
-            // CalendarStore.editable = userStore.isAdmin || userStore.isManager || userStore.isTutor
+            // calendarStore.editable = userStore.isAdmin || userStore.isManager || userStore.isTutor
             if (res.data.myuser === null) {
               if (islogged) {
                 // Fai Logout

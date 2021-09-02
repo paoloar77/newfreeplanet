@@ -18,8 +18,8 @@ export default defineComponent({
 
   setup(props) {
 
-    let myicon = ref('')
-    let myimgint = ref('')
+    const myicon = ref('')
+    const myimgint = ref('')
 
     const userStore = useUserStore()
     const imgprofile = ref(userStore.my.profile.img)

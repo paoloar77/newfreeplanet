@@ -9,7 +9,7 @@ export type Options = {
 
 export function debounce<F extends Procedure>(
   func: F,
-  waitMilliseconds: number = 50,
+  waitMilliseconds = 50,
   options: Options = {
     isImmediate: false,
   },

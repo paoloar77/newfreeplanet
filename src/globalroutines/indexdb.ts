@@ -74,7 +74,7 @@ async function readfromIndexDbToState(context: any, table: string) {
     })
 }
 
-function consolelogpao(str: string, str2: string = '', str3: string = '') {
+function consolelogpao(str: string, str2 = '', str3 = '') {
   console.log(str, str2, str3)
   // Todos.mutations.setTestpao(str + str2 + str3)
 }

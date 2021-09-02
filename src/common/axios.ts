@@ -8,7 +8,7 @@ import axios, {
 import { serv_constants } from '@src/store/Modules/serv_constants'
 // import { TokenHelper } from "./token-helper";
 
-let initialized: boolean = false
+let initialized = false
 
 interface IRequestConfig extends AxiosRequestConfig {
   ignore: number[]

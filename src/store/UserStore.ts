@@ -174,6 +174,14 @@ export const useUserStore = defineStore('UserStore', {
       return (trovato) || null
     },
 
+    isTokenInvalid: (state: IUserState) => {
+      try {
+        return (state.my.tokens!.length <= 0)
+      } catch (e) {
+        return true
+      }
+    },
+
     isUserInvalid: (state: IUserState): boolean => {
       try {
         return (state.my._id === undefined) || (state.my._id.trim() === '')

@@ -353,7 +353,7 @@ export interface ITimeLineEntry {
 }
 
 export interface ITimeLineMain {
-  titlemain: IAllLang
+  titlemain: IAllLang | any
   body: ITimeLineEntry[]
 }
 
@@ -374,9 +374,9 @@ export interface IGallery {
 }
 
 export interface IColl {
-  title: IAllLang
+  title: IAllLang | any
   date?: string
-  subtitle?: IAllLang
+  subtitle?: IAllLang | any
   img: string
   img2?: string
   linkagg?: string
@@ -388,7 +388,7 @@ export interface IColl {
 }
 
 export interface ICollaborations {
-  withwhom_title: IAllLang
+  withwhom_title: IAllLang | any
   list: IColl[]
 }
 
@@ -481,6 +481,22 @@ export interface IDataPass {
   id: string
   table: string
   fieldsvalue: object
+}
+
+export interface IDataToSet {
+  id?: string | null
+  username?: string
+  table?: string
+  fieldsvalue?: any
+  unset?: any,
+  notifBot?: any | null
+  tipomsg?: number
+  invitante_username?: string
+  ind_order?: any
+  num_tess?: number
+  data?: any
+  myfunc?: any
+  inviaemail?: any
 }
 
 export interface INewsState {

@@ -32,9 +32,9 @@ module.exports = {
 
     // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
     // ESLint typescript rules
-    'plugin:@typescript-eslint/recommended',
+    // 'plugin:@typescript-eslint/recommended',
     // consider disabling this class of rules if linting takes too long
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
 
     // Uncomment any of the lines below to choose desired strictness,
     // but leave only one uncommented!
@@ -75,9 +75,10 @@ module.exports = {
     'generator-star-spacing': 'off',
     // allow paren-less arrow functions
     'arrow-parens': 'off',
+    'no-loop-func': 'off',
     'one-var': 'off',
     'no-void': 'off',
-    "comma-dangle": [2, "always-multiline"],
+    'comma-dangle': [2, 'always-multiline'],
     // 'multiline-ternary': 'off',
     'vue/max-attributes-per-line': [
       'error', {
@@ -100,7 +101,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'prefer-promise-reject-errors': 'off',
     'no-bitwise': 'off',
-    "no-console": 'off',
+    'no-console': 'off',
     'no-restricted-syntax': 'off',
     'no-param-reassign': 'off',
     'no-plusplus': 'off',
@@ -110,6 +111,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/semi': 'off',
+    '@typescript-eslint/object-curly-spacing': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -121,9 +123,9 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
-    "@typescript-eslint/max-len": 'off',
-    "max-len": 'off',
-    "@typescript-eslint/naming-convention": 'off',
-    "no-underscore-dangle": 'off',
+    '@typescript-eslint/max-len': 'off',
+    'max-len': 'off',
+    '@typescript-eslint/naming-convention': 'off',
+    'no-underscore-dangle': 'off',
   },
 };

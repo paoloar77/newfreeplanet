@@ -18,6 +18,8 @@ export function getLinkByTableName(nametable: string) {
   return ''
 }
 
+export const LIST_START = null
+
 export const DB = {
   CMD_SYNC: 'sync',
   CMD_SYNC_NEW: 'sync-new',
@@ -40,7 +42,7 @@ export function allTables() {
 }
 
 async function updatefromIndexedDbToState(nametab: string) {
-  await globalroutines(null, 'updatefromIndexedDbToState', nametab, null)
+  await globalroutines( 'updatefromIndexedDbToState', nametab, null)
     .then(() => {
       console.log('updatefromIndexedDbToState! ')
       return true
@@ -51,7 +53,7 @@ async function checkPendingMsg() {
   // console.log('checkPendingMsg')
   const globalStore = useGlobalStore()
 
-  const config = await globalroutines(null, 'read', 'config', null, '1')
+  const config = await globalroutines( 'read', 'config', null, '1')
   // console.log('config', config)
 
   try {
@@ -68,7 +70,7 @@ async function checkPendingMsg() {
     // ...
   }
 
-  return new Promise((resolve, reject) => globalroutines(null, 'count', 'swmsg')
+  return new Promise((resolve, reject) => globalroutines( 'count', 'swmsg')
     .then((count) => {
       if (count > 0) {
         return resolve(true)
@@ -83,7 +85,7 @@ function useServiceWorker() {
 
 // If something in the call of Service Worker went wrong (Network or Server Down), then retry !
 async function sendSwMsgIfAvailable() {
-  let something = false
+  const something = false
 
   if (useServiceWorker()) {
     console.log(' -------- sendSwMsgIfAvailable')
@@ -91,7 +93,7 @@ async function sendSwMsgIfAvailable() {
     const count = await checkPendingMsg()
     if (count) {
       return navigator.serviceWorker.ready
-        .then(() => globalroutines(null, 'readall', 'swmsg')
+        .then(() => globalroutines( 'readall', 'swmsg')
           .then((arr_recmsg) => {
             if (arr_recmsg.length > 0) {
               // console.log('----------------------  2)    navigator (2) .serviceWorker.ready')
@@ -269,7 +271,7 @@ async function Sync_Execute(cmd: string, tablesync: string, nametab: string, met
   if (useServiceWorker()) {
     return navigator.serviceWorker.ready
       .then((sw) => {
-        globalroutines(null, 'write', tablesync, item, id)
+        globalroutines( 'write', tablesync, item, id)
           .then((ris) => {
             console.log('ris write:', ris)
             const sep = '|'
@@ -285,7 +287,7 @@ async function Sync_Execute(cmd: string, tablesync: string, nametab: string, met
             //   return sw.sync.register(multiparams)
             // } else {
             */
-            return globalroutines(null, 'write', 'swmsg', mymsgkey, multiparams)
+            return globalroutines( 'write', 'swmsg', mymsgkey, multiparams)
               .then((ris2) => Api.syncAlternative(multiparams))
               .then(() => {
                 let data = null
@@ -429,7 +431,7 @@ export async function table_ModifyRecord(nametable: string, myitem: any, listFie
   let miorec: any = null
   if (useServiceWorker()) {
     // get record from IndexedDb
-    miorec = await globalroutines(null, 'read', nametable, null, myobjsaved._id)
+    miorec = await globalroutines( 'read', nametable, null, myobjsaved._id)
     if (miorec === undefined) {
       console.log('~~~~~~~~~~~~~~~~~~~~ !!!!!!!!!!!!!!!!!!  Record not Found !!!!!! id=', myobjsaved._id)
 
@@ -457,7 +459,7 @@ export async function table_ModifyRecord(nametable: string, myitem: any, listFie
     if (useServiceWorker()) {
       // 2) Modify on IndexedDb
       console.log('// 2) Modify on IndexedDb', miorec)
-      return globalroutines(null, 'write', nametable, miorec)
+      return globalroutines( 'write', nametable, miorec)
         .then((ris) => Sync_SaveItem(nametable, 'PATCH', miorec)) // 3) Modify on the Server (call)
     }
     return Sync_SaveItem(nametable, 'PATCH', miorec)
@@ -472,7 +474,7 @@ export function table_DeleteRecord(nametable: string, myobjtrov: any, id: any) {
   mymodule.deletemyitem(myobjtrov)
 
   // 2) Delete from the IndexedDb
-  globalroutines(null, 'delete', nametable, null, id)
+  globalroutines( 'delete', nametable, null, id)
 
   // 3) Delete from the Server (call)
   Sync_DeleteItem(nametable, myobjtrov, id)
@@ -485,7 +487,7 @@ export function table_HideRecord(nametable: string, myobjtrov: any, id: any) {
   mymodule.deletemyitem(myobjtrov)
 
   // 2) Delete from the IndexedDb
-  globalroutines(null, 'delete', nametable, null, id)
+  globalroutines( 'delete', nametable, null, id)
 
   // 3) Hide  from the Server (call)
   Sync_DeleteItem(nametable, myobjtrov, id)

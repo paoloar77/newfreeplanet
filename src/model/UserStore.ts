@@ -37,6 +37,8 @@ export interface IUserProfile {
   socio?: boolean
   socioresidente?: boolean
   consiglio?: boolean
+  resplist?: any
+  workerslist?: any
 }
 
 export interface IPaymentType {

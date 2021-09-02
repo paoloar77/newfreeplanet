@@ -1,12 +1,12 @@
 import { translation } from '@store/Modules/translation'
 import {
   IColl,
-  ICollaborations,
+  ICollaborations, IDataToSet,
   IEvents,
   IListRoutes,
   IParamDialog,
   IPathFile,
-  IProject, ITimeLineEntry,
+  IProject,
   ITimeLineMain,
   ITodo,
   IUserFields,
@@ -16,22 +16,24 @@ import {
 
 import { lists } from '@store/Modules/lists'
 import { costanti } from '@store/Modules/costanti'
-import { date, Screen } from 'quasar'
+import { copyToClipboard, date, Screen, useQuasar, colors, Cookies, scroll } from 'quasar'
 
-import { toolsext } from '@store/Modules/toolsext'
+const { getScrollTarget, setScrollPosition } = scroll
+import { func_tools, toolsext } from '@store/Modules/toolsext'
 import { preloadedimages, static_data } from '@src/db/static_data'
 import { useGlobalStore } from '@store/globalStore'
-import globalroutines from '@src/boot/globalroutines'
+import globalroutines from '../../globalroutines/index'
 import { useI18n } from '@src/boot/i18n'
 import { RouteNames } from '@src/router/route-names'
 import messages from '@src/statics/i18n'
 import { shared_consts } from '@src/common/shared_vuejs'
 import * as ApiTables from '@store/Modules/ApiTables'
 import translate from '@src/globalroutines/util'
-import { serv_constants } from "@store/Modules/serv_constants"
-import { useProjectstore } from "@store/projects"
-import { useTodoStore } from "@store/Todos"
-import { useUserStore } from "@store/UserStore"
+import { serv_constants } from '@store/Modules/serv_constants'
+import { useProjectStore } from '@store/Projects'
+import { useTodoStore } from '@store/Todos'
+import { useUserStore } from '@store/UserStore'
+import { useCalendarStore } from '@store/CalendarStore'
 
 export interface INotify {
   color?: string | 'primary'
@@ -1197,6 +1199,7 @@ export const tools = {
 
   getStatusListByInd(index: number) {
     try {
+      // @ts-ignore
       const arr: any = this.selectStatus[toolsext.getLocale() || 'it']
       for (const rec of arr) {
         if (rec.value === index) {
@@ -1212,6 +1215,7 @@ export const tools = {
   getPriorityByInd(index: number) {
     // console.log('LANG in PRIOR', toolsext.getLocale())
     try {
+      // @ts-ignore
       const arr: any = lists.selectPriority[toolsext.getLocale() || 'it']
       for (const rec of arr) {
         if (rec.value === index) {
@@ -1454,10 +1458,6 @@ export const tools = {
     })
   },
 
-  isMobile(): boolean {
-    return (Screen.width < 450)
-  },
-
   getimgbysize(dir: string, file: string): string {
     const myimage = dir + file
     // console.log('includes = ', static_data.preLoadImages.map((a) => a.imgname).includes(myimage), myimage)
@@ -1539,8 +1539,6 @@ export const tools = {
   },
 
 
-
-
   getIndexById(myarr: any, id: any) {
     if (myarr === undefined)
       return -1
@@ -1568,7 +1566,7 @@ export const tools = {
       return -1
     }
 
-    let trovato: boolean = false
+    let trovato = false
 
     console.log('priority', priority)
 
@@ -1605,7 +1603,7 @@ export const tools = {
   ,
 
   getModulesByTable(nametable: string) {
-    const projects = useProjectstore()
+    const projects = useProjectStore()
     const todos = useTodoStore()
     if (nametable === 'todos') {
       return todos
@@ -1621,7 +1619,7 @@ export const tools = {
       todos.todos = this.jsonCopy(myarr)
       return todos.todos
     } else if (nametable === 'projects') {
-      const projects = useProjectstore()
+      const projects = useProjectStore()
       projects.projects = this.jsonCopy(myarr)
       return projects.projects
     }
@@ -1635,12 +1633,13 @@ export const tools = {
   getLastListNotCompleted(nametable: string, cat: string, tipoproj: string) {
     // console.log('getLastListNotCompleted')
     // const module = this.getModulesByTable(nametable)
-    let arr = []
-    const projects = useProjectstore()
+    let arr: any = []
+    const projects = useProjectStore()
+    const todos = useTodoStore()
     if (nametable === 'projects')
-      arr = projects.getters.projs_dacompletare(cat, tipoproj)
+      arr = projects.projs_dacompletare(cat, tipoproj)
     else if (nametable === 'todos')
-      arr = Todos.getters.items_dacompletare(cat)
+      arr = todos.items_dacompletare(cat)
 
     if (!!arr)
       return (arr.length > 0) ? arr[arr.length - 1] : null
@@ -1663,7 +1662,7 @@ export const tools = {
   ,
 
   json2array(json: any) {
-    const result = []
+    const result: any = []
     const keys = Object.keys(json)
     keys.forEach((key) => {
       result.push(json[key])
@@ -1698,12 +1697,13 @@ export const tools = {
 
   executefunc(myself: any, table: string, func: number, par: IParamDialog) {
     const globalStore = useGlobalStore()
+    const calendarStore = useCalendarStore()
     if (func === lists.MenuAction.DELETE) {
       // console.log('param1', par.param1)
-      CalendarStore.CancelBookingEvent({
+      calendarStore.CancelBookingEvent({
         ideventbook: par.param1,
-        notify: par.param2 === true ? '1' : '0'
-      }).then((ris) => {
+        notify: par.param2 === true ? '1' : '0',
+      }).then((ris: any) => {
         if (ris) {
           this.showPositiveNotif(myself.$q, myself.$t('cal.canceledbooking') + ' "' + par.param3 + '"')
           if (myself.bookEventpage)
@@ -1713,17 +1713,17 @@ export const tools = {
       })
     } else if (func === lists.MenuAction.DELETE_EVENT) {
       // console.log('param1', par.param1, 'id', par.param1._id)
-      CalendarStore.CancelEvent({ id: par.param1._id }).then((ris) => {
+      calendarStore.CancelEvent({ id: par.param1._id }).then((ris: any) => {
         if (ris) {
           // Remove this record from my list
-          CalendarStore.state.eventlist = CalendarStore.state.eventlist.filter((event) => (event._id !== par.param1._id))
+          calendarStore.eventlist = calendarStore.eventlist.filter((event: IEvents) => (event._id !== par.param1._id))
           this.showPositiveNotif(myself.$q, myself.$t('cal.canceledevent') + ' "' + par.param1.title + '"')
         } else
           this.showNegativeNotif(myself.$q, myself.$t('cal.cancelederrorevent'))
       })
     } else if (func === lists.MenuAction.DELETE_EXTRALIST) {
       // console.log('param1', par.param1, 'id', par.param1._id)
-      globalStore.DeleteRec({ table: this.TABEXTRALIST, id: par.param1._id }).then((ris) => {
+      globalStore.DeleteRec({ table: toolsext.TABEXTRALIST, id: par.param1._id }).then((ris) => {
         if (ris) {
           myself.update_username()
           this.showPositiveNotif(myself.$q, myself.$t('reg.cancella_invitato') + ' "' + par.param1.name + ' ' + par.param1.surname + '"')
@@ -1732,7 +1732,7 @@ export const tools = {
       })
     } else if (func === lists.MenuAction.DELETE_USERLIST) {
       // console.log('param1', par.param1, 'id', par.param1._id)
-      globalStore.DeleteRec({ table: this.TABUSER, id: par.param1._id }).then((ris) => {
+      globalStore.DeleteRec({ table: toolsext.TABUSER, id: par.param1._id }).then((ris) => {
         if (ris) {
           myself.update_username()
           this.showPositiveNotif(myself.$q, myself.$t('reg.cancella_invitato') + ' "' + par.param1.name + ' ' + par.param1.surname + '"')
@@ -1747,7 +1747,7 @@ export const tools = {
         myfunc: func,
         data: par.param2,
         username: par.param2.username,
-        notifBot: null
+        notifBot: null,
       }
 
       // if (par.param2.notifBot)
@@ -1764,29 +1764,29 @@ export const tools = {
       })
     } else if (func === lists.MenuAction.REGALA_INVITATO) {
       // console.log('param1', par.param1, 'id', par.param1._id)
-      let mydatatosave = {
+      let mydatatosave: IDataToSet = {
         id: null,
         username: '',
         table: '',
         fieldsvalue: {},
-        notifBot: {}
+        notifBot: {},
       }
 
       if (!!par.param1.invitante_username) {
         mydatatosave = {
           id: par.param1._id,
           username: par.param1.username,
-          table: this.TABLISTAINGRESSO,
+          table: toolsext.TABLISTAINGRESSO,
           fieldsvalue: { invitante_username: par.param2.aportador_solidario },
-          notifBot: null
+          notifBot: {},
         }
       } else {
         mydatatosave = {
           id: par.param1._id,
           username: '',
-          table: this.TABUSER,
+          table: toolsext.TABUSER,
           fieldsvalue: { aportador_solidario: par.param2.aportador_solidario },
-          notifBot: null
+          notifBot: {},
         }
       }
 
@@ -1807,11 +1807,11 @@ export const tools = {
       })
     } else if (func === lists.MenuAction.REGALA_INVITANTE) {
       // console.log('param1', par.param1, 'id', par.param1._id)
-      const mydatatosave = {
+      const mydatatosave: IDataToSet = {
         id: par.param1,
-        table: this.TABLISTAINGRESSO,
+        table: toolsext.TABLISTAINGRESSO,
         fieldsvalue: { invitante_username: par.param2.invitante_username, ind_order_ingr: par.param2.ind_order_ingr },
-        notifBot: null
+        notifBot: null,
       }
 
       if (par.param3) {
@@ -1827,14 +1827,14 @@ export const tools = {
           this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
       })
     } else if ((func === lists.MenuAction.AGGIUNGI_NUOVO_IMBARCO) || (func === lists.MenuAction.CANCELLA_IMBARCO)) {
-      const mydatatosave = {
+      const mydatatosave: IDataToSet = {
         username: par.param1.username,
         invitante_username: '',
         ind_order: -1,
         num_tess: 0,
         myfunc: func,
         data: par.param2,
-        notifBot: null
+        notifBot: null,
       }
 
       if (func === lists.MenuAction.CANCELLA_IMBARCO) {
@@ -1863,7 +1863,7 @@ export const tools = {
       })
     } else if (func === lists.MenuAction.SOSTITUISCI) {
       // console.log('param1', par.param1, 'id', par.param1._id)
-      const mydatatosave = {
+      const mydatatosave: IDataToSet = {
         id: par.param1._id,
         ind_order: par.param1.ind_order,
         myfunc: func,
@@ -1909,7 +1909,7 @@ export const tools = {
       globalStore.InviaMsgADonatori({
         msgobj: par.param1,
         navemediatore: par.param2,
-        tipomsg: par.param1.tipomsg
+        tipomsg: par.param1.tipomsg,
       }).then((ris) => {
         if (ris) {
           if (par.param1.inviareale)
@@ -1925,7 +1925,7 @@ export const tools = {
         flotta: par.param1,
         inviareale: par.param2.inviareale,
         inviaemail: par.param2.inviaemail,
-        tipomsg: par.param3
+        tipomsg: par.param3,
       }).then((ris) => {
         myself.loading = false
         if (ris) {
@@ -1941,7 +1941,7 @@ export const tools = {
       globalStore.InviaMsgADonatori({
         msgobj: par.param1,
         navemediatore: par.param2,
-        tipomsg: par.param1.tipomsg
+        tipomsg: par.param1.tipomsg,
       })
         .then((ris) => {
           if (ris) {
@@ -1950,16 +1950,16 @@ export const tools = {
             this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
         })
     } else if (func === lists.MenuAction.DONO_INVIATO) {
-      const mydatatosave = {
+      const mydatatosave: IDataToSet = {
         id: par.param1._id,
-        table: this.TABNAVI,
+        table: toolsext.TABNAVI,
         fieldsvalue: {
           date_made_gift: par.param1.date_made_gift,
           riga: par.param1.riga,
           col: par.param1.col,
-          commento_al_sognatore: par.param1.commento_al_sognatore
+          commento_al_sognatore: par.param1.commento_al_sognatore,
         },
-        notifBot: null
+        notifBot: null,
       }
 
       if (par.param3) {
@@ -1974,13 +1974,13 @@ export const tools = {
           this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
       })
     } else if (func === lists.MenuAction.DONO_RICEVUTO) {
-      let mydatatosave = {
+      const mydatatosave: IDataToSet = {
         id: par.param1._id,
-        table: this.TABNAVI,
+        table: toolsext.TABNAVI,
         fieldsvalue: {},
         unset: null,
         notifBot: null,
-        tipomsg: this.TipoMsg.SEND_MSG_DONO_RICEVUTO_CORRETTAMENTE
+        tipomsg: this.TipoMsg.SEND_MSG_DONO_RICEVUTO_CORRETTAMENTE,
       }
 
       if (!!par.param1.date_made_gift) {
@@ -1988,7 +1988,7 @@ export const tools = {
           made_gift: par.param1.made_gift,
           riga: par.param1.riga,
           col: par.param1.col,
-          date_made_gift: par.param1.date_made_gift
+          date_made_gift: par.param1.date_made_gift,
         }
       } else {
         mydatatosave.fieldsvalue = { made_gift: par.param1.made_gift, riga: par.param1.riga, col: par.param1.col }
@@ -2025,7 +2025,7 @@ export const tools = {
       id,
       table,
       fieldsvalue: mydata,
-      notifBot: null
+      notifBot: null,
     }
 
     const globalStore = useGlobalStore()
@@ -2041,17 +2041,17 @@ export const tools = {
 
   },
 
-  async askConfirm($q: any, mytitle, mytext, ok, cancel, myself: any, table, funcok: number, funccancel: number, par: IParamDialog) {
+  async askConfirm($q: any, mytitle: string, mytext: string, ok: string, cancel: string, myself: any, table: string, funcok: number, funccancel: number, par: IParamDialog) {
     return $q.dialog({
       message: mytext,
       html: true,
       ok: {
         label: ok,
-        push: true
+        push: true,
       },
       title: mytitle,
       cancel: true,
-      persistent: false
+      persistent: false,
     }).onOk(() => {
       // console.log('OK')
       this.executefunc(myself, table, funcok, par)
@@ -2095,13 +2095,14 @@ export const tools = {
   },
 
   isRegistered() {
-    return localStorage.getItem(this.localStorage.userId) !== ''
+    return localStorage.getItem(toolsext.localStorage.userId) !== ''
   }
   ,
 
-  checkIfUserExist(mythis) {
+  checkIfUserExist(mythis?: any) {
+    const userStore = useUserStore()
 
-    if (userStore.getters.isUserInvalid) {
+    if (userStore.isUserInvalid) {
       this.showNotif(mythis.$q, mythis.$t('todo.usernotdefined'))
       return false
     }
@@ -2113,13 +2114,15 @@ export const tools = {
     }
 
     return true
-  }
-  ,
+  },
 
-  checkLangPassed(mylang) {
+  checkLangPassed(mylangpass: string) {
     // console.log('checkLangPassed ', mylang)
+    const userStore = useUserStore()
 
-    const mybrowserLang = Quasar.lang.isoName
+    let mylang: string = mylangpass
+
+    // const mybrowserLang = Quasar.lang.isoName
 
     if (mylang !== '') {
       if ((mylang.toLowerCase() === 'enus') || (mylang.toLowerCase() === 'en-us') || (mylang.toLowerCase() === 'uk')
@@ -2149,17 +2152,17 @@ export const tools = {
         mylang = 'it'
 
         // Metti come default
-        userStore.mutations.setlang(mylang)
+        userStore.setlang(mylang)
       }
     }
 
     if (!mylang) {
-      mylang = process.env.LANG_DEFAULT
+      mylang = process.env.LANG_DEFAULT!
       console.log('LANG DEFAULT: ', mylang)
     }
 
     if (toolsext.getLocale(true) === '') {
-      userStore.mutations.setlang(mylang)
+      userStore.setlang(mylang)
     }
 
     // console.log('mylang calc : ', mylang)
@@ -2177,10 +2180,10 @@ export const tools = {
 
   consolelogpao(strlog: string, strlog2: any = '', strlog3: any = '') {
     // @ts-ignore
-    globalroutines(null, 'log', `${strlog} ${strlog2} ${strlog3}`, null)
+    globalroutines('log', `${strlog} ${strlog2} ${strlog3}`, null)
   },
 
-  aspettansec(numsec) {
+  aspettansec(numsec: number) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve('anything')
@@ -2189,8 +2192,9 @@ export const tools = {
   }
   ,
 
-  dragula_option($service, dragname) {
-    $service.options(dragname,
+  dragula_option($service: any, dragname: any) {
+    //++Todo: Dragula
+    /*$service.options(dragname,
       {
         moves(el, source, handle, sibling) {
           return !el.classList.contains('donotdrag') // elements are always draggable by default
@@ -2203,18 +2207,14 @@ export const tools = {
         },
         direction: 'vertical'
       })
+
+     */
   }
   ,
 
-// _.cloneDeep(  Per clonare un oggetto
+  // _.cloneDeep(  Per clonare un oggetto
 
-  isLoggedToSystem() {
-    const tok = this.getItemLS(this.localStorage.token)
-    return !!tok
-  }
-  ,
-
-  mapSort(linkedList) {
+  mapSort(linkedList: any) {
     console.log('mapSort')
     let sortedList = []
     const map = new Map()
@@ -2239,7 +2239,7 @@ export const tools = {
     // let i2 = 0
     while (sortedList.length < linkedList.length) {
       // get the item with a previous item ID referencing the current item
-      const nextItem = linkedList[map.get(currentId)]
+      const nextItem: any = linkedList[map.get(currentId)]
       if (nextItem === undefined) {
         break
       }
@@ -2283,7 +2283,7 @@ export const tools = {
     return sortedList
   },
 
-  getProgressClassColor(progress) {
+  getProgressClassColor(progress: number) {
     if (progress > 66) {
       return 'highperc'
     } else if (progress > 33) {
@@ -2294,7 +2294,7 @@ export const tools = {
   }
   ,
 
-  getProgressColor(progress) {
+  getProgressColor(progress: number) {
     if (progress > 66) {
       return 'green'
     } else if (progress > 33) {
@@ -2303,7 +2303,7 @@ export const tools = {
       return 'red'
     }
   },
-  hasManyDays(mydatestart, mydateend) {
+  hasManyDays(mydatestart: Date | number | string | undefined, mydateend: Date | number | string | undefined) {
     if (mydateend)
       return this.getstrDate(mydatestart) !== this.getstrDate(mydateend)
     else
@@ -2311,46 +2311,57 @@ export const tools = {
   },
 
   isManager() {
+    const userStore = useUserStore()
     return userStore.isManager
   },
 
   isSocioResidente() {
+    const userStore = useUserStore()
     return !!userStore.my.profile ? userStore.my.profile.socioresidente : false
   },
 
   isConsiglio() {
+    const userStore = useUserStore()
     return !!userStore.my.profile ? userStore.my.profile.consiglio : false
   },
 
   isSocio() {
+    const userStore = useUserStore()
     return !!userStore.my.profile ? userStore.my.profile.socio : false
   },
 
   isResp() {
+    const userStore = useUserStore()
     return userStore.my.profile.resplist
   },
 
   isWorkers() {
+    const userStore = useUserStore()
     return userStore.my.profile.workerslist
   },
 
   isDepartment() {
+    const userStore = useUserStore()
     return userStore.isDepartment
   },
 
   isAdmin() {
+    const userStore = useUserStore()
     return userStore.isAdmin
   },
 
   isTutor() {
+    const userStore = useUserStore()
     return userStore.isTutor
   },
 
   isZoomeri() {
+    const userStore = useUserStore()
     return userStore.isZoomeri
   },
 
   isEditor() {
+    const userStore = useUserStore()
     return userStore.isEditor
   },
 
@@ -2446,7 +2457,7 @@ export const tools = {
     }
   },
 
-  getstrDateTimeEvent(mythis, myevent, withhtml) {
+  getstrDateTimeEvent(mythis: any, myevent: IEvents, withhtml: boolean) {
     let mystr = ''
     // is same day?
     if (this.getstrDate(myevent.dateTimeStart) === this.getstrDate(myevent.dateTimeEnd)) {
@@ -2483,7 +2494,7 @@ export const tools = {
       mystr = `${this.getstrShortDate(myevent.dateTimeStart)}
                  - ${this.getstrTime(myevent.dateTimeStart)}`
     } else {
-      mystr = `${this.getstrVeryVeryShortDate(myevent.dateTimeStart)} - ${this.getstrShortDate(myevent.dateTimeEnd)}`
+      mystr = `${this.getstrVeryVeryShortDate(myevent.dateTimeStart!)} - ${this.getstrShortDate(myevent.dateTimeEnd)}`
 
     }
 
@@ -2611,7 +2622,7 @@ export const tools = {
     }
   },
 
-  firstchars_onedot(value, numchars = 200) {
+  firstchars_onedot(value: any, numchars = 200) {
     if (!value) {
       return ''
     }
@@ -2706,7 +2717,7 @@ export const tools = {
   },
 
   displayConfirmNotification() {
-    let options = null
+    let options: any = null
     if ('serviceWorker' in navigator) {
       options = {
         body: 'You successfully subscribed to our Notification service!',
@@ -2720,8 +2731,8 @@ export const tools = {
         renotify: true,  // if it's already sent, will Vibrate anyway
         actions: [
           { action: 'confirm', title: 'Okay', icon: '/statics/icons/app-icon-96x96.png' },
-          { action: 'cancel', title: 'Cancel', icon: '/statics/icons/app-icon-96x96.png' }
-        ]
+          { action: 'cancel', title: 'Cancel', icon: '/statics/icons/app-icon-96x96.png' },
+        ],
       }
 
       if ('serviceWorker' in navigator) {
@@ -2734,7 +2745,7 @@ export const tools = {
   }
   ,
 
-  dataURItoBlob(dataURI) {
+  dataURItoBlob(dataURI: any) {
     const byteString = atob(dataURI.split(',')[1])
     const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
     const ab = new ArrayBuffer(byteString.length)
@@ -2748,11 +2759,11 @@ export const tools = {
   ,
 
   showNotificationExample() {
-    let options = null
-    const mythis = this
+    let options: any = null
+    const { t } = useI18n()
     if ('serviceWorker' in navigator) {
       options = {
-        body: mythis.$t('notification.subscribed'),
+        body: t('notification.subscribed'),
         icon: '/statics/icons/android-chrome-192x192.png',
         image: '/statics/images/imglogonotif.png',
         dir: 'ltr',
@@ -2762,9 +2773,9 @@ export const tools = {
         tag: 'confirm-notification',
         renotify: true,  // if it's already sent, will Vibrate anyway
         actions: [
-          { action: 'confirm', title: mythis.$t('dialog.ok'), icon: '/statics/icons/android-chrome-192x192.png' }
+          { action: 'confirm', title: t('dialog.ok'), icon: '/statics/icons/android-chrome-192x192.png' },
           // { action: 'cancel', title: 'Cancel', icon: '/statics/icons/android-chrome-192x192.png', }
-        ]
+        ],
       }
 
       navigator.serviceWorker.ready
@@ -2772,33 +2783,13 @@ export const tools = {
           swreg.showNotification('aaa', options)
         })
     }
-  }
-  ,
+  },
 
-  getemailto(text) {
+  getemailto(text: string) {
     return 'mailto:' + text
-  }
-  ,
+  },
 
-  askfornotification(mythis) {
-    console.log('askfornotification')
-    this.showNotif(mythis.$q, mythis.$t('notification.waitingconfirm'), { color: 'positive', icon: 'notifications' })
-
-    Notification.requestPermission((result) => {
-      console.log('User Choice', result)
-      if (result === 'granted') {
-        this.showNotif(mythis.$q, mythis.$t('notification.confirmed'), { color: 'positive', icon: 'notifications' })
-      } else {
-        this.showNotif(mythis.$q, mythis.$t('notification.denied'), { color: 'negative', icon: 'notifications' })
-
-        // displayConfirmNotification();
-      }
-    })
-
-  }
-  ,
-
-  heightgallery(coeff) {
+  heightgallery(coeff: any) {
     // console.log('heightgallery')
     return this.heightGallVal(coeff).toString() + 'px'
   },
@@ -2806,12 +2797,14 @@ export const tools = {
   heightGallVal(coeff = 1.33) {
     let maxh2 = 0
 
+    const globalStore = useGlobalStore()
+
     let myw = Screen.width
     if (!this.isMobile())
-      if (GlobalStore.state.leftDrawerOpen)
+      if (globalStore.leftDrawerOpen)
         myw -= 300
     if (!this.isMobile())
-      if (GlobalStore.state.rightDrawerOpen)
+      if (globalStore.rightDrawerOpen)
         myw -= 300
 
     maxh2 = (myw / coeff) + 20
@@ -2822,7 +2815,7 @@ export const tools = {
   }
   ,
 
-  myheight_imgtitle(myheight ?, myheightmobile ?) {
+  myheight_imgtitle(myheight?: number, myheightmobile?: number) {
     let maxheight = 0
     if (!!myheight) {
       maxheight = myheight
@@ -2830,7 +2823,7 @@ export const tools = {
         if (myheight > 1000) {
           maxheight = 1000
         } else {
-          maxheight = parseInt(myheight, 10)
+          maxheight = myheight
         }
       }
     } else {
@@ -2851,7 +2844,7 @@ export const tools = {
 
     if (!!myheightmobile) {
       if (this.isMobile() && maxh2 > myheightmobile)
-        ris = parseInt(myheightmobile, 10)
+        ris = myheightmobile
     }
 
     // console.log('ris', ris)
@@ -2958,7 +2951,8 @@ export const tools = {
   }
   ,
 
-  padTime(val) {
+  padTime(valpass: string) {
+    let val = parseFloat(valpass)
     val = Math.floor(val)
     if (val < 10) {
       return '0' + val
@@ -2968,8 +2962,9 @@ export const tools = {
   ,
 
   getLocale(vero ?: boolean) {
-    if (UserStore) {
-      if (userStore.state) {
+    const userStore = useUserStore()
+    if (userStore) {
+      if (userStore) {
         return userStore.lang
       }
     }
@@ -3020,7 +3015,7 @@ export const tools = {
     }
   }
   ,
-  gettextdescr(data: ITimeLineEntry, numdescr = 'description'
+  gettextdescr(data: { [index: string]: any }, numdescr = 'description',
   ) {
     if (!!data[numdescr]) {
       if (data[numdescr][toolsext.getLocale()])
@@ -3034,7 +3029,7 @@ export const tools = {
   }
   ,
 
-  getlink(data: ITimeLineEntry) {
+  getlink(data: any) {
     if (data.link_text[toolsext.getLocale()])
       return data.link_text[toolsext.getLocale()]
     else {
@@ -3043,7 +3038,7 @@ export const tools = {
 
   },
 
-  getlinkurl(data: ITimeLineEntry) {
+  getlinkurl(data: any) {
     if (data.link_url_lang) {
       if (data.link_url_lang[toolsext.getLocale()]) {
         return data.link_url_lang[toolsext.getLocale()]
@@ -3060,61 +3055,24 @@ export const tools = {
     return process.env.APP_ID
   },
 
-  getLabelByItem(item, mythis) {
+  getLabelByItem(item: any) {
     if (!!item.name)
-      return mythis.$t(item.name)
+      return translate(item.name)
     else
       return item.text
 
   },
 
-  getimgev(ev) {
+  getimgev(ev: IEvents) {
     if (!!ev.img_small)
-      return `statics/` + ev.img_small
+      return 'statics/' + ev.img_small
     else if (!!ev.img)
-      return `statics/` + ev.img
+      return 'statics/' + ev.img
     else
       return ''
   },
 
-  getimgbysize(dir: string, file: string) {
-    const myimage = dir + file
-    // console.log('includes = ', static_data.preLoadImages.map((a) => a.imgname).includes(myimage), myimage)
-    let ris = ''
-    if (this.isMobile() && (preloadedimages().map((a) => a.imgname).includes(myimage))) {
-      ris = dir + 'mobile/' + file
-    } else {
-      ris = myimage
-    }
-
-    // console.log('getimgbysize', ris)
-
-    return ris
-  },
-
-  getaltimg(dir: string, file: string, alt?: string) {
-    const myimage = dir + file
-    const myrec = static_data.preLoadImages.find((rec) => rec.imgname === myimage)
-    if (myrec)
-      return (myrec) ? myrec.alt : 'my image'
-    else
-      return alt
-  },
-
-  getimgFullpathbysize(fileimg: string) {
-    if (!fileimg)
-      return { path: '', file: fileimg }
-    const ind = fileimg.lastIndexOf('/')
-    if (ind > 0) {
-      return { path: fileimg.substring(0, ind + 1), file: fileimg.substring(ind + 1) }
-    } else {
-      return { path: '', file: fileimg }
-    }
-
-  }
-  ,
-
-  convertHTMLtoText(myhtml) {
+  convertHTMLtoText(myhtml: string) {
     let msg = myhtml
     msg = msg.replace('&quot;', '"')
     msg = msg.replace('&gt;', '>')
@@ -3125,32 +3083,35 @@ export const tools = {
     return msg
   }
   ,
-  gettextevent(mythis, myevent: IEvents) {
-    // return '"' + myevent.title + '" (' + func_this.getDateStr(myevent.date) + ') - ' + myevent.time
-    return '"' + myevent.title + '" (' + this.getstrDateEmailTime(mythis, myevent.dateTimeStart) + ')'
+  gettextevent(myevent: IEvents) {
+    // return '"' + myevent.title + '" (' + func_tools.getDateStr(myevent.date) + ') - ' + myevent.time
+    return '"' + myevent.title + '" (' + this.getstrDateEmailTime(myevent.dateTimeStart) + ')'
   },
 
-  getlangforQuasar(mylang) {
+  getlangforQuasar(mylang: string) {
     if (mylang === 'enUs')
       return 'en-us'
     else
       return mylang
   },
 
-  setLangAtt(mylang) {
+  setLangAtt(mylang: string) {
     console.log('setLangAtt =', mylang)
     // console.log('PRIMA this.$q.lang.isoName', this.$q.lang.isoName)
+
+    const $q = useQuasar()
+    const globalStore = useGlobalStore()
 
     // dynamic import, so loading on demand only
     import(`quasar/lang/${this.getlangforQuasar(mylang)}`).then((lang) => {
       console.log('   Import dinamically lang =', lang)
-      Quasar.lang.set(this.getlangforQuasar(lang.default))
-      import(`../../statics/i18n`).then(() => {
-        console.log('   *** MY LANG DOPO=', Quasar.lang.isoName)
+      $q.lang.set(this.getlangforQuasar(lang.default))
+      import('../../statics/i18n').then(() => {
+        console.log('   *** MY LANG DOPO=', $q.lang.isoName)
       })
     })
 
-    GlobalStore.actions.addDynamicPages()
+    globalStore.addDynamicPages()
 
     // this.$q.lang.set(mylang)
 
@@ -3167,30 +3128,30 @@ export const tools = {
     return 'Testo: ' + process.env.LOGO_REG
   },
 
-  loginOk(mythis, ispageLogin: boolean) {
+  loginOk(mythis: any, ispageLogin: boolean) {
     // console.log('loginOk')
+    const userStore = useUserStore()
 
     if (toolsext.getLocale() !== '') {
       mythis.$i18n.locale = toolsext.getLocale()
-    }    // Set Lang
-    else {
-      userStore.mutations.setlang(mythis.$i18n.locale)
+    } else {
+      userStore.setlang(mythis.$i18n.locale)
     }     // Set Lang
 
     if (process.env.DEBUG) {
       console.log('LANG ORA=', toolsext.getLocale())
     }
 
-    globalroutines(mythis, 'loadapp', '')
+    globalroutines('loadapp', '')
 
     this.SignIncheckErrors(mythis, this.OK, ispageLogin)
   }
   ,
 
-  loginInCorso(mythis) {
+  loginInCorso(mythis: any) {
     // console.log('loginInCorso')
 
-    let msg = mythis.$t('login.incorso')
+    const msg = mythis.$t('login.incorso')
     // if (process.env.DEBUG) {
     //   msg += ' ' + process.env.MONGODB_HOST
     // }
@@ -3204,8 +3165,11 @@ export const tools = {
     return arr[0] + '//' + arr[2]
   },
 
-  SignIncheckErrors(mythis, riscode, ispageLogin ?: boolean) {
+  SignIncheckErrors(mythis: any, riscode: any, ispageLogin ?: boolean) {
     // console.log('SignIncheckErrors: ', riscode)
+    const $q = useQuasar()
+    const globalStore = useGlobalStore()
+    const userStore = useUserStore()
     try {
       if (riscode === this.OK) {
         this.showNotif(mythis.$q, mythis.$t('login.completato'), { color: 'positive', icon: 'check' })
@@ -3229,7 +3193,7 @@ export const tools = {
           this.showNotif(mythis.$q, mythis.$t('login.errato'), { color: 'negative', icon: 'notifications' })
           mythis.iswaitingforRes = false
           if (ispageLogin) {
-            GlobalStore.state.rightDrawerOpen = true
+            globalStore.rightDrawerOpen = true
             // mythis.$router.push('/signin')
           }
         })
@@ -3249,15 +3213,15 @@ export const tools = {
           this.showNotif(mythis.$q, mythis.$t('login.subaccount'), { color: 'negative', icon: 'notifications' })
           mythis.iswaitingforRes = false
           if (ispageLogin) {
-            GlobalStore.state.rightDrawerOpen = true
+            globalStore.rightDrawerOpen = true
             // mythis.$router.push('/signin')
           }
         })
 
-      } else if (riscode === this.ERR_SERVERFETCH) {
+      } else if (riscode === toolsext.ERR_SERVERFETCH) {
         this.showNotif(mythis.$q, mythis.$t('fetch.errore_server'), { color: 'negative', icon: 'notifications' })
-      } else if (riscode === this.ERR_GENERICO) {
-        const msg = mythis.$t('fetch.errore_generico') + userStore.mutations.getMsgError(riscode)
+      } else if (riscode === toolsext.ERR_GENERICO) {
+        const msg = mythis.$t('fetch.errore_generico') + userStore.getMsgError(riscode)
         this.showNotif(mythis.$q, msg, { color: 'negative', icon: 'notifications' })
       } else {
         this.showNotif(mythis.$q, 'Errore num ' + riscode, { color: 'negative', icon: 'notifications' })
@@ -3275,9 +3239,11 @@ export const tools = {
     }
   },
 
-  SignUpcheckErrors(mythis, riscode: number, msg: string) {
+  SignUpcheckErrors(mythis: any, riscode: number, msg: string) {
     console.log('SignUpcheckErrors', riscode)
-    let endload = true
+    const endload = true
+
+    const userStore = useUserStore()
 
     if (riscode === serv_constants.RIS_CODE_EMAIL_ALREADY_EXIST) {
       this.showNotif(mythis.$q, mythis.$t('reg.err.duplicate_email'))
@@ -3294,22 +3260,22 @@ export const tools = {
       this.showNotif(mythis.$q, mythis.$t('reg.err.username_not_valid'))
     } else if (riscode === serv_constants.RIS_CODE_USERNAME_ALREADY_EXIST) {
       this.showNotif(mythis.$q, mythis.$t('reg.err.duplicate_username'))
-    } else if (riscode === this.ERR_SERVERFETCH) {
+    } else if (riscode === toolsext.ERR_SERVERFETCH) {
       this.showNotif(mythis.$q, mythis.$t('fetch.errore_server'))
-    } else if (riscode === this.ERR_GENERICO) {
-      const msg = mythis.$t('fetch.errore_generico') + userStore.mutations.getMsgError(riscode)
-      this.showNotif(mythis.$q, msg)
+    } else if (riscode === toolsext.ERR_GENERICO) {
+      const msg2 = mythis.$t('fetch.errore_generico') + userStore.getMsgError(riscode)
+      this.showNotif(mythis.$q, msg2)
     } else if (riscode === this.OK) {
       mythis.$router.push('/regok')
       this.showNotif(mythis.$q, mythis.$t('components.authentication.email_verification.link_sent', { botname: mythis.$t('ws.botname') }), {
         color: 'green',
-        textColor: 'black'
+        textColor: 'black',
       })
     } else if (riscode === serv_constants.RIS_ISCRIZIONE_OK) {
       mythis.$router.push('/')
       this.showNotif(mythis.$q, mythis.$t('components.authentication.iscrizione_ok', { botname: mythis.$t('ws.botname') }), {
         color: 'green',
-        textColor: 'black'
+        textColor: 'black',
       })
     } else {
       this.showNotif(mythis.$q, 'Errore num ' + riscode)
@@ -3317,16 +3283,16 @@ export const tools = {
 
     return endload
   },
-  isCssColor(color) {
+  isCssColor(color: any) {
     return !!color && !!color.match(/^(#|(rgb|hsl)a?\()/)
   },
-  displayClasses(eventparam) {
+  displayClasses(eventparam: any) {
     return {
       // [`bg-${eventparam.bgcolor}`]: !this.isCssColor(eventparam.bgcolor),
-      'text-white': !this.isCssColor(eventparam.bgcolor)
+      'text-white': !this.isCssColor(eventparam.bgcolor),
     }
   },
-  displayStyles(eventparam) {
+  displayStyles(eventparam: any) {
     const s = { color: '' }
 
     let mycol = eventparam.bgcolor
@@ -3340,77 +3306,62 @@ export const tools = {
     }
     return s
   },
-  CancelBookingEvent(mythis, eventparam: IEvents, bookeventid: string, notify: boolean) {
+  CancelBookingEvent(mythis: any, eventparam: IEvents, bookeventid: string, notify: boolean) {
     console.log('CancelBookingEvent ', eventparam)
-    this.askConfirm(mythis.$q, translate('cal.titlebooking'), translate('cal.cancelbooking') + ' ' + this.gettextevent(mythis, eventparam) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.DELETE, 0, {
+    this.askConfirm(mythis.$q, translate('cal.titlebooking'), translate('cal.cancelbooking') + ' ' + this.gettextevent(eventparam) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.DELETE, 0, {
       param1: bookeventid,
       param2: notify,
-      param3: eventparam.title
+      param3: eventparam.title,
     })
   },
-  CancelEvent(mythis, eventparam: IEvents) {
+  CancelEvent(mythis: any, eventparam: IEvents) {
     console.log('CancelEvent ', eventparam)
-    this.askConfirm(mythis.$q, translate('cal.event'), translate('cal.cancelevent') + ' ' + this.gettextevent(mythis, eventparam) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.DELETE_EVENT, 0, {
+    const $q = useQuasar()
+    this.askConfirm($q, translate('cal.event'), translate('cal.cancelevent') + ' ' + this.gettextevent(eventparam) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.DELETE_EVENT, 0, {
       param1: eventparam,
-      param2: true
+      param2: true,
     })
   },
-  AskGiaPartecipatoZoom(mythis, user) {
+  AskGiaPartecipatoZoom(mythis: any, user: any) {
     console.log('AskGiaPartecipatoZoom', user.username)
-    this.askConfirm(mythis.$q, translate('steps.zoom_gia_partecipato'), translate('steps.zoom_gia_partecipato'), translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.ZOOM_GIA_PARTECIPATO, 0, {
+    const $q = useQuasar()
+    this.askConfirm($q, translate('steps.zoom_gia_partecipato'), translate('steps.zoom_gia_partecipato'), translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.ZOOM_GIA_PARTECIPATO, 0, {
       param1: user,
       param2: user,
       param3: 'Confermato',
     })
   },
-  ActionRecTable(mythis, action, table, id, item, askaction) {
+  ActionRecTable(mythis: any, action: number, table: string, id: string, item: any, askaction: any) {
     // console.log('ActionRecTable', id)
-    return this.askConfirm(mythis.$q, 'Action', translate(askaction) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, table, action, 0, {
+    const $q = useQuasar()
+    return this.askConfirm($q, 'Action', translate(askaction) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, table, action, 0, {
       param1: id,
-      param2: item
+      param2: item,
     })
   },
 
-  async createNewRecord(mythis, table, data, withnotif = true) {
-
-    const mydata = {
-      table,
-      data
-    }
-
-    return await
-      GlobalStore.actions.saveTable(mydata)
-        .then((record) => {
-          if (withnotif) {
-            if (record) {
-              this.showPositiveNotif(mythis.$q, mythis.$t('db.recupdated'))
-            } else {
-              this.showNegativeNotif(mythis.$q, mythis.$t('db.recfailed'))
-            }
-          }
-          return record
-        })
-  },
   getheight(mythis: any) {
     // return height()
     return mythis.$q.screen.height
   },
-  getwidth(mythis: any, withright = false, withleft = true) {
+  getwidth(mythis: any, withright = false, withleft = true): number {
+    const globalStore = useGlobalStore()
     // return height()
     let myw = mythis.$q.screen.width
     if (withleft) {
-      if (GlobalStore.state.leftDrawerOpen)
+      if (globalStore.leftDrawerOpen)
         myw -= 300
     }
 
     if (withright)
-      if (GlobalStore.state.rightDrawerOpen)
+      if (globalStore.rightDrawerOpen)
         myw -= 300
     return myw
 
   },
 
-  getwidthscale(mythis, mywidth, maxwidth) {
+  getwidthscale(mythis: any, mywidthpass: string, maxwidth: string): number {
+    let mywidth = parseInt(mywidthpass)
     if (this.isMobile()) {
       // if (mywidth > this.getwidth(mythis) - 20)
       mywidth = this.getwidth(mythis, false, false) - 32
@@ -3419,10 +3370,10 @@ export const tools = {
       return mywidth
     } else {
       // console.log('this.getwidth(mythis) = ', this.getwidth(mythis))
-      let myw = mywidth + ((this.getwidth(mythis, true) - mywidth) * 0.6)
+      let myw: number = mywidth + ((this.getwidth(mythis, true) - mywidth) * 0.6)
       // console.log('myw1 = ', myw)
-      if (myw > maxwidth)
-        myw = maxwidth
+      if (myw > parseInt(maxwidth))
+        myw = parseInt(maxwidth)
       if (myw > this.getwidth(mythis) - 24)
         myw = this.getwidth(mythis) - 24
 
@@ -3431,13 +3382,13 @@ export const tools = {
     }
   },
 
-  getheightbywidth(mythis, mywidth, myheight, maxwidth) {
+  getheightbywidth(mythis: any, mywidth: string, myheight: string, maxwidth: string) {
     // console.log('getheightbywidth')
     const myw = this.getwidthscale(mythis, mywidth, maxwidth)
-    return myw * (myheight / mywidth)
+    return myw * (parseInt(myheight) / parseInt(mywidth))
   },
 
-  isIsoDate(str) {
+  isIsoDate(str: string) {
     if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false
     const d = new Date(str)
     return d.toISOString() === str
@@ -3483,13 +3434,13 @@ export const tools = {
       .filter(e => arr[e]).map(e => arr[e])
   },
 
-  getColorByIndexBest(index) {
+  getColorByIndexBest(index: any) {
     if (index < this.listBestColor.length - 1)
       return this.listBestColor[index]
     else
       return 'primary'
   },
-  getCookie(mytok, def?) {
+  getCookie(mytok: any, def?: any) {
     const ris = Cookies.get(mytok)
     // console.log('getCookie', ris)
     if (!!ris) {
@@ -3499,33 +3450,23 @@ export const tools = {
     }
   },
 
-  setCookie(mytok, value: string) {
+  setCookie(mytok: any, value: string) {
     return Cookies.set(mytok, value)
   },
 
-  removeCookie(mytok) {
+  removeCookie(mytok: any) {
     return Cookies.remove(mytok)
   },
-  notshowPwd(payload) {
-    const mypay = { ...payload }
-    try {
-      if (!!mypay.password) {
-        mypay.password = '**********'
-      }
-    } catch (e) {
-      console.log('error', e)
-    }
-    return mypay
-  },
+
   scrollToTop() {
     const element = document.getElementById('mypage')
     this.scrollToElement(element)
   },
-  scrollToElementId(myid) {
+  scrollToElementId(myid: string) {
     const element = document.getElementById(myid)
     this.scrollToElement(element)
   },
-  scrollToElement(el) {
+  scrollToElement(el: any) {
     const target = getScrollTarget(el)
     const offset = el.offsetTop
     const duration = 500
@@ -3563,41 +3504,33 @@ export const tools = {
   metafunc(mythis: any) {
     return {
       title: mythis.t('ws.sitename'),
-      titleTemplate: (title) => `${this.getsuffisso()} ${mythis.mymeta.title} - ${mythis.t('ws.sitename')}`,
+      titleTemplate: (title: any) => `${this.getsuffisso()} ${mythis.mymeta.title} - ${mythis.t('ws.sitename')}`,
       meta: {
         keywords: {
           name: 'keywords',
-          content: mythis.mymeta.keywords
+          content: mythis.mymeta.keywords,
         },
         description: {
           name: 'description',
-          content: mythis.mymeta.description
+          content: mythis.mymeta.description,
         },
-        equiv: { 'http-equiv': 'Content-Type', 'content': 'text/html; charset=UTF-8' }
-      }
+        equiv: { 'http-equiv': 'Content-Type', 'content': 'text/html; charset=UTF-8' },
+      },
     }
   },
-  isObject(anything: any) {
-    // Object.create(null) instanceof Object → false
-    return Object(anything) === anything
-  },
-  isDebug() {
-    return process.env.DEV
-  },
-
-  isTest() {
-    return process.env.ISTEST === '1'
-  },
-
   geturlupload() {
     return process.env.MONGODB_HOST + '/upload'
   },
   getheaders() {
+    const userStore = useUserStore()
     return [{ name: 'x-auth', value: userStore.x_auth_token }]
   },
 
   getextfile(filename: string) {
-    return filename.split('.').pop().toLowerCase()
+    const mystr = filename.split('.')
+    if (mystr)
+      return mystr.pop()!.toLowerCase()
+    return ''
   },
 
   getelembylang(arr: any) {
@@ -3624,20 +3557,24 @@ export const tools = {
   },
 
 
-  getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any) {
+  getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any): any {
     const globalStore = useGlobalStore()
+    const todos = useTodoStore()
+    const userStore = useUserStore()
     if (table === 'users') {
       if (keystr === 'profile') {
+        // @ts-ignore
         return userStore.my.profile[subkey]
       } else {
+        // @ts-ignore
         return userStore.my[keystr]
       }
     } else if (table === 'todos') {
       // console.log('id', id, 'idmain', idmain)
-      const indcat = Todos.state.categories.indexOf(idmain)
+      const indcat = todos.categories.indexOf(idmain)
       console.log('indcat', indcat)
       if (indcat >= 0) {
-        const myrec = Todos.state.todos[indcat].find((rec) => rec._id === id)
+        const myrec = todos.todos[indcat].find((rec: any) => rec._id === id)
         console.log('myrec', myrec)
         let ris = null
         if (myrec) {
@@ -3649,7 +3586,7 @@ export const tools = {
 
       return ''
     } else {
-      const ris = globalStore.getters.getValueSettingsByKey(keystr, serv)
+      const ris = globalStore.getValueSettingsByKey(keystr, serv)
 
       if (ris === '')
         if (def !== undefined)
@@ -3662,7 +3599,7 @@ export const tools = {
 
   },
 
-  getkey(youtube: boolean, title: string, isnum: boolean) {
+  getkey(youtube: boolean, title: boolean, isnum: boolean) {
     let mykey = 'MP4'
     if (youtube)
       mykey = 'YT'
@@ -3700,11 +3637,11 @@ export const tools = {
   },
 
   getvideomp4yt(index: number) {
-    return [{ src: 'https://www.youtube.com/embed/' + this.getvideourl(index, true), type: 'video/mp4' }
+    return [{ src: 'https://www.youtube.com/embed/' + this.getvideourl(index, true), type: 'video/mp4' },
     ]
   },
   getvideomp4src(index: number) {
-    return [{ src: this.getvideourl(index, false), type: 'video/mp4' }
+    return [{ src: this.getvideourl(index, false), type: 'video/mp4' },
     ]
   },
 
@@ -3717,11 +3654,11 @@ export const tools = {
   },
 
   getpath(myvideo: string) {
-    return 'statics/video/' + func_this.getLocale() + '/' + myvideo
+    return 'statics/video/' + func_tools.getLocale() + '/' + myvideo
   },
   mygetarrValDb(keystr: string, serv: boolean) {
     const globalStore = useGlobalStore()
-    const myval = globalStore.getters.getValueSettingsByKey(keystr, serv)
+    const myval = globalStore.getValueSettingsByKey(keystr, serv)
     // console.log('AA: myval', myval)
     try {
       if (myval) {
@@ -3748,7 +3685,7 @@ export const tools = {
     return this.getelembylang(ris)
   },
 
-  getvideoposter(index) {
+  getvideoposter(index: number) {
     return ''
   },
   clone(obj: any) {
@@ -3760,7 +3697,7 @@ export const tools = {
     return copy
   },
 
-  geticon(langin) {
+  geticon(langin: string) {
     if (langin === '')
       return ''
     try {
@@ -3923,9 +3860,10 @@ export const tools = {
     let id = ''
     const globalStore = useGlobalStore()
     if (globalStore.calzoom.length > 0) {
+      // @ts-ignore
       id = globalStore.calzoom.slice(-1)[0].id_conf_zoom.toString()
     } else {
-      id = '6668882000'
+      id = '0'
     }
     return 'https://zoom.us/j/' + id
   },
@@ -3942,9 +3880,10 @@ export const tools = {
     const msg = params.split('.')
     const lang = toolsext.getLocale()
 
-    const stringa = messages[lang]
+    // @ts-ignore
+    const stringa: string = messages[lang]
 
-    let ris = stringa
+    let ris: any = stringa
     if (!!ris) {
       msg.forEach((param) => {
         ris = ris[param]
@@ -3974,7 +3913,7 @@ export const tools = {
     let req = 0
 
     req += user.verified_email ? 1 : 0
-    req += user.profile.teleg_id > 0 ? 1 : 0
+    req += user.profile.teleg_id! > 0 ? 1 : 0
     req += this.isBitActive(user.profile.saw_and_accepted, shared_consts.Accepted.CHECK_READ_GUIDELINES.value) ? 1 : 0
     req += this.isBitActive(user.profile.saw_and_accepted, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI.value) ? 1 : 0
     // req += user.profile.saw_zoom_presentation ? 1 : 0
@@ -4089,6 +4028,8 @@ export const tools = {
 
   sito_online(pertutti: boolean) {
 
+    const userStore = useUserStore()
+
     let ris = true
     const online = this.getValDb('SITO_ONLINE', false, true)
     ris = userStore.isAdmin && !pertutti ? true : online
@@ -4132,9 +4073,10 @@ export const tools = {
   },
 
   isselectPaypal() {
+    const userStore = useUserStore()
     if (userStore.my.profile) {
       if (userStore.my.profile.paymenttypes) {
-        if (userStore.my.profile.paymenttypes.includes('paypal')) {
+        if (userStore.my.profile.paymenttypes.includes({ key: 'paypal', label: 'paypal' })) {
           return true
         }
       }
@@ -4144,9 +4086,10 @@ export const tools = {
   },
 
   isselectPayeer() {
+    const userStore = useUserStore()
     if (userStore.my.profile) {
       if (userStore.my.profile.paymenttypes) {
-        if (userStore.my.profile.paymenttypes.includes('payeer')) {
+        if (userStore.my.profile.paymenttypes.includes({ key: 'payeer', label: 'payeer' })) {
           return true
         }
       }
@@ -4156,9 +4099,10 @@ export const tools = {
   },
 
   isselectRevolut() {
+    const userStore = useUserStore()
     if (userStore.my.profile) {
       if (userStore.my.profile.paymenttypes) {
-        if (userStore.my.profile.paymenttypes.includes('revolut')) {
+        if (userStore.my.profile.paymenttypes.includes({ key: 'revolut', label: 'revolut' })) {
           return true
         }
       }
@@ -4168,9 +4112,10 @@ export const tools = {
   },
 
   isselectAdvCash() {
+    const userStore = useUserStore()
     if (userStore.my.profile) {
       if (userStore.my.profile.paymenttypes) {
-        if (userStore.my.profile.paymenttypes.includes('advcash')) {
+        if (userStore.my.profile.paymenttypes.includes({ key: 'advcash', label: 'advcash' })) {
           return true
         }
       }
@@ -4183,10 +4128,10 @@ export const tools = {
     const globalStore = useGlobalStore()
 
     // console.log('globalStore.groups', globalStore.groups)
-    const mylist = {
+    const mylist: any = {
       it: [],
       es: [],
-      enUs: []
+      enUs: [],
     }
 
     let myrec = {}
@@ -4195,7 +4140,7 @@ export const tools = {
       myrec = {
         id: mygroup._id,
         label: mygroup.descr,
-        value: mygroup._id
+        value: mygroup._id,
       }
       mylist.it.push(myrec)
 
@@ -4207,10 +4152,10 @@ export const tools = {
   getRespList() {
 
     // console.log('globalStore.groups', globalStore.groups)
-    const mylist = {
+    const mylist: any = {
       it: [],
       es: [],
-      enUs: []
+      enUs: [],
     }
 
     let myrec = {}
@@ -4221,7 +4166,7 @@ export const tools = {
       myrec = {
         id: myresp._id,
         label: myresp.name + ' ' + myresp.surname,
-        value: myresp.username
+        value: myresp.username,
       }
       mylist.it.push(myrec)
 
@@ -4233,10 +4178,10 @@ export const tools = {
   getWorkersList() {
 
     // console.log('globalStore.groups', globalStore.groups)
-    const mylist = {
+    const mylist: any = {
       it: [],
       es: [],
-      enUs: []
+      enUs: [],
     }
 
     let myrec = {}
@@ -4247,7 +4192,7 @@ export const tools = {
       myrec = {
         id: myresp._id,
         label: myresp.name + ' ' + myresp.surname,
-        value: myresp.username
+        value: myresp.username,
       }
       mylist.it.push(myrec)
 
@@ -4257,14 +4202,15 @@ export const tools = {
   },
 
   IsLogged() {
-    if (!!UserStore)
+    const userStore = useUserStore()
+    if (!!userStore)
       return userStore.isLogged
     else
       return false
   },
 
   formatDate(mydate: any) {
-    let d = void 0
+    let d: Date
 
     if (mydate !== void 0) {
       d = new Date(mydate)
@@ -4279,7 +4225,7 @@ export const tools = {
   },
 
   firstDayOfDate(mydate: any) {
-    let d = void 0
+    let d: Date
 
     if (mydate !== void 0) {
       d = new Date(mydate)
@@ -4294,7 +4240,7 @@ export const tools = {
   },
 
   LastDayOfDate(mydate: any) {
-    let d = void 0
+    let d: Date
 
     if (mydate !== void 0) {
       d = new Date(mydate)
@@ -4319,7 +4265,7 @@ export const tools = {
     return [this.padTime(hours), this.padTime(minutes)].join(':')
   },
   colourNameToHex(colour: string) {
-    const colours = {
+    const colours: any = {
       'aliceblue': '#f0f8ff',
       'antiquewhite': '#faebd7',
       'aqua': '#00ffff',
@@ -4460,14 +4406,16 @@ export const tools = {
       'white': '#ffffff',
       'whitesmoke': '#f5f5f5',
       'yellow': '#ffff00',
-      'yellowgreen': '#9acd32'
+      'yellowgreen': '#9acd32',
     }
 
-    if (typeof colours[colour.toLowerCase()] != 'undefined')
-      return colours[colour.toLowerCase()]
+    const index: any = colour.toLowerCase()
+
+    if (typeof colours[index] != 'undefined')
+      return colours[index]
 
     return false
-  }
+  },
 
 // getLocale() {
   //   if (navigator.languages && navigator.languages.length > 0) {
