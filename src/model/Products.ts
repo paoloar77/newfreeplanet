@@ -3,8 +3,8 @@ export interface IProduct {
   active?: boolean
   idProducer?: string,
   idStorehouses?: string[],
-  producer?: IProducer,
-  storehouses?: IStorehouse[],
+  producer: IProducer,
+  storehouses: IStorehouse[],
   code?: string,
   name?: string,
   description?: string,
@@ -25,7 +25,7 @@ export interface IProduct {
 }
 
 export interface IBaseOrder {
-  order?: IOrder
+  order: IOrder
 }
 
 export interface IOrder {

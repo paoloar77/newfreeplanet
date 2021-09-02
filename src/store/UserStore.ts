@@ -131,6 +131,9 @@ export const useUserStore = defineStore('UserStore', {
 
     getNameSurnameByUserId: (state: IUserState) => (userId: string): string => {
       // @ts-ignore
+      const prova: number = this.getServerCode(state)
+
+      // @ts-ignore
       const user = this.getUserByUserId(state, userId)
       if (user) return `${user.name} ${user.surname}`
       return `(${userId})`
@@ -142,6 +145,23 @@ export const useUserStore = defineStore('UserStore', {
       if (user) return `${user.name} ${user.surname}`
       return `(${username})`
     },
+
+    getUsersList: (mystate: IUserState) => {
+      return mystate.usersList
+    },
+
+    IsMyFriend: (mystate: IUserState) => (userIdOwner: string): boolean => {
+      // ++TODO Check if userIdOwner is my friend
+      // userIdOwner is my friend ?
+      return true
+    },
+
+    IsMyGroup: (mystate: IUserState) => (userIdOwner: string): boolean => {
+      // ++TODO Check if userIdOwner is on my groups
+      // userIdOwner is on my groups ?
+      return true
+    },
+
 
     getUserByUserId: (state: IUserState) => (userId: string): IUserFields | null => {
       // Check if is this User!
@@ -500,7 +520,7 @@ export const useUserStore = defineStore('UserStore', {
         // console.log('autologin _id STATE ', this._id)
 
         // return true
-      } catch (e) {
+      } catch (e: any) {
         console.error('ERR autologin ', e.message)
         return false
       }

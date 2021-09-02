@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
 // import LoginModule from '../Modules/Auth/LoginStore'
-import router from '@router'
 import { tools } from '@src/store/Modules/tools'
 import { toolsext } from '@src/store/Modules/toolsext'
 import { serv_constants } from '@src/store/Modules/serv_constants'
@@ -122,7 +121,7 @@ async function Request(type: string, path: string, payload: any): Promise<Types.
       ricevuto = true
       return new Types.AxiosSuccess(response.data, response.status)
     }
-  } catch (error) {
+  } catch (error: any) {
     setTimeout(() => {
       globalStore.connData.uploading_server = (globalStore.connData.uploading_server === 1) ? -1 : globalStore.connData.uploading_server
       globalStore.connData.downloading_server = (globalStore.connData.downloading_server === 1) ? -1 : globalStore.connData.downloading_server

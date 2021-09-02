@@ -1,5 +1,6 @@
 export * from './logo'
 export * from './CMyPage'
+export * from './CMyAvatar'
 export * from './CTitle'
 export * from './CImgTitle'
 export * from './BannerCookies'

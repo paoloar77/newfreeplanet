@@ -50,7 +50,7 @@
                       <br>
                     </div>
                     <div v-else>
-                      <div v-if="!isLogged" style="margin: 5px; padding: 5px;" class="home">
+                      <div v-if="!isLogged()" style="margin: 5px; padding: 5px;" class="home">
                         <q-btn
                           rounded size="lg" color="primary" @click="PagLogin"
                           class="btn-start">
@@ -64,7 +64,7 @@
                       </div>
                     </div>
 
-                    <div v-if="isLogged">
+                    <div v-if="isLogged()">
                       <div>
                         <!--<q-field-->
                         <!--v-if="getPermission() === 'granted'"-->
@@ -141,7 +141,7 @@
                       <br>
                     </div>
                     <div v-else>
-                      <div v-if="!isLogged" style="margin: 5px; padding: 5px;" class="home">
+                      <div v-if="!isLogged()" style="margin: 5px; padding: 5px;" class="home">
                         <q-btn
                           rounded size="lg" color="primary" @click="PagLogin"
                           class="btn-start">
@@ -155,7 +155,7 @@
                       </div>
                     </div>
 
-                    <div v-if="isLogged">
+                    <div v-if="isLogged()">
                       <div>
                         <!--<q-field-->
                         <!--v-if="getPermission() === 'granted'"-->
@@ -236,7 +236,7 @@
                       <br>
                     </div>
                     <div v-else>
-                      <div v-if="!isLogged" style="margin: 5px; padding: 5px;" class="home">
+                      <div v-if="!isLogged()" style="margin: 5px; padding: 5px;" class="home">
                         <q-btn
                           rounded size="lg" color="primary" @click="PagLogin"
                           class="btn-start">
@@ -250,7 +250,7 @@
                       </div>
                     </div>
 
-                    <div v-if="isLogged">
+                    <div v-if="isLogged()">
                       <div>
                         <!--<q-field-->
                         <!--v-if="getPermission() === 'granted'"-->
@@ -392,10 +392,10 @@
       <section class="landing__footer">
         <div class="text-center">
           <div class="landing__footer-icons row flex-center">
-            <a :href="FBPage" target="_blank">
+            <a :href="FBPage()" target="_blank">
               <i aria-hidden="true" class="q-icon fab fa-facebook-f icon_contact"> </i></a>
 
-            <a :href="TelegramSupport" target="_blank">
+            <a :href="TelegramSupport()" target="_blank">
               <i aria-hidden="true" class="q-icon fab fa-telegram icon_contact"></i></a>
 
             <!--<a href="" target="_blank"><i aria-hidden="true" class="q-icon fab fa-github"> </i></a>-->

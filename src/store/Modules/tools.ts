@@ -1,11 +1,22 @@
 import { translation } from '@store/Modules/translation'
 import {
-  IEvents, IPathFile, Privacy, TipoVisu,
+  IColl,
+  ICollaborations,
+  IEvents,
+  IListRoutes,
+  IParamDialog,
+  IPathFile,
+  IProject, ITimeLineEntry,
+  ITimeLineMain,
+  ITodo,
+  IUserFields,
+  Privacy,
+  TipoVisu,
 } from '@model'
 
 import { lists } from '@store/Modules/lists'
 import { costanti } from '@store/Modules/costanti'
-import { date, Screen, useQuasar } from 'quasar'
+import { date, Screen } from 'quasar'
 
 import { toolsext } from '@store/Modules/toolsext'
 import { preloadedimages, static_data } from '@src/db/static_data'
@@ -13,6 +24,14 @@ import { useGlobalStore } from '@store/globalStore'
 import globalroutines from '@src/boot/globalroutines'
 import { useI18n } from '@src/boot/i18n'
 import { RouteNames } from '@src/router/route-names'
+import messages from '@src/statics/i18n'
+import { shared_consts } from '@src/common/shared_vuejs'
+import * as ApiTables from '@store/Modules/ApiTables'
+import translate from '@src/globalroutines/util'
+import { serv_constants } from "@store/Modules/serv_constants"
+import { useProjectstore } from "@store/projects"
+import { useTodoStore } from "@store/Todos"
+import { useUserStore } from "@store/UserStore"
 
 export interface INotify {
   color?: string | 'primary'
@@ -1176,6 +1195,85 @@ export const tools = {
     return `${cl} titlePriority`
   },
 
+  getStatusListByInd(index: number) {
+    try {
+      const arr: any = this.selectStatus[toolsext.getLocale() || 'it']
+      for (const rec of arr) {
+        if (rec.value === index) {
+          return rec.label
+        }
+      }
+    } catch (e) {
+      console.log('Error: ', e)
+    }
+    return ''
+  },
+
+  getPriorityByInd(index: number) {
+    // console.log('LANG in PRIOR', toolsext.getLocale())
+    try {
+      const arr: any = lists.selectPriority[toolsext.getLocale() || 'it']
+      for (const rec of arr) {
+        if (rec.value === index) {
+          return rec.label
+        }
+      }
+    } catch (e) {
+      console.log('Error: ', e)
+    }
+    return ''
+  },
+
+  logelem(mystr: string, elem: any) {
+    console.log(mystr, 'elem [', elem._id, '] ', elem.descr, 'pos', elem.pos, ' Pr(', this.getPriorityByInd(elem.priority), ')  modif=', elem.modified)
+  },
+
+  getelemprojstr(elem: any) {
+    return elem.descr + ' [id= ' + elem._id + '] ' + 'pos: ' + elem.pos + ']\n'
+  },
+
+  logga_arrproj(myarr: IProject[]) {
+    let mystr = '\n'
+    myarr.forEach((item) => {
+      mystr += this.getelemprojstr(item) + '   '
+    })
+
+    return mystr
+  },
+
+  logelemprj(mystr: string, elem: any) {
+    console.log(mystr, this.getelemprojstr(elem))
+  },
+
+  getstrelem(elem: any) {
+    return 'elem [' + elem._id + '] ' + elem.descr + ' Pr(' + this.getPriorityByInd(elem.priority) + ') modif=' + elem.modified + ' '
+  },
+
+  logga_arr(myarr: ITodo[]) {
+    let mystr = '\n'
+    myarr.forEach((item) => {
+      mystr += '[' + item.pos + '] ' + item.descr + ' Pr(' + this.getPriorityByInd(item.priority || 0) + ')' + ' modif=' + item.modified + '\n'
+      // mystr += '[' + item.pos + '] ' + item.descr + '\n'
+    })
+
+    return mystr
+  },
+
+  touchmove(scrollable: any) {
+    if (window) {
+      window.addEventListener('touchmove', (e) => {
+        // console.log('touchmove')
+        if (!scrollable) {
+          e.preventDefault()
+        }
+      }, { passive: false })
+    }
+  },
+
+  jsonCopy(src: any) {
+    return JSON.parse(JSON.stringify(src))
+  },
+
   getItemLS(item: any): any {
     let ris = localStorage.getItem(item)
     if ((ris == null) || (ris === '') || (ris === 'null') || !ris) {
@@ -1185,26 +1283,162 @@ export const tools = {
     return ris
   },
 
+  notifyarraychanged(array: any) {
+    if (array.length > 0) {
+      array.splice(array.length - 1, 1, array[array.length - 1])
+    }
+  },
+
+  isOkIndex(myarr: any, index: number) {
+    return (index >= 0 && index < myarr.length)
+  },
+
+  async swapGeneralElem(nametable: string, myarr: any, itemdragend: any, listFieldsToChange: any) {
+
+    const arrprec = [...myarr]
+
+    if (itemdragend.field === 'priority') {
+      // get last elem priority
+      console.log('get last elem priority')
+      itemdragend.newIndex = this.getLastFirstElemPriority(myarr, itemdragend.prioritychosen, itemdragend.atfirst, itemdragend.idelemtochange)
+      itemdragend.oldIndex = this.getIndexById(myarr, itemdragend.idelemtochange)
+
+      console.log('swapElems PRIORITY', itemdragend)
+    }
+
+    if (itemdragend.newIndex === itemdragend.oldIndex) {
+      return
+    }
+
+    console.log('swapGeneralElem', 'new =', itemdragend.newIndex, 'Old =', itemdragend.oldIndex, itemdragend)
+
+    if (this.isOkIndex(myarr, itemdragend.newIndex) && this.isOkIndex(myarr, itemdragend.oldIndex)) {
+
+      console.log('***  SPLICE!')
+      console.log('   PRIMA!', this.logga_arrproj(myarr))
+      myarr.splice(itemdragend.newIndex, 0, myarr.splice(itemdragend.oldIndex, 1)[0])
+      console.log('   DOPO!', this.logga_arrproj(myarr))
+
+      // Ora inverti gli indici
+      const indold = itemdragend.oldIndex
+      itemdragend.oldIndex = itemdragend.newIndex
+      itemdragend.newIndex = indold
+
+      /*
+      if (nametable === 'todos') {
+        if (itemdragend.field !== 'priority') {
+          const precind = itemdragend.newIndex - 1
+          const nextind = itemdragend.newIndex + 1
+
+          if (this.isOkIndex(myarr, precind) && this.isOkIndex(myarr, nextind)) {
+            if ((myarr[precind].priority === myarr[nextind].priority) && (myarr[precind].priority !== myarr[itemdragend.newIndex].priority)) {
+              console.log('   1)')
+              myarr[itemdragend.newIndex].priority = myarr[precind].priority
+              this.notifyarraychanged(myarr)
+            }
+          } else {
+            if (!this.isOkIndex(myarr, precind)) {
+              if ((myarr[nextind].priority !== myarr[itemdragend.newIndex].priority)) {
+                console.log('   2)')
+                myarr[itemdragend.newIndex].priority = myarr[nextind].priority
+                this.notifyarraychanged(myarr)
+              }
+
+            } else {
+              if ((myarr[precind].priority !== myarr[itemdragend.newIndex].priority)) {
+                console.log('   3)')
+                myarr[itemdragend.newIndex].priority = myarr[precind].priority
+                this.notifyarraychanged(myarr)
+              }
+            }
+
+          }
+        }
+      } */
+
+      let status = 0
+
+      // const arr = lists.selectPriority[toolsext.getLocale()]
+      // for (const priority of arr) {
+      for (let i = 0; i < myarr.length; ++i) {
+        if (nametable === 'todos') {
+          status = myarr[i].statustodo
+        } else if (nametable === 'projects') {
+          status = myarr[i].statusproj
+        }
+        if (status !== this.Status.COMPLETED) {
+          myarr[i].pos = i
+
+          const findelem = arrprec.find((rec) => rec._id === myarr[i]._id)
+
+          if (findelem !== myarr[i].pos) {
+            myarr[i].modified = true
+            await ApiTables.table_ModifyRecord(nametable, myarr[i], listFieldsToChange, 'pos')
+          }
+        }
+
+      }
+      for (let i = 0; i < myarr.length; ++i) {
+        if (nametable === 'todos') {
+          status = myarr[i].statustodo
+        } else if (nametable === 'projects') {
+          status = myarr[i].statusproj
+        }
+        // (myarr[i].priority === priority.value)
+        if ((status === this.Status.COMPLETED)) {
+          myarr[i].pos = 1000 + i
+
+          const findelem = arrprec.find((rec) => rec._id === myarr[i]._id)
+
+          if (findelem !== myarr[i].pos) {
+            myarr[i].modified = true
+            await ApiTables.table_ModifyRecord(nametable, myarr[i], listFieldsToChange, 'pos')
+          }
+        }
+
+      }
+      // }
+
+      /*
+
+       console.table(myarr)
+
+       // Update the id_prev property
+       const elem1 = this.update_idprev(myarr, itemdragend.newIndex, itemdragend.newIndex - 1)       // 0, -1
+       const elem2 = this.update_idprev(myarr, itemdragend.newIndex + 1, itemdragend.newIndex)   // 1, 0
+       const elem3 = this.update_idprev(myarr, itemdragend.oldIndex, itemdragend.oldIndex - 1)       // 1, 0
+       const elem4 = this.update_idprev(myarr, itemdragend.oldIndex + 1, itemdragend.oldIndex)   // 2, 1
+
+       await
+       ApiTables.table_ModifyRecord(nametable, elem1, listFieldsToChange, 'id_prev')
+       await
+       ApiTables.table_ModifyRecord(nametable, elem2, listFieldsToChange, 'id_prev')
+       await
+       ApiTables.table_ModifyRecord(nametable, elem3, listFieldsToChange, 'id_prev')
+       await
+       ApiTables.table_ModifyRecord(nametable, elem4, listFieldsToChange, 'id_prev')
+
+
+       */
+
+      this.notifyarraychanged(myarr)
+
+      // console.log('arr FINALE', this.logga_arrproj(myarr))
+
+      // Update the records:
+    }
+  }
+  ,
+
+
   isLoggedToSystem(): boolean {
     const tok = this.getItemLS(toolsext.localStorage.token)
     return !!tok
   },
 
 
-  addDays(mydate: Date, days: number) {
-    return date.addToDate(mydate, { days })
-  },
-
-  addMinutes(mydate: Date, minutes: number) {
-    return date.addToDate(mydate, { minutes })
-  },
-
-  jsonCopy(src: any): any {
-    return JSON.parse(JSON.stringify(src))
-  },
-
   askfornotification($q: any) {
-    const { t } = useI18n();
+    const { t } = useI18n()
     console.log('askfornotification', $q)
     this.showNotif($q, t('notification.waitingconfirm'), { color: 'positive', icon: 'notifications' })
 
@@ -1256,73 +1490,6 @@ export const tools = {
     return { path: '', file: fileimg }
   },
 
-  showPositiveNotif(q: any, msg: string) {
-    this.showNotif(q, msg, { color: 'positive', icon: 'notifications' })
-  },
-
-  showNegativeNotif(q: any, msg: string) {
-    this.showNotif(q, msg, { color: 'negative', icon: 'notifications' }, 10000)
-  },
-
-  showNeutralNotif(q: any, msg: string) {
-    this.showNotif(q, msg, { color: 'info', icon: 'notifications' }, 10000)
-  },
-
-  showNotif(q: any, msg: string, data ?: INotify | null, time?: number) {
-    let myicon = data ? data.icon : 'ion-add'
-    if (!myicon) {
-      myicon = 'ion-add'
-    }
-    let mycolor = data ? data.color : 'primary'
-    if (!mycolor) {
-      mycolor = 'primary'
-    }
-    q.notify({
-      // group: '',
-      message: msg,
-      icon: myicon,
-      classes: 'my-notif-class',
-      color: mycolor,
-      timeout: time || 4000,
-    })
-  },
-
-  isBitActive(bit: any, whattofind: any) {
-    if (whattofind > 0) {
-      return ((bit & whattofind) === whattofind)
-    }
-    return false
-  },
-
-  SetBit(myval: any, bit: any) {
-    // tslint:disable-next-line:no-bitwise
-    let myvalout = myval
-    myvalout |= bit
-    return myvalout
-  },
-
-  UnSetBit(myval: any, bit: any) {
-    // tslint:disable-next-line:no-bitwise
-    let myvalout = myval
-    myvalout &= ~bit
-    return myvalout
-  },
-
-  getUnique(arr: any, comp: any) {
-    const unique = arr
-      // @ts-ignore
-      .map(e => e[comp])
-
-      // store the keys of the unique objects
-      // @ts-ignore
-      .map((e, i, final) => final.indexOf(e) === i && i)
-
-      // eliminate the dead keys & store unique objects
-      // @ts-ignore
-      .filter(e => arr[e]).map(e => arr[e])
-
-    return unique
-  },
 
   async createNewRecord($q: any, table: string, data: any, withnotif = true) {
     const mydata = {
@@ -1369,6 +1536,822 @@ export const tools = {
       console.log('error', e)
     }
     return mypay
+  },
+
+
+
+
+  getIndexById(myarr: any, id: any) {
+    if (myarr === undefined)
+      return -1
+    return myarr.indexOf(this.getElemById(myarr, id))
+  }
+  ,
+
+  getElemById(myarr: any, id: any) {
+    if (myarr === undefined)
+      return null
+    // console.log('getElemById', myarr, id)
+    return myarr.find((elem: any) => elem._id === id)
+  }
+  ,
+
+  getElemPrevById(myarr: any, id: any) {
+    if (myarr === undefined)
+      return null
+    return myarr.find((elem: any) => elem.id_prev === id)
+  },
+
+
+  getLastFirstElemPriority(myarr: any, priority: number, atfirst: boolean, escludiId: string) {
+    if (myarr === null) {
+      return -1
+    }
+
+    let trovato: boolean = false
+
+    console.log('priority', priority)
+
+    for (let indrec = 0; indrec < myarr.length; indrec++) {
+      if ((myarr[indrec].priority === priority) && (myarr[indrec]._id !== escludiId)) {
+        trovato = true
+        if (atfirst) {
+          return indrec - 1
+        }
+      } else {
+        if (trovato) {
+          return indrec
+        }
+      }
+    }
+
+    console.log('trovato?', trovato, 'indrec')
+
+    if (trovato) {
+      return myarr.length - 1
+    } else {
+      if (priority === this.Priority.PRIORITY_LOW) {
+        return myarr.length - 1
+      } else if (priority === this.Priority.PRIORITY_HIGH) {
+        return 0
+      }
+    }
+  }
+  ,
+
+  getFirstList(myarr: any) {
+    return myarr.find((elem: any) => elem.id_prev === ApiTables.LIST_START)
+  }
+  ,
+
+  getModulesByTable(nametable: string) {
+    const projects = useProjectstore()
+    const todos = useTodoStore()
+    if (nametable === 'todos') {
+      return todos
+    } else if (nametable === 'projects') {
+      return projects
+    }
+  }
+  ,
+
+  setArrayMainByTable(nametable: string, myarr: any) {
+    if (nametable === 'todos') {
+      const todos = useTodoStore()
+      todos.todos = this.jsonCopy(myarr)
+      return todos.todos
+    } else if (nametable === 'projects') {
+      const projects = useProjectstore()
+      projects.projects = this.jsonCopy(myarr)
+      return projects.projects
+    }
+  },
+
+  getmyid(id: string) {
+    return 'row' + id
+  }
+  ,
+
+  getLastListNotCompleted(nametable: string, cat: string, tipoproj: string) {
+    // console.log('getLastListNotCompleted')
+    // const module = this.getModulesByTable(nametable)
+    let arr = []
+    const projects = useProjectstore()
+    if (nametable === 'projects')
+      arr = projects.getters.projs_dacompletare(cat, tipoproj)
+    else if (nametable === 'todos')
+      arr = Todos.getters.items_dacompletare(cat)
+
+    if (!!arr)
+      return (arr.length > 0) ? arr[arr.length - 1] : null
+    else
+      return null
+  },
+
+  getElemByIndex(myarr: any, index: number) {
+    if (index >= 0 && index < myarr.length) {
+      return myarr[index]
+    } else {
+      return null
+    }
+  }
+  ,
+
+  existArr(x: any) {
+    return x = (typeof x !== 'undefined' && x instanceof Array) ? x : []
+  }
+  ,
+
+  json2array(json: any) {
+    const result = []
+    const keys = Object.keys(json)
+    keys.forEach((key) => {
+      result.push(json[key])
+    })
+    return result
+  },
+
+  visumenu(elem: IListRoutes) {  // : IListRoutes
+
+
+    const userStore = useUserStore()
+    let visu = ((elem.onlyAdmin && userStore.isAdmin) || (elem.onlyManager && userStore.isManager)
+      || (elem.onlySocioResidente && userStore.my.profile.socioresidente)
+      || (elem.onlyConsiglio && userStore.my.profile.consiglio)
+      || (elem.onlyNotSoci && !userStore.my.profile.socio)
+      || (elem.onlyTutor && userStore.isTutor)
+      || (elem.onlyEditor && userStore.isEditor)
+      || (elem.onlyDepartment && userStore.isDepartment)
+      || ((!elem.onlyAdmin) && (!elem.onlyManager) && (!elem.onlyTutor) && (!elem.onlyEditor) && (!elem.onlyDepartment)
+        && (!elem.onlySocioResidente) && (!elem.onlyConsiglio) && (!elem.onlyNotSoci))) && elem.active
+
+    if (!this.isLoggedToSystem()) {
+      if (elem.onlyif_logged)
+        visu = false
+    }
+
+    if (elem.meta && elem.meta.requiresAuth) {
+      visu = visu && this.isLoggedToSystem()
+    }
+    return visu
+  },
+
+  executefunc(myself: any, table: string, func: number, par: IParamDialog) {
+    const globalStore = useGlobalStore()
+    if (func === lists.MenuAction.DELETE) {
+      // console.log('param1', par.param1)
+      CalendarStore.CancelBookingEvent({
+        ideventbook: par.param1,
+        notify: par.param2 === true ? '1' : '0'
+      }).then((ris) => {
+        if (ris) {
+          this.showPositiveNotif(myself.$q, myself.$t('cal.canceledbooking') + ' "' + par.param3 + '"')
+          if (myself.bookEventpage)
+            myself.bookEventpage.show = false
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('cal.cancelederrorbooking'))
+      })
+    } else if (func === lists.MenuAction.DELETE_EVENT) {
+      // console.log('param1', par.param1, 'id', par.param1._id)
+      CalendarStore.CancelEvent({ id: par.param1._id }).then((ris) => {
+        if (ris) {
+          // Remove this record from my list
+          CalendarStore.state.eventlist = CalendarStore.state.eventlist.filter((event) => (event._id !== par.param1._id))
+          this.showPositiveNotif(myself.$q, myself.$t('cal.canceledevent') + ' "' + par.param1.title + '"')
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('cal.cancelederrorevent'))
+      })
+    } else if (func === lists.MenuAction.DELETE_EXTRALIST) {
+      // console.log('param1', par.param1, 'id', par.param1._id)
+      globalStore.DeleteRec({ table: this.TABEXTRALIST, id: par.param1._id }).then((ris) => {
+        if (ris) {
+          myself.update_username()
+          this.showPositiveNotif(myself.$q, myself.$t('reg.cancella_invitato') + ' "' + par.param1.name + ' ' + par.param1.surname + '"')
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    } else if (func === lists.MenuAction.DELETE_USERLIST) {
+      // console.log('param1', par.param1, 'id', par.param1._id)
+      globalStore.DeleteRec({ table: this.TABUSER, id: par.param1._id }).then((ris) => {
+        if (ris) {
+          myself.update_username()
+          this.showPositiveNotif(myself.$q, myself.$t('reg.cancella_invitato') + ' "' + par.param1.name + ' ' + par.param1.surname + '"')
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    } else if (func === lists.MenuAction.ZOOM_GIA_PARTECIPATO) {
+      // console.log('param1', par.param1, 'id', par.param1._id)
+      const mydatatosave = {
+        id: par.param1._id,
+        ind_order: par.param1.ind_order,
+        myfunc: func,
+        data: par.param2,
+        username: par.param2.username,
+        notifBot: null
+      }
+
+      // if (par.param2.notifBot)
+      //  mydatatosave.notifBot = { un: par.param2.notifBot, txt: par.param3 }
+
+      // myself.EseguiCallServer()
+
+      globalStore.callFunz({ mydata: mydatatosave }).then((ris) => {
+        if (ris) {
+          myself.Callback(func)
+          this.showPositiveNotif(myself.$q, par.param3)
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    } else if (func === lists.MenuAction.REGALA_INVITATO) {
+      // console.log('param1', par.param1, 'id', par.param1._id)
+      let mydatatosave = {
+        id: null,
+        username: '',
+        table: '',
+        fieldsvalue: {},
+        notifBot: {}
+      }
+
+      if (!!par.param1.invitante_username) {
+        mydatatosave = {
+          id: par.param1._id,
+          username: par.param1.username,
+          table: this.TABLISTAINGRESSO,
+          fieldsvalue: { invitante_username: par.param2.aportador_solidario },
+          notifBot: null
+        }
+      } else {
+        mydatatosave = {
+          id: par.param1._id,
+          username: '',
+          table: this.TABUSER,
+          fieldsvalue: { aportador_solidario: par.param2.aportador_solidario },
+          notifBot: null
+        }
+      }
+
+      console.log('** par.param1', par.param1)
+      console.log('** id', par.param1._id)
+
+      if (par.param3) {
+        mydatatosave.notifBot = { un: par.param2.aportador_solidario, txt: par.param3 }
+      }
+
+      globalStore.saveFieldValue(mydatatosave).then((ris) => {
+        console.log('ris saveFieldValue', ris)
+        if (ris) {
+          this.showPositiveNotif(myself.$q, myself.$t('reg.invitato_regalato') + ' "' + par.param1.name + ' ' + par.param1.surname + '"')
+          myself.update_username()
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    } else if (func === lists.MenuAction.REGALA_INVITANTE) {
+      // console.log('param1', par.param1, 'id', par.param1._id)
+      const mydatatosave = {
+        id: par.param1,
+        table: this.TABLISTAINGRESSO,
+        fieldsvalue: { invitante_username: par.param2.invitante_username, ind_order_ingr: par.param2.ind_order_ingr },
+        notifBot: null
+      }
+
+      if (par.param3) {
+        mydatatosave.notifBot = { un: par.param2.invitante_username, txt: par.param3 }
+      }
+
+      globalStore.saveFieldValue(mydatatosave).then((ris) => {
+        console.log('ris saveFieldValue', ris)
+        if (ris) {
+          this.showPositiveNotif(myself.$q, myself.$t('reg.invitante_regalato') + ' "' + par.param2.name + ' ' + par.param2.surname + '"')
+          myself.update_username()
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    } else if ((func === lists.MenuAction.AGGIUNGI_NUOVO_IMBARCO) || (func === lists.MenuAction.CANCELLA_IMBARCO)) {
+      const mydatatosave = {
+        username: par.param1.username,
+        invitante_username: '',
+        ind_order: -1,
+        num_tess: 0,
+        myfunc: func,
+        data: par.param2,
+        notifBot: null
+      }
+
+      if (func === lists.MenuAction.CANCELLA_IMBARCO) {
+        mydatatosave.ind_order = par.param1.ind_order
+        mydatatosave.num_tess = par.param1.num_tess
+        mydatatosave.data.id = par.param2.rec._id
+      }
+      if (func === lists.MenuAction.AGGIUNGI_NUOVO_IMBARCO) {
+        mydatatosave.invitante_username = par.param1.invitante_username
+      }
+
+      myself.loading = true
+
+      mydatatosave.notifBot = { un: par.param2, txt: par.param3 }
+
+      globalStore.callFunz({ mydata: mydatatosave }).then((ris) => {
+        myself.loading = false
+        if (ris) {
+          myself.update_username()
+          if (func === lists.MenuAction.AGGIUNGI_NUOVO_IMBARCO)
+            this.showPositiveNotif(myself.$q, myself.$t('steps.sei_stato_aggiunto'))
+          else if (func === lists.MenuAction.CANCELLA_IMBARCO)
+            this.showPositiveNotif(myself.$q, myself.$t('event.deleted'))
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    } else if (func === lists.MenuAction.SOSTITUISCI) {
+      // console.log('param1', par.param1, 'id', par.param1._id)
+      const mydatatosave = {
+        id: par.param1._id,
+        ind_order: par.param1.ind_order,
+        myfunc: func,
+        data: par.param2,
+        username: par.param2.username,
+        notifBot: null,
+        inviaemail: par.param2.inviaemail,
+      }
+
+      if (par.param2.notifBot)
+        mydatatosave.notifBot = { un: par.param2.notifBot, txt: par.param3 }
+
+      myself.EseguiCallServer()
+
+      globalStore.callFunz({ mydata: mydatatosave }).then((ris) => {
+        if (ris) {
+          myself.update_nave()
+          myself.Callback()
+          this.showPositiveNotif(myself.$q, par.param3 + '\n' + ' e inviato messaggio per aprire la Gift Chat!')
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    } else if (func === lists.MenuAction.DELETE_RECTABLE) {
+      // console.log('param1', par.param1)
+      globalStore.DeleteRec({ table, id: par.param1 }).then((ris) => {
+        if (ris) {
+          myself.ActionAfterYes(func, par.param2, null)
+          this.showPositiveNotif(myself.$q, myself.$t('db.deletedrecord'))
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recdelfailed'))
+      })
+    } else if (func === lists.MenuAction.DUPLICATE_RECTABLE) {
+      // console.log('param1', par.param1)
+      globalStore.DuplicateRec({ table, id: par.param1 }).then((ris) => {
+        if (ris) {
+          myself.ActionAfterYes(func, par.param2, ris.data)
+          this.showPositiveNotif(myself.$q, myself.$t('db.duplicatedrecord'))
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recdupfailed'))
+      })
+    } else if (func === lists.MenuAction.INVIA_MSG_A_DONATORI) {
+      // console.log('param1', par.param1)
+      globalStore.InviaMsgADonatori({
+        msgobj: par.param1,
+        navemediatore: par.param2,
+        tipomsg: par.param1.tipomsg
+      }).then((ris) => {
+        if (ris) {
+          if (par.param1.inviareale)
+            this.showPositiveNotif(myself.$q, myself.$t('dashboard.msg_donatori_ok'))
+          this.askConfirm(myself.$q, '', ris.strout, translate('dialog.yes'), translate('dialog.no'), this, '', 0, 0, {})
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    } else if (func === lists.MenuAction.INVIA_MSG_A_FLOTTA) {
+      // console.log('param1', par.param1)
+      myself.loading = true
+      globalStore.InviaMsgAFlotta({
+        flotta: par.param1,
+        inviareale: par.param2.inviareale,
+        inviaemail: par.param2.inviaemail,
+        tipomsg: par.param3
+      }).then((ris) => {
+        myself.loading = false
+        if (ris) {
+          if (par.param1.inviareale)
+            this.showPositiveNotif(myself.$q, myself.$t('dashboard.msg_donatori_ok'))
+          this.askConfirm(myself.$q, '', ris.strout, translate('dialog.yes'), translate('dialog.no'), this, '', 0, 0, {})
+          myself.Callback()
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    } else if (func === lists.MenuAction.INVIA_MSG_A_SINGOLO) {
+      // console.log('param1', par.param1)
+      globalStore.InviaMsgADonatori({
+        msgobj: par.param1,
+        navemediatore: par.param2,
+        tipomsg: par.param1.tipomsg
+      })
+        .then((ris) => {
+          if (ris) {
+            this.showPositiveNotif(myself.$q, myself.$t('cal.sendmsg_sent'))
+          } else
+            this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+        })
+    } else if (func === lists.MenuAction.DONO_INVIATO) {
+      const mydatatosave = {
+        id: par.param1._id,
+        table: this.TABNAVI,
+        fieldsvalue: {
+          date_made_gift: par.param1.date_made_gift,
+          riga: par.param1.riga,
+          col: par.param1.col,
+          commento_al_sognatore: par.param1.commento_al_sognatore
+        },
+        notifBot: null
+      }
+
+      if (par.param3) {
+        mydatatosave.notifBot = { un: par.param2, txt: par.param3 }
+      }
+
+      globalStore.saveFieldValue(mydatatosave).then((ris) => {
+        if (ris) {
+          myself.ActionAfterYes(func, par.param1, par.param2)
+          this.showPositiveNotif(myself.$q, myself.$t('dashboard.fatto_dono'))
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    } else if (func === lists.MenuAction.DONO_RICEVUTO) {
+      let mydatatosave = {
+        id: par.param1._id,
+        table: this.TABNAVI,
+        fieldsvalue: {},
+        unset: null,
+        notifBot: null,
+        tipomsg: this.TipoMsg.SEND_MSG_DONO_RICEVUTO_CORRETTAMENTE
+      }
+
+      if (!!par.param1.date_made_gift) {
+        mydatatosave.fieldsvalue = {
+          made_gift: par.param1.made_gift,
+          riga: par.param1.riga,
+          col: par.param1.col,
+          date_made_gift: par.param1.date_made_gift
+        }
+      } else {
+        mydatatosave.fieldsvalue = { made_gift: par.param1.made_gift, riga: par.param1.riga, col: par.param1.col }
+      }
+
+      if (!!par.param1.annulla) {
+        if (par.param1.annulla) {
+          mydatatosave.fieldsvalue = { made_gift: false, riga: par.param1.riga, col: par.param1.col }
+          mydatatosave.unset = { date_made_gift: 1, received_gift: 1 }
+        }
+      }
+
+      if (par.param3) {
+        mydatatosave.notifBot = { un: par.param2, txt: par.param3 }
+      }
+
+      globalStore.saveFieldValue(mydatatosave).then((ris) => {
+        if (ris) {
+          myself.ActionAfterYes(func, par.param1, par.param2)
+          let msg = myself.$t('dashboard.ricevuto_dono_ok')
+          if (!!par.param1.annulla) {
+            if (par.param1.annulla)
+              msg = 'Dono Annullato'
+          }
+          this.showPositiveNotif(myself.$q, msg)
+        } else
+          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      })
+    }
+  },
+
+  async saveFieldToServer(myself: any, table: string, id: any, mydata: any, notif = true) {
+    const mydatatosave = {
+      id,
+      table,
+      fieldsvalue: mydata,
+      notifBot: null
+    }
+
+    const globalStore = useGlobalStore()
+
+    globalStore.saveFieldValue(mydatatosave).then((ris) => {
+      if (ris) {
+        if (notif)
+          this.showPositiveNotif(myself.$q, myself.$t('db.recupdated'))
+      } else {
+        this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+      }
+    })
+
+  },
+
+  async askConfirm($q: any, mytitle, mytext, ok, cancel, myself: any, table, funcok: number, funccancel: number, par: IParamDialog) {
+    return $q.dialog({
+      message: mytext,
+      html: true,
+      ok: {
+        label: ok,
+        push: true
+      },
+      title: mytitle,
+      cancel: true,
+      persistent: false
+    }).onOk(() => {
+      // console.log('OK')
+      this.executefunc(myself, table, funcok, par)
+      return true
+    }).onCancel(() => {
+      // console.log('CANCEL')
+      this.executefunc(myself, table, funccancel, par)
+      return false
+    })
+  },
+
+  showPositiveNotif(q: any, msg: string) {
+    this.showNotif(q, msg, { color: 'positive', icon: 'notifications' })
+  },
+
+  showNegativeNotif(q: any, msg: string) {
+    this.showNotif(q, msg, { color: 'negative', icon: 'notifications' }, 10000)
+  },
+
+  showNeutralNotif(q: any, msg: string) {
+    this.showNotif(q, msg, { color: 'info', icon: 'notifications' }, 10000)
+  },
+
+  showNotif(q: any, msg: string, data ?: INotify | null, time?: number) {
+    let myicon = data ? data.icon : 'ion-add'
+    if (!myicon) {
+      myicon = 'ion-add'
+    }
+    let mycolor = data ? data.color : 'primary'
+    if (!mycolor) {
+      mycolor = 'primary'
+    }
+    q.notify({
+      // group: '',
+      message: msg,
+      icon: myicon,
+      classes: 'my-notif-class',
+      color: mycolor,
+      timeout: time || 4000,
+    })
+  },
+
+  isRegistered() {
+    return localStorage.getItem(this.localStorage.userId) !== ''
+  }
+  ,
+
+  checkIfUserExist(mythis) {
+
+    if (userStore.getters.isUserInvalid) {
+      this.showNotif(mythis.$q, mythis.$t('todo.usernotdefined'))
+      return false
+    }
+
+    if (!this.isRegistered()) {
+      // Not logged
+      this.showNotif(mythis.$q, mythis.$t('user.notregistered'))
+      return false
+    }
+
+    return true
+  }
+  ,
+
+  checkLangPassed(mylang) {
+    // console.log('checkLangPassed ', mylang)
+
+    const mybrowserLang = Quasar.lang.isoName
+
+    if (mylang !== '') {
+      if ((mylang.toLowerCase() === 'enus') || (mylang.toLowerCase() === 'en-us') || (mylang.toLowerCase() === 'uk')
+        || (mylang.toLowerCase() === 'uk-uk') || (mylang.toLowerCase() === 'en-uk') || (mylang.toLowerCase() === 'en-gb')
+        || (mylang.toLowerCase() === 'gb-gb')) {
+        mylang = 'enUs'
+      }
+      if ((mylang.toLowerCase() === 'es') || (mylang.toLowerCase() === 'es-es') || (mylang.toLowerCase() === 'eses')) {
+        mylang = 'es'
+      }
+      if ((mylang.toLowerCase() === 'pt') || (mylang.toLowerCase() === 'pt-pt') || (mylang.toLowerCase() === 'ptpt')) {
+        mylang = 'pt'
+      }
+      if ((mylang.toLowerCase() === 'fr') || (mylang.toLowerCase() === 'fr-fr') || (mylang.toLowerCase() === 'frfr')) {
+        mylang = 'fr'
+      }
+      if ((mylang.toLowerCase() === 'it') || (mylang.toLowerCase() === 'it-it') || (mylang.toLowerCase() === 'itit')) {
+        mylang = 'it'
+      }
+      if ((mylang.toLowerCase() === 'si') || (mylang.toLowerCase() === 'si-si') || (mylang.toLowerCase() === 'sisi')) {
+        mylang = 'si'
+      }
+
+      if (!(static_data.arrLangUsed.includes(mylang))) {
+        // console.log('non incluso ', mylang)
+        // mylang = static_data.arrLangUsed[0]
+        mylang = 'it'
+
+        // Metti come default
+        userStore.mutations.setlang(mylang)
+      }
+    }
+
+    if (!mylang) {
+      mylang = process.env.LANG_DEFAULT
+      console.log('LANG DEFAULT: ', mylang)
+    }
+
+    if (toolsext.getLocale(true) === '') {
+      userStore.mutations.setlang(mylang)
+    }
+
+    // console.log('mylang calc : ', mylang)
+
+    return mylang
+  },
+
+  getlang() {
+    return toolsext.getLocale()
+  },
+
+  getimglogo() {
+    return `images/${process.env.LOGO_REG}`
+  },
+
+  consolelogpao(strlog: string, strlog2: any = '', strlog3: any = '') {
+    // @ts-ignore
+    globalroutines(null, 'log', `${strlog} ${strlog2} ${strlog3}`, null)
+  },
+
+  aspettansec(numsec) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('anything')
+      }, numsec)
+    })
+  }
+  ,
+
+  dragula_option($service, dragname) {
+    $service.options(dragname,
+      {
+        moves(el, source, handle, sibling) {
+          return !el.classList.contains('donotdrag') // elements are always draggable by default
+        },
+        accepts(el, target, source, sibling) {
+          return true // elements can be dropped in any of the `containers` by default
+        },
+        invalid(el, handle) {
+          return el.classList.contains('donotdrag') // don't prevent any drags from initiating by default
+        },
+        direction: 'vertical'
+      })
+  }
+  ,
+
+// _.cloneDeep(  Per clonare un oggetto
+
+  isLoggedToSystem() {
+    const tok = this.getItemLS(this.localStorage.token)
+    return !!tok
+  }
+  ,
+
+  mapSort(linkedList) {
+    console.log('mapSort')
+    let sortedList = []
+    const map = new Map()
+    let currentId = null
+
+    // console.log('linkedList', linkedList)
+
+    // index the linked list by previous_item_id
+    for (let i = 0; i < linkedList.length; i++) {
+      const item = linkedList[i]
+      // this.logelemprj(i, item)
+      if (item.id_prev === ApiTables.LIST_START) {
+        // first item
+        currentId = String(item._id)
+        // console.log('currentId', currentId);
+        sortedList.push(item)
+      } else {
+        map.set(item.id_prev, i)
+      }
+    }
+
+    // let i2 = 0
+    while (sortedList.length < linkedList.length) {
+      // get the item with a previous item ID referencing the current item
+      const nextItem = linkedList[map.get(currentId)]
+      if (nextItem === undefined) {
+        break
+      }
+      sortedList.push(nextItem)
+      // this.logelemprj('FATTO:' + i, nextItem)
+      currentId = String(nextItem._id)
+      // i2++
+    }
+
+    if (sortedList.length < linkedList.length) {
+      console.log('!!!!! NON CI SONO TUTTI !!!!!', sortedList.length, linkedList.length)
+      // Forget something not in a List !
+      for (const itemlinked of linkedList) {
+        const elemtrov = sortedList.find((item) => item._id === itemlinked._id)
+        if (elemtrov === undefined) {
+          sortedList.push(itemlinked)
+        }
+      }
+    }
+
+    // Now Order by Priority
+    if (!!sortedList) {
+      if (sortedList.length > 0) {
+        if (sortedList[0].priority !== undefined) {
+          const sortednew = []
+          let myarr = []
+          for (const priorelem of lists.selectPriority.it) {
+            const myprior = priorelem.value
+            myarr = sortedList.filter((item) => item.priority === myprior)
+            if (myarr !== undefined)
+              sortednew.push(...myarr)
+          }
+
+          sortedList = sortednew
+        }
+      }
+    }
+
+    // console.log('DOPO sortedList', sortedList)
+
+    return sortedList
+  },
+
+  getProgressClassColor(progress) {
+    if (progress > 66) {
+      return 'highperc'
+    } else if (progress > 33) {
+      return 'medperc'
+    } else {
+      return 'lowperc'
+    }
+  }
+  ,
+
+  getProgressColor(progress) {
+    if (progress > 66) {
+      return 'green'
+    } else if (progress > 33) {
+      return 'blue'
+    } else {
+      return 'red'
+    }
+  },
+  hasManyDays(mydatestart, mydateend) {
+    if (mydateend)
+      return this.getstrDate(mydatestart) !== this.getstrDate(mydateend)
+    else
+      return false
+  },
+
+  isManager() {
+    return userStore.isManager
+  },
+
+  isSocioResidente() {
+    return !!userStore.my.profile ? userStore.my.profile.socioresidente : false
+  },
+
+  isConsiglio() {
+    return !!userStore.my.profile ? userStore.my.profile.consiglio : false
+  },
+
+  isSocio() {
+    return !!userStore.my.profile ? userStore.my.profile.socio : false
+  },
+
+  isResp() {
+    return userStore.my.profile.resplist
+  },
+
+  isWorkers() {
+    return userStore.my.profile.workerslist
+  },
+
+  isDepartment() {
+    return userStore.isDepartment
+  },
+
+  isAdmin() {
+    return userStore.isAdmin
+  },
+
+  isTutor() {
+    return userStore.isTutor
+  },
+
+  isZoomeri() {
+    return userStore.isZoomeri
+  },
+
+  isEditor() {
+    return userStore.isEditor
   },
 
   getstrDate(mytimestamp: Date | number | string | undefined) {
@@ -1462,6 +2445,51 @@ export const tools = {
       return ''
     }
   },
+
+  getstrDateTimeEvent(mythis, myevent, withhtml) {
+    let mystr = ''
+    // is same day?
+    if (this.getstrDate(myevent.dateTimeStart) === this.getstrDate(myevent.dateTimeEnd)) {
+      if (withhtml) {
+        mystr += `<span class="cal__where-content">${this.getstrDateLong(myevent.dateTimeStart)}</span>
+                    <span class="cal__hours-content">${mythis.$t('cal.starttime')} ${this.getstrTime(myevent.dateTimeStart)}
+                    ${mythis.$t('cal.endtime')} ${this.getstrTime(myevent.dateTimeEnd)}`
+      } else {
+        mystr = `${this.getstrDateLong(myevent.dateTimeStart)}
+                 ${mythis.$t('cal.starttime')} ${this.getstrTime(myevent.dateTimeStart)}
+                 ${mythis.$t('cal.endtime')} ${this.getstrTime(myevent.dateTimeEnd)}`
+      }
+    } else {
+      mystr = `<span class="cal__where-content">${this.getstrDateLong(myevent.dateTimeStart)}</span>
+                 <span class="cal__hours-content">${mythis.$t('cal.starttime')} ${this.getstrTime(myevent.dateTimeStart)} </span>
+                  ${mythis.$t('cal.enddate')} ${this.getstrDateLong(myevent.dateTimeEnd)}
+                  <span class="cal__hours-content">${mythis.$t('cal.endtime')} ${this.getstrTime(myevent.dateTimeEnd)} </span>`
+    }
+
+    if (myevent.infoextra) {
+      mystr += `<span class="cal__hours">
+                  <span class="cal__hours-title">${mythis.$t('cal.hours')}: </span>
+                  <span class="cal__hours-content">${myevent.infoextra}  </span>
+              </span>
+            </span>`
+    }
+    return mystr
+  },
+
+  getstrDateTimeEventSimple(myevent: IEvents) {
+    let mystr = ''
+    // is same day?
+    if (this.getstrShortDate(myevent.dateTimeStart) === this.getstrShortDate(myevent.dateTimeEnd)) {
+      mystr = `${this.getstrShortDate(myevent.dateTimeStart)}
+                 - ${this.getstrTime(myevent.dateTimeStart)}`
+    } else {
+      mystr = `${this.getstrVeryVeryShortDate(myevent.dateTimeStart)} - ${this.getstrShortDate(myevent.dateTimeEnd)}`
+
+    }
+
+    return mystr
+  },
+
 
   getstrDateTimeEventShort(myevent: IEvents) {
     let mystr = ''
@@ -1583,6 +2611,20 @@ export const tools = {
     }
   },
 
+  firstchars_onedot(value, numchars = 200) {
+    if (!value) {
+      return ''
+    }
+    try {
+      let mycar = value.substring(0, numchars)
+      if (value.length > numchars)
+        mycar += '.'
+      return mycar
+    } catch (e) {
+      return value
+    }
+  },
+
   getDateNow() {
     const mydate = new Date()
     return mydate
@@ -1659,26 +2701,460 @@ export const tools = {
     return Privacy.inherited
   },
 
-  notifyarraychanged(array: any) {
-    if (array.length > 0) {
-      array.splice(array.length - 1, 1, array[array.length - 1])
+  addRoute(myarr: any, values: any) {
+    myarr.push(values)
+  },
+
+  displayConfirmNotification() {
+    let options = null
+    if ('serviceWorker' in navigator) {
+      options = {
+        body: 'You successfully subscribed to our Notification service!',
+        icon: '/statics/icons/app-icon-96x96.png',
+        image: '/statics/images/sf-boat.jpg',
+        dir: 'ltr',
+        lang: 'enUs', // BCP 47,
+        vibrate: [100, 50, 200],
+        badge: '/statics/icons/app-icon-96x96.png',
+        tag: 'confirm-notification',
+        renotify: true,  // if it's already sent, will Vibrate anyway
+        actions: [
+          { action: 'confirm', title: 'Okay', icon: '/statics/icons/app-icon-96x96.png' },
+          { action: 'cancel', title: 'Cancel', icon: '/statics/icons/app-icon-96x96.png' }
+        ]
+      }
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready
+          .then((swreg) => {
+            swreg.showNotification('Successfully subscribed!', options)
+          })
+      }
+    }
+  }
+  ,
+
+  dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1])
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    const ab = new ArrayBuffer(byteString.length)
+    const ia = new Uint8Array(ab)
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i)
+    }
+    const blob = new Blob([ab], { type: mimeString })
+    return blob
+  }
+  ,
+
+  showNotificationExample() {
+    let options = null
+    const mythis = this
+    if ('serviceWorker' in navigator) {
+      options = {
+        body: mythis.$t('notification.subscribed'),
+        icon: '/statics/icons/android-chrome-192x192.png',
+        image: '/statics/images/imglogonotif.png',
+        dir: 'ltr',
+        lang: 'enUs', // BCP 47,
+        vibrate: [100, 50, 200],
+        badge: '/statics/icons/android-chrome-192x192.png',
+        tag: 'confirm-notification',
+        renotify: true,  // if it's already sent, will Vibrate anyway
+        actions: [
+          { action: 'confirm', title: mythis.$t('dialog.ok'), icon: '/statics/icons/android-chrome-192x192.png' }
+          // { action: 'cancel', title: 'Cancel', icon: '/statics/icons/android-chrome-192x192.png', }
+        ]
+      }
+
+      navigator.serviceWorker.ready
+        .then((swreg) => {
+          swreg.showNotification('aaa', options)
+        })
+    }
+  }
+  ,
+
+  getemailto(text) {
+    return 'mailto:' + text
+  }
+  ,
+
+  askfornotification(mythis) {
+    console.log('askfornotification')
+    this.showNotif(mythis.$q, mythis.$t('notification.waitingconfirm'), { color: 'positive', icon: 'notifications' })
+
+    Notification.requestPermission((result) => {
+      console.log('User Choice', result)
+      if (result === 'granted') {
+        this.showNotif(mythis.$q, mythis.$t('notification.confirmed'), { color: 'positive', icon: 'notifications' })
+      } else {
+        this.showNotif(mythis.$q, mythis.$t('notification.denied'), { color: 'negative', icon: 'notifications' })
+
+        // displayConfirmNotification();
+      }
+    })
+
+  }
+  ,
+
+  heightgallery(coeff) {
+    // console.log('heightgallery')
+    return this.heightGallVal(coeff).toString() + 'px'
+  },
+
+  heightGallVal(coeff = 1.33) {
+    let maxh2 = 0
+
+    let myw = Screen.width
+    if (!this.isMobile())
+      if (GlobalStore.state.leftDrawerOpen)
+        myw -= 300
+    if (!this.isMobile())
+      if (GlobalStore.state.rightDrawerOpen)
+        myw -= 300
+
+    maxh2 = (myw / coeff) + 20
+    if (maxh2 > 500)
+      maxh2 = 500
+
+    return maxh2
+  }
+  ,
+
+  myheight_imgtitle(myheight ?, myheightmobile ?) {
+    let maxheight = 0
+    if (!!myheight) {
+      maxheight = myheight
+      if (myheight > 0) {
+        if (myheight > 1000) {
+          maxheight = 1000
+        } else {
+          maxheight = parseInt(myheight, 10)
+        }
+      }
+    } else {
+      maxheight = 500
+    }
+
+    const maxh2 = this.heightGallVal()
+
+    // console.log('maxh2', maxh2)
+    // console.log('maxheight', maxheight)
+
+    let ris = 0
+
+    if (maxh2 < maxheight)
+      ris = maxh2
+    else
+      ris = maxheight
+
+    if (!!myheightmobile) {
+      if (this.isMobile() && maxh2 > myheightmobile)
+        ris = parseInt(myheightmobile, 10)
+    }
+
+    // console.log('ris', ris)
+    return ris
+  }
+  ,
+
+  myheight_dialog() {
+    if (Screen.width < 410) {
+      return '337'
+    } else if (Screen.width < 600) {
+      return '450'
+    } else if (Screen.width < 800) {
+      return '550'
+    } else if (Screen.width < 900) {
+      return '700'
+    } else if (Screen.width < 1000) {
+      return '800'
+    } else if (Screen.width < 1100) {
+      return '900'
+    } else {
+      return Screen.width - 200
     }
   },
 
-  getModulesByTable(nametable: string) {
-    if (nametable === 'todos') {
-      // return Todos
-    } else if (nametable === 'projects') {
-      // return Projects
+  styles_imgtitle(sized ?: string) {
+    if (!!sized) {
+      return sized
+    } else {
+      if (Screen.width < 410) {
+        return 'max-height: 250px'
+      } else {
+        return 'max-height: 350px'
+      }
+    }
+  }
+  ,
+
+  /*
+      <q-img
+        src="https://cdn.quasar.dev/img/image-src.png"
+        srcset="https://cdn.quasar.dev/img/image-1x.png 400w,
+                https://cdn.quasar.dev/img/image-2x.png 800w,
+                https://cdn.quasar.dev/img/image-3x.png 1200w,
+                https://cdn.quasar.dev/img/image-4x.png 1600w"
+        sizes="(max-width: 400px) 400w,
+              (min-width: 400px) and (max-width: 800px) 800w,
+              (min-width: 800px) and (max-width: 1200px) 1200w,
+              (min-width: 1200px) 1600w"
+        style="height: 280px; max-width: 300px"
+      >
+        <div class="absolute-bottom text-body1 text-center">
+          With srcset & sizes
+        </div>
+      </q-img>
+  */
+
+  getsizes() {
+    return '(max-width: 400px) 400w, ' +
+      '(min-width: 400px) and (max-width: 800px) 800w, ' +
+      '(min-width: 800px) and (max-width: 1200px) 1200w, ' +
+      '(min-width: 1200px) 1600w'
+  }
+  ,
+
+  maxwidth_imgtitle() {
+    if (Screen.width < 410) {
+      return 'max-width: 250px'
+    } else {
+      return 'max-width: 350px'
+    }
+  }
+  ,
+
+  isMobile() {
+    return (Screen.width < 450)
+  }
+  ,
+
+  mywidth_imgtitle() {
+    if (Screen.width < 450) {
+      return '250'
+    } else if (Screen.width < 600) {
+      return '350'
+    } else {
+      return '350'
+    }
+  }
+  ,
+
+  mymargin_imgtitle() {
+    return 'auto'
+  }
+  ,
+
+  showthumbnails() {
+    if (Screen.width < 410) {
+      return false
+    } else if (Screen.width < 600) {
+      return true
+    } else {
+      return true
+    }
+  }
+  ,
+
+  padTime(val) {
+    val = Math.floor(val)
+    if (val < 10) {
+      return '0' + val
+    }
+    return val + ''
+  }
+  ,
+
+  getLocale(vero ?: boolean) {
+    if (UserStore) {
+      if (userStore.state) {
+        return userStore.lang
+      }
+    }
+    if (!vero)
+      return process.env.LANG_DEFAULT
+    else
+      return ''
+  },
+
+  addDays(mydate: Date, days: number) {
+    return date.addToDate(mydate, { days })
+  },
+
+  addMinutes(mydate: Date, minutes: number) {
+    return date.addToDate(mydate, { minutes })
+  },
+
+  gettitlemain(datamain: ITimeLineMain) {
+    if (datamain.titlemain[toolsext.getLocale()])
+      return datamain.titlemain[toolsext.getLocale()]
+    else {
+      return datamain.titlemain[static_data.arrLangUsed[0]]
     }
 
-    return null
+  }
+  ,
+  getwwithwhocoll(datamain: ICollaborations) {
+    if (datamain.withwhom_title[toolsext.getLocale()])
+      return datamain.withwhom_title[toolsext.getLocale()]
+    else {
+      return datamain.withwhom_title[static_data.arrLangUsed[0]]
+    }
+
+  }
+  ,
+  gettextcoll(data: IColl) {
+    if (data.subtitle[toolsext.getLocale()])
+      return data.subtitle[toolsext.getLocale()]
+    else {
+      return data.subtitle[static_data.arrLangUsed[0]]
+    }
+  },
+  gettitlecoll(data: IColl) {
+    if (data.title[toolsext.getLocale()])
+      return data.title[toolsext.getLocale()]
+    else {
+      return data.title[static_data.arrLangUsed[0]]
+    }
+  }
+  ,
+  gettextdescr(data: ITimeLineEntry, numdescr = 'description'
+  ) {
+    if (!!data[numdescr]) {
+      if (data[numdescr][toolsext.getLocale()])
+        return data[numdescr][toolsext.getLocale()]
+      else {
+        return data[numdescr][static_data.arrLangUsed[0]]
+      }
+    } else {
+      return ''
+    }
+  }
+  ,
+
+  getlink(data: ITimeLineEntry) {
+    if (data.link_text[toolsext.getLocale()])
+      return data.link_text[toolsext.getLocale()]
+    else {
+      return data.link_text[static_data.arrLangUsed[0]]
+    }
+
   },
 
-  getlang() {
-    return toolsext.getLocale()
+  getlinkurl(data: ITimeLineEntry) {
+    if (data.link_url_lang) {
+      if (data.link_url_lang[toolsext.getLocale()]) {
+        return data.link_url_lang[toolsext.getLocale()]
+      } else {
+        return data.link_url
+      }
+    } else {
+      return data.link_url
+    }
+
   },
 
+  appid() {
+    return process.env.APP_ID
+  },
+
+  getLabelByItem(item, mythis) {
+    if (!!item.name)
+      return mythis.$t(item.name)
+    else
+      return item.text
+
+  },
+
+  getimgev(ev) {
+    if (!!ev.img_small)
+      return `statics/` + ev.img_small
+    else if (!!ev.img)
+      return `statics/` + ev.img
+    else
+      return ''
+  },
+
+  getimgbysize(dir: string, file: string) {
+    const myimage = dir + file
+    // console.log('includes = ', static_data.preLoadImages.map((a) => a.imgname).includes(myimage), myimage)
+    let ris = ''
+    if (this.isMobile() && (preloadedimages().map((a) => a.imgname).includes(myimage))) {
+      ris = dir + 'mobile/' + file
+    } else {
+      ris = myimage
+    }
+
+    // console.log('getimgbysize', ris)
+
+    return ris
+  },
+
+  getaltimg(dir: string, file: string, alt?: string) {
+    const myimage = dir + file
+    const myrec = static_data.preLoadImages.find((rec) => rec.imgname === myimage)
+    if (myrec)
+      return (myrec) ? myrec.alt : 'my image'
+    else
+      return alt
+  },
+
+  getimgFullpathbysize(fileimg: string) {
+    if (!fileimg)
+      return { path: '', file: fileimg }
+    const ind = fileimg.lastIndexOf('/')
+    if (ind > 0) {
+      return { path: fileimg.substring(0, ind + 1), file: fileimg.substring(ind + 1) }
+    } else {
+      return { path: '', file: fileimg }
+    }
+
+  }
+  ,
+
+  convertHTMLtoText(myhtml) {
+    let msg = myhtml
+    msg = msg.replace('&quot;', '"')
+    msg = msg.replace('&gt;', '>')
+    msg = msg.replace('&lt;', '<')
+    msg = msg.replace('&amp;', '&')
+    msg = msg.replace('<br>', '\n')
+
+    return msg
+  }
+  ,
+  gettextevent(mythis, myevent: IEvents) {
+    // return '"' + myevent.title + '" (' + func_this.getDateStr(myevent.date) + ') - ' + myevent.time
+    return '"' + myevent.title + '" (' + this.getstrDateEmailTime(mythis, myevent.dateTimeStart) + ')'
+  },
+
+  getlangforQuasar(mylang) {
+    if (mylang === 'enUs')
+      return 'en-us'
+    else
+      return mylang
+  },
+
+  setLangAtt(mylang) {
+    console.log('setLangAtt =', mylang)
+    // console.log('PRIMA this.$q.lang.isoName', this.$q.lang.isoName)
+
+    // dynamic import, so loading on demand only
+    import(`quasar/lang/${this.getlangforQuasar(mylang)}`).then((lang) => {
+      console.log('   Import dinamically lang =', lang)
+      Quasar.lang.set(this.getlangforQuasar(lang.default))
+      import(`../../statics/i18n`).then(() => {
+        console.log('   *** MY LANG DOPO=', Quasar.lang.isoName)
+      })
+    })
+
+    GlobalStore.actions.addDynamicPages()
+
+    // this.$q.lang.set(mylang)
+
+  },
   getappname(short: boolean) {
     const { t } = useI18n()
     if (short) {
@@ -1687,21 +3163,374 @@ export const tools = {
     return t('ws.sitename')
   },
 
-  getimglogo() {
-    return `images/${process.env.LOGO_REG}`
-  },
-
   getproc() {
     return 'Testo: ' + process.env.LOGO_REG
   },
 
-  consolelogpao(strlog: string, strlog2: any = '', strlog3: any = '') {
-    // @ts-ignore
-    globalroutines(null, 'log', `${strlog} ${strlog2} ${strlog3}`, null)
+  loginOk(mythis, ispageLogin: boolean) {
+    // console.log('loginOk')
+
+    if (toolsext.getLocale() !== '') {
+      mythis.$i18n.locale = toolsext.getLocale()
+    }    // Set Lang
+    else {
+      userStore.mutations.setlang(mythis.$i18n.locale)
+    }     // Set Lang
+
+    if (process.env.DEBUG) {
+      console.log('LANG ORA=', toolsext.getLocale())
+    }
+
+    globalroutines(mythis, 'loadapp', '')
+
+    this.SignIncheckErrors(mythis, this.OK, ispageLogin)
+  }
+  ,
+
+  loginInCorso(mythis) {
+    // console.log('loginInCorso')
+
+    let msg = mythis.$t('login.incorso')
+    // if (process.env.DEBUG) {
+    //   msg += ' ' + process.env.MONGODB_HOST
+    // }
+    mythis.$q.loading.show({ message: msg })
+  }
+  ,
+
+  getUrlSite() {
+    const url = window.location.href
+    const arr = url.split('/')
+    return arr[0] + '//' + arr[2]
   },
 
-  addRoute(myarr: any, values: any) {
-    myarr.push(values)
+  SignIncheckErrors(mythis, riscode, ispageLogin ?: boolean) {
+    // console.log('SignIncheckErrors: ', riscode)
+    try {
+      if (riscode === this.OK) {
+        this.showNotif(mythis.$q, mythis.$t('login.completato'), { color: 'positive', icon: 'check' })
+        console.log('mythis.$router.name', mythis.$router.name)
+        if (ispageLogin) {
+          if (mythis.$router.name !== '/')
+            mythis.$router.push('/')
+        }
+      } else if (riscode === serv_constants.RIS_CODE_LOGIN_ERR) {
+
+        // Wait N seconds to avoid calling many times...
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve('anything')
+          }, 3000)
+        }).then(() => {
+          setTimeout(() => {
+            // console.log('HIDE...')
+            mythis.$q.loading.hide()
+          }, 500)
+          this.showNotif(mythis.$q, mythis.$t('login.errato'), { color: 'negative', icon: 'notifications' })
+          mythis.iswaitingforRes = false
+          if (ispageLogin) {
+            GlobalStore.state.rightDrawerOpen = true
+            // mythis.$router.push('/signin')
+          }
+        })
+
+      } else if (riscode === serv_constants.RIS_CODE_LOGIN_ERR_SUBACCOUNT) {
+
+        // Wait N seconds to avoid calling many times...
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve('anything')
+          }, 1000)
+        }).then(() => {
+          setTimeout(() => {
+            // console.log('HIDE...')
+            mythis.$q.loading.hide()
+          }, 500)
+          this.showNotif(mythis.$q, mythis.$t('login.subaccount'), { color: 'negative', icon: 'notifications' })
+          mythis.iswaitingforRes = false
+          if (ispageLogin) {
+            GlobalStore.state.rightDrawerOpen = true
+            // mythis.$router.push('/signin')
+          }
+        })
+
+      } else if (riscode === this.ERR_SERVERFETCH) {
+        this.showNotif(mythis.$q, mythis.$t('fetch.errore_server'), { color: 'negative', icon: 'notifications' })
+      } else if (riscode === this.ERR_GENERICO) {
+        const msg = mythis.$t('fetch.errore_generico') + userStore.mutations.getMsgError(riscode)
+        this.showNotif(mythis.$q, msg, { color: 'negative', icon: 'notifications' })
+      } else {
+        this.showNotif(mythis.$q, 'Errore num ' + riscode, { color: 'negative', icon: 'notifications' })
+      }
+
+      if (riscode !== serv_constants.RIS_CODE_LOGIN_ERR) {
+        mythis.iswaitingforRes = false
+        setTimeout(() => {
+          mythis.$q.loading.hide()
+        }, 200)
+      }
+
+    } finally {
+      // ...
+    }
+  },
+
+  SignUpcheckErrors(mythis, riscode: number, msg: string) {
+    console.log('SignUpcheckErrors', riscode)
+    let endload = true
+
+    if (riscode === serv_constants.RIS_CODE_EMAIL_ALREADY_EXIST) {
+      this.showNotif(mythis.$q, mythis.$t('reg.err.duplicate_email'))
+    } else if (riscode === serv_constants.RIS_CODE_USER_ALREADY_EXIST) {
+      this.showNegativeNotif(mythis.$q, mythis.$t('reg.err.user_already_exist'))
+    } else if (riscode === serv_constants.RIS_CODE_USER_EXTRALIST_NOTFOUND) {
+
+      this.showNegativeNotif(mythis.$q, mythis.$t('reg.err.user_extralist_not_found') + ' ' + msg)
+    } else if (riscode === serv_constants.RIS_CODE_USER_NOT_THIS_APORTADOR) {
+
+      this.showNegativeNotif(mythis.$q, mythis.$t('reg.err.user_not_this_aportador') + ' ' + msg)
+
+    } else if (riscode === serv_constants.RIS_CODE_USERNAME_NOT_VALID) {
+      this.showNotif(mythis.$q, mythis.$t('reg.err.username_not_valid'))
+    } else if (riscode === serv_constants.RIS_CODE_USERNAME_ALREADY_EXIST) {
+      this.showNotif(mythis.$q, mythis.$t('reg.err.duplicate_username'))
+    } else if (riscode === this.ERR_SERVERFETCH) {
+      this.showNotif(mythis.$q, mythis.$t('fetch.errore_server'))
+    } else if (riscode === this.ERR_GENERICO) {
+      const msg = mythis.$t('fetch.errore_generico') + userStore.mutations.getMsgError(riscode)
+      this.showNotif(mythis.$q, msg)
+    } else if (riscode === this.OK) {
+      mythis.$router.push('/regok')
+      this.showNotif(mythis.$q, mythis.$t('components.authentication.email_verification.link_sent', { botname: mythis.$t('ws.botname') }), {
+        color: 'green',
+        textColor: 'black'
+      })
+    } else if (riscode === serv_constants.RIS_ISCRIZIONE_OK) {
+      mythis.$router.push('/')
+      this.showNotif(mythis.$q, mythis.$t('components.authentication.iscrizione_ok', { botname: mythis.$t('ws.botname') }), {
+        color: 'green',
+        textColor: 'black'
+      })
+    } else {
+      this.showNotif(mythis.$q, 'Errore num ' + riscode)
+    }
+
+    return endload
+  },
+  isCssColor(color) {
+    return !!color && !!color.match(/^(#|(rgb|hsl)a?\()/)
+  },
+  displayClasses(eventparam) {
+    return {
+      // [`bg-${eventparam.bgcolor}`]: !this.isCssColor(eventparam.bgcolor),
+      'text-white': !this.isCssColor(eventparam.bgcolor)
+    }
+  },
+  displayStyles(eventparam) {
+    const s = { color: '' }
+
+    let mycol = eventparam.bgcolor
+    if (!this.isCssColor(eventparam.bgcolor)) {
+      mycol = this.colourNameToHex(mycol)
+    }
+
+    if (this.isCssColor(mycol)) {
+      // s['background-color'] = eventparam.bgcolor
+      s.color = colors.luminosity(mycol) > 0.5 ? 'black' : 'white'
+    }
+    return s
+  },
+  CancelBookingEvent(mythis, eventparam: IEvents, bookeventid: string, notify: boolean) {
+    console.log('CancelBookingEvent ', eventparam)
+    this.askConfirm(mythis.$q, translate('cal.titlebooking'), translate('cal.cancelbooking') + ' ' + this.gettextevent(mythis, eventparam) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.DELETE, 0, {
+      param1: bookeventid,
+      param2: notify,
+      param3: eventparam.title
+    })
+  },
+  CancelEvent(mythis, eventparam: IEvents) {
+    console.log('CancelEvent ', eventparam)
+    this.askConfirm(mythis.$q, translate('cal.event'), translate('cal.cancelevent') + ' ' + this.gettextevent(mythis, eventparam) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.DELETE_EVENT, 0, {
+      param1: eventparam,
+      param2: true
+    })
+  },
+  AskGiaPartecipatoZoom(mythis, user) {
+    console.log('AskGiaPartecipatoZoom', user.username)
+    this.askConfirm(mythis.$q, translate('steps.zoom_gia_partecipato'), translate('steps.zoom_gia_partecipato'), translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.ZOOM_GIA_PARTECIPATO, 0, {
+      param1: user,
+      param2: user,
+      param3: 'Confermato',
+    })
+  },
+  ActionRecTable(mythis, action, table, id, item, askaction) {
+    // console.log('ActionRecTable', id)
+    return this.askConfirm(mythis.$q, 'Action', translate(askaction) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, table, action, 0, {
+      param1: id,
+      param2: item
+    })
+  },
+
+  async createNewRecord(mythis, table, data, withnotif = true) {
+
+    const mydata = {
+      table,
+      data
+    }
+
+    return await
+      GlobalStore.actions.saveTable(mydata)
+        .then((record) => {
+          if (withnotif) {
+            if (record) {
+              this.showPositiveNotif(mythis.$q, mythis.$t('db.recupdated'))
+            } else {
+              this.showNegativeNotif(mythis.$q, mythis.$t('db.recfailed'))
+            }
+          }
+          return record
+        })
+  },
+  getheight(mythis: any) {
+    // return height()
+    return mythis.$q.screen.height
+  },
+  getwidth(mythis: any, withright = false, withleft = true) {
+    // return height()
+    let myw = mythis.$q.screen.width
+    if (withleft) {
+      if (GlobalStore.state.leftDrawerOpen)
+        myw -= 300
+    }
+
+    if (withright)
+      if (GlobalStore.state.rightDrawerOpen)
+        myw -= 300
+    return myw
+
+  },
+
+  getwidthscale(mythis, mywidth, maxwidth) {
+    if (this.isMobile()) {
+      // if (mywidth > this.getwidth(mythis) - 20)
+      mywidth = this.getwidth(mythis, false, false) - 32
+
+      // console.log('mywidth', mywidth)
+      return mywidth
+    } else {
+      // console.log('this.getwidth(mythis) = ', this.getwidth(mythis))
+      let myw = mywidth + ((this.getwidth(mythis, true) - mywidth) * 0.6)
+      // console.log('myw1 = ', myw)
+      if (myw > maxwidth)
+        myw = maxwidth
+      if (myw > this.getwidth(mythis) - 24)
+        myw = this.getwidth(mythis) - 24
+
+      // console.log('myw = ', myw)
+      return myw
+    }
+  },
+
+  getheightbywidth(mythis, mywidth, myheight, maxwidth) {
+    // console.log('getheightbywidth')
+    const myw = this.getwidthscale(mythis, mywidth, maxwidth)
+    return myw * (myheight / mywidth)
+  },
+
+  isIsoDate(str) {
+    if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false
+    const d = new Date(str)
+    return d.toISOString() === str
+  },
+
+  getLastDateReadReset() {
+    return new Date(1999, 1, 1, 0, 0, 0)
+  },
+
+  isBitActive(bit: any, whattofind: any) {
+    if (whattofind > 0) {
+      return ((bit & whattofind) === whattofind)
+    }
+    return false
+  },
+
+
+  SetBit(myval: any, bit: any) {
+    // tslint:disable-next-line:no-bitwise
+    let myvalout = myval
+    myvalout |= bit
+    return myvalout
+  },
+
+  UnSetBit(myval: any, bit: any) {
+    // tslint:disable-next-line:no-bitwise
+    let myvalout = myval
+    myvalout &= ~bit
+    return myvalout
+  },
+
+  getUnique(arr: any, comp: any) {
+    return arr
+      // @ts-ignore
+      .map(e => e[comp])
+
+      // store the keys of the unique objects
+      // @ts-ignore
+      .map((e, i, final) => final.indexOf(e) === i && i)
+
+      // eliminate the dead keys & store unique objects
+      // @ts-ignore
+      .filter(e => arr[e]).map(e => arr[e])
+  },
+
+  getColorByIndexBest(index) {
+    if (index < this.listBestColor.length - 1)
+      return this.listBestColor[index]
+    else
+      return 'primary'
+  },
+  getCookie(mytok, def?) {
+    const ris = Cookies.get(mytok)
+    // console.log('getCookie', ris)
+    if (!!ris) {
+      return ris
+    } else {
+      return def
+    }
+  },
+
+  setCookie(mytok, value: string) {
+    return Cookies.set(mytok, value)
+  },
+
+  removeCookie(mytok) {
+    return Cookies.remove(mytok)
+  },
+  notshowPwd(payload) {
+    const mypay = { ...payload }
+    try {
+      if (!!mypay.password) {
+        mypay.password = '**********'
+      }
+    } catch (e) {
+      console.log('error', e)
+    }
+    return mypay
+  },
+  scrollToTop() {
+    const element = document.getElementById('mypage')
+    this.scrollToElement(element)
+  },
+  scrollToElementId(myid) {
+    const element = document.getElementById(myid)
+    this.scrollToElement(element)
+  },
+  scrollToElement(el) {
+    const target = getScrollTarget(el)
+    const offset = el.offsetTop
+    const duration = 500
+    console.log('target', target, 'offset', offset, 'duration', duration)
+    setScrollPosition(target, offset, duration)
   },
 
   getCellForWhatsapp(numbercell: string) {
@@ -1731,4 +3560,920 @@ export const tools = {
     return ''
   },
 
+  metafunc(mythis: any) {
+    return {
+      title: mythis.t('ws.sitename'),
+      titleTemplate: (title) => `${this.getsuffisso()} ${mythis.mymeta.title} - ${mythis.t('ws.sitename')}`,
+      meta: {
+        keywords: {
+          name: 'keywords',
+          content: mythis.mymeta.keywords
+        },
+        description: {
+          name: 'description',
+          content: mythis.mymeta.description
+        },
+        equiv: { 'http-equiv': 'Content-Type', 'content': 'text/html; charset=UTF-8' }
+      }
+    }
+  },
+  isObject(anything: any) {
+    // Object.create(null) instanceof Object → false
+    return Object(anything) === anything
+  },
+  isDebug() {
+    return process.env.DEV
+  },
+
+  isTest() {
+    return process.env.ISTEST === '1'
+  },
+
+  geturlupload() {
+    return process.env.MONGODB_HOST + '/upload'
+  },
+  getheaders() {
+    return [{ name: 'x-auth', value: userStore.x_auth_token }]
+  },
+
+  getextfile(filename: string) {
+    return filename.split('.').pop().toLowerCase()
+  },
+
+  getelembylang(arr: any) {
+    const mylang = toolsext.getLocale()
+    for (const elem in arr) {
+      if (arr[elem][mylang])
+        return arr[elem][mylang]
+    }
+  },
+  isChristmasHoliday() {
+    const now = new Date()
+    return ((now.getMonth() === 11 && now.getDate() > 20) || (now.getMonth() === 0 && now.getDate() < 8))
+  },
+
+  CapitalizeAllWords(str: string) {
+    const splitStr = str.toLowerCase().split(' ')
+    for (let i = 0; i < splitStr.length; i++) {
+      // You do not need to check if i is larger than splitStr length, as your for does that for you
+      // Assign it back to the array
+      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1)
+    }
+    // Directly return the joined string
+    return splitStr.join(' ')
+  },
+
+
+  getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any) {
+    const globalStore = useGlobalStore()
+    if (table === 'users') {
+      if (keystr === 'profile') {
+        return userStore.my.profile[subkey]
+      } else {
+        return userStore.my[keystr]
+      }
+    } else if (table === 'todos') {
+      // console.log('id', id, 'idmain', idmain)
+      const indcat = Todos.state.categories.indexOf(idmain)
+      console.log('indcat', indcat)
+      if (indcat >= 0) {
+        const myrec = Todos.state.todos[indcat].find((rec) => rec._id === id)
+        console.log('myrec', myrec)
+        let ris = null
+        if (myrec) {
+          ris = myrec[keystr]
+        }
+        console.log('ris', ris)
+        return ris
+      }
+
+      return ''
+    } else {
+      const ris = globalStore.getters.getValueSettingsByKey(keystr, serv)
+
+      if (ris === '')
+        if (def !== undefined)
+          return def
+        else
+          return ''
+      else
+        return ris
+    }
+
+  },
+
+  getkey(youtube: boolean, title: string, isnum: boolean) {
+    let mykey = 'MP4'
+    if (youtube)
+      mykey = 'YT'
+
+    if (isnum) {
+      mykey += '_NUM'
+    } else {
+      if (title)
+        mykey += '_TITLE_'
+      else
+        mykey += '_VIDEO_'
+    }
+
+    return mykey
+  },
+
+  heightgallvideo() {
+    const h = this.heightgallery(this.getValDb('YT_W', false) / this.getValDb('YT_H', false))
+    return h
+  },
+
+  getvideourl(index: number, youtube: boolean) {
+    const myvideo = this.getValDb(this.getkey(youtube, false, false) + index, false)
+    if (myvideo)
+      if (youtube)
+        return myvideo
+      else
+        return this.getpath(myvideo)
+    else
+      return ''
+  },
+
+  getvideonum(youtube: boolean) {
+    return this.getValDb(this.getkey(youtube, false, true), false)
+  },
+
+  getvideomp4yt(index: number) {
+    return [{ src: 'https://www.youtube.com/embed/' + this.getvideourl(index, true), type: 'video/mp4' }
+    ]
+  },
+  getvideomp4src(index: number) {
+    return [{ src: this.getvideourl(index, false), type: 'video/mp4' }
+    ]
+  },
+
+  getvideoyt(index: number) {
+    return 'https://www.youtube.com/embed/' + this.getvideourl(index, true)
+  },
+
+  getvideobyidyoutube(key: string) {
+    return 'https://www.youtube.com/embed/' + key
+  },
+
+  getpath(myvideo: string) {
+    return 'statics/video/' + func_this.getLocale() + '/' + myvideo
+  },
+  mygetarrValDb(keystr: string, serv: boolean) {
+    const globalStore = useGlobalStore()
+    const myval = globalStore.getters.getValueSettingsByKey(keystr, serv)
+    // console.log('AA: myval', myval)
+    try {
+      if (myval) {
+        // console.log('   Entro')
+        const myrec = JSON.parse(myval)
+        // console.log('*************** getarrValDb')
+        // console.table(myrec)
+        return myrec
+      } else {
+        // console.log('NO MYVAL')
+        return []
+      }
+    } catch (e) {
+      console.log('Errore: ', e)
+      return []
+    }
+  },
+
+  getvideotitle(index: number, youtube: boolean) {
+
+    const mykey = this.getkey(youtube, true, false) + index
+    const ris = this.mygetarrValDb(mykey, false)
+
+    return this.getelembylang(ris)
+  },
+
+  getvideoposter(index) {
+    return ''
+  },
+  clone(obj: any) {
+    if (null === obj || 'object' !== typeof obj) return obj
+    const copy = obj.constructor()
+    for (const attr in obj) {
+      if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr]
+    }
+    return copy
+  },
+
+  geticon(langin) {
+    if (langin === '')
+      return ''
+    try {
+      const lang = langin.toUpperCase()
+
+      const arrlang = ['IT', 'ES', 'PT', 'BR', 'US', 'GB', 'UK', 'DE', 'FR', 'SI', 'MD', 'IE', 'KE', 'AU', 'ML', 'DO',
+        'NG', 'SK', 'CH', 'CM', 'CO', 'CG', 'PE', 'MS', 'SM', 'HR', 'RO', 'VE', 'CL', 'PL', 'EG', 'AR', 'MX', 'SN', 'PK', 'AT', 'NP',
+        'CU', 'MA', 'PH', 'BA', 'UA', 'BE', 'NL', 'CI', 'BF']
+
+      const flag = arrlang.find((mylang) => mylang === lang)
+      if (!!flag) {
+        return 'fa-flag-' + flag.toLowerCase()
+      }
+
+      return ''
+
+    } catch (e) {
+      return ''
+    }
+  },
+
+  removespaces(mystr: string) {
+    return mystr.replace(/\s+/g, '')
+  },
+
+  copyStringToClipboard(mythis: any, mystr: string, show: boolean) {
+    copyToClipboard(mystr).then(() => {
+      let msg = mythis.t('dialog.copyclipboard')
+      if (show)
+        msg += ' \'' + mystr + '\''
+
+      this.showNotif(mythis.$q, msg)
+    })
+
+  },
+
+  getlinkhref(mylink: string, text: string) {
+    return '<a href="' + mylink + '" target="_blank">' + text + '</a>'
+  },
+
+  getNationsByNationality(nat: string) {
+    if (!nat)
+      return ''
+
+    nat = nat.toUpperCase()
+
+    if (nat === 'IT') {
+      return 'Italy'
+    } else if (nat === 'SI') {
+      return 'Slovenia'
+    } else if (nat === 'SK') {
+      return 'Slovakia'
+    } else if (nat === 'NG') {
+      return 'Nigeria'
+    } else if (nat === 'MD') {
+      return 'Moldova'
+    } else if (nat === 'ES') {
+      return 'Spain'
+    } else if (nat === 'DE') {
+      return 'Germany'
+    } else if (nat === 'FR') {
+      return 'France'
+    } else if (nat === 'US') {
+      return 'United States'
+    } else if (nat === 'CA') {
+      return 'Canada'
+    } else if (nat === 'MA') {
+      return 'Morocco'
+    } else if (nat === 'LT') {
+      return 'Lithuania'
+    } else if (nat === 'HR') {
+      return 'Croatia'
+    } else if (nat === 'HU') {
+      return 'Hungary'
+    } else if (nat === 'CH') {
+      return 'Switzerland'
+    } else if (nat === 'CM') {
+      return 'Cameroon'
+    } else if (nat === 'CO') {
+      return 'Colombia'
+    } else if (nat === 'PE') {
+      return 'Peru'
+    } else if (nat === 'PL') {
+      return 'Poland'
+    } else if (nat === 'SM') {
+      return 'San Marino'
+    } else if (nat === 'PT') {
+      return 'Portugal'
+    } else if ((nat === 'UK') || (nat === 'GB')) {
+      return 'United Kingdom'
+    } else if (nat === 'UA') {
+      return 'Ukraine'
+    } else if (nat === 'RO') {
+      return 'Romania'
+    } else if (nat === 'VE') {
+      return 'Venezuela'
+    } else if (nat === 'CL') {
+      return 'Chile'
+    } else if (nat === 'PL') {
+      return 'Poland'
+    } else if (nat === 'EG') {
+      return 'Egypt'
+    } else if (nat === 'BR') {
+      return 'Brazil'
+    } else if (nat === 'CG') {
+      return 'Congo'
+    } else if (nat === 'AR') {
+      return 'Argentina'
+    } else if (nat === 'MX') {
+      return 'Mexico'
+    } else if (nat === 'SN') {
+      return 'Senegal'
+    } else if (nat === 'PK') {
+      return 'Pakistan'
+    } else if (nat === 'AT') {
+      return 'Austria'
+    } else if (nat === 'NP') {
+      return 'Nepal'
+    } else if (nat === 'CU') {
+      return 'Cuba'
+    } else if (nat === 'MA') {
+      return 'Morocco'
+    } else if (nat === 'PH') {
+      return 'Philippines'
+    } else if (nat === 'BA') {
+      return 'Bosnia and Herzegovina'
+    } else if (nat === 'BE') {
+      return 'Belgium'
+    } else if (nat === 'NL') {
+      return 'Netherlands'
+    } else if (nat === 'MS') {
+      return 'Montserrat'
+    } else if (nat === 'CI') {
+      return 'Cote d\'Ivoire'
+    } else if (nat === 'BF') {
+      return 'Burkina Faso'
+    } else if (nat === 'IE') {
+      return 'Ireland'
+    } else if (nat === 'KE') {
+      return 'Kenya'
+    } else if (nat === 'AU') {
+      return 'Australia'
+    } else if (nat === 'ML') {
+      return 'Mali'
+    } else if (nat === 'DO') {
+      return 'Dominican Republic'
+    }
+  },
+
+  getGroupById(myid: string) {
+    const globalStore = useGlobalStore()
+    const group = globalStore.groups.find((rec) => rec._id === myid)
+    if (group) {
+      return group.descr
+    }
+    return ''
+  },
+
+  getLinkZoom() {
+    let id = ''
+    const globalStore = useGlobalStore()
+    if (globalStore.calzoom.length > 0) {
+      id = globalStore.calzoom.slice(-1)[0].id_conf_zoom.toString()
+    } else {
+      id = '6668882000'
+    }
+    return 'https://zoom.us/j/' + id
+  },
+
+  myprintf(val: string, params: any[]) {
+
+    params.forEach((par) => {
+      val = val.replace('{' + par.strin + '}', par.strout)
+    })
+    return val
+  },
+
+  translate(params: string, options?: any) {
+    const msg = params.split('.')
+    const lang = toolsext.getLocale()
+
+    const stringa = messages[lang]
+
+    let ris = stringa
+    if (!!ris) {
+      msg.forEach((param) => {
+        ris = ris[param]
+      })
+
+      if (!!options) {
+        ris = this.myprintf(ris, options)
+      }
+
+    } else {
+      console.log('ERRORE IN TRANSLATE! ', params, ' NON ESISTE!')
+      return params
+    }
+
+    return ris
+  },
+
+  isSel2Metodi(user: IUserFields) {
+    if (user.profile.paymenttypes) {
+      return user.profile.paymenttypes.length > 1
+    }
+    return false
+
+  },
+
+  getnumrequisiti(user: IUserFields) {
+    let req = 0
+
+    req += user.verified_email ? 1 : 0
+    req += user.profile.teleg_id > 0 ? 1 : 0
+    req += this.isBitActive(user.profile.saw_and_accepted, shared_consts.Accepted.CHECK_READ_GUIDELINES.value) ? 1 : 0
+    req += this.isBitActive(user.profile.saw_and_accepted, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI.value) ? 1 : 0
+    // req += user.profile.saw_zoom_presentation ? 1 : 0
+    // if (!!user.profile.my_dream)
+    //   req += user.profile.my_dream.length >= 10 ? 1 : 0
+    req += this.isSel2Metodi(user) ? 1 : 0
+
+    return req
+  },
+
+  Is7ReqOk(user: IUserFields) {
+    return this.getnumrequisiti(user) === 7
+  },
+
+  getRiganave(riga: number) {
+    let ris = riga - 3
+    if (ris <= 1)
+      ris = 1
+
+    return ris
+  },
+
+  getColnave(col: number) {
+    let ris = Math.ceil(col / (2 * 4))
+    if (ris <= 1)
+      ris = 1
+    return ris
+  },
+
+  getrigacolstr(mianave: any) {
+    return this.getRiganave(mianave.riga) + '.' + this.getColnave(mianave.col)
+  },
+
+  getlastnavestr(lastnave: any) {
+    return lastnave.riga + '.' + lastnave.col
+  },
+
+  getmaxcol(riga: number) {
+
+    return Math.pow(2, riga - 1)
+  },
+
+  getrigaNaveByPosiz(riga: number) {
+    let ris = riga + 3
+    if (ris <= 1)
+      ris = 1
+    return ris
+
+  },
+
+  getcolNaveByPosiz(col: number) {
+    let ris = Math.ceil(col * Math.pow(2, 3))
+    if (ris <= 1)
+      ris = 1
+    return ris
+  },
+
+  getfirstnaveSognatore(riga: number, col: number) {
+    const myriga = this.getrigaNaveByPosiz(riga)
+    const mycol = this.getcolNaveByPosiz(col)
+
+    // console.log(`${riga}.${col} => ${myriga}.${mycol}`)
+    return { riga: myriga, col: mycol }
+  },
+
+  getnumnavi_finoa(naveorig: any, navedest: any, lastnave: any) {
+    let contaattuale = 0
+    let contatot = 0
+
+    const indrigaattuale = lastnave.riga
+    const indcolattuale = lastnave.col
+
+    if (navedest.riga < indrigaattuale) {
+      return { perc: 100, totale: 0, contaattuale: 0 }
+    }
+
+    for (let indriga = naveorig.riga; indriga <= navedest.riga; indriga++) {
+
+      let startcol = 0
+      if (indriga === naveorig.riga) {
+        startcol = naveorig.col
+      }
+      let endcol = this.getmaxcol(indriga)
+      if (indriga === navedest.riga) {
+        endcol = navedest.col
+      }
+
+      if (indriga <= navedest.riga) {
+        contatot += (endcol - startcol)
+      }
+
+      if (indriga < indrigaattuale) {
+        contaattuale += (endcol - startcol)
+      } else if (indriga === indrigaattuale) {
+        contaattuale += indcolattuale
+      }
+    }
+
+    let perc = 0
+    if (contatot > 0)
+      perc = (contaattuale / contatot) * 100
+
+    if (perc > 100)
+      perc = 100
+
+    // console.log('naveorig', naveorig.riga, '.', naveorig.col, 'dest', navedest.riga, ',', navedest.col)
+    // console.log('lastnave', lastnave.riga, '.', lastnave.col)
+    // console.log('contaattuale', contaattuale, 'contatot', contatot, 'perc', perc)
+
+    return { perc, totale: contatot, contaattuale }
+  },
+
+  sito_online(pertutti: boolean) {
+
+    let ris = true
+    const online = this.getValDb('SITO_ONLINE', false, true)
+    ris = userStore.isAdmin && !pertutti ? true : online
+    // console.log('isadmin', userStore.isAdmin)
+    return ris
+  },
+
+  getsize() {
+    if (this.isMobile()) {
+      return '0.85rem'
+    } else {
+      return '1rem'
+    }
+  },
+
+  getsizesmall() {
+    if (this.isMobile()) {
+      return '0.75rem'
+    } else {
+      return '0.85rem'
+    }
+  },
+
+  convertiTagHTMLPerBOT(msg: string) {
+
+    msg = msg.replace(/<strong>/g, '<b>')
+    msg = msg.replace(/<\/strong>/g, '</b>')
+
+    return msg
+  },
+
+  getlinkstd(link: string) {
+    let mylink = link
+    if (!!link) {
+      if (!link.startsWith('http')) {
+        mylink = 'https://' + link
+      }
+    }
+
+    return mylink
+  },
+
+  isselectPaypal() {
+    if (userStore.my.profile) {
+      if (userStore.my.profile.paymenttypes) {
+        if (userStore.my.profile.paymenttypes.includes('paypal')) {
+          return true
+        }
+      }
+
+      return false
+    }
+  },
+
+  isselectPayeer() {
+    if (userStore.my.profile) {
+      if (userStore.my.profile.paymenttypes) {
+        if (userStore.my.profile.paymenttypes.includes('payeer')) {
+          return true
+        }
+      }
+
+      return false
+    }
+  },
+
+  isselectRevolut() {
+    if (userStore.my.profile) {
+      if (userStore.my.profile.paymenttypes) {
+        if (userStore.my.profile.paymenttypes.includes('revolut')) {
+          return true
+        }
+      }
+
+      return false
+    }
+  },
+
+  isselectAdvCash() {
+    if (userStore.my.profile) {
+      if (userStore.my.profile.paymenttypes) {
+        if (userStore.my.profile.paymenttypes.includes('advcash')) {
+          return true
+        }
+      }
+
+      return false
+    }
+  },
+
+  getGroupList() {
+    const globalStore = useGlobalStore()
+
+    // console.log('globalStore.groups', globalStore.groups)
+    const mylist = {
+      it: [],
+      es: [],
+      enUs: []
+    }
+
+    let myrec = {}
+
+    for (const mygroup of globalStore.groups) {
+      myrec = {
+        id: mygroup._id,
+        label: mygroup.descr,
+        value: mygroup._id
+      }
+      mylist.it.push(myrec)
+
+    }
+
+    return mylist
+  },
+
+  getRespList() {
+
+    // console.log('globalStore.groups', globalStore.groups)
+    const mylist = {
+      it: [],
+      es: [],
+      enUs: []
+    }
+
+    let myrec = {}
+
+    const globalStore = useGlobalStore()
+
+    for (const myresp of globalStore.resps) {
+      myrec = {
+        id: myresp._id,
+        label: myresp.name + ' ' + myresp.surname,
+        value: myresp.username
+      }
+      mylist.it.push(myrec)
+
+    }
+
+    return mylist
+  },
+
+  getWorkersList() {
+
+    // console.log('globalStore.groups', globalStore.groups)
+    const mylist = {
+      it: [],
+      es: [],
+      enUs: []
+    }
+
+    let myrec = {}
+
+    const globalStore = useGlobalStore()
+
+    for (const myresp of globalStore.workers) {
+      myrec = {
+        id: myresp._id,
+        label: myresp.name + ' ' + myresp.surname,
+        value: myresp.username
+      }
+      mylist.it.push(myrec)
+
+    }
+
+    return mylist
+  },
+
+  IsLogged() {
+    if (!!UserStore)
+      return userStore.isLogged
+    else
+      return false
+  },
+
+  formatDate(mydate: any) {
+    let d = void 0
+
+    if (mydate !== void 0) {
+      d = new Date(mydate)
+    } else {
+      d = new Date()
+    }
+    const month = '' + (d.getMonth() + 1)
+    const day = '' + d.getDate()
+    const year = d.getFullYear()
+
+    return [year, this.padTime(month), this.padTime(day)].join('-')
+  },
+
+  firstDayOfDate(mydate: any) {
+    let d = void 0
+
+    if (mydate !== void 0) {
+      d = new Date(mydate)
+    } else {
+      d = new Date()
+    }
+    const month = d.getMonth()
+    const day = 1
+    const year = d.getFullYear()
+
+    return new Date(year, month, day)
+  },
+
+  LastDayOfDate(mydate: any) {
+    let d = void 0
+
+    if (mydate !== void 0) {
+      d = new Date(mydate)
+    } else {
+      d = new Date()
+    }
+    let month = d.getMonth()
+    if (month === 11)
+      month = 0
+    else
+      month++
+    const year = d.getFullYear()
+
+    return new Date(year, month, 0)
+  },
+
+  formatTime(mydate: any) {
+    const d = mydate !== void 0 ? new Date(mydate) : new Date(),
+      hours = '' + d.getHours(),
+      minutes = '' + d.getMinutes()
+
+    return [this.padTime(hours), this.padTime(minutes)].join(':')
+  },
+  colourNameToHex(colour: string) {
+    const colours = {
+      'aliceblue': '#f0f8ff',
+      'antiquewhite': '#faebd7',
+      'aqua': '#00ffff',
+      'aquamarine': '#7fffd4',
+      'azure': '#f0ffff',
+      'beige': '#f5f5dc',
+      'bisque': '#ffe4c4',
+      'black': '#000000',
+      'blanchedalmond': '#ffebcd',
+      'blue': '#0000ff',
+      'blueviolet': '#8a2be2',
+      'brown': '#a52a2a',
+      'burlywood': '#deb887',
+      'cadetblue': '#5f9ea0',
+      'chartreuse': '#7fff00',
+      'chocolate': '#d2691e',
+      'coral': '#ff7f50',
+      'cornflowerblue': '#6495ed',
+      'cornsilk': '#fff8dc',
+      'crimson': '#dc143c',
+      'cyan': '#00ffff',
+      'darkblue': '#00008b',
+      'darkcyan': '#008b8b',
+      'darkgoldenrod': '#b8860b',
+      'darkgray': '#a9a9a9',
+      'darkgreen': '#006400',
+      'darkkhaki': '#bdb76b',
+      'darkmagenta': '#8b008b',
+      'darkolivegreen': '#556b2f',
+      'darkorange': '#ff8c00',
+      'darkorchid': '#9932cc',
+      'darkred': '#8b0000',
+      'darksalmon': '#e9967a',
+      'darkseagreen': '#8fbc8f',
+      'darkslateblue': '#483d8b',
+      'darkslategray': '#2f4f4f',
+      'darkturquoise': '#00ced1',
+      'darkviolet': '#9400d3',
+      'deeppink': '#ff1493',
+      'deepskyblue': '#00bfff',
+      'dimgray': '#696969',
+      'dodgerblue': '#1e90ff',
+      'firebrick': '#b22222',
+      'floralwhite': '#fffaf0',
+      'forestgreen': '#228b22',
+      'fuchsia': '#ff00ff',
+      'gainsboro': '#dcdcdc',
+      'ghostwhite': '#f8f8ff',
+      'gold': '#ffd700',
+      'goldenrod': '#daa520',
+      'gray': '#808080',
+      'green': '#008000',
+      'greenyellow': '#adff2f',
+      'honeydew': '#f0fff0',
+      'hotpink': '#ff69b4',
+      'indianred ': '#cd5c5c',
+      'indigo': '#4b0082',
+      'ivory': '#fffff0',
+      'khaki': '#f0e68c',
+      'lavender': '#e6e6fa',
+      'lavenderblush': '#fff0f5',
+      'lawngreen': '#7cfc00',
+      'lemonchiffon': '#fffacd',
+      'lightblue': '#add8e6',
+      'lightcoral': '#f08080',
+      'lightcyan': '#e0ffff',
+      'lightgoldenrodyellow': '#fafad2',
+      'lightgrey': '#d3d3d3',
+      'lightgreen': '#90ee90',
+      'lightpink': '#ffb6c1',
+      'lightsalmon': '#ffa07a',
+      'lightseagreen': '#20b2aa',
+      'lightskyblue': '#87cefa',
+      'lightslategray': '#778899',
+      'lightsteelblue': '#b0c4de',
+      'lightyellow': '#ffffe0',
+      'lime': '#00ff00',
+      'limegreen': '#32cd32',
+      'linen': '#faf0e6',
+      'magenta': '#ff00ff',
+      'maroon': '#800000',
+      'mediumaquamarine': '#66cdaa',
+      'mediumblue': '#0000cd',
+      'mediumorchid': '#ba55d3',
+      'mediumpurple': '#9370d8',
+      'mediumseagreen': '#3cb371',
+      'mediumslateblue': '#7b68ee',
+      'mediumspringgreen': '#00fa9a',
+      'mediumturquoise': '#48d1cc',
+      'mediumvioletred': '#c71585',
+      'midnightblue': '#191970',
+      'mintcream': '#f5fffa',
+      'mistyrose': '#ffe4e1',
+      'moccasin': '#ffe4b5',
+      'navajowhite': '#ffdead',
+      'navy': '#000080',
+      'oldlace': '#fdf5e6',
+      'olive': '#808000',
+      'olivedrab': '#6b8e23',
+      'orange': '#ffa500',
+      'orangered': '#ff4500',
+      'orchid': '#da70d6',
+      'palegoldenrod': '#eee8aa',
+      'palegreen': '#98fb98',
+      'paleturquoise': '#afeeee',
+      'palevioletred': '#d87093',
+      'papayawhip': '#ffefd5',
+      'peachpuff': '#ffdab9',
+      'peru': '#cd853f',
+      'pink': '#ffc0cb',
+      'plum': '#dda0dd',
+      'powderblue': '#b0e0e6',
+      'purple': '#800080',
+      'rebeccapurple': '#663399',
+      'red': '#ff0000',
+      'rosybrown': '#bc8f8f',
+      'royalblue': '#4169e1',
+      'saddlebrown': '#8b4513',
+      'salmon': '#fa8072',
+      'sandybrown': '#f4a460',
+      'seagreen': '#2e8b57',
+      'seashell': '#fff5ee',
+      'sienna': '#a0522d',
+      'silver': '#c0c0c0',
+      'skyblue': '#87ceeb',
+      'slateblue': '#6a5acd',
+      'slategray': '#708090',
+      'snow': '#fffafa',
+      'springgreen': '#00ff7f',
+      'steelblue': '#4682b4',
+      'tan': '#d2b48c',
+      'teal': '#008080',
+      'thistle': '#d8bfd8',
+      'tomato': '#ff6347',
+      'turquoise': '#40e0d0',
+      'violet': '#ee82ee',
+      'wheat': '#f5deb3',
+      'white': '#ffffff',
+      'whitesmoke': '#f5f5f5',
+      'yellow': '#ffff00',
+      'yellowgreen': '#9acd32'
+    }
+
+    if (typeof colours[colour.toLowerCase()] != 'undefined')
+      return colours[colour.toLowerCase()]
+
+    return false
+  }
+
+// getLocale() {
+  //   if (navigator.languages && navigator.languages.length > 0) {
+  //     return navigator.languages[0]
+  //   } else {
+  //     return navigator.userLanguages || navigator.language || navigator.browserLanguages || 'it-IT'
+  //   }
+  // }
 }

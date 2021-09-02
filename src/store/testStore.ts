@@ -20,9 +20,15 @@ export const useTestStore = defineStore({
       return (rec.lang === toolsext.getLocale(false) || toolsext.getLocale() === '')
     },
 
-    prova2(): boolean {
-      return this.finishLoading
+    prova1: (state: ITest) => (myval: number): boolean => {
+      return (myval > 1)
     },
+
+    prova2: (): boolean => {
+      // @ts-ignore
+      return this.prova1(2)
+    },
+
   },
 
   actions: {

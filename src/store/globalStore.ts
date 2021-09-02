@@ -20,7 +20,6 @@ import { shared_consts } from '@src/common/shared_vuejs'
 const stateConnDefault = 'online'
 
 export const useGlobalStore = defineStore('GlobalStore', {
-  // @ts-ignore
   state: (): IGlobalState => ({
     finishLoading: false,
     conta: 0,
@@ -86,8 +85,23 @@ export const useGlobalStore = defineStore('GlobalStore', {
   }),
 
   getters: {
+    // conta: (state: IGlobalState) => { state.conta },
+    // listatodo: (state: IGlobalState) => { state.listatodo },
+    // category: (state: IGlobalState) => { state.category },
 
-    isNewVersionAvailable(state: IGlobalState) {
+    testpao1_getter_contatore: (state: IGlobalState) => (param1: number) => state.testp1.contatore + 100 + param1,
+    testpao1_getter_array: (state: IGlobalState) => (param1: number) => state.testp1.mioarray.filter((item) => item).map((item) => item.valore),
+
+    getConfigbyId: (state: IGlobalState) => (id: string) => state.arrConfig.find((item) => item._id === id),
+    getConfigStringbyId: (state: IGlobalState) => (params: any) => {
+      const config = state.arrConfig.find((item) => item._id === params.id)
+      if (config) {
+        return config.value
+      } else {
+        return params.default
+      }
+    },
+    isNewVersionAvailable: (state: IGlobalState) => {
       // console.log('cfgServer', cfgServer)
       const serversrec = state.cfgServer.find((x) => (x.chiave === toolsext.SERVKEY_VERS) && (x.idapp === process.env.APP_ID))
       // console.log('Record ', serversrec)

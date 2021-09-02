@@ -9,20 +9,22 @@ import { shared_consts } from '@src/common/shared_vuejs'
 import { useI18n } from '@src/boot/i18n'
 import { boot } from 'quasar/wrappers'
 import { useRouter } from 'vue-router'
-import MixinUsers from '../../mixins/mixin-users'
 import { static_data } from '../../db/static_data'
 import messagePopover from '../../layouts/toolbar/messagePopover/messagePopover.vue'
 import drawer from '../../layouts/drawer/drawer.vue'
+import CMyAvatar from '../../components/CMyAvatar/CMyAvatar'
 import { toolsext } from '@store/Modules/toolsext'
 import { useGlobalStore } from '@store/globalStore'
 import { useTestStore } from '@store/testStore'
 import { useUserStore } from '@store/UserStore'
 
+import MixinUsers from '../../mixins/mixin-users'
+
+
 export default defineComponent({
   name: 'Header',
-  mixins: [MixinUsers],
   components: {
-    drawer, messagePopover, // CSigninNoreg, CMyAvatar, CMyCart
+    drawer, messagePopover, CMyAvatar, // CSigninNoreg, CMyCart
   },
   props: {
     extraContent: {
@@ -36,7 +38,6 @@ export default defineComponent({
   },
 
   setup() {
-    const store = inject('store')
     const $q = useQuasar()
     const { t } = useI18n()
 
@@ -58,6 +59,27 @@ export default defineComponent({
     const testStore = useTestStore()
 
     const stateconn = ref(globalStore.stateConnection)
+
+    const {
+      getUsernameChatByMsg,
+      getMyUsername,
+      Username,
+      myName,
+      mySurname,
+      myCell,
+      Verificato,
+      MadeGift,
+      Email,
+      getMyImg,
+      getMyImgforIcon,
+      getImgByMsg,
+      getUserByUsername,
+      getImgByUsername,
+      isValidUsername,
+      getNumMsg,
+      getNumMsgUnread,
+      getMsgText,
+      paotest } = MixinUsers();
 
     function isonline() {
       return globalStore.stateConnection === 'online'
@@ -82,8 +104,7 @@ export default defineComponent({
     }
 
     function getcolormenu() {
-      // @ts-ignore
-      return this.isSocio ? 'green-7' : 'white'
+      return isSocio.value ? 'green-7' : 'white'
     }
 
     function isTutor() {
@@ -267,7 +288,7 @@ export default defineComponent({
           registration.unregister()
         }
       })
-      window.location.reload(true)
+      window.location.reload()
     }
 
     function changeIconConn() {
@@ -432,13 +453,13 @@ export default defineComponent({
     onMounted(mounted)
 
     return {
-      store,
       static_data,
       globalStore,
       leftDrawerOpen,
       rightDrawerOpen,
       rightCartOpen,
       lang,
+      langshort,
       isLogged,
       isEmailVerified,
       getnumOrdersCart,
@@ -453,6 +474,31 @@ export default defineComponent({
       imglogo,
       getappname,
       toggleanimation,
+      getClassColorHeader,
+      getcart,
+      getnumItemsCart,
+      isTutor,
+      isZoomeri,
+      isTratuttrici,
+      getUsernameChatByMsg,
+      getMyUsername,
+      Username,
+      myName,
+      mySurname,
+      myCell,
+      Verificato,
+      MadeGift,
+      Email,
+      getMyImg,
+      getMyImgforIcon,
+      getImgByMsg,
+      getUserByUsername,
+      getImgByUsername,
+      isValidUsername,
+      getNumMsg,
+      getNumMsgUnread,
+      getMsgText,
+      paotest,
     }
   },
 

@@ -1,4 +1,5 @@
-import { createI18n } from 'vue-i18n'
+// @ts-ignore
+import { createI18n } from 'vue-i18n/dist/vue-i18n.esm-bundler'
 import messages from '../statics/i18n'
 import { boot } from 'quasar/wrappers'
 // you'll need to create the src/i18n/index.js file too
@@ -15,9 +16,7 @@ export default ({ app }: { app: any }) => {
 
 export function useI18n() {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const {
-    t, te, tm, rt, d, n, ...globalApi
-  } = i18n.global;
+  const { t, te, tm, rt, d, n, ...globalApi } = i18n.global;
 
   return {
     t: t.bind(i18n),

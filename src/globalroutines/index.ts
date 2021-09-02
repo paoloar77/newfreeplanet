@@ -3,7 +3,7 @@
 
 import { idbKeyval as storage } from '@src/js/storage'
 
-export default async (context: any, cmd: string, table: string, data: any = null, id = '') => {
+export default async (cmd: string, table: string, data: any = null, id = '') => {
   // const globalStore = useGlobalStore()
 
   // const descr = data !== null ? data.descr : ''

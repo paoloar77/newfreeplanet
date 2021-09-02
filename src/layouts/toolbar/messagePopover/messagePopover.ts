@@ -15,8 +15,6 @@ const namespace = 'MessageModule'
 export default defineComponent({
   name: 'MessagePopover',
 
-  mixins: [MixinUsers],
-
   setup(props) {
     const $router = useRouter()
     // function lasts_messages (state: IUserState) => IMessage[] {
