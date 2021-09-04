@@ -1,3 +1,4 @@
+import { defineStore } from 'pinia'
 import { IProject, IProjectsState, IDrag, IMenuList, IAction } from 'model'
 import { Privacy, TipoVisu } from '@src/model'
 
@@ -13,7 +14,6 @@ import { RouteNames } from '@src/router/route-names'
 import * as Types from '@src/store/Api/ApiTypes'
 import { serv_constants } from '@src/store/Modules/serv_constants'
 import { static_data } from '@src/db/static_data'
-import { defineStore } from 'pinia'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 
@@ -26,7 +26,8 @@ const listFieldsToChange: string [] = ['descr', 'respUsername', 'viceRespUsernam
 
 const listFieldsUpdateCalculation: string [] = ['hoursplanned', 'hoursleft', 'hoursworked', 'progressCalc', 'endwork_estimate']
 
-export const useProjectStore = defineStore('Projects', {
+export const useProjectStore = defineStore({
+  id: 'Projects',
   state: (): IProjectsState => ({
     showtype: costanti.ShowTypeTask.SHOW_LAST_N_COMPLETED,
     projects: [],
@@ -316,7 +317,7 @@ export const useProjectStore = defineStore('Projects', {
       return ris
     },
 
-    createNewItem({ objproj, atfirst, categorySel }: { objproj: IProject, atfirst: boolean, categorySel: string }) {
+    createNewItem({ objproj, atfirst, categorySel }: {objproj: IProject, atfirst: boolean, categorySel: string}) {
       // console.log('createNewItem', objproj, 'cat=', categorySel, 'this.projects', this.projects)
       if (this.projects === undefined) {
         this.projects = []
@@ -331,7 +332,7 @@ export const useProjectStore = defineStore('Projects', {
       }
     },
 
-    updateProject({ objproj }: { objproj: IProject }) {
+    updateProject({ objproj }: {objproj: IProject}) {
       if (!!objproj) {
         // console.log('updateProject', objproj)
         const index = tools.getIndexById(this.projects, objproj._id)
@@ -352,7 +353,7 @@ export const useProjectStore = defineStore('Projects', {
       ApiTables.removeitemfromarray(this.projects, ind)
     },
 
-    async movemyitem({ myitemorig, myitemdest }: { myitemorig: IProject, myitemdest: IProject }) {
+    async movemyitem({ myitemorig, myitemdest }: {myitemorig: IProject, myitemdest: IProject}) {
       const indorig = tools.getIndexById(this.projects, myitemorig._id)
 
       this.projects.splice(indorig, 1)
@@ -361,7 +362,7 @@ export const useProjectStore = defineStore('Projects', {
       await this.modify({ myitem: myitemdest, field: 'id_parent' })
     },
 
-    async dbLoad({ checkPending, onlyiffirsttime }: { checkPending: boolean, onlyiffirsttime: boolean }) {
+    async dbLoad({ checkPending, onlyiffirsttime }: {checkPending: boolean, onlyiffirsttime: boolean}) {
 
       if (!static_data.functionality.ENABLE_PROJECTS_LOADING)
         return null
@@ -412,7 +413,7 @@ export const useProjectStore = defineStore('Projects', {
       ApiTables.aftercalling(ris, checkPending, nametable)
     },
 
-    async calculateHoursProjects({ projId, actualphase }: { projId: string, actualphase: string }) {
+    async calculateHoursProjects({ projId, actualphase }: {projId: string, actualphase: string}) {
 
       let ris = null
 
@@ -456,7 +457,7 @@ export const useProjectStore = defineStore('Projects', {
       }
     },
 
-    async dbInsert({ myobj, atfirst }: { myobj: IProject, atfirst: boolean }) {
+    async dbInsert({ myobj, atfirst }: {myobj: IProject, atfirst: boolean}) {
 
       const objproj = this.initcat()
 

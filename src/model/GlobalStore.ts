@@ -1,7 +1,7 @@
 import { IAction } from '@src/model/Projects'
 import { IPaymentType } from '@src/model/UserStore'
 import {
-  ICart, IDepartment, IProducer, IProduct, IShareWithUs, IStorehouse,
+  IDepartment, IProducer, IShareWithUs, IStorehouse,
 } from '@src/model/Products'
 
 export interface IPost {

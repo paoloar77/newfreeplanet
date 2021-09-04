@@ -1,6 +1,5 @@
-import { useQuasar } from 'quasar'
 import {
-  defineComponent, onBeforeMount, onBeforeUnmount, onMounted,  ref, toRefs, watch,
+  defineComponent, onMounted,  ref,
 } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 
@@ -17,7 +16,6 @@ export default defineComponent({
   },
 
   setup(props, context) {
-    const $q = useQuasar()
     const { t } = useI18n();
 
     const elementId = ref<string>('id');

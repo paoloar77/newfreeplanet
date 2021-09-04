@@ -6,12 +6,10 @@ import { useQuasar } from 'quasar'
 import { useI18n } from '@src/boot/i18n'
 import Api from '@api'
 import { serv_constants } from '@store/Modules/serv_constants'
-import { MixinBase } from '../../mixins/mixin-base'
 import { toolsext } from '@src/store/Modules/toolsext'
 
 export default defineComponent({
   name: 'FormNewsletter',
-  mixins: [MixinBase],
   props: {
     name: {
       required: false,
@@ -55,7 +53,7 @@ export default defineComponent({
     const locale = toRef(props, 'locale')
 
     const onSubmit = async function a2() {
-      if (accept.value !== true) {
+      if (!accept.value) {
         $q.notify({
           color: 'red-5',
           textColor: 'white',

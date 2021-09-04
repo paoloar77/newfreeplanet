@@ -1,0 +1,43 @@
+import { defineComponent, PropType } from "vue"
+import { useI18n } from '../src/boot/i18n'
+import { useUserStore } from '../src/store/UserStore'
+import { useGlobalStore } from '../src/store/globalStore'
+import { useQuasar } from 'quasar'
+
+export default defineComponent({
+  name: '',
+  props: {
+    mystr: {
+      type: String,
+      required: true,
+      default: '',
+    },
+    myval: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    mybool: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    op: {
+      type: Object as PropType<IOperators>,
+      required: true,
+    },
+  },
+  components: {
+
+  },
+  setup() {
+    const $q = useQuasar()
+    const { t } = useI18n()
+    const userStore = useUserStore()
+    const globalStore = useGlobalStore()
+
+    return {
+
+    }
+  }
+})

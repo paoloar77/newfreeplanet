@@ -3723,13 +3723,15 @@ export const tools = {
     return mystr.replace(/\s+/g, '')
   },
 
-  copyStringToClipboard(mythis: any, mystr: string, show: boolean) {
+  copyStringToClipboard(mystr: string, show: boolean) {
+    const $q = useQuasar()
+    const { t } = useI18n()
     copyToClipboard(mystr).then(() => {
-      let msg = mythis.t('dialog.copyclipboard')
+      let msg = t('dialog.copyclipboard')
       if (show)
         msg += ' \'' + mystr + '\''
 
-      this.showNotif(mythis.$q, msg)
+      this.showNotif($q, msg)
     })
 
   },

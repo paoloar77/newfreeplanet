@@ -9,48 +9,41 @@ import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 import { IDataPass } from '@model'
-import { shared_consts } from '../common/shared_vuejs'
 import { tools } from '../store/Modules/tools'
-import { func_tools } from '../store/Modules/toolsext'
 import { costanti } from '@costanti'
+import { fieldsTable } from '@store/Modules/fieldsTable'
 
 // You can declare a mixin as the same style as components.
-export const MixinBase = {
-  created() {
-
-  },
-  mythis() {
-    return this
-  },
-
-  showNotif(msg: string) {
+export default function () {
+  function showNotif(msg: string) {
     const $q = useQuasar()
 
-    const { t } = useI18n();
+    const { t } = useI18n()
 
     tools.showNotif($q, t(msg))
-  },
+  }
 
-  db_fieldsTable() {
-    // return fieldsTable
-  },
+  function db_fieldsTable() {
+    return fieldsTable
+  }
 
-  getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any) {
+  function getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any) {
     console.log('getValDb')
     return toolsext.getValDb(keystr, serv, def, table, subkey, id, idmain)
-  },
+  }
 
-  getValDbLang(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any) {
+
+  function getValDbLang(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any) {
     let ris = toolsext.getValDb(`${keystr}_${toolsext.getLocale()}`, serv, def, table, subkey)
     if (ris === def) ris = toolsext.getValDb(`${keystr}_it`, serv, def, table, subkey)
     return ris
-  },
+  }
 
-  async setValDb(key: string, value: any, type: any, serv: boolean, table?: string, subkey?: string, id?: any) {
+  async function setValDb(key: string, value: any, type: any, serv: boolean, table?: string, subkey?: string, id?: any) {
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
     const $q = useQuasar()
-    const { t } = useI18n();
+    const { t } = useI18n()
 
     // console.log('setValDb', key, value, serv, table, subkey)
     let mydatatosave: IDataPass | null = null
@@ -166,9 +159,9 @@ export const MixinBase = {
         // Undo...
       }
     })
-  },
+  }
 
-  getarrValDb(keystr: string, serv: boolean) {
+  function getarrValDb(keystr: string, serv: boolean) {
     const globalStore = useGlobalStore()
 
     const myval = globalStore.getValueSettingsByKey(keystr, serv)
@@ -184,6 +177,14 @@ export const MixinBase = {
     } catch (e) {
       return []
     }
-  },
+  }
 
+  return {
+    showNotif,
+    db_fieldsTable,
+    getValDb,
+    getValDbLang,
+    setValDb,
+    getarrValDb,
+  }
 }

@@ -248,7 +248,8 @@ export const useUserStore = defineStore('UserStore', {
         .then((res) => {
           if (res) {
             return (res.data.code === serv_constants.RIS_CODE_OK)
-          } return false
+          }
+          return false
         })
         .catch((error: any) => false)
     },
@@ -310,6 +311,58 @@ export const useUserStore = defineStore('UserStore', {
     async importemail(paramquery: any) {
       return Api.SendReq('/news/import', 'POST', paramquery)
         .then((res) => res).catch((error) => ({ numtot: 0, numadded: 0, numalreadyexisted: 0 }))
+    },
+
+    async importExtraList(paramquery: any) {
+
+      return Api.SendReq('/users/import_extralist', 'POST', paramquery)
+        .then((res) => {
+          return res
+        }).catch((error) => {
+          return { numtot: 0, numadded: 0, numalreadyexisted: 0 }
+        })
+    },
+
+    async execDbOp(paramquery: any) {
+      return Api.SendReq('/users/dbop', 'POST', paramquery)
+        .then((res) => {
+          return res.data
+        }).catch((error) => {
+          return false
+        })
+    },
+
+    async newsletterload(paramquery: any) {
+
+      return Api.SendReq('/news/load', 'POST', paramquery)
+        .then((res) => {
+          // console.log('res', res)
+          return res.data
+        }).catch((error) => {
+          return null
+        })
+    },
+
+    async reportload(paramquery: any) {
+
+      return Api.SendReq('/report/load', 'POST', paramquery)
+        .then((res) => {
+          // console.log('res', res)
+          return res.data
+        }).catch((error) => {
+          return null
+        })
+    },
+
+    async newsletter_setactivate(paramquery: any) {
+
+      return Api.SendReq('/news/setactivate', 'POST', paramquery)
+        .then((res) => {
+          // console.log('res', res)
+          return res.data
+        }).catch((error) => {
+          return null
+        })
     },
 
     authUser(data: IUserFields) {
@@ -448,7 +501,7 @@ export const useUserStore = defineStore('UserStore', {
 
         this.isLogged = isok && isLogged
 
-        // ++Todo conv if (static_data.functionality.ENABLE_TODOS_LOADING)
+        // ++Todo conv if (static_data.ality.ENABLE_TODOS_LOADING)
         //  await Todos.dbLoad({ checkPending: true })
 
         // if (static_data.functionality.ENABLE_PROJECTS_LOADING)
@@ -533,6 +586,5 @@ export const useUserStore = defineStore('UserStore', {
         return false
       }
     },
-
   },
 })

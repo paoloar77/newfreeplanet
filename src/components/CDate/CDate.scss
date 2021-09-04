@@ -1,0 +1,33 @@
+$heightBtn: 100%;
+
+.progress-item {
+  margin: 1px;
+  padding: 2px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  flex: 1;
+  flex-direction: column;
+  order: 1;
+}
+
+.cpr-progrbar-item {
+  //height: 10px
+  padding-top: 7px;
+  height:15px;
+}
+
+.cpr-percProgress {
+  padding-top: 3px;
+  color: #888;
+  vertical-align: middle;
+  text-align: center;
+  //line-height: $heightitem;
+}
+
+.data_string {
+  font-size: 0.85rem;
+  @media (max-width: 600px) {
+    max-width: 22px;
+    // display: none;
+  }
+}

@@ -290,7 +290,7 @@ export const useProducts = defineStore('Products', {
       return ris
     },
 
-    async addSubQtyToItem({ addqty, subqty, order } : { addqty: number, subqty: number, order: IOrder }) {
+    async addSubQtyToItem({ addqty, subqty, order } : { addqty: boolean, subqty: boolean, order: IOrder }) {
 
       const userStore = useUserStore()
       if (!static_data.functionality.ENABLE_ECOMMERCE)

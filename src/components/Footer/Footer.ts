@@ -7,14 +7,12 @@ import { static_data } from '@src/db/static_data'
 
 import { useQuasar } from 'quasar'
 import { useGlobalStore } from '@store/globalStore'
-import { FormNewsletter } from '../FormNewsletter'
-import { MixinBase } from '../../mixins/mixin-base'
 import { Logo } from '../logo'
 import { useI18n } from '@src/boot/i18n'
+import { FormNewsletter } from '@components'
 
 export default defineComponent({
   name: 'Footer',
-  mixins: [MixinBase],
   components: { Logo, FormNewsletter },
 
   setup() {

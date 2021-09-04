@@ -1,31 +1,35 @@
-import { defineComponent } from 'vue'
+import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 
-/*
-import { Component, Prop, Watch } from 'vue-property-decorator'
-import { GlobalStore, UserStore } from '@store'
-
-import { tools } from '../../store/Modules/tools'
-import { toolsext } from '../../store/Modules/toolsext'
-import { static_data } from '../../db/static_data'
-import { Screen } from 'quasar'
-
-import { colmypage } from '@src/store/Modules/fieldsTable'
-
-import { CImgText } from '../../components/CImgText/index'
-import { CCard, CGridTableRec, CMyPage, CTitleBanner } from '@components'
-import MixinMetaTags from '../../mixins/mixin-metatags'
-import MixinBase from '@src/mixins/mixin-base'
-import { IMyPage } from '@src/model/GlobalStore'
-
-@Component({
-  mixins: [MixinBase],
-  components: { CImgText, CCard, CMyPage, CTitleBanner }
-})*/
+import { useGlobalStore } from '@store/globalStore'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'Mypage',
   setup() {
-    return {}
+    const rec = ref({})
+    const globalStore = useGlobalStore()
+    const route = useRoute()
+    const path = computed(() => route.path)
+
+    async function created() {
+      // console.log('this.$route.path', this.$route.path)
+      rec.value = await globalStore.loadPage(route.path)
+      // console.log('mounted', this.rec)
+    }
+
+    watch(path, async (to: string, from: string) =>  {
+      rec.value = await globalStore.loadPage(to)
+    })
+
+    function meta() {
+      // return tools.metafunc(this)
+    }
+
+    onMounted(created)
+
+    return {
+      rec,
+    }
   },
 })
 /*
@@ -36,14 +40,14 @@ export default class Mypage extends MixinMetaTags {
 
   public async mounted() {
     // console.log('this.$route.path', this.$route.path)
-    this.rec = await GlobalStore.actions.loadPage(this.$route.path)
+    this.rec = await GlobalStore.loadPage(this.$route.path)
     // console.log('mounted', this.rec)
   }
 
   @Watch('$route.path')
   public async changepage() {
     // console.log('changepage')
-    this.rec = await GlobalStore.actions.loadPage(this.$route.path)
+    this.rec = await GlobalStore.loadPage(this.$route.path)
   }
 
   public meta() {
