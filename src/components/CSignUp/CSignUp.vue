@@ -13,12 +13,12 @@
       <q-input
         v-model="signup.email"
         rounded outlined
-        @blur="$v.signup.email.$touch"
-        @input="changeemail"
-        :error="$v.signup.email.$error"
-        :error-message="errorMsg('email', $v.signup.email)"
+        @blur="v$.email.$touch"
+        @input="changeemail()"
+        :error="v$.email.$error"
+        :error-message="errorMsg('email', v$.email)"
         maxlength="50"
-        debounce="1000"
+        debounce="3000"
         :label="$t('reg.email')">
 
         <template v-slot:prepend>
@@ -30,15 +30,13 @@
       <q-input
         v-model="signup.username"
         rounded outlined
+        @blur="v$.username.$touch"
         @input="changeusername"
-        @blur="$v.signup.username.$touch"
-        :error="$v.signup.username.$error"
-        @keydown.native.54="(event) => event.preventDefault()"
-        @keydown.native.52="(event) => event.preventDefault()"
+        :error="v$.username.$error"
         @keydown.space="(event) => event.preventDefault()"
         maxlength="20"
         debounce="1000"
-        :error-message="errorMsg('username', $v.signup.username)"
+        :error-message="errorMsg('username', v$.username)"
         :label="$t('reg.username')">
 
         <template v-slot:prepend>
@@ -50,11 +48,11 @@
       <q-input
         v-model="signup.name"
         rounded outlined
-        @blur="$v.signup.name.$touch"
-        :error="$v.signup.name.$error"
+        @blur="v$.name.$touch"
+        :error="v$.name.$error"
         maxlength="30"
         debounce="1000"
-        :error-message="errorMsg('name', $v.signup.name)"
+        :error-message="errorMsg('name', v$.name)"
         :label="$t('reg.name')">
 
         <template v-slot:prepend>
@@ -66,11 +64,11 @@
       <q-input
         v-model="signup.surname"
         rounded outlined
-        @blur="$v.signup.surname.$touch"
-        :error="$v.signup.surname.$error"
+        :error="v$.surname.$error"
+        @blur="v$.surname.$touch"
         maxlength="30"
         debounce="1000"
-        :error-message="errorMsg('surname', $v.signup.surname)"
+        :error-message="errorMsg('surname', v$.surname)"
         :label="$t('reg.surname')">
 
         <template v-slot:prepend>
@@ -83,10 +81,11 @@
         v-model="signup.password"
         type="password"
         rounded outlined
-        @blur="$v.signup.password.$touch"
-        :error="$v.signup.password.$error"
-        :error-message="`${errorMsg('password', $v.signup.password)}`"
+        @blur="v$.password.$touch"
+        :error="v$.password.$error"
+        :error-message="`${errorMsg('password', v$.password)}`"
         maxlength="30"
+        debounce="1000"
         :label="$t('reg.password')">
 
         <template v-slot:prepend>
@@ -100,9 +99,9 @@
         type="password"
         maxlength="30"
         rounded outlined
-        @blur="$v.signup.repeatPassword.$touch"
-        :error="$v.signup.repeatPassword.$error"
-        :error-message="`${errorMsg('repeatpassword', $v.signup.repeatPassword)}`"
+        @blur="v$.repeatPassword.$touch"
+        :error="v$.repeatPassword.$error"
+        :error-message="`${errorMsg('repeatpassword', v$.repeatPassword)}`"
 
         :label="$t('reg.repeatPassword')">
 
@@ -111,8 +110,6 @@
         </template>
 
       </q-input>
-
-      <!--:hint="$t('reg.tips.repeatpassword')"-->
 
       <q-input
         v-if="shownationality"
@@ -124,37 +121,38 @@
         :label="$t('reg.nationality')">
 
         <template v-slot:prepend>
-          <vue-country-code
+          <!--<vue-country-code
             @onSelect="selectcountry"
             :preferredCountries="tools.getprefCountries"
             :dropdownOptions="{ disabledDialCode: true }"
           >
 
-          </vue-country-code>
+          </vue-country-code>-->
         </template>
 
       </q-input>
 
       <div v-if="!tools.isMobile()"><br></div>
 
-      <vue-tel-input
+      showcell: {{ showcell}}
+      <!--<vue-tel-input
         v-if="showcell"
-        @country-changed="intcode_change"
-        v-model="signup.profile.cell"
+        @country-changed="intcode_change()"
+        :value="signup.profile.cell"
         :placeholder="$t('reg.cell')"
         maxlength="20"
         :enabledCountryCode="true"
         inputClasses="clCell"
         wrapperClasses="clCellCode">
-      </vue-tel-input>
+      </vue-tel-input>-->
 
 
       <q-checkbox
         v-model="signup.terms"
         color="secondary"
-        @blur="$v.signup.terms.$touch"
-        :error="$v.signup.terms.$error"
-        :error-message="`${errorMsg('terms', $v.signup.terms)}`"
+        @blur="v$.terms.$touch"
+        :error="v$.terms.$error"
+        :error-message="`${errorMsg('terms', v$.terms)}`"
         :label="$t('reg.terms')">
 
       </q-checkbox>
@@ -171,19 +169,10 @@
       </div>
 
       <div class="wrapper">
-        <q-btn rounded size="lg" color="positive" @click="submitOk" :disabled='!allowSubmit' :label="$t('reg.submit')">
+        <q-btn rounded size="lg" color="positive" @click="submitOk" :disabled='!allowSubmit()' :label="$t('reg.submit')">
         </q-btn>
       </div>
     </div>
-
-    <!--
-
-            <div align="center">
-        <q-btn rounded size="lg" color="primary" @click="submitOk" :disable="">{{$t('reg.submit')}}
-        </q-btn>
-    </div>
-
-    -->
 
   </div>
 </template>

@@ -4,7 +4,6 @@ import {
   defineComponent, ref, onBeforeUnmount, onMounted,
 } from 'vue'
 import { useRouter } from 'vue-router'
-import { Footer } from '../../components/Footer'
 import { Logo } from '../../components/logo'
 import { useQuasar } from 'quasar'
 import { TestPao } from '../../components/testpao'

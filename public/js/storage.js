@@ -100,10 +100,15 @@ let idbKeyval = (() => {
     },
     async set(key, value) {
       let req;
-      await withStore('readwrite', 'keyval', store => {
+      /*await withStore('readwrite', 'keyval', store => {
         req = store.put(value, key);
       });
-      return req.result;
+
+       */
+      if (req)
+        return req.result;
+      else
+        return null
     },
     async setdata(table, value) {
       let req;

@@ -110,5 +110,5 @@ export interface ICalendarState {
   resourceWidth: number,
   dayHeight: number,
   enableThemes: boolean,
-  theme: {}
+  theme: any,
 }

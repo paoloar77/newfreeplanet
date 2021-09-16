@@ -15,9 +15,11 @@
                 @request="request"
                 :loading="loading"
         >
-            <template v-slot:top-right="props" >
+
+          <q-search hide-underline v-model="filter" />
+            <!--<template v-slot:top-right="props" >
                 <q-search hide-underline v-model="filter" />
-            </template>
+            </template>-->
         </q-table>
     </q-page>
 </template>

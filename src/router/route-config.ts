@@ -37,6 +37,8 @@ export const cfgrouter = {
       tools.addRoute(arrroutes, route)
     }
 
+    console.log('arrroutes', arrroutes)
+
     return arrroutes
   },
 }

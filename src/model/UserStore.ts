@@ -33,7 +33,7 @@ export interface IUserProfile {
   saw_and_accepted?: boolean
   qualified?: boolean
   qualified_2invitati?: boolean
-  myshares?: IShareWithUs[]
+  myshares: IShareWithUs[]
   socio?: boolean
   socioresidente?: boolean
   consiglio?: boolean

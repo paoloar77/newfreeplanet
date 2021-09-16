@@ -5,11 +5,11 @@ import { IDiscipline, IEvents } from 'model'
 
 import { useCalendarStore } from '@store/CalendarStore'
 
-import CMyTeacher from '@/components/CMyTeacher/CMyTeacher'
+import { CMyTeacher } from '@src/components/CMyTeacher'
 
 // @ts-ignore
 import MixinOperator from '../../mixins/mixin-operator'
-import MixinUsers from '@/mixins/mixin-users'
+import MixinUsers from '../../mixins/mixin-users'
 
 export default defineComponent({
   name: 'CCardDiscipline',

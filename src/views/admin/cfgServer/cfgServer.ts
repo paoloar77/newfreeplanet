@@ -24,9 +24,9 @@ export default defineComponent({
     paginationControl: {
       type: Object as PropType<IPageSrv>,
       required: true,
-      default() {
+      /*default() {
         return { page: 1, rowsPerPage: 20 }
-      },
+      },*/
     },
     pagination: {
       type: Object as PropType<IPageS>,

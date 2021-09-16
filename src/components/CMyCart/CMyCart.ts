@@ -3,9 +3,11 @@ import { CCardState } from '../CCardState'
 import { computed, defineComponent } from 'vue'
 import { useGlobalStore } from '@store/globalStore'
 import { useProducts } from '@store/Products'
-import CCopyBtn from '@/components/CCopyBtn/CCopyBtn'
-import CSingleCart from '@/components/CSingleCart/CSingleCart'
-import CTitleBanner from '@/components/CTitleBanner/CTitleBanner'
+import { CCopyBtn } from '@/components/CCopyBtn'
+import { CSingleCart } from '@/components/CSingleCart'
+import { CTitleBanner } from '@/components/CTitleBanner'
+
+import MixinUsers from '../../mixins/mixin-users'
 
 export default defineComponent({
   name: 'CMyCart',
@@ -15,6 +17,8 @@ export default defineComponent({
   setup() {
     const globalStore = useGlobalStore()
     const products = useProducts()
+
+    const { getnumItemsCart } = MixinUsers()
 
     const myCart = computed(() => products.cart)
     const myTotalPrice = computed(() => {
@@ -52,6 +56,7 @@ export default defineComponent({
       ordersCart,
       numOrders,
       closecart,
+      getnumItemsCart,
     }
   },
 })

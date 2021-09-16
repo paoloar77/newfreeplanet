@@ -1,0 +1,69 @@
+import { defineComponent, ref, computed, PropType, onBeforeUpdate, reactive } from 'vue'
+import { useI18n } from '@src/boot/i18n'
+import { useUserStore } from '@store/UserStore'
+import { useGlobalStore } from '@store/globalStore'
+import { useQuasar } from 'quasar'
+
+export default defineComponent({
+  name: '',
+  // inheritAttrs: false,
+  props: {
+    // Basic type check (`null` and `undefined` values will pass any type validation)
+    propA: Number,
+    // Multiple possible types
+    propB: [String, Number],
+    // Required string
+    propC: {
+      type: String,
+      required: true
+    },
+    // Number with a default value
+    propD: {
+      type: Number,
+      default: 100
+    },
+    // Object with a default value
+    propE: {
+      type: Object,
+      // Object or array defaults must be returned from
+      // a factory function
+      default() {
+        return { message: 'hello' }
+      }
+    },
+    // Custom validator function
+    propF: {
+      validator(value) {
+        // The value must match one of these strings
+        return ['success', 'warning', 'danger'].includes(value)
+      }
+    },
+    // Function with a default value
+    propG: {
+      type: Function,
+      // Unlike object or array default, this is not a factory function - this is a function to serve as a default value
+      default() {
+        return 'Default function'
+      }
+    },
+    components: {},
+    setup(props, { emit, attrs, slots  }) {
+      const $q = useQuasar()
+      const { t } = useI18n()
+      const userStore = useUserStore()
+      const globalStore = useGlobalStore()
+
+      //  <div v-for="(item, i) in list" :ref="el => { divs[i] = el }">
+      // const list = reactive([1, 2, 3]);
+      // const divs = ref([]);
+
+      // Make sure to reset the refs before each update.
+      // onBeforeUpdate(() => {
+      //     divs.value = [];
+      //   });
+
+      const rec = ref<IMyPage | null>(null)
+
+      return {}
+    }
+  })

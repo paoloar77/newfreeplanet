@@ -1,12 +1,13 @@
 <template>
   <div>
+    MyCart:<br>
     <div id="mycontainer">
       <div class="myheader row justify-between">
         <div class="col-6">
           <q-btn class="q-mx-xs" round dense flat icon="fas fa-shopping-cart">
 
-            <q-badge v-if="getnumItemsCart > 0" color="red" floating transparent>
-              {{ getnumItemsCart }}
+            <q-badge v-if="getnumItemsCart() > 0" color="red" floating transparent>
+              {{ getnumItemsCart() }}
             </q-badge>
           </q-btn>
         </div>

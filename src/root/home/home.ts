@@ -4,13 +4,12 @@ import {
   defineComponent, ref, onBeforeUnmount, onMounted,
 } from 'vue'
 import { useRouter } from 'vue-router'
-import { Footer } from '../../components/Footer'
-import { Logo } from '../../components/logo'
+import { Logo, Footer } from '@/components'
 import { tools } from '@src/store/Modules/tools'
 
 export default defineComponent({
   name: 'Home',
-  components: { Logo },
+  components: { Logo, Footer },
 
   setup() {
     const { t } = useI18n();
@@ -153,6 +152,7 @@ export default defineComponent({
       openCreatePostModal,
       slide,
       tools,
+      animare,
     }
   },
 })

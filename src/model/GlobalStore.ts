@@ -76,12 +76,15 @@ export interface IMyPage {
   img1?: string
   content?: string
   video1?: string
+  ratio1?: string
   img2?: string
   content2?: string
   video2?: string
+  ratio2?: string
   img3?: string
   content3?: string
   video3?: string
+  ratio3?: string
   content4?: string
   active?: boolean
   inmenu?: boolean
@@ -262,6 +265,7 @@ export interface IListRoutes {
   lang?: string
   materialIcon?: string
   component?: any
+  children?: any
   reqauth?: boolean
   isseparator?: boolean
   inmenu?: boolean
@@ -480,7 +484,7 @@ export interface IFilter {
 export interface IDataPass {
   id: string
   table: string
-  fieldsvalue: object
+  fieldsvalue: any
 }
 
 export interface IDataToSet {

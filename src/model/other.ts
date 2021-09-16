@@ -9,6 +9,11 @@ export interface ILinkReg {
   idlink: string
 }
 
+export interface ICallResult {
+  code?: string
+  msg?: string
+}
+
 export interface IIdToken {
   x_auth_token: string
 }

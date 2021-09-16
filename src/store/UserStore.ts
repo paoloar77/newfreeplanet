@@ -1,18 +1,25 @@
 import { defineStore } from 'pinia'
 
 import {
+  ISigninOptions,
   ISignupOptions, IUserFields, IUserProfile, IUserState,
 } from '@src/model'
 import { tools } from '@store/Modules/tools'
 import translate from '@src/globalroutines/util'
-import { ILinkReg, IToken } from '@model/other'
+import { ICallResult, ILinkReg, IResult, IToken } from '@model/other'
 
 import * as Types from '@src/store/Api/ApiTypes'
 import { useGlobalStore } from '@store/globalStore'
-import { useRouter } from 'vue-router'
 import { serv_constants } from '@store/Modules/serv_constants'
-import Api from './Api'
+import { Api } from '@api'
 import { toolsext } from '@store/Modules/toolsext'
+import { static_data } from '@src/db/static_data'
+
+
+import bcrypt from 'bcryptjs'
+import { useTodoStore } from '@store/Todos'
+import { Router } from 'vue-router'
+import { useProjectStore } from '@store/Projects'
 
 export const DefaultUser: IUserFields = {
   _id: '',
@@ -128,10 +135,9 @@ export const useUserStore = defineStore('UserStore', {
     },
 
     getServerCode: (state: IUserState): number => (state.servercode ? state.servercode : 0),
+    getMsg: (state: IUserState): string => (state.msg ? state.msg : ''),
 
     getNameSurnameByUserId: (state: IUserState) => (userId: string): string => {
-      // @ts-ignore
-      const prova: number = this.getServerCode(state)
 
       // @ts-ignore
       const user = this.getUserByUserId(state, userId)
@@ -238,6 +244,27 @@ export const useUserStore = defineStore('UserStore', {
       }
     },
 
+    async resetpwd(paramquery: any) {
+
+      const mydata = { ...paramquery }
+
+      return bcrypt.hash(mydata.password, bcrypt.genSaltSync(12))
+        .then((hashedPassword: string) => {
+          mydata.repeatPassword = ''
+          mydata.password = String(hashedPassword)
+
+          return Api.SendReq('/updatepwd', 'POST', mydata, true)
+            .then((res) => {
+              return { code: res.data.code, msg: res.data.msg }
+            })
+            .catch((error: Types.AxiosError) => {
+              this.setErrorCatch(error)
+              return { code: this.getServerCode, msg: error.getMsgError() }
+            })
+        })
+
+    },
+
     async setLangServer() {
       const mydata = {
         username: this.my.username,
@@ -290,7 +317,7 @@ export const useUserStore = defineStore('UserStore', {
           return { code: res.data.code, msg: res.data.msg }
         }).catch((error) => {
           this.setErrorCatch(error)
-          return this.getServerCode
+          return { code: this.getServerCode, msg: error.getMsgError() }
         })
     },
 
@@ -402,15 +429,82 @@ export const useUserStore = defineStore('UserStore', {
       this.usersList = [...usersList]
     },
 
-    setlang(newstr: string) {
+    setlang($router: Router, newstr: string) {
       console.log('SETLANG', newstr)
       this.lang = newstr
-      toolsext.setLangAtt(newstr)
+      toolsext.setLangAtt($router, newstr)
       localStorage.setItem(toolsext.localStorage.lang, this.lang)
     },
 
-    async signup(authData: ISignupOptions) {
+    signup(authData: ISignupOptions) {
       console.log('SIGNUP')
+      const mylang = this.lang
+      console.log('MYLANG: ' + mylang)
+
+      return bcrypt.hash(authData.password!, bcrypt.genSaltSync(12))
+        .then((hashedPassword: string) => {
+          /*
+                  const usertosend = {
+                    lang: mylang,
+                    email: authData.email,
+                    password: String(hashedPassword),
+                    username: authData.username,
+                    name: authData.name,
+                    surname: authData.surname
+                  }
+                  console.log(usertosend)
+
+          */
+          authData.lang = mylang
+          authData.password = String(hashedPassword)
+
+          this.setServerCode(tools.CALLING)
+
+          return Api.SendReq('/users', 'POST', authData)
+            .then((res) => {
+
+              const newuser = res.data
+
+              // console.log('newuser', newuser)
+
+              this.setServerCode(res.status)
+
+              if (res.status === 200) {
+                if (process.env.DEV) {
+                  console.log('USERNAME = ' + newuser.username)
+                  console.log('IDUSER= ' + newuser._id)
+                }
+
+                this.authUser(newuser)
+
+                const now = tools.getDateNow()
+                // const expirationDate = new Date(now.getTime() + myres.data.expiresIn * 1000);
+                const expirationDate = new Date(now.getTime() * 1000)
+                localStorage.setItem(toolsext.localStorage.lang, this.lang)
+                localStorage.setItem(toolsext.localStorage.userId, newuser._id)
+                localStorage.setItem(toolsext.localStorage.username, newuser.username)
+                localStorage.setItem(toolsext.localStorage.name, newuser.name)
+                localStorage.setItem(toolsext.localStorage.surname, newuser.surname)
+                localStorage.setItem(toolsext.localStorage.token, this.x_auth_token)
+                localStorage.setItem(toolsext.localStorage.expirationDate, expirationDate.toString())
+                localStorage.setItem(toolsext.localStorage.verified_email, String(false))
+
+                // Even if you has registered, you have to SignIn first
+                this.isLogged = false
+                // dispatch('storeUser', authData);
+                // dispatch('setLogoutTimer', myres.data.expiresIn);
+
+                return { code: tools.OK, msg: '' }
+              } else {
+                return { code: toolsext.ERR_GENERICO, msg: '' }
+              }
+            })
+            .catch((error) => {
+              console.log('Err', error)
+              this.setErrorCatch(error)
+              return { code: this.getServerCode, msg: this.getMsg }
+            })
+        })
     },
 
     UpdatePwd(x_auth_token: string) {
@@ -442,9 +536,107 @@ export const useUserStore = defineStore('UserStore', {
       return arrtokens.filter((token: IToken) => token.access !== 'auth')
     },
 
+    async signin($router: Router, authData: ISigninOptions) {
+      console.log('LOGIN signin')
+      const globalStore = useGlobalStore()
+
+      // console.log('MYLANG = ' + this.lang)
+
+      let sub = null
+
+      try {
+        if (static_data.functionality.PWA) {
+          if ('serviceWorker' in navigator) {
+            sub = await navigator.serviceWorker.ready
+              .then((swreg) => {
+                console.log('swreg')
+                sub = swreg.pushManager.getSubscription()
+                return sub
+              })
+              .catch((e) => {
+                console.log('  ERROR ')
+                sub = null
+              })
+          }
+        }
+      } catch (e) {
+        console.log('Err navigator.serviceWorker.ready ... GetSubscription:', e)
+      }
+
+      const options = {
+        title: tools.translate('notification.title_subscribed', [{
+          strin: 'sitename',
+          strout: translate('ws.sitename'),
+        }]),
+        content: translate('notification.subscribed'),
+        openUrl: '/',
+      }
+
+      const usertosend = {
+        username: authData.username.trim(),
+        password: authData.password.trim(),
+        lang: this.lang,
+        subs: sub,
+        options,
+      }
+
+      if (process.env.DEBUG === '1') {
+        console.log(usertosend)
+      }
+
+      this.setServerCode(tools.CALLING)
+
+      let myres: any
+
+      return Api.SendReq('/users/login', 'POST', usertosend, true)
+        .then((res) => {
+          myres = res
+
+          if (myres.status !== 200) {
+            return Promise.reject(toolsext.ERR_GENERICO)
+          }
+          return myres
+
+        }).then((res) => {
+          console.log(' Login res', res)
+
+          if (res.success) {
+            globalStore.SetwasAlreadySubOnDb(res.data.subsExistonDb)
+
+            const myuser: IUserFields = res.data.usertosend
+            if (myuser) {
+              // console.table(myuser)
+
+              this.authUser(myuser)
+
+              this.updateLocalStorage(myuser)
+
+              globalStore.loadSite()
+
+            }
+          }
+
+          return tools.OK
+
+        }).then((code) => {
+          if (code === tools.OK) {
+            return this.setGlobal($router, true)
+              .then(() => {
+                return code
+              })
+          } else {
+            return code
+          }
+        })
+        .catch((error) => {
+          this.setErrorCatch(error)
+          return this.getServerCode
+        })
+    },
+
     async logout() {
       const globalStore = useGlobalStore()
-      const $router = useRouter()
+      // const $router = useRouter()
 
       console.log('logout')
 
@@ -469,23 +661,21 @@ export const useUserStore = defineStore('UserStore', {
 
       await globalStore.clearDataAfterLogout()
 
-      const riscall = await Api.SendReq('/users/me/token', 'DELETE', null)
+      return Api.SendReq('/users/me/token', 'DELETE', null)
         .then((res) => {
           console.log(res)
         }).then(() => this.clearAuthData()).catch((error) => {
           this.setErrorCatch(error)
           return this.getServerCode
         })
-
-      return riscall
-
-      // $router.push('/signin')
     },
 
-    async setGlobal(isLogged: boolean) {
-      // console.log('setGlobal', isLogged)
+    async setGlobal($router: Router, isLogged: boolean) {
+      console.log('setGlobal', isLogged)
 
       const globalStore = useGlobalStore()
+      const todos = useTodoStore()
+      const projects = useProjectStore()
       try {
         // this.isLogged = true
         if (isLogged) {
@@ -501,15 +691,13 @@ export const useUserStore = defineStore('UserStore', {
 
         this.isLogged = isok && isLogged
 
-        // ++Todo conv if (static_data.ality.ENABLE_TODOS_LOADING)
-        //  await Todos.dbLoad({ checkPending: true })
+        if (static_data.functionality.ENABLE_TODOS_LOADING)
+          await todos.dbLoad({ checkPending: true })
 
-        // if (static_data.functionality.ENABLE_PROJECTS_LOADING)
-        //   await Projects.dbLoad({ checkPending: true, onlyiffirsttime: true })
+        if (static_data.functionality.ENABLE_PROJECTS_LOADING)
+          await projects.dbLoad({ checkPending: true, onlyiffirsttime: true })
 
-        // console.log('add routes')
-
-        globalStore.addDynamicPages()
+        globalStore.addDynamicPages($router)
 
         globalStore.finishLoading = true
         if (tools.isDebug()) console.log('finishLoading', globalStore.finishLoading)
@@ -524,7 +712,7 @@ export const useUserStore = defineStore('UserStore', {
       // console.log('setGlobal: END')
     },
 
-    async autologin_FromLocalStorage() {
+    async autologin_FromLocalStorage($router: Router) {
       try {
         const globalStore = useGlobalStore()
 
@@ -569,14 +757,14 @@ export const useUserStore = defineStore('UserStore', {
               verified_email,
               made_gift,
               perm,
-              profile: { img, teleg_id },
+              profile: { img, teleg_id, myshares: [] },
             })
 
             isLogged = true
           }
         }
 
-        return await this.setGlobal(isLogged)
+        return await this.setGlobal($router, isLogged)
 
         // console.log('autologin _id STATE ', this._id)
 

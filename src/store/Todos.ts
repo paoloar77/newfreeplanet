@@ -6,7 +6,7 @@ import {
   IAction,
 } from 'model'
 
-import Api from '@api'
+import { Api } from '@api'
 import { tools } from '@store/Modules/tools'
 import { lists } from './Modules/lists'
 import * as ApiTables from './Modules/ApiTables'
@@ -318,7 +318,7 @@ export const useTodoStore = defineStore('Todos', {
       return ris
     },
 
-    async deleteItemtodo({ cat, idobj }: { cat: string, idobj: string }) {
+    deleteItemtodo({ cat, idobj }: { cat: string, idobj: string }) {
       console.log('deleteItemtodo: KEY = ', idobj)
 
       const myarr = this.gettodosByCategory(cat)
@@ -439,7 +439,7 @@ export const useTodoStore = defineStore('Todos', {
       return ApiTables.table_ModifyRecord(nametable, myitem, listFieldsToChange, field)
     },
 
-    async swapElems(itemdragend: IDrag) {
+    swapElems(itemdragend: IDrag) {
       // console.log('TODOS swapElems', itemdragend, this.todos, this.categories)
 
       const cat = itemdragend.category

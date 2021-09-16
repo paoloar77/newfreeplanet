@@ -4,7 +4,7 @@
     <div class="row items-center justify-evenly no-wrap">
       <div class="col-2 text-h6 ellipsis">
         <img
-          v-if="true" :src="`statics/` + order.product.img" :alt="order.product.name" :class="myimgclass">
+          v-if="true" :src="`public/` + order.product.img" :alt="order.product.name" :class="myimgclass">
       </div>
       <div class="col-4 q-ml-xs">
         {{ order.product.name }}

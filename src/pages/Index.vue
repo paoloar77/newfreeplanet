@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { Todo, Meta } from '../components/models'
+import { Todo, Meta } from '@/components/models'
 import ExampleComponent from '../components/CompositionComponent.vue'
 
 export default defineComponent({

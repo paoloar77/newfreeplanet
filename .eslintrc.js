@@ -1,4 +1,4 @@
-const { resolve } = require('path');
+const { resolve } = require('path')
 module.exports = {
   // https://eslint.org/docs/user-guide/configuring#configuration-cascading-and-hierarchy
   // This option interrupts the configuration hierarchy at this file
@@ -21,20 +21,20 @@ module.exports = {
   },
 
   env: {
+    node: true,
     browser: true,
   },
 
   // Rules order is important, please avoid shuffling them
   extends: [
-    'airbnb-typescript/base',
-    // Base ESLint recommended rules
+// Base ESLint recommended rules
     // 'eslint:recommended',
 
     // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
     // ESLint typescript rules
-    // 'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended',
     // consider disabling this class of rules if linting takes too long
-    // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
 
     // Uncomment any of the lines below to choose desired strictness,
     // but leave only one uncommented!
@@ -43,6 +43,15 @@ module.exports = {
     // 'plugin:vue/vue3-strongly-recommended', // Priority B: Strongly Recommended (Improving Readability)
     // 'plugin:vue/vue3-recommended', // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
 
+    // https://github.com/prettier/eslint-config-prettier#installation
+    // usage with Prettier, provided by 'eslint-config-prettier'.
+    'prettier',
+    /*'eslint:recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:vue/essential',*/
   ],
 
   plugins: [
@@ -78,7 +87,8 @@ module.exports = {
     'no-loop-func': 'off',
     'one-var': 'off',
     'no-void': 'off',
-    'comma-dangle': [2, 'always-multiline'],
+    'comma-dangle': 'off',
+    // 'comma-dangle': [2, 'always-multiline'],
     // 'multiline-ternary': 'off',
     'vue/max-attributes-per-line': [
       'error', {
@@ -92,7 +102,7 @@ module.exports = {
         },
       }],
     'import/first': 'off',
-    'import/named': 'error',
+    'import/named': 'off',
     'import/namespace': 'error',
     'import/default': 'error',
     'import/export': 'error',
@@ -112,6 +122,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/semi': 'off',
     '@typescript-eslint/object-curly-spacing': 'off',
+    '@typescript-eslint/restrict-plus-operands': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -126,6 +137,29 @@ module.exports = {
     '@typescript-eslint/max-len': 'off',
     'max-len': 'off',
     '@typescript-eslint/naming-convention': 'off',
+    '@typescript-eslint/no-unsafe-call': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
     'no-underscore-dangle': 'off',
+
+    '@typescript-eslint/no-unsafe-member-access': 'off',
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
+    'prefer-const': 'off',
+    'no-extra-boolean-cast': 'off',
+    'max-attributes-per-line': 'off',
+    'vue/no-v-model-argument': 'off',
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        'extendDefaults': true,
+        'types': {
+          '{}': false,
+        },
+      },
+    ],
   },
-};
+}

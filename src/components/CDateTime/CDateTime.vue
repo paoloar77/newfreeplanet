@@ -1,6 +1,7 @@
 <template>
     <div class="" :style="mystyle">
-        <q-input v-model="myvalue"
+        <q-input
+v-model="myvalue"
                  v-show="false"
                  color="blue-6"
                  hide-bottom-space

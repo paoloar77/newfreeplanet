@@ -1,6 +1,8 @@
 // import { useGlobalStore } from '@store/globalStore'
 // import indexdb from './indexdb'
 
+import indexdb from './indexdb'
+
 import { idbKeyval as storage } from '@src/js/storage'
 
 export default async (cmd: string, table: string, data: any = null, id = '') => {
@@ -8,8 +10,10 @@ export default async (cmd: string, table: string, data: any = null, id = '') => 
 
   // const descr = data !== null ? data.descr : ''
   // console.log('globalroutines', cmd, table, descr, id)
-  return storage.setdata(table,  data)
-  /*return indexdb(context, cmd, table, data, id)
+
+  // return storage.setdata(table,  data)
+
+  return indexdb( cmd, table, data, id)
     .then((ris) => {
       // console.log('globalStore.state.connData', globalStore.state.connData)
 
@@ -27,5 +31,4 @@ export default async (cmd: string, table: string, data: any = null, id = '') => 
       console.log('ERROR INDEXEDDB: ', err)
     })
 
-   */
 }

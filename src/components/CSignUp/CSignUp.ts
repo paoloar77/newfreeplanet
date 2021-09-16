@@ -1,246 +1,241 @@
-import Vue from 'vue'
-import { Component, Prop, Watch } from 'vue-property-decorator'
-import { UserStore } from '@store'
-import { tools } from '../../store/Modules/tools'
-import { toolsext } from '@src/store/Modules/toolsext'
+import { tools } from '@store/Modules/tools'
 
-import { ISignupOptions, IUserState, IUserFields } from 'model'
+import { ISignupOptions } from 'model'
 import { validations, TSignup } from './CSignUp-validate'
 
-import { validationMixin } from 'vuelidate'
-
 import { Logo } from '../../components/logo'
-import { DefaultProfile } from '../../store/Modules/UserStore'
 
 // import 'vue-country-code/dist/vue-country-code.css'
-import { serv_constants } from '@src/store/Modules/serv_constants'
 
-import VueCountryCode from 'vue-country-code'
-import { registereduser } from '../../validation'
-import MixinBase from '../../mixins/mixin-base'
 import { CTitleBanner } from '../CTitleBanner'
+import { computed, defineComponent, reactive, ref } from 'vue'
+import { CSignIn } from '@/components/CSignIn'
+import { useQuasar } from 'quasar'
+import { useI18n } from '@/boot/i18n'
+import { DefaultProfile, useUserStore } from '@store/UserStore'
+import useValidate from '@vuelidate/core'
+import useVuelidate from '@vuelidate/core'
 
-Vue.use(VueCountryCode)
+import 'vue3-tel-input/dist/vue3-tel-input.css'
+
+
 // import {Loading, QSpinnerFacebook, QSpinnerGears} from 'quasar'
 
-@Component({
+export default defineComponent({
   name: 'CSignUp',
-  mixins: [validationMixin],
-  validations,
-  components: { Logo, CTitleBanner }
-})
+  components: { Logo, CTitleBanner },
+  props: {
+    showadultcheck: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    showcell: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    shownationality: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  setup(props, { emit }) {
+    const $q = useQuasar()
+    const { t } = useI18n()
+    const userStore = useUserStore()
 
-export default class CSignUp extends MixinBase {
-  @Prop({ required: false, default: false }) public showadultcheck: boolean
-  @Prop({ required: false, default: false }) public showcell: boolean
-  @Prop({ required: false, default: false }) public shownationality: boolean
-  public $v
-  public $q
-  public $t: any
-  public countryname: string = ''
-  public iamadult: boolean = false
+    const countryname = ref('')
+    const iamadult = ref(false)
+    const duplicate_email = ref(false)
+    const duplicate_username = ref(false)
 
-  public duplicate_email: boolean = false
-  public duplicate_username: boolean = false
+    const signup = reactive(<ISignupOptions> {
+      email: process.env.TEST_EMAIL || '',
+      username: process.env.TEST_USERNAME || '',
+      name: process.env.TEST_NAME || '',
+      surname: process.env.TEST_SURNAME || '',
+      password: process.env.TEST_PASSWORD || '',
+      repeatPassword: process.env.TEST_PASSWORD || '',
+      terms: !process.env.PROD,
+      profile: DefaultProfile,
+      aportador_solidario: '',
+    })
 
-  public signup: ISignupOptions = {
-    email: process.env.TEST_EMAIL || '',
-    username: process.env.TEST_USERNAME || '',
-    name: process.env.TEST_NAME || '',
-    surname: process.env.TEST_SURNAME || '',
-    password: process.env.TEST_PASSWORD || '',
-    repeatPassword: process.env.TEST_PASSWORD || '',
-    terms: !process.env.PROD,
-    profile: DefaultProfile,
-    aportador_solidario: '',
-  }
+    // @ts-ignore
+    const v$ = useVuelidate(validations, signup)
 
-  public created() {
-    this.$v.$reset()
-  }
+    function allowSubmit() {
 
-  get allowSubmit() {
+      let error = v$.value.$error || v$.value.$invalid
 
-    let error = this.$v.$error || this.$v.$invalid
+      if (props.showadultcheck)
+        error = error || !iamadult.value
 
-    if (this.showadultcheck)
-      error = error || !this.iamadult
+      if (props.showcell) {
+        if (signup.profile)
+          error = error || signup.profile.cell!.length <= 6
+        else
+          error = true
+      }
 
-    if (this.showcell)
-      error = error || this.signup.profile.cell.length <= 6
-
-    return !error
-  }
-
-  /*
-  validations: {
-    isAsync: true,
-    form: {
-      email: {
-        required, email,
-        isUnique: value => {
-          if (value === '') return true;
-          return axios.get(process.env.MONGODB_HOST + '/email/' + value)
-            .then(res => {
-              return (res.status !== 200)
-            }).catch((e) => {
-              return true;
-            })
-        }
-      },
-      password: {required, minLength: minLength(8), maxLength: maxLength(20)},
-      username: {
-        required, minLength: minLength(6), maxLength: maxLength(20),
-        isUnique: value => {
-          if (value === '') return true;
-          return axios.get(process.env.MONGODB_HOST + '/users/' + value)
-            .then(res => {
-              return (res.status !== 200)
-            }).catch((e) => {
-              return true;
-            })
-        }
-      },
-      repeatPassword: {
-        sameAsPassword: sameAs('password')
-      },
-      terms: {required},
-
+      return !error
     }
-  }, */
-  public env() {
-    return process.env
-  }
 
-  public errorMsg(cosa: string, item: any) {
-    try {
-      if (!item.$error) {
+    function env() {
+      return process.env
+    }
+
+    function errorMsg(cosa: string, item: any) {
+      try {
+        if (!item.$error) {
+          return ''
+        }
+        console.log('errorMsg', cosa, item)
+
+        if (cosa === 'repeatpassword') {
+          if (!item.sameAsPassword) {
+            return t('reg.err.sameaspassword')
+          }
+        }
+
+        if (item.email) {
+          if (item.email.$invalid)
+            return t('reg.err.email')
+        }
+
+        if (item.minLength !== undefined) {
+          if (item.minLength.$invalid) {
+            return t('reg.err.atleast') + ` ${item.minLength.$params.min} ` + t('reg.err.char')
+          }
+        }
+        if (item.complexity !== undefined) {
+          if (item.complexity.$invalid) {
+            return t('reg.err.complexity')
+          }
+        }
+        // if (!item.maxLength) { return t('reg.err.notmore') + ` ${item.$params.maxLength.max} ` + t('reg.err.char') }
+
+        if (item.required !== undefined) {
+          if (item.required.$invalid) {
+            console.log('required')
+            return t('reg.err.required')
+          }
+        }
+
+        console.log('  cosa', cosa)
+
+        // console.log('    ....avanti')
+        if (cosa === 'email') {
+          // console.log("EMAIL " + item.isUnique);
+          // console.log(item);
+          if (!item.email.$invalid) {
+            return t('reg.err.duplicate_email')
+          }
+        } else if (cosa === 'username') {
+          // console.log(item);
+          console.log('username')
+          console.log(item.$error)
+          if (!item.registereduser.$invalid) {
+            return t('reg.err.duplicate_username')
+          }
+        } else if (cosa === 'aportador_solidario') {
+          // console.log(item);
+          if (!item.aportadorexist) {
+            // console.log('!item.aportadorexist !')
+            return t('reg.err.aportador_not_exist')
+          }
+        } else if ((cosa === 'name') || (cosa === 'surname')) {
+          // console.log(item);
+        }
+
         return ''
+      } catch (error) {
+        // console.log("ERR : " + error);
       }
-      console.log('item', item)
-      // console.log('errorMsg', cosa, item)
-      if (item.$params.email && !item.email) {
-        return this.$t('reg.err.email')
-      }
-
-      if (cosa === 'repeatpassword') {
-        if (!item.sameAsPassword) {
-          return this.$t('reg.err.sameaspassword')
-        }
-      }
-
-      // console.log('item', item)
-
-      if (item.minLength !== undefined) {
-        if (!item.minLength) {
-          return this.$t('reg.err.atleast') + ` ${item.$params.minLength.min} ` + this.$t('reg.err.char')
-        }
-      }
-      if (item.complexity !== undefined) {
-        if (!item.complexity) {
-          return this.$t('reg.err.complexity')
-        }
-      }
-// if (!item.maxLength) { return this.$t('reg.err.notmore') + ` ${item.$params.maxLength.max} ` + this.$t('reg.err.char') }
-
-      if (item.required !== undefined) {
-        if (!item.required) {
-          return this.$t('reg.err.required')
-        }
-      }
-
-      // console.log('    ....avanti')
-      if (cosa === 'email') {
-        // console.log("EMAIL " + item.isUnique);
-        // console.log(item);
-        if (!item.isUnique) {
-          return this.$t('reg.err.duplicate_email')
-        }
-      } else if (cosa === 'username') {
-        // console.log(item);
-        console.log('username')
-        console.log(item.$error)
-        if (!item.isUnique) {
-          return this.$t('reg.err.duplicate_username')
-        }
-      } else if (cosa === 'aportador_solidario') {
-        // console.log(item);
-        if (!item.aportadorexist) {
-          // console.log('!item.aportadorexist !')
-          return this.$t('reg.err.aportador_not_exist')
-        }
-      } else if ((cosa === 'name') || (cosa === 'surname')) {
-        // console.log(item);
-      }
-
-      return ''
-    } catch (error) {
-      // console.log("ERR : " + error);
-    }
-  }
-
-  public changeemail(value) {
-    this.signup.email = tools.removespaces(this.signup.email)
-    this.signup.email = this.signup.email.toLowerCase()
-    this.$emit('update:value', this.signup.email)
-  }
-
-  public changeusername(value) {
-    this.signup.username = tools.removespaces(this.signup.username)
-    this.$emit('update:value', this.signup.username)
-  }
-
-  public submitOk() {
-    this.$v.signup.$touch()
-
-    this.signup.email = tools.removespaces(this.signup.email)
-    this.signup.email = this.signup.email.toLowerCase()
-    this.signup.username = tools.removespaces(this.signup.username)
-
-    this.duplicate_email = false
-    this.duplicate_username = false
-
-    if (!this.signup.terms) {
-      tools.showNotif(this.$q, this.$t('reg.err.terms'))
-      return
     }
 
-    if (this.$v.signup.$error) {
-      tools.showNotif(this.$q, this.$t('reg.err.errore_generico'))
-      return
+    function changeemail() {
+      signup.email = tools.removespaces(signup.email!)
+      signup.email = signup.email.toLowerCase()
+      emit('update:value', signup.email)
     }
 
-    this.signup.name = tools.CapitalizeAllWords(this.signup.name)
-    this.signup.surname = tools.CapitalizeAllWords(this.signup.surname)
+    function changeusername(value: string) {
+      signup.username = tools.removespaces(signup.username)
+      emit('update:value', signup.username)
+    }
 
-    this.$q.loading.show({ message: this.$t('reg.incorso') })
+    function submitOk() {
+      v$.value.$touch()
 
-    console.log(this.signup)
-    return UserStore.actions.signup(tools.clone(this.signup))
-      .then((ris) => {
-        if (tools.SignUpcheckErrors(this, ris.code, ris.msg))
-          this.$q.loading.hide()
-      }).catch((error) => {
-        console.log('ERROR = ' + error)
-        this.$q.loading.hide()
-      })
+      signup.email = tools.removespaces(signup.email!)
+      signup.email = signup.email.toLowerCase()
+      signup.username = tools.removespaces(signup.username)
 
-  }
+      duplicate_email.value = false
+      duplicate_username.value = false
 
-  public intcode_change(coderec) {
-    // console.log('intcode', coderec)
-    this.signup.profile.intcode_cell = '+' + coderec.dialCode
-    this.signup.profile.iso2_cell = coderec.iso2
-  }
+      if (!signup.terms) {
+        tools.showNotif($q, t('reg.err.terms'))
+        return
+      }
 
-  public selectcountry({ name, iso2, dialCode }) {
-    // console.log(name, iso2, dialCode)
-    this.signup.profile.nationality = iso2
-    this.countryname = name
-  }
+      /*if (v$.signup.$error) {
+        tools.showNotif($q, t('reg.err.errore_generico'))
+        return
+      } */
 
-  public inputUsername(value) {
-    this.signup.username = value.trim()
-  }
+      signup.name = tools.CapitalizeAllWords(signup.name)
+      signup.surname = tools.CapitalizeAllWords(signup.surname)
 
-}
+      $q.loading.show({ message: t('reg.incorso') })
+
+      console.log(signup)
+      return userStore.signup(tools.clone(signup))
+        .then((ris: any) => {
+          if (tools.SignUpcheckErrors($q, ris.code, ris.msg))
+            $q.loading.hide()
+        }).catch((error: string) => {
+          console.log('ERROR = ' + error)
+          $q.loading.hide()
+        })
+
+    }
+
+    function intcode_change(coderec: any) {
+      // console.log('intcode', coderec)
+      if (signup.profile) {
+        signup.profile.intcode_cell = '+' + coderec.dialCode
+        signup.profile.iso2_cell = coderec.iso2
+      }
+    }
+
+    function selectcountry({ name, iso2, dialCode }: { name: string, iso2: string, dialCode: string }) {
+      // console.log(name, iso2, dialCode)
+      signup.profile.nationality = iso2
+      countryname.value = name
+    }
+
+    function inputUsername(value: string) {
+      signup.username = value.trim()
+    }
+
+    return {
+      errorMsg,
+      changeemail,
+      changeusername,
+      submitOk,
+      inputUsername,
+      selectcountry,
+      intcode_change,
+      tools,
+      countryname,
+      signup,
+      iamadult,
+      v$,
+      allowSubmit,
+    }
+  },
+})

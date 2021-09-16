@@ -4,7 +4,7 @@ import {
 
 import { useQuasar } from 'quasar'
 import { useI18n } from '@src/boot/i18n'
-import Api from '@api'
+import { Api } from '@api'
 import { serv_constants } from '@store/Modules/serv_constants'
 import { toolsext } from '@src/store/Modules/toolsext'
 

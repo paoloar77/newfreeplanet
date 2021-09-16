@@ -10,7 +10,7 @@ export interface ISignupOptions {
   repeatPassword?: string
   terms?: boolean
   aportador_solidario?: string
-  profile?: IUserProfile
+  profile: IUserProfile
   // already_registered: boolean
 }
 

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <CSignIn :mythis="mythis"
-             @loginOk="loginOk"
-             @loginInCorso="loginInCorso"
-             :showregbutt="showregbutt"
-             @checkErrors="checkErrors"
-             @showNotif="showNotif">
+    <CSignIn
+      @loginOk="loginOk"
+      @loginInCorso="loginInCorso"
+      :showregbutt="showregbutt"
+      @checkErrors="checkErrors"
+      @showNotif="showNotif">
     </CSignIn>
   </div>
 </template>
@@ -14,5 +14,5 @@
 </script>
 
 <style lang="scss" scoped>
-  @import './CSigninNoreg.scss';
+@import './CSigninNoreg.scss';
 </style>

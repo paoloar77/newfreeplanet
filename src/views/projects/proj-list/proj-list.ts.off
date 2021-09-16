@@ -1,0 +1,1112 @@
+import {
+  IAction,
+  IProject,
+  ITodo,
+  TipoVisu,
+  TypeProj
+} from 'model'
+import { SingleProject } from '../../../components/projects/SingleProject/index'
+import { CTodo } from '../../../components/todos/CTodo'
+
+import { tools } from '@store/Modules/tools'
+import { toolsext } from '@src/store/Modules/toolsext'
+import { lists } from '@store/Modules/lists'
+import * as ApiTables from '../../../store/Modules/ApiTables'
+
+import { date, Screen } from 'quasar'
+import { CProgress } from '../../../components/CProgress'
+import { CDate } from '../../../components/CDate'
+import { CMyFieldDb } from '../../../components/CMyFieldDb'
+import { CHours } from '../../../components/CHours'
+import { shared_consts } from '@src/common/shared_vuejs'
+import { colTableHours } from '@src/store/Modules/fieldsTable'
+import { costanti } from '@src/store/Modules/costanti'
+
+import { defineComponent, ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
+import { useI18n } from '@src/boot/i18n'
+import { useUserStore } from '@store/UserStore'
+import { useGlobalStore } from '@store/globalStore'
+import { useQuasar } from 'quasar'
+import { CGridTableRec } from '@/components/CGridTableRec'
+import { useRoute, useRouter } from 'vue-router'
+import { useProjectStore } from '@store/Projects'
+import { useTodoStore } from '@store/Todos'
+
+export default defineComponent({
+  name: 'ProjList',
+  props: {
+    mystr: {
+      type: String,
+      required: true,
+      default: '',
+    },
+    myval: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    mybool: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
+  components: { SingleProject, CProgress, CTodo, CDate, CMyFieldDb, CHours, CGridTableRec },
+  setup(props, { emit }) {
+    const $q = useQuasar()
+    const { t } = useI18n()
+    const userStore = useUserStore()
+    const globalStore = useGlobalStore()
+    const projects = useProjectStore()
+    const todos = useTodoStore()
+    const $router = useRouter()
+    const $route = useRoute()
+
+    const tabproj = ref('lista')
+    const shownewsubproj = ref(false)
+
+    const newSubProj = ref('')
+    const projbottom = ref('')
+    const polling = ref(<any>null)
+    //++Todo conv
+    // const service: any
+    const scrollable = ref(true)
+    const dragname = ref('second')
+    const idProjAtt = ref(process.env.PROJECT_ID_MAIN || '')
+    const splitterModel = ref(50) // start at 50%
+    const itemproj = ref(<IProject>{})
+    const tipoproj = ref('')
+    const itemprojparent = ref(<IProject>{})
+    const itemselproj = ref(projects.getRecordEmpty())
+    const itemtodosel = ref(todos.getRecordEmpty())
+    const whatisSel = ref(0)
+    const colProgress = ref('blue')
+    const percProgress = ref('percProgress')
+    const myreadonly = ref(false)
+
+    // @ts-ignore
+    const selectStatus = ref(tools.selectStatus[toolsext.getLocale()])
+    // @ts-ignore
+    const selectPhase: any[] = tools.selectPhase[toolsext.getLocale()]
+    // @ts-ignore
+    const selectPrivacy: any[] = tools.selectPrivacy[toolsext.getLocale()]
+    // @ts-ignore
+    const selectTipoVisu: any[] = tools.selectTipoVisu[toolsext.getLocale()]
+    const selectGroup = ref(<any[]>[])
+    const selectResp = ref(<any[]>[])
+    const selectWorkers = ref(<any[]>[])
+
+    const singleproject = ref(<any[]>[])
+    const ctodo = ref(<any>{})
+
+    const pagination = {
+      sortBy: 'hours',
+      descending: true,
+      page: 2,
+      rowsPerPage: 5
+      // rowsNumber: xx if getting data from a server
+    }
+
+    const arrfilterand = [
+      {
+        label: 'Tutte le ore',
+        value: shared_consts.FILTER_HOURS_ALL
+      }
+    ]
+
+    const showtype = computed({
+      get: () => projects.showtype,
+      set: value => {
+        globalStore.setShowType(value)
+      },
+    })
+
+
+    const projs_dacompletare = computed(() => projects.projs_dacompletare)
+
+    watch(() => globalStore.clickcmd, (value, oldval) => {
+      console.log('changeclickcmd', value)
+      if (globalStore.clickcmd !== '') {
+        const cmd = globalStore.clickcmd
+        if (cmd === 'back') {
+          tabproj.value = 'lista'
+          $router.replace(getrouteup())
+        } else if (cmd === 'ore') {
+          tabproj.value = 'ore'
+        } else if (cmd === 'stat') {
+          tabproj.value = 'stat'
+        } else if (cmd === 'nuovo') {
+
+        }
+
+        globalStore.clickcmd = ''
+      }
+
+    })
+
+    watch(() => $route.name, (newval, oldval) => {
+      changeparent()
+    })
+
+
+    function getrouteup() {
+      let id: any = ''
+      if (!!itemselproj.value) {
+        id = itemselproj.value.id_parent
+      }
+      if (!!itemproj.value) {
+        id = itemproj.value.id_parent
+      }
+      tabproj.value = 'lista'
+      return tools.getUrlByTipoProj(gettipoProj()) + id
+    }
+
+    function classTitle() {
+      let cl = 'flex-item categorytitle shadow-4'
+      if (!!itemprojparent.value) {
+        cl += ' text-' + itemprojparent.value.themecolor + ' bg-' + itemprojparent.value.themebgcolor
+      } else {
+        cl += ' text-black' + ' bg-light-blue'
+      }
+      return cl
+    }
+
+    function classTitleTodoSel() {
+      let cl = 'flex-item shadow-4'
+      if (!!itemtodosel.value) {
+        cl += ' text-' + itemtodosel.value.themecolor + ' bg-' + itemtodosel.value.themebgcolor
+      } else {
+        cl += ' text-black' + ' bg-light-blue'
+      }
+      return cl
+    }
+
+    function classTitleProjSel() {
+      let cl = 'flex-item categorytitle shadow-4'
+      if (!!itemselproj.value) {
+        cl += ' text-' + itemselproj.value.themecolor + ' bg-' + itemselproj.value.themebgcolor
+      } else {
+        cl += ' text-black' + ' bg-light-blue'
+      }
+
+      if (!tools.isMobile())
+        cl += ' full-width '
+      return cl
+    }
+
+    function classTitleProjSelBread() {
+      let cl = 'flex-item shadow-4'
+      if (!!itemselproj.value) {
+        cl += ' text-' + itemselproj.value.themecolor + ' bg-' + itemselproj.value.themebgcolor
+      } else {
+        cl += ' text-black'
+      }
+
+      if (!tools.isMobile())
+        cl += ' full-width '
+      return cl
+    }
+
+    function gettipoProj() {
+      // console.log('$route.name', $route.name)
+      const myname: any = $route.name
+
+      const myarr = myname.split('.')
+      if (myarr)
+        return myarr[1]
+      else
+        return $route.name
+    }
+
+    function readonly_PanelPrivacy() {
+      return !CanIModifyPanelPrivacy
+    }
+
+    function readonly_PanelPrivacySel() {
+      return !CanIModifyPanelPrivacySel || myreadonly
+    }
+
+    function CanISeeProject() {
+      return projects.getifCanISeeProj(itemproj.value)
+    }
+
+    function CanISeeProjectParent() {
+      return projects.getifCanISeeProj(itemprojparent.value)
+    }
+
+    function CanISeeProjectSel() {
+      return projects.getifCanISeeProj(itemselproj.value)
+    }
+
+    function CanIModifyPanelPrivacy() {
+      return projects.CanIModifyPanelPrivacy(itemproj.value)
+    }
+
+    function CanIModifyPanelPrivacySel() {
+      return projects.CanIModifyPanelPrivacy(itemselproj.value)
+    }
+
+
+    function getroutebyid(id: string) {
+      return tools.getUrlByTipoProj(gettipoProj()) + id
+    }
+
+    function idparentSel() {
+      if ((whatisSel.value === tools.WHAT_PROJECT) && !!itemselproj.value) {
+        return idProjAtt.value !== itemselproj.value._id
+      } else if ((whatisSel.value === tools.WHAT_TODO) && !!itemtodosel.value) {
+        return idProjAtt.value !== itemtodosel.value.category
+      }
+      return false
+    }
+
+    function isRootProject() {
+      return idProjAtt.value === process.env.PROJECT_ID_MAIN
+    }
+
+    function isRootProjectAtt() {
+      if ((whatisSel.value === tools.WHAT_PROJECT) && (!!itemselproj.value.descr)) {
+        return itemselproj.value.descr === '__PROJECTS'
+      } else if ((whatisSel.value === tools.WHAT_TODO) && (!!itemtodosel.value.descr)) {
+        return itemproj.value.descr === '__PROJECTS'
+      }
+    }
+
+    function getIdParent() {
+      if (!!itemselproj.value)
+        return itemselproj.value.id_parent
+      else
+        return ''
+    }
+
+    function isMainProject() {
+      return tools.isMainProject(idProjAtt.value)
+    }
+
+    function menuPopupConfigProject() {
+      let mymenu = null
+      if (isMainProject()) { // @ts-ignore
+        mymenu = tools.menuPopupConfigMAINProject[toolsext.getLocale()]
+      } else { // @ts-ignore
+        mymenu = tools.menuPopupConfigProject[toolsext.getLocale()]
+      }
+
+      if (mymenu.length > 0)
+        mymenu[0].disable = !(globalStore.lastaction.type === lists.MenuAction.CUT)
+
+      return mymenu
+    }
+
+    function listOptionShowTask() {
+      // @ts-ignore
+      return tools.listOptionShowTask[toolsext.getLocale()]
+    }
+
+    function descrProject() {
+      return projects.getDescrById(idProjAtt.value)
+    }
+
+    function getCalcHoursWorked() {
+
+      if (itemselproj.value.hoursplanned! <= 0) {
+        return 0
+      }
+      return Math.round(itemselproj.value.hoursworked! / itemselproj.value.hoursplanned! * 100)
+
+    }
+
+    function getCalcHoursLeft() {
+
+      if (itemselproj.value.hoursleft! <= 0) {
+        return 0
+      }
+      return Math.round(itemselproj.value.hoursworked! / itemselproj.value.hoursleft! * 100)
+
+    }
+
+    function calcprogressWeekly() {
+
+      if (itemselproj.value.hoursplanned! <= 0) {
+        return 0
+      }
+      return Math.round(itemselproj.value.hoursworked! / itemselproj.value.hoursplanned! * 100)
+    }
+
+    function calcEndWork_Estimate() {
+      let hoursw = 0
+      if (date.isValid(itemselproj.value.begin_development) && (itemselproj.value.hoursweeky_plannedtowork! > 0)) {
+        if (itemselproj.value.hoursweeky_plannedtowork)
+          hoursw = itemselproj.value.hoursweeky_plannedtowork
+
+        try {
+
+          // let orerimaste = itemselproj.value.hoursplanned - itemselproj.value.hoursworked
+          let orerimaste = itemselproj.value.hoursleft ? itemselproj.value.hoursleft : 0
+          if (orerimaste < 0) {
+            orerimaste = 0
+          }
+
+          const weeks = orerimaste / hoursw
+          const days = Math.round(weeks * 7)
+
+          let mydate = itemselproj.value.begin_development
+          const datenow = tools.getDateNow()
+          // if begin is in the past, take the day now
+          if (date.getDateDiff(mydate, datenow) < 0) {
+            mydate = datenow
+          }
+          // console.log('mydate', mydate)
+          itemselproj.value.endwork_estimate = date.addToDate(mydate, { days })
+
+          // console.log('   days', days, 'weeks', weeks, 'orerimaste', orerimaste, 'dateestimated', itemselproj.value.endwork_estimate)
+
+          return itemselproj.value.endwork_estimate
+        } catch (e) {
+          itemselproj.value.endwork_estimate = tools.getDateNull()
+        }
+
+        return tools.getDateNull()
+
+      } else {
+        return tools.getDateNull()
+      }
+    }
+
+    function getCalcTodoHoursWorked() {
+      if (itemtodosel.value.hoursplanned! <= 0) {
+        return 0
+      }
+      const myperc = Math.round(itemtodosel.value.hoursworked! / itemtodosel.value.hoursplanned! * 100)
+
+      return myperc
+
+    }
+
+    function isHorizontal() {
+      return (Screen.width < 600)
+    }
+
+    function myStyle() {
+      if (isHorizontal())
+        return 'height: 600px'
+      else
+        return ''
+    }
+
+
+    async function insertSubProj() {
+      console.log('insertSubProj', newSubProj.value)
+
+      const idnewelem = await addProject(newSubProj.value, gettipoProj())
+      newSubProj.value = ''
+
+      shownewsubproj.value = false
+
+    }
+
+    // @Watch('projs_dacompletare')
+    // function changeitems() {
+    //   updateindexProj()
+    // }
+
+    function listacrumb() {
+      let arrger: any = []
+      if (itemselproj.value)
+        arrger = projects.listagerarchia(gettipoProj(), itemselproj.value._id)
+      else if (itemtodosel.value)
+        arrger = projects.listagerarchia(gettipoProj(), itemtodosel.value.category!)
+
+      return arrger
+    }
+
+    function changeparent() {
+      console.log('$route.params.idProj', $route.params)
+      const oldtipoproj = tipoproj
+      // @ts-ignore
+      idProjAtt.value = $route.params.idProj
+      tabproj.value = 'lista'
+      updateindexProj()
+      selproj()
+      if (oldtipoproj !== gettipoProj())
+        updateData()
+    }
+
+    watch(() => $route.params.idProj, (newval, oldval) => {
+      changeparent()
+    })
+
+    watch(() => itemselproj.value.progressCalc, (newval, oldval) => updateclasses())
+    watch(() => itemselproj.value.groupId, (newval, oldval) => updateclasses())
+
+    watch(() => itemselproj.value._id, (newval, oldval) => aggiornastat())
+
+    watch(() => tabproj.value, (newval, oldval) => aggiornastat())
+    watch(() => itemtodosel.value._id, (newval, oldval) => aggiornastat())
+
+    function aggiornastat() {
+      if (tabproj.value === 'stat') {
+        if (!!itemselproj.value) {
+          projects.calculateHoursProjects({
+            projId: itemselproj.value._id,
+            actualphase: itemselproj.value.actualphase!.toString(),
+          }).then((rec) => {
+            if (rec) {
+              itemselproj.value.hoursworked = rec.hoursworked
+            }
+          })
+        } else if (!!itemtodosel.value) {
+          todos.calculateHoursTodo({ todoId: itemtodosel.value._id })
+            .then((rec) => {
+              if (rec) {
+                itemtodosel.value.hoursworked = rec.hoursworked
+              }
+            })
+
+        }
+      }
+    }
+
+    function keyDownArea(e: any) {
+      // console.log('keyDownArea')
+    }
+
+    // I use this because the statustodo will disappear from the UI, so it won't call the status changed...
+    // in this case I need to call manually the modify.
+    function modifyfieldtodo(field: any) {
+      // console.log('modifyfieldtodo', field)
+      todos.modify({ myitem: itemtodosel.value, field })
+    }
+
+    function modifyfieldproj(field: any) {
+      projects.modify({ myitem: itemselproj, field })
+        .then((ris) => {
+          console.log('ris', ris)
+          if (ris)
+            tools.showPositiveNotif($q, 'Campo Aggiornato')
+          else
+            tools.showNegativeNotif($q, 'Campo non Aggiornato!')
+        })
+    }
+
+    function modifyfieldprojBase(field: any) {
+      projects.modify({ myitem: itemproj, field })
+        .then((ris) => {
+          console.log('ris', ris)
+          if (ris)
+            tools.showPositiveNotif($q, 'Campo Aggiornato')
+          else
+            tools.showNegativeNotif($q, 'Campo non Aggiornato!')
+        })
+    }
+
+    function selproj() {
+      deselectAllRowsproj(null, false, false)
+      deselectAllRowstodo(null, false, false)
+      setidsel(idProjAtt.value)
+    }
+
+    function showTask(field_value: any) {
+      return field_value === lists.MenuAction.SHOW_TASK
+    }
+
+    function onEndproj(itemdragend: any) {
+      // console.log('onEndproj...')
+      return projects.swapElems(itemdragend)
+    }
+
+    function created() {
+
+      if (costanti.DRAGULA) {
+        //++Todo conv const service = $dragula.$service
+        // tools.dragula_option(service, dragname)
+
+        updateclasses()
+
+        /*
+        service.eventBus.$on('dragend', (args: any) => {
+
+        // console.log('args proj-list', args)
+        if (args.name === dragname) {
+          const itemdragend: IDrag = {
+            field: '',
+            id_proj: idProjAtt.value,
+            newIndex: getElementIndex(args.el),
+            oldIndex: getElementOldIndex(args.el),
+            tipoproj: gettipoProj()
+          }
+
+          // console.log('args', args, itemdragend)
+          onEndproj(itemdragend)
+        }
+      })
+
+      //++Todo conv
+      /*
+        service.eventBus.$on('drag', (el: any, source: any) => {
+          scrollable.value = false
+        })
+        service.eventBus.$on('drop', (el: any, source: any) => {
+          scrollable.value = true
+        })
+
+      }
+       */
+      }
+
+      load()
+    }
+
+    function mounted() {
+
+      // console.log('Screen.width', Screen.width)
+      // console.log('$route', $route)
+
+      // if (Screen.width < 400) {
+      //   splitterModel = 100
+      // } else {
+      //   splitterModel = 50
+      // }
+      idProjAtt.value = $route.params.idProj.toString()
+
+      if (!idProjAtt.value) {
+        // @ts-ignore
+        idProjAtt.value = process.env.PROJECT_ID_MAIN ? process.env.PROJECT_ID_MAIN : ''
+      }
+      console.log('idProjAtt', idProjAtt)
+      updateindexProj()
+
+      tools.touchmove(scrollable)
+    }
+
+    function load() {
+      // console.log('LOAD PROJECTS....')
+      if (!idProjAtt.value) {
+        idProjAtt.value = process.env.PROJECT_ID_MAIN ? process.env.PROJECT_ID_MAIN : ''
+      }
+      console.log('LOAD idProjAtt', idProjAtt)
+
+      if (!!idProjAtt.value) {
+        updateindexProj()
+        selproj()
+      }
+
+      selectGroup.value = tools.getGroupList()[toolsext.getLocale()]
+      selectResp.value = tools.getRespList()[toolsext.getLocale()]
+      selectWorkers.value = tools.getWorkersList()[toolsext.getLocale()]
+
+      // console.log('selectGroup', selectGroup)
+
+      // Set last category selected
+      // localStorage.setItem(tools.localStorage.categorySel, categoryAtt)
+
+      checkUpdate_everytime()
+    }
+
+    // Call to check if need to refresh
+    function checkUpdate_everytime() {
+      polling.value = setInterval(() => {
+        checkUpdate()
+      }, tools.NUMSEC_CHECKUPDATE)
+    }
+
+    function beforeDestroy() {
+      clearInterval(polling.value)
+    }
+
+    function mydeleteitemproj(idobj: string) {
+      // console.log('mydeleteitemtodo', idobj)
+      return projects.deleteItem({ idobj })
+    }
+
+    function dbInsert() {
+      // console.log('dbInsert')
+      const descr = projbottom.value.trim()
+
+      projbottom.value = ''
+
+      return addProject(descr, gettipoProj())
+    }
+
+    async function clickMenuProjList(action: any) {
+      console.log('clickMenuProjList: ', action)
+      if (action === lists.MenuAction.ADD_PROJECT) {
+        shownewsubproj.value = true
+        // console.log('idnewelem', idnewelem, 'Elem Trovato', elem)
+      } else if (action === lists.MenuAction.SHOW_POSIZ) {
+
+        if (!!itemproj.value) {
+          if (itemproj.value.view !== 'posiz')
+            itemproj.value.view = 'posiz'
+          else
+            itemproj.value.view = ''
+
+          modifyfieldprojBase('view')
+
+          load()
+        }
+      } else if (action === lists.MenuAction.PASTE) {
+
+        const myaction: IAction = {
+          table: globalStore.lastaction.table,
+          type: lists.MenuAction.PASTE,
+          _id: itemselproj.value._id
+        }
+
+        if (myaction.table === tools.projects)
+          return await projects.ActionCutPaste(myaction)
+        else if (myaction.table === tools.todos)
+          return await todos.ActionCutPaste(myaction)
+      }
+    }
+
+    /* function getCompProjectById(id: string): SingleProject {
+      if (!!singleproject.value) {
+        // console.log('$refs.singleproject', $refs.singleproject)
+        for (const elem of singleproject.value) {
+          // @ts-ignore
+          if (elem.itemproject._id === id) {
+            return elem
+          }
+        }
+      }
+      return null
+    }
+
+     */
+
+    // const descr = $t('project.newproj').toString()
+
+    async function addProject(descr: string, tipoproj: string) {
+      const projatt = projects.getRecordById(idProjAtt.value)
+      // console.log('projatt', projatt)
+      let myobj: IProject | null = null
+      if (idProjAtt.value === process.env.PROJECT_ID_MAIN) {
+        myobj = {
+          descr,
+          id_parent: idProjAtt.value,
+          privacyread: tools.getprivacyreadbytipoproj(tipoproj),
+          privacywrite: tools.getprivacywritebytipoproj(tipoproj),
+          tipovisu: TipoVisu.inherited
+        }
+
+        if (projatt) {
+          myobj.actualphase = projatt.actualphase
+        }
+      } else {
+        myobj = {
+          descr,
+          id_parent: idProjAtt.value,
+        }
+
+        if (projatt) {
+          myobj.actualphase = projatt.actualphase
+          myobj.privacyread = projatt.privacyread
+          myobj.privacywrite = projatt.privacywrite
+          myobj.tipovisu = projatt.tipovisu
+        }
+      }
+
+      if (itemproj.value === undefined && projatt)
+        itemproj.value = projatt
+
+      if (isRootProject()) {
+        myobj.typeproj = TypeProj.TYPE_PROJECT
+        myobj.id_main_project = idProjAtt.value
+      } else {
+        myobj.typeproj = TypeProj.TYPE_SUBDIR
+        if (itemproj.value.id_main_project === process.env.PROJECT_ID_MAIN)
+          myobj.id_main_project = itemproj.value._id
+        else
+          myobj.id_main_project = itemproj.value.id_main_project
+      }
+
+      // console.log('myobj', myobj)
+
+      if (!tools.checkIfUserExist()) {
+        return
+      }
+
+      // console.log('Nuovo PROJ', myobj)
+      return await projects.dbInsert({ myobj, atfirst: false })
+    }
+
+    function setidsel(id: string) {
+      // console.log('setidsel', id)
+      let idsel = id
+      whatisSel.value = tools.WHAT_PROJECT
+      tipoproj.value = gettipoProj()
+      itemtodosel.value = {}
+      itemselproj.value = projects.getRecordById(idsel)!
+      if ((itemselproj.value === undefined || itemselproj.value === null))
+        whatisSel.value = tools.WHAT_NOTHING
+      // console.log('myreadonly = true')
+      myreadonly.value = true
+
+      // console.log('   itemselproj', itemselproj)
+
+      checkiftoenable()
+    }
+
+    function setitemsel(item: ITodo) {
+      itemselproj.value = {}
+      itemtodosel.value = item
+      if (item !== null)
+        whatisSel.value = tools.WHAT_TODO
+
+      checkiftoenable()
+    }
+
+    function checkiftoenable() {
+
+      if (tools.isMobile()) {
+
+        if (whatisSel.value === tools.WHAT_NOTHING)
+          splitterModel.value = 100
+        else
+          splitterModel.value = 0
+      } else {
+        splitterModel.value = 0
+      }
+    }
+
+    function setdeselectrow() {
+      // console.log('setdeselectrow')
+      itemtodosel.value = {}
+      itemselproj.value = {}
+      whatisSel.value = tools.WHAT_NOTHING
+      checkiftoenable()
+    }
+
+    /*
+    function cambiadata(value: any) {
+      // console.log('*******   cambiadata', value)
+      itemtodosel.value.start_date = new Date(arguments[0])
+    }
+     */
+
+    async function updateitemproj({ myitem, field }: { myitem: any, field: any }) {
+      // console.log('calling MODIFY updateitemproj', myitem, field)
+
+      await projects.modify({ myitem, field })
+        .then((ris) => {
+          if (ris)
+            tools.showPositiveNotif($q, 'Campo Aggiornato')
+          else
+            tools.showNegativeNotif($q, 'Campo non Aggiornato!')
+        })
+
+    }
+
+    function deselectAllRowstodo(item: ITodo | null, check: boolean, onlythis = false) {
+      // console.log('PROJ-LIST deselectAllRowstodo : ', item)
+
+      // return false
+
+      try {
+        // @ts-ignore
+        // for (const i in $refs.ctodo.$refs.single) {
+        for (const elem of ctodo.value.single) {
+          // @ts-ignore
+          // const contr = $refs.ctodo.$refs.single[i] as SingleTodo
+          const contr = elem
+          let des = true
+          if (check) {
+            const id = contr.itemtodo._id
+            // Don't deselect the actual clicked!
+            if (onlythis && item) {
+              des = item._id === id
+            } else {
+              if (!!item) {
+                des = ((check && (item._id !== id)) || (!check))
+              } else {
+                des = !check
+              }
+            }
+          }
+          if (des) {
+            // @ts-ignore
+            contr.deselectAndExitEdit()
+          }
+        }
+      } catch (e) {
+
+      }
+    }
+
+    function deselectAllRowsproj(item: IProject | null, check: boolean, onlythis = false, deselectRiga = false) {
+      // console.log('deselectAllRowsproj: ', item)
+
+      if (deselectRiga) {
+        setdeselectrow()
+        return
+      }
+
+      if (!!item && check) {
+        // This is the new selected
+        // console.log('myreadonly = false')
+        setidsel(item._id)
+        myreadonly.value = false
+      }
+
+      if (singleproject.value === undefined)
+        return
+
+      try {
+        for (const elem of singleproject.value) {
+
+          const contr = elem
+          // @ts-ignore
+          const id = contr.itemproject._id
+          // Don't deselect the actual clicked!
+          let des = false
+          if (onlythis && item) {
+            des = item._id === id
+          } else {
+            if (!!item) {
+              des = ((check && (item._id !== id)) || (!check))
+            } else {
+              des = !check
+            }
+          }
+          if (des) {
+            // @ts-ignore
+            contr.deselectAndExitEdit()
+          }
+        }
+      } catch (e) {
+
+      }
+    }
+
+    function updateclasses() {
+      if (!!itemselproj.value) {
+        colProgress.value = tools.getProgressColor(itemselproj.value.progressCalc!)
+      } else {
+        // whatisSel = tools.WHAT_NOTHING
+      }
+    }
+
+    function checkUpdate() {
+      ApiTables.waitAndcheckPendingMsg()
+    }
+
+    function updateData() {
+      ApiTables.waitAndRefreshData()
+    }
+
+    function getCreatedBy(item: any) {
+
+      console.log('item.userid', item.userid)
+      return userStore.getNameSurnameByUserId(item.userid)
+    }
+
+    function updateindexProj() {
+      // console.log('idProjAtt', idProjAtt)
+      // @ts-ignore
+      itemproj.value = projects.getRecordById(idProjAtt.value)
+      if (!!itemproj.value) {
+        // @ts-ignore
+        itemprojparent.value = projects.getRecordById(itemproj.value.id_parent!)
+        // console.log('itemproj.value.descr', itemproj.value.descr)
+      }
+      // console.log('idproj', idProjAtt, 'params' , $route.params)
+    }
+
+    function getElementIndex(el: any) {
+      // @ts-ignore
+      return [].slice.call(el.parentElement.children).indexOf(el)
+    }
+
+    function getElementOldIndex(el: any) {
+      return parseInt(el.attributes.index.value, 10)
+    }
+
+    function iconPriority() {
+      let iconpriority = ''
+      if (itemtodosel.value.priority === tools.Priority.PRIORITY_HIGH) {
+        iconpriority = 'expand_less'
+      }  // expand_less
+      else if (itemtodosel.value.priority === tools.Priority.PRIORITY_NORMAL) {
+        iconpriority = 'remove'
+      } else if (itemtodosel.value.priority === tools.Priority.PRIORITY_LOW) {
+        iconpriority = 'expand_more'
+      }  // expand_more
+
+      return iconpriority
+    }
+
+    function canShow() {
+      return ((whatisSel.value === tools.WHAT_PROJECT) && (!!itemselproj.value.descr)) ||
+        (whatisSel.value === tools.WHAT_TODO) && (!!itemtodosel.value.descr)
+    }
+
+    function showDescr() {
+      let mystr = ''
+      if ((whatisSel.value === tools.WHAT_PROJECT) && (!!itemselproj.value.descr)) {
+        mystr = itemselproj.value.descr
+      } else if ((whatisSel.value === tools.WHAT_TODO) && (!!itemtodosel.value.descr)) {
+        mystr = itemtodosel.value.descr
+      }
+      if (isRootProjectAtt())
+        return ''
+
+      return mystr
+    }
+
+    function clickrouteup() {
+      tabproj.value = 'lista'
+      selproj()
+    }
+
+    function extraparams() {
+      return {
+        lk_tab: 'users',
+        lk_LF: 'userId',
+        lk_FF: '_id',
+        lk_as: 'user',
+        af_objId_tab: 'userId',
+        lk_proj: {
+          todoId: 1, userId: 1, descr: 1, date: 1, time_start: 1, time_end: 1, hours: 1,
+          username: 1, name: 1, surname: 1
+        }
+      }
+    }
+
+
+    function myfilterdef() {
+      return [shared_consts.FILTER_HOURS_MYLIST]
+    }
+
+    function myarrfilterand() {
+      const myfiltrodef = {
+        label: 'Mie Ore',
+        value: shared_consts.FILTER_HOURS_MYLIST,
+        hide: true,
+        default: true
+      }
+      let myarr = []
+      myarr.push(myfiltrodef)
+      if (arrfilterand)
+        myarr = [...myarr, ...arrfilterand]
+
+      return myarr
+    }
+
+
+    function getcolHours() {
+      return colTableHours
+    }
+
+    function getdefaultnewrec() {
+      const myrec = {
+        todoId: '',
+        userId: userStore.my._id,
+        descr: '',
+        hours: 0
+      }
+      if (!!itemtodosel.value) {
+        myrec.todoId = itemtodosel.value._id
+      } else if (!!itemselproj.value) {
+        myrec.todoId = itemselproj.value._id
+      } else {
+        return null
+      }
+
+      return myrec
+    }
+
+    onMounted(mounted)
+
+    onBeforeUnmount(beforeDestroy)
+
+    created()
+
+    return {
+      tabproj,
+      shownewsubproj,
+      newSubProj,
+      projbottom,
+      polling,
+      scrollable,
+      idProjAtt,
+      splitterModel,
+      itemproj,
+      tipoproj,
+      itemprojparent,
+      itemselproj,
+      itemtodosel,
+      whatisSel,
+      colProgress,
+      selectStatus,
+      selectPhase,
+      selectPrivacy,
+      selectTipoVisu,
+      selectGroup,
+      selectResp,
+      selectWorkers,
+      singleproject,
+      ctodo,
+      pagination,
+      arrfilterand,
+      projs_dacompletare,
+      classTitle,
+
+      getrouteup,
+      updateitemproj,
+      getdefaultnewrec,
+      classTitleTodoSel,
+      classTitleProjSelBread,
+      gettipoProj,
+      readonly_PanelPrivacy,
+      readonly_PanelPrivacySel,
+      CanISeeProject,
+      CanISeeProjectParent,
+      CanISeeProjectSel,
+      CanIModifyPanelPrivacy,
+      CanIModifyPanelPrivacySel,
+      getroutebyid,
+      idparentSel,
+      showtype,
+      isRootProject,
+      isRootProjectAtt,
+      getIdParent,
+      isMainProject,
+      menuPopupConfigProject,
+      listOptionShowTask,
+      descrProject,
+      getCalcHoursWorked,
+      getCalcHoursLeft,
+      calcprogressWeekly,
+      calcEndWork_Estimate,
+      getCalcTodoHoursWorked,
+      isHorizontal,
+      myStyle,
+      insertSubProj,
+      mydeleteitemproj,
+      dbInsert,
+      clickMenuProjList,
+      addProject,
+      setidsel,
+      setitemsel,
+      checkiftoenable,
+      setdeselectrow,
+      deselectAllRowstodo,
+      deselectAllRowsproj,
+      updateclasses,
+      checkUpdate,
+      updateData,
+      getCreatedBy,
+      updateindexProj,
+      getElementIndex,
+      getElementOldIndex,
+      iconPriority,
+      canShow,
+      showDescr,
+      clickrouteup,
+      extraparams,
+      myfilterdef,
+      myarrfilterand,
+      getcolHours,
+    }
+  }
+})

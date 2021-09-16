@@ -4,7 +4,7 @@ import { CCopyBtn } from '../CCopyBtn'
 
 import { IOperators, IOrder, IProduct } from '@src/model'
 import { defineComponent, PropType, toRef } from 'vue'
-import CTitleBanner from '@/components/CTitleBanner/CTitleBanner'
+import { CTitleBanner } from '@src/components/CTitleBanner'
 import { useProducts } from '@store/Products'
 
 

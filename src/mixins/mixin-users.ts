@@ -1,6 +1,7 @@
 import { IMessage } from '@src/model'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
+import { useProducts } from '@store/Products'
 
 // You can declare a mixin as the same style as components.
 export default function () {
@@ -36,15 +37,15 @@ export default function () {
   }
 
   function getnumItemsCart(): any {
-    // ++Todo: conv
-    /* const arrcart = Products.cart
+    const products = useProducts()
+    const arrcart = products.cart
     if (!!arrcart) {
       if (!!arrcart.items) {
         // @ts-ignore
         const total = arrcart.items.reduce((sum, item) => sum + item.order.quantity, 0)
         return total
       }
-    } */
+    }
     return 0
   }
 
@@ -57,7 +58,9 @@ export default function () {
   function getMyImg() {
     const userStore = useUserStore()
     const ris = userStore.getImgByUsername(userStore.my.username)
-    return (ris !== '') ? `public/${ris}` : ''
+    const out = (ris !== '') ? `public/${ris}` : ''
+    console.log('getMyImg = ', out)
+    return out
   }
 
   function getMyImgforIcon() {

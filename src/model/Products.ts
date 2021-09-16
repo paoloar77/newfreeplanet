@@ -125,7 +125,7 @@ export interface IShareWithUs {
   _id?: any
   idapp?: string
   userId?: string
-  description?: string
+  description: string
   numshared?: number
   rating?: number
 }

@@ -1,0 +1,54 @@
+import { defineComponent, ref, computed, PropType, onBeforeUpdate, reactive } from 'vue'
+import { useI18n } from '@src/boot/i18n'
+import { useUserStore } from '@store/UserStore'
+import { useGlobalStore } from '@store/globalStore'
+import { useQuasar } from 'quasar'
+
+export default defineComponent({
+  name: '',
+  props: {
+    mystr: {
+      type: String,
+      required: true,
+      default: '',
+    },
+    myval: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    mybool: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    op: {
+      type: Object as PropType<IOperators>,
+      required: true,
+    },
+  },
+  components: {
+
+  },
+  setup(props, { emit,  }) {
+    const $q = useQuasar()
+    const { t } = useI18n()
+    const userStore = useUserStore()
+    const globalStore = useGlobalStore()
+
+    //  <div v-for="(item, i) in list" :ref="el => { divs[i] = el }">
+    // const list = reactive([1, 2, 3]);
+    // const divs = ref([]);
+
+    // Make sure to reset the refs before each update.
+    // onBeforeUpdate(() => {
+    //     divs.value = [];
+    //   });
+
+    const rec = ref<IMyPage | null>(null)
+
+    return {
+
+    }
+  }
+})

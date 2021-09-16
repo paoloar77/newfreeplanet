@@ -13,6 +13,7 @@
  * @api public
  */
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function Debounce(func: Function, wait?: number, immediate?: boolean) {
   // @ts-ignore
   let timeout: any,

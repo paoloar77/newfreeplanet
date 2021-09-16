@@ -5,7 +5,7 @@ import { CDateTime } from '../../../components/CDateTime'
 import { CMyFieldDb } from '../../../components/CMyFieldDb'
 import { useQuasar } from 'quasar'
 import { useI18n } from '@/boot/i18n'
-import { useUserStore } from '@store/userStore'
+import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { tools } from '@store/Modules/tools'
 
@@ -25,7 +25,7 @@ export default defineComponent({
     const placca = ref('')
     const incaricamento = ref(false)
 
-    async function EseguiFunz(miafunz: string) {
+    function EseguiFunz(miafunz: string) {
       const userStore = useUserStore()
       const globalStore = useGlobalStore()
 

@@ -191,7 +191,8 @@ const msg_website_it = {
         + 'Verranno accettate solo donazioni Libere di privati ed Associazioni no-profit, in linea con i Principi, che serviranno per coprire le spese.<br>'
         + '<strong>Grazie a Tutti per il sostegno</strong>. ',
     },
-    contacts: 'Contatti',
+    titlecontatti: 'Contatti',
+    contacts: '',
   },
 };
 

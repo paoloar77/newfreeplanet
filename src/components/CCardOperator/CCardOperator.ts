@@ -1,4 +1,4 @@
-import { CCard } from '@components'
+import { CCard } from '@/components/CCard'
 import MixinOperator from '../../mixins/mixin-operator'
 import { defineComponent, ref } from 'vue'
 

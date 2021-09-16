@@ -7,18 +7,23 @@ import { static_data } from '@src/db/static_data'
 
 import { useQuasar } from 'quasar'
 import { useGlobalStore } from '@store/globalStore'
-import { Logo } from '../logo'
+import { Logo } from '@/components/logo'
 import { useI18n } from '@src/boot/i18n'
-import { FormNewsletter } from '@components'
+import { toolsext } from '@store/Modules/toolsext'
+import { FormNewsletter } from '@/components/FormNewsletter'
+import { CFacebookFrame } from '@/components/CFacebookFrame'
+
+import MixinBase from '../../mixins/mixin-base'
 
 export default defineComponent({
   name: 'Footer',
-  components: { Logo, FormNewsletter },
+  components: { Logo, FormNewsletter, CFacebookFrame },
 
   setup() {
     const $q = useQuasar()
-    const { t } = useI18n()
     const globalStore = useGlobalStore()
+
+    const { getarrValDb, getValDb } = MixinBase()
 
     console.log('Footer - INIT')
 
@@ -49,7 +54,7 @@ export default defineComponent({
 
     function ChatWhatsapp() {
       // @ts-ignore
-      return tools.getHttpForWhatsapp(this.Whatsapp_Cell)
+      return tools.getHttpForWhatsapp(this.Whatsapp_Cell())
     }
 
     return {
@@ -61,7 +66,10 @@ export default defineComponent({
       FBPage,
       Telegram_UsernameHttp,
       static_data,
-      t,
+      tools,
+      toolsext,
+      getarrValDb,
+      getValDb
     }
   },
 })

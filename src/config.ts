@@ -7,7 +7,7 @@ interface IUriConfig {
 
 const uri: IUriConfig = {}
 
-const addProp = (obj: {}, propName: string, value: string) => {
+const addProp = (obj: any, propName: string, value: string) => {
   Object.defineProperty(obj, propName, {
     enumerable: false,
     get: () => `//${window.location.host}${value}`,

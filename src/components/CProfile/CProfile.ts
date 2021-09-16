@@ -1,22 +1,19 @@
-import Vue from 'vue'
-import { GlobalStore } from '@store'
-import { UserStore } from '../../store/Modules'
-import { Component, Prop, Watch } from 'vue-property-decorator'
-import { toolsext } from '@src/store/Modules/toolsext'
+import { defineComponent } from 'vue'
+import { useI18n } from '@/boot/i18n'
+import { useUserStore } from '@store/UserStore'
+import { useGlobalStore } from '../../store/globalStore'
+import { useQuasar } from 'quasar'
 
-import { validationMixin } from 'vuelidate'
-
-import MixinBase from '../../mixins/mixin-base'
-
-@Component({
+export default defineComponent({
   name: 'CProfile',
-  mixins: [validationMixin],
-  components: {  }
+  setup() {
+    const $q = useQuasar()
+    const { t } = useI18n()
+    const userStore = useUserStore()
+    const globalStore = useGlobalStore()
+
+    return {
+      t,
+    }
+  },
 })
-
-export default class CProfile extends MixinBase {
-  public $v
-  public $t: any
-
-
-}

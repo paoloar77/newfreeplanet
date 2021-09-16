@@ -1,6 +1,6 @@
 import { IBaseOrder, ICart, IOrder, IOrderCart, IProduct, IProductsState } from 'model'
 
-import Api from '@api'
+import { Api } from '@api'
 import { serv_constants } from '@src/store/Modules/serv_constants'
 import * as Types from '@src/store/Api/ApiTypes'
 import { static_data } from '@src/db/static_data'

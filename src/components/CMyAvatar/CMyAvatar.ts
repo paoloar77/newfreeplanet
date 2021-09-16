@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref, watch } from 'vue'
+import { defineComponent, onMounted, ref, toRef, watch } from 'vue'
 import { useUserStore } from '@store/UserStore'
 
 export default defineComponent({
@@ -23,6 +23,7 @@ export default defineComponent({
 
     const userStore = useUserStore()
     const imgprofile = ref(userStore.my.profile.img)
+    const myimgvar = toRef(props, 'myimg')
 
     function refresh() {
       if (!props.myimg) {
@@ -44,10 +45,7 @@ export default defineComponent({
 
 
     watch(
-      // @ts-ignore
-      props.myimg,
-      // @ts-ignore
-      (value: string, oldValue: string) => {
+      myimgvar, (value: string, oldValue: string) => {
         myimgint.value = ''
         refresh()
       },
@@ -57,6 +55,7 @@ export default defineComponent({
 
     return {
       myimgint,
+      myicon,
     }
   },
 })

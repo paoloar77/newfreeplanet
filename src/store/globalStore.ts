@@ -1,15 +1,24 @@
 import { defineStore } from 'pinia'
 import {
-  ICfgServer, IColGridTable, IConfig, IDataToSet, IGlobalState, IListRoutes, IParamsQuery, ISettings, StateConnection,
+  ICfgServer,
+  IColGridTable,
+  IConfig,
+  IDataToSet,
+  IGlobalState,
+  IListRoutes,
+  IMyPage,
+  IParamsQuery,
+  ISettings,
+  StateConnection,
 } from '@model'
 import { static_data } from '@src/db/static_data'
 import * as Types from '@src/store/Api/ApiTypes'
 import { useUserStore } from '@store/UserStore'
 import { serv_constants } from '@store/Modules/serv_constants'
 import * as ApiTables from '@src/store/Modules/ApiTables'
-import { useRouter } from 'vue-router'
+import { Router, useRouter } from 'vue-router'
 import { cfgrouter } from '@src/router/route-config'
-import Api from './Api'
+import { Api } from '@api'
 import { toolsext } from '@store/Modules/toolsext'
 import { costanti } from '@costanti'
 import { fieldsTable } from '@store/Modules/fieldsTable'
@@ -19,6 +28,8 @@ import globalroutines from '../globalroutines/index'
 import { useCalendarStore } from '@store/CalendarStore'
 import urlBase64ToUint8Array from '@src/js/utility'
 import translate from '@src/globalroutines/util'
+import { useTodoStore } from '@store/Todos'
+import { useMessageStore } from './MessageStore'
 
 
 const stateConnDefault = 'online'
@@ -141,23 +152,23 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return (rec.lang === toolsext.getLocale(false) || toolsext.getLocale() === '')
     },
 
-    getPage: (state: IGlobalState) => (path: string) => state.mypage.find((page) => (`/${page.path}`) === path),
+    getPage: (state: IGlobalState) => (path: string): IMyPage | undefined => state.mypage.find((page) => (`/${page.path}`) === path),
 
     getmenu: (state: IGlobalState): any => {
       // console.log('getmenu', cfgrouter.getmenu())
-      /*
-        const mystate = state
 
-        mystate.menulinks = {
-          Dashboard: {
-            routes: cfgrouter.getmenu(),
-            show: true,
-          },
-        }
-        */
+      const mystate = state
 
-      // return mystate.menulinks
-      cfgrouter.getmenu()
+      mystate.menulinks = {
+        Dashboard: {
+          routes: cfgrouter.getmenu(),
+          show: true,
+        },
+      }
+
+      return mystate.menulinks
+
+      //return cfgrouter.getmenu()
     },
 
     getRespByUsername: (state: IGlobalState) => (username: string) => {
@@ -169,6 +180,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
       let ris = null
 
       const calendarStore = useCalendarStore()
+      const userStore = useUserStore()
+      const messageStore = useMessageStore()
 
       if (table === costanti.TABEVENTS)
         return calendarStore.eventlist
@@ -196,22 +209,24 @@ export const useGlobalStore = defineStore('GlobalStore', {
       else if (table === 'departments') ris = state.departments
       else if (table === 'sharewithus') ris = state.sharewithus
       else if (table === 'paymenttypes') ris = state.paymenttypes
-      /* else if (table === 'bookings')
+      else if (table === 'bookings')
         return calendarStore.bookedevent
       else if (table === 'users')
         return userStore.usersList
       else if (table === 'sendmsgs')
-        return MessageStore.last_msgs
+        return messageStore.last_msgs
       else if (table === 'settings')
-        return userStore.settings */
+        return state.settings
       else return ris
 
-      return ris || null
+      return ris
     },
 
     getrecSettingsByKey: (state: IGlobalState) => (key: any, serv: any): ISettings | undefined => {
       if (serv) return state.serv_settings.find((rec) => rec.key === key)
-      return state.settings.find((rec) => rec.key === key)
+      const ris = state.settings.find((rec) => rec.key === key)
+      console.log('getrecSettingsByKey=', ris)
+      return ris
     },
 
     getCmdClick: (state: IGlobalState): string => (state.clickcmd ? state.clickcmd : ''),
@@ -221,26 +236,16 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return (!!myrec) ? myrec.subject! : ''
     },
 
-    getValueSettingsByKey: (state: IGlobalState) => (key: any, serv: any): any | undefined => {
-      // @ts-ignore
-      const myrec = this.getrecSettingsByKey(key, serv)
+  },
 
-      if (myrec) {
-        if ((myrec.type === costanti.FieldType.date) || (myrec.type === costanti.FieldType.onlydate)) return myrec.value_date
-        if ((myrec.type === costanti.FieldType.number) || (myrec.type === costanti.FieldType.hours)) return myrec.value_num
-        if (myrec.type === costanti.FieldType.boolean) return myrec.value_bool
-        return myrec.value_str
-      }
-      return ''
-    },
-
-    setValueSettingsByKey: (state: IGlobalState) => ({ key, value, serv }: { key: string, value: any, serv: boolean }): any => {
+  actions: {
+    setValueSettingsByKey({ key, value, serv }: {key: string, value: any, serv: boolean}): any {
       // Update the Server
 
       // Update in Memory
       let myrec = null
-      if (serv) myrec = state.serv_settings.find((rec: any) => rec.key === key)
-      else myrec = state.settings.find((rec: any) => rec.key === key)
+      if (serv) myrec = this.serv_settings.find((rec: any) => rec.key === key)
+      else myrec = this.settings.find((rec: any) => rec.key === key)
 
       if (myrec) {
         if ((myrec.type === costanti.FieldType.date) || (myrec.type === costanti.FieldType.onlydate)) myrec.value_date = value
@@ -252,9 +257,22 @@ export const useGlobalStore = defineStore('GlobalStore', {
       }
     },
 
-  },
+    getValueSettingsByKey(key: any, serv: any): any | undefined {
+      const myrec = this.getrecSettingsByKey(key, serv)
+      console.log('getValueSettingsByKey', myrec, 'key=', key, 'srv=', serv)
+      if (myrec) {
+        if ((myrec.type === costanti.FieldType.date) || (myrec.type === costanti.FieldType.onlydate)) return myrec.value_date
+        if ((myrec.type === costanti.FieldType.number) || (myrec.type === costanti.FieldType.hours)) return myrec.value_num
+        if (myrec.type === costanti.FieldType.boolean) return myrec.value_bool
+        if (myrec.value_str === undefined) {
+          return ''
+        } else {
+          myrec.value_str
+        }
+      }
+      return ''
+    },
 
-  actions: {
     changeCmdClick(value: string) {
       console.log('changeCmdClick', value)
       this.clickcmd = value
@@ -264,7 +282,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return this.stateConnection === 'online'
     },
 
-    async addDynamicPages() {
+    addDynamicPages($router: Router) {
       const arrpagesroute: IListRoutes[] = []
 
       for (const page of this.mypage) {
@@ -298,7 +316,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       const last = {
         active: true,
         order: 10000,
-        path: '*',
+        path: '/:catchAll(.*)*',
         materialIcon: 'fas fa-calendar-plus',
         name: 'otherpages.error404def',
         component: () => import('@src/root/My404page/My404page.vue'),
@@ -326,15 +344,21 @@ export const useGlobalStore = defineStore('GlobalStore', {
       // Sort array
       static_data.routes = static_data.routes.sort((a, myb) => a.order - myb.order)
 
-      /*
-      if (tools.sito_online(false)) {
-        router.addRoutes([...arrpagesroute, last])
-      } else {
-        router.addRoutes([sito_offline, last])
-        router.replace('/sito_offline')
-      }
+      // console.log('static_data.routes', static_data.routes)
 
-       */
+      console.log('$router', $router)
+
+      if (tools.sito_online(false)) {
+        arrpagesroute.forEach(function (route: any) {
+          $router.addRoute(route)
+        })
+
+        $router.addRoute(last)
+      } else {
+        $router.addRoute(sito_offline)
+        $router.addRoute(last)
+        $router.replace('/sito_offline')
+      }
     },
 
     setPaoArray_Delete(state: IGlobalState) {
@@ -367,20 +391,25 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return globalroutines('write', 'config', { _id: data._id, value: data.value })
     },
 
-    /*setShowType(state: IGlobalState, showtype: number) {
+    SetwasAlreadySubOnDb(subscrib: boolean) {
+      this.wasAlreadySubOnDb = subscrib
+    },
+
+    setShowType(showtype: number) {
+      const todos = useTodoStore()
       console.log('setShowType', showtype)
-      const config = Getters.getConfigbyId(costanti.CONFIG_ID_SHOW_TYPE_TODOS)
+      const config = this.getConfigbyId(costanti.CONFIG_ID_SHOW_TYPE_TODOS)
       console.log('config', config)
       if (config) {
         config.value = String(showtype)
-        Todos.showtype = parseInt(config.value, 10)
+        todos.showtype = parseInt(config.value, 10)
       } else {
-        Todos.showtype = showtype
+        todos.showtype = showtype
       }
-      console.log('Todos.showtype', Todos.showtype)
-      GlobalStore.saveConfig({ _id: costanti.CONFIG_ID_SHOW_TYPE_TODOS, value: String(showtype) })
+      console.log('Todos.state.showtype', todos.showtype)
+      this.saveConfig({ _id: costanti.CONFIG_ID_SHOW_TYPE_TODOS, value: String(showtype) })
 
-    },*/
+    },
 
     UpdateValuesInMemory(mydata: IDataToSet): void {
       const { id } = mydata
@@ -524,9 +553,6 @@ export const useGlobalStore = defineStore('GlobalStore', {
       console.log('DeleteSubscriptionToServer: ')
 
       return Api.SendReq('/subscribe/del', 'DELETE', null)
-        .then((res) => {
-
-        })
     },
 
     async clearDataAfterLogout() {
@@ -560,7 +586,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       await this.deleteSubscriptionToServer()
     },
 
-    async clearDataAfterLoginOnlyIfActiveConnection() {
+    clearDataAfterLoginOnlyIfActiveConnection() {
       const prova = 1
       return prova
     },
@@ -579,7 +605,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         isok = true
       }
 
-      // ++Todo conv: this.arrConfig = await globalroutines( 'readall', 'config', null)
+      await globalroutines( 'readall', 'config', null)
 
       return isok
     },
@@ -588,9 +614,6 @@ export const useGlobalStore = defineStore('GlobalStore', {
       console.log('saveCfgServerKey dataval', dataval)
 
       const ris = await Api.SendReq('/admin/updateval', 'POST', { pairval: dataval })
-        .then((res) => {
-
-        })
     },
 
     async checkUpdates() {
@@ -636,7 +659,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async sendPushNotif({ params }: { params: any }) {
+    async sendPushNotif({ params }: {params: any}) {
 
       return Api.SendReq('/push/send', 'POST', { params })
         .then((res) => {
@@ -697,7 +720,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async saveTable(mydata: object) {
+    async saveTable(mydata: any) {
       // console.log('saveTable', mydata)
       const userStore = useUserStore()
 
@@ -723,7 +746,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         .catch((error) => false)
     },
 
-    async callFunz({ mydata }: { mydata: any }) {
+    async callFunz({ mydata }: {mydata: any}) {
       // console.log('saveFieldValue', mydata)
 
       return Api.SendReq('/callfunz', 'PATCH', { data: mydata })
@@ -738,7 +761,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async askFunz({ mydata }: { mydata: any }) {
+    async askFunz({ mydata }: {mydata: any}) {
       // console.log('saveFieldValue', mydata)
 
       return Api.SendReq('/askfunz', 'PATCH', { data: mydata })
@@ -750,7 +773,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async DeleteRec({ table, id }: { table: string, id: string }) {
+    async DeleteRec({ table, id }: {table: string, id: string}) {
       console.log('DeleteRec', table, id)
 
       return Api.SendReq('/delrec/' + table + '/' + id, 'DELETE', null)
@@ -768,7 +791,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async DeleteFile({ filename }: { filename: string }) {
+    async DeleteFile({ filename }: {filename: string}) {
       console.log('DeleteFile', filename)
 
       return Api.SendReq('/delfile', 'DELETE', { filename })
@@ -786,7 +809,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async DuplicateRec({ table, id }: { table: string, id: string }) {
+    async DuplicateRec({ table, id }: {table: string, id: string}) {
       console.log('DuplicateRec', id)
 
       return Api.SendReq('/duprec/' + table + '/' + id, 'POST', null)
@@ -804,7 +827,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async InviaMsgADonatori({ msgobj, navemediatore, tipomsg }: { msgobj: any, navemediatore: any, tipomsg: any }) {
+    async InviaMsgADonatori({ msgobj, navemediatore, tipomsg }: {msgobj: any, navemediatore: any, tipomsg: any}) {
       console.log('InviaMsgADonatori', msgobj)
 
       const mydata = {
@@ -833,7 +856,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async InviaMsgAFlotta({ flotta, inviareale, inviaemail, tipomsg }: { flotta: any, inviareale: boolean, inviaemail: boolean, tipomsg: any }) {
+    async InviaMsgAFlotta({ flotta, inviareale, inviaemail, tipomsg }: {flotta: any, inviareale: boolean, inviaemail: boolean, tipomsg: any}) {
       console.log('InviaMsgAFlotta')
 
       const mydata = {
@@ -903,7 +926,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async GetNave({ riga, col, riga1don, col1don, ind_order }: { riga: any, col: any, riga1don: any, col1don: any, ind_order: number }) {
+    async GetNave({ riga, col, riga1don, col1don, ind_order }: {riga: any, col: any, riga1don: any, col1don: any, ind_order: number}) {
       // console.log('GetNave')
 
       const mydata = {
@@ -930,7 +953,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async GetData({ data }: { data: any }) {
+    async GetData({ data }: {data: any}) {
       console.log('GetData')
 
       const mydata = {
@@ -953,7 +976,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async GetArrDoniNavi({ ricalcola, showall }: { ricalcola: boolean, showall: boolean }) {
+    async GetArrDoniNavi({ ricalcola, showall }: {ricalcola: boolean, showall: boolean}) {
       console.log('GetArrDoniNavi')
 
       const mydata = {
@@ -977,7 +1000,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async GetFlotte({ ricalcola, showall }: { ricalcola: boolean, showall: boolean }) {
+    async GetFlotte({ ricalcola, showall }: {ricalcola: boolean, showall: boolean}) {
       console.log('GetFlotte')
 
       const mydata = {
@@ -1001,7 +1024,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async GetFlotta({ riga, col_prima, col_ultima }: { riga: any, col_prima: any, col_ultima: any }) {
+    async GetFlotta({ riga, col_prima, col_ultima }: {riga: any, col_prima: any, col_ultima: any}) {
       console.log('GetFlotta')
 
       const mydata = {
@@ -1028,6 +1051,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
     async loadSite() {
       const userStore = useUserStore()
+      const calendarStore = useCalendarStore()
       // console.log('calendarStore: loadAfterLogin')
       // Load local data
       const showall = userStore.isAdmin || userStore.isManager ? '1' : '0'
@@ -1038,16 +1062,15 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       return Api.SendReq(`/loadsite/${myuserid}/${process.env.APP_ID}/${process.env.APP_VERSION}`, 'GET', null)
         .then((res) => {
-          // console.log('____________________________  res', res)
+          console.log('____________________________  res', res)
           if (res.status === 200) {
-            /* calendarStore.bookedevent = (res.data.bookedevent) ? res.data.bookedevent : []
+            calendarStore.bookedevent = (res.data.bookedevent) ? res.data.bookedevent : []
             calendarStore.eventlist = (res.data.eventlist) ? res.data.eventlist : []
             calendarStore.operators = (res.data.operators) ? res.data.operators : []
             calendarStore.internalpages = (res.data.internalpages) ? res.data.internalpages : []
             calendarStore.wheres = (res.data.wheres) ? res.data.wheres : []
             calendarStore.contribtype = (res.data.contribtype) ? res.data.contribtype : []
 
-             */
             this.settings = (res.data.settings) ? [...res.data.settings] : []
             this.disciplines = (res.data.disciplines) ? [...res.data.disciplines] : []
             this.paymenttypes = (res.data.paymenttypes) ? [...res.data.paymenttypes] : []
@@ -1109,8 +1132,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    getArrStrByValueBinary(mythis: any, col: IColGridTable, val: any) {
-      const arr = this.getArrByValueBinary(mythis, col, val)
+    getArrStrByValueBinary(col: IColGridTable, val: any) {
+      const arr = this.getArrByValueBinary(null, col, val)
       if (arr.length > 0) return arr.join(' - ')
       return '[---]'
     },

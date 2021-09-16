@@ -1,7 +1,7 @@
-import { defineComponent, PropType } from "vue"
-import { useI18n } from '../src/boot/i18n'
-import { useUserStore } from '../src/store/UserStore'
-import { useGlobalStore } from '../src/store/globalStore'
+import { defineComponent, ref, computed } from 'vue'
+import { useI18n } from '@src/boot/i18n'
+import { useUserStore } from '@store/UserStore'
+import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 
 export default defineComponent({
@@ -22,15 +22,14 @@ export default defineComponent({
       required: true,
       default: false,
     },
-    op: {
-      type: Object as PropType<IOperators>,
-      required: true,
-    },
   },
-  components: {
+  setup(props, { emit }) {
+    // context.attrs
+    // context.slots
+    // context.emit
+    // context.parent
+    // context.root
 
-  },
-  setup() {
     const $q = useQuasar()
     const { t } = useI18n()
     const userStore = useUserStore()

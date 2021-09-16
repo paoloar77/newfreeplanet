@@ -1,7 +1,7 @@
 import axios, {
   AxiosInstance, AxiosPromise, AxiosResponse, AxiosInterceptorManager,
 } from 'axios'
-import Api from '@api'
+import { Api } from '@api'
 import * as Types from '@src/store/Api/ApiTypes'
 
 async function sendRequest(url: string, method: string, mydata: any) {

@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
 
 import { nextTick } from 'vue'
-
-const css = require('@css')
+import { dom } from 'quasar'
 
 let TIMER: any = null
 let TIMEOUT: any = null
@@ -15,8 +14,8 @@ export const useProgressBar = defineStore('ProgressBar', {
     canSuccess: true,
     duration: 3000,
     height: '2px',
-    color: css.mainStyle,
-    failedColor: css.red1,
+    color: '#4975BA',
+    failedColor: '#c84242',
   }),
   getters: {},
   actions: {

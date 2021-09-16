@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import Api from '@api'
+import { Api } from '@api'
 
 import { serv_constants } from './Modules/serv_constants'
 

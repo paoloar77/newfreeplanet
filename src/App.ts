@@ -1,14 +1,19 @@
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { BannerCookies } from '@components'
+import { BannerCookies } from '@/components/BannerCookies'
 import { useI18n } from '@src/boot/i18n'
-import { useGlobalStore } from './store/globalStore'
-import { useUserStore } from './store/UserStore'
-import { Header } from './components/Header'
+import { useGlobalStore } from '@store/globalStore'
+import { useUserStore } from '@store/UserStore'
+import { Header } from '@/components/Header'
+import { toolsext } from '@store/Modules/toolsext'
+import globalroutines from './globalroutines/index'
+import { computed } from 'vue'
+import { CProvaPao } from '@/components/CProvaPao'
 
 export default {
   components: {
     appHeader: Header,
+    CProvaPao,
     BannerCookies, /* , CPreloadImages */
   },
   setup() {
@@ -17,8 +22,11 @@ export default {
     const backgroundColor = 'whitesmoke'
     const $q = useQuasar()
     const userStore = useUserStore()
+    const $router = useRouter()
     const globalStore = useGlobalStore()
     const { t } = useI18n();
+
+    const finishLoading = computed(() => globalStore.finishLoading)
 
     const listaRoutingNoLogin = ['/vreg?', '/offline']
 
@@ -54,28 +62,29 @@ export default {
 
       if (chiamaautologin) {
         // console.log('CHIAMA autologin_FromLocalStorage')
-        userStore.autologin_FromLocalStorage()
+        userStore.autologin_FromLocalStorage($router)
           .then((loadstorage) => {
             if (loadstorage) {
 
-              /*
-              if (toolsext.getLocale() !== '') {
+
+              /*if (toolsext.getLocale() !== '') {
                 // console.log('SETLOCALE :', this.$i18n.locale)
-                this.$i18n.locale = toolsext.getLocale()    // Set Lang
+                $i18n.locale = toolsext.getLocale()    // Set Lang
               } else {
-                userStore.setlang(this.$i18n.locale)
-              }
-              */
+                userStore.setlang($router, this.$i18n.locale)
+              }*/
+
 
               // console.log('lang CARICATO:', this.$i18n.locale)
 
-              // ++Todo: conv: globalroutines(this, 'loadapp', '')
-              // this.$router.replace('/')
+              //++Todo PWA:  globalroutines('loadapp', '')
 
               // Create Subscription to Push Notification
-              // ++Todo: conv: globalStore.createPushSubscription()
+              globalStore.createPushSubscription()
             }
           })
+      } else {
+        globalStore.finishLoading = true
       }
 
       // Calling the Server for updates ?
@@ -85,7 +94,7 @@ export default {
     created()
 
     return {
-
+      finishLoading,
     }
   },
 }

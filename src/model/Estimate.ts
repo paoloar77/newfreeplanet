@@ -6,13 +6,13 @@ export interface IEstimate {
   title: string
   advanced?: boolean
   description?: string
-  viewlist?: number[]
+  viewlist?: number[] | null
   listsel?: number
   qtaName?: string
   icon?: string
-  numpag?: number
+  numpag: number
   qta?: number
-  price?: number
-  pricebase?: number
+  price: number
+  pricebase: number
   checksel?: boolean
 }

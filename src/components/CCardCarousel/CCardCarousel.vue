@@ -75,7 +75,7 @@ dark color="white" v-model="globalStore.autoplaydisc" label="Auto Play" class="s
                               :alt="myrec.label"
                               :name="index">
                 <div class="row q-ma-xs">
-                    <CCardDiscipline :discipline="myrec" mystyle="height: 500px" v-model:autoplay="globalStore.autoplaydisc">
+                    <CCardDiscipline :discipline="myrec" mystyle="height: 500px" autoplay.sync="globalStore.autoplaydisc">
 
                     </CCardDiscipline>
                 </div>

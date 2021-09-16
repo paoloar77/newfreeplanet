@@ -2,7 +2,7 @@
   <div>
     <q-card class="my-card text-center">
 
-      <q-img :src="`statics/images/` + myop.img" class="myimg">
+      <q-img :src="`public/images/` + myop.img" class="myimg">
         <div class="absolute-bottom text-spacetrans text-shadow">
           <div class="text-h6 text-trans">{{ myop.name }} {{ myop.surname }}</div>
           <div class="text-subtitle-carica text-trans">{{ myop.qualification }}</div>

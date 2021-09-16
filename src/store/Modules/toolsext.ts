@@ -2,6 +2,9 @@ import { date, useQuasar } from 'quasar'
 import { useUserStore } from '@store/UserStore'
 // import { useGlobalStore } from '@store/globalStore'
 import { static_data } from '../../db/static_data'
+import { useGlobalStore } from '@store/globalStore'
+import { useTodoStore } from '@store/Todos'
+import { Router } from 'vue-router'
 
 export const func_tools = {
   getLocale(vero ?: boolean): string {
@@ -108,8 +111,7 @@ export const toolsext = {
     if (mylang === 'enUs') return 'en-us'
     return mylang
   },
-  setLangAtt(mylang: string) {
-    /** ++Todo: SISTEMARE
+  setLangAtt($router: Router, mylang: string) {
     const globalStore = useGlobalStore()
 
     const $q = useQuasar()
@@ -122,21 +124,19 @@ export const toolsext = {
       console.log('   Import dinamically lang =', lang)
 
       $q.lang.set(this.getlangforQuasar(lang.default))
-      import('../../public/i18n').then(() => {
+      import('../../statics/i18n').then(() => {
         console.log('   *** MY LANG DOPO=', $q.lang.isoName)
       })
     })
 
-    globalStore.addDynamicPages()
-
-     */
+    globalStore.addDynamicPages($router)
 
     // this.$q.lang.set(mylang)
   },
 
   getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: string, id?: any, idmain?: any): any | undefined {
 
-    /** ++Todo: SISTEMARE
+    const todos = useTodoStore()
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
     if (table === 'users') {
@@ -147,12 +147,12 @@ export const toolsext = {
       } else if (keystr) { // @ts-ignore
         return userStore.my[keystr]
       }
-      /* } else if (table === 'todos') {
+    } else if (table === 'todos') {
         // console.log('id', id, 'idmain', idmain)
-        const indcat = Todos.categories.indexOf(idmain)
+        const indcat = todos.categories.indexOf(idmain)
         console.log('indcat', indcat)
         if (indcat >= 0) {
-          const myrec = Todos.todos[indcat].find((rec) => rec._id === id)
+          const myrec = todos.todos[indcat].find((rec: any) => rec._id === id)
           console.log('myrec', myrec)
           let ris = null
           if (myrec) {
@@ -173,7 +173,6 @@ export const toolsext = {
       }
       return ris
     }
-    */
     return ''
 
   },
@@ -188,7 +187,7 @@ export const toolsext = {
     return ris
   },
 
-  checkLangPassed(mylangprop: string) {
+  checkLangPassed($router: Router, mylangprop: string) {
     // console.log('checkLangPassed ', mylang)
 
     let mylang = mylangprop
@@ -226,7 +225,7 @@ export const toolsext = {
         mylang = 'it'
 
         // Metti come default
-        userStore.setlang(mylang)
+        userStore.setlang($router, mylang)
       }
     }
 
@@ -236,7 +235,7 @@ export const toolsext = {
     }
 
     if (this.getLocale(true) === '') {
-      userStore.setlang(mylang)
+      userStore.setlang($router, mylang)
     }
 
     // console.log('mylang calc : ', mylang)

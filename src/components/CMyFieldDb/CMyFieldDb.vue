@@ -24,7 +24,7 @@
           <CDateTime
             :label="col.label"
             class="cursor-pointer"
-            :value.sync="myvalue"
+            v-model:value="myvalue"
             :readonly="false"
             :dense="true"
             :canEdit="canEdit"
@@ -35,7 +35,7 @@
           <CDateTime
             :label="col.label"
             class="cursor-pointer"
-            :value.sync="myvalue"
+            v-model:value="myvalue"
             :readonly="false"
             :dense="true"
             :canEdit="canEdit"
@@ -107,7 +107,8 @@
             </div>
           </div>
           <div v-else-if="type === tools.FieldType.boolean">
-            <q-toggle dark color="green" v-model="myvalue" :label="col.title"
+            <q-toggle
+dark color="green" v-model="myvalue" :label="col.title"
                       @input="savefieldboolean"></q-toggle>
           </div>
           <div v-else>
@@ -130,7 +131,8 @@
               </div>
             </div>
             <div v-else-if="type === tools.FieldType.string">
-              <q-input v-model="myvalue"
+              <q-input
+v-model="myvalue"
 
                        autogrow
                        @keyup.enter.stop
@@ -139,7 +141,8 @@
               </q-input>
             </div>
             <div v-else-if="type === tools.FieldType.password">
-              <q-input v-model="myvalue"
+              <q-input
+v-model="myvalue"
                        type="password"
                        @keyup.enter.stop
                        autofocus>
@@ -147,34 +150,38 @@
               </q-input>
             </div>
             <div v-else-if="type === tools.FieldType.number">
-              <q-input v-model="myvalue" type="number"
+              <q-input
+v-model="myvalue" type="number"
                        autofocus>
 
               </q-input>
             </div>
             <div v-else-if="type === tools.FieldType.hours">
-              <CMySelect label="Ore" :value.sync="myvalue"
+              <CMySelect
+label="Ore" v-model:value="myvalue"
                          optval="_id" optlab="label"
                          :useinput="false"
                      o    :options="tools.SelectHours">
               </CMySelect>
             </div>
             <div v-else-if="type === tools.FieldType.binary">
-              <CMyToggleList :label="col.title"
+              <CMyToggleList
+:label="col.title"
                              :options="db_fieldsTable.getTableJoinByName(col.jointable)"
-                             :value.sync="myvalue"
+                             v-model:value="myvalue"
                              :optval="db_fieldsTable.getKeyByTable(col.jointable)"
                              :optlab="db_fieldsTable.getLabelByTable(col.jointable)">
               </CMyToggleList>
             </div>
             <div v-else-if="type === tools.FieldType.html">
-              <CMyEditor :value.sync="myvalue" :title="title" @keyup.enter.stop>
+              <CMyEditor v-model:value="myvalue" :title="title" @keyup.enter.stop>
 
               </CMyEditor>
             </div>
             <div v-else-if="type === tools.FieldType.select">
-              <CMySelect :label="col.title"
-                         :value.sync="myvalue"
+              <CMySelect
+:label="col.title"
+                         v-model:value="myvalue"
                          :optval="db_fieldsTable.getKeyByTable(col.jointable)"
                          :optlab="db_fieldsTable.getLabelByTable(col.jointable)"
                          :options="db_fieldsTable.getTableJoinByName(col.jointable)"
@@ -213,7 +220,8 @@
               <div class="justify-center q-gutter-sm clgutter q-mt-sm">
                 <vue-tel-input
                   @country-changed="intcode_change"
-                  v-model="myvalue"
+                  :value="myvalue"
+                  @input="onInput"
                   :disabledFetchingCountry="true"
                   :preferredCountries="tools.getprefCountries"
                   :placeholder="$t('reg.cell')"
@@ -228,9 +236,10 @@
 
             </div>
             <div v-else-if="col.fieldtype === tools.FieldType.multiselect">
-              <CMyToggleList :label="col.title"
+              <CMyToggleList
+:label="col.title"
                              :options="db_fieldsTable.getTableJoinByName(col.jointable)"
-                             :value.sync="myvalue"
+                             v-model:value="myvalue"
                              :optval="db_fieldsTable.getKeyByTable(col.jointable)"
                              :optlab="db_fieldsTable.getLabelByTable(col.jointable)"
                              :isarray="true">

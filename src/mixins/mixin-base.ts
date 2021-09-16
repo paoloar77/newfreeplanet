@@ -95,6 +95,7 @@ export default function () {
       globalStore.setValueSettingsByKey({ key, value, serv })
 
       let myrec = globalStore.getrecSettingsByKey(key, serv)
+      console.log('settings... myrec ', myrec, 'key=', key, 'serv', serv)
       if (myrec === undefined) {
         myrec = {
           idapp: process.env.APP_ID,

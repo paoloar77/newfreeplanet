@@ -32,7 +32,7 @@ export const useTestStore = defineStore({
   },
 
   actions: {
-    async testProva() {
+    testProva() {
       let arrpagesroute = null
 
       arrpagesroute = this.isMyLang({ lang: 'test' })

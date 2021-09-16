@@ -59,7 +59,7 @@
         -->
 
         <q-btn
-          v-if="!isonline && static_data.functionality.SHOW_IF_IS_SERVER_CONNECTION"
+          v-if="!isonline() && static_data.functionality.SHOW_IF_IS_SERVER_CONNECTION"
           flat
           dense
           round
@@ -113,13 +113,13 @@
           class="q-mx-xs" v-if="static_data.functionality.ENABLE_ECOMMERCE && isLogged()" round dense flat
           @click="rightCartOpen = !rightCartOpen" icon="fas fa-shopping-cart">
 
-          <q-badge v-if="getnumItemsCart > 0" color="red" floating transparent>
-            {{ getnumItemsCart }}
+          <q-badge v-if="getnumItemsCart() > 0" color="red" floating transparent>
+            {{ getnumItemsCart() }}
           </q-badge>
         </q-btn>
 
         <q-btn
-          class="q-mx-xs" v-if="static_data.functionality.ENABLE_ECOMMERCE && isLogged && getnumOrdersCart > 0"
+          class="q-mx-xs" v-if="static_data.functionality.ENABLE_ECOMMERCE && isLogged && getnumOrdersCart() > 0"
           round dense flat
           to="/orderinfo" icon="fas fa-list-ol">
 
@@ -173,7 +173,7 @@
         <div class="absolute-top bg-transparent text-black center_img" style="margin-top: 10px;">
           <div class="text-center q-ma-xs boldhigh text-white text-h7">Area Personale</div>
 
-          <CMyAvatar :myimg="getMyImg"></CMyAvatar>
+          <CMyAvatar :myimg="getMyImg()"></CMyAvatar>
 
           <q-btn
             class="absolute-top-right" style="margin-right: 10px; color: white;"

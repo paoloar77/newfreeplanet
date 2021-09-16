@@ -1,4 +1,4 @@
-import Api from '@api'
+import { Api } from '@api'
 import { ITodo } from '@src/model'
 import { tools } from '@src/store/Modules/tools'
 import { toolsext } from '@src/store/Modules/toolsext'
@@ -7,6 +7,8 @@ import { serv_constants } from '@store/Modules/serv_constants'
 import { costanti } from '@store/Modules/costanti'
 import { useGlobalStore } from '@store/globalStore'
 import globalroutines from '../../globalroutines/index'
+import { useProjectStore } from '@store/Projects'
+import { useTodoStore } from '@store/Todos'
 
 export function getLinkByTableName(nametable: string) {
   if (nametable === 'todos') {
@@ -42,7 +44,7 @@ export function allTables() {
 }
 
 async function updatefromIndexedDbToState(nametab: string) {
-  await globalroutines( 'updatefromIndexedDbToState', nametab, null)
+  await globalroutines('updatefromIndexedDbToState', nametab, null)
     .then(() => {
       console.log('updatefromIndexedDbToState! ')
       return true
@@ -53,7 +55,7 @@ async function checkPendingMsg() {
   // console.log('checkPendingMsg')
   const globalStore = useGlobalStore()
 
-  const config = await globalroutines( 'read', 'config', null, '1')
+  const config = await globalroutines('read', 'config', null, '1')
   // console.log('config', config)
 
   try {
@@ -70,7 +72,8 @@ async function checkPendingMsg() {
     // ...
   }
 
-  return new Promise((resolve, reject) => globalroutines( 'count', 'swmsg')
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  return new Promise((resolve, reject) => globalroutines('count', 'swmsg')
     .then((count) => {
       if (count > 0) {
         return resolve(true)
@@ -93,7 +96,7 @@ async function sendSwMsgIfAvailable() {
     const count = await checkPendingMsg()
     if (count) {
       return navigator.serviceWorker.ready
-        .then(() => globalroutines( 'readall', 'swmsg')
+        .then(() => globalroutines('readall', 'swmsg')
           .then((arr_recmsg) => {
             if (arr_recmsg.length > 0) {
               // console.log('----------------------  2)    navigator (2) .serviceWorker.ready')
@@ -120,10 +123,11 @@ async function sendSwMsgIfAvailable() {
 
 export async function waitAndRefreshData() {
   // ++Todo: conv
-  /* await Projects.actions.dbLoad({ checkPending: false, onlyiffirsttime: false })
-  return await Todos.actions.dbLoad({ checkPending: false })
-   */
-  return null
+  const projects = useProjectStore()
+  const todos = useTodoStore()
+
+  await projects.dbLoad({ checkPending: false, onlyiffirsttime: false })
+  return await todos.dbLoad({ checkPending: false })
 }
 
 export async function waitAndcheckPendingMsg() {
@@ -271,7 +275,7 @@ async function Sync_Execute(cmd: string, tablesync: string, nametab: string, met
   if (useServiceWorker()) {
     return navigator.serviceWorker.ready
       .then((sw) => {
-        globalroutines( 'write', tablesync, item, id)
+        globalroutines('write', tablesync, item, id)
           .then((ris) => {
             console.log('ris write:', ris)
             const sep = '|'
@@ -287,7 +291,7 @@ async function Sync_Execute(cmd: string, tablesync: string, nametab: string, met
             //   return sw.sync.register(multiparams)
             // } else {
             */
-            return globalroutines( 'write', 'swmsg', mymsgkey, multiparams)
+            return globalroutines('write', 'swmsg', mymsgkey, multiparams)
               .then((ris2) => Api.syncAlternative(multiparams))
               .then(() => {
                 let data = null
@@ -431,7 +435,7 @@ export async function table_ModifyRecord(nametable: string, myitem: any, listFie
   let miorec: any = null
   if (useServiceWorker()) {
     // get record from IndexedDb
-    miorec = await globalroutines( 'read', nametable, null, myobjsaved._id)
+    miorec = await globalroutines('read', nametable, null, myobjsaved._id)
     if (miorec === undefined) {
       console.log('~~~~~~~~~~~~~~~~~~~~ !!!!!!!!!!!!!!!!!!  Record not Found !!!!!! id=', myobjsaved._id)
 
@@ -459,7 +463,7 @@ export async function table_ModifyRecord(nametable: string, myitem: any, listFie
     if (useServiceWorker()) {
       // 2) Modify on IndexedDb
       console.log('// 2) Modify on IndexedDb', miorec)
-      return globalroutines( 'write', nametable, miorec)
+      return globalroutines('write', nametable, miorec)
         .then((ris) => Sync_SaveItem(nametable, 'PATCH', miorec)) // 3) Modify on the Server (call)
     }
     return Sync_SaveItem(nametable, 'PATCH', miorec)
@@ -474,7 +478,7 @@ export function table_DeleteRecord(nametable: string, myobjtrov: any, id: any) {
   mymodule.deletemyitem(myobjtrov)
 
   // 2) Delete from the IndexedDb
-  globalroutines( 'delete', nametable, null, id)
+  globalroutines('delete', nametable, null, id)
 
   // 3) Delete from the Server (call)
   Sync_DeleteItem(nametable, myobjtrov, id)
@@ -487,7 +491,7 @@ export function table_HideRecord(nametable: string, myobjtrov: any, id: any) {
   mymodule.deletemyitem(myobjtrov)
 
   // 2) Delete from the IndexedDb
-  globalroutines( 'delete', nametable, null, id)
+  globalroutines('delete', nametable, null, id)
 
   // 3) Hide  from the Server (call)
   Sync_DeleteItem(nametable, myobjtrov, id)

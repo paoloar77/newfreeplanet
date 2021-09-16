@@ -1,4 +1,4 @@
-import Api from '@api'
+import { Api } from '@api'
 import { IBookedEvent, ICalendarState, IEvents } from 'model'
 
 import { serv_constants } from './Modules/serv_constants'

@@ -3,9 +3,8 @@ import {
 } from 'vue'
 
 import { IMyPage } from '@src/model'
-import { useQuasar } from 'quasar'
 import { useGlobalStore } from '@store/globalStore'
-import { Footer } from '../Footer'
+import { Footer } from '@/components/Footer'
 
 import { CImgTitle } from '../CImgTitle/index'
 import { CTitle } from '../CTitle/index'
@@ -50,7 +49,6 @@ export default defineComponent({
   },
 
   setup(props) {
-    const $q = useQuasar()
     const rec = ref<IMyPage | null>(null)
     const mypath = toRef(props, 'mypath')
 

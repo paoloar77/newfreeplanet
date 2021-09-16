@@ -26,11 +26,6 @@ export default defineComponent({
       return []
     }
 
-    // if (GlobalStore.state.posts.length < 1) {
-    //   this.requestPosts()
-    // }
-    function created() {}
-
     function clickChat(msg: IMessage) {
       // $router.replace(`/messages/${ msg.dest.username}`)
     }

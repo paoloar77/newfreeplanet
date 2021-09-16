@@ -1,25 +1,29 @@
 <template>
-    <div id="q-app">
-        <div>
-            <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
-                <app-header></app-header>
-                <q-ajax-bar></q-ajax-bar>
+  <div>
+    <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
+      <app-header></app-header>
+      <q-ajax-bar></q-ajax-bar>
 
-                <!--<CPreloadImages :arrimg="static_data.preLoadImages">
-                </CPreloadImages>-->
+      <!--<CPreloadImages :arrimg="static_data.preLoadImages">
+      </CPreloadImages>-->
 
-                <q-page-container>
-                    <transition name="fade" mode="out-in">
-                        <router-view/>
-                    </transition>
-                </q-page-container>
-            </q-layout>
+      <q-page-container id="mypage">
+        <div v-if="finishLoading">
+          <router-view/>
         </div>
-        <BannerCookies urlInfo="/policy"></BannerCookies>
-    </div>
+        <q-inner-loading id="spinner" :showing="!finishLoading">
+          <q-spinner-tail
+            color="primary"
+            size="4em">
+          </q-spinner-tail>
+        </q-inner-loading>
+      </q-page-container>
+    </q-layout>
+  </div>
+  <BannerCookies urlInfo="/policy"></BannerCookies>
 </template>
 <script lang="ts" src="./App.ts">
 </script>
 <style lang="scss">
-    @import './App.scss';
+@import './App.scss';
 </style>

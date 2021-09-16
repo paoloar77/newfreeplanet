@@ -12,19 +12,19 @@ import { useRouter } from 'vue-router'
 import { static_data } from '../../db/static_data'
 import messagePopover from '../../layouts/toolbar/messagePopover/messagePopover.vue'
 import drawer from '../../layouts/drawer/drawer.vue'
-import CMyAvatar from '../../components/CMyAvatar/CMyAvatar'
+import { CMyAvatar } from '@/components/CMyAvatar'
 import { toolsext } from '@store/Modules/toolsext'
 import { useGlobalStore } from '@store/globalStore'
 import { useTestStore } from '@store/testStore'
 import { useUserStore } from '@store/UserStore'
 
 import MixinUsers from '../../mixins/mixin-users'
-
+import { CMyCart, CSigninNoreg } from '@/components'
 
 export default defineComponent({
   name: 'Header',
   components: {
-    drawer, messagePopover, CMyAvatar, // CSigninNoreg, CMyCart
+    drawer, messagePopover, CMyAvatar, CSigninNoreg, CMyCart
   },
   props: {
     extraContent: {
@@ -40,6 +40,7 @@ export default defineComponent({
   setup() {
     const $q = useQuasar()
     const { t } = useI18n()
+    const $router = useRouter()
 
     const isUserNotAuth = ref(false)
     const iconConn = ref('wifi')
@@ -140,50 +141,22 @@ export default defineComponent({
         })
       })
 
-      globalStore.addDynamicPages()
+      globalStore.addDynamicPages($router)
     }
 
     function setshortlang(lang: string) {
-      for (const indrec in static_data.lang_available) {
-        if (static_data.lang_available[indrec].value === lang) {
+      static_data.lang_available.forEach((langavail) => {
+        if (langavail.value === lang) {
           // console.log('static_data.lang_available[indrec].short', static_data.lang_available[indrec].short, static_data.lang_available[indrec].value)
-          langshort.value = static_data.lang_available[indrec].short
-          return
+          langshort.value = langavail.short
+          return langshort.value
         }
-      }
+      })
     }
 
     function isNewVersionAvailable() {
       return globalStore.isNewVersionAvailable
     }
-
-    // -------------------------------------------------------------------------
-    // QUASAR Example using myevent to open drawer from another component or page
-    // -------------------------------------------------------------------------
-    // (1) This code is inside layout file that have a drawer
-    //     if leftDrawerOpen is true, drawer is displayed
-
-    // (2) Listen for an myevent in created
-    /*    created(){
-          $root.$on("openLeftDrawer", openLeftDrawercb);
-        },
-        methods: {
-          openURL,
-          // (3) Define the callback in methods
-          openLeftDrawercb() {
-          leftDrawerOpen = !leftDrawerOpen;
-        }
-      }
-
-      // (4) In another component or page, emit the myevent!
-      //     Call the method when clicking button etc.
-      methods: {
-        openLeftDrawer() {
-          $root.$emit("openLeftDrawer");
-        }
-      }
-    // -------------------------------------------------------------------------
-    */
 
     const leftDrawerOpen = computed({
       get: () => globalStore.leftDrawerOpen,
@@ -211,16 +184,17 @@ export default defineComponent({
     const lang = computed({
       get: () => $q.lang.isoName,
       set: mylang => {
+        const $router = useRouter()
         console.log('set lang', $q.lang.getLocale())
         $q.lang.set(snakeToCamel(mylang))
         // tools.showNotif($q, 'IMPOSTA LANG= ' + $i18n.locale)
         // console.log('IMPOSTA LANG= ' + $i18n.locale)
 
-        userStore.setlang($q.lang.getLocale())
+        userStore.setlang($router, $q.lang.getLocale())
 
         let mylangtopass = mylang
 
-        mylangtopass = toolsext.checkLangPassed(mylangtopass)
+        mylangtopass = toolsext.checkLangPassed($router, mylangtopass)
 
         setshortlang(mylangtopass)
 
@@ -330,7 +304,7 @@ export default defineComponent({
         // console.log('IMPOSTA LANGMY', mylang)
       }
 
-      mylang = toolsext.checkLangPassed(mylang)
+      mylang = toolsext.checkLangPassed($router, mylang)
 
       setLangAtt(mylang)
       setshortlang(mylang)

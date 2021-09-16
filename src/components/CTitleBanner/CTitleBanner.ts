@@ -85,6 +85,7 @@ export default defineComponent({
     created()
 
     return {
+      myvisible,
       iconopen,
       apri,
       getclass,

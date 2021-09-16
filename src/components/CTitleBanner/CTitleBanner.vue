@@ -15,15 +15,19 @@
           <q-icon v-if="canopen" :name="iconopen" color="white"/>
         </div>
       </template>
-      <span :class="`mybanner `+ myclasstext" :style="mystyle">{{title}}</span>
+      <span :class="`mybanner `+ myclasstext" :style="mystyle">{{ title }}</span>
     </q-banner>
 
     <q-slide-transition>
-      <div v-if="myvisible" class="rounded-borders">
-        <slot></slot>
-      </div>
-      <div v-if="imgpreview" class="text-center cursor-pointer clBorderSteps" style="opacity: 0.5;" @click="myvisible = !myvisible">
-        <q-img :src="imgpreview" class="img"></q-img>
+      <div>
+        <div v-if="myvisible" class="rounded-borders">
+          <slot></slot>
+        </div>
+        <div
+v-if="imgpreview" class="text-center cursor-pointer clBorderSteps" style="opacity: 0.5;"
+             @click="myvisible = !myvisible">
+          <q-img :src="imgpreview" class="img"></q-img>
+        </div>
       </div>
     </q-slide-transition>
 
@@ -33,5 +37,5 @@
 <script lang="ts" src="./CTitleBanner.ts">
 </script>
 <style lang="scss" scoped>
-  @import './CTitleBanner.scss';
+@import './CTitleBanner.scss';
 </style>

@@ -1,4 +1,3 @@
-import { useRouter } from 'vue-router'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 
@@ -36,47 +35,47 @@ function ReceiveResponsefromServer(tablesync: string, nametab: string, method: s
 }
 
 // const algoliaApi = new AlgoliaSearch()
-export namespace ApiTool {
-  export async function post(path: string, payload?: any) {
+export const Api = {
+  async post(path: string, payload?: any) {
     const globalStore = useGlobalStore()
     globalStore.connData.downloading_server = 1
     globalStore.connData.uploading_server = 1
     return Request('post', path, payload)
-  }
+  },
 
-  export async function postFormData(path: string, payload?: any) {
+  async postFormData(path: string, payload?: any) {
     const globalStore = useGlobalStore()
     globalStore.connData.uploading_server = 1
     globalStore.connData.downloading_server = 1
     return Request('postFormData', path, payload)
-  }
+  },
 
-  export async function get(path: string, payload?: any) {
+  async get(path: string, payload?: any) {
     const globalStore = useGlobalStore()
     globalStore.connData.downloading_server = 1
     globalStore.connData.uploading_server = 0
     return Request('get', path, payload)
-  }
+  },
 
-  export async function put(path: string, payload?: any) {
+  async put(path: string, payload?: any) {
     const globalStore = useGlobalStore()
     globalStore.connData.uploading_server = 1
     return Request('put', path, payload)
-  }
+  },
 
-  export async function patch(path: string, payload?: any) {
+  async patch(path: string, payload?: any) {
     const globalStore = useGlobalStore()
     globalStore.connData.uploading_server = 1
     return Request('patch', path, payload)
-  }
+  },
 
-  export async function Delete(path: string, payload: any) {
+  async Delete(path: string, payload: any) {
     const globalStore = useGlobalStore()
     globalStore.connData.uploading_server = 1
     return Request('delete', path, payload)
-  }
+  },
 
-  export async function checkSession({ token, refresh_token }: any) {
+  async checkSession({ token, refresh_token }: any) {
     return axios.post(process.env.API_URL + Paths.TOKEN_REFRESH, {
       refresh_token,
     }, {
@@ -84,9 +83,9 @@ export namespace ApiTool {
         Authorization: `Bearer ${token}`,
       },
     })
-  }
+  },
 
-  export async function SendReq(url: string, method: string, mydata: any, setAuthToken = false): Promise<Types.AxiosSuccess | Types.AxiosError> {
+  async SendReq(url: string, method: string, mydata: any, setAuthToken = false): Promise<Types.AxiosSuccess | Types.AxiosError> {
     const mydataout = {
       ...mydata,
       keyappid: process.env.PAO_APP_ID,
@@ -97,10 +96,11 @@ export namespace ApiTool {
 
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
-    const $router = useRouter()
+    // const $router = useRouter()
 
     userStore.setServerCode(tools.EMPTY)
     userStore.setResStatus(0)
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     return new Promise((resolve, reject) => sendRequest(url, method, mydataout)
       .then((res) => {
         // console.log('res', res)
@@ -121,7 +121,7 @@ export namespace ApiTool {
             // You probably is connectiong with other page...
             userStore.setServerCode(toolsext.ERR_AUTHENTICATION)
             userStore.setAuth('')
-            $router.push('/signin')
+            // $router.push('/signin')
             return reject({ code: toolsext.ERR_AUTHENTICATION })
           }
         }
@@ -141,9 +141,9 @@ export namespace ApiTool {
         console.log('error', error)
         return reject(error)
       }))
-  }
+  },
 
-  export async function syncAlternative(mystrparam: string) {
+  async syncAlternative(mystrparam: string) {
     // console.log('[ALTERNATIVE Background syncing', mystrparam)
 
     const multiparams = mystrparam.split('|')
@@ -178,7 +178,7 @@ export namespace ApiTool {
                 console.log('----------------------- LEGGO QUALCOSA ', link)
 
                 // Insert/Delete/Update table to the server
-                return SendReq(link, method, rec)
+                return this.SendReq(link, method, rec)
                   .then((ris) => {
                     ReceiveResponsefromServer(tablesync, nametab, method, ris.data)
                     lettoqualcosa = true
@@ -216,6 +216,5 @@ export namespace ApiTool {
       }
     }
     return null
-  }
+  },
 }
-export default ApiTool

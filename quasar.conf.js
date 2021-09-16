@@ -35,7 +35,7 @@ module.exports = configure((ctx) => ({
   // --> boot files are part of "main.js"
   // https://v2.quasar.dev/quasar-cli/boot-files
   // boot: ['vue-i18n', 'vue-meta', 'axios', 'vee-validate', 'myconfig', 'local-storage', 'error-handler', 'globalroutines', 'vue-idb', 'dragula', 'guard'],
-  boot: ['i18n', 'axios', 'vee-validate', 'myconfig', 'local-storage', 'error-handler', 'globalroutines'],
+  boot: ['i18n', 'axios', 'vee-validate', 'myconfig', 'local-storage', 'error-handler', 'globalroutines', 'vuetelinput'],
 
   // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
   css: [
@@ -90,6 +90,7 @@ module.exports = configure((ctx) => ({
     chainWebpack(chain, { isServer, isClient }) {
       chain.resolve.alias
       // .set('myalias', path.resolve(__dirname, './src/somefolder'))
+        .set('@', helpers.root('src'))
         .set('@components', helpers.root('src/components/index.ts'))
         .set('@boot', helpers.root('src/boot/*'))
         .set('@costanti', helpers.root('src/store/Modules/costanti.ts'))

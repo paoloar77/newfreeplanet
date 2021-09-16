@@ -7,17 +7,23 @@
     </div>
 
     <!--Prova URL :  {{env('PROVA_PAOLO')}}-->
-    <form>
+    <q-form
+      ref="myForm"
+      @submit="onSubmit"
+      @reset="onReset"
+    >
       <div class="q-gutter-xs">
 
         <q-input
+          ref="refUsername"
           v-model="signin.username"
           rounded outlined dense
-          @blur="$v.signin.username.$touch"
-          :error="$v.signin.username.$error"
-          :error-message="`${errorMsg('username', $v.signin.username)}`"
-          :label="$t('reg.username_login')">
-
+          lazy-rules
+          :label="$t('reg.username_login')"
+          :rules="[
+            val => !!val || $t('reg.err.required'),
+            val => val.length > 6 || $t('reg.err.atleast') + ' 6 ' + $t('reg.err.char'),
+          ]">
 
           <template v-slot:prepend>
             <q-icon name="person"/>
@@ -25,49 +31,48 @@
 
         </q-input>
         <q-input
+          ref="refPassword"
           v-model="signin.password"
           type="password"
           rounded outlined dense
-          v-on:keyup.enter="submit()"
-          @blur="$v.signin.password.$touch"
-          :error="$v.signin.password.$error"
-          :error-message="`${errorMsg('password', $v.signin.password)}`"
-          :label="$t('reg.password')">
+          lazy-rules
+          v-on:keyup.enter="onSubmit()"
+          :label="$t('reg.password')"
+          :rules="[
+            val => !!val || $t('reg.err.required'),
+            val => val.length > 6 || $t('reg.err.atleast') + ' 6 ' + $t('reg.err.char'),
+          ]">
+
           <template v-slot:prepend>
             <q-icon name="vpn_key"/>
           </template>
 
         </q-input>
 
-
-        <!--<q-card class="flex flex-center">-->
-        <!--&lt;!&ndash;<q-btn v-if="$myconfig.socialLogin.facebook" :loading="loading" class="q-mb-md q-mr-md" rounded icon="fab fa-facebook-f" size="sm" color="blue-10" text-color="white" @click="facebook" :label="$t('components.authentication.login.facebook')"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;-->
-        <!--<q-btn v-if="$myconfig.socialLogin.facebook" class="q-mb-md q-mr-md" rounded icon="fab fa-facebook-f" size="sm" color="blue-10" text-color="white" @click="facebook" :label="$t('components.authentication.login.facebook')"/>-->
-        <!--<q-btn v-if="$myconfig.socialLogin.google" class="q-mb-md q-mr-md" rounded icon="fab fa-google" size="sm" color="deep-orange-14" text-color="white" @click="google" :label="$t('components.authentication.login.google')"/>-->
-        <!--&ndash;&gt;-->
-        <!--</q-card>-->
-
-        <div align="center">
-          <q-btn rounded size="md" color="primary" @click="submit"
-                 :disable="$v.$error || iswaitingforRes">{{$t('login.enter')}}
+        <div style="text-align: center;">
+          <q-btn
+            type="submit"
+            rounded size="md" color="primary"
+            :label="$t('login.enter')">
           </q-btn>
         </div>
 
         <br>
 
         <div class="text-center" style="margin-bottom: 10px;">
-          <a :href="getlinkforgetpwd()" style="color:gray;">{{$t('reg.forgetpassword')}}</a>
+          <a :href="getlinkforgetpwd()" style="color:gray;">{{ $t('reg.forgetpassword') }}</a>
         </div>
 
-        <div v-if="static_data.functionality.ENABLE_REGISTRATION && showregbutt" align="center" style="margin-top:10px;">
+        <div
+          v-if="static_data.functionality.ENABLE_REGISTRATION && showregbutt"
+          style="margin-top:10px; text-align: center;">
           Se non sei ancora Registrato:<br>
           <q-btn rounded size="md" color="primary" to="/signup" :label="$t('reg.submit')">
           </q-btn>
         </div>
 
       </div>
-    </form>
+    </q-form>
   </div>
 </template>
 
@@ -75,5 +80,5 @@
 </script>
 
 <style lang="scss" scoped>
-  @import './CSignIn.scss';
+@import './CSignIn.scss';
 </style>

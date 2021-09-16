@@ -58,7 +58,7 @@
           <div class="text-center">
 
             <div class="q-mt-xs mycontacts">
-              <p class="mycontacts_title">{{ t('homepage.titlecontatti') }}</p>
+              <p class="mycontacts_title">{{ $t('homepage.titlecontatti') }}</p>
 
               <div class="mycontacts_text">
                 <i
@@ -126,7 +126,7 @@
           <p class="text-center">
             <router-link v-if="static_data.functionality.SHOW_ONLY_POLICY" to="/policy" custom v-slot="{ navigate }">
               <span class="footer_link" @click="navigate" @keypress.enter="navigate" role="link">{{
-                  t('privacy_policy')
+                  $t('privacy_policy')
                 }}</span></router-link>
           </p>
 

@@ -1,6 +1,6 @@
 import { tools } from '../../store/Modules/tools'
 import { useQuasar } from 'quasar'
-import { useI18n } from '@/boot/i18n'
+import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { defineComponent } from 'vue'

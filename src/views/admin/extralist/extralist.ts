@@ -1,6 +1,6 @@
 import { defineComponent, PropType, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import CTitleBanner from '@/components/CTitleBanner/CTitleBanner'
+import { CTitleBanner } from '@/components/CTitleBanner'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { tools } from '@store/Modules/tools'

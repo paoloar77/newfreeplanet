@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="q-pa-md q-gutter-sm text-white">
-            <p class="news_title">{{t('newsletter.title')}}</p>
+            <p class="news_title">{{$t('newsletter.title')}}</p>
             <q-form
                     @submit="onSubmit"
                     @reset="onReset"
@@ -16,7 +16,7 @@
                         :label="t('newsletter.name') + `*`"
                         :hint="t('newsletter.namehint')"
                         lazy-rules
-                        :rules="[ val => val && val.length > 0 || t('newsletter.typesomething')]">
+                        :rules="[ val => val && val.length > 0 || $t('newsletter.typesomething')]">
 
                 </q-input>
 
@@ -29,7 +29,7 @@
                         :label="t('newsletter.surname') + `*`"
                         :hint="t('newsletter.surnamehint')"
                         lazy-rules
-                        :rules="[ val => val && val.length > 0 || t('newsletter.typesomething')]">
+                        :rules="[ val => val && val.length > 0 || $t('newsletter.typesomething')]">
 
                 </q-input>
 
@@ -40,18 +40,18 @@
                         v-model="email"
                         :label="t('newsletter.email') + `*`"
                         lazy-rules
-                        :rules="[ val => val && val.length > 6 || t('newsletter.typesomething')]">
+                        :rules="[ val => val && val.length > 6 || $t('newsletter.typesomething')]">
 
                 </q-input>
 
                 <router-link to="/policy" custom v-slot="{ navigate }">
-                  <span class="news_link" @click="navigate" @keypress.enter="navigate" role="link">{{t('privacy_policy')}}</span></router-link>
+                  <span class="news_link" @click="navigate" @keypress.enter="navigate" role="link">{{$t('privacy_policy')}}</span></router-link>
 
-                <q-toggle dark v-model="accept" :label="t('newsletter.acceptlicense')"/>
+                <q-toggle dark v-model="accept" :label="$t('newsletter.acceptlicense')"/>
 
                 <div>
-                    <q-btn :label="t('newsletter.submit')" type="submit" color="primary"/>
-                    <q-btn :label="t('newsletter.reset')" type="reset" color="primary" flat class="q-ml-sm"/>
+                    <q-btn :label="$t('newsletter.submit')" type="submit" color="primary"/>
+                    <q-btn :label="$t('newsletter.reset')" type="reset" color="primary" flat class="q-ml-sm"/>
                 </div>
             </q-form>
         </div>

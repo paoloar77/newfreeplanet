@@ -1,67 +1,114 @@
-import Vue from 'vue'
-import { Component, Prop, Watch } from 'vue-property-decorator'
+import { defineComponent, onMounted, PropType, ref, watch } from 'vue'
 import { tools } from '@src/store/Modules/tools'
-import { toolsext } from '@src/store/Modules/toolsext'
 
-import { date } from 'quasar'
+import { date, useQuasar } from 'quasar'
 
-@Component({
-  name: 'CDate'
+export default defineComponent({
+  name: 'CDate',
+  props: {
+    mydate: {
+      type: Object as PropType<Date>,
+      required: true,
+    },
+    label: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    data_class: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    readonly: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    disable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    rounded: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    outlined: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    dense: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  components: {},
+  setup(props, { emit }) {
+    const $q = useQuasar()
+
+    const valueInternal = ref(tools.getDateNull())
+
+    const datePicker = ref(null)
+
+    const mystyleicon = ref('font-size: 1.5rem;')
+
+    watch(() => props.mydate, (value, oldval) => {
+      valueInternal.value = value
+    })
+
+    function created() {
+      valueInternal.value = props.mydate
+
+      if (props.data_class !== '') {
+        mystyleicon.value = 'font-size: 1rem;'
+      }
+    }
+
+    function changedate(value: string) {
+      const datavalida = tools.convertstrtoDate(value)
+      if (!!datavalida) {
+        valueInternal.value = datavalida
+        console.log('EMIT: changedate', datavalida.toString())
+        emit('input', getDate())
+      } else {
+        console.log('   DATA NON VALIDAAAAAAAAAAAAA ', value, datavalida)
+      }
+      if (datePicker.value) {
+        // @ts-ignore
+        datePicker.value.hide()
+      }
+    }
+
+    function getdatestring() {
+      const mydate = tools.getstrDate(valueInternal.value)
+      console.log('getdatestring', mydate)
+      return mydate
+    }
+
+    function getdateyymmddstring() {
+      return tools.getstrYYMMDDDate(valueInternal.value)
+    }
+
+    function getDate() {
+      return valueInternal
+    }
+
+    onMounted(created)
+
+    return {
+      getdatestring,
+      getdateyymmddstring,
+      changedate,
+      datePicker,
+    }
+  },
 })
-
-export default class CDate extends Vue {
-  @Prop() public mydate!: Date
-  @Prop({ required: false, default: '' }) public label: string
-  @Prop({ required: false, default: '' }) public data_class!: string
-  @Prop({ required: false, default: false }) public readonly!: boolean
-  @Prop({ required: false, default: false }) public disable!: boolean
-  @Prop({ required: false, default: '' }) public color!: string
-  @Prop({ required: false, default: false }) public rounded!: boolean
-  @Prop({ required: false, default: false }) public outlined!: boolean
-  @Prop({ required: false, default: true }) public dense!: boolean
-
-  public mystyleicon: string = 'font-size: 1.5rem;'
-
-  @Watch('mydate')
-  public valchanged(value) {
-    this.valueInternal = value
-  }
-
-  public $refs: {
-    datePicker
-  }
-  private valueInternal: Date = tools.getDateNull()
-
-  public created() {
-    this.valueInternal = this.mydate
-
-    if (this.data_class !== '') {
-      this.mystyleicon = 'font-size: 1rem;'
-    }
-  }
-
-  public changedate(value) {
-    const datavalida = tools.convertstrtoDate(value)
-    if (!!datavalida) {
-      this.valueInternal = datavalida
-      console.log('EMIT: changedate', datavalida.toString())
-      this.$emit('input', this.getDate())
-    } else {
-      console.log('   DATA NON VALIDAAAAAAAAAAAAA ', value, datavalida)
-    }
-    this.$refs.datePicker.hide()
-  }
-
-  get getdatestring() {
-    const mydate = tools.getstrDate(this.valueInternal)
-    console.log('getdatestring', mydate)
-    return mydate
-  }
-  get getdateyymmddstring() {
-    return tools.getstrYYMMDDDate(this.valueInternal)
-  }
-  private getDate() {
-    return this.valueInternal
-  }
-
-}

@@ -1,130 +1,171 @@
-import Vue from 'vue'
-import { Component, Prop, Watch } from 'vue-property-decorator'
+import { defineComponent, onMounted, PropType, ref, toRef, watch } from 'vue'
 import { tools } from '@src/store/Modules/tools'
-import { toolsext } from '@src/store/Modules/toolsext'
 
-import { date } from 'quasar'
-import { CalendarStore } from '../../store/Modules'
-import MixinBase from '../../mixins/mixin-base'
+import { date, useQuasar } from 'quasar'
+import { useCalendarStore } from '@store/CalendarStore'
+import { useI18n } from '@/boot/i18n'
+import { toolsext } from '@store/Modules/toolsext'
 
-@Component({
-  name: 'CDateTime',
-  mixins: [MixinBase]
+export default defineComponent({
+  name: 'CDate',
+  props: {
+    value: {
+      type: Object as PropType<Date>,
+      required: false,
+      default: null,
+    },
+    valueDate: {
+      type: Object as PropType<Date>,
+      required: false,
+      default: null,
+    },
+    data_class: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    canEdit: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    label: {
+      type: String,
+      required: true,
+      default: 'Val:',
+    },
+    disable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    bgcolor: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    dense: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    minuteinterval: {
+      type: String,
+      required: false,
+      default: '5',
+    },
+    view: {
+      type: String,
+      required: false,
+      default: 'date-time',
+    },
+  },
+  components: {},
+  setup(props, { emit }) {
+    const $q = useQuasar()
+    const { t } = useI18n();
+
+    const showDateTimeScroller = ref(false)
+    const saveit = ref(false)
+    const myvalue = ref(new Date())
+    const valueprec = ref(new Date())
+    const valueDate = toRef(props, 'valueDate')
+
+    function getclass() {
+      return 'calendar_comp ' + props.data_class
+    }
+
+    function Opening() {
+      // console.log('Opening', 'myvalue', myvalue, 'value', value)
+      saveit.value = false
+      valueprec.value = myvalue.value
+      if (myvalue.value === undefined) {
+        valueDate.value = new Date()
+        myvalue.value = tools.getstrYYMMDDDateTime(valueDate.value)
+      }
+      // console.log('Opening', valueDate, myvalue)
+      emit('show')
+    }
+
+    function Closing() {
+      // console.log('Closing')
+      if (!saveit.value) {
+        if (myvalue.value !== valueprec.value) {
+          myvalue.value = valueprec.value
+          tools.showNeutralNotif($q, t('db.reccanceled'))
+        }
+      }
+    }
+
+    watch(() => props.valueDate, (value, oldval) => {
+      if (props.valueDate)
+        myvalue.value = tools.getstrYYMMDDDateTime(props.valueDate)
+
+    })
+
+    function savetoclose() {
+      // console.log('Close')
+      saveit.value = true
+      showDateTimeScroller.value = false
+      emit('savetoclose', myvalue, valueprec)
+    }
+
+    function scrollerPopupStyle280() {
+      if ($q.screen.lt.sm) {
+        return {
+          width: '100vw',
+          height: '100vh',
+        }
+      } else {
+        return {
+          maxHeight: '400px',
+          height: '400px',
+          width: '280px',
+        }
+      }
+    }
+
+    function created() {
+      if (props.value !== null)
+        myvalue.value = props.value
+      else
+        myvalue.value = tools.getstrYYMMDDDateTime(valueDate.value)
+
+      // console.log('created myvalue', myvalue)
+    }
+
+    function changeval(newval: Date) {
+      // console.log('changeval', newval, 'value=', value, 'myvalue=', myvalue)
+      emit('update:value', newval)
+    }
+
+    function mystyle() {
+      if (props.label !== '')
+        return ''
+      else
+        return ''
+    }
+
+    function getstrDate(mydate: Date) {
+      if (props.view === 'date-time') {
+        return tools.getstrDateTime(mydate)
+      } else {
+        return tools.getstrDate(mydate)
+      }
+    }
+
+    created()
+
+    return {
+      toolsext,
+      changeval,
+      scrollerPopupStyle280,
+      mystyle,
+      getstrDate,
+      savetoclose,
+      Closing,
+      Opening,
+      getclass,
+    }
+  },
 })
-
-export default class CDateTime extends Vue {
-  public $q
-  public $t
-  @Prop({ required: false, default: null }) public value: Date
-  @Prop({ required: false, default: null }) public valueDate: Date
-  @Prop({ required: true, default: 'Val:' }) public label: string
-  @Prop({ required: false, default: '' }) public data_class!: string
-  @Prop({ required: false, default: true }) public canEdit!: boolean
-  @Prop({ required: false, default: false }) public disable!: boolean
-  @Prop({ required: false, default: '' }) public bgcolor!: string
-  @Prop({ required: false, default: false }) public dense: boolean
-  @Prop({ required: false, default: '5' }) public minuteinterval: boolean
-  @Prop({ required: false, default: 'date-time' }) public view: string
-
-  public mystyleicon: string = 'font-size: 1.5rem;'
-  public showDateTimeScroller: boolean = false
-  public saveit: boolean = false
-  public myvalue: Date = new Date()
-  public valueprec: Date = new Date()
-
-  get getclass() {
-    return 'calendar_comp ' + this.data_class
-  }
-
-  // @Watch('showDateTimeScroller')
-
-  public Opening() {
-    // console.log('Opening', 'myvalue', this.myvalue, 'value', this.value)
-    this.saveit = false
-    this.valueprec = this.myvalue
-    if (this.myvalue === undefined) {
-      this.valueDate = new Date()
-      this.myvalue = tools.getstrYYMMDDDateTime(this.valueDate)
-    }
-    // console.log('Opening', this.valueDate, this.myvalue)
-    this.$emit('show')
-  }
-
-  public Closing() {
-    // console.log('Closing')
-    if (!this.saveit) {
-      if (this.myvalue !== this.valueprec) {
-        this.myvalue = this.valueprec
-        tools.showNeutralNotif(this.$q, this.$t('db.reccanceled'))
-      }
-    }
-  }
-
-  @Watch('valueDate')
-  public changevalueDate() {
-    if (this.valueDate)
-      this.myvalue = tools.getstrYYMMDDDateTime(this.valueDate)
-
-    // console.log('changevalueDate myvalue', this.myvalue)
-  }
-  @Watch('value')
-  public changevalue() {
-    this.myvalue = this.value
-    // console.log('changevalue myvalue', this.myvalue)
-  }
-
-  public savetoclose() {
-    // console.log('Close')
-    this.saveit = true
-    this.showDateTimeScroller = false
-    this.$emit('savetoclose', this.myvalue, this.valueprec)
-  }
-
-  get scrollerPopupStyle280() {
-    if (this.$q.screen.lt.sm) {
-      return {
-        width: '100vw',
-        height: '100vh'
-      }
-    } else {
-      return {
-        maxHeight: '400px',
-        height: '400px',
-        width: '280px'
-      }
-    }
-  }
-
-  get locale() {
-    return CalendarStore.state.locale
-  }
-
-  public created() {
-    if (this.value !== null)
-      this.myvalue = this.value
-    else
-      this.myvalue = tools.getstrYYMMDDDateTime(this.valueDate)
-
-    // console.log('created myvalue', this.myvalue)
-  }
-
-  public changeval(newval) {
-    // console.log('changeval', newval, 'value=', this.value, 'myvalue=', this.myvalue)
-    this.$emit('update:value', newval)
-  }
-
-  public mystyle() {
-    if (this.label !== '')
-      return ''
-    else
-      return ''
-  }
-
-  public getstrDate(mydate) {
-    if (this.view === 'date-time') {
-      return tools.getstrDateTime(mydate)
-    } else {
-      return tools.getstrDate(mydate)
-    }
-  }
-}

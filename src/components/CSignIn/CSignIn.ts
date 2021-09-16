@@ -1,172 +1,181 @@
-import Vue from 'vue'
-import { GlobalStore } from '@store'
-import { UserStore } from '../../store/Modules'
-import { Component, Prop } from 'vue-property-decorator'
-import { serv_constants } from '../../store/Modules/serv_constants'
-import { tools } from '../../store/Modules/tools'
-import { toolsext } from '@src/store/Modules/toolsext'
-
-import { ISigninOptions, IUserState } from 'model'
-import { validations } from './CSignIn-validate'
+import { defineComponent, PropType, ref } from 'vue'
+import { useI18n } from '@src/boot/i18n'
+import { useUserStore } from '@store/UserStore'
+import { useGlobalStore } from '@store/globalStore'
+import { useQuasar } from 'quasar'
 
 import { validationMixin } from 'vuelidate'
-
 import { Logo } from '../logo'
-
 import { static_data } from '../../db/static_data'
+import { tools } from '@store/Modules/tools'
+import { ISigninOptions } from 'model'
+import { serv_constants } from '@store/Modules/serv_constants'
+import { useRouter } from 'vue-router'
 
-// import {Loading, QSpinnerFacebook, QSpinnerGears} from 'quasar'
+// import { useFormChild } from 'quasar'
 
-@Component({
+export default defineComponent({
   name: 'CSignIn',
-  mixins: [validationMixin],
-  validations,
-  components: { Logo }
-})
+  components: { Logo },
+  props: {
+    showregbutt: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  setup(props, { emit }) {
+    const $q = useQuasar()
+    const { t } = useI18n()
+    const userStore = useUserStore()
+    const $router = useRouter()
+    const globalStore = useGlobalStore()
 
-export default class CSignIn extends Vue {
-  @Prop({required: true}) public showregbutt: boolean
+    const refUsername = ref(<any>null)
+    const refPassword = ref(null)
 
-  public $v
-  public loading: boolean
-  public $t: any
-  public iswaitingforRes: boolean = false
+    const loading = ref(false)
 
-  public signin: ISigninOptions = {
-    username: process.env.TEST_USERNAME || '',
-    password: process.env.TEST_PASSWORD || ''
-  }
+    const myForm = ref(null)
 
-  get static_data() {
-    return static_data
-  }
+    const iswaitingforRes = ref(false)
+    const signin = ref(<ISigninOptions>{
+      username: process.env.TEST_USERNAME || '',
+      password: process.env.TEST_PASSWORD || '',
+    })
 
-  public created() {
-    this.$v.$reset()
-
-    if (UserStore.state.resStatus === serv_constants.RIS_CODE__HTTP_FORBIDDEN_INVALID_TOKEN) {
-      this.$emit('showNotif', 'fetch.error_doppiologin')
+    function onReset() {
+      signin.value.username = ''
+      signin.value.password = ''
     }
 
-    // this.$myconfig.socialLogin.facebook = true
-    // console.log('PROVA fb:', this.$myconfig.socialLogin.facebook)
-  }
 
-  public env() {
-    return process.env
-  }
+    function created() {
+      onReset()
 
-  public getlinkforgetpwd() {
-    return '/requestresetpwd'
-  }
+      if (userStore.resStatus === serv_constants.RIS_CODE__HTTP_FORBIDDEN_INVALID_TOKEN) {
+        emit('showNotif', 'fetch.error_doppiologin')
+      }
 
-  public errorMsg(cosa: string, item: any) {
-    try {
-      if (!item.$error) {
+    }
+
+    function getlinkforgetpwd() {
+      return '/requestresetpwd'
+    }
+
+    function errorMsg(cosa: string, item: any) {
+      /*
+      try {
+        if (!item.$error) {
+          return ''
+        }
+        if (item.$params.email && !item.email) {
+          return t('reg.err.email')
+        }
+
+        if (!item.required) {
+          return t('reg.err.required')
+        }
+        if (!item.minLength) {
+          return t('reg.err.atleast') + ' ${item.$params.minLength.min} ' + t('reg.err.char')
+        }
+        if (!item.maxLength) {
+          return t('reg.err.notmore') + ` ${item.$params.maxLength.max} ` + t('reg.err.char')
+        }
         return ''
+      } catch (err) {
+        // console.log("ERR : " + error);
       }
-      if (item.$params.email && !item.email) {
-        return this.$t('reg.err.email')
-      }
+      */
 
-      if (!item.required) {
-        return this.$t('reg.err.required')
-      }
-      if (!item.minLength) {
-        return this.$t('reg.err.atleast') + ` ${item.$params.minLength.min} ` + this.$t('reg.err.char')
-      }
-      if (!item.maxLength) {
-        return this.$t('reg.err.notmore') + ` ${item.$params.maxLength.max} ` + this.$t('reg.err.char')
-      }
-      return ''
-    } catch (error) {
-      // console.log("ERR : " + error);
-    }
-  }
-
-  public redirect(response) {
-    this.loading = false
-    window.location.href = response.data.redirect
-  }
-
-  public error(error) {
-    this.loading = false
-    // this.$errorHandler(this, error)
-  }
-
-  public facebook() {
-    this.loading = true
-    // this.$axios.get('/backend/loginFacebook')
-    //   .then((response) => this.redirect(response))
-    //   .catch((error) => this.error(error))
-  }
-
-  public google() {
-    // ...
-  }
-
-  public submit() {
-    // console.log('submit LOGIN')
-
-    this.signin.username = tools.removespaces(this.signin.username)
-
-    this.$v.signin.$touch()
-
-    if (this.$v.signin.$error) {
-      this.$emit('showNotif', 'reg.err.errore_generico')
-      return
     }
 
-    this.$emit('loginInCorso')
-
-    // disable Button Login:
-    this.iswaitingforRes = true
-
-    if (process.env.DEBUG) {
-      // console.log('this.signin', this.signin)
+    function isError() {
+      if (refUsername.value) {
+        // @ts-ignore
+        return refUsername.value.hasError
+      }
     }
 
-    UserStore.actions.signin(this.signin)
-      .then((riscode) => {
-        // console.log('signin FINITO CALL: riscode=', riscode)
-        if (riscode === tools.OK) {
-          // router.push('/signin')
-        }
-        return riscode
-      })
-      .then((riscode) => {
-        if (process.env.DEBUG) {
-          // console.log('  riscode(1) =', riscode)
-        }
+    function onSubmit() {
 
-        return riscode
-      })
-      .then((riscode) => {
-        if (riscode === tools.OK) {
-          // console.log('  -> eseguo $emit(loginOk)')
+      if (refUsername.value) {
+        refUsername.value.validate()
+      }
 
-          this.$emit('loginOk')
+      // console.log('submit LOGIN')
 
-          // GlobalStore.actions.createPushSubscription()
-          //   .then((rissub) => {
-          //     // ...
-          //   })
-          //   .catch((e) => {
-          //     console.log('ERROR Subscription = ' + e)
-          //   })
-        } else {
-          this.$emit('checkErrors', riscode)
-        }
+      signin.value.username = tools.removespaces(signin.value.username)
 
-        this.iswaitingforRes = false
+      // $v.signin.$touch()
 
-      })
-      .catch((error) => {
-        // console.log('ERROR SIGNIN = ' + error)
+      if (isError()) {
+        emit('showNotif', 'reg.err.errore_generico')
+        return
+      }
 
-        this.$emit('checkErrors', error)
-      })
-    // console.log('   END submit')
-  }
+      emit('loginInCorso')
 
-}
+      // disable Button Login:
+      iswaitingforRes.value = true
+
+      if (process.env.DEBUG) {
+        // console.log('signin', signin)
+      }
+
+      userStore.signin($router, signin.value)
+        .then((riscode: number) => {
+          console.log('signin FINITO CALL: riscode=', riscode)
+          if (riscode === tools.OK) {
+            // router.push('/signin')
+          }
+          return riscode
+        })
+        .then((riscode: number) => {
+          if (process.env.DEBUG) {
+            // console.log('  riscode(1) =', riscode)
+          }
+
+          return riscode
+        })
+        .then((riscode: number) => {
+          if (riscode === tools.OK) {
+            // console.log('  -> eseguo emit(loginOk)')
+
+            emit('loginOk')
+
+            // GlobalStore.actions.createPushSubscription()
+            //   .then((rissub) => {
+            //     // ...
+            //   })
+            //   .catch((e) => {
+            //     console.log('ERROR Subscription = ' + e)
+            //   })
+          } else {
+            emit('checkErrors', riscode)
+          }
+
+          iswaitingforRes.value = false
+
+        })
+        .catch((err: any) => {
+          // console.log('ERROR SIGNIN = ' + error)
+
+          emit('checkErrors', err)
+        })
+      // console.log('   END submit')
+    }
+
+    created()
+
+    return {
+      static_data,
+      refUsername,
+      onReset,
+      onSubmit,
+      errorMsg,
+      signin,
+      getlinkforgetpwd,
+      myForm,
+    }
+  },
+})

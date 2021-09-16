@@ -34,6 +34,7 @@ import { useProjectStore } from '@store/Projects'
 import { useTodoStore } from '@store/Todos'
 import { useUserStore } from '@store/UserStore'
 import { useCalendarStore } from '@store/CalendarStore'
+import { Router } from 'vue-router'
 
 export interface INotify {
   color?: string | 'primary'
@@ -1672,7 +1673,6 @@ export const tools = {
 
   visumenu(elem: IListRoutes) {  // : IListRoutes
 
-
     const userStore = useUserStore()
     let visu = ((elem.onlyAdmin && userStore.isAdmin) || (elem.onlyManager && userStore.isManager)
       || (elem.onlySocioResidente && userStore.my.profile.socioresidente)
@@ -1695,9 +1695,10 @@ export const tools = {
     return visu
   },
 
-  executefunc(myself: any, table: string, func: number, par: IParamDialog) {
+  executefunc(mythisq: any, table: string, func: number, par: IParamDialog, mythis?: any) {
     const globalStore = useGlobalStore()
     const calendarStore = useCalendarStore()
+    const { t } = useI18n()
     if (func === lists.MenuAction.DELETE) {
       // console.log('param1', par.param1)
       calendarStore.CancelBookingEvent({
@@ -1705,11 +1706,13 @@ export const tools = {
         notify: par.param2 === true ? '1' : '0',
       }).then((ris: any) => {
         if (ris) {
-          this.showPositiveNotif(myself.$q, myself.$t('cal.canceledbooking') + ' "' + par.param3 + '"')
-          if (myself.bookEventpage)
-            myself.bookEventpage.show = false
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('cal.cancelederrorbooking'))
+          this.showPositiveNotif(mythisq, t('cal.canceledbooking') + ' "' + par.param3 + '"')
+          //++Todo: Calendar FIX:
+          // if (myself.bookEventpage)
+          //  myself.bookEventpage.show = false
+        } else {
+          this.showNegativeNotif(mythisq, t('cal.cancelederrorbooking'))
+        }
       })
     } else if (func === lists.MenuAction.DELETE_EVENT) {
       // console.log('param1', par.param1, 'id', par.param1._id)
@@ -1717,192 +1720,29 @@ export const tools = {
         if (ris) {
           // Remove this record from my list
           calendarStore.eventlist = calendarStore.eventlist.filter((event: IEvents) => (event._id !== par.param1._id))
-          this.showPositiveNotif(myself.$q, myself.$t('cal.canceledevent') + ' "' + par.param1.title + '"')
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('cal.cancelederrorevent'))
-      })
-    } else if (func === lists.MenuAction.DELETE_EXTRALIST) {
-      // console.log('param1', par.param1, 'id', par.param1._id)
-      globalStore.DeleteRec({ table: toolsext.TABEXTRALIST, id: par.param1._id }).then((ris) => {
-        if (ris) {
-          myself.update_username()
-          this.showPositiveNotif(myself.$q, myself.$t('reg.cancella_invitato') + ' "' + par.param1.name + ' ' + par.param1.surname + '"')
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
-      })
-    } else if (func === lists.MenuAction.DELETE_USERLIST) {
-      // console.log('param1', par.param1, 'id', par.param1._id)
-      globalStore.DeleteRec({ table: toolsext.TABUSER, id: par.param1._id }).then((ris) => {
-        if (ris) {
-          myself.update_username()
-          this.showPositiveNotif(myself.$q, myself.$t('reg.cancella_invitato') + ' "' + par.param1.name + ' ' + par.param1.surname + '"')
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
-      })
-    } else if (func === lists.MenuAction.ZOOM_GIA_PARTECIPATO) {
-      // console.log('param1', par.param1, 'id', par.param1._id)
-      const mydatatosave = {
-        id: par.param1._id,
-        ind_order: par.param1.ind_order,
-        myfunc: func,
-        data: par.param2,
-        username: par.param2.username,
-        notifBot: null,
-      }
-
-      // if (par.param2.notifBot)
-      //  mydatatosave.notifBot = { un: par.param2.notifBot, txt: par.param3 }
-
-      // myself.EseguiCallServer()
-
-      globalStore.callFunz({ mydata: mydatatosave }).then((ris) => {
-        if (ris) {
-          myself.Callback(func)
-          this.showPositiveNotif(myself.$q, par.param3)
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
-      })
-    } else if (func === lists.MenuAction.REGALA_INVITATO) {
-      // console.log('param1', par.param1, 'id', par.param1._id)
-      let mydatatosave: IDataToSet = {
-        id: null,
-        username: '',
-        table: '',
-        fieldsvalue: {},
-        notifBot: {},
-      }
-
-      if (!!par.param1.invitante_username) {
-        mydatatosave = {
-          id: par.param1._id,
-          username: par.param1.username,
-          table: toolsext.TABLISTAINGRESSO,
-          fieldsvalue: { invitante_username: par.param2.aportador_solidario },
-          notifBot: {},
+          this.showPositiveNotif(mythisq, t('cal.canceledevent') + ' "' + par.param1.title + '"')
+        } else {
+          this.showNegativeNotif(mythisq, t('cal.cancelederrorevent'))
         }
-      } else {
-        mydatatosave = {
-          id: par.param1._id,
-          username: '',
-          table: toolsext.TABUSER,
-          fieldsvalue: { aportador_solidario: par.param2.aportador_solidario },
-          notifBot: {},
-        }
-      }
-
-      console.log('** par.param1', par.param1)
-      console.log('** id', par.param1._id)
-
-      if (par.param3) {
-        mydatatosave.notifBot = { un: par.param2.aportador_solidario, txt: par.param3 }
-      }
-
-      globalStore.saveFieldValue(mydatatosave).then((ris) => {
-        console.log('ris saveFieldValue', ris)
-        if (ris) {
-          this.showPositiveNotif(myself.$q, myself.$t('reg.invitato_regalato') + ' "' + par.param1.name + ' ' + par.param1.surname + '"')
-          myself.update_username()
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
-      })
-    } else if (func === lists.MenuAction.REGALA_INVITANTE) {
-      // console.log('param1', par.param1, 'id', par.param1._id)
-      const mydatatosave: IDataToSet = {
-        id: par.param1,
-        table: toolsext.TABLISTAINGRESSO,
-        fieldsvalue: { invitante_username: par.param2.invitante_username, ind_order_ingr: par.param2.ind_order_ingr },
-        notifBot: null,
-      }
-
-      if (par.param3) {
-        mydatatosave.notifBot = { un: par.param2.invitante_username, txt: par.param3 }
-      }
-
-      globalStore.saveFieldValue(mydatatosave).then((ris) => {
-        console.log('ris saveFieldValue', ris)
-        if (ris) {
-          this.showPositiveNotif(myself.$q, myself.$t('reg.invitante_regalato') + ' "' + par.param2.name + ' ' + par.param2.surname + '"')
-          myself.update_username()
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
-      })
-    } else if ((func === lists.MenuAction.AGGIUNGI_NUOVO_IMBARCO) || (func === lists.MenuAction.CANCELLA_IMBARCO)) {
-      const mydatatosave: IDataToSet = {
-        username: par.param1.username,
-        invitante_username: '',
-        ind_order: -1,
-        num_tess: 0,
-        myfunc: func,
-        data: par.param2,
-        notifBot: null,
-      }
-
-      if (func === lists.MenuAction.CANCELLA_IMBARCO) {
-        mydatatosave.ind_order = par.param1.ind_order
-        mydatatosave.num_tess = par.param1.num_tess
-        mydatatosave.data.id = par.param2.rec._id
-      }
-      if (func === lists.MenuAction.AGGIUNGI_NUOVO_IMBARCO) {
-        mydatatosave.invitante_username = par.param1.invitante_username
-      }
-
-      myself.loading = true
-
-      mydatatosave.notifBot = { un: par.param2, txt: par.param3 }
-
-      globalStore.callFunz({ mydata: mydatatosave }).then((ris) => {
-        myself.loading = false
-        if (ris) {
-          myself.update_username()
-          if (func === lists.MenuAction.AGGIUNGI_NUOVO_IMBARCO)
-            this.showPositiveNotif(myself.$q, myself.$t('steps.sei_stato_aggiunto'))
-          else if (func === lists.MenuAction.CANCELLA_IMBARCO)
-            this.showPositiveNotif(myself.$q, myself.$t('event.deleted'))
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
-      })
-    } else if (func === lists.MenuAction.SOSTITUISCI) {
-      // console.log('param1', par.param1, 'id', par.param1._id)
-      const mydatatosave: IDataToSet = {
-        id: par.param1._id,
-        ind_order: par.param1.ind_order,
-        myfunc: func,
-        data: par.param2,
-        username: par.param2.username,
-        notifBot: null,
-        inviaemail: par.param2.inviaemail,
-      }
-
-      if (par.param2.notifBot)
-        mydatatosave.notifBot = { un: par.param2.notifBot, txt: par.param3 }
-
-      myself.EseguiCallServer()
-
-      globalStore.callFunz({ mydata: mydatatosave }).then((ris) => {
-        if (ris) {
-          myself.update_nave()
-          myself.Callback()
-          this.showPositiveNotif(myself.$q, par.param3 + '\n' + ' e inviato messaggio per aprire la Gift Chat!')
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
       })
     } else if (func === lists.MenuAction.DELETE_RECTABLE) {
       // console.log('param1', par.param1)
       globalStore.DeleteRec({ table, id: par.param1 }).then((ris) => {
         if (ris) {
-          myself.ActionAfterYes(func, par.param2, null)
-          this.showPositiveNotif(myself.$q, myself.$t('db.deletedrecord'))
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recdelfailed'))
+          mythis.ActionAfterYes(func, par.param2, null)
+          this.showPositiveNotif(mythisq, t('db.deletedrecord'))
+        } else {
+          this.showNegativeNotif(mythisq, t('db.recdelfailed'))
+        }
       })
     } else if (func === lists.MenuAction.DUPLICATE_RECTABLE) {
       // console.log('param1', par.param1)
       globalStore.DuplicateRec({ table, id: par.param1 }).then((ris) => {
         if (ris) {
-          myself.ActionAfterYes(func, par.param2, ris.data)
-          this.showPositiveNotif(myself.$q, myself.$t('db.duplicatedrecord'))
+          mythis.ActionAfterYes(func, par.param2, ris.data)
+          this.showPositiveNotif(mythisq, t('db.duplicatedrecord'))
         } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recdupfailed'))
+          this.showNegativeNotif(mythisq, t('db.recdupfailed'))
       })
     } else if (func === lists.MenuAction.INVIA_MSG_A_DONATORI) {
       // console.log('param1', par.param1)
@@ -1913,28 +1753,10 @@ export const tools = {
       }).then((ris) => {
         if (ris) {
           if (par.param1.inviareale)
-            this.showPositiveNotif(myself.$q, myself.$t('dashboard.msg_donatori_ok'))
-          this.askConfirm(myself.$q, '', ris.strout, translate('dialog.yes'), translate('dialog.no'), this, '', 0, 0, {})
+            this.showPositiveNotif(mythisq, t('dashboard.msg_donatori_ok'))
+          this.askConfirm(mythisq, '', ris.strout, translate('dialog.yes'), translate('dialog.no'), '', 0, 0, {})
         } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
-      })
-    } else if (func === lists.MenuAction.INVIA_MSG_A_FLOTTA) {
-      // console.log('param1', par.param1)
-      myself.loading = true
-      globalStore.InviaMsgAFlotta({
-        flotta: par.param1,
-        inviareale: par.param2.inviareale,
-        inviaemail: par.param2.inviaemail,
-        tipomsg: par.param3,
-      }).then((ris) => {
-        myself.loading = false
-        if (ris) {
-          if (par.param1.inviareale)
-            this.showPositiveNotif(myself.$q, myself.$t('dashboard.msg_donatori_ok'))
-          this.askConfirm(myself.$q, '', ris.strout, translate('dialog.yes'), translate('dialog.no'), this, '', 0, 0, {})
-          myself.Callback()
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+          this.showNegativeNotif(mythisq, t('db.recfailed'))
       })
     } else if (func === lists.MenuAction.INVIA_MSG_A_SINGOLO) {
       // console.log('param1', par.param1)
@@ -1945,9 +1767,9 @@ export const tools = {
       })
         .then((ris) => {
           if (ris) {
-            this.showPositiveNotif(myself.$q, myself.$t('cal.sendmsg_sent'))
+            this.showPositiveNotif(mythisq, t('cal.sendmsg_sent'))
           } else
-            this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+            this.showNegativeNotif(mythisq, t('db.recfailed'))
         })
     } else if (func === lists.MenuAction.DONO_INVIATO) {
       const mydatatosave: IDataToSet = {
@@ -1968,10 +1790,10 @@ export const tools = {
 
       globalStore.saveFieldValue(mydatatosave).then((ris) => {
         if (ris) {
-          myself.ActionAfterYes(func, par.param1, par.param2)
-          this.showPositiveNotif(myself.$q, myself.$t('dashboard.fatto_dono'))
+          mythis.ActionAfterYes(func, par.param1, par.param2)
+          this.showPositiveNotif(mythisq, t('dashboard.fatto_dono'))
         } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+          this.showNegativeNotif(mythisq, t('db.recfailed'))
       })
     } else if (func === lists.MenuAction.DONO_RICEVUTO) {
       const mydatatosave: IDataToSet = {
@@ -2007,20 +1829,22 @@ export const tools = {
 
       globalStore.saveFieldValue(mydatatosave).then((ris) => {
         if (ris) {
-          myself.ActionAfterYes(func, par.param1, par.param2)
-          let msg = myself.$t('dashboard.ricevuto_dono_ok')
+          mythis.ActionAfterYes(func, par.param1, par.param2)
+          let msg = t('dashboard.ricevuto_dono_ok')
           if (!!par.param1.annulla) {
             if (par.param1.annulla)
               msg = 'Dono Annullato'
           }
-          this.showPositiveNotif(myself.$q, msg)
-        } else
-          this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+          this.showPositiveNotif(mythisq, msg)
+        } else {
+          this.showNegativeNotif(mythisq, t('db.recfailed'))
+        }
       })
     }
   },
 
-  async saveFieldToServer(myself: any, table: string, id: any, mydata: any, notif = true) {
+  async saveFieldToServer(mythisq: any, table: string, id: any, mydata: any, notif = true) {
+    const { t } = useI18n()
     const mydatatosave = {
       id,
       table,
@@ -2030,18 +1854,18 @@ export const tools = {
 
     const globalStore = useGlobalStore()
 
-    globalStore.saveFieldValue(mydatatosave).then((ris) => {
+    return globalStore.saveFieldValue(mydatatosave).then((ris) => {
       if (ris) {
         if (notif)
-          this.showPositiveNotif(myself.$q, myself.$t('db.recupdated'))
+          this.showPositiveNotif(mythisq, t('db.recupdated'))
       } else {
-        this.showNegativeNotif(myself.$q, myself.$t('db.recfailed'))
+        this.showNegativeNotif(mythisq, t('db.recfailed'))
       }
     })
 
   },
 
-  async askConfirm($q: any, mytitle: string, mytext: string, ok: string, cancel: string, myself: any, table: string, funcok: number, funccancel: number, par: IParamDialog) {
+  askConfirm($q: any, mytitle: string, mytext: string, ok: string, cancel: string, table: string, funcok: number, funccancel: number, par: IParamDialog, mythis?: any) {
     return $q.dialog({
       message: mytext,
       html: true,
@@ -2054,11 +1878,11 @@ export const tools = {
       persistent: false,
     }).onOk(() => {
       // console.log('OK')
-      this.executefunc(myself, table, funcok, par)
+      this.executefunc($q, table, funcok, par, mythis)
       return true
     }).onCancel(() => {
       // console.log('CANCEL')
-      this.executefunc(myself, table, funccancel, par)
+      this.executefunc($q, table, funccancel, par, mythis)
       return false
     })
   },
@@ -2116,7 +1940,7 @@ export const tools = {
     return true
   },
 
-  checkLangPassed(mylangpass: string) {
+  checkLangPassed($router: Router, mylangpass: string) {
     // console.log('checkLangPassed ', mylang)
     const userStore = useUserStore()
 
@@ -2152,7 +1976,7 @@ export const tools = {
         mylang = 'it'
 
         // Metti come default
-        userStore.setlang(mylang)
+        userStore.setlang($router, mylang)
       }
     }
 
@@ -2162,7 +1986,7 @@ export const tools = {
     }
 
     if (toolsext.getLocale(true) === '') {
-      userStore.setlang(mylang)
+      userStore.setlang($router, mylang)
     }
 
     // console.log('mylang calc : ', mylang)
@@ -2721,17 +2545,17 @@ export const tools = {
     if ('serviceWorker' in navigator) {
       options = {
         body: 'You successfully subscribed to our Notification service!',
-        icon: '/statics/icons/app-icon-96x96.png',
-        image: '/statics/images/sf-boat.jpg',
+        icon: '/public/icons/app-icon-96x96.png',
+        image: '/public/images/sf-boat.jpg',
         dir: 'ltr',
         lang: 'enUs', // BCP 47,
         vibrate: [100, 50, 200],
-        badge: '/statics/icons/app-icon-96x96.png',
+        badge: '/public/icons/app-icon-96x96.png',
         tag: 'confirm-notification',
         renotify: true,  // if it's already sent, will Vibrate anyway
         actions: [
-          { action: 'confirm', title: 'Okay', icon: '/statics/icons/app-icon-96x96.png' },
-          { action: 'cancel', title: 'Cancel', icon: '/statics/icons/app-icon-96x96.png' },
+          { action: 'confirm', title: 'Okay', icon: '/public/icons/app-icon-96x96.png' },
+          { action: 'cancel', title: 'Cancel', icon: '/public/icons/app-icon-96x96.png' },
         ],
       }
 
@@ -2764,16 +2588,16 @@ export const tools = {
     if ('serviceWorker' in navigator) {
       options = {
         body: t('notification.subscribed'),
-        icon: '/statics/icons/android-chrome-192x192.png',
-        image: '/statics/images/imglogonotif.png',
+        icon: '/public/icons/android-chrome-192x192.png',
+        image: '/public/images/imglogonotif.png',
         dir: 'ltr',
         lang: 'enUs', // BCP 47,
         vibrate: [100, 50, 200],
-        badge: '/statics/icons/android-chrome-192x192.png',
+        badge: '/public/icons/android-chrome-192x192.png',
         tag: 'confirm-notification',
         renotify: true,  // if it's already sent, will Vibrate anyway
         actions: [
-          { action: 'confirm', title: t('dialog.ok'), icon: '/statics/icons/android-chrome-192x192.png' },
+          { action: 'confirm', title: t('dialog.ok'), icon: '/public/icons/android-chrome-192x192.png' },
           // { action: 'cancel', title: 'Cancel', icon: '/statics/icons/android-chrome-192x192.png', }
         ],
       }
@@ -3065,9 +2889,9 @@ export const tools = {
 
   getimgev(ev: IEvents) {
     if (!!ev.img_small)
-      return 'statics/' + ev.img_small
+      return 'public/' + ev.img_small
     else if (!!ev.img)
-      return 'statics/' + ev.img
+      return 'public/' + ev.img
     else
       return ''
   },
@@ -3095,7 +2919,7 @@ export const tools = {
       return mylang
   },
 
-  setLangAtt(mylang: string) {
+  setLangAtt($router: Router, mylang: string) {
     console.log('setLangAtt =', mylang)
     // console.log('PRIMA this.$q.lang.isoName', this.$q.lang.isoName)
 
@@ -3111,7 +2935,7 @@ export const tools = {
       })
     })
 
-    globalStore.addDynamicPages()
+    globalStore.addDynamicPages($router)
 
     // this.$q.lang.set(mylang)
 
@@ -3128,14 +2952,14 @@ export const tools = {
     return 'Testo: ' + process.env.LOGO_REG
   },
 
-  loginOk(mythis: any, ispageLogin: boolean) {
+  loginOk($router: Router, route: any, mythisq: any, ispageLogin: boolean) {
     // console.log('loginOk')
     const userStore = useUserStore()
 
     if (toolsext.getLocale() !== '') {
-      mythis.$i18n.locale = toolsext.getLocale()
+      // mythisq.$i18n.locale = toolsext.getLocale()
     } else {
-      userStore.setlang(mythis.$i18n.locale)
+      userStore.setlang($router, mythisq.lang.getLocale())
     }     // Set Lang
 
     if (process.env.DEBUG) {
@@ -3144,18 +2968,19 @@ export const tools = {
 
     globalroutines('loadapp', '')
 
-    this.SignIncheckErrors(mythis, this.OK, ispageLogin)
+    this.SignIncheckErrors(mythisq, $router, route, this.OK, ispageLogin)
   }
   ,
 
-  loginInCorso(mythis: any) {
+  loginInCorso(mythisq: any) {
     // console.log('loginInCorso')
+    const { t } = useI18n()
 
-    const msg = mythis.$t('login.incorso')
+    const msg = t('login.incorso')
     // if (process.env.DEBUG) {
     //   msg += ' ' + process.env.MONGODB_HOST
     // }
-    mythis.$q.loading.show({ message: msg })
+    mythisq.loading.show({ message: msg })
   }
   ,
 
@@ -3165,18 +2990,20 @@ export const tools = {
     return arr[0] + '//' + arr[2]
   },
 
-  SignIncheckErrors(mythis: any, riscode: any, ispageLogin ?: boolean) {
+  SignIncheckErrors(mythisq: any, $router: Router, route: any, riscode: any, ispageLogin ?: boolean) {
     // console.log('SignIncheckErrors: ', riscode)
     const $q = useQuasar()
+    const { t } = useI18n()
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
+
     try {
       if (riscode === this.OK) {
-        this.showNotif(mythis.$q, mythis.$t('login.completato'), { color: 'positive', icon: 'check' })
-        console.log('mythis.$router.name', mythis.$router.name)
+        this.showNotif(mythisq, t('login.completato'), { color: 'positive', icon: 'check' })
+        console.log('mythis.$router.name', route.name)
         if (ispageLogin) {
-          if (mythis.$router.name !== '/')
-            mythis.$router.push('/')
+          if (route.name !== '/')
+            $router.push('/')
         }
       } else if (riscode === serv_constants.RIS_CODE_LOGIN_ERR) {
 
@@ -3188,10 +3015,10 @@ export const tools = {
         }).then(() => {
           setTimeout(() => {
             // console.log('HIDE...')
-            mythis.$q.loading.hide()
+            mythisq.loading.hide()
           }, 500)
-          this.showNotif(mythis.$q, mythis.$t('login.errato'), { color: 'negative', icon: 'notifications' })
-          mythis.iswaitingforRes = false
+          this.showNotif(mythisq, t('login.errato'), { color: 'negative', icon: 'notifications' })
+          // iswaitingforRes = false
           if (ispageLogin) {
             globalStore.rightDrawerOpen = true
             // mythis.$router.push('/signin')
@@ -3208,10 +3035,10 @@ export const tools = {
         }).then(() => {
           setTimeout(() => {
             // console.log('HIDE...')
-            mythis.$q.loading.hide()
+            mythisq.loading.hide()
           }, 500)
-          this.showNotif(mythis.$q, mythis.$t('login.subaccount'), { color: 'negative', icon: 'notifications' })
-          mythis.iswaitingforRes = false
+          this.showNotif(mythisq, t('login.subaccount'), { color: 'negative', icon: 'notifications' })
+          // mythis.iswaitingforRes = false
           if (ispageLogin) {
             globalStore.rightDrawerOpen = true
             // mythis.$router.push('/signin')
@@ -3219,18 +3046,18 @@ export const tools = {
         })
 
       } else if (riscode === toolsext.ERR_SERVERFETCH) {
-        this.showNotif(mythis.$q, mythis.$t('fetch.errore_server'), { color: 'negative', icon: 'notifications' })
+        this.showNotif(mythisq, t('fetch.errore_server'), { color: 'negative', icon: 'notifications' })
       } else if (riscode === toolsext.ERR_GENERICO) {
-        const msg = mythis.$t('fetch.errore_generico') + userStore.getMsgError(riscode)
-        this.showNotif(mythis.$q, msg, { color: 'negative', icon: 'notifications' })
+        const msg = t('fetch.errore_generico') + userStore.getMsgError(riscode)
+        this.showNotif(mythisq, msg, { color: 'negative', icon: 'notifications' })
       } else {
-        this.showNotif(mythis.$q, 'Errore num ' + riscode, { color: 'negative', icon: 'notifications' })
+        this.showNotif(mythisq, 'Errore num ' + riscode, { color: 'negative', icon: 'notifications' })
       }
 
       if (riscode !== serv_constants.RIS_CODE_LOGIN_ERR) {
-        mythis.iswaitingforRes = false
+        // mythis.iswaitingforRes = false
         setTimeout(() => {
-          mythis.$q.loading.hide()
+          mythisq.loading.hide()
         }, 200)
       }
 
@@ -3239,46 +3066,47 @@ export const tools = {
     }
   },
 
-  SignUpcheckErrors(mythis: any, riscode: number, msg: string) {
+  SignUpcheckErrors(mythisq: any, riscode: number, msg: string) {
     console.log('SignUpcheckErrors', riscode)
     const endload = true
 
     const userStore = useUserStore()
+    const { t } = useI18n()
 
     if (riscode === serv_constants.RIS_CODE_EMAIL_ALREADY_EXIST) {
-      this.showNotif(mythis.$q, mythis.$t('reg.err.duplicate_email'))
+      this.showNotif(mythisq, t('reg.err.duplicate_email'))
     } else if (riscode === serv_constants.RIS_CODE_USER_ALREADY_EXIST) {
-      this.showNegativeNotif(mythis.$q, mythis.$t('reg.err.user_already_exist'))
+      this.showNegativeNotif(mythisq, t('reg.err.user_already_exist'))
     } else if (riscode === serv_constants.RIS_CODE_USER_EXTRALIST_NOTFOUND) {
 
-      this.showNegativeNotif(mythis.$q, mythis.$t('reg.err.user_extralist_not_found') + ' ' + msg)
+      this.showNegativeNotif(mythisq, t('reg.err.user_extralist_not_found') + ' ' + msg)
     } else if (riscode === serv_constants.RIS_CODE_USER_NOT_THIS_APORTADOR) {
 
-      this.showNegativeNotif(mythis.$q, mythis.$t('reg.err.user_not_this_aportador') + ' ' + msg)
+      this.showNegativeNotif(mythisq, t('reg.err.user_not_this_aportador') + ' ' + msg)
 
     } else if (riscode === serv_constants.RIS_CODE_USERNAME_NOT_VALID) {
-      this.showNotif(mythis.$q, mythis.$t('reg.err.username_not_valid'))
+      this.showNotif(mythisq, t('reg.err.username_not_valid'))
     } else if (riscode === serv_constants.RIS_CODE_USERNAME_ALREADY_EXIST) {
-      this.showNotif(mythis.$q, mythis.$t('reg.err.duplicate_username'))
+      this.showNotif(mythisq, t('reg.err.duplicate_username'))
     } else if (riscode === toolsext.ERR_SERVERFETCH) {
-      this.showNotif(mythis.$q, mythis.$t('fetch.errore_server'))
+      this.showNotif(mythisq, t('fetch.errore_server'))
     } else if (riscode === toolsext.ERR_GENERICO) {
-      const msg2 = mythis.$t('fetch.errore_generico') + userStore.getMsgError(riscode)
-      this.showNotif(mythis.$q, msg2)
+      const msg2 = t('fetch.errore_generico') + userStore.getMsgError(riscode)
+      this.showNotif(mythisq, msg2)
     } else if (riscode === this.OK) {
-      mythis.$router.push('/regok')
-      this.showNotif(mythis.$q, mythis.$t('components.authentication.email_verification.link_sent', { botname: mythis.$t('ws.botname') }), {
+      mythisq.$router.push('/regok')
+      this.showNotif(mythisq, t('components.authentication.email_verification.link_sent', { botname: t('ws.botname') }), {
         color: 'green',
         textColor: 'black',
       })
     } else if (riscode === serv_constants.RIS_ISCRIZIONE_OK) {
-      mythis.$router.push('/')
-      this.showNotif(mythis.$q, mythis.$t('components.authentication.iscrizione_ok', { botname: mythis.$t('ws.botname') }), {
+      mythisq.$router.push('/')
+      this.showNotif(mythisq, t('components.authentication.iscrizione_ok', { botname: t('ws.botname') }), {
         color: 'green',
         textColor: 'black',
       })
     } else {
-      this.showNotif(mythis.$q, 'Errore num ' + riscode)
+      this.showNotif(mythisq, 'Errore num ' + riscode)
     }
 
     return endload
@@ -3306,18 +3134,17 @@ export const tools = {
     }
     return s
   },
-  CancelBookingEvent(mythis: any, eventparam: IEvents, bookeventid: string, notify: boolean) {
+  CancelBookingEvent(mythisq: any, eventparam: IEvents, bookeventid: string, notify: boolean) {
     console.log('CancelBookingEvent ', eventparam)
-    this.askConfirm(mythis.$q, translate('cal.titlebooking'), translate('cal.cancelbooking') + ' ' + this.gettextevent(eventparam) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.DELETE, 0, {
+    this.askConfirm(mythisq, translate('cal.titlebooking'), translate('cal.cancelbooking') + ' ' + this.gettextevent(eventparam) + '?', translate('dialog.yes'), translate('dialog.no'), '', lists.MenuAction.DELETE, 0, {
       param1: bookeventid,
       param2: notify,
       param3: eventparam.title,
     })
   },
-  CancelEvent(mythis: any, eventparam: IEvents) {
+  CancelEvent(mythisq: any, eventparam: IEvents) {
     console.log('CancelEvent ', eventparam)
-    const $q = useQuasar()
-    this.askConfirm($q, translate('cal.event'), translate('cal.cancelevent') + ' ' + this.gettextevent(eventparam) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.DELETE_EVENT, 0, {
+    this.askConfirm(mythisq, translate('cal.event'), translate('cal.cancelevent') + ' ' + this.gettextevent(eventparam) + '?', translate('dialog.yes'), translate('dialog.no'),  '', lists.MenuAction.DELETE_EVENT, 0, {
       param1: eventparam,
       param2: true,
     })
@@ -3325,7 +3152,7 @@ export const tools = {
   AskGiaPartecipatoZoom(mythis: any, user: any) {
     console.log('AskGiaPartecipatoZoom', user.username)
     const $q = useQuasar()
-    this.askConfirm($q, translate('steps.zoom_gia_partecipato'), translate('steps.zoom_gia_partecipato'), translate('dialog.yes'), translate('dialog.no'), mythis, '', lists.MenuAction.ZOOM_GIA_PARTECIPATO, 0, {
+    this.askConfirm($q, translate('steps.zoom_gia_partecipato'), translate('steps.zoom_gia_partecipato'), translate('dialog.yes'), translate('dialog.no'),  '', lists.MenuAction.ZOOM_GIA_PARTECIPATO, 0, {
       param1: user,
       param2: user,
       param3: 'Confermato',
@@ -3334,20 +3161,20 @@ export const tools = {
   ActionRecTable(mythis: any, action: number, table: string, id: string, item: any, askaction: any) {
     // console.log('ActionRecTable', id)
     const $q = useQuasar()
-    return this.askConfirm($q, 'Action', translate(askaction) + '?', translate('dialog.yes'), translate('dialog.no'), mythis, table, action, 0, {
+    return this.askConfirm($q, 'Action', translate(askaction) + '?', translate('dialog.yes'), translate('dialog.no'), table, action, 0, {
       param1: id,
       param2: item,
-    })
+    }, this)
   },
 
   getheight(mythis: any) {
     // return height()
     return mythis.$q.screen.height
   },
-  getwidth(mythis: any, withright = false, withleft = true): number {
+  getwidth(mythisq: any, withright = false, withleft = true): number {
     const globalStore = useGlobalStore()
     // return height()
-    let myw = mythis.$q.screen.width
+    let myw = mythisq.screen.width
     if (withleft) {
       if (globalStore.leftDrawerOpen)
         myw -= 300
@@ -3479,8 +3306,12 @@ export const tools = {
     let mynum = numbercell.replace(/-/g, '')
     const globalStore = useGlobalStore()
     const intcode = globalStore.getValueSettingsByKey('INT_CODE', false)
-    if (numbercell.substring(0, 1) !== '+') mynum = intcode + mynum
-    else mynum = mynum.substring(1)
+    if (numbercell) {
+      if (numbercell.substring(0, 1) !== '+') mynum = intcode + mynum
+      else mynum = mynum.substring(1)
+    } else  {
+      return ''
+    }
 
     return mynum
   },
@@ -3545,7 +3376,9 @@ export const tools = {
     return ((now.getMonth() === 11 && now.getDate() > 20) || (now.getMonth() === 0 && now.getDate() < 8))
   },
 
-  CapitalizeAllWords(str: string) {
+  CapitalizeAllWords(str: string | undefined) {
+    if (str === undefined)
+      return ''
     const splitStr = str.toLowerCase().split(' ')
     for (let i = 0; i < splitStr.length; i++) {
       // You do not need to check if i is larger than splitStr length, as your for does that for you
@@ -3586,7 +3419,9 @@ export const tools = {
 
       return ''
     } else {
+      console.log('keystr', keystr, 'serv', serv)
       const ris = globalStore.getValueSettingsByKey(keystr, serv)
+      console.log('...ris', ris)
 
       if (ris === '')
         if (def !== undefined)
@@ -3654,7 +3489,7 @@ export const tools = {
   },
 
   getpath(myvideo: string) {
-    return 'statics/video/' + func_tools.getLocale() + '/' + myvideo
+    return 'public/video/' + func_tools.getLocale() + '/' + myvideo
   },
   mygetarrValDb(keystr: string, serv: boolean) {
     const globalStore = useGlobalStore()
@@ -3692,6 +3527,7 @@ export const tools = {
     if (null === obj || 'object' !== typeof obj) return obj
     const copy = obj.constructor()
     for (const attr in obj) {
+      // eslint-disable-next-line no-prototype-builtins
       if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr]
     }
     return copy
@@ -3798,8 +3634,6 @@ export const tools = {
       return 'Venezuela'
     } else if (nat === 'CL') {
       return 'Chile'
-    } else if (nat === 'PL') {
-      return 'Poland'
     } else if (nat === 'EG') {
       return 'Egypt'
     } else if (nat === 'BR') {
@@ -3820,8 +3654,6 @@ export const tools = {
       return 'Nepal'
     } else if (nat === 'CU') {
       return 'Cuba'
-    } else if (nat === 'MA') {
-      return 'Morocco'
     } else if (nat === 'PH') {
       return 'Philippines'
     } else if (nat === 'BA') {

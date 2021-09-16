@@ -23,7 +23,7 @@ export default function () {
 
   function getImgTeacherByUsername(username: string) {
     const calendarStore = useCalendarStore()
-    return 'statics/images/' + calendarStore.getImgTeacherByUsername(username)
+    return 'public/images/' + calendarStore.getImgTeacherByUsername(username)
   }
 
   function getTeacherByUsername(username: string) {

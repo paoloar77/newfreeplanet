@@ -3,6 +3,7 @@ import { useGlobalStore } from '@store/globalStore'
 import { tools } from '@store/Modules/tools'
 import { computed, defineComponent, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { static_data } from '@/db/static_data'
 
 export default defineComponent({
   name: 'MenuOne',
@@ -16,11 +17,12 @@ export default defineComponent({
 
   setup(props) {
     const route = useRoute()
+    const globalStore = useGlobalStore()
 
     const path = computed(() => route.path)
 
     function getmenu(): any {
-      const globalStore = useGlobalStore()
+      console.log('getmenu menuOne!')
       return globalStore.getmenu
     }
 
@@ -33,9 +35,12 @@ export default defineComponent({
     }
 
     watch(path, (to: string, from: string) => {
-      Object.keys(getmenu()).forEach((parentName: any) => {
+      const mymenu = globalStore.getmenu
+      console.log('watch:', mymenu)
+      Object.keys(mymenu).forEach((parentName: any) => {
+        console.log('parentName', parentName)
         // @ts-ignore
-        setParentVisibilityBasedOnRoute(getmenu[parentName])
+        setParentVisibilityBasedOnRoute(mymenu[parentName])
       })
     })
 
@@ -83,6 +88,8 @@ export default defineComponent({
       isfinishLoading,
       getmymenuclass,
       getroute,
+      static_data,
+      tools,
     }
   },
 })

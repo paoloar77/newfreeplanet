@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { IProject, IProjectsState, IDrag, IMenuList, IAction } from 'model'
 import { Privacy, TipoVisu } from '@src/model'
 
-import Api from '@api'
+import { Api } from '@api'
 import { tools } from './Modules/tools'
 import { toolsext } from '@src/store/Modules/toolsext'
 import { lists } from './Modules/lists'
@@ -431,7 +431,7 @@ export const useProjectStore = defineStore({
       return ris
     },
 
-    async deleteItem({ idobj }: {idobj: any}) {
+    deleteItem({ idobj }: {idobj: any}) {
       console.log('deleteItem: KEY = ', idobj)
 
       const myarr = this.getarrByCategory('')
@@ -516,7 +516,7 @@ export const useProjectStore = defineStore({
       return ApiTables.table_ModifyRecord(nametable, myitem, listFieldsToChange, field)
     },
 
-    async swapElems(itemdragend: IDrag) {
+    swapElems(itemdragend: IDrag) {
       console.log('PROJECT swapElems', itemdragend, this.projects)
 
       const myarr = this.projs_dacompletare(itemdragend.id_proj!, itemdragend.tipoproj!)
