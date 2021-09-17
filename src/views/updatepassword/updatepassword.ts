@@ -15,22 +15,6 @@ import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'Updatepassword',
-  props: {
-    mystr: {
-      type: String,
-      required: true,
-    },
-    myval: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    mybool: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-  },
   components: { Logo, CTitleBanner },
   setup(props, { emit }) {
     const $q = useQuasar()
@@ -51,11 +35,6 @@ export default defineComponent({
 
     // @ts-ignore
     const v$ = useVuelidate(validations, form)
-
-    function created() {
-      // load()
-    }
-
 
     function submit() {
       v$.value.$touch()
@@ -95,62 +74,13 @@ export default defineComponent({
 
     }
 
-    function errorMsg(cosa: string, item: any) {
-      try {
-        if (!item.$error) {
-          return ''
-        }
-        // console.log('errorMsg', cosa, item)
-        if (item.$params.email && !item.email) {
-          return t('reg.err.email')
-        }
-
-        if (cosa === 'repeatpassword') {
-          if (!item.sameAsPassword) {
-            return t('reg.err.sameaspassword')
-          }
-        }
-
-        // console.log('item', item)
-
-        if (item.minLength !== undefined) {
-          if (!item.minLength) {
-            return t('reg.err.atleast') + ` ${item.$params.minLength.min} ` + t('reg.err.char')
-          }
-        }
-        if (item.complexity !== undefined) {
-          if (!item.complexity) {
-            return t('reg.err.complexity')
-          }
-        }
-// if (!item.maxLength) { return t('reg.err.notmore') + ` ${item.$params.maxLength.max} ` + t('reg.err.char') }
-
-        if (item.required !== undefined) {
-          if (!item.required) {
-            return t('reg.err.required')
-          }
-        }
-
-        // console.log('    ....avanti')
-        if (cosa === 'email') {
-          // console.log("EMAIL " + item.isUnique);
-          // console.log(item);
-          if (!item.isUnique) {
-            return t('reg.err.duplicate_email')
-          }
-        }
-
-        return ''
-      } catch (error) {
-        // console.log("ERR : " + error);
-      }
-    }
 
     return {
       form,
       emailsent,
       submit,
-      errorMsg,
+      tools,
+      v$,
     }
   }
 })

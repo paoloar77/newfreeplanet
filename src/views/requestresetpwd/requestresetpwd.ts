@@ -4,34 +4,17 @@ import { tools } from '@store/Modules/tools'
 import { Logo } from '../../components/logo'
 import { CTitleBanner } from '../../components/CTitleBanner'
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
+import useVuelidate from '@vuelidate/core'
+import { validations } from '@src/views/requestresetpwd/request-resetpwd-validate'
 
-import useValidate from '@vuelidate/core'
-
-// https://learnvue.co/2020/01/getting-smart-with-vue-form-validation-vuelidate-tutorial/
 
 export default defineComponent({
   name: 'RequestResetPwd',
-  props: {
-    mystr: {
-      type: String,
-      required: true,
-    },
-    myval: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    mybool: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-  },
   components: { Logo, CTitleBanner },
   setup(props, { emit }) {
     const $q = useQuasar()
@@ -39,19 +22,23 @@ export default defineComponent({
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
 
-    const v$ = useValidate()
-
     const emailsent = ref(false)
-    const form = ref({
+    const form = reactive({
       email: '',
       tokenforgot: ''
     })
+
+    // @ts-ignore
+    const v$ = useVuelidate(validations, form)
+
+    const emailRef = ref(null)
 
     function emailinviata() {
       return emailsent.value
     }
 
     function submit() {
+      console.log('submit')
       // v$.form.touch()
 
       /*if (v$.form.$error) {
@@ -59,12 +46,21 @@ export default defineComponent({
         return
       }*/
 
+      // @ts-ignore
+      emailRef.value!.validate()
+
+      // @ts-ignore
+      if (emailRef.value!.hasError) {
+        // form has error
+        tools.showNotif($q, t('reg.err.errore_generico'))
+        return
+      }
+
       $q.loading.show({ message: t('reset.incorso') })
 
-      form.value.tokenforgot = ''
+      form.tokenforgot = ''
 
-      console.log(form.value)
-      userStore.requestpwd(form.value)
+      userStore.requestpwd(form)
         .then((ris: any) => {
           if (ris.code === serv_constants.RIS_CODE_OK)
             emailsent.value = true
@@ -78,40 +74,13 @@ export default defineComponent({
 
     }
 
-    function errorMsg(cosa: string, item: any) {
-      try {
-        if (!item.$error) {
-          return ''
-        }
-        if (item.$params.email && !item.email) {
-          return t('reg.err.email')
-        }
-
-        if (item.required !== undefined) {
-          if (!item.required) {
-            return t('reg.err.required')
-          }
-        }
-
-        if (cosa === 'email') {
-          if (!item.isUnique) {
-            return t('reg.err.duplicate_email')
-          }
-        }
-
-        return ''
-      } catch (error) {
-        // console.log("ERR : " + error);
-      }
-    }
-
-
     return {
       emailinviata,
-      errorMsg,
       submit,
       form,
+      emailRef,
       v$,
+      tools,
     }
   }
 })

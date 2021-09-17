@@ -42,6 +42,8 @@ export interface INotify {
   icon?: string | ''
 }
 
+const { t } = useI18n()
+
 export const tools = {
   CAN_EDIT: 'q-ce',
   TABBED_DASHBOARD: 't-db',
@@ -1443,7 +1445,7 @@ export const tools = {
 
 
   askfornotification($q: any) {
-    const { t } = useI18n()
+
     console.log('askfornotification', $q)
     this.showNotif($q, t('notification.waitingconfirm'), { color: 'positive', icon: 'notifications' })
 
@@ -1499,7 +1501,7 @@ export const tools = {
     }
 
     const globalStore = useGlobalStore()
-    const { t } = useI18n()
+
 
     return globalStore.saveTable(mydata)
       .then((record) => {
@@ -1698,7 +1700,7 @@ export const tools = {
   executefunc(mythisq: any, table: string, func: number, par: IParamDialog, mythis?: any) {
     const globalStore = useGlobalStore()
     const calendarStore = useCalendarStore()
-    const { t } = useI18n()
+
     if (func === lists.MenuAction.DELETE) {
       // console.log('param1', par.param1)
       calendarStore.CancelBookingEvent({
@@ -1844,7 +1846,7 @@ export const tools = {
   },
 
   async saveFieldToServer(mythisq: any, table: string, id: any, mydata: any, notif = true) {
-    const { t } = useI18n()
+
     const mydatatosave = {
       id,
       table,
@@ -2377,7 +2379,7 @@ export const tools = {
 
   getstrDateEmailTime(mytimestamp: Date | number | string | undefined) {
     // console.log('getstrDate', mytimestamp)
-    const { t } = useI18n()
+
     if (mytimestamp) return `${date.formatDate(mytimestamp, 'DD/MM/YYYY')} ${t('cal.starttime')} ${date.formatDate(mytimestamp, 'HH:mm')}`
     return ''
   },
@@ -2584,7 +2586,7 @@ export const tools = {
 
   showNotificationExample() {
     let options: any = null
-    const { t } = useI18n()
+
     if ('serviceWorker' in navigator) {
       options = {
         body: t('notification.subscribed'),
@@ -2839,7 +2841,7 @@ export const tools = {
     }
   }
   ,
-  gettextdescr(data: { [index: string]: any }, numdescr = 'description',
+  gettextdescr(data: {[index: string]: any}, numdescr = 'description',
   ) {
     if (!!data[numdescr]) {
       if (data[numdescr][toolsext.getLocale()])
@@ -2941,7 +2943,7 @@ export const tools = {
 
   },
   getappname(short: boolean) {
-    const { t } = useI18n()
+
     if (short) {
       return t('ws.siteshortname')
     }
@@ -2974,7 +2976,7 @@ export const tools = {
 
   loginInCorso(mythisq: any) {
     // console.log('loginInCorso')
-    const { t } = useI18n()
+
 
     const msg = t('login.incorso')
     // if (process.env.DEBUG) {
@@ -2993,7 +2995,7 @@ export const tools = {
   SignIncheckErrors(mythisq: any, $router: Router, route: any, riscode: any, ispageLogin ?: boolean) {
     // console.log('SignIncheckErrors: ', riscode)
     const $q = useQuasar()
-    const { t } = useI18n()
+
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
 
@@ -3071,7 +3073,7 @@ export const tools = {
     const endload = true
 
     const userStore = useUserStore()
-    const { t } = useI18n()
+
 
     if (riscode === serv_constants.RIS_CODE_EMAIL_ALREADY_EXIST) {
       this.showNotif(mythisq, t('reg.err.duplicate_email'))
@@ -3144,7 +3146,7 @@ export const tools = {
   },
   CancelEvent(mythisq: any, eventparam: IEvents) {
     console.log('CancelEvent ', eventparam)
-    this.askConfirm(mythisq, translate('cal.event'), translate('cal.cancelevent') + ' ' + this.gettextevent(eventparam) + '?', translate('dialog.yes'), translate('dialog.no'),  '', lists.MenuAction.DELETE_EVENT, 0, {
+    this.askConfirm(mythisq, translate('cal.event'), translate('cal.cancelevent') + ' ' + this.gettextevent(eventparam) + '?', translate('dialog.yes'), translate('dialog.no'), '', lists.MenuAction.DELETE_EVENT, 0, {
       param1: eventparam,
       param2: true,
     })
@@ -3152,7 +3154,7 @@ export const tools = {
   AskGiaPartecipatoZoom(mythis: any, user: any) {
     console.log('AskGiaPartecipatoZoom', user.username)
     const $q = useQuasar()
-    this.askConfirm($q, translate('steps.zoom_gia_partecipato'), translate('steps.zoom_gia_partecipato'), translate('dialog.yes'), translate('dialog.no'),  '', lists.MenuAction.ZOOM_GIA_PARTECIPATO, 0, {
+    this.askConfirm($q, translate('steps.zoom_gia_partecipato'), translate('steps.zoom_gia_partecipato'), translate('dialog.yes'), translate('dialog.no'), '', lists.MenuAction.ZOOM_GIA_PARTECIPATO, 0, {
       param1: user,
       param2: user,
       param3: 'Confermato',
@@ -3309,7 +3311,7 @@ export const tools = {
     if (numbercell) {
       if (numbercell.substring(0, 1) !== '+') mynum = intcode + mynum
       else mynum = mynum.substring(1)
-    } else  {
+    } else {
       return ''
     }
 
@@ -3561,7 +3563,7 @@ export const tools = {
 
   copyStringToClipboard(mystr: string, show: boolean) {
     const $q = useQuasar()
-    const { t } = useI18n()
+
     copyToClipboard(mystr).then(() => {
       let msg = t('dialog.copyclipboard')
       if (show)
@@ -4249,6 +4251,71 @@ export const tools = {
       return colours[index]
 
     return false
+  },
+
+  errorMsg(cosa: string, item: any) {
+    try {
+      if (!item.$error) {
+        return ''
+      }
+      console.log('errorMsg', cosa, item)
+
+      if (cosa === 'repeatpassword') {
+        if (item.sameAsPassword) {
+          if (item.sameAsPassword.$invalid) {
+            return t('reg.err.sameaspassword')
+          }
+        }
+      }
+
+      if (item.email) {
+        if (item.email.$invalid)
+          return t('reg.err.email')
+      }
+
+      if (item.minLength !== undefined) {
+        if (item.minLength.$invalid) {
+          return t('reg.err.atleast') + ` ${item.minLength.$params.min} ` + t('reg.err.char')
+        }
+      }
+      if (item.complexity !== undefined) {
+        if (item.complexity.$invalid) {
+          return t('reg.err.complexity')
+        }
+      }
+      // if (!item.maxLength) { return t('reg.err.notmore') + ` ${item.$params.maxLength.max} ` + t('reg.err.char') }
+
+      if (item.required !== undefined) {
+        if (item.required.$invalid) {
+          return t('reg.err.required')
+        }
+      }
+
+      // console.log('    ....avanti')
+      if (cosa === 'email') {
+        // console.log("EMAIL " + item.isUnique);
+        // console.log(item);
+        if (item.registeredemail.$invalid) {
+          return t('reg.err.duplicate_email')
+        }
+      } else if (cosa === 'username') {
+        if (item.registereduser.$invalid) {
+          return t('reg.err.duplicate_username')
+        }
+      } else if (cosa === 'aportador_solidario') {
+        // console.log(item);
+        if (item.aportadorexist.$invalid) {
+          // console.log('!item.aportadorexist !')
+          return t('reg.err.aportador_not_exist')
+        }
+      } else if ((cosa === 'name') || (cosa === 'surname')) {
+        // console.log(item);
+      }
+
+      return ''
+    } catch (error) {
+      // console.log("ERR : " + error);
+    }
   },
 
 // getLocale() {

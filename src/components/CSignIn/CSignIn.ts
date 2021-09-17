@@ -62,33 +62,6 @@ export default defineComponent({
       return '/requestresetpwd'
     }
 
-    function errorMsg(cosa: string, item: any) {
-      /*
-      try {
-        if (!item.$error) {
-          return ''
-        }
-        if (item.$params.email && !item.email) {
-          return t('reg.err.email')
-        }
-
-        if (!item.required) {
-          return t('reg.err.required')
-        }
-        if (!item.minLength) {
-          return t('reg.err.atleast') + ' ${item.$params.minLength.min} ' + t('reg.err.char')
-        }
-        if (!item.maxLength) {
-          return t('reg.err.notmore') + ` ${item.$params.maxLength.max} ` + t('reg.err.char')
-        }
-        return ''
-      } catch (err) {
-        // console.log("ERR : " + error);
-      }
-      */
-
-    }
-
     function isError() {
       if (refUsername.value) {
         // @ts-ignore
@@ -172,7 +145,6 @@ export default defineComponent({
       refUsername,
       onReset,
       onSubmit,
-      errorMsg,
       signin,
       getlinkforgetpwd,
       myForm,

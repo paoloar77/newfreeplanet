@@ -87,74 +87,6 @@ export default defineComponent({
       return process.env
     }
 
-    function errorMsg(cosa: string, item: any) {
-      try {
-        if (!item.$error) {
-          return ''
-        }
-        console.log('errorMsg', cosa, item)
-
-        if (cosa === 'repeatpassword') {
-          if (!item.sameAsPassword) {
-            return t('reg.err.sameaspassword')
-          }
-        }
-
-        if (item.email) {
-          if (item.email.$invalid)
-            return t('reg.err.email')
-        }
-
-        if (item.minLength !== undefined) {
-          if (item.minLength.$invalid) {
-            return t('reg.err.atleast') + ` ${item.minLength.$params.min} ` + t('reg.err.char')
-          }
-        }
-        if (item.complexity !== undefined) {
-          if (item.complexity.$invalid) {
-            return t('reg.err.complexity')
-          }
-        }
-        // if (!item.maxLength) { return t('reg.err.notmore') + ` ${item.$params.maxLength.max} ` + t('reg.err.char') }
-
-        if (item.required !== undefined) {
-          if (item.required.$invalid) {
-            console.log('required')
-            return t('reg.err.required')
-          }
-        }
-
-        console.log('  cosa', cosa)
-
-        // console.log('    ....avanti')
-        if (cosa === 'email') {
-          // console.log("EMAIL " + item.isUnique);
-          // console.log(item);
-          if (!item.email.$invalid) {
-            return t('reg.err.duplicate_email')
-          }
-        } else if (cosa === 'username') {
-          // console.log(item);
-          console.log('username')
-          console.log(item.$error)
-          if (!item.registereduser.$invalid) {
-            return t('reg.err.duplicate_username')
-          }
-        } else if (cosa === 'aportador_solidario') {
-          // console.log(item);
-          if (!item.aportadorexist) {
-            // console.log('!item.aportadorexist !')
-            return t('reg.err.aportador_not_exist')
-          }
-        } else if ((cosa === 'name') || (cosa === 'surname')) {
-          // console.log(item);
-        }
-
-        return ''
-      } catch (error) {
-        // console.log("ERR : " + error);
-      }
-    }
 
     function changeemail() {
       signup.email = tools.removespaces(signup.email!)
@@ -223,7 +155,6 @@ export default defineComponent({
     }
 
     return {
-      errorMsg,
       changeemail,
       changeusername,
       submitOk,

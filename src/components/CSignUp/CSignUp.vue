@@ -16,7 +16,7 @@
         @blur="v$.email.$touch"
         @input="changeemail()"
         :error="v$.email.$error"
-        :error-message="errorMsg('email', v$.email)"
+        :error-message="tools.errorMsg( 'email', v$.email)"
         maxlength="50"
         debounce="3000"
         :label="$t('reg.email')">
@@ -36,7 +36,7 @@
         @keydown.space="(event) => event.preventDefault()"
         maxlength="20"
         debounce="1000"
-        :error-message="errorMsg('username', v$.username)"
+        :error-message="tools.errorMsg( 'username', v$.username)"
         :label="$t('reg.username')">
 
         <template v-slot:prepend>
@@ -52,7 +52,7 @@
         :error="v$.name.$error"
         maxlength="30"
         debounce="1000"
-        :error-message="errorMsg('name', v$.name)"
+        :error-message="tools.errorMsg( 'name', v$.name)"
         :label="$t('reg.name')">
 
         <template v-slot:prepend>
@@ -68,7 +68,7 @@
         @blur="v$.surname.$touch"
         maxlength="30"
         debounce="1000"
-        :error-message="errorMsg('surname', v$.surname)"
+        :error-message="tools.errorMsg( 'surname', v$.surname)"
         :label="$t('reg.surname')">
 
         <template v-slot:prepend>
@@ -83,7 +83,7 @@
         rounded outlined
         @blur="v$.password.$touch"
         :error="v$.password.$error"
-        :error-message="`${errorMsg('password', v$.password)}`"
+        :error-message="`${tools.errorMsg( 'password', v$.password)}`"
         maxlength="30"
         debounce="1000"
         :label="$t('reg.password')">
@@ -101,7 +101,7 @@
         rounded outlined
         @blur="v$.repeatPassword.$touch"
         :error="v$.repeatPassword.$error"
-        :error-message="`${errorMsg('repeatpassword', v$.repeatPassword)}`"
+        :error-message="`${tools.errorMsg( 'repeatpassword', v$.repeatPassword)}`"
 
         :label="$t('reg.repeatPassword')">
 
@@ -152,7 +152,7 @@
         color="secondary"
         @blur="v$.terms.$touch"
         :error="v$.terms.$error"
-        :error-message="`${errorMsg('terms', v$.terms)}`"
+        :error-message="`${tools.errorMsg( 'terms', v$.terms)}`"
         :label="$t('reg.terms')">
 
       </q-checkbox>
