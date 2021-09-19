@@ -5,7 +5,7 @@
                 ref="table"
                 color="primary"
                 title="Parametri di Configurazione Server"
-                :data="serverData"
+                :rows="serverData"
                 :columns="columns"
                 :filter="filter"
                 selection="multiple"

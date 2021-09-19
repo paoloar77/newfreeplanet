@@ -31,8 +31,8 @@
     <div v-else>
       <div v-if="!!title">
         <CTitle
-v-if="imgbackground" :imgbackground="imgbackground"
-                :headtitle="title" :sizes="sizes" :styleadd="styleadd"></CTitle>
+          v-if="imgbackground" :imgbackground="imgbackground"
+          :headtitle="title" :sizes="sizes" :styleadd="styleadd"></CTitle>
         <div v-if="!imgbackground">
           <CImgTitle v-if="img" :src="img" :title="title">
           </CImgTitle>

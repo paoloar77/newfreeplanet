@@ -2191,6 +2191,11 @@ export const tools = {
     return userStore.isEditor
   },
 
+  isTeacher() {
+    const userStore = useUserStore()
+    return userStore.isTeacher
+  },
+
   getstrDate(mytimestamp: Date | number | string | undefined) {
     // console.log('getstrDate', mytimestamp)
     if (mytimestamp) return date.formatDate(mytimestamp, 'DD/MM/YYYY')

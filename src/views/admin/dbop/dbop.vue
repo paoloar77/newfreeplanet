@@ -3,18 +3,18 @@
     <CTitleBanner title="Operazioni su DB:"></CTitleBanner>
     <div class="row justify-center q-gutter-sm q-list--bordered center_img" style="max-width: 600px">
       <CMyFieldDb
-title="SITO_ONLINE"
-                  mykey="SITO_ONLINE"
-                  :serv="false"
-                  :type="costanti.FieldType.boolean">
+        title="SITO_ONLINE"
+        mykey="SITO_ONLINE"
+        :serv="false"
+        :type="costanti.FieldType.boolean">
       </CMyFieldDb>
       <br>
 
       <CMyFieldDb
-title="ABILITA CRONTAB (1 ora)"
-                  mykey="CRONTAB"
-                  :serv="false"
-                  :type="costanti.FieldType.boolean">
+        title="ABILITA CRONTAB (1 ora)"
+        mykey="CRONTAB"
+        :serv="false"
+        :type="costanti.FieldType.boolean">
       </CMyFieldDb>
       <br>
 
@@ -203,8 +203,8 @@ title="ABILITA CRONTAB (1 ora)"
 
     <div class="row">
       <q-btn
-label="Correggi Tabella Hours con userId" color="negative"
-             @click="EseguiFunz('CorreggiTabHours')"></q-btn>
+        label="Correggi Tabella Hours con userId" color="negative"
+        @click="EseguiFunz('CorreggiTabHours')"></q-btn>
       <br>
     </div>
 
@@ -214,7 +214,7 @@ label="Correggi Tabella Hours con userId" color="negative"
       dense
     >
       <template v-slot:control>
-        <div class="self-center full-width no-outline text-center" tabindex="0">{{ris}}</div>
+        <div class="self-center full-width no-outline text-center" tabindex="0">{{ ris }}</div>
       </template>
 
     </q-field>
@@ -225,5 +225,5 @@ label="Correggi Tabella Hours con userId" color="negative"
 </script>
 
 <style lang="scss" scoped>
-  @import './dbop';
+@import './dbop';
 </style>

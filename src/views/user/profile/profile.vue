@@ -8,7 +8,6 @@
       :type="costanti.FieldType.string">
     </CMyFieldDb>
 
-    <!--
     <CTitleBanner
       class="q-pa-xs" :title="$t('pages.profile')" bgcolor="bg-primary" clcolor="text-white"
       myclass="myshad" :canopen="true">
@@ -146,8 +145,6 @@
         </div>
       </div>
     </CTitleBanner>
-
-  -->
 
     <!--
     <CTitleBanner class="q-pa-xs" :title="$t('pages.payment')" bgcolor="bg-primary" clcolor="text-white"

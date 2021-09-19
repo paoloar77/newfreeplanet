@@ -28,7 +28,7 @@ export default function () {
   }
 
   function getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any) {
-    console.log('getValDb')
+    // console.log('getValDb')
     return toolsext.getValDb(keystr, serv, def, table, subkey, id, idmain)
   }
 
@@ -39,14 +39,14 @@ export default function () {
     return ris
   }
 
-  async function setValDb(key: string, value: any, type: any, serv: boolean, table?: string, subkey?: string, id?: any) {
+  async function setValDb($q: any, key: string, value: any, type: any, serv: boolean, table?: string, subkey?: string, id?: any) {
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
-    const $q = useQuasar()
     const { t } = useI18n()
 
     console.log('setValDb', key, value, serv, table, subkey)
     let mydatatosave: IDataPass | null = null
+
     if (table === 'users') {
       const myid = userStore.my._id
 
@@ -169,10 +169,7 @@ export default function () {
     // console.log('myval', myval)
     try {
       if (myval) {
-        const myrec: any = JSON.parse(myval)
-        // console.log('*************** getarrValDb')
-        // console.table(myrec)
-        return myrec
+        return JSON.parse(myval)
       }
       return []
     } catch (e) {

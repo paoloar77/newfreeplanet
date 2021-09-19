@@ -1,10 +1,10 @@
-import msg_it from '../../../freeplanet/src/statics/lang/it'
-import msg_es from '../../../freeplanet/src/statics/lang/es'
-import msg_si from '../../../freeplanet/src/statics/lang/si'
-import msg_enUs from '../../../freeplanet/src/statics/lang/enUs'
-import msg_fr from '../../../freeplanet/src/statics/lang/fr'
-import msg_de from '../../../freeplanet/src/statics/lang/de'
-import msg_pt from '../../../freeplanet/src/statics/lang/pt'
+import msg_it from '../../../newfreeplanet/src/statics/lang/it'
+import msg_es from '../../../newfreeplanet/src/statics/lang/es'
+import msg_si from '../../../newfreeplanet/src/statics/lang/si'
+import msg_enUs from '../../../newfreeplanet/src/statics/lang/enUs'
+import msg_fr from '../../../newfreeplanet/src/statics/lang/fr'
+import msg_de from '../../../newfreeplanet/src/statics/lang/de'
+import msg_pt from '../../../newfreeplanet/src/statics/lang/pt'
 
 import msg_website_de from '../db/lang/ws_de';
 import msg_website_enUs from '../db/lang/ws_enUs';

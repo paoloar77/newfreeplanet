@@ -51,6 +51,7 @@ export default defineComponent({
     return {
       getsrc,
       getaltimg,
+      tools,
     }
   },
 })

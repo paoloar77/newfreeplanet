@@ -225,7 +225,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     getrecSettingsByKey: (state: IGlobalState) => (key: any, serv: any): ISettings | undefined => {
       if (serv) return state.serv_settings.find((rec) => rec.key === key)
       const ris = state.settings.find((rec) => rec.key === key)
-      console.log('getrecSettingsByKey=', ris)
+      // console.log('getrecSettingsByKey=', ris)
       return ris
     },
 
@@ -253,13 +253,13 @@ export const useGlobalStore = defineStore('GlobalStore', {
         else if (myrec.type === costanti.FieldType.boolean) myrec.value_bool = value
         else myrec.value_str = value
 
-        console.log('setValueSettingsByKey value', value, 'myrec', myrec)
+        // console.log('setValueSettingsByKey value', value, 'myrec', myrec)
       }
     },
 
     getValueSettingsByKey(key: any, serv: any): any | undefined {
       const myrec = this.getrecSettingsByKey(key, serv)
-      console.log('getValueSettingsByKey', myrec, 'key=', key, 'srv=', serv)
+      // console.log('getValueSettingsByKey', myrec, 'key=', key, 'srv=', serv)
       if (myrec) {
         if ((myrec.type === costanti.FieldType.date) || (myrec.type === costanti.FieldType.onlydate)) return myrec.value_date
         if ((myrec.type === costanti.FieldType.number) || (myrec.type === costanti.FieldType.hours)) return myrec.value_num
@@ -346,7 +346,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       // console.log('static_data.routes', static_data.routes)
 
-      console.log('$router', $router)
+      // console.log('$router', $router)
 
       if (tools.sito_online(false)) {
         arrpagesroute.forEach(function (route: any) {
@@ -556,7 +556,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     },
 
     async clearDataAfterLogout() {
-      console.log('clearDataAfterLogout')
+      // console.log('clearDataAfterLogout')
 
       for (const table of ApiTables.allTables()) {
         await globalroutines('clearalldata', table, null)

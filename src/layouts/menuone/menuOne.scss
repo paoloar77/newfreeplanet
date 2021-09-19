@@ -46,7 +46,7 @@
   position: absolute;
   right: 10px;
   display: inline-block;
-  padding: 0 0px 0px 0px;
+  padding: 0 0 0 0;
   -webkit-transform: rotate(-180deg);
   transform: rotate(-180deg);
 }
@@ -64,7 +64,7 @@
 }
 
 .isAdmin {
-  color: red;
+  color: red !important;
 }
 
 .isSocioResidente {
@@ -94,7 +94,7 @@
 }
 
 .clexpansion{
-  min-width: 0px !important;
+  min-width: 0 !important;
 }
 
 .my-menu-active {

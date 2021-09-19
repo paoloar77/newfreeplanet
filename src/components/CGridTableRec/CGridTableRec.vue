@@ -12,10 +12,10 @@
       flat
       bordered
       class="my-sticky-header-table"
-      :data="serverData"
+      :rows="serverData"
       :columns="mycolumns"
       :filter="myfilter"
-      v-model:pagination="pagination"
+      v-model:pagination="mypagination"
       :row-key="colkey"
       :loading="loading"
       @request="onRequest"
@@ -137,7 +137,7 @@
               <div :class="getclrow(props.row)">
                 <CMyPopupEdit
                   :canEdit="canEdit"
-                  :disable="disabilita"
+                  :disable="disabilita()"
                   :col="col"
                   v-model:row="props.row"
                   :field="col.field"
@@ -198,7 +198,7 @@
               @click="colclicksel = mycol">
               <CMyPopupEdit
                 :canEdit="true"
-                :disable="disabilita"
+                :disable="disabilita()"
                 view="field"
                 :col="mycol"
                 :showall="true"

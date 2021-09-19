@@ -79,7 +79,7 @@ flat round color="white" icon="cancel" v-close-popup
                                     <q-chip>
                                         <q-avatar v-if="getWhereIcon(myevent.wherecode)">
                                             <img
-:src="`../../statics/images/avatar/` + getWhereIcon(myevent.wherecode)"
+:src="`../../public/images/avatar/` + getWhereIcon(myevent.wherecode)"
                                                  alt="Località">
                                         </q-avatar>
                                         <q-avatar v-else color="blue" font-size="20px" text-color="white" icon="home">
@@ -831,7 +831,7 @@ size="md" type="a"
                                         <q-chip>
                                             <q-avatar v-if="getWhereIcon(event.wherecode)">
                                                 <img
-                                                  :src="`../../statics/images/avatar/` + getWhereIcon(event.wherecode)"
+                                                  :src="`../../public/images/avatar/` + getWhereIcon(event.wherecode)"
                                                   :alt="event.wherecode">
                                             </q-avatar>
                                             <q-avatar color="blue" font-size="20px" text-color="white" icon="home">

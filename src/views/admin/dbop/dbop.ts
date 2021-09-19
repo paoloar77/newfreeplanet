@@ -8,6 +8,7 @@ import { useI18n } from '@/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { tools } from '@store/Modules/tools'
+import { costanti } from '@costanti'
 
 export default defineComponent({
   name: 'Dbop',
@@ -75,6 +76,7 @@ export default defineComponent({
     return {
       EseguiFunz,
       tools,
+      costanti,
     }
   },
 })

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-header reveal elevated :class="getClassColorHeader">
+    <q-header reveal elevated :class="getClassColorHeader()">
       <q-toolbar
         color="primary"
         :glossy="$q.theme === 'mat'"
@@ -31,7 +31,7 @@
         <q-btn
           ripple
           size="md"
-          id="newvers" v-if="isNewVersionAvailable" color="secondary" rounded icon="refresh"
+          id="newvers" v-if="isNewVersionAvailable()" color="secondary" rounded icon="refresh"
           class="btnNewVersShow" @click="RefreshApp()" :label="t('notification.newVersionAvailable')">
         </q-btn>
 

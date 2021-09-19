@@ -256,7 +256,6 @@
               <!--</q-dialog>-->
             </div>
 
-            myvalue: {{ myvalue}}
             <q-popup-edit
               v-if="canEdit && col.fieldtype !== costanti.FieldType.html"
               v-model="myvalue"
@@ -265,16 +264,17 @@
               buttons
               persistent
               @save="SaveValueInt"
-              @show="OpenEdit">
+              @show="OpenEdit"
+              v-slot="scope">
 
               <div v-if="col.fieldtype === costanti.FieldType.boolean">
-                <q-checkbox v-model="myvalue" :label="col.title">
+                <q-checkbox v-model="scope.value" :label="col.title">
                 </q-checkbox>
                 {{ visuValByType(myvalue, col, row) }}
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.string">
                 <q-input
-                  v-model="myvalue"
+                  v-model="scope.value"
                   autogrow
                   @keyup.enter.stop
                   autofocus>
@@ -283,23 +283,23 @@
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.password">
                 <q-input
-                  v-model="myvalue"
+                  v-model="scope.value"
                   type="password"
-                  @keyup.enter.stop
+                  @keyup.enter="scope.set"
                   autofocus>
 
                 </q-input>
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.number">
                 <q-input
-                  v-model="myvalue" type="number"
+                  v-model="scope.value" type="number"
                   autofocus>
 
                 </q-input>
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.hours">
                 <q-input
-                  v-model="myvalue" type="number"
+                  v-model="scope.value" type="number"
                   autofocus>
 
                 </q-input>
@@ -334,14 +334,14 @@
 
                     <template v-slot:prepend>
                       <div style="font-size: 1rem;">
-                        <vue-country-code
+                        <!--<vue-country-code
                           :defaultCountry="myvalue"
                           :disabledFetchingCountry="true"
                           @onSelect="selectcountry"
                           :preferredCountries="tools.getprefCountries"
                           :dropdownOptions="{ disabledDialCode: true }">
 
-                        </vue-country-code>
+                        </vue-country-code>-->
                       </div>
                     </template>
                   </q-input>
@@ -352,7 +352,7 @@
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
 
-                <vue-tel-input
+<!--                <vue-tel-input
                   @country-changed="intcode_change"
                   :value="myvalue"
                   @input="oninput"
@@ -361,13 +361,14 @@
                   inputClasses="clCell"
                   wrapperClasses="clCellCode">
                 </vue-tel-input>
+                -->
 
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
                 <div>join: {{ col.jointable }}</div>
 
                 <q-select
-                  v-model="myvalue"
+                  v-model="scope.value"
                   rounded
                   outlined
                   multiple

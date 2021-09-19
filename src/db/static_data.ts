@@ -57,6 +57,19 @@ const arrlista = [
 const routes_admin: IListRoutes[] = [
   {
     active: true,
+    order: 10,
+    path: '/admin/sites',
+    materialIcon: 'event_seat',
+    name: 'pages.Sites',
+    component: () => import('@/rootgen/admin/sites/sites.vue'),
+    level_parent: 0.0,
+    level_child: 0.5,
+    inmenu: true,
+    submenu: true,
+    onlyAdmin: true
+  },
+  {
+    active: true,
     order: 1000,
     path: '/admin/cfgserv',
     materialIcon: 'event_seat',
@@ -68,6 +81,32 @@ const routes_admin: IListRoutes[] = [
     submenu: true,
     onlyAdmin: true
   },
+  {
+    active: true,
+    order: 1020,
+    path: '/admin/dbop',
+    materialIcon: 'event_seat',
+    name: 'pages.dbop',
+    component: () => import('@/views/admin/dbop/dbop.vue'),
+    level_parent: 0.0,
+    level_child: 0.5,
+    inmenu: true,
+    submenu: true,
+    onlyAdmin: true
+  },
+  {
+    active: true,
+    order: 1030,
+    path: '/admin/sendpushnotif',
+    materialIcon: 'event_seat',
+    name: 'otherpages.manage.sendpushnotif',
+    component: () => import('@/rootgen/admin/sendpushnotif/sendpushnotif.vue'),
+    level_parent: 0.0,
+    level_child: 0.5,
+    inmenu: true,
+    submenu: true,
+    onlyAdmin: true
+  }
 ]
 
 const baseroutes: IListRoutes[] = [

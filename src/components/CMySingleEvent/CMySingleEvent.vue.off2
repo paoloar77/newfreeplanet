@@ -117,7 +117,7 @@ v-else class="cltexth3 text-center boldhigh"
                                         <q-chip>
                                             <q-avatar v-if="getWhereIcon(myevent.wherecode)">
                                                 <img
-                                                  :src="`../../statics/images/avatar/` + getWhereIcon(myevent.wherecode)"
+                                                  :src="`../../public/images/avatar/` + getWhereIcon(myevent.wherecode)"
                                                   alt="località">
                                             </q-avatar>
                                             <q-avatar

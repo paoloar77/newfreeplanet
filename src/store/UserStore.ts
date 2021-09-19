@@ -20,6 +20,7 @@ import bcrypt from 'bcryptjs'
 import { useTodoStore } from '@store/Todos'
 import { Router } from 'vue-router'
 import { useProjectStore } from '@store/Projects'
+import { shared_consts } from '@/common/shared_vuejs'
 
 export const DefaultUser: IUserFields = {
   _id: '',
@@ -101,6 +102,7 @@ export const useUserStore = defineStore('UserStore', {
     isZoomeri: false,
     isTratuttrici: false,
     isEditor: false,
+    isTeacher: false,
     usersList: [],
     countusers: 0,
     lastparamquery: {},
@@ -396,6 +398,19 @@ export const useUserStore = defineStore('UserStore', {
       if (!this.my.profile) {
         this.my.profile = DefaultProfile
       }
+
+      this.isAdmin = tools.isBitActive(this.my.perm, shared_consts.Permissions.Admin.value)
+      this.isManager = tools.isBitActive(this.my.perm, shared_consts.Permissions.Manager.value)
+      this.isTutor = tools.isBitActive(this.my.perm, shared_consts.Permissions.Tutor.value)
+      this.isZoomeri = tools.isBitActive(this.my.perm, shared_consts.Permissions.Zoomeri.value)
+      this.isDepartment = tools.isBitActive(this.my.perm, shared_consts.Permissions.Department.value)
+      this.isTeacher = tools.isBitActive(this.my.perm, shared_consts.Permissions.Teacher.value)
+      this.isEditor = tools.isBitActive(this.my.perm, shared_consts.Permissions.Editor.value)
+
+      this.my.tokens = []
+      this.resetArrToken(this.my.tokens)
+      this.my.tokens.push({ access: 'auth', token: this.x_auth_token, data_login: tools.getDateNow() })
+
     },
 
     updateLocalStorage(myuser: IUserFields) {

@@ -22,7 +22,7 @@ export default defineComponent({
     const path = computed(() => route.path)
 
     function getmenu(): any {
-      console.log('getmenu menuOne!')
+      // console.log('getmenu menuOne!')
       return globalStore.getmenu
     }
 

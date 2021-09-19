@@ -109,7 +109,7 @@
           <div v-else-if="type === costanti.FieldType.boolean">
             <q-toggle
               dark color="green" v-model="myvalue" :label="col.title"
-              @input="savefieldboolean"></q-toggle>
+              @input="savefieldboolean($q)"></q-toggle>
           </div>
           <div v-else>
             <div v-html="myvalprinted()"></div>
@@ -120,19 +120,20 @@
             v-model="myvalue"
             :disable="col.disable"
             :title="col.title"
-            @save="savefield"
+            @save="(val, initialValue) => savefield(val, initialValue, myq)"
             buttons
+            v-slot="scope"
           >
 
             <div v-if="type === costanti.FieldType.boolean">
-              <q-checkbox v-model="myvalue" :label="col.title">
+              <q-checkbox v-model="scope.value" :label="col.title">
               </q-checkbox>
               <div v-html="visuValByType(myvalue)">
               </div>
             </div>
             <div v-else-if="type === costanti.FieldType.string">
               <q-input
-                v-model="myvalue"
+                v-model="scope.value"
                 autogrow
                 @keyup.enter.stop
                 autofocus>
@@ -141,16 +142,17 @@
             </div>
             <div v-else-if="type === costanti.FieldType.password">
               <q-input
-                v-model="myvalue"
+                v-model="scope.value"
                 type="password"
-                @keyup.enter.stop
+                @keyup.enter="scope.set"
                 autofocus>
 
               </q-input>
             </div>
             <div v-else-if="type === costanti.FieldType.number">
               <q-input
-                v-model="myvalue" type="number"
+                v-model="scope.value" type="number"
+                @keyup.enter="scope.set"
                 autofocus>
 
               </q-input>
@@ -194,6 +196,7 @@
                   :readonly="true"
                   rounded dense
                   debounce="1000"
+                  @keyup.enter="scope.set"
                   :label="title">
 
                   <template v-slot:prepend>
@@ -246,7 +249,7 @@
 
               <!--
                             <q-select
-                              v-model="myvalue"
+                              v-model="scope.value"
                               rounded
                               dense
                               outlined

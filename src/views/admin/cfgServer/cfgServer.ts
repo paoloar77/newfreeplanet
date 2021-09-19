@@ -15,32 +15,12 @@ interface IPageS {
 
 export default defineComponent({
   name: 'CfgServer',
-  props: {
-    loading: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
-    paginationControl: {
-      type: Object as PropType<IPageSrv>,
-      required: true,
-      /*default() {
-        return { page: 1, rowsPerPage: 20 }
-      },*/
-    },
-    pagination: {
-      type: Object as PropType<IPageS>,
-      required: true,
-      default() {
-        return { page: 1 }
-      },
-    },
-  },
-
   setup() {
     const $q = useQuasar()
     const { t } = useI18n()
     const globalStore = useGlobalStore()
+
+    const provaval = ref(1)
 
     const serverData = computed(() => globalStore.cfgServer.slice()) // [{ chiave: 'chiave1', valore: 'valore 1' }]
     const columns = ref([
@@ -80,7 +60,7 @@ export default defineComponent({
     }
 
     function SaveValue(newVal: any, valinitial: any) {
-      // console.log('SaveValue', newVal, 'selected', this.selected)
+      console.log('SaveValue', newVal)
 
       const mydata: ICfgServer = {
         chiave: keysel.value,
@@ -99,6 +79,7 @@ export default defineComponent({
       serverData,
       columns,
       filter,
+      provaval,
     }
   },
 })

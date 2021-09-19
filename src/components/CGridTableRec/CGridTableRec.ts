@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref, watch, toRef, onMounted } from 'vue'
+import { defineComponent, PropType, ref, watch, toRef, onMounted, toRefs } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 
 import { tools } from '../../store/Modules/tools'
@@ -81,12 +81,12 @@ export default defineComponent({
       type: Object as PropType<IPagination>,
       required: false,
       default: () => {
-        return { sortBy: '', descending: false, page: 1, rowsNumber: 10, rowsPerPage: 10 }
+        return { sortBy: 'desc', descending: false, page: 1, rowsNumber: 10, rowsPerPage: 10 }
       },
     },
     defaultnewrec: {
       type: Function,
-      required: true,
+      required: false,
     },
   },
   components: { CMyPopupEdit, CTitleBanner },
@@ -96,16 +96,18 @@ export default defineComponent({
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
 
+    const mypagination = toRef(props, 'pagination')
+
     const addRow = ref('Aggiungi')
 
     const newRecordBool = ref(false)
     const newRecord: any = ref({})
     const savenewRec = ref(false)
 
-    const mytable = ref('')
-    const mytitle = ref('')
-    const mycolumns = ref([])
-    const colkey = ref('')
+    const mytable = toRef(props, 'prop_mytable')
+    const mytitle = toRef(props, 'prop_mytitle')
+    const mycolumns = toRef(props, 'prop_mycolumns')
+    const colkey = toRef(props, 'prop_colkey')
     const search = ref('')
 
     const tablesel = ref('')
@@ -137,8 +139,6 @@ export default defineComponent({
     const selected: any = ref([])
 
     const mycodeid = toRef(props, 'prop_codeId')
-
-    const mypag = toRef(props, 'pagination')
 
     // emulate 'SELECT count(*) FROM ...WHERE...'
     function getRowsNumberCount(myfilter?: any) {
@@ -206,9 +206,9 @@ export default defineComponent({
       emit('savefilter', myfilterand)
     }
 
-    function onRequest(myprops: any) {
+    function onRequest() {
       // console.log('onRequest', 'myfilter = ', myfilter)
-      const { page, rowsPerPage, rowsNumber, sortBy, descending } = myprops.pagination
+      const { page, rowsPerPage, rowsNumber, sortBy, descending } = mypagination.value
       const myfilternow = myfilter.value
       const myfilterandnow = myfilterand.value
 
@@ -235,9 +235,9 @@ export default defineComponent({
       serverData.value = []
 
       // fetch data from "server"
-      fetchFromServer(startRow, endRow, myfilternow, myfilterandnow, sortBy, descending).then((ris: any) => {
+      return fetchFromServer(startRow, endRow, myfilternow, myfilterandnow, sortBy, descending).then((ris: any) => {
 
-        myprops.pagination.rowsNumber = getRowsNumberCount(myfilter)
+        mypagination.value.rowsNumber = getRowsNumberCount(myfilter)
 
         // clear out existing data and add new
         if (returnedData.value === []) {
@@ -252,10 +252,10 @@ export default defineComponent({
         // console.log('serverData', serverData)
 
         // don't forfunction to update local pagination object
-        myprops.pagination.page = page
-        myprops.pagination.rowsPerPage = rowsPerPage
-        myprops.pagination.sortBy = sortBy
-        myprops.pagination.descending = descending
+        mypagination.value.page = page
+        mypagination.value.rowsPerPage = rowsPerPage
+        mypagination.value.sortBy = sortBy
+        mypagination.value.descending = descending
 
         // console.log('pagination', pagination)
 
@@ -267,9 +267,7 @@ export default defineComponent({
 
 
     function refresh_table() {
-      onRequest({
-        pagination: props.pagination
-      })
+      onRequest()
       rowclicksel.value = null
     }
 
@@ -410,18 +408,6 @@ export default defineComponent({
 
     }
 
-    function created() {
-      console.log('created')
-      // serverData = mylist.slice() // [{ chiave: 'chiave1', valore: 'valore 1' }]
-
-      mytable.value = props.prop_mytable
-      mytitle.value = props.prop_mytitle
-      mycolumns.value = props.prop_mycolumns
-      colkey.value = props.prop_colkey
-
-      changeTable(false)
-    }
-
     function updatedcol() {
       // console.log('updatedcol')
       if (mycolumns.value) {
@@ -444,7 +430,7 @@ export default defineComponent({
     }
 
     function getrows() {
-      return props.pagination.rowsNumber
+      return mypagination.value.rowsNumber
     }
 
     async function createNewRecordDialog() {
@@ -472,7 +458,7 @@ export default defineComponent({
     async function createNewRecord() {
       loading.value = true
 
-      const mydata = {
+      const mydata: any = {
         table: mytable,
         data: {}
       }
@@ -487,7 +473,7 @@ export default defineComponent({
       const data = await globalStore.saveTable(mydata)
 
       serverData.value.push(data)
-      mypag.value.rowsNumber++
+      mypagination.value.rowsNumber++
 
       loading.value = false
     }
@@ -639,7 +625,7 @@ export default defineComponent({
     }
 
     function changefuncAct(newval: any) {
-      if (!disabilita) {
+      if (!disabilita()) {
         tools.setCookie(tools.CAN_EDIT, newval)
       }
     }
@@ -733,7 +719,6 @@ export default defineComponent({
 
     onMounted(mounted)
 
-    created()
 
     return {
       selItem,
@@ -773,6 +758,13 @@ export default defineComponent({
       colExtra,
       colclicksel,
       selected,
+      mypagination,
+      loading,
+      onRequest,
+      serverData,
+      myfilter,
+      disabilita,
+      newRecordBool,
     }
   }
 })

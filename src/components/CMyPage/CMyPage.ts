@@ -8,12 +8,10 @@ import { Footer } from '@/components/Footer'
 
 import { CImgTitle } from '../CImgTitle/index'
 import { CTitle } from '../CTitle/index'
-import MixinsMetaTags from '../../mixins/mixin-metatags'
 
 export default defineComponent({
   name: 'CMyPage',
   components: { Footer, CImgTitle, CTitle },
-  mixins: [MixinsMetaTags],
   props: {
     title: String,
     mypath: {

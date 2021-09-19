@@ -180,18 +180,18 @@ export default defineComponent({
       return visuValByType(myvalue.value)
     }
 
-    function savefield(value: any, initialval: any) {
+    function savefield(value: any, initialval: any, myq: any) {
       myvalue.value = value
-      setValDb(props.mykey, myvalue.value, props.type, props.serv, props.table, props.mysubkey, props.id)
+      setValDb(myq, props.mykey, myvalue.value, props.type, props.serv, props.table, props.mysubkey, props.id)
     }
 
-    function savefieldboolean(value: any) {
+    function savefieldboolean($q: any, value: any) {
       if (myvalue.value === undefined)
         myvalue.value = 'true'
       else
         myvalue.value = value
 
-      setValDb(props.mykey, myvalue, props.type, props.serv, props.table, props.mysubkey, props.id)
+      setValDb($q, props.mykey, myvalue, props.type, props.serv, props.table, props.mysubkey, props.id)
     }
 
     function selectcountry({ name, iso2, dialCode }: { name: string, iso2: string, dialCode: string }) {
@@ -227,7 +227,7 @@ export default defineComponent({
       onInput,
       tools,
       costanti,
-
+      myq: $q,
     }
   },
 })

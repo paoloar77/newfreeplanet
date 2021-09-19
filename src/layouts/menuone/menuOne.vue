@@ -152,5 +152,5 @@
 </script>
 
 <style lang="scss" scoped>
-@import './menuOne.scss';
+  @import './menuOne.scss';
 </style>

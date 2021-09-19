@@ -746,7 +746,24 @@ const msg_it = {
     },
     privacy_policy: 'Privacy Policy',
     cookies: 'Usiamo i Cookie per una migliore prestazione web.',
+    sites: {
+      active: 'Attivo',
+      idapp: 'IdApp',
+      name: 'Nome Sito',
+      adminemail: 'Email Admin',
+      manageremail: 'Email Gestione',
+      replyTo: 'Reply To',
+      host: 'Host',
+      portapp: 'Porta',
+      dir: 'Directory',
+      email_from: 'Email From',
+      email_pwd: 'Email Pwd',
+      telegram_key: 'Chiave Bot Telegram',
+      telegram_bot_name: 'Telegram BotName',
+      pathreg_add: 'Suffisso',
+    }
   },
+
 };
 
 export default msg_it;

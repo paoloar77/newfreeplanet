@@ -1,6 +1,6 @@
 <template>
   <q-table
-    :data="serverData"
+    :rows="serverData"
     :columns="columns"
     :filter="filter"
     title="Configurazione Server"
@@ -35,9 +35,15 @@
         <q-td key="valore" :props="props">
           {{ props.row.valore }}
           <q-popup-edit
-            v-model="props.row.valore" title="Aggiorna Valore" buttons @save="SaveValue"
+            v-model="props.row.valore"
+            title="Aggiorna Valore"
+            v-slot="scope"
+            buttons
+            @save="SaveValue"
             @show="selItem(props.row)">
-            <q-input v-model="props.row.valore"/>
+            <q-input
+              v-model="scope.value"
+              @keyup.enter="scope.set"/>
           </q-popup-edit>
         </q-td>
       </q-tr>
