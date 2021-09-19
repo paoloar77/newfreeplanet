@@ -3,7 +3,6 @@ import { serv_constants } from '@store/Modules/serv_constants'
 import { tools } from '@store/Modules/tools'
 import { Logo } from '../../components/logo'
 import { CTitleBanner } from '../../components/CTitleBanner'
-import { validations } from './request-resetpwd-validate'
 
 import { defineComponent, ref, reactive } from 'vue'
 import { useI18n } from '@src/boot/i18n'
@@ -12,6 +11,11 @@ import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 import useVuelidate from '@vuelidate/core'
 import { useRoute, useRouter } from 'vue-router'
+
+import { minLength, required, sameAs } from '@vuelidate/validators'
+import { computed } from 'vue'
+import { complexity } from '../../validation'
+
 
 export default defineComponent({
   name: 'Updatepassword',
@@ -31,6 +35,20 @@ export default defineComponent({
       tokenforgot: '',
       email: '',
       idapp: ''
+    })
+
+    const validations: any = computed(() => {
+      return {
+        password: {
+          required,
+          minLength: minLength(8),
+          complexity,
+        },
+        repeatPassword: {
+          required,
+          repeatPassword: sameAs(form.password),
+        }
+      }
     })
 
     // @ts-ignore
@@ -57,7 +75,7 @@ export default defineComponent({
 
       console.log(form)
       userStore.resetpwd(form)
-        .then((ris) => {
+        .then((ris: any) => {
           console.log('ris', ris)
           if (ris.code === serv_constants.RIS_CODE_OK)
             $router.push('/signin')
@@ -67,10 +85,11 @@ export default defineComponent({
             tools.showNegativeNotif($q, t('fetch.errore_server'))
 
           $q.loading.hide()
-        }).catch(error => {
-        console.log('ERROR = ' + error)
-        $q.loading.hide()
-      })
+        })
+        .catch(e => {
+          console.log('ERROR = ' + e)
+          $q.loading.hide()
+        })
 
     }
 

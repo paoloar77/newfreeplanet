@@ -1,5 +1,14 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div class="q-gutter-sm q-pa-xs q-pb-md">
+
+    <CMyFieldDb
+      :title="$t('reg.name')"
+      table="users"
+      mykey="name"
+      :type="costanti.FieldType.string">
+    </CMyFieldDb>
+
+    <!--
     <CTitleBanner
       class="q-pa-xs" :title="$t('pages.profile')" bgcolor="bg-primary" clcolor="text-white"
       myclass="myshad" :canopen="true">
@@ -11,13 +20,13 @@
             :title="$t('reg.name')"
             table="users"
             mykey="name"
-            :type="tools.FieldType.string">
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
           <CMyFieldDb
             :title="$t('reg.surname')"
             table="users"
             mykey="surname"
-            :type="tools.FieldType.string">
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
         <div class="row">
@@ -25,15 +34,15 @@
             :title="$t('reg.username')"
             table="users"
             mykey="username"
-            disable="true"
-            :type="tools.FieldType.string">
+            :disable="true"
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
           <CMyFieldDb
             :title="$t('reg.email')"
             table="users"
             mykey="email"
-            disable="true"
-            :type="tools.FieldType.string">
+            :disable="true"
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
         <CMyFieldDb
@@ -41,7 +50,7 @@
           table="users"
           mykey="profile"
           mysubkey="nationality"
-          :type="tools.FieldType.nationality">
+          :type="costanti.FieldType.nationality">
         </CMyFieldDb>
         <div class="row">
           <CMyFieldDb
@@ -49,29 +58,16 @@
             table="users"
             mykey="profile"
             mysubkey="intcode_cell"
-            :type="tools.FieldType.intcode">
+            :type="costanti.FieldType.intcode">
           </CMyFieldDb>
           <CMyFieldDb
             :title="$t('reg.cell')"
             table="users"
             mykey="profile"
             mysubkey="cell"
-            :type="tools.FieldType.string">
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
-        <!--<CMyFieldDb :title="$t('reg.username_telegram')"
-                    table="users"
-                    mykey="profile"
-                    mysubkey="username_telegram"
-                    :type="tools.FieldType.string">
-        </CMyFieldDb>-->
-        <!--<CMyFieldDb title="Telegram Id"
-                    table="users"
-                    :readonly="true"
-                    mykey="profile"
-                    mysubkey="teleg_id"
-                    :type="tools.FieldType.number">
-        </CMyFieldDb>-->
 
         <br/>
         <div class="row justify-center">
@@ -100,7 +96,7 @@
             table="users"
             mykey="profile"
             mysubkey="motivazioni"
-            :type="tools.FieldType.string">
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
         <div class="row">
@@ -109,7 +105,7 @@
             table="users"
             mykey="profile"
             mysubkey="competenze_professionalita"
-            :type="tools.FieldType.string">
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
         <div class="row">
@@ -118,7 +114,7 @@
             table="users"
             mykey="profile"
             mysubkey="cosa_offrire"
-            :type="tools.FieldType.string">
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
         <div class="row">
@@ -127,7 +123,7 @@
             table="users"
             mykey="profile"
             mysubkey="cosa_ricevere"
-            :type="tools.FieldType.string">
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
         <div class="row">
@@ -136,7 +132,7 @@
             table="users"
             mykey="profile"
             mysubkey="altre_comunicazioni"
-            :type="tools.FieldType.string">
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
         <div class="row">
@@ -145,69 +141,72 @@
             table="users"
             mykey="profile"
             mysubkey="come_ci_hai_conosciuto"
-            :type="tools.FieldType.string">
+            :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
       </div>
     </CTitleBanner>
+
+  -->
+
     <!--
     <CTitleBanner class="q-pa-xs" :title="$t('pages.payment')" bgcolor="bg-primary" clcolor="text-white"
                    myclass="myshad" :canopen="true">
       <div class="row fa-border justify-center items-center">
 
-        <CMyFieldDb v-if="tools.isselectPayeer()"
+        <CMyFieldDb v-if="costanti.isselectPayeer()"
                     :title="$t('reg.payeer_id')"
                     table="users"
                     mykey="profile"
                     myimg="statics/images/payeer.jpg"
                     mysubkey="payeer_id"
-                    :type="tools.FieldType.string">
+                    :type="costanti.FieldType.string">
         </CMyFieldDb>
-        <CMyFieldDb v-if="tools.isselectAdvCash()"
+        <CMyFieldDb v-if="costanti.isselectAdvCash()"
                     :title="$t('reg.advcash_id')"
                     table="users"
                     mykey="profile"
                     mysubkey="advcash_id"
                     myimg="statics/images/advcash.jpg"
-                    :type="tools.FieldType.string">
+                    :type="costanti.FieldType.string">
         </CMyFieldDb>
-        <CMyFieldDb v-if="tools.isselectRevolut()"
+        <CMyFieldDb v-if="costanti.isselectRevolut()"
                     :title="$t('reg.revolut')"
                     table="users"
                     mykey="profile"
                     mysubkey="revolut"
                     myimg="statics/images/revolut.jpg"
-                    :type="tools.FieldType.string">
+                    :type="costanti.FieldType.string">
         </CMyFieldDb>
 
-        <CMyFieldDb v-if="tools.isselectPaypal()"
+        <CMyFieldDb v-if="costanti.isselectPaypal()"
                     :title="$t('reg.email_paypal')"
                     table="users"
                     mykey="profile"
                     mysubkey="email_paypal"
                     myimg="statics/images/paypal.jpg"
-                    :type="tools.FieldType.string">
+                    :type="costanti.FieldType.string">
         </CMyFieldDb>
 
-        <CMyFieldDb v-if="tools.isselectPaypal()"
+        <CMyFieldDb v-if="costanti.isselectPaypal()"
                     :title="$t('reg.link_payment')"
                     table="users"
                     mykey="profile"
                     mysubkey="link_payment"
-                    :type="tools.FieldType.string">
+                    :type="costanti.FieldType.string">
         </CMyFieldDb>
 
         <CMyFieldDb :title="$t('reg.country_pay')"
                     table="users"
                     mykey="profile"
                     mysubkey="country_pay"
-                    :type="tools.FieldType.nationality">
+                    :type="costanti.FieldType.nationality">
         </CMyFieldDb>
         <CMyFieldDb :title="$t('reg.note_payment')"
                     table="users"
                     mykey="profile"
                     mysubkey="note_payment"
-                    :type="tools.FieldType.string">
+                    :type="costanti.FieldType.string">
         </CMyFieldDb>
 
       </div>
@@ -216,7 +215,7 @@
                   table="users"
                   mykey="profile"
                   mysubkey="paymenttypes"
-                  :type="tools.FieldType.multiselect"
+                  :type="costanti.FieldType.multiselect"
                   jointable="paymenttypes">
       </CMyFieldDb>
 
@@ -238,3 +237,18 @@
 <style lang="scss" scoped>
 @import './profile.scss';
 </style>
+
+
+<!--<CMyFieldDb :title="$t('reg.username_telegram')"
+              table="users"
+              mykey="profile"
+              mysubkey="username_telegram"
+              :type="costanti.FieldType.string">
+  </CMyFieldDb>-->
+<!--<CMyFieldDb title="Telegram Id"
+            table="users"
+            :readonly="true"
+            mykey="profile"
+            mysubkey="teleg_id"
+            :type="costanti.FieldType.number">
+</CMyFieldDb>-->

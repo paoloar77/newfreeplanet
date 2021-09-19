@@ -5,8 +5,6 @@ import { useI18n } from '@src/boot/i18n'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 import { Header } from '@/components/Header'
-import { toolsext } from '@store/Modules/toolsext'
-import globalroutines from './globalroutines/index'
 import { computed } from 'vue'
 import { CProvaPao } from '@/components/CProvaPao'
 
@@ -63,7 +61,7 @@ export default {
       if (chiamaautologin) {
         // console.log('CHIAMA autologin_FromLocalStorage')
         userStore.autologin_FromLocalStorage($router)
-          .then((loadstorage) => {
+          .then((loadstorage: any) => {
             if (loadstorage) {
 
 

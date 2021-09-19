@@ -391,7 +391,7 @@
                 table="todos"
                 mykey="assignedToUsers"
                 @input="modifyfieldtodo('assignedToUsers')"
-                :type="tools.FieldType.multiselect"
+                :type="costanti.FieldType.multiselect"
                 jointable="workers">
               </CMyFieldDb>
             </div>

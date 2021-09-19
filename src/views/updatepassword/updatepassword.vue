@@ -61,6 +61,8 @@
           </div>
         </div>
 
+        <pre>{{ v$.$errors }}</pre>
+
       </div>
       <div v-else>
         <q-banner

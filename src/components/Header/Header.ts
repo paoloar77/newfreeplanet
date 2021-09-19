@@ -473,6 +473,7 @@ export default defineComponent({
       getNumMsgUnread,
       getMsgText,
       paotest,
+      logoutHandler,
     }
   },
 

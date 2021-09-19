@@ -1,7 +1,6 @@
 import { tools } from '@store/Modules/tools'
 
 import { ISignupOptions } from 'model'
-import { validations, TSignup } from './CSignUp-validate'
 
 import { Logo } from '../../components/logo'
 
@@ -16,8 +15,11 @@ import { DefaultProfile, useUserStore } from '@store/UserStore'
 import useValidate from '@vuelidate/core'
 import useVuelidate from '@vuelidate/core'
 
-import 'vue3-tel-input/dist/vue3-tel-input.css'
+import { email, minLength, required, sameAs } from '@vuelidate/validators'
+// import { ValidationRuleset } from 'vuelidate'
+import { complexity, registeredemail, registereduser } from '../../validation'
 
+import 'vue3-tel-input/dist/vue3-tel-input.css'
 
 // import {Loading, QSpinnerFacebook, QSpinnerGears} from 'quasar'
 
@@ -61,6 +63,39 @@ export default defineComponent({
       terms: !process.env.PROD,
       profile: DefaultProfile,
       aportador_solidario: '',
+    })
+
+    const validations: any = computed(() => {
+      return {
+        repeatPassword: {
+          required,
+          repeatPassword: sameAs(signup.password),
+        },
+        password: {
+          required,
+          minLength: minLength(8),
+          complexity,
+        },
+        username: {
+          required,
+          minLength: minLength(6),
+          registereduser,
+        },
+        name: {
+          required,
+        },
+        surname: {
+          required,
+        },
+        email: {
+          email,
+          registeredemail,
+          required,
+        },
+        terms: {
+          required,
+        },
+      }
     })
 
     // @ts-ignore

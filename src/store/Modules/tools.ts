@@ -4260,14 +4260,6 @@ export const tools = {
       }
       console.log('errorMsg', cosa, item)
 
-      if (cosa === 'repeatpassword') {
-        if (item.sameAsPassword) {
-          if (item.sameAsPassword.$invalid) {
-            return t('reg.err.sameaspassword')
-          }
-        }
-      }
-
       if (item.email) {
         if (item.email.$invalid)
           return t('reg.err.email')
@@ -4310,6 +4302,12 @@ export const tools = {
         }
       } else if ((cosa === 'name') || (cosa === 'surname')) {
         // console.log(item);
+      } else if (cosa === 'repeatpassword') {
+        if (item.matchText) {
+          if (item.matchText.$invalid) {
+            return t('reg.err.sameaspassword')
+          }
+        }
       }
 
       return ''

@@ -3,7 +3,7 @@
     <q-banner
       inline-actions
       rounded dense
-      :class="bgcolor+` cursor-pointer q-my-sm `+clcolor+ ` ` + myclass + ' ' + getclass"
+      :class="bgcolor+` cursor-pointer q-my-sm `+clcolor+ ` ` + myclass + ' ' + getclass()"
       style="text-align: center; "
       @click="apri()"
     >
@@ -12,7 +12,7 @@
       </template>
       <template v-slot:action>
         <div class="cursor-pointer">
-          <q-icon v-if="canopen" :name="iconopen" color="white"/>
+          <q-icon v-if="canopen" :name="iconopen()" color="white"/>
         </div>
       </template>
       <span :class="`mybanner `+ myclasstext" :style="mystyle">{{ title }}</span>

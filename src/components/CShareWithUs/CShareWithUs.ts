@@ -186,7 +186,7 @@ export default defineComponent({
           const descr = shared.description
 
           // Aggiorna Record Personale
-          userStore.my.profile.myshares = userStore.my.profile.myshares.filter((rec) => rec.description !== descr)
+          userStore.my.profile.myshares = userStore.my.profile.myshares.filter((rec: any) => rec.description !== descr)
 
           const mydata = {
             'profile.myshares': userStore.my.profile.myshares
@@ -222,7 +222,7 @@ export default defineComponent({
       if (userStore.my.profile.myshares) {
         if (userStore.my.profile.myshares.length === 0)
           return false
-        return userStore.my.profile.myshares.find((rec) => rec.description.toLowerCase() === descr.toLowerCase())
+        return userStore.my.profile.myshares.find((rec: any) => rec.description.toLowerCase() === descr.toLowerCase())
       }
       return null
     }

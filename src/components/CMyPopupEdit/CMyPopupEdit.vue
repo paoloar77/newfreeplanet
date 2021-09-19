@@ -2,7 +2,7 @@
   <div :class="getclassCol(col)">
     <div v-if="visulabel" class="flex">
       <div v-if="visInNewRec(col)" style="flex-grow: 1;">
-        <div v-if="col.fieldtype === tools.FieldType.string">
+        <div v-if="col.fieldtype === costanti.FieldType.string">
           <q-input
             v-model="myvalue"
             autogrow
@@ -12,7 +12,7 @@
             :label="col.label">
           </q-input>
         </div>
-        <div v-else-if="col.fieldtype === tools.FieldType.date">
+        <div v-else-if="col.fieldtype === costanti.FieldType.date">
           <CDateTime
             :label="col.label"
             class="cursor-pointer"
@@ -26,7 +26,7 @@
             @show="OpenEdit">
           </CDateTime>
         </div>
-        <div v-else-if="col.fieldtype === tools.FieldType.onlydate">
+        <div v-else-if="col.fieldtype === costanti.FieldType.onlydate">
           <CDateTime
             :label="col.label"
             class="cursor-pointer"
@@ -41,7 +41,7 @@
             view="date">
           </CDateTime>
         </div>
-        <div v-else-if="col.fieldtype === tools.FieldType.number">
+        <div v-else-if="col.fieldtype === costanti.FieldType.number">
           <q-input
             v-model="myvalue" type="number"
             autofocus
@@ -51,7 +51,7 @@
 
           </q-input>
         </div>
-        <div v-else-if="col.fieldtype === tools.FieldType.hours">
+        <div v-else-if="col.fieldtype === costanti.FieldType.hours">
           <div class="row">
             <q-input
               v-model="myvalue" type="number"
@@ -82,7 +82,7 @@
           -->
 
         </div>
-        <div v-else-if="col.fieldtype === tools.FieldType.listimages">
+        <div v-else-if="col.fieldtype === costanti.FieldType.listimages">
           <CGallery
             :gall="row" :listimages="myvalue" :edit="isviewfield"
             @showandsave="Savedb"
@@ -91,7 +91,7 @@
 
           </CGallery>
         </div>
-        <div v-else-if="col.fieldtype === tools.FieldType.image">
+        <div v-else-if="col.fieldtype === costanti.FieldType.image">
           <CGallery
             :gall="row" :listimages="myvalue" :edit="isviewfield"
             @input="changevalRec"
@@ -99,9 +99,9 @@
 
           </CGallery>
         </div>
-        <div v-if="col.fieldtype === tools.FieldType.binary">
+        <div v-if="col.fieldtype === costanti.FieldType.binary">
           <CMyChipList
-            :type="tools.FieldType.binary"
+            :type="costanti.FieldType.binary"
             :value="myvalue"
             @input="changevalRec"
             :options="fieldsTable.getTableJoinByName(col.jointable)"
@@ -110,34 +110,34 @@
             :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
         </div>
         <!-- Show Value -->
-        <div v-else-if="col.fieldtype === tools.FieldType.multiselect">
+        <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
           <CMyChipList
             @input="changevalRec"
-            :type="tools.FieldType.multiselect"
+            :type="costanti.FieldType.multiselect"
             :value="myvalue"
             :options="fieldsTable.getTableJoinByName(col.jointable)"
             :optval="fieldsTable.getKeyByTable(col.jointable)"
             :optlab="fieldsTable.getLabelByTable(col.jointable)"
             :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
         </div>
-        <div v-else-if="col.fieldtype === tools.FieldType.select">
+        <div v-else-if="col.fieldtype === costanti.FieldType.select">
           <CMyChipList
             @input="changevalRec"
             myclass="text-center"
-            :type="tools.FieldType.select"
+            :type="costanti.FieldType.select"
             :value="myvalue"
             :options="fieldsTable.getTableJoinByName(col.jointable)"
             :optval="fieldsTable.getKeyByTable(col.jointable)"
             :optlab="fieldsTable.getLabelByTable(col.jointable)"
             :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
         </div>
-        <div v-else-if="col.fieldtype === tools.FieldType.boolean">
+        <div v-else-if="col.fieldtype === costanti.FieldType.boolean">
           <q-toggle
             dark color="green" v-model="myvalue" :label="col.title"
             :disable="disable && col.name !== 'profile.saw_zoom_presentation'"
             @input="changevalRec"></q-toggle>
         </div>
-        <div v-else-if="col.fieldtype === tools.FieldType.html">
+        <div v-else-if="col.fieldtype === costanti.FieldType.html">
           <div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true">
 
           </div>
@@ -145,33 +145,33 @@
       </div>
     </div>
     <div v-else>
-      <div v-if="col.fieldtype === tools.FieldType.listimages">
+      <div v-if="col.fieldtype === costanti.FieldType.listimages">
         <CGallery
           :gall="row" :listimages="myvalue" :edit="isviewfield"
           @showandsave="Savedb">
 
         </CGallery>
       </div>
-      <div v-else-if="col.fieldtype === tools.FieldType.image">
+      <div v-else-if="col.fieldtype === costanti.FieldType.image">
         <CGallery
           :gall="row" :listimages="myvalue" :edit="isviewfield"
           @showandsave="Savedb">
 
         </CGallery>
       </div>
-      <div v-else-if="col.fieldtype === tools.FieldType.nationality">
+      <div v-else-if="col.fieldtype === costanti.FieldType.nationality">
         <div>
           {{ myvalue }}
         </div>
       </div>
-      <div v-else-if="col.fieldtype === tools.FieldType.intcode">
+      <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
         <div>
           {{ myvalue }}
         </div>
       </div>
       <div v-else>
         <!-- Edit Value -->
-        <span v-if="col.fieldtype === tools.FieldType.date">
+        <span v-if="col.fieldtype === costanti.FieldType.date">
                 <CDateTime
                   :label="col.label"
                   class="cursor-pointer"
@@ -184,7 +184,7 @@
                   @show="OpenEdit">
                 </CDateTime>
             </span>
-        <span v-else-if="col.fieldtype === tools.FieldType.onlydate">
+        <span v-else-if="col.fieldtype === costanti.FieldType.onlydate">
                 <CDateTime
                   :label="col.label"
                   class="cursor-pointer"
@@ -200,9 +200,9 @@
             </span>
         <div v-else>
           <div>
-            <div v-if="col.fieldtype === tools.FieldType.binary">
+            <div v-if="col.fieldtype === costanti.FieldType.binary">
               <CMyChipList
-                :type="tools.FieldType.binary"
+                :type="costanti.FieldType.binary"
                 :value="myvalue"
                 :options="fieldsTable.getTableJoinByName(col.jointable)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
@@ -210,32 +210,32 @@
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
             </div>
             <!-- Show Value -->
-            <div v-else-if="col.fieldtype === tools.FieldType.multiselect">
+            <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
               <CMyChipList
-                :type="tools.FieldType.multiselect"
+                :type="costanti.FieldType.multiselect"
                 :value="myvalue"
                 :options="fieldsTable.getTableJoinByName(col.jointable)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
             </div>
-            <div v-else-if="col.fieldtype === tools.FieldType.select">
+            <div v-else-if="col.fieldtype === costanti.FieldType.select">
               <CMyChipList
                 myclass="text-center"
-                :type="tools.FieldType.select"
+                :type="costanti.FieldType.select"
                 :value="myvalue"
                 :options="fieldsTable.getTableJoinByName(col.jointable)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
             </div>
-            <div v-else-if="col.fieldtype === tools.FieldType.boolean">
+            <div v-else-if="col.fieldtype === costanti.FieldType.boolean">
               <q-toggle
                 dark color="green" v-model="myvalue" :label="col.title"
                 :disable="disable && col.name !== 'profile.saw_zoom_presentation'"
                 @input="Savedb"></q-toggle>
             </div>
-            <div v-else-if="col.fieldtype === tools.FieldType.html">
+            <div v-else-if="col.fieldtype === costanti.FieldType.html">
               <div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true">
 
               </div>
@@ -245,7 +245,7 @@
 
             </div>
 
-            <div v-if="col.fieldtype === tools.FieldType.html">
+            <div v-if="col.fieldtype === costanti.FieldType.html">
 
               <!--<q-dialog v-model="showeditor">-->
               <CMyEditor
@@ -255,8 +255,10 @@
               </CMyEditor>
               <!--</q-dialog>-->
             </div>
+
+            myvalue: {{ myvalue}}
             <q-popup-edit
-              v-if="canEdit && col.fieldtype !== tools.FieldType.html"
+              v-if="canEdit && col.fieldtype !== costanti.FieldType.html"
               v-model="myvalue"
               :disable="col.disable"
               :title="col.title"
@@ -265,12 +267,12 @@
               @save="SaveValueInt"
               @show="OpenEdit">
 
-              <div v-if="col.fieldtype === tools.FieldType.boolean">
+              <div v-if="col.fieldtype === costanti.FieldType.boolean">
                 <q-checkbox v-model="myvalue" :label="col.title">
                 </q-checkbox>
                 {{ visuValByType(myvalue, col, row) }}
               </div>
-              <div v-else-if="col.fieldtype === tools.FieldType.string">
+              <div v-else-if="col.fieldtype === costanti.FieldType.string">
                 <q-input
                   v-model="myvalue"
                   autogrow
@@ -279,7 +281,7 @@
 
                 </q-input>
               </div>
-              <div v-else-if="col.fieldtype === tools.FieldType.password">
+              <div v-else-if="col.fieldtype === costanti.FieldType.password">
                 <q-input
                   v-model="myvalue"
                   type="password"
@@ -288,21 +290,21 @@
 
                 </q-input>
               </div>
-              <div v-else-if="col.fieldtype === tools.FieldType.number">
+              <div v-else-if="col.fieldtype === costanti.FieldType.number">
                 <q-input
                   v-model="myvalue" type="number"
                   autofocus>
 
                 </q-input>
               </div>
-              <div v-else-if="col.fieldtype === tools.FieldType.hours">
+              <div v-else-if="col.fieldtype === costanti.FieldType.hours">
                 <q-input
                   v-model="myvalue" type="number"
                   autofocus>
 
                 </q-input>
               </div>
-              <div v-else-if="col.fieldtype === tools.FieldType.binary">
+              <div v-else-if="col.fieldtype === costanti.FieldType.binary">
                 <CMyToggleList
                   :label="col.title"
                   :options="fieldsTable.getTableJoinByName(col.jointable)"
@@ -311,7 +313,7 @@
                   :optlab="fieldsTable.getLabelByTable(col.jointable)">
                 </CMyToggleList>
               </div>
-              <div v-else-if="col.fieldtype === tools.FieldType.select">
+              <div v-else-if="col.fieldtype === costanti.FieldType.select">
                 <CMySelect
                   :label="col.title"
                   v-model:value="myvalue"
@@ -321,7 +323,7 @@
                   :useinput="false">
                 </CMySelect>
               </div>
-              <div v-else-if="col.fieldtype === tools.FieldType.nationality">
+              <div v-else-if="col.fieldtype === costanti.FieldType.nationality">
                 <div class="justify-center q-gutter-sm clgutter q-mt-sm">
                   <q-input
                     v-model="countryname"
@@ -348,7 +350,7 @@
                   </div>
                 </div>
               </div>
-              <div v-else-if="col.fieldtype === tools.FieldType.intcode">
+              <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
 
                 <vue-tel-input
                   @country-changed="intcode_change"
@@ -361,7 +363,7 @@
                 </vue-tel-input>
 
               </div>
-              <div v-else-if="col.fieldtype === tools.FieldType.multiselect">
+              <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
                 <div>join: {{ col.jointable }}</div>
 
                 <q-select

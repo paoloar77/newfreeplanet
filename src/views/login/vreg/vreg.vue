@@ -21,17 +21,17 @@
             rounded
             class="bg-warning text-black"
             style="text-align: center;"
-            v-if="giaverificato"
+            v-if="giaverificato()"
           >
-            <span class="mybanner">{{ myrisultato }}</span>
+            <span class="mybanner">{{ myrisultato() }}</span>
           </q-banner>
           <q-banner
             class="bg-positive text-white"
             style="text-align: center;"
             rounded
-            v-if="verificatook"
+            v-if="verificatook()"
           >
-            <span class="mybanner">{{ myrisultato }}</span>
+            <span class="mybanner">{{ myrisultato() }}</span>
           </q-banner>
         </div>
       </transition>

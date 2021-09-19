@@ -345,7 +345,7 @@ const msg_it = {
       you: 'Tu',
       cancella_invitato: 'Elimina Invitato',
       cancella_account: 'Elimina Profilo',
-      cancellami: 'Sei sicuro di voler Eliminare completamente la tua Registrazione su {sitename}, uscendo così dal movimento? Non potrai piu\' accedere al sito tramite i tuoi dati, Perderai la tua POSIZIONE e i Tuoi Invitati verranno REGALATI a chi ti ha invitato.',
+      cancellami: 'Sei sicuro di voler Eliminare completamente la tua Registrazione ed i tuoi dati su {sitename}. Non potrai piu\' accedere al sito tramite le tue credenziali.',
       cancellami_2: 'ULTIMO AVVISO! Vuoi uscire Definitivamente da {sitename} ?',
       account_cancellato: 'Il tuo Profilo è stato cancellato correttamente',
       regala_invitato: 'Regala Invitato',

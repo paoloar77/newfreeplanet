@@ -59,7 +59,7 @@ export default defineComponent({
           riscode.value = ris.code
           risultato.value = ris.msg
 
-        }).catch((err) => {
+        }).catch((err: any) => {
           console.log('ERR = ' + err)
         })
     }

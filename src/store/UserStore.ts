@@ -108,49 +108,12 @@ export const useUserStore = defineStore('UserStore', {
 
   getters: {
 
-    getUserByUsername: (state: IUserState) => (username: string): IUserFields | null => {
-      // Check if is this User!
-      if (state.my.username === username) return state.my
-
-      let trovato = null
-      if (state.usersList) trovato = state.usersList.find((item) => item.username === username)
-
-      return (trovato) || null
-    },
-
-    getImgByUsername: (state: IUserState) => (username: string): string => {
-      if (username === '') return ''
-      // Check if is this User!
-      // @ts-ignore
-      const myrec = this.getUserByUsername(username)
-      // console.log('myrec', myrec)
-      if (myrec && myrec.profile && !!myrec.profile.img && myrec.profile.img !== '' && myrec.profile.img !== 'undefined') {
-        return myrec.profile.img
-      }
-      return ''
-    },
-
     isServerError(): boolean {
       return (this.servercode === toolsext.ERR_SERVERFETCH)
     },
 
     getServerCode: (state: IUserState): number => (state.servercode ? state.servercode : 0),
     getMsg: (state: IUserState): string => (state.msg ? state.msg : ''),
-
-    getNameSurnameByUserId: (state: IUserState) => (userId: string): string => {
-
-      // @ts-ignore
-      const user = this.getUserByUserId(state, userId)
-      if (user) return `${user.name} ${user.surname}`
-      return `(${userId})`
-    },
-
-    getNameSurnameByUsername: (state: IUserState) => (username: string): string => {
-      // @ts-ignore
-      const user = this.getUserByUsername(state, username)
-      if (user) return `${user.name} ${user.surname}`
-      return `(${username})`
-    },
 
     getUsersList: (mystate: IUserState) => {
       return mystate.usersList
@@ -169,17 +132,6 @@ export const useUserStore = defineStore('UserStore', {
     },
 
 
-    getUserByUserId: (state: IUserState) => (userId: string): IUserFields | null => {
-      // Check if is this User!
-      if (state.my._id === userId) return state.my
-
-      let trovato = null
-
-      if (state.usersList) trovato = state.usersList.find((item) => item._id === userId)
-
-      return (trovato) || null
-    },
-
     isTokenInvalid: (state: IUserState) => {
       try {
         return (state.my.tokens!.length <= 0)
@@ -196,11 +148,60 @@ export const useUserStore = defineStore('UserStore', {
       }
     },
 
-    getMsgError: (state: IUserState) => (err: number): string => {
+  },
+
+  actions: {
+    getUserByUsername(username: string): IUserFields | null {
+      // Check if is this User!
+      if (this.my.username === username) return this.my
+
+      let trovato = null
+      if (this.usersList) trovato = this.usersList.find((item: any) => item.username === username)
+
+      return (trovato) || null
+    },
+
+
+    getImgByUsername(username: string): string {
+      if (username === '') return ''
+      // Check if is this User!
+      const myrec = this.getUserByUsername(username)
+      // console.log('myrec', myrec)
+      if (myrec && myrec.profile && !!myrec.profile.img && myrec.profile.img !== '' && myrec.profile.img !== 'undefined') {
+        return myrec.profile.img
+      }
+      return ''
+    },
+
+    getNameSurnameByUserId(userId: string): string {
+
+      const user = this.getUserByUserId(userId)
+      if (user) return `${user.name} ${user.surname}`
+      return `(${userId})`
+    },
+
+    getNameSurnameByUsername(username: string): string {
+      const user = this.getUserByUsername(username)
+      if (user) return `${user.name} ${user.surname}`
+      return `(${username})`
+    },
+
+    getUserByUserId(userId: string): IUserFields | null {
+      // Check if is this User!
+      if (this.my._id === userId) return this.my
+
+      let trovato = null
+
+      if (this.usersList) trovato = this.usersList.find((item: any) => item._id === userId)
+
+      return (trovato) || null
+    },
+
+    getMsgError(err: number): string {
       let msgerrore = ''
       if (err !== tools.OK) {
-        msgerrore = `Error [${state.servercode}]: `
-        if (state.servercode === toolsext.ERR_SERVERFETCH) {
+        msgerrore = `Error [${this.servercode}]: `
+        if (this.servercode === toolsext.ERR_SERVERFETCH) {
           msgerrore = translate('fetch.errore_server')
         } else {
           msgerrore = translate('fetch.errore_generico')
@@ -215,9 +216,7 @@ export const useUserStore = defineStore('UserStore', {
       return msgerrore
     },
 
-  },
 
-  actions: {
     clearAuthData() {
       this.my = DefaultUser
       // resetArrToken(mystate.my.tokens)
@@ -230,18 +229,6 @@ export const useUserStore = defineStore('UserStore', {
       this.x_auth_token = ''
 
       return true
-    },
-
-    setErrorCatch(axerr: Types.AxiosError) {
-      try {
-        if (this.servercode !== toolsext.ERR_SERVERFETCH) {
-          this.servercode = axerr.getCode()
-        }
-        // this.msg = axerr.getMsg()
-        console.log('Err catch: (servercode:', axerr.getCode(), axerr.getMsgError(), ')')
-      } catch (e) {
-        console.log('Err catch:', axerr)
-      }
     },
 
     async resetpwd(paramquery: any) {
@@ -263,6 +250,18 @@ export const useUserStore = defineStore('UserStore', {
             })
         })
 
+    },
+
+    setErrorCatch(axerr: Types.AxiosError) {
+      try {
+        if (this.servercode !== toolsext.ERR_SERVERFETCH) {
+          this.servercode = axerr.getCode()
+        }
+        // this.msg = axerr.getMsg()
+        console.log('Err catch: (servercode:', axerr.getCode(), axerr.getMsgError(), ')')
+      } catch (e) {
+        console.log('Err catch:', axerr)
+      }
     },
 
     async setLangServer() {

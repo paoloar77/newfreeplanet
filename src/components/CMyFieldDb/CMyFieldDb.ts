@@ -9,6 +9,11 @@ import { tools } from '@store/Modules/tools'
 import { toolsext } from '@store/Modules/toolsext'
 import { costanti } from '@costanti'
 import MixinBase from '../../mixins/mixin-base'
+import { CMyEditor } from '@/components/CMyEditor'
+import { CMySelect } from '@/components/CMySelect'
+import { CMyChipList } from '@/components/CMyChipList'
+import { CMyToggleList } from '@/components/CMyToggleList'
+import { CDateTime } from '@/components/CDateTime'
 
 export default defineComponent({
   name: 'CMyFieldDb',
@@ -66,7 +71,7 @@ export default defineComponent({
       default: '',
     },
   },
-  // components: { CMyEditor, CMySelect, CMyChipList, CMyToggleList, CDateTime },
+  components: { CMyEditor, CMySelect, CMyChipList, CMyToggleList, CDateTime },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -172,7 +177,7 @@ export default defineComponent({
     }
 
     function myvalprinted() {
-      return visuValByType(myvalue)
+      return visuValByType(myvalue.value)
     }
 
     function savefield(value: any, initialval: any) {
@@ -220,6 +225,9 @@ export default defineComponent({
       col,
       countryname,
       onInput,
+      tools,
+      costanti,
+
     }
   },
 })

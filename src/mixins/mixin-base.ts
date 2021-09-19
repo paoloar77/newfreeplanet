@@ -45,7 +45,7 @@ export default function () {
     const $q = useQuasar()
     const { t } = useI18n()
 
-    // console.log('setValDb', key, value, serv, table, subkey)
+    console.log('setValDb', key, value, serv, table, subkey)
     let mydatatosave: IDataPass | null = null
     if (table === 'users') {
       const myid = userStore.my._id
@@ -121,7 +121,7 @@ export default function () {
           },
         )
       }
-      // console.log('myrec', myrec)
+      console.log('myrec', myrec)
 
       mydatatosave = {
         // @ts-ignore
@@ -149,7 +149,7 @@ export default function () {
       }
     }
 
-    // console.log('mydatatosave', mydatatosave)
+    console.log('mydatatosave', mydatatosave)
 
     // @ts-ignore
     globalStore.saveFieldValue(mydatatosave).then((esito) => {

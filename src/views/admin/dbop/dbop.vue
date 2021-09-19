@@ -6,7 +6,7 @@
 title="SITO_ONLINE"
                   mykey="SITO_ONLINE"
                   :serv="false"
-                  :type="tools.FieldType.boolean">
+                  :type="costanti.FieldType.boolean">
       </CMyFieldDb>
       <br>
 
@@ -14,7 +14,7 @@ title="SITO_ONLINE"
 title="ABILITA CRONTAB (1 ora)"
                   mykey="CRONTAB"
                   :serv="false"
-                  :type="tools.FieldType.boolean">
+                  :type="costanti.FieldType.boolean">
       </CMyFieldDb>
       <br>
 
@@ -98,22 +98,22 @@ title="ABILITA CRONTAB (1 ora)"
         <CMyFieldDb title="Riga"
                     mykey="riga"
                     :serv="false"
-                    :type="tools.FieldType.number">
+                    :type="costanti.FieldType.number">
         </CMyFieldDb>
         <CMyFieldDb title="Col"
                     mykey="col"
                     :serv="false"
-                    :type="tools.FieldType.number">
+                    :type="costanti.FieldType.number">
         </CMyFieldDb>
         <CMyFieldDb title="Visu_TEST"
                     mykey="VISU_TEST"
                     :serv="false"
-                    :type="tools.FieldType.boolean">
+                    :type="costanti.FieldType.boolean">
         </CMyFieldDb>
         <CMyFieldDb title="VISU_NAVE_BOT"
                     mykey="VISU_NAVE_BOT"
                     :serv="false"
-                    :type="tools.FieldType.boolean">
+                    :type="costanti.FieldType.boolean">
         </CMyFieldDb>
       </div>
 

@@ -170,7 +170,7 @@ export default defineComponent({
 
     function SaveValueInt(newVal: any, valinitial: any) {
 
-      // console.log('SaveValueInt', newVal, valinitial)
+      console.log('SaveValueInt', newVal, valinitial)
 
       // Update value in table memory
       if (props.subfield !== '') {
@@ -192,6 +192,7 @@ export default defineComponent({
     }
 
     function Savedb(newVal: any, valinitial: any) {
+      console.log('Savedb')
 
       if (props.col.fieldtype === costanti.FieldType.boolean) {
         // console.log('myvalue', myvalue, newVal, myvalueprec)
@@ -330,6 +331,7 @@ export default defineComponent({
       selectcountry,
       intcode_change,
       tools,
+      costanti,
       fieldsTable,
       onInput,
     }

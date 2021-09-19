@@ -9,6 +9,7 @@ import { useGlobalStore } from '@store/globalStore'
 import { useI18n } from '@/boot/i18n'
 import { toolsext } from '@store/Modules/toolsext'
 import { useQuasar } from 'quasar'
+import { costanti } from '@costanti'
 
 
 export default defineComponent({
@@ -74,6 +75,7 @@ export default defineComponent({
       profile,
       getpayment,
       tools,
+      costanti,
     }
   }
 })

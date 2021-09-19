@@ -141,10 +141,13 @@ export const toolsext = {
     const globalStore = useGlobalStore()
     if (table === 'users') {
       if (keystr === 'profile') {
-        if (subkey) { // @ts-ignore
+        if (subkey) {
+          console.log('userStore.my.profile', userStore.my.profile, 'subkey', subkey, )
+          // @ts-ignore
           return userStore.my.profile[subkey]
         }
       } else if (keystr) { // @ts-ignore
+        // @ts-ignore
         return userStore.my[keystr]
       }
     } else if (table === 'todos') {

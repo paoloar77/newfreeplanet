@@ -67,7 +67,7 @@ export default defineComponent({
           else if (ris.code === serv_constants.RIS_CODE_EMAIL_NOT_EXIST)
             tools.showNegativeNotif($q, t('reg.err.email_not_exist'))
           $q.loading.hide()
-        }).catch((err) => {
+        }).catch((err: any) => {
         console.log('ERROR = ' + err.error)
         $q.loading.hide()
       })
