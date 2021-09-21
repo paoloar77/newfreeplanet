@@ -6,7 +6,7 @@ import {
 } from '@model'
 
 const functionality: IFunctionality = {
-  PWA: false,
+  PWA: true,
   SHOW_USER_MENU: true, // Cambiare con true
   SHOW_PROFILE: true,
   SHOW_REG_BUTTON: true,

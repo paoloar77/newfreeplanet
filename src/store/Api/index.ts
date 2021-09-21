@@ -103,7 +103,7 @@ export const Api = {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     return new Promise((resolve, reject) => sendRequest(url, method, mydataout)
       .then((res) => {
-        // console.log('res', res)
+        console.log('status:', res.status)
 
         setTimeout(() => {
           if (method === 'get') {

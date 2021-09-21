@@ -463,7 +463,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
           return swreg.pushManager.getSubscription()
         })
         .then((subscription) => {
-          console.log('subscription = ', subscription)
+          console.log('!!!!!!!!  subscription = ', subscription)
 
           this.wasAlreadySubscribed = !(subscription === null)
 
@@ -491,6 +491,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
     // Calling the Server to Save in the MongoDB the Subscriber
     saveNewSubscriptionToServer(newSub: any) {
+      console.log('saveNewSubscriptionToServer')
 
       const userStore = useUserStore()
 

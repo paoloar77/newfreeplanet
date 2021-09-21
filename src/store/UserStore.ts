@@ -561,6 +561,7 @@ export const useUserStore = defineStore('UserStore', {
       try {
         if (static_data.functionality.PWA) {
           if ('serviceWorker' in navigator) {
+            console.log('serviceWorker')
             sub = await navigator.serviceWorker.ready
               .then((swreg) => {
                 console.log('swreg')
@@ -586,6 +587,8 @@ export const useUserStore = defineStore('UserStore', {
         openUrl: '/',
       }
 
+      console.log('2')
+
       const usertosend = {
         username: authData.username.trim(),
         password: authData.password.trim(),
@@ -604,6 +607,7 @@ export const useUserStore = defineStore('UserStore', {
 
       return Api.SendReq('/users/login', 'POST', usertosend, true)
         .then((res) => {
+
           myres = res
 
           if (myres.status !== 200) {
@@ -643,6 +647,7 @@ export const useUserStore = defineStore('UserStore', {
           }
         })
         .catch((error) => {
+          console.log('error', error)
           this.setErrorCatch(error)
           return this.getServerCode
         })

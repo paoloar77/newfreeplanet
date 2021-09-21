@@ -1,4 +1,5 @@
 (function () {
+  console.log('LOADING IDB.JS .....')
   function toArray(arr) {
     return Array.prototype.slice.call(arr);
   }

@@ -1,8 +1,6 @@
-import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
+
+import { precacheAndRoute } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-
-import { clientsClaim, setCacheNameDetails, skipWaiting } from 'workbox-core'
-
 import {
   NetworkFirst,
   NetworkOnly,
@@ -15,14 +13,15 @@ import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 // Used to limit entries in cache, remove entries after a certain period of time
 import { ExpirationPlugin } from 'workbox-expiration'
 
+// Use with precache injection
+precacheAndRoute(self.__WB_MANIFEST)
+
 console.log(
-  '   [  VER-0.0.65 ] _---------________------  PAO: this is my custom service worker')
+  '   [  VER-0.0.63 ] _---------________------  PAO: this is my custom service worker')
 
 importScripts('js/idb.js')
 importScripts('js/storage.js')
 importScripts('js/workbox-sw.js')
-
-// importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-sw.js');
 
 // importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
 
@@ -74,22 +73,13 @@ if (!workbox) {
 }
 
 if (workbox) {
-  const debug = true
+  // console.log('WORKBOX PRESENT')
+  // const url = new URL(location.href);
+  // const debug = url.searchParams.has('debug');
+  const debug = false
   workbox.setConfig({ debug })
 
-  const precacheList = self.__WB_MANIFEST || [];
-  setCacheNameDetails({
-    prefix: self.location.hostname,
-    suffix: 'v1',
-    precache: 'precache',
-    runtime: 'runtime'
-  })
-
-  // clientsClaim()
-  // skipWaiting()
-
-  precacheAndRoute(precacheList)
-  // cleanupOutdatedCaches()
+  // workbox.setCacheNameDetails({ prefix: self.location.hostname })
 
   registerRoute(
     new RegExp(/\.(?:png|gif|jpg|jpeg|svg)$/),
@@ -319,12 +309,10 @@ if (workbox) {
     new NetworkOnly(),
   )
 
-  /*registerRoute(
+  registerRoute(
     new RegExp('/owa/'),
     new NetworkOnly(),
   )
-   */
-
 }
 
 if ('serviceWorker' in navigator) {

@@ -19,6 +19,7 @@ module.exports = {
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module', // Allows for the use of imports
   },
+  ignorePatterns: ["babel.config.js"],
 
   env: {
     node: true,
@@ -161,5 +162,8 @@ module.exports = {
         },
       },
     ],
+  },
+  'settings': {
+    'import/resolver': 'webpack'
   },
 }

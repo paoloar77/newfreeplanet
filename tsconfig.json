@@ -4,9 +4,11 @@
     // repeated from base config's "include" setting
     "src",
     "tests",
+    "src-pwa",
+    "public/js",
 
     // these are the eslint-only inclusions
-    ".eslintrc.js"
+      "**/*.config.js" // for *.config.js files
   ],
   "compilerOptions": {
     "experimentalDecorators": true,
@@ -37,5 +39,8 @@
       "model": ["src/model/index.ts"],
       "enums": ["src/enums/*"]
     }
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
