@@ -17,7 +17,7 @@ const webpack = require('webpack')
 const helpers = require('./helpers')
 const envparser = require('./config/envparser')
 
-const ESLintPlugin = require('eslint-webpack-plugin')
+// const ESLintPlugin = require('eslint-webpack-plugin')
 
 module.exports = configure((ctx) => ({
   // https://v2.quasar.dev/quasar-cli/supporting-ts
@@ -276,8 +276,6 @@ module.exports = configure((ctx) => ({
     // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
     // if using workbox in InjectManifest mode
     chainWebpackCustomSW(chain) {
-      chain.plugin('eslint-webpack-plugin')
-        .use(ESLintPlugin, [{ extensions: ['js'] }])
     },
 
     manifest: {

@@ -20,9 +20,9 @@ console.log(
 
 importScripts('js/idb.js')
 importScripts('js/storage.js')
-importScripts('js/workbox-sw.js')
+// importScripts('js/workbox-sw.js')
 
-// importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.4/workbox-sw.js');
 
 // importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
 

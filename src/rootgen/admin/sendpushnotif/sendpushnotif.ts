@@ -66,28 +66,37 @@ export default defineComponent({
     }
 
     function SendMsgToParam(typemsg: any) {
-      /*const param: any = {
+      interface IPushParam {
+        typemsg: string,
+        title: string,
+        content: string,
+        openUrl: string,
+        openUrl2: string,
+        tag: string,
+        actions: any[],
+      }
+
+      let param: IPushParam = {
         typemsg,
-        title: title,
-        content: content,
-        openUrl: openUrl,
-        openUrl2: openUrl2,
-        tag: tag,
+        title: title.value,
+        content: content.value,
+        openUrl: openUrl.value,
+        openUrl2: openUrl2.value,
+        tag: tag.value,
         actions: []
       }
-      */
 
-      let param: any = []
+      param.actions = []
 
       if (actiontype.value === shared_consts.TypeMsg_Actions.YESNO) {
-        param.value = [
+        param.actions = [
           { action: 'confirm', title: 'Si', icon: '/statics/icons/opz1-icon-96x96.png' },
           { action: 'cancel', title: 'No', icon: '/statics/icons/opz2-icon-96x96.png' }
         ]
       } else if (actiontype.value === shared_consts.TypeMsg_Actions.OPZ1_2) {
-        param.value = [
-          { action: 'opz1', title: opz1, icon: '/statics/icons/opz1-icon-96x96.png' },
-          { action: 'opz2', title: opz2, icon: '/statics/icons/opz2-icon-96x96.png' }
+        param.actions = [
+          { action: 'opz1', title: opz1.value, icon: '/statics/icons/opz1-icon-96x96.png' },
+          { action: 'opz2', title: opz2.value, icon: '/statics/icons/opz2-icon-96x96.png' }
         ]
       }
 
@@ -100,7 +109,7 @@ export default defineComponent({
 
     function SendMsgToAll() {
 
-      SendMsgToParam(destination)
+      SendMsgToParam(destination.value)
     }
 
     onMounted(created)
