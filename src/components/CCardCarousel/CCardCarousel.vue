@@ -71,7 +71,7 @@ dark color="white" v-model="globalStore.autoplaydisc" label="Auto Play" class="s
             <q-carousel-slide
               v-for="(myrec, index) in myarr"
               :key="index"
-                              :img-src="`statics/`+myrec.img_small"
+                              :img-src="`public/`+myrec.img_small"
                               :alt="myrec.label"
                               :name="index">
                 <div class="row q-ma-xs">

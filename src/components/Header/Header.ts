@@ -275,10 +275,10 @@ export default defineComponent({
       let strv = ''
       if (process.env.DEV) {
         strv = 'DEV '
-      } else if (process.env.TEST) {
+      } else if (tools.isTest()) {
         strv = 'TEST '
       }
-      return `[${strv}${process.env.APP_VERSION}]`
+      return `[${strv} ver. ${process.env.APP_VERSION}]`
     }
 
     function getLangAtt() {
@@ -344,7 +344,13 @@ export default defineComponent({
     }
 
     function getappname() {
-      return tools.getsuffisso() + tools.getappname(tools.isMobile())
+      let mystr = tools.getsuffisso() + tools.getappname(tools.isMobile())
+      //if (!tools.isMobile()) {
+        mystr += ' ' + getAppVersion()
+      //}
+
+      return mystr
+
     }
 
     function toggleanimation() {
@@ -474,6 +480,7 @@ export default defineComponent({
       getMsgText,
       paotest,
       logoutHandler,
+      isUserNotAuth,
     }
   },
 

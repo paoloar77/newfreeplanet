@@ -29,7 +29,6 @@
         </div>
 
         <q-btn
-          ripple
           size="md"
           id="newvers" v-if="isNewVersionAvailable()" color="secondary" rounded icon="refresh"
           class="btnNewVersShow" @click="RefreshApp()" :label="t('notification.newVersionAvailable')">
@@ -40,9 +39,6 @@
             <img :src="imglogo()" height="27" alt="Immagine Logo">
           </q-avatar>
           <div class="q-mx-sm titlesite">{{ getappname() }}</div>
-          <template v-slot:subtitle>
-            <div>{{ t('msg.myDescriz') }} {{ getAppVersion() }}</div>
-          </template>
         </q-toolbar-title>
 
         <!--

@@ -96,9 +96,6 @@
                       </div>
                     </div>
 
-                    <div class="q-pt-md q-pl-sm">
-                      <div class="text-body2">Ver. {{ getenv('APP_VERSION') }}</div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -187,9 +184,6 @@
                       </div>
                     </div>
 
-                    <div class="q-pt-md q-pl-sm">
-                      <div class="text-body2">Ver. {{ getenv('APP_VERSION') }}</div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -280,10 +274,6 @@
                         <!--<q-btn v-if="getPermission() === 'granted'" class="enable-notifications" color="secondary" rounded size="lg" icon="notifications" @click="createPushSubscription" label="Create Push Subscription !"/>-->
 
                       </div>
-                    </div>
-
-                    <div class="q-pt-md q-pl-sm">
-                      <div class="text-body2">Ver. {{ getenv('APP_VERSION') }}</div>
                     </div>
                   </div>
                 </div>

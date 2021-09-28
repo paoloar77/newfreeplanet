@@ -90,13 +90,13 @@ export default defineComponent({
 
       if (actiontype.value === shared_consts.TypeMsg_Actions.YESNO) {
         param.actions = [
-          { action: 'confirm', title: 'Si', icon: '/statics/icons/opz1-icon-96x96.png' },
-          { action: 'cancel', title: 'No', icon: '/statics/icons/opz2-icon-96x96.png' }
+          { action: 'confirm', title: 'Si', icon: '/public/images/opz1-icon-96x96.jpg' },
+          { action: 'cancel', title: 'No', icon: '/public/images/opz2-icon-96x96.jpg' }
         ]
       } else if (actiontype.value === shared_consts.TypeMsg_Actions.OPZ1_2) {
         param.actions = [
-          { action: 'opz1', title: opz1.value, icon: '/statics/icons/opz1-icon-96x96.png' },
-          { action: 'opz2', title: opz2.value, icon: '/statics/icons/opz2-icon-96x96.png' }
+          { action: 'opz1', title: opz1.value, icon: '/public/images/opz1-icon-96x96.jpg' },
+          { action: 'opz2', title: opz2.value, icon: '/public/images/opz2-icon-96x96.jpg' }
         ]
       }
 

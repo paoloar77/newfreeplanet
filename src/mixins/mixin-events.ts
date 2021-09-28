@@ -12,9 +12,9 @@ import { useI18n } from '@/boot/i18n'
 export default function () {
   function getImgEvent(event: IEvents) {
     if (!!event.img)
-      return 'statics/' + event.img
+      return 'public/' + event.img
     else
-      return 'statics/images/noimg.png'
+      return 'public/images/noimg.png'
   }
 
   function getStyleByEvent(event: IEvents, visu: boolean) {

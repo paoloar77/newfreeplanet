@@ -69,7 +69,7 @@ v-if="myevent.news" class="cltexth4 chipnews shadow-5 glossy text-right" color="
             <!-- Se c'è un link, allora -->
             <q-btn
 class="text-center boldhigh" v-if="myevent.linkpdf" size="md" type="a"
-                   :href="`../../statics/` + myevent.linkpdf"
+                   :href="`../../public/` + myevent.linkpdf"
                    target="_blank"
                    ripple rounded :label="myevent.title"
                    :color="myevent.bgcolor" text-color="white" glossy>
@@ -152,7 +152,7 @@ v-if="myevent.price && isShowPrice(myevent)" class="glossy" color="orange"
           <div class="row justify-start q-ma-md">
             <q-btn
 v-if="myevent.linkpdf"
-                   size="md" type="a" :href="`../../statics/` + myevent.linkpdf"
+                   size="md" type="a" :href="`../../public/` + myevent.linkpdf"
                    target="_blank" rounded outline
                    color="primary" icon="info"
                    :label="$t('cal.showpdf')">

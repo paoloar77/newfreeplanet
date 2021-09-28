@@ -16,7 +16,7 @@ import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { ExpirationPlugin } from 'workbox-expiration'
 
 console.log(
-  '   [  VER-0.0.65 ] _---------________------  PAO: this is my custom service worker')
+  '   [  VER-0.1.2b ] _---------________------  PAO: this is my custom service worker')
 
 importScripts('js/idb.js')
 importScripts('js/storage.js')
@@ -92,9 +92,25 @@ if (workbox) {
   // cleanupOutdatedCaches()
 
   registerRoute(
-    new RegExp(/\.(?:png|gif|jpg|jpeg|svg)$/),
+    new RegExp(/\.(?:png|gif|jpg|jpeg)$/),
     new CacheFirst({
       cacheName: 'images',
+      plugins: [
+        // Ensure that only requests that result in a 200 status are cached
+        new CacheableResponsePlugin({
+          statuses: [200],
+        }),
+        new ExpirationPlugin({
+          maxEntries: 60,
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+        }),
+      ],
+    }),
+  )
+  registerRoute(
+    new RegExp(/\.(?:svg)$/),
+    new CacheFirst({
+      cacheName: 'svg',
       plugins: [
         // Ensure that only requests that result in a 200 status are cached
         new CacheableResponsePlugin({
@@ -250,9 +266,9 @@ if (workbox) {
   )
 
   registerRoute(
-    new RegExp(/.*\/(?:statics\/icons).*$/),
+    new RegExp(/.*\/(?:icons).*$/),
     new CacheFirst({
-      cacheName: 'image-cache',
+      cacheName: 'icon-cache',
       plugins: [
         // Ensure that only requests that result in a 200 status are cached
         new CacheableResponsePlugin({
@@ -558,8 +574,8 @@ self.addEventListener('push', (event) => {
 
     const options = {
       body: data.content,
-      icon: '/public/icons/android-chrome-192x192.png',
-      badge: '/public/icons/android-chrome-192x192.png',
+      icon: '/images/android-chrome-192x192.png',
+      badge: '/images/android-chrome-192x192.png',
       data: {
         url: data.url,
       },

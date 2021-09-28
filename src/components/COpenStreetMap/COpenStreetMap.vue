@@ -20,7 +20,7 @@
         - <a :href="urlmap" target="_blank" class="text-black">Apri Mappa</a>
       </p>
       <a :href="urlmap" target="_blank">
-        <q-img :src="`statics/` + imgmap" class="imgautosize" alt="my map">
+        <q-img :src="`public/` + imgmap" class="imgautosize" alt="my map">
         </q-img>
 
       </a>

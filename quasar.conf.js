@@ -17,7 +17,7 @@ const webpack = require('webpack')
 const helpers = require('./helpers')
 const envparser = require('./config/envparser')
 
-// const ESLintPlugin = require('eslint-webpack-plugin')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 module.exports = configure((ctx) => ({
   // https://v2.quasar.dev/quasar-cli/supporting-ts
@@ -276,24 +276,26 @@ module.exports = configure((ctx) => ({
     // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
     // if using workbox in InjectManifest mode
     chainWebpackCustomSW(chain) {
+      chain.plugin('eslint-webpack-plugin')
+        .use(ESLintPlugin, [{ extensions: ['js'] }])
     },
 
     manifest: {
-      name: 'First Proj',
-      short_name: 'First Proj',
-      description: 'A Quasar Framework app',
+      name: 'FreePlanet',
+      short_name: 'FreePlanet',
+      description: 'New Free Social',
       display: 'standalone',
       orientation: 'portrait',
       background_color: '#ffffff',
       theme_color: '#027be3',
       icons: [
         {
-          src: 'icons/android-chrome-192x192.png',
+          src: 'images/android-chrome-192x192.png',
           sizes: '384x384',
           type: 'image/png',
         },
         {
-          src: 'icons/android-chrome-512x512.png',
+          src: 'images/android-chrome-512x512.png',
           sizes: '512x512',
           type: 'image/png',
         },

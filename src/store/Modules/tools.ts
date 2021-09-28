@@ -1456,7 +1456,7 @@ export const tools = {
       } else {
         this.showNotif($q, t('notification.denied'), { color: 'negative', icon: 'notifications' })
 
-        // displayConfirmNotification();
+        tools.displayConfirmNotification();
       }
     })
   },
@@ -2552,17 +2552,17 @@ export const tools = {
     if ('serviceWorker' in navigator) {
       options = {
         body: 'You successfully subscribed to our Notification service!',
-        icon: '/public/icons/app-icon-96x96.png',
-        image: '/public/images/sf-boat.jpg',
+        icon: '/icons/app-icon-96x96.png',
+        image: '/images/sf-boat.jpg',
         dir: 'ltr',
         lang: 'enUs', // BCP 47,
         vibrate: [100, 50, 200],
-        badge: '/public/icons/app-icon-96x96.png',
+        badge: '/icons/app-icon-96x96.png',
         tag: 'confirm-notification',
         renotify: true,  // if it's already sent, will Vibrate anyway
         actions: [
-          { action: 'confirm', title: 'Okay', icon: '/public/icons/app-icon-96x96.png' },
-          { action: 'cancel', title: 'Cancel', icon: '/public/icons/app-icon-96x96.png' },
+          { action: 'confirm', title: 'Okay', icon: '/icons/app-icon-96x96.png' },
+          { action: 'cancel', title: 'Cancel', icon: '/icons/app-icon-96x96.png' },
         ],
       }
 
@@ -2595,17 +2595,17 @@ export const tools = {
     if ('serviceWorker' in navigator) {
       options = {
         body: t('notification.subscribed'),
-        icon: '/public/icons/android-chrome-192x192.png',
+        icon: '/public/images/android-chrome-192x192.png',
         image: '/public/images/imglogonotif.png',
         dir: 'ltr',
         lang: 'enUs', // BCP 47,
         vibrate: [100, 50, 200],
-        badge: '/public/icons/android-chrome-192x192.png',
+        badge: '/public/images/android-chrome-192x192.png',
         tag: 'confirm-notification',
         renotify: true,  // if it's already sent, will Vibrate anyway
         actions: [
-          { action: 'confirm', title: t('dialog.ok'), icon: '/public/icons/android-chrome-192x192.png' },
-          // { action: 'cancel', title: 'Cancel', icon: '/statics/icons/android-chrome-192x192.png', }
+          { action: 'confirm', title: t('dialog.ok'), icon: '/public/images/android-chrome-192x192.png' },
+          // { action: 'cancel', title: 'Cancel', icon: '/statics/images/android-chrome-192x192.png', }
         ],
       }
 
