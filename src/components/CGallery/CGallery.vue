@@ -2,12 +2,12 @@
   <!--<div class="q-pa-md items-start " style="display: inline-flex; width: 800px;"> -->
   <div>
     <div v-if="!edit">
-      <div v-for="(mygallery, index) in getlistimages" :key="index">
+      <div v-for="(mygallery, index) in getlistimages()" :key="index">
         <div v-if="index === 0">
           <div class="q-pa-md q-gutter-md">
-            <q-card :class="getclass">
+            <q-card :class="getclass()">
               <q-img
-                :src="getsrcimg(mygallery)" :class="getclimg"
+                :src="getsrcimg(mygallery)" :class="getclimg()"
                 :alt="mygallery.alt">
                 <div class="absolute-bottom text-shadow">
                   {{ listimages.length }} files
@@ -22,7 +22,7 @@
       <div class=" row">
         <!--<q-draggable-rows
                 v-model="order">-->
-        <div v-for="(mygallery, index) in getlistimages" :key="index">
+        <div v-for="(mygallery, index) in getlistimages()" :key="index">
           <div
             class="q-pa-sm q-gutter-sm"
             @dragenter="onDragEnter"
@@ -30,7 +30,7 @@
 
             @dragover="onDragOver">
             <q-card
-              :id="mygallery._id" :class="getclass"
+              :id="mygallery._id" :class="getclass()"
               draggable="true"
               @dragstart="onDragStart"
               @drop="onDrop"
@@ -38,7 +38,7 @@
 
               <q-img
                 :src="getsrcimg(mygallery)"
-                :class="getclimg"
+                :class="getclimg()"
                 :alt="mygallery.alt">
                 <div class="absolute-bottom text-shadow">
                   <!-- <div class="text-h6 text-trans">{{ mygallery.description }} </div> -->

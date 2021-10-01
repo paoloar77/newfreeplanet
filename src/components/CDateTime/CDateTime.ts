@@ -69,7 +69,7 @@ export default defineComponent({
     const saveit = ref(false)
     const myvalue = ref(new Date())
     const valueprec = ref(new Date())
-    const valueDate = toRef(props, 'valueDate')
+    const myvalueDate = toRef(props, 'valueDate')
 
     function getclass() {
       return 'calendar_comp ' + props.data_class
@@ -80,10 +80,10 @@ export default defineComponent({
       saveit.value = false
       valueprec.value = myvalue.value
       if (myvalue.value === undefined) {
-        valueDate.value = new Date()
-        myvalue.value = tools.getstrYYMMDDDateTime(valueDate.value)
+        myvalueDate.value = new Date()
+        myvalue.value = tools.getstrYYMMDDDateTime(myvalueDate.value)
       }
-      // console.log('Opening', valueDate, myvalue)
+      // console.log('Opening', myvalueDate, myvalue)
       emit('show')
     }
 
@@ -97,9 +97,11 @@ export default defineComponent({
       }
     }
 
-    watch(() => props.valueDate, (value, oldval) => {
-      if (props.valueDate)
-        myvalue.value = tools.getstrYYMMDDDateTime(props.valueDate)
+    watch(() => myvalueDate.value, (value, oldval) => {
+      if (myvalueDate.value) {
+        myvalue.value = tools.getstrYYMMDDDateTime(myvalueDate.value)
+        console.log('myvalue Date = ', myvalue.value)
+      }
 
     })
 
@@ -129,7 +131,7 @@ export default defineComponent({
       if (props.value !== null)
         myvalue.value = props.value
       else
-        myvalue.value = tools.getstrYYMMDDDateTime(valueDate.value)
+        myvalue.value = tools.getstrYYMMDDDateTime(myvalueDate.value)
 
       // console.log('created myvalue', myvalue)
     }
@@ -166,6 +168,8 @@ export default defineComponent({
       Closing,
       Opening,
       getclass,
+      myvalue,
+      showDateTimeScroller,
     }
   },
 })

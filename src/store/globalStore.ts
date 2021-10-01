@@ -287,9 +287,9 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       for (const page of this.mypage) {
         if (page.active) {
-          // console.log('page', page.lang)
+          console.log('page', page.lang)
           if (this.isMyLang(page)) {
-            // console.log('page', page.lang, 'OK')
+            console.log('page', page.title, 'OK')
             arrpagesroute.push({
               active: true,
               order: page.order ? page.order : 1000,

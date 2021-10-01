@@ -3,7 +3,7 @@
     <div v-if="mypath && !!rec">
       <div class="q-ma-sm q-gutter-sm q-pa-xs">
         <div v-if="!!rec.img1" class="text-center">
-          <q-img :src="`public/`+ rec.img1" class="img"></q-img>
+          <q-img :src="``+ rec.img1" class="img"></q-img>
         </div>
 
         <div v-if="!!rec.content" v-html="rec.content"></div>
@@ -11,14 +11,14 @@
         </q-video>
 
         <div v-if="!!rec.img2" class="text-center">
-          <q-img :src="`public/`+ rec.img2" class="img"></q-img>
+          <q-img :src="``+ rec.img2" class="img"></q-img>
         </div>
 
         <div v-if="!!rec.content2" v-html="rec.content2"></div>
         <q-video v-if="!!rec.video2" :src="rec.video2" :ratio="rec.ratio2"></q-video>
 
         <div v-if="!!rec.img3" class="text-center">
-          <q-img :src="`public/`+ rec.img2" class="img"></q-img>
+          <q-img :src="``+ rec.img2" class="img"></q-img>
         </div>
 
         <div v-if="!!rec.content3" v-html="rec.content3"></div>

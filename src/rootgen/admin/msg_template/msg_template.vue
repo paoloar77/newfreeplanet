@@ -1,6 +1,6 @@
 <template>
   <CMyPage
-title="Template Messaggi" imgbackground="../../public/images/calendario_eventi.jpg"
+title="Template Messaggi" imgbackground="images/calendario_eventi.jpg"
            sizes="max-height: 100px">
         <span>{{
             setmeta({

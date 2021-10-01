@@ -74,7 +74,7 @@ if (!workbox) {
 }
 
 if (workbox) {
-  const debug = true
+  const debug = false
   workbox.setConfig({ debug })
 
   const precacheList = self.__WB_MANIFEST || [];

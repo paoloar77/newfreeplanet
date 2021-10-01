@@ -30,7 +30,7 @@
             :toolbar="toolbarcomp"
             debounce="500"
             :fonts="myfonts"
-            @input="changeval"
+            @update:model-value="changeval"
             @paste="evt => pasteCapture(evt)"
             @keyup.enter.stop
             v-model="myvalue">

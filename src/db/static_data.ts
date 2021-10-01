@@ -109,6 +109,177 @@ const routes_admin: IListRoutes[] = [
   }
 ]
 
+const routes_manager: IListRoutes[] = [
+  {
+    active: functionality.BOOKING_EVENTS,
+    order: 70,
+    path: '/admin/usereventlist',
+    materialIcon: 'edit',
+    name: 'otherpages.admin.usereventlist',
+    component: () => import('@/rootgen/admin/eventlist/eventlist.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    infooter: true,
+    onlyManager: true,
+    onlyConsiglio: true,
+    onlyAdmin: true
+  },
+  {
+    active: true,
+    order: 10,
+    path: '/admin/userlist',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.userlist',
+    component: () => import('@/rootgen/admin/usersList/usersList.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyTutor: true
+  },
+  /*
+  {
+    active: true,
+    order: 10,
+    path: '/admin/iscritticonacreis',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.iscritticonacreis',
+    component: () => import('@/rootgen/admin/iscritticonacreis/iscritticonacreis.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyTutor: true
+  },
+
+   */
+  {
+    active: true,
+    order: 10,
+    path: '/admin/zoomlist',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.zoomlist',
+    component: () => import('@/rootgen/admin/zoomList/zoomList.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyTutor: false
+  },
+  {
+    active: true,
+    order: 27,
+    path: '/admin/tableslist',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.tableslist',
+    component: () => import('@/rootgen/admin/tablesList/tablesList.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyAdmin: true,
+    onlyManager: true
+  },
+  {
+    active: true,
+    order: 30,
+    path: '/admin/pages',
+    materialIcon: 'fas fa-file-alt',
+    name: 'otherpages.admin.pages',
+    component: () => import('@/rootgen/admin/pages/pages.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyEditor: true
+  },
+  /*{
+    active: true,
+    path: '/admin/newsletter',
+    order: 60,
+    faIcon: 'fa fa-list-alt',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.newsletter',
+    routes2: routes_newsletter,
+    inmenu: false,
+    submenu: true,
+    level_parent: 0.5,
+    level_child: 0.5,
+    solotitle: true,
+    onlyAdmin: true,
+    onlyManager: true
+  },
+  {
+    active: functionality.ENABLE_ECOMMERCE,
+    path: '/admin/ecommerce',
+    order: 31,
+    faIcon: 'fa fa-list-alt',
+    materialIcon: 'next_week',
+    name: 'pages.admin_ecommerce',
+    routes2: routes_admin_ecommerce,
+    inmenu: false,
+    submenu: true,
+    level_parent: 0.5,
+    level_child: 0.5,
+    solotitle: true,
+    onlyAdmin: true,
+    onlyManager: true,
+    onlyDepartment: true
+  },
+
+   */
+  {
+    active: true,
+    order: 35,
+    path: '/admin/msg_template',
+    materialIcon: 'fas fa-file-alt',
+    name: 'msgs.messages',
+    component: () => import('@/rootgen/admin/msg_template/msg_template.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyAdmin: true,
+    onlyManager: true
+    // onlyTutor: true
+  },
+  {
+    active: true,
+    order: 40,
+    path: '/admin/gallery',
+    materialIcon: 'fas fa-file-alt',
+    name: 'otherpages.admin.gallery',
+    component: () => import('@/rootgen/admin/gallery/gallery.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyAdmin: true,
+    onlyManager: true
+  },
+  {
+    active: true,
+    order: 50,
+    path: '/admin/media',
+    materialIcon: 'fas fa-file-alt',
+    name: 'otherpages.admin.media',
+    component: () => import('@/rootgen/admin/uploader/uploader.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyAdmin: true,
+    onlyManager: true
+  },
+]
+
+
 const baseroutes: IListRoutes[] = [
   {
     active: true,
@@ -175,6 +346,22 @@ const baseroutes: IListRoutes[] = [
     onlyAdmin: true
   },
   ...routes_admin,
+  {
+    active: true,
+    order: 2110,
+    path: '/manage',
+    materialIcon: 'fas fa-users-cog',
+    name: 'otherpages.manage.menu',
+    inmenu: true,
+    routes2: routes_manager,
+    solotitle: true,
+    infooter: true,
+    onlyAdmin: true,
+    onlyManager: true,
+    onlyTutor: true,
+    onlyEditor: true
+  },
+  ...routes_manager,
   {
     active: true,
     order: 1000,
@@ -274,12 +461,14 @@ const lang_available: ILang[] = [
   {
     label: 'Italiano', icon: 'fa-flag-it', value: 'it', image: '../images/it.png', short: 'IT',
   },
-  {
+  /*{
     label: 'English', icon: 'fa-flag-us', value: 'enUs', image: '../images/gb.png', short: 'EN',
   },
   {
     label: 'Español', icon: 'fa-flag-es', value: 'es', image: '../images/es.png', short: 'ES',
   },
+
+   */
 // { label: 'Français', icon: 'fa-facebook', value: 'fr', image: '../public/images/fr.png', short: 'FR' }
 // { label: 'German', icon: 'fa-flag-de', value: 'de', image: '../public/images/de.png', short: 'DE' },
 ]

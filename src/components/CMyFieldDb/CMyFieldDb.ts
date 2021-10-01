@@ -15,6 +15,7 @@ import { CMyChipList } from '@/components/CMyChipList'
 import { CMyToggleList } from '@/components/CMyToggleList'
 import { CDateTime } from '@/components/CDateTime'
 
+
 export default defineComponent({
   name: 'CMyFieldDb',
   props: {
@@ -185,7 +186,7 @@ export default defineComponent({
       setValDb(myq, props.mykey, myvalue.value, props.type, props.serv, props.table, props.mysubkey, props.id)
     }
 
-    function savefieldboolean($q: any, value: any) {
+    function savefieldboolean(value: any) {
       if (myvalue.value === undefined)
         myvalue.value = 'true'
       else
@@ -228,6 +229,8 @@ export default defineComponent({
       tools,
       costanti,
       myq: $q,
+      fieldsTable,
+      globalStore,
     }
   },
 })

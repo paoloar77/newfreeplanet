@@ -1,5 +1,5 @@
 <template>
-  <CMyPage title="Condividi" imgbackground="../../public/images/sharewithus.jpg" sizes="max-height: 120px">
+  <CMyPage title="Condividi" imgbackground="images/sharewithus.jpg" sizes="max-height: 120px">
         <span>{{
             setmeta({
               title: 'Condividi',

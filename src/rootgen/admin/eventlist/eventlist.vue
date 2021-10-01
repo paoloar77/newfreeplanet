@@ -1,6 +1,6 @@
 <template>
   <CMyPage
-    title="Events" keywords="" description="" imgbackground="../../public/images/calendario_eventi.jpg"
+    title="Events" keywords="" description="" imgbackground="images/calendario_eventi.jpg"
     sizes="max-height: 120px">
 
     <div class="q-ma-sm q-pa-xs">

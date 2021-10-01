@@ -48,10 +48,10 @@
             <CMyChipList
               :type="costanti.FieldType.binary"
               :value="myvalue"
-              :options="db_fieldsTable.getTableJoinByName(col.jointable)"
-              :optval="db_fieldsTable.getKeyByTable(col.jointable)"
-              :optlab="db_fieldsTable.getLabelByTable(col.jointable)"
-              :opticon="db_fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
+              :options="globalStore.getTableJoinByName(col.jointable)"
+              :optval="fieldsTable.getKeyByTable(col.jointable)"
+              :optlab="fieldsTable.getLabelByTable(col.jointable)"
+              :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
           </div>
           <!-- Show Value -->
           <div v-else-if="type === costanti.FieldType.nationality">
@@ -86,20 +86,20 @@
             <CMyChipList
               :type="type"
               :value="myvalue"
-              :options="db_fieldsTable.getTableJoinByName(col.jointable)"
-              :optval="db_fieldsTable.getKeyByTable(col.jointable)"
-              :optlab="db_fieldsTable.getLabelByTable(col.jointable)"
-              :opticon="db_fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
+              :options="globalStore.getTableJoinByName(col.jointable)"
+              :optval="fieldsTable.getKeyByTable(col.jointable)"
+              :optlab="fieldsTable.getLabelByTable(col.jointable)"
+              :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
           </div>
           <div v-else-if="type === costanti.FieldType.select">
             <CMyChipList
               myclass="text-center"
               :type="costanti.FieldType.select"
               :value="myvalue"
-              :options="db_fieldsTable.getTableJoinByName(col.jointable)"
-              :optval="db_fieldsTable.getKeyByTable(col.jointable)"
-              :optlab="db_fieldsTable.getLabelByTable(col.jointable)"
-              :opticon="db_fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
+              :options="globalStore.getTableJoinByName(col.jointable)"
+              :optval="fieldsTable.getKeyByTable(col.jointable)"
+              :optlab="fieldsTable.getLabelByTable(col.jointable)"
+              :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
           </div>
           <div v-else-if="type === costanti.FieldType.html">
             <div v-html="myvalprinted()">
@@ -109,7 +109,7 @@
           <div v-else-if="type === costanti.FieldType.boolean">
             <q-toggle
               dark color="green" v-model="myvalue" :label="col.title"
-              @input="savefieldboolean($q)"></q-toggle>
+              @update:model-value="savefieldboolean"></q-toggle>
           </div>
           <div v-else>
             <div v-html="myvalprinted()"></div>
@@ -168,10 +168,10 @@
             <div v-else-if="type === costanti.FieldType.binary">
               <CMyToggleList
                 :label="col.title"
-                :options="db_fieldsTable.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable)"
                 v-model:value="myvalue"
-                :optval="db_fieldsTable.getKeyByTable(col.jointable)"
-                :optlab="db_fieldsTable.getLabelByTable(col.jointable)">
+                :optval="fieldsTable.getKeyByTable(col.jointable)"
+                :optlab="fieldsTable.getLabelByTable(col.jointable)">
               </CMyToggleList>
             </div>
             <div v-else-if="type === costanti.FieldType.html">
@@ -183,9 +183,9 @@
               <CMySelect
                 :label="col.title"
                 v-model:value="myvalue"
-                :optval="db_fieldsTable.getKeyByTable(col.jointable)"
-                :optlab="db_fieldsTable.getLabelByTable(col.jointable)"
-                :options="db_fieldsTable.getTableJoinByName(col.jointable)"
+                :optval="fieldsTable.getKeyByTable(col.jointable)"
+                :optlab="fieldsTable.getLabelByTable(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable)"
                 :useinput="false">
               </CMySelect>
             </div>
@@ -240,10 +240,10 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
               <CMyToggleList
                 :label="col.title"
-                :options="db_fieldsTable.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable)"
                 v-model:value="myvalue"
-                :optval="db_fieldsTable.getKeyByTable(col.jointable)"
-                :optlab="db_fieldsTable.getLabelByTable(col.jointable)"
+                :optval="fieldsTable.getKeyByTable(col.jointable)"
+                :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :isarray="true">
               </CMyToggleList>
 
@@ -255,12 +255,12 @@
                               outlined
                               multiple
                               options-dense
-                              :display-value="db_fieldsTable.getTitleByTable(col.jointable)"
+                              :display-value="fieldsTable.getTitleByTable(col.jointable)"
                               emit-value
                               map-options
-                              :options="db_fieldsTable.getTableJoinByName(col.jointable)"
-                              :option-label="db_fieldsTable.getLabelByTable(col.jointable)"
-                              :option-value="db_fieldsTable.getKeyByTable(col.jointable)"
+                              :options="globalStore.getTableJoinByName(col.jointable)"
+                              :option-label="fieldsTable.getLabelByTable(col.jointable)"
+                              :option-value="fieldsTable.getKeyByTable(col.jointable)"
                               style="min-width: 150px"
                             >
 

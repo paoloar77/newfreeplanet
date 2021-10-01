@@ -1,5 +1,5 @@
 <template>
-  <CMyPage title="Pagine" imgbackground="../../public/images/calendario_eventi.jpg" sizes="max-height: 120px">
+  <CMyPage title="Pagine" imgbackground="images/calendario_eventi.jpg" sizes="max-height: 120px">
         <span>{{
             setmeta({
               title: 'Pagine',

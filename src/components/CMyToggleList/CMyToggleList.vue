@@ -6,7 +6,7 @@
                     :label="rec.label"
                     :color="tools.getColorByIndexBest(index)"
                     keep-color
-                    @input="changeval">
+                    @update:model-value="changeval">
             </q-toggle>
         </div>
     </div>

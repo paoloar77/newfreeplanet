@@ -19,10 +19,12 @@ export default defineComponent({
     const route = useRoute()
     const globalStore = useGlobalStore()
 
+    const finishLoading = computed(() => globalStore.finishLoading)
+
     const path = computed(() => route.path)
 
     function getmenu(): any {
-      // console.log('getmenu menuOne!')
+      console.log('getmenu menuOne!')
       return globalStore.getmenu
     }
 
@@ -43,11 +45,6 @@ export default defineComponent({
         setParentVisibilityBasedOnRoute(mymenu[parentName])
       })
     })
-
-    function isfinishLoading() {
-      const globalStore = useGlobalStore()
-      return globalStore.finishLoading
-    }
 
     /* function replaceUnderlineToSpace(text: string) {
       while (text.indexOf('_') !== -1) {
@@ -85,7 +82,7 @@ export default defineComponent({
 
     return {
       getmenu,
-      isfinishLoading,
+      finishLoading,
       getmymenuclass,
       getroute,
       static_data,

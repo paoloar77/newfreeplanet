@@ -1,5 +1,5 @@
 <template>
-  <CMyPage title="Prodotti" imgbackground="../../public/images/prodotti.jpg" sizes="max-height: 120px">
+  <CMyPage title="Prodotti" imgbackground="images/prodotti.jpg" sizes="max-height: 120px">
         <span>{{
             setmeta({
               title: 'Prodotti',

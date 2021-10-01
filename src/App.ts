@@ -38,7 +38,7 @@ export default {
       }
     }
 
-    function created() {
+    async function created() {
       try {
         if (process.env.DEV) {
           console.info('SESSIONE IN SVILUPPO ! (DEV)')
@@ -67,7 +67,7 @@ export default {
 
         if (chiamaautologin) {
           // console.log('CHIAMA autologin_FromLocalStorage')
-          userStore.autologin_FromLocalStorage($router)
+          await userStore.autologin_FromLocalStorage($router)
             .then((loadstorage: any) => {
               if (loadstorage) {
 

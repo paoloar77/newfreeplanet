@@ -211,7 +211,7 @@ export default defineComponent({
     }
 
     function save() {
-      emit('showandsave', mylistimages)
+      emit('showandsave', mylistimages.value)
     }
 
     function getsrcimg(mygallery: any) {
@@ -237,6 +237,8 @@ export default defineComponent({
       copytoclipboard,
       deleteFile,
       getsrcimg,
+      tools,
+      uploaded,
     }
   }
 })

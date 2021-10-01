@@ -3156,19 +3156,17 @@ export const tools = {
       param2: true,
     })
   },
-  AskGiaPartecipatoZoom(mythis: any, user: any) {
+  AskGiaPartecipatoZoom(mythisq: any, user: any) {
     console.log('AskGiaPartecipatoZoom', user.username)
-    const $q = useQuasar()
-    this.askConfirm($q, translate('steps.zoom_gia_partecipato'), translate('steps.zoom_gia_partecipato'), translate('dialog.yes'), translate('dialog.no'), '', lists.MenuAction.ZOOM_GIA_PARTECIPATO, 0, {
+    this.askConfirm(mythisq, translate('steps.zoom_gia_partecipato'), translate('steps.zoom_gia_partecipato'), translate('dialog.yes'), translate('dialog.no'), '', lists.MenuAction.ZOOM_GIA_PARTECIPATO, 0, {
       param1: user,
       param2: user,
       param3: 'Confermato',
     })
   },
-  ActionRecTable(mythis: any, action: number, table: string, id: string, item: any, askaction: any) {
+  ActionRecTable(mythisq: any, action: number, table: string, id: string, item: any, askaction: any) {
     // console.log('ActionRecTable', id)
-    const $q = useQuasar()
-    return this.askConfirm($q, 'Action', translate(askaction) + '?', translate('dialog.yes'), translate('dialog.no'), table, action, 0, {
+    return this.askConfirm(mythisq, 'Action', translate(askaction) + '?', translate('dialog.yes'), translate('dialog.no'), table, action, 0, {
       param1: id,
       param2: item,
     }, this)
@@ -3365,9 +3363,11 @@ export const tools = {
   },
 
   getextfile(filename: string) {
-    const mystr = filename.split('.')
-    if (mystr)
-      return mystr.pop()!.toLowerCase()
+    if (filename) {
+      const mystr = filename.split('.')
+      if (mystr)
+        return mystr.pop()!.toLowerCase()
+    }
     return ''
   },
 

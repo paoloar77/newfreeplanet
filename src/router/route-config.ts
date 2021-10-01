@@ -33,6 +33,7 @@ export const cfgrouter = {
   getmenu(): RouteRecordRaw[] {
     const arrroutes: RouteRecordRaw[] = []
 
+
     for (const route of static_data.routes) {
       tools.addRoute(arrroutes, route)
     }

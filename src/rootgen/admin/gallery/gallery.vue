@@ -1,5 +1,5 @@
 <template>
-  <CMyPage title="Gallerie" imgbackground="../../public/images/calendario_eventi.jpg" sizes="max-height: 120px">
+  <CMyPage title="Gallerie" imgbackground="images/calendario_eventi.jpg" sizes="max-height: 120px">
 
     <div class="q-ma-sm q-gutter-sm">
       <CTitleBanner title="Gallerie"></CTitleBanner>

@@ -119,8 +119,8 @@ export default defineComponent({
 
       myvalue.value = tools.convertiTagHTMLPerBOT(myvalue.value)
 
-      console.log('saveval', myvalue)
-      emit('showandsave', myvalue)
+      console.log('saveval', myvalue.value)
+      emit('showandsave', myvalue.value)
       // emit('update:value', myvalue)
       showeditor.value = false
     }

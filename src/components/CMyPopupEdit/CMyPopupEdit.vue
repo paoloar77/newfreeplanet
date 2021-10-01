@@ -104,7 +104,7 @@
             :type="costanti.FieldType.binary"
             :value="myvalue"
             @input="changevalRec"
-            :options="fieldsTable.getTableJoinByName(col.jointable)"
+            :options="globalStore.getTableJoinByName(col.jointable)"
             :optval="fieldsTable.getKeyByTable(col.jointable)"
             :optlab="fieldsTable.getLabelByTable(col.jointable)"
             :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -115,7 +115,7 @@
             @input="changevalRec"
             :type="costanti.FieldType.multiselect"
             :value="myvalue"
-            :options="fieldsTable.getTableJoinByName(col.jointable)"
+            :options="globalStore.getTableJoinByName(col.jointable)"
             :optval="fieldsTable.getKeyByTable(col.jointable)"
             :optlab="fieldsTable.getLabelByTable(col.jointable)"
             :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -126,7 +126,7 @@
             myclass="text-center"
             :type="costanti.FieldType.select"
             :value="myvalue"
-            :options="fieldsTable.getTableJoinByName(col.jointable)"
+            :options="globalStore.getTableJoinByName(col.jointable)"
             :optval="fieldsTable.getKeyByTable(col.jointable)"
             :optlab="fieldsTable.getLabelByTable(col.jointable)"
             :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -135,7 +135,7 @@
           <q-toggle
             dark color="green" v-model="myvalue" :label="col.title"
             :disable="disable && col.name !== 'profile.saw_zoom_presentation'"
-            @input="changevalRec"></q-toggle>
+            @update:model-value="changevalRec"></q-toggle>
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.html">
           <div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true">
@@ -204,7 +204,7 @@
               <CMyChipList
                 :type="costanti.FieldType.binary"
                 :value="myvalue"
-                :options="fieldsTable.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -214,7 +214,7 @@
               <CMyChipList
                 :type="costanti.FieldType.multiselect"
                 :value="myvalue"
-                :options="fieldsTable.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -224,7 +224,7 @@
                 myclass="text-center"
                 :type="costanti.FieldType.select"
                 :value="myvalue"
-                :options="fieldsTable.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -233,7 +233,7 @@
               <q-toggle
                 dark color="green" v-model="myvalue" :label="col.title"
                 :disable="disable && col.name !== 'profile.saw_zoom_presentation'"
-                @input="Savedb"></q-toggle>
+                @update:model-value="Savedb"></q-toggle>
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.html">
               <div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true">
@@ -268,6 +268,7 @@
               v-slot="scope">
 
               <div v-if="col.fieldtype === costanti.FieldType.boolean">
+                Boolean:
                 <q-checkbox v-model="scope.value" :label="col.title">
                 </q-checkbox>
                 {{ visuValByType(myvalue, col, row) }}
@@ -307,7 +308,7 @@
               <div v-else-if="col.fieldtype === costanti.FieldType.binary">
                 <CMyToggleList
                   :label="col.title"
-                  :options="fieldsTable.getTableJoinByName(col.jointable)"
+                  :options="globalStore.getTableJoinByName(col.jointable)"
                   v-model:value="myvalue"
                   :optval="fieldsTable.getKeyByTable(col.jointable)"
                   :optlab="fieldsTable.getLabelByTable(col.jointable)">
@@ -319,7 +320,7 @@
                   v-model:value="myvalue"
                   :optval="fieldsTable.getKeyByTable(col.jointable)"
                   :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                  :options="fieldsTable.getTableJoinByName(col.jointable)"
+                  :options="globalStore.getTableJoinByName(col.jointable)"
                   :useinput="false">
                 </CMySelect>
               </div>
@@ -377,7 +378,7 @@
                   :display-value="fieldsTable.getTitleByTable(col.jointable)"
                   emit-value
                   map-options
-                  :options="fieldsTable.getTableJoinByName(col.jointable)"
+                  :options="globalStore.getTableJoinByName(col.jointable)"
                   :option-label="fieldsTable.getLabelByTable(col.jointable)"
                   :option-value="fieldsTable.getKeyByTable(col.jointable)"
                   style="min-width: 150px"

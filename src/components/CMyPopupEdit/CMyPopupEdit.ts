@@ -192,7 +192,6 @@ export default defineComponent({
     }
 
     function Savedb(newVal: any, valinitial: any) {
-      console.log('Savedb')
 
       if (props.col.fieldtype === costanti.FieldType.boolean) {
         // console.log('myvalue', myvalue, newVal, myvalueprec)
@@ -334,6 +333,7 @@ export default defineComponent({
       costanti,
       fieldsTable,
       onInput,
+      globalStore,
     }
   }
 })

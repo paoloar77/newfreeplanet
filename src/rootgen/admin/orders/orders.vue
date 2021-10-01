@@ -1,5 +1,5 @@
 <template>
-    <CMyPage title="Ordini Ufficio" imgbackground="../../public/images/produttori.jpg" sizes="max-height: 120px">
+    <CMyPage title="Ordini Ufficio" imgbackground="images/produttori.jpg" sizes="max-height: 120px">
         <span>{{ setmeta({
             title: 'Ordini Ufficio',
             description: "",

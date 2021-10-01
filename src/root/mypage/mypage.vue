@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-if="isfinishLoading">
     <CMyPage
-      :title="rec.title" :imgbackground="`public/` + rec.imgback"
+      :title="rec.title" :imgbackground="`` + rec.imgback"
       :sizes="`max-height: ` + rec.heightimg + `px`">
             <span>{{
                 setmeta({

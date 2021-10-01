@@ -2,6 +2,7 @@ import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 
 import { useGlobalStore } from '@store/globalStore'
 import { useRoute } from 'vue-router'
+import MixinMetaTags from '@/mixins/mixin-metatags'
 
 export default defineComponent({
   name: 'Mypage',
@@ -11,9 +12,14 @@ export default defineComponent({
     const route = useRoute()
     const path = computed(() => route.path)
 
+    const isfinishLoading = computed(() => globalStore.finishLoading)
+
+    const { setmeta } = MixinMetaTags()
+
     async function created() {
-      // console.log('this.$route.path', this.$route.path)
+      console.log('MyPage created')
       rec.value = await globalStore.loadPage(route.path)
+
       // console.log('mounted', this.rec)
     }
 
@@ -25,10 +31,12 @@ export default defineComponent({
       // return tools.metafunc(this)
     }
 
-    onMounted(created)
+    created()
 
     return {
       rec,
+      setmeta,
+      isfinishLoading,
     }
   },
 })

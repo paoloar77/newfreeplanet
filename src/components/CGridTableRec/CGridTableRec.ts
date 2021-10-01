@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref, watch, toRef, onMounted, toRefs } from 'vue'
+import { defineComponent, PropType, ref, watch, toRef, onMounted, toRefs, computed } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 
 import { tools } from '../../store/Modules/tools'
@@ -95,6 +95,7 @@ export default defineComponent({
     const { t } = useI18n()
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
+    const isfinishLoading = computed(() => globalStore.finishLoading)
 
     const mypagination = toRef(props, 'pagination')
 
@@ -302,7 +303,7 @@ export default defineComponent({
     }
 
     function disabilita() {
-      if ((mytable.value === 'users') && (isTutor)) {
+      if ((mytable.value === 'users') && (isTutor())) {
         return true
       }
 
@@ -323,7 +324,7 @@ export default defineComponent({
     }
 
     function undoVal() {
-      console.log('undoVal', 'colsel', colsel, 'valprec', valPrec, 'colkey', colkey, 'selected', rowsel)
+      console.log('undoVal', 'colsel', colsel.value, 'valprec', valPrec, 'colkey', colkey, 'selected', rowsel.value)
       // console.table(serverData)
       if (colsel.value) {
         if (colsel.value.subfield !== '') {
@@ -340,7 +341,7 @@ export default defineComponent({
     }
 
     function SaveValdb(newVal: any, valinitial: any) {
-      // console.log('SaveValdb', newVal)
+      console.log('SaveValdb', newVal)
       // console.log('SaveValue', newVal, 'rowsel', rowsel)
 
       colsel.value = colclicksel.value
@@ -353,7 +354,7 @@ export default defineComponent({
     function showandsel(row: any, col: any, newval: any, valinitial: any) {
       // console.log('showandsel', row, col, newval)
       rowsel = row
-      colsel = col
+      colsel.value = col
       idsel = row._id
       SaveValue(newval, valinitial)
 
@@ -369,7 +370,7 @@ export default defineComponent({
     }
 
     function SaveValue(newVal: any, valinitial: any) {
-      // console.log('SaveValue', newVal, 'rowsel', rowsel)
+      console.log('SaveValue', newVal, 'rowsel', rowsel, 'colsel', colsel.value)
 
       if (colsel.value) {
         // Update value in table memory
@@ -384,7 +385,7 @@ export default defineComponent({
 
       const mydata = <any>{
         id: idsel,
-        table: mytable,
+        table: mytable.value,
         fieldsvalue: {}
       }
 
@@ -396,9 +397,7 @@ export default defineComponent({
           }
           // mydata.fieldsvalue[colsel.value.field][colsel.subfield] = newVal
         } else {
-          if (colsel.value) {
-            mydata.fieldsvalue[colsel.value.field!] = newVal
-          }
+          mydata.fieldsvalue[colsel.value.field!] = newVal
         }
       }
 
@@ -456,14 +455,17 @@ export default defineComponent({
     }
 
     async function createNewRecord() {
+      console.log('createNewRecord')
       loading.value = true
 
       const mydata: any = {
-        table: mytable,
+        table: mytable.value,
         data: {}
       }
 
-      mydata.data = props.defaultnewrec
+      if (props.defaultnewrec) {
+        mydata.data = props.defaultnewrec
+      }
 
       // const mykey = fieldsTable.getKeyByTable(mytable)
 
@@ -493,14 +495,14 @@ export default defineComponent({
     }
 
     function mounted() {
-      console.log('GridTable mounted', tablesel)
+      //console.log('GridTable mounted', tablesel)
 
       if (!!props.tablesList) {
         canEdit.value = tools.getCookie(tools.CAN_EDIT, canEdit) === 'true'
         tablesel.value = tools.getCookie('tablesel', tablesel)
       }
       myfilterand.value = props.filterdef
-      console.log('tablesel', tablesel)
+      // console.log('tablesel', tablesel)
 
       if (tablesel.value === '') {
         if (!!props.tablesList)
@@ -509,7 +511,7 @@ export default defineComponent({
           tablesel.value = mytable.value
       }
 
-      console.log('2) tablesel', tablesel)
+      // console.log('2) tablesel', tablesel)
 
       changeTable(false)
 
@@ -518,7 +520,7 @@ export default defineComponent({
 
     function clickFunz(item: any, col: IColGridTable) {
       if (col.action) {
-        tools.ActionRecTable(null, col.action, mytable.value, item._id, item, col.askaction)
+        tools.ActionRecTable($q, col.action, mytable.value, item._id, item, col.askaction)
       }
     }
 
@@ -548,9 +550,9 @@ export default defineComponent({
     }
 
     function changeCol(newval: any) {
-      console.log('changecol', mytable)
+      console.log('changecol', mytable.value)
       if (!!mytable.value) {
-        tools.setCookie(mytable, colVisib.value.join('|'))
+        tools.setCookie(mytable.value, colVisib.value.join('|'))
       }
     }
 
@@ -606,7 +608,7 @@ export default defineComponent({
       updatedcol()
 
       if (!!mytable.value) {
-        const myselcol = tools.getCookie(mytable, '')
+        const myselcol = tools.getCookie(mytable.value, '')
         if (!!myselcol && myselcol.length > 0) {
           colVisib.value = myselcol.split('|')
         } else {
@@ -682,7 +684,7 @@ export default defineComponent({
       console.log('saveNewRecord')
       savenewRec.value = true
       const mydata = {
-        table: mytable,
+        table: mytable.value,
         data: {}
       }
 
@@ -703,10 +705,6 @@ export default defineComponent({
       if (!savenewRec.value) {
         annulla(0)
       }
-    }
-
-    function isfinishLoading() {
-      return globalStore.finishLoading
     }
 
     function getlabelAddRow() {
@@ -765,6 +763,9 @@ export default defineComponent({
       myfilter,
       disabilita,
       newRecordBool,
+      lists,
+      refresh,
+      spinner_visible,
     }
   }
 })

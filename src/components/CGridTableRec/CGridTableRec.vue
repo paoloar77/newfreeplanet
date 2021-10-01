@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-xs" v-if="isfinishLoading()">
+  <div class="q-pa-xs" v-if="isfinishLoading">
     <div class="centermydiv q-ma-sm" style="text-align: center">
       <q-btn
         v-if="mytable && visButtRow()" rounded dense color="primary"
@@ -47,7 +47,7 @@
         </q-tr>
       </template>
 
-      <template>
+      <template v-slot:top-right>
         <div class="q-table__title" style="min-width: 150px;">{{ mytitle }}</div>
 
         <!--<p style="color:red"> Rows: {{ getrows }}</p>-->
@@ -56,13 +56,13 @@
           v-model="search" filled dense type="search" debounce="500" hint="Search"
           v-on:keyup.enter="doSearch">
           <template v-slot:after>
-            <q-btn v-if="mytable" label="" color="primary" @click="refresh()" icon="search"></q-btn>
+            <q-btn v-if="mytable" label="" color="primary" @click="refresh" icon="search"></q-btn>
           </template>
         </q-input>
         <q-toggle
           v-if="mytable" v-model="canEdit" :disable="disabilita()" :val="lists.MenuAction.CAN_EDIT_TABLE"
           class="q-mx-sm"
-          :label="$t('grid.editvalues')" @input="changefuncAct">
+          :label="$t('grid.editvalues')" @update:model-value="changefuncAct">
         </q-toggle>
 
         <q-btn
@@ -135,6 +135,7 @@
             <div
               v-if="colVisib.includes(col.field + col.subfield)" class="tdclass">
               <div :class="getclrow(props.row)">
+
                 <CMyPopupEdit
                   :canEdit="canEdit"
                   :disable="disabilita()"
@@ -196,6 +197,7 @@
             <div
               class="q-ma-sm q-pa-sm colmodif col-grow rounded-borders " style="border: 1px solid #bbb"
               @click="colclicksel = mycol">
+
               <CMyPopupEdit
                 :canEdit="true"
                 :disable="disabilita()"

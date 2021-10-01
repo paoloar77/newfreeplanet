@@ -1,5 +1,5 @@
 <template>
-  <div class="no-border" v-if="isfinishLoading">
+  <div class="no-border" v-if="finishLoading">
     <q-list class="rounded-borders text-primary">
       <div v-for="ind1 in getmenu()" :key="ind1">
         <!--<div class="q-list-header">{{replaceUnderlineToSpace(index)}}</div>-->
