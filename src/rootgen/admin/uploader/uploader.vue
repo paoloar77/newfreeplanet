@@ -4,7 +4,7 @@
             <q-uploader
                     label="Galleria Home"
                     accept=".jpg, image/*"
-                    :url="tools.geturlupload()+`/gallery_home`"
+                    :url="tools.geturlupload()+`/gallery_home/${tools.getvers()}`"
                     :headers="tools.getheaders()"
                     :max-file-size="2000000"
                     multiple
@@ -14,7 +14,7 @@
             <q-uploader
                     label="Immagini"
                     accept=".jpg, image/*"
-                    :url="tools.geturlupload()+`/img`"
+                    :url="tools.geturlupload()+`/img/${tools.getvers()}`"
                     :headers="tools.getheaders()"
                     :max-file-size="1000000"
                     multiple
@@ -24,7 +24,7 @@
             <q-uploader
                     label="Invia PDF"
                     accept=".pdf"
-                    :url="tools.geturlupload()+`/pdf`"
+                    :url="tools.geturlupload()+`/pdf/${tools.getvers()}`"
                     :headers="tools.getheaders()"
                     multiple
                     style="max-width: 300px"

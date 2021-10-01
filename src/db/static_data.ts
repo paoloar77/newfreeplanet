@@ -15,7 +15,7 @@ const functionality: IFunctionality = {
   SHOW_NEWSLETTER: false,
   SHOW_ONLY_POLICY: false,
   ENABLE_TODOS_LOADING: true,
-  ENABLE_PROJECTS_LOADING: true,
+  ENABLE_PROJECTS_LOADING: false,
   SHOW_IF_IS_SERVER_CONNECTION: false,
   SHOW_MESSAGES: false,
   BOOKING_EVENTS: false,
@@ -319,7 +319,9 @@ const baseroutes: IListRoutes[] = [
   },
 
    */
-  {
+
+  /*
+  <{
     active: true,
     order: 7,
     path: '/c',
@@ -333,6 +335,7 @@ const baseroutes: IListRoutes[] = [
     solotitle: true,
     infooter: true,
   },
+  */
   {
     active: true,
     order: 2000,

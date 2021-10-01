@@ -1,5 +1,5 @@
 <template>
-  <div class="" :style="mystyle">
+  <div class="" :style="mystyle()">
     <q-input
       v-model="myvalue"
       v-show="false"
@@ -14,7 +14,7 @@
       mask="####-##-## ##:##"
       debounce="500"
       @input="changeval"
-      :input-class="getclass"
+      :input-class="getclass()"
     >
     </q-input>
 
@@ -27,11 +27,11 @@
       color="blue-6"
       :bg-color="bgcolor"
       debounce="500"
-      :input-class="getclass">
+      :input-class="getclass()">
 
       <template v-slot:control>
         <div style="">
-          <div class="self-center full-width no-outline" :style="mystyle" tabindex="0">
+          <div class="self-center full-width no-outline" :style="mystyle()" tabindex="0">
             {{ getstrDate(myvalue) }}
           </div>
         </div>
@@ -39,6 +39,20 @@
       <template v-slot:append>
         <q-icon v-if="canEdit" name="event" class="cursor-pointer">
           <q-popup-proxy v-model="showDateTimeScroller" @before-show="Opening" @before-hide="Closing">
+
+            <div class="q-gutter-md row items-start">
+              <q-date
+                v-model="myvalue" mask="YYYY-MM-DD HH:mm" color="purple"
+                @update:model-value="changeval"
+                @close="() => { savetoclose();  }"
+              />
+              <q-time
+                v-model="myvalue" mask="YYYY-MM-DD HH:mm" color="purple"
+                @update:model-value="changeval"
+                @close="() => { savetoclose();  }"
+              />
+            </div>
+
             <!--
             <q-input
               v-model="myvalue"

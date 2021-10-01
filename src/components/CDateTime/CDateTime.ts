@@ -1,7 +1,7 @@
-import { defineComponent, onMounted, PropType, ref, toRef, watch } from 'vue'
+import { defineComponent, ref, toRef, watch } from 'vue'
 import { tools } from '@src/store/Modules/tools'
 
-import { date, useQuasar } from 'quasar'
+import {  useQuasar } from 'quasar'
 import { useCalendarStore } from '@store/CalendarStore'
 import { useI18n } from '@/boot/i18n'
 import { toolsext } from '@store/Modules/toolsext'
@@ -10,14 +10,14 @@ export default defineComponent({
   name: 'CDate',
   props: {
     value: {
-      type: Object as PropType<Date>,
+      type: String,
       required: false,
-      default: null,
+      default: '',
     },
     valueDate: {
-      type: Object as PropType<Date>,
+      type: String,
       required: false,
-      default: null,
+      default: '',
     },
     data_class: {
       type: String,
@@ -67,9 +67,9 @@ export default defineComponent({
 
     const showDateTimeScroller = ref(false)
     const saveit = ref(false)
-    const myvalue = ref(new Date())
-    const valueprec = ref(new Date())
-    const myvalueDate = toRef(props, 'valueDate')
+    const myvalue = ref('')
+    const valueprec = ref('')
+    // const myvalueDate = toRef(props, 'valueDate')
 
     function getclass() {
       return 'calendar_comp ' + props.data_class
@@ -79,9 +79,9 @@ export default defineComponent({
       // console.log('Opening', 'myvalue', myvalue, 'value', value)
       saveit.value = false
       valueprec.value = myvalue.value
-      if (myvalue.value === undefined) {
-        myvalueDate.value = new Date()
-        myvalue.value = tools.getstrYYMMDDDateTime(myvalueDate.value)
+      if (myvalue.value === '') {
+        // myvalueDate.value = tools.getstrYYMMDDDateTime(new Date())
+        myvalue.value = tools.getstrYYMMDDDateTime(new Date())
       }
       // console.log('Opening', myvalueDate, myvalue)
       emit('show')
@@ -97,9 +97,10 @@ export default defineComponent({
       }
     }
 
-    watch(() => myvalueDate.value, (value, oldval) => {
-      if (myvalueDate.value) {
-        myvalue.value = tools.getstrYYMMDDDateTime(myvalueDate.value)
+    watch(() =>  props.value, (value, oldval) => {
+      if (value) {
+        myvalue.value = tools.getstrYYMMDDDateTime(value)
+        // myvalueDate.value = myvalue.value
         console.log('myvalue Date = ', myvalue.value)
       }
 
@@ -109,7 +110,7 @@ export default defineComponent({
       // console.log('Close')
       saveit.value = true
       showDateTimeScroller.value = false
-      emit('savetoclose', myvalue, valueprec)
+      emit('savetoclose', myvalue.value, valueprec.value)
     }
 
     function scrollerPopupStyle280() {
@@ -128,10 +129,9 @@ export default defineComponent({
     }
 
     function created() {
-      if (props.value !== null)
-        myvalue.value = props.value
-      else
-        myvalue.value = tools.getstrYYMMDDDateTime(myvalueDate.value)
+      if (props.value !== null) {
+        myvalue.value = tools.getstrYYMMDDDateTime(props.value)
+      }
 
       // console.log('created myvalue', myvalue)
     }
@@ -139,6 +139,8 @@ export default defineComponent({
     function changeval(newval: Date) {
       // console.log('changeval', newval, 'value=', value, 'myvalue=', myvalue)
       emit('update:value', newval)
+      saveit.value = true
+      emit('savetoclose', myvalue.value, valueprec.value)
     }
 
     function mystyle() {

@@ -16,7 +16,7 @@
           <CDateTime
             :label="col.label"
             class="cursor-pointer"
-            :valueDate="myvalue"
+            v-model:value="myvalue"
             :readonly="false"
             :minuteinterval="minuteinterval"
             :dense="true"
@@ -84,7 +84,7 @@
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.listimages">
           <CGallery
-            :gall="row" :listimages="myvalue" :edit="isviewfield"
+            :gall="row" :listimages="myvalue" :edit="isviewfield()"
             @showandsave="Savedb"
             @input="changevalRec"
           >
@@ -93,7 +93,7 @@
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.image">
           <CGallery
-            :gall="row" :listimages="myvalue" :edit="isviewfield"
+            :gall="row" :listimages="myvalue" :edit="isviewfield()"
             @input="changevalRec"
             @showandsave="Savedb">
 
@@ -147,14 +147,14 @@
     <div v-else>
       <div v-if="col.fieldtype === costanti.FieldType.listimages">
         <CGallery
-          :gall="row" :listimages="myvalue" :edit="isviewfield"
+          :gall="row" :listimages="myvalue" :edit="isviewfield()"
           @showandsave="Savedb">
 
         </CGallery>
       </div>
       <div v-else-if="col.fieldtype === costanti.FieldType.image">
         <CGallery
-          :gall="row" :listimages="myvalue" :edit="isviewfield"
+          :gall="row" :listimages="myvalue" :edit="isviewfield()"
           @showandsave="Savedb">
 
         </CGallery>
@@ -173,9 +173,10 @@
         <!-- Edit Value -->
         <span v-if="col.fieldtype === costanti.FieldType.date">
                 <CDateTime
+                  v-if="myvalue"
                   :label="col.label"
                   class="cursor-pointer"
-                  :valueDate="myvalue"
+                  v-model:value="myvalue"
                   :readonly="false"
                   :minuteinterval="minuteinterval"
                   :dense="true"
@@ -185,10 +186,12 @@
                 </CDateTime>
             </span>
         <span v-else-if="col.fieldtype === costanti.FieldType.onlydate">
+          Data4:
                 <CDateTime
                   :label="col.label"
                   class="cursor-pointer"
                   :valueDate="myvalue"
+                  v-model:value="myvalue"
                   :readonly="false"
                   :minuteinterval="minuteinterval"
                   :dense="true"

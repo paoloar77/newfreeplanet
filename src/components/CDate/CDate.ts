@@ -7,7 +7,7 @@ export default defineComponent({
   name: 'CDate',
   props: {
     mydate: {
-      type: Object as PropType<Date>,
+      type: String,
       required: true,
     },
     label: {
@@ -62,11 +62,11 @@ export default defineComponent({
     const mystyleicon = ref('font-size: 1.5rem;')
 
     watch(() => props.mydate, (value, oldval) => {
-      valueInternal.value = value
+      valueInternal.value = tools.getstrdateToDate(value)
     })
 
     function created() {
-      valueInternal.value = props.mydate
+      valueInternal.value = tools.getstrdateToDate(props.mydate)
 
       if (props.data_class !== '') {
         mystyleicon.value = 'font-size: 1rem;'

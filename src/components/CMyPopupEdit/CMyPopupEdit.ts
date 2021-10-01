@@ -199,6 +199,7 @@ export default defineComponent({
           newVal = true
           myvalueprec.value = myvalue.value
           myvalue.value = newVal
+
         }
         // console.log('DOPO myvalue', myvalue, newVal, myvalueprec)
       }
@@ -289,7 +290,8 @@ export default defineComponent({
         return ''
       }
     }
-    function selectcountry({ name, iso2, dialCode }: { name: string, iso2: string, dialCode: string}) {
+
+    function selectcountry({ name, iso2, dialCode }: {name: string, iso2: string, dialCode: string}) {
       // console.log(name, iso2, dialCode)
       myvalueprec.value = myvalue.value
       myvalue.value = iso2

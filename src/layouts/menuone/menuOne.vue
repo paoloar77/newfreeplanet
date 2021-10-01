@@ -32,46 +32,29 @@
                             :header-inset-level="child2.level_child"
                             :duration="300"
                             :icon="child2.materialIcon"
+                            expand-icon="none"
                             active-class="my-menu-active"
                             expand-icon-class="my-menu-icon-none"
                             :class="`item item-link drawer-closer cursor-pointer ` + clBase"
                             :label="tools.getLabelByItem(child2)">
 
-                              <template v-slot:header>
-                                   <q-item-section avatar>
+                             <q-item-section avatar>
 
-                                     <q-avatar v-if="child2.img">
-                                       <div :icon="`img:`+child2.img" class="imgicon" font-size="2rem"></div>
-                                     </q-avatar>
-                                     <div v-else>
-                                      <q-avatar
-                                        :icon="child2.materialIcon" color="primary" class="clicon"
-                                        text-color="white">
-                                      </q-avatar>
-                                     </div>
-                                    </q-item-section>
+                               <q-avatar v-if="child2.img">
+                                 <div :icon="`img:`+child2.img" class="imgicon" style="font-size:2rem;"></div>
+                               </q-avatar>
+                               <div v-else>
+                                <q-avatar
+                                  :icon="child2.materialIcon" color="primary" class="clicon"
+                                  text-color="white">
+                                </q-avatar>
+                               </div>
+                              </q-item-section>
 
-                                    <q-item-section>
-                                      {{ tools.getLabelByItem(child2) }}
-                                    </q-item-section>
+                              <q-item-section>
+                                {{ tools.getLabelByItem(child2) }}
+                              </q-item-section>
 
-                                </template>
-
-                            <div v-for="(child3, index) in child2.routes2" :key="index">
-                              <q-expansion-item
-                                v-if="!!child2.routes2 && child3.active"
-                                :to="getroute(child3)"
-                                :header-inset-level="child3.level_child"
-                                :duration="300"
-                                :icon="child3.materialIcon"
-                                :expand-icon="child3.icon"
-                                expand-icon-class="my-menu-separat"
-                                active-class="my-menu-active"
-                                :class="`item item-link drawer-closer cursor-pointer ` + clBase"
-                                :label="tools.getLabelByItem(child3)">
-
-                              </q-expansion-item>
-                            </div>
                           </q-expansion-item>
                           <q-expansion-item
                             v-else
@@ -82,6 +65,7 @@
                             expand-icon-class="my-menu-separat"
                             :header-class="getmymenuclass(child2)"
                             active-class="my-menu-active">
+                            AA5:
                               <div v-for="(child3, index) in child2.routes2" :key="index">
                                 <div v-if="child3.active">
                                   <q-expansion-item
@@ -139,6 +123,7 @@
                   </span>
                   </div>
                 </q-slide-transition>
+
               </div>
             </div>
           </div>
@@ -152,5 +137,5 @@
 </script>
 
 <style lang="scss" scoped>
-  @import './menuOne.scss';
+@import './menuOne.scss';
 </style>

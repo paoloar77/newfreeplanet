@@ -21,6 +21,7 @@
       </div>
       <div :class="getclassCol(col) + ` q-ma-sm q-pa-sm col-grow rounded-borders`" style="border: 1px solid #bbb">
         <div v-if="type === costanti.FieldType.date">
+          Date10:
           <CDateTime
             :label="col.label"
             class="cursor-pointer"
@@ -32,6 +33,7 @@
           </CDateTime>
         </div>
         <div v-else-if="type === costanti.FieldType.onlydate">
+          Date11:
           <CDateTime
             :label="col.label"
             class="cursor-pointer"

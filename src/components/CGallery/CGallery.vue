@@ -110,7 +110,7 @@
             <q-uploader
               label="Aggiungi Immagine o PDF"
               accept=".jpg, image/*, .pdf"
-              :url="tools.geturlupload()+`/` + gall.directory"
+              :url="tools.geturlupload()+`/` + gall.directory + '/' + tools.getvers()"
               :headers="tools.getheaders()"
               :max-file-size="2000000"
               multiple

@@ -19,7 +19,7 @@ export default defineComponent({
       required: true,
     },
     listimages: {
-      type: Object as PropType<IImgGallery[]>,
+      type: Object as PropType<IImgGallery[] | null>,
       required: true,
     },
   },
@@ -31,14 +31,16 @@ export default defineComponent({
     const globalStore = useGlobalStore()
 
     const mygall = ref(<IGallery>{})
-    const mylistimages = ref(<IImgGallery[]>[])
+    const mylistimages = ref(<IImgGallery[] | null>[])
 
     watch(() => props.gall, (newval, oldval) => {
       mygall.value = props.gall
     })
 
     watch(() => props.listimages, (newval, oldval) => {
-      mylistimages.value = props.listimages
+      if (props.listimages) {
+        mylistimages.value = props.listimages
+      }
     })
 
     function created() {
@@ -83,69 +85,72 @@ export default defineComponent({
         return
       }
 
-      const draggedId = e.dataTransfer.getData('text')
-      let dragout = ''
-      try {
-        dragout = e.target.parentNode.parentNode.id
-      } catch (e) {
-        dragout = ''
-      }
-      const draggedEl = document.getElementById(draggedId)
-      console.log('draggedId', draggedId, 'draggedEl', draggedEl)
-      console.log('dragout', dragout)
+      if (mylistimages.value) {
 
-      // check if original parent node
-      if (draggedEl!.parentNode === e.target) {
+        const draggedId = e.dataTransfer.getData('text')
+        let dragout = ''
+        try {
+          dragout = e.target.parentNode.parentNode.id
+        } catch (e) {
+          dragout = ''
+        }
+        const draggedEl = document.getElementById(draggedId)
+        console.log('draggedId', draggedId, 'draggedEl', draggedEl)
+        console.log('dragout', dragout)
+
+        // check if original parent node
+        if (draggedEl!.parentNode === e.target) {
+          e.target.classList.remove('drag-enter')
+          return
+        }
+
+        const myindex = mylistimages.value.findIndex((rec) => rec._id === draggedId)
+        const myrec: IImgGallery = mylistimages.value[myindex]
+
+        let myrecprec: IImgGallery
+        let myrecout: IImgGallery
+        const myindexout = mylistimages.value.findIndex((rec) => rec._id === dragout)
+        myrecout = mylistimages.value[myindexout]
+        let myindexprec = myindexout - 1
+
+        if (myindexprec < 0)
+          myindexprec = 0
+
+        if (myindex === myindexout)
+          return
+
+        myrecprec = mylistimages.value[myindexprec]
+
+        console.log('myrec', myrec, 'myrecprec', myrecout)
+
+        if (myrec && myrecout)
+          console.log('myrec', myrec, 'myrecprec', myrecout, 'ord1', myrec.order, 'myrecout', myrecout.order)
+
+        if (myrecout) {
+          let diff = 0
+          const ord2 = myrecprec.order
+          const ord1 = myrecout.order
+          diff = Math.round((ord1! - ord2!) / 2)
+          if (diff <= 0)
+            diff++
+          console.log('diff', diff)
+          let mynum = 0
+          mynum = myrecprec.order! + diff
+          console.log('mynum', mynum)
+          myrec.order = mynum
+        } else {
+          myrec.order = Math.round(myrec.order!) - 1
+        }
+
+        console.log('myrec.order', myrec.order)
+
+        // make the exchange
+        // draggedEl.parentNode.removeChild(draggedEl)
+        // e.target.appendChild(draggedEl)
         e.target.classList.remove('drag-enter')
-        return
+
+        save()
       }
-
-      const myindex = mylistimages.value.findIndex((rec) => rec._id === draggedId)
-      const myrec: IImgGallery = mylistimages.value[myindex]
-
-      let myrecprec: IImgGallery
-      let myrecout: IImgGallery
-      const myindexout = mylistimages.value.findIndex((rec) => rec._id === dragout)
-      myrecout = mylistimages.value[myindexout]
-      let myindexprec = myindexout - 1
-
-      if (myindexprec < 0)
-        myindexprec = 0
-
-      if (myindex === myindexout)
-        return
-
-      myrecprec = mylistimages.value[myindexprec]
-
-      console.log('myrec', myrec, 'myrecprec', myrecout)
-
-      if (myrec && myrecout)
-        console.log('myrec', myrec, 'myrecprec', myrecout, 'ord1', myrec.order, 'myrecout', myrecout.order)
-
-      if (myrecout) {
-        let diff = 0
-        const ord2 = myrecprec.order
-        const ord1 = myrecout.order
-        diff = Math.round((ord1! - ord2!) / 2)
-        if (diff <= 0)
-          diff++
-        console.log('diff', diff)
-        let mynum = 0
-        mynum = myrecprec.order! + diff
-        console.log('mynum', mynum)
-        myrec.order = mynum
-      } else {
-        myrec.order = Math.round(myrec.order!) - 1
-      }
-
-      console.log('myrec.order', myrec.order)
-
-      // make the exchange
-      // draggedEl.parentNode.removeChild(draggedEl)
-      // e.target.appendChild(draggedEl)
-      e.target.classList.remove('drag-enter')
-
-      save()
     }
 
     function getclass() {
@@ -157,41 +162,47 @@ export default defineComponent({
     }
 
     function getlastord() {
-      let myord = 0
-      for (const file of mylistimages.value) {
-        if (file.order! > myord)
-          myord = file.order!
-      }
+      if (mylistimages.value) {
+        let myord = 0
+        for (const file of mylistimages.value) {
+          if (file.order! > myord)
+            myord = file.order!
+        }
 
-      return myord + 10
+        return myord + 10
+      }
     }
 
     function uploaded(info: any) {
       console.log(info)
-      for (const file of info.files) {
-        mylistimages.value.push({ imagefile: file.name, order: getlastord() })
-      }
+      if (mylistimages.value) {
+        for (const file of info.files) {
+          mylistimages.value.push({ imagefile: file.name, order: getlastord() })
+        }
 
-      save()
+        save()
+      }
     }
 
     function deleted(rec: any) {
       // console.table(mylistimages)
 
-      const index = mylistimages.value.findIndex((elem) => elem.imagefile === rec.imagefile)
-      if (index > -1) {
-        mylistimages.value.splice(index, 1)
+      if (mylistimages.value) {
+        const index = mylistimages.value.findIndex((elem) => elem.imagefile === rec.imagefile)
+        if (index > -1) {
+          mylistimages.value.splice(index, 1)
+        }
+
+        // mylistimages = mylistimages.pop((elem) => elem.imagefile !== rec.imagefile)
+
+        // console.table(mylistimages)
+
+        save()
       }
-
-      // mylistimages = mylistimages.pop((elem) => elem.imagefile !== rec.imagefile)
-
-      // console.table(mylistimages)
-
-      save()
     }
 
     function getfullname(rec: any) {
-      return 'statics/upload/' + mygall.value.directory + '/' + rec.imagefile
+      return 'upload/' + mygall.value.directory + '/' + rec.imagefile
     }
 
     function copytoclipboard(rec: any) {
@@ -217,9 +228,9 @@ export default defineComponent({
     function getsrcimg(mygallery: any) {
 
       if (tools.getextfile(mygallery.imagefile) === 'pdf')
-        return 'statics/images/images/pdf.jpg'
+        return 'images/images/pdf.jpg'
       else
-        return 'statics/upload/' + mygall.value.directory + '/' + mygallery.imagefile
+        return 'upload/' + mygall.value.directory + '/' + mygallery.imagefile
     }
 
     created()

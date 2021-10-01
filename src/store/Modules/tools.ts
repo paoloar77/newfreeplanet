@@ -2404,6 +2404,11 @@ export const tools = {
     return date.formatDate(mytimestamp, 'YYYY-MM-DD HH:mm:ss')
   },
 
+  getstrdateToDate(strdate: string) {
+    let mydate = new Date(strdate)
+    return mydate
+  },
+
   gettimestampstrDate(mydatestr: Date | number | string | undefined) {
     if (mydatestr) {
       const mydate = new Date(mydatestr)
@@ -3356,6 +3361,9 @@ export const tools = {
   },
   geturlupload() {
     return process.env.MONGODB_HOST + '/upload'
+  },
+  getvers() {
+    return process.env.APP_VERSION
   },
   getheaders() {
     const userStore = useUserStore()
