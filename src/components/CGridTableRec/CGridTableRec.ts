@@ -105,10 +105,10 @@ export default defineComponent({
     const newRecord: any = ref({})
     const savenewRec = ref(false)
 
-    const mytable = toRef(props, 'prop_mytable')
-    const mytitle = toRef(props, 'prop_mytitle')
-    const mycolumns = toRef(props, 'prop_mycolumns')
-    const colkey = toRef(props, 'prop_colkey')
+    const mytable = ref('')
+    const mytitle = ref('')
+    const mycolumns = ref([])
+    const colkey = ref('')
     const search = ref('')
 
     const tablesel = ref('')
@@ -186,6 +186,8 @@ export default defineComponent({
 
       params.codeId = mycodeid.value
 
+      console.log('params', params)
+
       params = { ...params, ...props.extraparams }
 
       const data = await globalStore.loadTable(params)
@@ -208,7 +210,6 @@ export default defineComponent({
     }
 
     function onRequest() {
-      // console.log('onRequest', 'myfilter = ', myfilter)
       const { page, rowsPerPage, rowsNumber, sortBy, descending } = mypagination.value
       const myfilternow = myfilter.value
       const myfilterandnow = myfilterand.value
@@ -217,6 +218,8 @@ export default defineComponent({
 
       if (!mytable.value)
         return
+
+      console.log('onRequest', 'myfilter = ', myfilter.value)
 
       loading.value = true
 
@@ -231,7 +234,7 @@ export default defineComponent({
       const startRow = (page - 1) * rowsPerPage
       const endRow = startRow + fetchCount
 
-      // console.log('startRow', startRow, 'endRow', endRow)
+      console.log('startRow', startRow, 'endRow', endRow)
 
       serverData.value = []
 
@@ -274,6 +277,7 @@ export default defineComponent({
 
 
     function refresh() {
+      console.log('refresh')
       serverData.value = []
 
       search.value = search.value.trim()
@@ -285,7 +289,7 @@ export default defineComponent({
       else
         myfilter.value = ''
 
-      // console.log('myfilter', myfilter)
+      console.log('myfilter', myfilter.value)
 
       refresh_table()
     }
@@ -435,7 +439,7 @@ export default defineComponent({
     async function createNewRecordDialog() {
 
       const mydata: any = {
-        table: mytable,
+        table: mytable.value,
         data: function () {
           return {}
         }
@@ -494,12 +498,20 @@ export default defineComponent({
       })
     }
 
+    function created() {
+      mytable.value = props.prop_mytable
+      mytitle.value = props.prop_mytitle
+      mycolumns.value = props.prop_mycolumns
+      colkey.value = props.prop_colkey
+
+    }
+
     function mounted() {
-      //console.log('GridTable mounted', tablesel)
+      console.log('GridTable mounted', tablesel.value)
 
       if (!!props.tablesList) {
         canEdit.value = tools.getCookie(tools.CAN_EDIT, canEdit) === 'true'
-        tablesel.value = tools.getCookie('tablesel', tablesel)
+        tablesel.value = tools.getCookie('tablesel', tablesel.value)
       }
       myfilterand.value = props.filterdef
       // console.log('tablesel', tablesel)
@@ -511,7 +523,7 @@ export default defineComponent({
           tablesel.value = mytable.value
       }
 
-      // console.log('2) tablesel', tablesel)
+      console.log('2) tablesel', tablesel.value)
 
       changeTable(false)
 
@@ -557,16 +569,17 @@ export default defineComponent({
     }
 
     function changeTable(mysel: any) {
+      // console.log('changeTable')
       if (tablesel.value === undefined || tablesel.value === '')
         return
 
-      // console.log('changeTable mysel=', mysel, 'tablesel', tablesel)
+      // console.log('changeTable mysel=', mysel, 'tablesel', tablesel.value)
       // console.log('tablesList=')
       // console.table(tablesList)
 
       let mytab = null
       if (props.tablesList) {
-        mytab = props.tablesList.find((rec: any) => rec.value === tablesel.value)
+        mytab = props.tablesList.find((rec: any) => rec.value === mysel)
       }
 
       if (mytab === undefined) {
@@ -581,8 +594,10 @@ export default defineComponent({
       if (mytab) {
         mytitle.value = mytab.label
         colkey.value = mytab.colkey
-        // @ts-ignore
-        mycolumns.value = [...mytab.columns]
+        if (mytab.columns) {
+          // @ts-ignore
+          mycolumns.value = [...mytab.columns]
+        }
       }
 
       // console.log('mycolumns')
@@ -715,7 +730,10 @@ export default defineComponent({
       return props.labelBtnAddRow !== addRow.value
     }
 
-    onMounted(mounted)
+    // onMounted(mounted)
+
+    created()
+    mounted()
 
 
     return {
@@ -766,6 +784,8 @@ export default defineComponent({
       lists,
       refresh,
       spinner_visible,
+      tablesel,
+      myfilterand,
     }
   }
 })

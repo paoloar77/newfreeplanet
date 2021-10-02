@@ -12,7 +12,7 @@ export default function () {
 
   function getImgByUsername(username: string) {
     const userStore = useUserStore()
-    return `public/${userStore.getImgByUsername(username)}`
+    return `${userStore.getImgByUsername(username)}`
   }
 
   function isValidUsername(username: string) {
@@ -52,13 +52,13 @@ export default function () {
   function getImgByMsg(msg: IMessage) {
     const userStore = useUserStore()
     // @ts-ignore
-    return `public/${userStore.getImgByUsername(this.getUsernameChatByMsg(msg))}`
+    return `${userStore.getImgByUsername(this.getUsernameChatByMsg(msg))}`
   }
 
   function getMyImg() {
     const userStore = useUserStore()
     const ris = userStore.getImgByUsername(userStore.my.username)
-    const out = (ris !== '') ? `public/${ris}` : ''
+    const out = (ris !== '') ? `${ris}` : ''
     console.log('getMyImg = ', out)
     return out
   }
@@ -66,7 +66,7 @@ export default function () {
   function getMyImgforIcon() {
     const userStore = useUserStore()
     const ris = userStore.getImgByUsername(userStore.my.username)
-    return (ris !== '') ? `img:public/${ris}` : 'fas fa-user'
+    return (ris !== '') ? `img:${ris}` : 'fas fa-user'
   }
 
   function getIconCart() {

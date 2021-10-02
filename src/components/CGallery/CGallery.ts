@@ -207,7 +207,7 @@ export default defineComponent({
 
     function copytoclipboard(rec: any) {
       const filename = getfullname(rec)
-      tools.copyStringToClipboard(filename, true)
+      tools.copyStringToClipboard($q, filename, true)
     }
 
     async function deleteFile(rec: any)

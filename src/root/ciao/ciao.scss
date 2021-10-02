@@ -27,7 +27,7 @@ h4 {
 }
 
 .landing_background {
-  background: #000 url(../../../public/images/foto1.jpg) no-repeat 50% fixed;
+  background: #000 url(../../../images/foto1.jpg) no-repeat 50% fixed;
   background-size: cover
 }
 
@@ -179,7 +179,7 @@ h4 {
   background-repeat: no-repeat !important;
   background-position: top;
   background-size: contain !important;
-  background-image: url(../../../public/images/landing_first_section.png) !important
+  background-image: url(../../../images/landing_first_section.png) !important
 }
 
 .feat-descr {
@@ -209,7 +209,7 @@ body.mobile .landing:before {
   right: 0;
   bottom: 0;
   z-index: -1;
-  //background: #000 url(../../public/images/cover.jpg) 50%;
+  //background: #000 url(../../images/cover.jpg) 50%;
 
   background-size: cover
 }

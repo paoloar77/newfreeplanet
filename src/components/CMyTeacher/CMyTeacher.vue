@@ -10,7 +10,7 @@
                 </q-toolbar>
                 <q-card-section class="text-center inset-shadow">
                     <div style="width: 200px; float: left;">
-                        <q-img :src="`public/images/` + myop.img" class="myimg" :alt="`${myop.name} ${myop.surname}`">
+                        <q-img :src="`images/` + myop.img" class="myimg" :alt="`${myop.name} ${myop.surname}`">
                         </q-img>
                     </div>
 

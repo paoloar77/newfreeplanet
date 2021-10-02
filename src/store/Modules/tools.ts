@@ -2600,16 +2600,16 @@ export const tools = {
     if ('serviceWorker' in navigator) {
       options = {
         body: t('notification.subscribed'),
-        icon: '/public/images/android-chrome-192x192.png',
-        image: '/public/images/imglogonotif.png',
+        icon: '/images/android-chrome-192x192.png',
+        image: '/images/imglogonotif.png',
         dir: 'ltr',
         lang: 'enUs', // BCP 47,
         vibrate: [100, 50, 200],
-        badge: '/public/images/android-chrome-192x192.png',
+        badge: '/images/android-chrome-192x192.png',
         tag: 'confirm-notification',
         renotify: true,  // if it's already sent, will Vibrate anyway
         actions: [
-          { action: 'confirm', title: t('dialog.ok'), icon: '/public/images/android-chrome-192x192.png' },
+          { action: 'confirm', title: t('dialog.ok'), icon: '/images/android-chrome-192x192.png' },
           // { action: 'cancel', title: 'Cancel', icon: '/statics/images/android-chrome-192x192.png', }
         ],
       }
@@ -2901,9 +2901,9 @@ export const tools = {
 
   getimgev(ev: IEvents) {
     if (!!ev.img_small)
-      return 'public/' + ev.img_small
+      return '' + ev.img_small
     else if (!!ev.img)
-      return 'public/' + ev.img
+      return '' + ev.img
     else
       return ''
   },
@@ -3504,7 +3504,7 @@ export const tools = {
   },
 
   getpath(myvideo: string) {
-    return 'public/video/' + func_tools.getLocale() + '/' + myvideo
+    return 'video/' + func_tools.getLocale() + '/' + myvideo
   },
   mygetarrValDb(keystr: string, serv: boolean) {
     const globalStore = useGlobalStore()
@@ -3574,15 +3574,14 @@ export const tools = {
     return mystr.replace(/\s+/g, '')
   },
 
-  copyStringToClipboard(mystr: string, show: boolean) {
-    const $q = useQuasar()
+  copyStringToClipboard(myq: any, mystr: string, show: boolean) {
 
     copyToClipboard(mystr).then(() => {
       let msg = t('dialog.copyclipboard')
       if (show)
         msg += ' \'' + mystr + '\''
 
-      this.showNotif($q, msg)
+      this.showNotif(myq, msg)
     })
 
   },

@@ -1,13 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div class="q-gutter-sm q-pa-xs q-pb-md">
 
-    <CMyFieldDb
-      :title="$t('reg.name')"
-      table="users"
-      mykey="name"
-      :type="costanti.FieldType.string">
-    </CMyFieldDb>
-
     <CTitleBanner
       class="q-pa-xs" :title="$t('pages.profile')" bgcolor="bg-primary" clcolor="text-white"
       myclass="myshad" :canopen="true">

@@ -165,7 +165,11 @@ export const colnewstosent = [
   AddCol({ name: 'numemail_sent', label_trans: 'newsletter.numemail_sent', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'datestartJob', label_trans: 'newsletter.datestartJob', fieldtype: costanti.FieldType.date }),
   AddCol({ name: 'datefinishJob', label_trans: 'newsletter.datefinishJob', fieldtype: costanti.FieldType.date }),
-  AddCol({ name: 'lastemailsent_Job', label_trans: 'newsletter.lastemailsent_Job', fieldtype: costanti.FieldType.date }),
+  AddCol({
+    name: 'lastemailsent_Job',
+    label_trans: 'newsletter.lastemailsent_Job',
+    fieldtype: costanti.FieldType.date
+  }),
   AddCol({ name: 'starting_job', label_trans: 'newsletter.starting_job', fieldtype: costanti.FieldType.boolean }),
   AddCol({ name: 'finish_job', label_trans: 'newsletter.finish_job', fieldtype: costanti.FieldType.boolean }),
   AddCol({ name: 'processing_job', label_trans: 'newsletter.processing_job', fieldtype: costanti.FieldType.boolean }),
@@ -308,7 +312,11 @@ export const colTableIscrittiConacreis = [
   AddCol({ name: 'born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'cell_phone', label_trans: 'reg.cell_phone', fieldtype: costanti.FieldType.string }),
-  AddCol({ name: 'iscrizione_compilata', label_trans: 'reg.iscrizione_compilata', fieldtype: costanti.FieldType.boolean }),
+  AddCol({
+    name: 'iscrizione_compilata',
+    label_trans: 'reg.iscrizione_compilata',
+    fieldtype: costanti.FieldType.boolean
+  }),
   AddCol({ name: 'motivazioni', label_trans: 'reg.motivazioni', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'newsletter_on', label_trans: 'reg.newsletter_on', fieldtype: costanti.FieldType.boolean }),
   AddCol({
@@ -317,7 +325,11 @@ export const colTableIscrittiConacreis = [
     fieldtype: costanti.FieldType.string,
   }),
   AddCol({ name: 'cosa_potrei_offrire', label_trans: 'reg.cosa_potrei_offrire', fieldtype: costanti.FieldType.string }),
-  AddCol({ name: 'cosa_vorrei_ricevere', label_trans: 'reg.cosa_vorrei_ricevere', fieldtype: costanti.FieldType.string }),
+  AddCol({
+    name: 'cosa_vorrei_ricevere',
+    label_trans: 'reg.cosa_vorrei_ricevere',
+    fieldtype: costanti.FieldType.string
+  }),
   AddCol({ name: 'altre_comunicazioni', label_trans: 'reg.altre_comunicazioni', fieldtype: costanti.FieldType.string }),
   AddCol({
     name: 'come_ci_hai_conosciuto',
@@ -361,7 +373,11 @@ export const colTableProducts = [
   AddCol({ name: 'after_price', label_trans: 'products.after_price' }),
   AddCol({ name: 'color', label_trans: 'products.color' }),
   AddCol({ name: 'size', label_trans: 'products.size' }),
-  AddCol({ name: 'quantityAvailable', label_trans: 'products.quantityAvailable', fieldtype: costanti.FieldType.number }),
+  AddCol({
+    name: 'quantityAvailable',
+    label_trans: 'products.quantityAvailable',
+    fieldtype: costanti.FieldType.number
+  }),
   AddCol({ name: 'canBeShipped', label_trans: 'products.canBeShipped', fieldtype: costanti.FieldType.boolean }),
   AddCol({ name: 'canBeBuyOnline', label_trans: 'products.canBeBuyOnline', fieldtype: costanti.FieldType.boolean }),
   AddCol({ name: 'weight', label_trans: 'products.weight', fieldtype: costanti.FieldType.number }),
@@ -435,7 +451,11 @@ const colnavepersistente = [
   AddCol({ name: '_id', label_trans: 'others.value' }),
   AddCol({ name: 'riga', label_trans: 'reg.riga' }),
   AddCol({ name: 'col', label_trans: 'reg.col' }),
-  AddCol({ name: 'date_gift_chat_open', label_trans: 'dashboard.nave_in_partenza', fieldtype: costanti.FieldType.date }),
+  AddCol({
+    name: 'date_gift_chat_open',
+    label_trans: 'dashboard.nave_in_partenza',
+    fieldtype: costanti.FieldType.date
+  }),
   AddCol({ name: 'date_start', label_trans: 'dashboard.nave_in_chiusura', fieldtype: costanti.FieldType.date }),
   AddCol({ name: 'link_chat', label_trans: 'reg.link_chat' }),
   AddCol({ name: 'provvisoria', label_trans: 'reg.provvisoria', fieldtype: costanti.FieldType.boolean }),
@@ -701,7 +721,11 @@ export const fieldsTable = {
     AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
     AddCol({ name: 'subaccount', label_trans: 'SubAccount', fieldtype: costanti.FieldType.boolean }),
     AddCol({ name: 'navinonpresenti', label_trans: 'Navi Non Presenti', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'non_voglio_imbarcarmi', label_trans: 'non_voglio_imbarcarmi', fieldtype: costanti.FieldType.boolean }),
+    AddCol({
+      name: 'non_voglio_imbarcarmi',
+      label_trans: 'non_voglio_imbarcarmi',
+      fieldtype: costanti.FieldType.boolean
+    }),
     AddCol({ name: 'username', label_trans: 'reg.username_short' }),
     AddCol({ name: 'name', label_trans: 'reg.name' }),
     AddCol({ name: 'surname', label_trans: 'reg.surname' }),
@@ -1305,6 +1329,12 @@ export const fieldsTable = {
 export const func = {
   gettablesList() {
     const userStore = useUserStore()
-    return fieldsTable.tablesList.filter((rec) => ((rec.onlyAdmin === userStore.isAdmin) || (!rec.onlyAdmin)) && (!rec.noshow))
+    if (fieldsTable.tablesList) {
+      const mylist = fieldsTable.tablesList.filter((rec) => ((rec.onlyAdmin === userStore.isAdmin) || (!rec.onlyAdmin)) && (!rec.noshow))
+
+      return mylist
+    }
+
+    return []
   },
 }

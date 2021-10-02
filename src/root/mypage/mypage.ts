@@ -3,9 +3,11 @@ import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 import { useGlobalStore } from '@store/globalStore'
 import { useRoute } from 'vue-router'
 import MixinMetaTags from '@/mixins/mixin-metatags'
+import { CMyPage } from '@/components/CMyPage'
 
 export default defineComponent({
   name: 'Mypage',
+  components: { CMyPage },
   setup() {
     const rec = ref({})
     const globalStore = useGlobalStore()

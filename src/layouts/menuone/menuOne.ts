@@ -38,7 +38,7 @@ export default defineComponent({
 
     watch(path, (to: string, from: string) => {
       const mymenu = globalStore.getmenu
-      console.log('watch:', mymenu)
+      // console.log('watch:', mymenu)
       Object.keys(mymenu).forEach((parentName: any) => {
         console.log('parentName', parentName)
         // @ts-ignore

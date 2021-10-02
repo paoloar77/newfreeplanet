@@ -26,7 +26,7 @@ export default defineComponent({
     const globalStore = useGlobalStore()
 
     function copytoclip() {
-      tools.copyStringToClipboard(props.texttocopy, true)
+      tools.copyStringToClipboard($q, props.texttocopy, true)
     }
 
     return {

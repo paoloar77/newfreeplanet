@@ -28,6 +28,7 @@
       selection="single"
       v-model:selected="selected">
 
+
       <template v-slot:header="props">
 
         <q-tr :props="props">
@@ -46,6 +47,7 @@
           </q-th>
         </q-tr>
       </template>
+
 
       <template v-slot:top-right>
         <div class="q-table__title" style="min-width: 150px;">{{ mytitle }}</div>
@@ -89,21 +91,20 @@
           map-options
           :options="mycolumns"
           option-value="name"
-          º
-          @input="changeCol">
+          @update:model-value="changeCol">
 
         </q-select>
 
         <q-select
           v-if="tablesList"
-          v-model="tablesel"
+          :model-value="tablesel"
           rounded
           outlined
           dense
           :options="tablesList"
           :display-value="mytitle"
           emit-value
-          @input="changeTable"
+          @update:model-value="changeTable"
         >
         </q-select>
 
@@ -111,6 +112,7 @@
         <q-inner-loading :showing="spinner_visible">
           <q-spinner-tail size="2em" color="primary"/>
         </q-inner-loading>
+
 
         <div class="row">
           <q-toggle

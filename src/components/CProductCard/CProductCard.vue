@@ -1,6 +1,6 @@
 <template>
-  <q-card :class="getmycardcl" v-if="!!myproduct">
-    <q-img :src="`public/` + myproduct.img" :alt="myproduct.name" :class="getclimg"></q-img>
+  <q-card :class="getmycardcl()" v-if="!!myproduct">
+    <q-img :src="`` + myproduct.img" :alt="myproduct.name" :class="getclimg()"></q-img>
 
     <q-card-section>
       <q-btn
