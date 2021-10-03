@@ -3,7 +3,7 @@ import { useI18n } from '@src/boot/i18n'
 
 import { tools } from '../../store/Modules/tools'
 
-import { IColGridTable, IFilter, ITableRec, IPagination } from '../../model'
+import { IColGridTable, IFilter, ITableRec, IPagination, IParamDialog, IEvents, IDataToSet } from '../../model'
 import { lists } from '../../store/Modules/lists'
 import { IParamsQuery } from '../../model/GlobalStore'
 import { CMyPopupEdit } from '../CMyPopupEdit'
@@ -13,6 +13,9 @@ import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
+import { useCalendarStore } from '@store/CalendarStore'
+import translate from '@/globalroutines/util'
+import { toolsext } from '@store/Modules/toolsext'
 
 export default defineComponent({
   name: 'CGridTableRec',
@@ -186,7 +189,7 @@ export default defineComponent({
 
       params.codeId = mycodeid.value
 
-      console.log('params', params)
+      // console.log('params', params)
 
       params = { ...params, ...props.extraparams }
 
@@ -219,7 +222,7 @@ export default defineComponent({
       if (!mytable.value)
         return
 
-      console.log('onRequest', 'myfilter = ', myfilter.value)
+      // console.log('onRequest', 'myfilter = ', myfilter.value)
 
       loading.value = true
 
@@ -234,7 +237,7 @@ export default defineComponent({
       const startRow = (page - 1) * rowsPerPage
       const endRow = startRow + fetchCount
 
-      console.log('startRow', startRow, 'endRow', endRow)
+      // console.log('startRow', startRow, 'endRow', endRow)
 
       serverData.value = []
 
@@ -277,7 +280,7 @@ export default defineComponent({
 
 
     function refresh() {
-      console.log('refresh')
+      // console.log('refresh')
       serverData.value = []
 
       search.value = search.value.trim()
@@ -289,7 +292,7 @@ export default defineComponent({
       else
         myfilter.value = ''
 
-      console.log('myfilter', myfilter.value)
+      // console.log('myfilter', myfilter.value)
 
       refresh_table()
     }
@@ -328,7 +331,7 @@ export default defineComponent({
     }
 
     function undoVal() {
-      console.log('undoVal', 'colsel', colsel.value, 'valprec', valPrec, 'colkey', colkey, 'selected', rowsel.value)
+      // console.log('undoVal', 'colsel', colsel.value, 'valprec', valPrec, 'colkey', colkey, 'selected', rowsel.value)
       // console.table(serverData)
       if (colsel.value) {
         if (colsel.value.subfield !== '') {
@@ -345,7 +348,7 @@ export default defineComponent({
     }
 
     function SaveValdb(newVal: any, valinitial: any) {
-      console.log('SaveValdb', newVal)
+      // console.log('SaveValdb', newVal)
       // console.log('SaveValue', newVal, 'rowsel', rowsel)
 
       colsel.value = colclicksel.value
@@ -451,7 +454,7 @@ export default defineComponent({
 
       // mydata.data[mykey] = ''
 
-      console.log('mydata', mydata)
+      // console.log('mydata', mydata)
 
       newRecord.value = await globalStore.saveTable(mydata)
       newRecordBool.value = true
@@ -507,7 +510,7 @@ export default defineComponent({
     }
 
     function mounted() {
-      console.log('GridTable mounted', tablesel.value)
+      // console.log('GridTable mounted', tablesel.value)
 
       if (!!props.tablesList) {
         canEdit.value = tools.getCookie(tools.CAN_EDIT, canEdit) === 'true'
@@ -523,16 +526,86 @@ export default defineComponent({
           tablesel.value = mytable.value
       }
 
-      console.log('2) tablesel', tablesel.value)
+      // console.log('2) tablesel', tablesel.value)
 
       changeTable(false)
 
     }
 
+    function executefunc(table: string, func: number, par: IParamDialog) {
+      const globalStore = useGlobalStore()
+      const calendarStore = useCalendarStore()
+
+      if (func === lists.MenuAction.DELETE) {
+        // console.log('param1', par.param1)
+        calendarStore.CancelBookingEvent({
+          ideventbook: par.param1,
+          notify: par.param2 === true ? '1' : '0',
+        }).then((ris: any) => {
+          if (ris) {
+            tools.showPositiveNotif($q, t('cal.canceledbooking') + ' "' + par.param3 + '"')
+            //++Todo: Calendar FIX:
+            // if (myself.bookEventpage)
+            //  myself.bookEventpage.show = false
+          } else {
+            tools.showNegativeNotif($q, t('cal.cancelederrorbooking'))
+          }
+        })
+      } else if (func === lists.MenuAction.DELETE_RECTABLE) {
+        // console.log('param1', par.param1)
+        globalStore.DeleteRec({ table, id: par.param1 }).then((ris) => {
+          if (ris) {
+            ActionAfterYes(func, par.param2, null)
+            tools.showPositiveNotif($q, t('db.deletedrecord'))
+          } else {
+            tools.showNegativeNotif($q, t('db.recdelfailed'))
+          }
+        })
+      } else if (func === lists.MenuAction.DUPLICATE_RECTABLE) {
+        // console.log('param1', par.param1)
+        globalStore.DuplicateRec({ table, id: par.param1 }).then((ris) => {
+          if (ris) {
+            ActionAfterYes(func, par.param2, ris.data)
+            tools.showPositiveNotif($q, t('db.duplicatedrecord'))
+          } else
+            tools.showNegativeNotif($q, t('db.recdupfailed'))
+        })
+      }
+    }
+
 
     function clickFunz(item: any, col: IColGridTable) {
       if (col.action) {
-        tools.ActionRecTable($q, col.action, mytable.value, item._id, item, col.askaction)
+
+        const table = mytable.value
+        const ok = translate('dialog.yes')
+        const cancel = translate('dialog.no')
+        const funccancel = 0
+        const par = {
+          param1: item._id,
+          param2: item,
+        }
+
+        return $q.dialog({
+          message: translate(col.askaction) + '?',
+          html: true,
+          ok: {
+            label: ok,
+            push: true,
+          },
+          title: 'Action',
+          cancel: true,
+          persistent: false,
+        }).onOk(() => {
+          // console.log('OK')
+          executefunc(table, col.action, par)
+          return true
+        }).onCancel(() => {
+          // console.log('CANCEL')
+          executefunc(table, funccancel, par)
+          return false
+        })
+
       }
     }
 
@@ -562,7 +635,7 @@ export default defineComponent({
     }
 
     function changeCol(newval: any) {
-      console.log('changecol', mytable.value)
+      // console.log('changecol', mytable.value)
       if (!!mytable.value) {
         tools.setCookie(mytable.value, colVisib.value.join('|'))
       }

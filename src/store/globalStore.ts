@@ -282,14 +282,15 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return this.stateConnection === 'online'
     },
 
-    addDynamicPages($router: Router) {
+    addDynamicPages($router: Router | null) {
+      // console.log('addDynamicPages')
       const arrpagesroute: IListRoutes[] = []
 
       for (const page of this.mypage) {
         if (page.active) {
-          console.log('page', page.lang)
+          // console.log('page', page.lang)
           if (this.isMyLang(page)) {
-            console.log('page', page.title, 'OK')
+            // console.log('page', page.title, 'OK')
             arrpagesroute.push({
               active: true,
               order: page.order ? page.order : 1000,
@@ -348,16 +349,31 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       // console.log('$router', $router)
 
-      if (tools.sito_online(false)) {
-        arrpagesroute.forEach(function (route: any) {
-          $router.addRoute(route)
-        })
+      if ($router) {
+        if (tools.sito_online(false)) {
+          arrpagesroute.forEach(function (route: any) {
+            $router.addRoute(route)
+          })
 
-        $router.addRoute(last)
-      } else {
-        $router.addRoute(sito_offline)
-        $router.addRoute(last)
-        $router.replace('/sito_offline')
+          $router.addRoute(last)
+        } else {
+          $router.addRoute(sito_offline)
+          $router.addRoute(last)
+          $router.replace('/sito_offline')
+        }
+
+        const mypathsel = $router.currentRoute.value.fullPath
+        if (mypathsel !== '/') {
+          // console.log('mypathsel', mypathsel)
+
+          const trovato = this.mypage.filter((rec: IMyPage) => (rec.path === mypathsel) && (rec.active))
+
+          //if ($router.currentRoute.value.fullPath in ) {
+          if (trovato) {
+            $router.replace(mypathsel)
+          }
+        }
+
       }
     },
 

@@ -52,35 +52,6 @@
                 @close="() => { savetoclose();  }"
               />
             </div>
-
-            <!--
-            <q-input
-              v-model="myvalue"
-              type="datetime"
-              @input="changeval"
-              @close="() => { savetoclose();  }"
-            >
-            </q-input>
-            -->
-            <!--
-              <q-scroller
-                      v-model="myvalue"
-                      :view="view"
-                      :locale="toolsext.getLocale()"
-                      :rounded-borders="true"
-                      border-color="#2196f3"
-                      bar-color="#2196f3"
-                      text-color="white"
-                      color="primary"
-                      :minute-interval="minuteinterval"
-                      inner-text-color="primary"
-                      inner-color="white"
-                      :style="scrollerPopupStyle280"
-                      @input="changeval"
-                      @close="() => { savetoclose();  }"
-              ></q-scroller>
-              -->
-
           </q-popup-proxy>
         </q-icon>
       </template>

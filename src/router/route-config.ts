@@ -1,6 +1,7 @@
 import { static_data } from '@src/db/static_data'
 import type { RouteRecordRaw } from 'vue-router'
 import { tools } from '@store/Modules/tools'
+import { useGlobalStore } from '@store/globalStore'
 
 interface IMyMeta {
   title?: string,
@@ -33,12 +34,11 @@ export const cfgrouter = {
   getmenu(): RouteRecordRaw[] {
     const arrroutes: RouteRecordRaw[] = []
 
-
     for (const route of static_data.routes) {
       tools.addRoute(arrroutes, route)
     }
 
-    // console.log('arrroutes', arrroutes)
+    console.log('getmenu', arrroutes)
 
     return arrroutes
   },

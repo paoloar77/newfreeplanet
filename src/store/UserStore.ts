@@ -718,6 +718,8 @@ export const useUserStore = defineStore('UserStore', {
 
         globalStore.addDynamicPages($router)
 
+        // console.log('$router', $router)
+
         globalStore.finishLoading = true
         if (tools.isDebug()) console.log('finishLoading', globalStore.finishLoading)
 
