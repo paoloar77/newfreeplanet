@@ -642,7 +642,7 @@ export default defineComponent({
     }
 
     function changeTable(mysel: any) {
-      // console.log('changeTable')
+      console.log('changeTable', tablesel.value)
       if (tablesel.value === undefined || tablesel.value === '')
         return
 

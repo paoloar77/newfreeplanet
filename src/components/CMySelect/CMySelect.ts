@@ -12,10 +12,6 @@ export default defineComponent({
       required: true,
     },
     value: [String, Number, Array],
-    type: {
-      type: Number,
-      required: true,
-    },
     label: {
       type: String,
       required: true,
@@ -25,10 +21,7 @@ export default defineComponent({
       required: false,
       default: ''
     },
-    optlab: {
-      type: String,
-      required: true,
-    },
+    optlab:[String, Function],
     optval: {
       type: String,
       required: true,
@@ -50,11 +43,11 @@ export default defineComponent({
     },
     newvaluefunc: {
       type: Function,
-      required: true,
+      required: false,
     },
     funcgetvaluebyid: {
       type: Function,
-      required: true,
+      required: false,
     },
   },
   components: {},
@@ -68,6 +61,7 @@ export default defineComponent({
 
     function changeval(newval: any) {
       console.log('changeval', newval)
+      myvalue.value = newval
       emit('update:value', newval)
       emit('changeval', newval)
     }
@@ -76,7 +70,9 @@ export default defineComponent({
       const rec: any = props.options.find((myrec: any) => myrec[`${props.optval}`] === props.value)
       // console.log('rec', rec)
       if (!props.useinput) {
-        myvalue.value = props.value!.toString()
+        if (props.value) {
+          myvalue.value = props.value.toString()
+        }
       } else {
         if (rec) {
           if (props.funcgetvaluebyid)

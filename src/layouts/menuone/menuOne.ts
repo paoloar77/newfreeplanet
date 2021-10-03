@@ -24,7 +24,7 @@ export default defineComponent({
     const path = computed(() => route.path)
 
     function getmenu(): any {
-      console.log('getmenu menuOne!')
+      // console.log('getmenu menuOne!')
       return globalStore.getmenu
     }
 
@@ -40,7 +40,7 @@ export default defineComponent({
       const mymenu = globalStore.getmenu
       // console.log('watch:', mymenu)
       Object.keys(mymenu).forEach((parentName: any) => {
-        console.log('parentName', parentName)
+        // console.log('parentName', parentName)
         // @ts-ignore
         setParentVisibilityBasedOnRoute(mymenu[parentName])
       })

@@ -97,7 +97,7 @@
 
         <q-select
           v-if="tablesList"
-          :model-value="tablesel"
+          v-model="tablesel"
           rounded
           outlined
           dense

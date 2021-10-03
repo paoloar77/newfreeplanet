@@ -6,7 +6,7 @@
         rounded
         outlined
         :input-class="myclass"
-        v-model="myvalue"
+        :model-value="myvalue"
         :use-input="useinput"
         input-debounce="0"
         @new-value="newvaluefunc"
@@ -14,7 +14,7 @@
         :options="options"
         :option-value="optval"
         :option-label="optlab"
-        @input="changeval"
+        @update:model-value="changeval"
         :label="label"
         :dense="dense"
       >
@@ -27,11 +27,11 @@
         outlined
         :dense="dense"
         :input-class="myclass"
-        v-model="myvalue"
+        :model-value="myvalue"
         :options="options"
         :option-value="optval"
         :option-label="optlab"
-        @input="changeval"
+        @update:model-value="changeval"
         :label="label"
         emit-value
         map-options

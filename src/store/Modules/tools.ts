@@ -2288,29 +2288,29 @@ export const tools = {
     }
   },
 
-  getstrDateTimeEvent(mythis: any, myevent: IEvents, withhtml: boolean) {
+  getstrDateTimeEvent($t: any, myevent: IEvents, withhtml: boolean) {
     let mystr = ''
     // is same day?
     if (this.getstrDate(myevent.dateTimeStart) === this.getstrDate(myevent.dateTimeEnd)) {
       if (withhtml) {
         mystr += `<span class="cal__where-content">${this.getstrDateLong(myevent.dateTimeStart)}</span>
-                    <span class="cal__hours-content">${mythis.$t('cal.starttime')} ${this.getstrTime(myevent.dateTimeStart)}
-                    ${mythis.$t('cal.endtime')} ${this.getstrTime(myevent.dateTimeEnd)}`
+                    <span class="cal__hours-content">${$t('cal.starttime')} ${this.getstrTime(myevent.dateTimeStart)}
+                    ${$t('cal.endtime')} ${this.getstrTime(myevent.dateTimeEnd)}`
       } else {
         mystr = `${this.getstrDateLong(myevent.dateTimeStart)}
-                 ${mythis.$t('cal.starttime')} ${this.getstrTime(myevent.dateTimeStart)}
-                 ${mythis.$t('cal.endtime')} ${this.getstrTime(myevent.dateTimeEnd)}`
+                 ${$t('cal.starttime')} ${this.getstrTime(myevent.dateTimeStart)}
+                 ${$t('cal.endtime')} ${this.getstrTime(myevent.dateTimeEnd)}`
       }
     } else {
       mystr = `<span class="cal__where-content">${this.getstrDateLong(myevent.dateTimeStart)}</span>
-                 <span class="cal__hours-content">${mythis.$t('cal.starttime')} ${this.getstrTime(myevent.dateTimeStart)} </span>
-                  ${mythis.$t('cal.enddate')} ${this.getstrDateLong(myevent.dateTimeEnd)}
-                  <span class="cal__hours-content">${mythis.$t('cal.endtime')} ${this.getstrTime(myevent.dateTimeEnd)} </span>`
+                 <span class="cal__hours-content">${$t('cal.starttime')} ${this.getstrTime(myevent.dateTimeStart)} </span>
+                  ${$t('cal.enddate')} ${this.getstrDateLong(myevent.dateTimeEnd)}
+                  <span class="cal__hours-content">${$t('cal.endtime')} ${this.getstrTime(myevent.dateTimeEnd)} </span>`
     }
 
     if (myevent.infoextra) {
       mystr += `<span class="cal__hours">
-                  <span class="cal__hours-title">${mythis.$t('cal.hours')}: </span>
+                  <span class="cal__hours-title">${$t('cal.hours')}: </span>
                   <span class="cal__hours-content">${myevent.infoextra}  </span>
               </span>
             </span>`

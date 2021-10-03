@@ -4,6 +4,8 @@ import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 
+import { getCurrentInstance } from 'vue'
+
 export default defineComponent({
   name: '',
   props: {
@@ -34,6 +36,8 @@ export default defineComponent({
     const { t } = useI18n()
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
+
+    // const root = getCurrentInstance();  // same as ctx.root in component
 
     return {
 

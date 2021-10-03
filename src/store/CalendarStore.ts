@@ -1,5 +1,5 @@
 import { Api } from '@api'
-import { IBookedEvent, ICalendarState, IEvents } from 'model'
+import { IBookedEvent, ICalendarState, IEvents, IOperators } from 'model'
 
 import { serv_constants } from './Modules/serv_constants'
 import { tools } from './Modules/tools'
@@ -84,25 +84,6 @@ export const useCalendarStore = defineStore('CalendarStore', {
 
     },
 
-    getOperatorByUsername: (mystate: ICalendarState) => (username: string) => {
-      const ctrec = mystate.operators.find((rec) => rec.username === username)
-      return (ctrec)
-
-    },
-
-    getImgTeacherByUsername: (mystate: ICalendarState) => (username: string): string => {
-      if (username === '')
-        return ''
-      // Check if is this User!
-      // @ts-ignore
-      const myop = this.getOperatorByUsername(username)
-      if (myop && !!myop.img && myop.img !== '' && myop.img !== 'undefined') {
-        return myop.img
-      } else {
-        return ''
-      }
-    },
-
     getContribtypeById: (mystate: ICalendarState) => (id: string) => {
       const ctrec = mystate.contribtype.find((mycontr) => mycontr._id === id)
       return (ctrec) ? ctrec.label : ''
@@ -116,6 +97,23 @@ export const useCalendarStore = defineStore('CalendarStore', {
 
   },
   actions: {
+
+    getOperatorByUsername (username: string): IOperators | undefined {
+      const ctrec = this.operators.find((rec: IOperators) => rec.username === username)
+      return ctrec
+    },
+
+    getImgTeacherByUsername(username: string): string {
+      if (username === '')
+        return ''
+      // Check if is this User!
+      const myop = this.getOperatorByUsername(username)
+      if (myop && !!myop.img && myop.img !== '' && myop.img !== 'undefined') {
+        return myop.img
+      } else {
+        return ''
+      }
+    },
 
     getparambyevent(bookevent: IBookedEvent) {
       const userStore = useUserStore()
@@ -135,7 +133,7 @@ export const useCalendarStore = defineStore('CalendarStore', {
       }
     },
 
-    async BookEvent( bookevent: IBookedEvent) {
+    async BookEvent(bookevent: IBookedEvent) {
       console.log('BookEvent', bookevent)
 
       const param = this.getparambyevent(bookevent)
@@ -167,12 +165,20 @@ export const useCalendarStore = defineStore('CalendarStore', {
 
     },
 
-    async CancelEvent( { id }: { id: string }) {
+    async CancelEvent({ id }: {id: string}) {
       const globalStore = useGlobalStore()
       return globalStore.DeleteRec({ table: costanti.TABEVENTS, id })
     },
 
-    async CancelBookingEvent( { ideventbook, notify }: { ideventbook: string, notify: string }) {
+    intervalStart() {
+      return this.intervalRange.min * (1 / this.intervalRangeStep)
+    },
+
+    intervalCount() {
+      return (this.intervalRange.max - this.intervalRange.min) * (1 / this.intervalRangeStep)
+    },
+
+    async CancelBookingEvent({ ideventbook, notify }: {ideventbook: string, notify: string}) {
       console.log('CALSTORE: CancelBookingEvent', ideventbook, notify)
 
       return Api.SendReq('/booking/' + ideventbook + '/' + notify + '/' + process.env.APP_ID, 'DELETE', null)

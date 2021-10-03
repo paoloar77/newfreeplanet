@@ -59,7 +59,7 @@ export default function () {
     const userStore = useUserStore()
     const ris = userStore.getImgByUsername(userStore.my.username)
     const out = (ris !== '') ? `${ris}` : ''
-    console.log('getMyImg = ', out)
+    // console.log('getMyImg = ', out)
     return out
   }
 

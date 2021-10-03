@@ -1,21 +1,21 @@
 <template>
   <div>
     <CMyPage
-v-if="myevent" :imgbackground="myevent.img" :title="myevent.title" keywords="" description=""
-             nofooter="true">
+      v-if="myevent" :imgbackground="myevent.img" :title="myevent.title" keywords="" description=""
+      nofooter="true">
 
       <div class="q-mx-md">
         <div class="listaev__align_chips q-ma-md">
           <img
-:src="getImgEvent(myevent)"
-               @click="selectEvent(myevent)"
-               class="text-left padding_cell listaev__tdimg listaev__singleevimg cursor-pointer"
-               :style="getStyleByEvent(myevent, true)"
-               :alt="myevent.title">
+            :src="getImgEvent(myevent)"
+            @click="selectEvent(myevent)"
+            class="text-left padding_cell listaev__tdimg listaev__singleevimg cursor-pointer"
+            :style="getStyleByEvent(myevent, true)"
+            :alt="myevent.title">
           <q-chip
-dense v-if="isAlreadyBooked(myevent)" class="cltexth4 chipbooked shadow-5 q-mb-md"
-                  color="green" text-color="white"
-                  icon="event_available">{{ $t('cal.booked') }}
+            dense v-if="isAlreadyBooked(myevent)" class="cltexth4 chipbooked shadow-5 q-mb-md"
+            color="green" text-color="white"
+            icon="event_available">{{ $t('cal.booked') }}
           </q-chip>
           <div v-if="selected">
             <q-chip v-if="editable" class="text-center shadow-5 glossy bg-blue chipmodif">
@@ -38,27 +38,27 @@ dense v-if="isAlreadyBooked(myevent)" class="cltexth4 chipbooked shadow-5 q-mb-m
                 </q-menu>
               </q-btn>
               <q-btn
-v-if="editable" flat round color="white" icon="delete" v-close-popup
-                     @click="deleteEvent(myevent)"></q-btn>
+                v-if="editable" flat round color="white" icon="delete" v-close-popup
+                @click="deleteEvent(myevent)"></q-btn>
               <q-btn
-v-if="editable" flat round color="white" icon="edit" v-close-popup
-                     @click="editEvent(myevent)"></q-btn>
+                v-if="editable" flat round color="white" icon="edit" v-close-popup
+                @click="editEvent(myevent)"></q-btn>
               <q-btn
-v-if="editable" flat round color="white" icon="cancel"
-                     @click="selectEvent(null)"></q-btn>
+                v-if="editable" flat round color="white" icon="cancel"
+                @click="selectEvent(null)"></q-btn>
             </q-chip>
           </div>
           <q-chip
-v-if="myevent.news" class="cltexth4 chipnews shadow-5 glossy text-right" color="red"
-                  text-color="white" icon-right="star" icon="star" dense
-                  style="">
+            v-if="myevent.news" class="cltexth4 chipnews shadow-5 glossy text-right" color="red"
+            text-color="white" icon-right="star" icon="star" dense
+            style="">
             {{ $t('event.news') }}
           </q-chip>
 
         </div>
 
         <div class="listaev__date listaev__align_center_mobile">
-          <span v-html="tools.getstrDateTimeEvent(mythis, myevent, true)"></span>
+          <span v-html="tools.getstrDateTimeEvent($t, myevent, true)"></span>
         </div>
 
         <div class="listaev__align_center_mobile">
@@ -68,25 +68,25 @@ v-if="myevent.news" class="cltexth4 chipnews shadow-5 glossy text-right" color="
           <div class="q-pa-sm q-gutter-md text-center">
             <!-- Se c'è un link, allora -->
             <q-btn
-class="text-center boldhigh" v-if="myevent.linkpdf" size="md" type="a"
-                   :href="`../../public/` + myevent.linkpdf"
-                   target="_blank"
-                   ripple rounded :label="myevent.title"
-                   :color="myevent.bgcolor" text-color="white" glossy>
+              class="text-center boldhigh" v-if="myevent.linkpdf" size="md" type="a"
+              :href="`../../public/` + myevent.linkpdf"
+              target="_blank"
+              ripple rounded :label="myevent.title"
+              :color="myevent.bgcolor" text-color="white" glossy>
 
             </q-btn>
             <!-- altrimenti mostra solo Chip -->
             <div
-v-else-if="tools.isMobile()" class="cltexth3 text-center boldhigh"
-                 :style="`background-color: ${myevent.bgcolor} !important; color: white !important;`">
+              v-else-if="tools.isMobile()" class="cltexth3 text-center boldhigh"
+              :style="`background-color: ${myevent.bgcolor} !important; color: white !important;`">
               {{ myevent.title }}
             </div>
             <q-chip
-v-else class="cltexth3 text-center boldhigh"
-                    icon="bookmark"
-                    :style="`background-color: ${myevent.bgcolor} !important; color: white !important;`"
-                    text-color="white"
-                    dense>{{ myevent.title }}
+              v-else class="cltexth3 text-center boldhigh"
+              icon="bookmark"
+              :style="`background-color: ${myevent.bgcolor} !important; color: white !important;`"
+              text-color="white"
+              dense>{{ myevent.title }}
             </q-chip>
           </div>
 
@@ -121,8 +121,8 @@ v-else class="cltexth3 text-center boldhigh"
                                                   alt="località">
                                             </q-avatar>
                                             <q-avatar
-v-else color="blue" font-size="20px" text-color="white"
-                                                      icon="home">
+                                              v-else color="blue" font-size="20px" text-color="white"
+                                              icon="home">
                                             </q-avatar>
                                             <span
                                               class="cal__teacher-content">{{ getWhereName(myevent.wherecode) }}</span>
@@ -142,8 +142,8 @@ v-else color="blue" font-size="20px" text-color="white"
                                 </span>
 
             <q-chip
-v-if="myevent.price && isShowPrice(myevent)" class="glossy" color="orange"
-                    text-color="white" icon-right="star">
+              v-if="myevent.price && isShowPrice(myevent)" class="glossy" color="orange"
+              text-color="white" icon-right="star">
               <span class="cal__quota-content">{{ getPrice(myevent) }}</span>
             </q-chip>
           </div>
@@ -151,11 +151,11 @@ v-if="myevent.price && isShowPrice(myevent)" class="glossy" color="orange"
 
           <div class="row justify-start q-ma-md">
             <q-btn
-v-if="myevent.linkpdf"
-                   size="md" type="a" :href="`../../public/` + myevent.linkpdf"
-                   target="_blank" rounded outline
-                   color="primary" icon="info"
-                   :label="$t('cal.showpdf')">
+              v-if="myevent.linkpdf"
+              size="md" type="a" :href="`../../public/` + myevent.linkpdf"
+              target="_blank" rounded outline
+              color="primary" icon="info"
+              :label="$t('cal.showpdf')">
 
             </q-btn>
             <!--<q-btn v-if="myevent.bodytext" rounded outline class="q-mx-sm"
@@ -166,22 +166,22 @@ v-if="myevent.linkpdf"
           </div>
           <div class="row text-center">
             <q-btn
-rounded outline class="q-mx-sm"
-                   color="primary" @click="askForInfoEventMenu(myevent)"
-                   :label="$t('event.askinfo')">
+              rounded outline class="q-mx-sm"
+              color="primary" @click="askForInfoEventMenu(myevent)"
+              :label="$t('event.askinfo')">
             </q-btn>
             <q-btn
-rounded class="q-mx-sm"
-                   v-if="!myevent.nobookable && !isAlreadyBooked(myevent) && static_data.functionality.BOOKING_EVENTS"
-                   color="primary" @click="addBookEventMenu(myevent)"
-                   :label="$t('cal.booking')" :disable="!isEventEnabled(myevent)">
+              rounded class="q-mx-sm"
+              v-if="!myevent.nobookable && !isAlreadyBooked(myevent) && static_data.functionality.BOOKING_EVENTS"
+              color="primary" @click="addBookEventMenu(myevent)"
+              :label="$t('cal.booking')" :disable="!isEventEnabled(myevent)">
             </q-btn>
             <q-btn
-rounded outline class="q-mx-sm"
-                   v-if="!myevent.nobookable && isAlreadyBooked(myevent) && static_data.functionality.BOOKING_EVENTS"
-                   text-color="red"
-                   @click="EditBookEvent(myevent)"
-                   :label="$t('cal.modifybooking')">
+              rounded outline class="q-mx-sm"
+              v-if="!myevent.nobookable && isAlreadyBooked(myevent) && static_data.functionality.BOOKING_EVENTS"
+              text-color="red"
+              @click="EditBookEvent(myevent)"
+              :label="$t('cal.modifybooking')">
             </q-btn>
             <br>
             <!--

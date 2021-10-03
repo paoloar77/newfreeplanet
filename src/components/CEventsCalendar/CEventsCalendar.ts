@@ -1,29 +1,30 @@
-import { defineComponent, ref, computed, PropType, reactive, watch } from 'vue'
+import { defineComponent, ref, onMounted, onBeforeMount, computed, PropType, reactive, watch } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 import { colors, Screen, Platform, date } from 'quasar'
-import { static_data } from '@src/db/static_data'
-import translate from '@src/globalroutines/util'
-import { lists } from '@store/Modules/lists'
-import { EState, IBookedEvent, IBookedEventPage, IEvents, IMessage, IMessagePage, IOperators } from "model"
+import { EState, IBookedEvent, IBookedEventPage, IEvents, IMessage, IMessagePage } from '@model'
 import { Logo } from '../logo'
 import { Footer } from '../Footer'
 import { CTitle } from '../CTitle'
 import { CImgText } from '../CImgText'
 import { CMyEditor } from '../CMyEditor'
-import { CDateTime } from "@/components/CDateTime"
+import { CDateTime } from '@/components/CDateTime'
 import { CMyAvatar } from '../CMyAvatar'
-import { CMySingleEvent } from "@/components/CMySingleEvent"
-import { CMyTeacher } from "@/components/CMyTeacher"
+import { CMySingleEvent } from '@/components/CMySingleEvent'
+import { CMyTeacher } from '@/components/CMyTeacher'
 import { CMySelect } from '../CMySelect'
-import { tools } from "@store/Modules/tools"
-import { costanti } from "@costanti"
+import { tools } from '@store/Modules/tools'
+import { costanti } from '@costanti'
+
+// import { stop, prevent, stopAndPrevent } from 'quasar/src/utils/event'
 
 import MixinEvents from '../../mixins/mixin-events'
 import { useCalendarStore } from '@store/CalendarStore'
-import { toolsext } from "@store/Modules/toolsext"
+import { func_tools, toolsext } from '@store/Modules/toolsext'
+import { useMessageStore } from '@store/MessageStore'
+import { static_data } from '@/db/static_data'
 
 export default defineComponent({
   name: 'CEventsCalendar',
@@ -38,11 +39,6 @@ export default defineComponent({
       required: false,
       default: 0,
     },
-    mybool: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
   },
   components: {
     Logo,
@@ -54,20 +50,25 @@ export default defineComponent({
     CDateTime,
     CMyAvatar,
     CMySingleEvent,
-    CMyTeacher
+    CMyTeacher,
   },
-  setup(props, { emit, root }) {
+  setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
     const calendarStore = useCalendarStore()
+    const messageStore = useMessageStore()
+
+    const resources = ref([])
+
+    const calendar = ref(null)
 
     const calendarView = ref('month')
     const selectedDate = ref('')
     const tabeditor = ref('details')
     const showPrev = ref(false)
-    const formDefault = ref(<IEvents> {
+    const formDefault = ref(<IEvents>{
       title: '',
       details: '',
       bodytext: '',
@@ -77,7 +78,7 @@ export default defineComponent({
       bgcolor: '#839ff2'
     })
 
-    const formbookEventDefault = ref(<IBookedEvent> {
+    const formbookEventDefault = ref(<IBookedEvent>{
       userId: '',
       msgbooking: '',
       infoevent: '',
@@ -90,7 +91,7 @@ export default defineComponent({
       modified: false
     })
 
-    const formAskForDefault = ref(<IMessage> {
+    const formAskForDefault = ref(<IMessage>{
       dest: {
         idapp: process.env.APP_ID,
         username: ''
@@ -102,7 +103,7 @@ export default defineComponent({
       message: ''
     })
 
-    const dateFormatter = ref('')
+    const dateFormatter = ref(<any>void 0)
     const titleFormatter: any = ref(null)
 
     const keyValue = ref(0)
@@ -115,7 +116,7 @@ export default defineComponent({
       { label: 'Month', value: 'month' }
     ])
     const addEvent = ref(false)
-    const bookEventpage = ref(<IBookedEventPage> {
+    const bookEventpage = ref(<IBookedEventPage>{
       show: false,
       bookedevent: {
         userId: '',
@@ -128,7 +129,7 @@ export default defineComponent({
       state: EState.None
     })
 
-    const askInfopage = ref(<IMessagePage> {
+    const askInfopage = ref(<IMessagePage>{
       show: false,
       msg: {
         message: ''
@@ -136,21 +137,41 @@ export default defineComponent({
       state: EState.None
     })
 
-    const contextDay = ref(null)
-    const eventForm = ref(<IEvents>  { ...formDefault })
-    const bookEventForm = ref({ ...formbookEventDefault })
-    const askInfoForm = ref(<IMessage> { ...formAskForDefault })
+    const contextDay = ref(<any>null)
+    const eventForm = ref(<IEvents>{
+      title: '',
+      details: '',
+      bodytext: '',
+      dateTimeStart: tools.getstrYYMMDDDateTime(tools.getDateNow()),
+      dateTimeEnd: tools.getstrYYMMDDDateTime(tools.getDateNow()),
+      icon: '',
+      bgcolor: '#839ff2'
+    })
+    const bookEventForm = ref({ ...formbookEventDefault.value })
+    const askInfoForm = ref(<IMessage>{
+      dest: {
+        idapp: process.env.APP_ID,
+        username: ''
+      },
+      origin: {
+        idapp: process.env.APP_ID,
+        username: ''
+      },
+      message: ''
+    })
     const displayEvent = ref(false)
-    const myevent = ref(null)
+    const myevent = ref({})
     // const events = []
     const gmt = ''
     const dragging = ref(false)
-    const draggedEvent = ref(null)
+    const draggedEvent = ref(<IEvents>{})
     const ignoreNextSwipe = ref(false)
 
     const locale = computed(() => calendarStore.locale)
 
-    const { findEventIndex, UpdateDbByFields, isAlreadyBooked } = MixinEvents()
+    const { isShowPrice, getImgEvent, getStyleByEvent, isAlreadyBooked, getWhereIcon, getWhereName,
+      editable, getContribtypeById, getPrice, isEventEnabled, findEventIndex, UpdateDbByFields,
+    } = MixinEvents()
 
     function visuAllCal() {
       return props.mysingleevent === null
@@ -181,14 +202,6 @@ export default defineComponent({
       return calendarStore.theme
     }
 
-    function intervalStart() {
-      return calendarStore.intervalRange.min * (1 / calendarStore.intervalRangeStep)
-    }
-
-    function intervalCount() {
-      return (calendarStore.intervalRange.max - calendarStore.intervalRange.min) * (1 / calendarStore.intervalRangeStep)
-    }
-
     function containerStyle() {
       const styles = { height: '' }
       if (calendarView.value !== 'month' || (calendarView.value === 'month' && calendarStore.dayHeight === 0)) {
@@ -200,14 +213,21 @@ export default defineComponent({
     // convert the events into a map of lists keyed by date
     function eventsMap() {
       // console.log('eventsMap')
-      const map = {}
-      calendarStore.eventlist.forEach((myevent: IEvents) => (map[tools.getstrDateTime(myevent.dateTimeStart)] = map[tools.getstrDateTime(myevent.dateTimeStart)] || []).push(myevent))
+      const map: {} = {}
+      calendarStore.eventlist.forEach((myevent: IEvents) => {
+
+        const myind: string = tools.getstrDateTime(myevent.dateTimeStart)
+        // @ts-ignore
+        return (map[myind] = map[myind] || []).push(myevent)
+      })
       return map
     }
 
     function addOrUpdateEvent() {
-      if (contextDay.value && contextDay.value.bgcolor) {
-        return t('dialog.update')
+      if (contextDay.value) {
+        if (contextDay.value && contextDay.value.bgcolor) {
+          return t('dialog.update')
+        }
       }
       return t('dialog.add')
     }
@@ -259,9 +279,11 @@ export default defineComponent({
     })
 
     function mounted() {
-      root.$on('calendar:next', calendarNext)
-      root.$on('calendar:prev', calendarPrev)
-      root.$on('calendar:today', calendarToday)
+      /*if (root) {
+        root.$on('calendar:next', calendarNext)
+        root.$on('calendar:prev', calendarPrev)
+        root.$on('calendar:today', calendarToday)
+      }*/
 
       SetToday()
       // calendarStore.eventlist = events
@@ -279,9 +301,12 @@ export default defineComponent({
     }
 
     function beforeDestroy() {
+      /*
       root.$off('calendar:next', calendarNext)
       root.$off('calendar:prev', calendarPrev)
       root.$off('calendar:today', calendarToday)
+
+       */
     }
 
     function showEvent(eventparam: IEvents) {
@@ -293,7 +318,7 @@ export default defineComponent({
 
     function selectEvent(eventparam: IEvents) {
       if (myevent.value === eventparam)
-        myevent.value = null
+        myevent.value = {}
       else
         myevent.value = eventparam
 
@@ -312,19 +337,21 @@ export default defineComponent({
     }
 
     function resetForm() {
-      eventForm.value = { ...formDefault }
+      eventForm.value = { ...formDefault.value }
     }
 
     function addEventMenu(day: any) {
       console.log('addeventmenu', day)
-      if (calendarView.value === 'scheduler' || calendarView.value === 'week-scheduler' || calendarView.value === 'month-scheduler' || !editable.value) {
+      if (calendarView.value === 'scheduler' || calendarView.value === 'week-scheduler' || calendarView.value === 'month-scheduler' || !editable) {
         return
       }
       resetForm()
       contextDay.value = { ...day.scope }
 
-      eventForm.value.dateTimeStart.value = tools.getstrYYMMDDDateTime(day.scope.timestamp.date + ' 21:00:00')
-      eventForm.value.dateTimeEnd.value = tools.getstrYYMMDDDateTime(day.scope.timestamp.date + ' 22:00:00')
+      if (eventForm.value) {
+        eventForm.value.dateTimeStart = tools.getstrYYMMDDDateTime(day.scope.timestamp.date + ' 21:00:00')
+        eventForm.value.dateTimeEnd = tools.getstrYYMMDDDateTime(day.scope.timestamp.date + ' 22:00:00')
+      }
 
       console.log('eventForm', eventForm)
 
@@ -350,14 +377,14 @@ export default defineComponent({
         bookEventForm.value.numpeopleDinner = 0
         bookEventForm.value.numpeopleDinnerShared = 0
         bookEventForm.value.booked = true
-        bookEventpage = EState.Creating
+        bookEventpage.value.state = EState.Creating
 
-        displayEvent = false
+        displayEvent.value = false
         bookEventpage.value.show = true // show dialog
       }
     }
 
-    function askForInfoEventMenu(eventparam) {
+    function askForInfoEventMenu(eventparam: any) {
       if (!userStore.isLogged || !userStore.my.verified_email) {
         // Visu right Toolbar to make SignIn
         globalStore.rightDrawerOpen = true
@@ -368,7 +395,7 @@ export default defineComponent({
         // $router.push('/signin')
       } else {
         console.log('askForInfoEventMenu')
-        askInfoForm.value = { ...formAskForDefault }
+        askInfoForm.value = { ...formAskForDefault.value }
 
         myevent.value = eventparam
 
@@ -376,7 +403,7 @@ export default defineComponent({
           message: ''
         }
 
-        askInfopage.value = EState.Creating
+        askInfopage.value.state = EState.Creating
 
         displayEvent.value = false
         askInfopage.value.show = true // show dialog
@@ -414,9 +441,9 @@ export default defineComponent({
       tools.CancelEvent($q, eventparam)
     }
 
-    function duplicateEvent(eventparam, numgg, numev = 1) {
+    function duplicateEvent(eventparam: any, numgg: number, numev = 1) {
       for (let i = 0; i < numev; ++i) {
-        globalStore.DuplicateRec({ table: tools.TABEVENTS, id: eventparam._id }).then((rec) => {
+        globalStore.DuplicateRec({ table: costanti.TABEVENTS, id: eventparam._id }).then((rec) => {
           if (rec) {
             rec.dateTimeStart = tools.addDays(new Date(rec.dateTimeStart), numgg * (i + 1))
             rec.dateTimeEnd = tools.addDays(new Date(rec.dateTimeEnd), numgg * (i + 1))
@@ -425,12 +452,12 @@ export default defineComponent({
           }
         })
       }
-      // tools.ActionRecTable(this, lists.MenuAction.DUPLICATE_RECTABLE, tools.TABEVENTS, eventparam._id, eventparam, 'db.duplicatedrecord')
+      // tools.ActionRecTable(this, lists.MenuAction.DUPLICATE_RECTABLE, costanti.TABEVENTS, eventparam._id, eventparam, 'db.duplicatedrecord')
     }
 
 
     function formatDate(mydate: any) {
-      let d = void 0
+      let d: any = void 0
 
       if (mydate !== void 0) {
         d = new Date(mydate)
@@ -444,7 +471,7 @@ export default defineComponent({
       return [year, tools.padTime(month), tools.padTime(day)].join('-')
     }
 
-    function formatTime(mydate) {
+    function formatTime(mydate: any) {
       const d = mydate !== void 0 ? new Date(mydate) : new Date(),
         hours = '' + d.getHours(),
         minutes = '' + d.getMinutes()
@@ -452,7 +479,7 @@ export default defineComponent({
       return [tools.padTime(hours), tools.padTime(minutes)].join(':')
     }
 
-    function getDuration(dateTimeStart, dateTimeEnd, unit) {
+    function getDuration(dateTimeStart: Date, dateTimeEnd: Date, unit: any) {
       const start = new Date(dateTimeStart)
       const end = new Date(dateTimeEnd)
       const diff = date.getDateDiff(end, start, unit)
@@ -460,35 +487,34 @@ export default defineComponent({
     }
 
     function saveEvent() {
-      const self = this
 
       // ++Todo VALIDATE $refs.myevent
 
       if (true) {
         // close the dialog
-        self.addEvent = false
-        const form = { ...self.eventForm }
+        addEvent.value = false
+        const form = { ...eventForm.value }
         let update = false
-        if (self.contextDay._id) {
+        if (contextDay.value._id) {
           // an update
           update = true
         } else {
           // an add
         }
-        const data = { ...form }
+        const data: any = { ...form }
 
         // ++Save into the Database
         const mydatatosave = {
           id: data._id,
-          table: tools.TABEVENTS,
+          table: costanti.TABEVENTS,
           fieldsvalue: data
         }
 
-        if (update === true) {
+        if (update) {
           UpdateDbByFields($q, data, true, contextDay.value)
         } else {
           const mydataadd = {
-            table: tools.TABEVENTS,
+            table: costanti.TABEVENTS,
             data
           }
 
@@ -496,8 +522,8 @@ export default defineComponent({
             if (record) {
               tools.showPositiveNotif($q, t('db.recupdated'))
 
-              if (update === true) {
-                const index = self.findEventIndex(self.contextDay)
+              if (update) {
+                const index = findEventIndex(contextDay)
                 if (index >= 0) {
                   // @ts-ignore
                   calendarStore.eventlist.splice(index, 1, { ...data })
@@ -512,22 +538,22 @@ export default defineComponent({
             } else {
               tools.showNegativeNotif($q, t('db.recfailed'))
               // Undo...
-              const index = self.findEventIndex(self.contextDay)
+              const index = findEventIndex(contextDay)
               if (index >= 0) {
                 // @ts-ignore
-                calendarStore.eventlist.splice(index, 1, { ...self.contextDay })
+                calendarStore.eventlist.splice(index, 1, { ...contextDay })
               }
             }
           })
         }
 
-        self.contextDay = null
+        contextDay.value = null
       }
     }
 
     function EditBookEvent(myevent: IEvents) {
-      myevent = myevent
-      const bookedevent = calendarStore.getters.findEventBooked(myevent, false)
+
+      const bookedevent: any = calendarStore.findEventBooked(myevent, false)
 
       console.log('bookedevent', bookedevent)
 
@@ -543,33 +569,32 @@ export default defineComponent({
         bookEventForm.value.datebooked = bookedevent.datebooked
       }
 
-      bookEventpage = EState.Modifying
+      bookEventpage.value.state = EState.Modifying
       bookEventpage.value.bookedevent = bookedevent
       bookEventpage.value.show = true
     }
 
     function sendMsg(myevent: IEvents) {
-      const self = this
-      askInfopage.show = false
+      askInfopage.value.show = false
 
       const data: IMessage = {
         source: {
           event_id: myevent._id,
-          infoevent: tools.gettextevent(this, myevent)
+          infoevent: tools.gettextevent(myevent)
         },
         dest: {
           idapp: process.env.APP_ID,
           username: myevent.teacher
         },
-        message: askInfoForm.message
+        message: askInfoForm.value.message
       }
 
-      MessageStore.SendMsgEvent(data).then((ris) => {
-        self.contextDay = null
+      messageStore.SendMsgEvent(data).then((ris) => {
+        contextDay.value = null
         if (ris)
-          tools.showPositiveNotif(self.$q, self.t('cal.sendmsg_sent'))
+          tools.showPositiveNotif($q, t('cal.sendmsg_sent'))
         else
-          tools.showNegativeNotif(self.$q, self.t('cal.sendmsg_error'))
+          tools.showNegativeNotif($q, t('cal.sendmsg_error'))
       })
 
     }
@@ -594,7 +619,7 @@ export default defineComponent({
           msgbooking: bookEventForm.value.msgbooking,
           booked: bookEventForm.value.booked,
           datebooked: tools.getDateNow(),
-          modified: (bookEventpage.value !== EState.Creating)
+          modified: (bookEventpage.value.state !== EState.Creating)
         }
 
         BookEvent(data).then((ris) => {
@@ -641,37 +666,33 @@ export default defineComponent({
       }
     }
 
-    function handleSwipe({ evt, ...info }) {
-      if (dragging.value === false) {
-        if (info.dur >= 30 && ignoreNextSwipe.value === false) {
-          if (info.direction === 'right') {
-            calendarPrev()
-          } else if (info.direction === 'left') {
-            calendarNext()
-          }
-        } else {
-          ignoreNextSwipe.value = false
-        }
-      }
-      stopAndPrevent(evt)
-    }
-
-    function onDragEnter(ev: any, eventparam) {
+    function onDragEnter(ev: any, eventparam: any) {
+      /*
       prevent(ev)
+
+       */
     }
 
-    function onDragStart(ev, eventparam) {
+    function onDragStart(ev: any, eventparam: any) {
       dragging.value = true
       draggedEvent.value = eventparam
+      /*
       stop(ev)
+
+       */
     }
 
-    function onDragEnd(ev, eventparam) {
+
+    function onDragEnd(ev: any, eventparam: any) {
+      /*
       stopAndPrevent(ev)
       resetDrag()
+
+       */
     }
 
-    function onDragOver(ev, day, type) {
+    function onDragOver(ev: any, day: any, type: any) {
+      /*
       if (type === 'day') {
         stopAndPrevent(ev)
         return draggedEvent.value.dateTimeStart !== day.dateTimeStart
@@ -679,29 +700,34 @@ export default defineComponent({
         stopAndPrevent(ev)
         // return draggedEvent.value.date !== day.date && draggedEvent.value.time !== day.time
         return draggedEvent.value.dateTimeStart !== day.dateTimeStart
-      }
+      }*/
+
     }
 
-    function onDrop(ev, day, type) {
+    function onDrop(ev: any, day: any, type: any) {
       ev.preventDefault()
       ev.stopPropagation()
       console.log('day.dateTimeStart', day.dateTimeStart, day.date, 'day.time', day.time)
       if (type === 'day') {
+        // @ts-ignore
         draggedEvent.value.dateTimeStart = day.date + ' ' + tools.getstrTime(draggedEvent.value.dateTimeStart)
+        // @ts-ignore
         draggedEvent.value.dateTimeEnd = day.date + ' ' + tools.getstrTime(draggedEvent.value.dateTimeEnd)
         draggedEvent.value.side = void 0
       } else if (type === 'interval') {
         const mins = date.getDateDiff(draggedEvent.value.dateTimeEnd, draggedEvent.value.dateTimeStart, 'minutes')
+        // @ts-ignore
         draggedEvent.value.dateTimeStart = day.date + ' ' + day.time
+        // @ts-ignore
         const mystart = new Date(draggedEvent.value.dateTimeStart)
         draggedEvent.value.dateTimeEnd = tools.addMinutes(mystart, mins)
         // draggedEvent.value.dateTimeEnd = day.dateTimeEnd
         // draggedEvent.value.time = day.time
         draggedEvent.value.side = void 0
       }
-      // console.log('Start', draggedEvent.value.dateTimeStart, 'End', draggedEvent.value.dateTimeEnd)
+// console.log('Start', draggedEvent.value.dateTimeStart, 'End', draggedEvent.value.dateTimeEnd)
 
-      // Save Date
+// Save Date
       UpdateDbByFields($q, {
         _id: draggedEvent.value._id,
         dateTimeStart: draggedEvent.value.dateTimeStart,
@@ -711,33 +737,33 @@ export default defineComponent({
     }
 
     function resetDrag() {
+// @ts-ignore
       draggedEvent.value = void 0
       dragging.value = false
       if (Platform.is.desktop) {
-        ignoreNextSwipe = true
+        ignoreNextSwipe.value = true
       }
     }
 
-    async function BookEvent(eventparam: IBookedEvent)
-    {
+    async function BookEvent(eventparam: IBookedEvent) {
       return await calendarStore.BookEvent(eventparam)
     }
 
-    function createContribType(value) {
+    function createContribType(value: any) {
       console.log('createContribType', value)
-      tools.createNewRecord(this, 'contribtype', { label: value }).then((myrec) => {
+      tools.createNewRecord($q, 'contribtype', { label: value }).then((myrec) => {
         // console.log('myrec')
         calendarStore.contribtype.push(myrec)
       })
     }
 
-    function getEventDate(eventparam) {
+    function getEventDate(eventparam: any) {
       const parts = eventparam.dateTimeStart.split('-')
       const mydate = new Date(parts[0], parts[1] - 1, parts[2])
-      return dateFormatter.format(mydate)
+      return dateFormatter.value.format(mydate)
     }
 
-    function badgeClasses(eventparam, type) {
+    function badgeClasses(eventparam: any, type: any) {
       const cssColor = tools.isCssColor(eventparam.bgcolor)
       const isHeader = type === 'header'
       return {
@@ -748,8 +774,8 @@ export default defineComponent({
       }
     }
 
-    function badgeStyles(eventparam, type, timeStartPos, timeDurationHeight) {
-      const s = { color: '', top: '', height: '', opacity: 1 }
+    function badgeStyles(eventparam: any, type: any, timeStartPos: any, timeDurationHeight: any) {
+      const s = { color: '', top: '', height: '', opacity: 1, 'background-color': 'black', 'align-items': '' }
 
       if (tools.isCssColor(eventparam.bgcolor)) {
         s['background-color'] = eventparam.bgcolor
@@ -771,34 +797,36 @@ export default defineComponent({
     }
 
     function calendarNext() {
-      $refs.calendar.next()
+// @ts-ignore
+      calendar.value.next()
     }
 
     function calendarPrev() {
-      $refs.calendar.prev()
+// @ts-ignore
+      calendar.value.prev()
     }
 
-    function calendarToday(today) {
-      selectedDate = today
+    function calendarToday(today: any) {
+      selectedDate.value = today
     }
 
     function SetToday() {
-      root.$emit('calendar:today', formatDate(tools.getDateNow()))
+// root.$emit('calendar:today', formatDate(tools.getDateNow()))
     }
 
-    function onChanged(data) {
-      // uncomment to see data in console
-      // let { start, end } = data
-      // console.log('onChanged:', start, end)
+    function onChanged(data: any) {
+// uncomment to see data in console
+// let { start, end } = data
+// console.log('onChanged:', start, end)
     }
 
-    function onMoved(moved) {
-      // uncomment to see data in console
-      // console.log('onMoved:', moved)
+    function onMoved(moved: any) {
+// uncomment to see data in console
+// console.log('onMoved:', moved)
     }
 
     function getEventList() {
-      const mylist = calendarStore.eventlist.filter((rec) => (new Date(rec.dateTimeEnd) >= tools.getDateNowEvent()))
+      const mylist = calendarStore.eventlist.filter((rec: IEvents) => (new Date(rec.dateTimeEnd!) >= tools.getDateNowEvent()))
       if (props.showfirstN > 0)
         return mylist.slice(0, props.showfirstN)
       else
@@ -807,7 +835,6 @@ export default defineComponent({
 
     function getEvents(dt: any) {
       const eventsloc = []
-      // console.log('dt', dt)
 
       for (let i = 0; i < calendarStore.eventlist.length; ++i) {
         let added = false
@@ -840,18 +867,9 @@ export default defineComponent({
           }
         }
       }
-      // if (eventsloc.length > 0)
-      // console.log('eventsloc', eventsloc)
+// if (eventsloc.length > 0)
+// console.log('eventsloc', eventsloc)
       return eventsloc
-    }
-
-    function isEventEnabled(myevent: IEvents) {
-      // check if event is in the past
-      const datenow = tools.addDays(tools.getDateNow(), -1)
-
-      // console.log('datenow', datenow, 'end', myevent.dateTimeEnd)
-
-      return (new Date(myevent.dateTimeEnd) >= datenow)
     }
 
     function getTitleEv(event: IEvents) {
@@ -862,14 +880,14 @@ export default defineComponent({
       return event.title
     }
 
+    onMounted(mounted)
+    onBeforeMount(beforeMount)
 
     return {
       calendarView,
       selectedDate,
       tabeditor,
       showPrev,
-
-
       keyValue,
       weekdays,
       addEvent,
@@ -886,6 +904,64 @@ export default defineComponent({
       visuAllCal,
       title_cal,
       calendarStore,
+      eventsMap,
+      addOrUpdateEvent,
+      sendMsg,
+      calendar,
+      getEventList,
+      getEvents,
+      getTitleEv,
+      getLongTitleEv,
+      onChanged,
+      onMoved,
+      dayHeight,
+      theme,
+      containerStyle,
+      scrollerPopupStyle160,
+      hasModifiedBooking,
+      checkseinviaMsg,
+      getTitleBtnBooking,
+      onDragOver,
+      onDragEnd,
+      onDragStart,
+      onDragEnter,
+      adjustTimestamp,
+      saveBookEvent,
+      EditBookEvent,
+      saveEvent,
+      onDrop,
+      resourceDayClicked,
+      resourceClicked,
+      onDateChanged,
+      selectEvent,
+      showEvent,
+      addEventMenu,
+      addBookEventMenu,
+      askForInfoEventMenu,
+      clEvent,
+      deleteEvent,
+      duplicateEvent,
+      resources,
+      calendarPrev,
+      calendarNext,
+      badgeClasses,
+      badgeStyles,
+      tools,
+      globalStore,
+      getImgEvent,
+      getStyleByEvent,
+      isAlreadyBooked,
+      getWhereIcon,
+      getWhereName,
+      editable,
+      getContribtypeById,
+      getPrice,
+      isShowPrice,
+      isEventEnabled,
+      findEventIndex,
+      createContribType,
+      static_data,
+      editEvent,
     }
   }
 })

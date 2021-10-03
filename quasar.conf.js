@@ -42,6 +42,7 @@ module.exports = configure((ctx) => ({
   // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
   css: [
     'app.scss',
+    // '~quasar-ui-qcalendar/src/css/calendar-day.sass'
   ],
 
   // https://github.com/quasarframework/quasar/tree/dev/extras
@@ -88,6 +89,10 @@ module.exports = configure((ctx) => ({
     vueCompiler: true,
     gzip: false, // gzip true
     analyze: false, // true
+    transpile: true,
+    transpileDependencies: [
+      /quasar-ui-qcalendar[\\/]src/
+    ],
 
     chainWebpack(chain, { isServer, isClient }) {
       chain.resolve.alias

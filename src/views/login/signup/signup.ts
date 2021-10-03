@@ -10,15 +10,15 @@ export default defineComponent({
   components: { CSignUp },
   props: {},
   setup() {
-    const route = useRoute()
+    const $route = useRoute()
 
     const adult = ref(false)
-    const invited = computed(() => route.params.invited)
+    const invited = computed(() => $route.params.invited)
 
     // @ts-ignore
     watch(invited, (newval, oldval) => {
       console.log('$route.params.invited')
-      adult.value = !!route.params.invited
+      adult.value = !!$route.params.invited
     })
 
     function created() {

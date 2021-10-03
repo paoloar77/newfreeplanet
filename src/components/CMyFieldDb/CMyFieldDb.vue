@@ -164,7 +164,7 @@
                 label="Ore" v-model:value="myvalue"
                 optval="_id" optlab="label"
                 :useinput="false"
-                o :options="tools.SelectHours">
+                :options="tools.SelectHours">
               </CMySelect>
             </div>
             <div v-else-if="type === costanti.FieldType.binary">

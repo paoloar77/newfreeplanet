@@ -451,6 +451,37 @@ const baseroutes: IListRoutes[] = [
     isseparator: true,
     inmenu: true,
   },
+  {
+    active: true,
+    order: 80,
+    path: '/calendario-eventi',
+    materialIcon: 'event',
+    name: 'pages.calendarioeventi',
+    component: () => import('@/root/calendarioeventi/calendarioeventi.vue'),
+    extraclass: 'isCalendar',
+    inmenu: true,
+    infooter: true
+  },
+  {
+    active: true,
+    order: 90,
+    path: '/event/:typol/:eventid',
+    materialIcon: 'event',
+    name: 'pages.evento',
+    component: () => import('@/root/evento/evento.vue'),
+    inmenu: false,
+    infooter: false
+  },
+  {
+    active: true,
+    order: 110,
+    path: '/event/:typol',
+    materialIcon: 'event',
+    name: 'pages.eventodef',
+    component: () => import('@/root/evento/evento.vue'),
+    inmenu: false,
+    infooter: false
+  },
 
 ]
 
