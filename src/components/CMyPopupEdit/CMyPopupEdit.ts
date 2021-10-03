@@ -170,7 +170,7 @@ export default defineComponent({
 
     function SaveValueInt(newVal: any, valinitial: any) {
 
-      console.log('SaveValueInt', newVal, valinitial)
+      // console.log('SaveValueInt', newVal, valinitial)
 
       // Update value in table memory
       if (props.subfield !== '') {
@@ -282,7 +282,7 @@ export default defineComponent({
 
     function getclassCol(col: any) {
       if (col) {
-        let mycl = (props.col.disable || isviewfield) ? '' : 'colmodif'
+        let mycl = (props.col.disable || isviewfield()) ? '' : 'colmodif'
         mycl += ((props.col.fieldtype === costanti.FieldType.date) || (props.col.fieldtype === costanti.FieldType.onlydate)) ? ' coldate flex flex-container' : ''
 
         return mycl

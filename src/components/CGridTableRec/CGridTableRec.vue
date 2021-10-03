@@ -4,7 +4,7 @@
       <q-btn
         v-if="mytable && visButtRow()" rounded dense color="primary"
         size="lg"
-        :label="getlabelAddRow"
+        :label="getlabelAddRow()"
         @click="createNewRecordDialog"></q-btn>
     </div>
 
@@ -127,7 +127,6 @@
       </template>
 
       <template v-slot:body="props">
-
         <q-tr :props="props" class="trclass">
           <q-td auto-width class="tdclass">
             <q-checkbox dense v-model="props.selected"></q-checkbox>
@@ -167,6 +166,7 @@
             </div>
           </q-td>
         </q-tr>
+        <br>
       </template>
 
       <!--

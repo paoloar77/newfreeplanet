@@ -348,7 +348,7 @@ export default defineComponent({
     }
 
     function SaveValdb(newVal: any, valinitial: any) {
-      // console.log('SaveValdb', newVal)
+      console.log('SaveValdb', newVal)
       // console.log('SaveValue', newVal, 'rowsel', rowsel)
 
       colsel.value = colclicksel.value
@@ -359,7 +359,7 @@ export default defineComponent({
 
 
     function showandsel(row: any, col: any, newval: any, valinitial: any) {
-      // console.log('showandsel', row, col, newval)
+      console.log('showandsel', row, col, newval)
       rowsel = row
       colsel.value = col
       idsel = row._id
@@ -377,7 +377,7 @@ export default defineComponent({
     }
 
     function SaveValue(newVal: any, valinitial: any) {
-      console.log('SaveValue', newVal, 'rowsel', rowsel, 'colsel', colsel.value)
+      // console.log('SaveValue', newVal, 'rowsel', rowsel, 'colsel', colsel.value)
 
       if (colsel.value) {
         // Update value in table memory

@@ -93,6 +93,7 @@ const msg_website_it = {
     ecommerce: 'Prodotti',
     ecommerce_menu: 'ECommerce1',
     hours: 'Ore',
+    department: 'Uffici'
   },
   msg: {
     myAppName: 'FreePlanet',

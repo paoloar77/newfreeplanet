@@ -186,7 +186,7 @@
                 </CDateTime>
             </span>
         <span v-else-if="col.fieldtype === costanti.FieldType.onlydate">
-          Data4:
+
                 <CDateTime
                   :label="col.label"
                   class="cursor-pointer"
@@ -263,7 +263,7 @@
               v-if="canEdit && col.fieldtype !== costanti.FieldType.html"
               v-model="myvalue"
               :disable="col.disable"
-              :title="col.title"
+              :title="col.title ? col.title : col.titlepopupedit"
               buttons
               persistent
               @save="SaveValueInt"
@@ -271,7 +271,6 @@
               v-slot="scope">
 
               <div v-if="col.fieldtype === costanti.FieldType.boolean">
-                Boolean:
                 <q-checkbox v-model="scope.value" :label="col.title">
                 </q-checkbox>
                 {{ visuValByType(myvalue, col, row) }}
@@ -309,10 +308,11 @@
                 </q-input>
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.binary">
+
                 <CMyToggleList
-                  :label="col.title"
+                  :label="col.titlepopupedit"
                   :options="globalStore.getTableJoinByName(col.jointable)"
-                  v-model:value="myvalue"
+                  v-model:value="scope.value"
                   :optval="fieldsTable.getKeyByTable(col.jointable)"
                   :optlab="fieldsTable.getLabelByTable(col.jointable)">
                 </CMyToggleList>
@@ -320,7 +320,7 @@
               <div v-else-if="col.fieldtype === costanti.FieldType.select">
                 <CMySelect
                   :label="col.title"
-                  v-model:value="myvalue"
+                  v-model:value="scope.value"
                   :optval="fieldsTable.getKeyByTable(col.jointable)"
                   :optlab="fieldsTable.getLabelByTable(col.jointable)"
                   :options="globalStore.getTableJoinByName(col.jointable)"
@@ -339,7 +339,7 @@
                     <template v-slot:prepend>
                       <div style="font-size: 1rem;">
                         <!--<vue-country-code
-                          :defaultCountry="myvalue"
+                          :defaultCountry="scope.value"
                           :disabledFetchingCountry="true"
                           @onSelect="selectcountry"
                           :preferredCountries="tools.getprefCountries"
@@ -358,7 +358,7 @@
 
 <!--                <vue-tel-input
                   @country-changed="intcode_change"
-                  :value="myvalue"
+                  :value="scope.value"
                   @input="oninput"
                   :placeholder="$t('reg.cell')"
                   :enabledCountryCode="true"

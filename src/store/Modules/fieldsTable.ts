@@ -895,7 +895,7 @@ export const fieldsTable = {
     AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
     // AddCol({ name: 'idapp', label_trans: 'reg.idapp', fieldtype: costanti.FieldType.string }),
     AddCol({
-      name: 'perm', label_trans: 'reg.perm', fieldtype: costanti.FieldType.binary, jointable: 'permissions',
+      name: 'perm', label_trans: 'reg.perm', fieldtype: costanti.FieldType.binary, jointable: 'permissions', titlepopupedit: 'Permessi'
     }),
     AddCol({ name: 'ipaddr', label_trans: 'reg.ipaddr' }),
     AddCol(DeleteRec),
@@ -1061,7 +1061,7 @@ export const fieldsTable = {
     AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
     // AddCol({ name: 'idapp', label_trans: 'reg.idapp', fieldtype: costanti.FieldType.string }),
     AddCol({
-      name: 'perm', label_trans: 'reg.perm', fieldtype: costanti.FieldType.binary, jointable: 'permissions',
+      name: 'perm', label_trans: 'reg.perm', fieldtype: costanti.FieldType.binary, jointable: 'permissions', titlepopupedit: 'Permessi'
     }),
     AddCol({ name: 'ipaddr', label_trans: 'reg.ipaddr' }),
     AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
