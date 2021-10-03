@@ -19,14 +19,16 @@ export default defineComponent({
     const { setmeta } = MixinMetaTags()
 
     async function created() {
-      console.log('MyPage created')
       rec.value = await globalStore.loadPage(route.path)
+      // console.log('MyPage created', rec.value)
 
       // console.log('mounted', this.rec)
     }
 
     watch(path, async (to: string, from: string) =>  {
+      // console.log('watch path', path)
       rec.value = await globalStore.loadPage(to)
+      // console.log('path change', rec.value)
     })
 
     function meta() {

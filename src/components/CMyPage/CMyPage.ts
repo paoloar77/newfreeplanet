@@ -1,5 +1,5 @@
 import {
-  defineComponent, onMounted, ref, toRef,
+  defineComponent, onMounted, ref, toRef, watch,
 } from 'vue'
 
 import { IMyPage } from '@src/model'
@@ -53,9 +53,18 @@ export default defineComponent({
     const globalStore = useGlobalStore()
 
     const load = async (): Promise<void> => {
-      if (mypath.value !== '') rec.value = await globalStore.loadPage(mypath.value)
+      // console.log('load', mypath.value)
+      if (mypath.value !== '') rec.value = await globalStore.loadPage('/'+mypath.value)
     }
-    onMounted(load)
+
+    watch(() => props.mypath, async (to: string, from: string) =>  {
+      // console.log('load', mypath.value)
+      if (mypath.value !== '') rec.value = await globalStore.loadPage('/'+mypath.value)
+    })
+
+    // onMounted(load)
+
+    load()
 
     return { rec }
   },

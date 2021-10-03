@@ -204,7 +204,7 @@ export default defineComponent({
       },
     })
 
-    watch(
+    watch(() =>
       stateconn,
       // @ts-ignore
       (value: string, oldValue: string) => {

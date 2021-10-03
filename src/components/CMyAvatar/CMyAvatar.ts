@@ -34,8 +34,8 @@ export default defineComponent({
       // console.log('myimgint', this.myimgint)
     }
 
-    watch(
-      imgprofile,
+    watch(() =>
+        imgprofile,
       // @ts-ignore
       (value: string, oldValue: string) => {
         userStore.my.profile.img = value
@@ -44,8 +44,10 @@ export default defineComponent({
     )
 
 
-    watch(
-      myimgvar, (value: string, oldValue: string) => {
+    watch(() =>
+        myimgvar,
+      // @ts-ignore
+      (value: string, oldValue: string) => {
         myimgint.value = ''
         refresh()
       },

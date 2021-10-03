@@ -31,7 +31,7 @@ export default defineComponent({
       return getOperatorByUsername(props.username)
     })
 
-    watch(showuserdetails, (value: any, old: any) => {
+    watch(() => showuserdetails, (value: any, old: any) => {
       if (!showuserdetails.value) {
         globalStore.autoplaydisc = autoplaydiscsaved.value
       }
