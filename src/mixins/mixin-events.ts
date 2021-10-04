@@ -11,7 +11,7 @@ import { useI18n } from '@/boot/i18n'
 // You can declare a mixin as the same style as components.
 export default function () {
   function getImgEvent(event: IEvents) {
-    if (!!event.img)
+    if (event && !!event.img)
       return event.img
     else
       return 'images/noimg.png'

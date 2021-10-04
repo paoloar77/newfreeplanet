@@ -14,7 +14,7 @@
         v-model="signup.email"
         rounded outlined
         @blur="v$.email.$touch"
-        @input="changeemail()"
+        @update:model-value="changeemail()"
         :error="v$.email.$error"
         :error-message="tools.errorMsg( 'email', v$.email)"
         maxlength="50"
@@ -31,7 +31,7 @@
         v-model="signup.username"
         rounded outlined
         @blur="v$.username.$touch"
-        @input="changeusername"
+        @update:model-value="changeusername"
         :error="v$.username.$error"
         @keydown.space="(event) => event.preventDefault()"
         maxlength="20"

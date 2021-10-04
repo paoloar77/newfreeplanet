@@ -7,7 +7,7 @@
             v-model="myvalue"
             autogrow
             @keyup.enter.stop
-            @input="changevalRec"
+            @update:model-value="changevalRec"
             autofocus
             :label="col.label">
           </q-input>
@@ -20,7 +20,7 @@
             :readonly="false"
             :minuteinterval="minuteinterval"
             :dense="true"
-            @input="changevalRec"
+            @update:model-value="changevalRec"
             canEdit="true"
             @savetoclose="SaveValueInt"
             @show="OpenEdit">
@@ -34,7 +34,7 @@
             :readonly="false"
             :minuteinterval="minuteinterval"
             :dense="true"
-            @input="changevalRec"
+            @update:model-value="changevalRec"
             canEdit="true"
             @savetoclose="SaveValueInt"
             @show="OpenEdit"
@@ -45,7 +45,7 @@
           <q-input
             v-model="myvalue" type="number"
             autofocus
-            @input="changevalRec"
+            @update:model-value="changevalRec"
             :label="col.label"
           >
 
@@ -56,7 +56,7 @@
             <q-input
               v-model="myvalue" type="number"
               autofocus
-              @input="changevalRec"
+              @update:model-value="changevalRec"
               style="max-width: 100px;"
               :label="col.label"
             >
@@ -76,7 +76,7 @@
 
           <!--<q-input v-model="myvalue" type="number"
                    autofocus
-                   @input="changevalRec"
+                   @update:model-value="changevalRec"
                    :label="col.label">
           </q-input>
           -->
@@ -86,7 +86,7 @@
           <CGallery
             :gall="row" :listimages="myvalue" :edit="isviewfield()"
             @showandsave="Savedb"
-            @input="changevalRec"
+            @update:model-value="changevalRec"
           >
 
           </CGallery>
@@ -94,7 +94,7 @@
         <div v-else-if="col.fieldtype === costanti.FieldType.image">
           <CGallery
             :gall="row" :listimages="myvalue" :edit="isviewfield()"
-            @input="changevalRec"
+            @update:model-value="changevalRec"
             @showandsave="Savedb">
 
           </CGallery>
@@ -103,7 +103,7 @@
           <CMyChipList
             :type="costanti.FieldType.binary"
             :value="myvalue"
-            @input="changevalRec"
+            @update:model-value="changevalRec"
             :options="globalStore.getTableJoinByName(col.jointable)"
             :optval="fieldsTable.getKeyByTable(col.jointable)"
             :optlab="fieldsTable.getLabelByTable(col.jointable)"
@@ -112,7 +112,7 @@
         <!-- Show Value -->
         <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
           <CMyChipList
-            @input="changevalRec"
+            @update:model-value="changevalRec"
             :type="costanti.FieldType.multiselect"
             :value="myvalue"
             :options="globalStore.getTableJoinByName(col.jointable)"
@@ -122,7 +122,7 @@
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.select">
           <CMyChipList
-            @input="changevalRec"
+            @update:model-value="changevalRec"
             myclass="text-center"
             :type="costanti.FieldType.select"
             :value="myvalue"
@@ -359,7 +359,7 @@
 <!--                <vue-tel-input
                   @country-changed="intcode_change"
                   :value="scope.value"
-                  @input="oninput"
+                  @update:model-value="oninput"
                   :placeholder="$t('reg.cell')"
                   :enabledCountryCode="true"
                   inputClasses="clCell"
@@ -385,7 +385,7 @@
                   :option-label="fieldsTable.getLabelByTable(col.jointable)"
                   :option-value="fieldsTable.getKeyByTable(col.jointable)"
                   style="min-width: 150px"
-                  @input="changeCol">
+                  @update:model-value="changeCol">
 
                 </q-select>
               </div>

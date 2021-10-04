@@ -4,7 +4,7 @@ import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 import { colors, Screen, Platform, date } from 'quasar'
-import { EState, IBookedEvent, IBookedEventPage, IEvents, IMessage, IMessagePage } from '@model'
+import { EState, IBookedEvent, IBookedEventPage, IEvents, IMessage, IMessagePage, IParamDialog } from '@model'
 import { Logo } from '../logo'
 import { Footer } from '../Footer'
 import { CTitle } from '../CTitle'
@@ -25,6 +25,8 @@ import { useCalendarStore } from '@store/CalendarStore'
 import { func_tools, toolsext } from '@store/Modules/toolsext'
 import { useMessageStore } from '@store/MessageStore'
 import { static_data } from '@/db/static_data'
+import { lists } from '@store/Modules/lists'
+import translate from '@/globalroutines/util'
 
 export default defineComponent({
   name: 'CEventsCalendar',
@@ -439,6 +441,61 @@ export default defineComponent({
 
     function deleteEvent(eventparam: IEvents) {
       tools.CancelEvent($q, eventparam)
+    }
+
+    function executefunc(mythisq: any, table: string, func: number, par: IParamDialog) {
+
+      if (func === lists.MenuAction.DELETE) {
+        // console.log('param1', par.param1)
+        calendarStore.CancelBookingEvent({
+          ideventbook: par.param1,
+          notify: par.param2 === true ? '1' : '0',
+        }).then((ris: any) => {
+          if (ris) {
+            tools.showPositiveNotif(mythisq, t('cal.canceledbooking') + ' "' + par.param3 + '"')
+            if (bookEventpage.value)
+              bookEventpage.value.show = false
+          } else {
+            tools.showNegativeNotif(mythisq, t('cal.cancelederrorbooking'))
+          }
+        })
+      }
+    }
+
+    function CancelBookingEvent(mythisq: any, eventparam: IEvents, bookeventid: string, notify: boolean, mythis?: any) {
+
+      const mytitle = translate('cal.titlebooking')
+      const mytext = translate('cal.cancelbooking') + ' ' + tools.gettextevent(eventparam) + '?'
+      const ok = translate('dialog.yes')
+      const funcok = lists.MenuAction.DELETE
+      const table = ''
+      const funccancel = 0
+      const par = {
+        param1: bookeventid,
+        param2: notify,
+        param3: eventparam.title,
+      }
+
+      console.log('CancelBookingEvent ', eventparam)
+      return $q.dialog({
+        message: mytext,
+        html: true,
+        ok: {
+          label: ok,
+          push: true,
+        },
+        title: mytitle,
+        cancel: true,
+        persistent: false,
+      }).onOk(() => {
+        // console.log('OK')
+        executefunc($q, table, funcok, par)
+        return true
+      }).onCancel(() => {
+        // console.log('CANCEL')
+        executefunc($q, table, funccancel, par)
+        return false
+      })
     }
 
     function duplicateEvent(eventparam: any, numgg: number, numev = 1) {
@@ -962,6 +1019,8 @@ export default defineComponent({
       createContribType,
       static_data,
       editEvent,
+      EState,
+      CancelBookingEvent,
     }
   }
 })

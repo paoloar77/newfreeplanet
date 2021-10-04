@@ -139,6 +139,7 @@ export default defineComponent({
       isnotmyevent,
       setmeta,
       myevent,
+      selected,
     }
 
   }

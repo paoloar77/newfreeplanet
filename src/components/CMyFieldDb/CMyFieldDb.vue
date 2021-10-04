@@ -225,7 +225,7 @@
                 <!--<vue-tel-input
                   @country-changed="intcode_change"
                   :value="myvalue"
-                  @input="onInput"
+                  @update:model-value="onInput"
                   :disabledFetchingCountry="true"
                   :preferredCountries="tools.getprefCountries"
                   :placeholder="$t('reg.cell')"

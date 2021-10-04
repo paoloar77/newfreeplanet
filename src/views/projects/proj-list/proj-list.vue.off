@@ -206,7 +206,7 @@
                   :label="$t('proj.longdescr')"
                   outlined
                   debounce="1000"
-                  @input="modifyfieldproj('privacywrite')"
+                  @update:model-value="modifyfieldproj('privacywrite')"
                   autogrow
                   style="flex: auto">
                 </q-input>
@@ -235,7 +235,7 @@
                   :readonly="readonly_PanelPrivacySel"
                   rounded outlined v-model="itemselproj.groupId" :options="selectGroup"
                   :label="$t('proj.group')" emit-value map-options
-                  @input="modifyfieldproj('groupId')">
+                  @update:model-value="modifyfieldproj('groupId')">
                 </q-select>
               </div>
             </div>
@@ -247,7 +247,7 @@
                   :readonly="readonly_PanelPrivacySel"
                   rounded outlined v-model="itemselproj.respUsername" :options="selectResp"
                   :label="$t('proj.respUsername')" emit-value map-options
-                  @input="modifyfieldproj('respUsername')">
+                  @update:model-value="modifyfieldproj('respUsername')">
                 </q-select>
               </div>
             </div>
@@ -259,14 +259,14 @@
                   :readonly="readonly_PanelPrivacySel"
                   rounded outlined v-model="itemselproj.viceRespUsername" :options="selectResp"
                   :label="$t('proj.viceRespUsername')" emit-value map-options
-                  @input="modifyfieldproj('viceRespUsername')">
+                  @update:model-value="modifyfieldproj('viceRespUsername')">
                 </q-select>
                 <q-select
                   style="min-width: 200px"
                   :readonly="readonly_PanelPrivacySel"
                   rounded outlined v-model="itemselproj.vice2RespUsername" :options="selectResp"
                   :label="$t('proj.vice2RespUsername')" emit-value map-options
-                  @input="modifyfieldproj('vice2RespUsername')">
+                  @update:model-value="modifyfieldproj('vice2RespUsername')">
                 </q-select>
               </div>
             </div>
@@ -277,7 +277,7 @@
                   style="min-width: 150px" :readonly="readonly_PanelPrivacySel" rounded outlined
                   v-model="itemselproj.tipovisu"
                   :options="selectTipoVisu"
-                  @input="modifyfieldproj('tipovisu')"
+                  @update:model-value="modifyfieldproj('tipovisu')"
                   :label="$t('proj.tipovisu')" emit-value map-options>
                 </q-select>
               </div>
@@ -290,7 +290,7 @@
                   :readonly="readonly_PanelPrivacySel"
                   rounded outlined v-model="itemselproj.privacyread" :options="selectPrivacy"
                   :label="$t('proj.privacyread')" emit-value map-options
-                  @input="modifyfieldproj('privacyread')">
+                  @update:model-value="modifyfieldproj('privacyread')">
                 </q-select>
               </div>
             </div>
@@ -301,7 +301,7 @@
                   style="min-width: 200px" :readonly="readonly_PanelPrivacySel" rounded outlined
                   v-model="itemselproj.privacywrite" :options="selectPrivacy"
                   :label="$t('proj.privacywrite')" emit-value map-options
-                  @input="modifyfieldproj('privacywrite')">
+                  @update:model-value="modifyfieldproj('privacywrite')">
                 </q-select>
               </div>
             </div>
@@ -330,7 +330,7 @@
                   :label="$t('proj.longdescr')"
                   outlined
                   :readonly="readonly_PanelPrivacy"
-                  @input="modifyfieldtodo('descr')"
+                  @update:model-value="modifyfieldtodo('descr')"
                   debounce="1000"
                   autogrow
                   style="flex: auto">
@@ -349,7 +349,7 @@
                   :label="$t('proj.note')"
                   outlined
                   :readonly="readonly_PanelPrivacy"
-                  @input="modifyfieldtodo('note')"
+                  @update:model-value="modifyfieldtodo('note')"
                   debounce="1000"
                   autogrow
                   style="flex: auto">
@@ -365,7 +365,7 @@
                   v-model="itemtodosel.pos"
                   type="number"
                   debounce="500"
-                  @input="modifyfieldtodo('pos')"
+                  @update:model-value="modifyfieldtodo('pos')"
                   rounded outlined
                   style="max-width: 100px;"
                   :label="$t('dashboard.posizione')">
@@ -378,7 +378,7 @@
               <q-select
                 style="min-width: 200px"
                 :readonly="readonly_PanelPrivacy"
-                @input="modifyfieldtodo('assigned_to_userId')"
+                @update:model-value="modifyfieldtodo('assigned_to_userId')"
                 rounded outlined v-model="itemtodosel.assigned_to_userId" :options="selectWorkers"
                 :label="$t('todo.assigned_to_userId')" emit-value map-options>
               </q-select>
@@ -390,7 +390,7 @@
                 :idmain="itemtodosel.category"
                 table="todos"
                 mykey="assignedToUsers"
-                @input="modifyfieldtodo('assignedToUsers')"
+                @update:model-value="modifyfieldtodo('assignedToUsers')"
                 :type="costanti.FieldType.multiselect"
                 jointable="workers">
               </CMyFieldDb>
@@ -403,7 +403,7 @@
                   rounded outlined v-model="itemtodosel.statustodo" :options="selectStatus"
                   :readonly="readonly_PanelPrivacy"
                   :label="$t('todo.status')" emit-value map-options
-                  @input="modifyfieldtodo('statustodo')">
+                  @update:model-value="modifyfieldtodo('statustodo')">
 
                 </q-select>
               </div>
@@ -485,7 +485,7 @@
                   readonly
                   v-model="itemselproj.hoursplanned"
                   rounded outlined
-                  @input="modifyfieldproj('hoursplanned')"
+                  @update:model-value="modifyfieldproj('hoursplanned')"
                   :label="$t('proj.hoursplanned')"
                   debounce="500">
 
@@ -500,7 +500,7 @@
               <div class="flex-item itemdata">
                 <CDate
                   :readonly="readonly_PanelPrivacySel" :mydate="itemselproj.begin_development"
-                  @input="itemselproj.begin_development = new Date(arguments[0]); modifyfieldproj('begin_development')"
+                  @update:model-value="itemselproj.begin_development = new Date(arguments[0]); modifyfieldproj('begin_development')"
                   :label="$t('proj.begin_development')">
                 </CDate>
               </div>
@@ -508,7 +508,7 @@
               <div class="flex-item itemdata">
                 <CDate
                   :readonly="readonly_PanelPrivacySel" :mydate="itemselproj.begin_test"
-                  @input="itemselproj.begin_test = new Date(arguments[0]); modifyfieldproj('begin_test')"
+                  @update:model-value="itemselproj.begin_test = new Date(arguments[0]); modifyfieldproj('begin_test')"
                   :label="$t('proj.begin_test')">
                 </CDate>
               </div>
@@ -520,7 +520,7 @@
                   style="min-width: 150px" :readonly="readonly_PanelPrivacySel" rounded outlined
                   v-model="itemselproj.actualphase"
                   :options="selectPhase"
-                  @input="modifyfieldproj('actualphase')"
+                  @update:model-value="modifyfieldproj('actualphase')"
                   :label="$t('proj.actualphase')" emit-value map-options>
                 </q-select>
               </div>
@@ -530,7 +530,7 @@
                   style="min-width: 150px"
                   :readonly="readonly_PanelPrivacySel" rounded outlined v-model="itemselproj.totalphases"
                   :options="selectPhase"
-                  @input="modifyfieldproj('totalphases')"
+                  @update:model-value="modifyfieldproj('totalphases')"
                   :label="$t('proj.totalphases')" emit-value map-options>
                 </q-select>
               </div>
@@ -599,7 +599,7 @@
                   :descr="$t('proj.progresstask')"
                   :readonly="readonly_PanelPrivacy"
                   :progressval="itemtodosel.progress"
-                  :slider="true" @input="itemtodosel.progress = arguments[0]"></CProgress>
+                  :slider="true" @update:model-value="itemtodosel.progress = arguments[0]"></CProgress>
               </div>
             </div>
             <div class="flex-container clMain">
@@ -608,7 +608,7 @@
                 <CDate
                   :mydate="itemtodosel.start_date"
                   :readonly="readonly_PanelPrivacy"
-                  @input="itemtodosel.start_date = new Date(arguments[0]); modifyfieldtodo('start_date')"
+                  @update:model-value="itemtodosel.start_date = new Date(arguments[0]); modifyfieldtodo('start_date')"
                   :label="$t('todo.start_date')">
 
                 </CDate>
@@ -619,7 +619,7 @@
                 <CDate
                   :readonly="((itemtodosel.statustodo !== tools.Status.COMPLETED) || readonly_PanelPrivacy)"
                   :mydate="itemtodosel.completed_at"
-                  @input="itemtodosel.completed_at = new Date(arguments[0]); modifyfieldtodo('completed_at')"
+                  @update:model-value="itemtodosel.completed_at = new Date(arguments[0]); modifyfieldtodo('completed_at')"
                   :label="$t('todo.completed_at')">
                 </CDate>
               </div>
@@ -630,7 +630,7 @@
                 <q-select
                   rounded outlined v-model="itemtodosel.phase" :options="selectPhase"
                   :readonly="readonly_PanelPrivacy"
-                  @input="modifyfieldtodo('phase')"
+                  @update:model-value="modifyfieldtodo('phase')"
                   :label="$t('todo.phase')" emit-value map-options>
                 </q-select>
               </div>

@@ -89,6 +89,7 @@ export default defineComponent({
       isEventEnabled,
       findEventIndex,
       UpdateDbByFields,
+      selected,
     }
 
   }

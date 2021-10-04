@@ -1709,9 +1709,6 @@ export const tools = {
       }).then((ris: any) => {
         if (ris) {
           this.showPositiveNotif(mythisq, t('cal.canceledbooking') + ' "' + par.param3 + '"')
-          //++Todo: Calendar FIX:
-          // if (myself.bookEventpage)
-          //  myself.bookEventpage.show = false
         } else {
           this.showNegativeNotif(mythisq, t('cal.cancelederrorbooking'))
         }

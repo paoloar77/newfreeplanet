@@ -28,7 +28,7 @@
                     <!--<q-item-label class="title">Condiviso: {{ shared.numshared }}</q-item-label>
                     <q-item-label class="title">Rating: {{ shared.rating }}</q-item-label>-->
                   </q-item-section>
-                  <!--<q-rating v-model="shared.rating" :max="5" size="16px" @input="change_rating(shared.rating, shared)"/>-->
+                  <!--<q-rating v-model="shared.rating" :max="5" size="16px" @update:model-value="change_rating(shared.rating, shared)"/>-->
 
 
                 </div>
@@ -80,7 +80,7 @@
                     @click="add_newshare(shared.description)"></q-btn>
                   <!--<q-item-label class="title">Condiviso: {{ shared.numshared }}</q-item-label>
                   <q-item-label class="title">Rating: {{ shared.rating }}</q-item-label>-->
-                  <!--<q-rating v-model="shared.rating" :max="5" size="16px" @input="change_rating(shared.rating, shared)"/>-->
+                  <!--<q-rating v-model="shared.rating" :max="5" size="16px" @update:model-value="change_rating(shared.rating, shared)"/>-->
 
                 </div>
               </transition>

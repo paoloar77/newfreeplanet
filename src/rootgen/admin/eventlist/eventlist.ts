@@ -3,7 +3,16 @@ import { tools } from '@src/store/Modules/tools'
 import { func_tools } from '@src/store/Modules/toolsext'
 import { CTitle } from '../../../components/CTitle/index'
 import { CMyPage } from '../../../components/CMyPage/index'
-import { IBookedEvent, ICalendarState, IEvents, ITodo, ITodosState, IUserState, IUserFields } from '@src/model'
+import {
+  IBookedEvent,
+  ICalendarState,
+  IEvents,
+  ITodo,
+  ITodosState,
+  IUserState,
+  IUserFields,
+  IParamDialog
+} from '@src/model'
 import { lists } from '@src/store/Modules/lists'
 
 import MixinUsers from '@src/mixins/mixin-users'
@@ -14,6 +23,7 @@ import { useCalendarStore } from '@store/CalendarStore'
 import { useUserStore } from '@store/UserStore'
 import { useQuasar } from 'quasar'
 import { useI18n } from '@/boot/i18n'
+import translate from '@/globalroutines/util'
 
 export default defineComponent({
   name: 'Eventlist',
@@ -21,6 +31,7 @@ export default defineComponent({
 
   setup() {
 
+    const showpeople = ref(false)
     const shownote = ref(false)
     const eventsel = ref(null)
     const showPrev = ref(false)
@@ -35,6 +46,8 @@ export default defineComponent({
     const { getTeacherByUsername } = MixinOperator()
 
     const { UpdateDbByFields } = MixinEvents()
+
+    const { isValidUsername } = MixinUsers()
 
     function getEventList() {
       const eventsloc: IEvents[] = []
@@ -115,10 +128,6 @@ export default defineComponent({
       return eventsloc
     }
 
-    function mostra() {
-      return $route.name
-    }
-
     function showall() {
       return $route.name === 'otherpages.admin.usereventlist'
     }
@@ -134,7 +143,9 @@ export default defineComponent({
       getNumEvent()
     }
 
+
     function change_rec(eventparam: any) {
+      console.log('change_rec')
       UpdateDbByFields($q, eventparam)
     }
 
@@ -151,6 +162,12 @@ export default defineComponent({
       getTeacherByUsername,
       numrec,
       shownote,
+      showpeople,
+      eventsel,
+      isValidUsername,
+      gettitle,
+      change_rec,
+      $q,
     }
   }
 })

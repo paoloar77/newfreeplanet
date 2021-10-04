@@ -13,7 +13,7 @@
         dense
         label="Altezza"
         emit-value map-options
-        @input="changedim"
+        @update:model-value="changedim"
       ></q-select>
     </div>
 

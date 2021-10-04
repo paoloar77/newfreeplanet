@@ -24,7 +24,7 @@
         <q-checkbox
           class="bg-grey-4"
           v-model="accetta_saw_video"
-          @input="changeval"
+          @update:model-value="changeval"
           color="primary"
           :label="$t('steps.saw_video_intro')">
 

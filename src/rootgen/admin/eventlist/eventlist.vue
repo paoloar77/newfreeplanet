@@ -115,7 +115,7 @@
               autogrow
               type="textarea" debounce="500"
               input-class="myinput-area"
-              @input="change_rec(eventsel)">
+              @update:model-value="change_rec(eventsel)">
             </q-input>
 
           </q-card-section>
@@ -161,7 +161,7 @@
                 <td class="text-center">
                   <q-btn
                     flat round color="red" icon="fas fa-trash-alt" size="sm"
-                    @click="tools.CancelBookingEvent(mythis, eventsel, eventbook._id, false)"></q-btn>
+                    @click="tools.CancelBookingEvent($q, eventsel, eventbook._id, false)"></q-btn>
                 </td>
               </tr>
               </tbody>

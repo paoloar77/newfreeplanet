@@ -18,7 +18,7 @@ const functionality: IFunctionality = {
   ENABLE_PROJECTS_LOADING: false,
   SHOW_IF_IS_SERVER_CONNECTION: false,
   SHOW_MESSAGES: false,
-  BOOKING_EVENTS: false,
+  BOOKING_EVENTS: true,
   ENABLE_ECOMMERCE: true,
   ENABLE_REG_CNM: true,
 }

@@ -532,27 +532,9 @@ export default defineComponent({
 
     }
 
-    function executefunc(table: string, func: number, par: IParamDialog) {
-      const globalStore = useGlobalStore()
-      const calendarStore = useCalendarStore()
+    function exec_func_table(table: string, func: number, par: IParamDialog) {
 
-      if (func === lists.MenuAction.DELETE) {
-        // console.log('param1', par.param1)
-        calendarStore.CancelBookingEvent({
-          ideventbook: par.param1,
-          notify: par.param2 === true ? '1' : '0',
-        }).then((ris: any) => {
-          if (ris) {
-            tools.showPositiveNotif($q, t('cal.canceledbooking') + ' "' + par.param3 + '"')
-            //++Todo: Calendar FIX:
-            // if (myself.bookEventpage)
-            //  myself.bookEventpage.show = false
-          } else {
-            tools.showNegativeNotif($q, t('cal.cancelederrorbooking'))
-          }
-        })
-      } else if (func === lists.MenuAction.DELETE_RECTABLE) {
-        // console.log('param1', par.param1)
+      if (func === lists.MenuAction.DELETE_RECTABLE) {
         globalStore.DeleteRec({ table, id: par.param1 }).then((ris) => {
           if (ris) {
             ActionAfterYes(func, par.param2, null)
@@ -562,7 +544,6 @@ export default defineComponent({
           }
         })
       } else if (func === lists.MenuAction.DUPLICATE_RECTABLE) {
-        // console.log('param1', par.param1)
         globalStore.DuplicateRec({ table, id: par.param1 }).then((ris) => {
           if (ris) {
             ActionAfterYes(func, par.param2, ris.data)
@@ -598,11 +579,11 @@ export default defineComponent({
           persistent: false,
         }).onOk(() => {
           // console.log('OK')
-          executefunc(table, col.action, par)
+          exec_func_table(table, col.action, par)
           return true
         }).onCancel(() => {
           // console.log('CANCEL')
-          executefunc(table, funccancel, par)
+          exec_func_table(table, funccancel, par)
           return false
         })
 

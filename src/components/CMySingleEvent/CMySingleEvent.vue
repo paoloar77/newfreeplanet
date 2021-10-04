@@ -2,7 +2,7 @@
   <div>
     <CMyPage
       v-if="myevent" :imgbackground="myevent.img" :title="myevent.title" keywords="" description=""
-      nofooter="true">
+      :nofooter="true">
 
       <div class="q-mx-md">
         <div class="listaev__align_chips q-ma-md">

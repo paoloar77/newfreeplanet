@@ -465,12 +465,13 @@
             <q-btn
               v-if="bookEventpage.state === EState.Modifying" flat :label="$t('cal.cancelbooking')"
               color="negative"
-              @click="tools.CancelBookingEvent($q, myevent, bookEventForm._id, true)"></q-btn>
+              @click="CancelBookingEvent($q, myevent, bookEventForm._id, true)"></q-btn>
             <q-btn
-              v-if="checkseinviaMsg" flat :label="$t('dialog.sendonlymsg')" color="primary"
+              v-if="checkseinviaMsg()" flat :label="$t('dialog.sendonlymsg')" color="primary"
               @click="sendMsg(myevent)"></q-btn>
             <q-btn
-              v-else :label="getTitleBtnBooking" color="primary" @click="saveBookEvent(myevent)"
+              v-else
+              :label="getTitleBtnBooking()" color="primary" @click="saveBookEvent(myevent)"
               :disable="!(bookEventpage.state === EState.Creating || hasModifiedBooking)"></q-btn>
 
 

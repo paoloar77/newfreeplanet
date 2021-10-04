@@ -13,7 +13,7 @@
       :dense="dense"
       mask="####-##-## ##:##"
       debounce="500"
-      @input="changeval"
+      @update:model-value="changeval"
       :input-class="getclass()"
     >
     </q-input>

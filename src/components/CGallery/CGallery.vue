@@ -52,7 +52,7 @@
                                      label="Id"
                                      dense
                                      @keyup.enter.stop
-                                     @input="save"
+                                     @update:model-value="save"
                                      debounce="1000"
                                      autofocus>
                             </q-input>
@@ -71,7 +71,7 @@
                        :label="$t('disc.order')"
                        dense
                        @keyup.enter.stop
-                       @input="save"
+                       @update:model-value="save"
                        debounce="1000"
                        autofocus>
               </q-input>-->
@@ -79,7 +79,7 @@
                        label="Alt"
                        dense
                        @keyup.enter.stop
-                       @input="save"
+                       @update:model-value="save"
                        debounce="1000"
                        autofocus>
               </q-input>-->
@@ -89,7 +89,7 @@
                 dense
                 :label="$t('proj.longdescr')"
                 @keyup.enter.stop
-                @input="save"
+                @update:model-value="save"
                 debounce="1000"
                 autofocus>
               </q-input>
