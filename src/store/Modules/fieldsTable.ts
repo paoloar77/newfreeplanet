@@ -266,6 +266,36 @@ export const colTableStorehouse = [
   AddCol(DuplicateRec),
 ]
 
+export const colSectors = [
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({ name: 'img', label_trans: 'store.img' }),
+  AddCol({ name: 'icon', label_trans: 'store.icon' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colLevels = [
+  AddCol({ name: '_id', label_trans: 'index' }),
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({ name: 'years_of_exp', label_trans: 'years_of_exp', fieldtype: costanti.FieldType.number }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colSkills = [
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({ name: 'img', label_trans: 'store.img' }),
+  AddCol({ name: 'icon', label_trans: 'store.icon' }),
+  AddCol({
+    name: 'idSector',
+    label_trans: 'sectors.name',
+    fieldtype: costanti.FieldType.select,
+    jointable: 'sectors',
+  }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
 export const colTableSites = [
   AddCol({ name: 'active', label_trans: 'sites.active', fieldtype: costanti.FieldType.boolean }),
   AddCol({ name: 'idapp', label_trans: 'sites.idapp', fieldtype: costanti.FieldType.string }),
@@ -1322,6 +1352,27 @@ export const fieldsTable = {
       columns: fields.colSettings,
       colkey: 'key',
       collabel: 'key',
+    },
+    {
+      value: 'skills',
+      label: 'Competenze',
+      columns: colSkills,
+      colkey: '_id',
+      collabel: 'descr',
+    },
+    {
+      value: 'sectors',
+      label: 'Settori',
+      columns: colSectors,
+      colkey: '_id',
+      collabel: 'descr',
+    },
+    {
+      value: 'levels',
+      label: 'Livello',
+      columns: colLevels,
+      colkey: '_id',
+      collabel: 'descr',
     },
   ],
 }

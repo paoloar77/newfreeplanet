@@ -116,6 +116,9 @@ export const useGlobalStore = defineStore('GlobalStore', {
     TIMER_STATE: 0,
     URL_RITORNA: '',
     URL_RESTORE: '',
+    levels: [],
+    skills: [],
+    sectors: [],
   }),
 
   getters: {
@@ -217,6 +220,12 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return messageStore.last_msgs
       else if (table === 'settings')
         return state.settings
+      else if (table === 'levels')
+        return state.levels
+      else if (table === 'skills')
+        return state.skills
+      else if (table === 'sectors')
+        return state.sectors
       else return ris
 
       return ris
@@ -1099,6 +1108,9 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.resps = (res.data.resps) ? [...res.data.resps] : []
             this.workers = (res.data.workers) ? [...res.data.workers] : []
             this.departments = (res.data.departments) ? [...res.data.departments] : []
+            this.levels = (res.data.levels) ? [...res.data.levels] : []
+            this.skills = (res.data.skills) ? [...res.data.skills] : []
+            this.sectors = (res.data.sectors) ? [...res.data.sectors] : []
 
             // console.log('res.data.cart', res.data.cart)
 

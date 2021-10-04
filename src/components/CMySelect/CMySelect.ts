@@ -21,7 +21,7 @@ export default defineComponent({
       required: false,
       default: ''
     },
-    optlab:[String, Function],
+    optlab: [String, Function],
     optval: {
       type: String,
       required: true,
@@ -67,20 +67,22 @@ export default defineComponent({
     }
 
     function mounted() {
-      const rec: any = props.options.find((myrec: any) => myrec[`${props.optval}`] === props.value)
-      // console.log('rec', rec)
-      if (!props.useinput) {
-        if (props.value) {
-          myvalue.value = props.value.toString()
-        }
-      } else {
-        if (rec) {
-          if (props.funcgetvaluebyid)
-            myvalue.value = props.funcgetvaluebyid(rec[`${props.optval}`])
-          else
-            myvalue.value = rec[`${props.optlab}`]
+      if (props.options) {
+        const rec: any = props.options.find((myrec: any) => myrec[`${props.optval}`] === props.value)
+        // console.log('rec', rec)
+        if (!props.useinput) {
+          if (props.value) {
+            myvalue.value = props.value.toString()
+          }
+        } else {
+          if (rec) {
+            if (props.funcgetvaluebyid)
+              myvalue.value = props.funcgetvaluebyid(rec[`${props.optval}`])
+            else
+              myvalue.value = rec[`${props.optlab}`]
 
-          // console.log('myvalue', myvalue, 'optval', optval, 'rec', rec[`${optval}`])
+            // console.log('myvalue', myvalue, 'optval', optval, 'rec', rec[`${optval}`])
+          }
         }
       }
     }

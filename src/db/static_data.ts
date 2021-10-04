@@ -294,6 +294,17 @@ const baseroutes: IListRoutes[] = [
   },
   {
     active: true,
+    order: 100,
+    path: '/presentazione',
+    materialIcon: 'fas fa-info',
+    name: 'pages.presentazione',
+    component: () => import('@src/root/presentazione/presentazione.vue'),
+    reqauth: false,
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
     order: 120,
     path: '/profile',
     materialIcon: 'fas fa-user',

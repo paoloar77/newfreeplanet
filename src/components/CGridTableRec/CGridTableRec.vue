@@ -15,7 +15,7 @@
       :rows="serverData"
       :columns="mycolumns"
       :filter="myfilter"
-      v-model:pagination="mypagination"
+      v-model:pagination="pagination"
       :row-key="colkey"
       :loading="loading"
       @request="onRequest"
@@ -30,20 +30,19 @@
 
 
       <template v-slot:header="props">
-
         <q-tr :props="props">
           <q-th>
 
           </q-th>
           <q-th
-            v-for="col in props.cols" :key="col.name">
-            <div
-              v-if="colVisib.includes(col.field + col.subfield)"
-              :props="props"
-              class="text-italic text-weight-bold"
-            >
+            v-for="col in props.cols" :key="col.name"
+            :props="props"
+            class="text-italic text-weight-bold"
+          >
+            <span v-if="col && colVisib.includes(col.field + col.subfield)">
               {{ col.label }}
-            </div>
+            </span>
+
           </q-th>
         </q-tr>
       </template>

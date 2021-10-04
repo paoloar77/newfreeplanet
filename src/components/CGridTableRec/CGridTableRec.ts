@@ -80,7 +80,7 @@ export default defineComponent({
       required: false,
       default: {},
     },
-    pagination: {
+    prop_pagination: {
       type: Object as PropType<IPagination>,
       required: false,
       default: () => {
@@ -100,7 +100,7 @@ export default defineComponent({
     const globalStore = useGlobalStore()
     const isfinishLoading = computed(() => globalStore.finishLoading)
 
-    const mypagination = toRef(props, 'pagination')
+    const pagination = ref(<IPagination> { sortBy: 'desc', descending: false, page: 1, rowsNumber: 10, rowsPerPage: 10 })
 
     const addRow = ref('Aggiungi')
 
@@ -163,24 +163,26 @@ export default defineComponent({
 
     // emulate ajax call
     // SELECT * FROM ... WHERE...LIMIT...
-    async function fetchFromServer(startRow: any, endRow: any, myfilter: any, myfilterand: any, sortBy: any, descending: any) {
+    async function fetchFromServer(startRow: any, endRow: any, param_myfilter: any, param_myfilterand: any, sortBy: any, descending: any) {
 
-      let myobj = null
+      let myobj: any = {}
       if (sortBy) {
         myobj = {}
-        if (descending) { // @ts-ignore
+        if (descending) {
           myobj[sortBy] = -1
-        } else { // @ts-ignore
+        } else {
           myobj[sortBy] = 1
         }
       }
+
+      // console.log('sortBy', sortBy)
 
       let params: IParamsQuery = {
         table: mytable.value,
         startRow,
         endRow,
-        filter: myfilter,
-        filterand: myfilterand,
+        filter: param_myfilter,
+        filterand: param_myfilterand,
         sortBy: myobj,
         descending,
         userId: userStore.my._id,
@@ -212,8 +214,8 @@ export default defineComponent({
       emit('savefilter', myfilterand)
     }
 
-    function onRequest() {
-      const { page, rowsPerPage, rowsNumber, sortBy, descending } = mypagination.value
+    function onRequest(props: any) {
+      const { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination
       const myfilternow = myfilter.value
       const myfilterandnow = myfilterand.value
 
@@ -244,7 +246,7 @@ export default defineComponent({
       // fetch data from "server"
       return fetchFromServer(startRow, endRow, myfilternow, myfilterandnow, sortBy, descending).then((ris: any) => {
 
-        mypagination.value.rowsNumber = getRowsNumberCount(myfilter)
+        pagination.value.rowsNumber = getRowsNumberCount(myfilter)
 
         // clear out existing data and add new
         if (returnedData.value === []) {
@@ -259,10 +261,10 @@ export default defineComponent({
         // console.log('serverData', serverData)
 
         // don't forfunction to update local pagination object
-        mypagination.value.page = page
-        mypagination.value.rowsPerPage = rowsPerPage
-        mypagination.value.sortBy = sortBy
-        mypagination.value.descending = descending
+        pagination.value.page = page
+        pagination.value.rowsPerPage = rowsPerPage
+        pagination.value.sortBy = sortBy
+        pagination.value.descending = descending
 
         // console.log('pagination', pagination)
 
@@ -274,7 +276,9 @@ export default defineComponent({
 
 
     function refresh_table() {
-      onRequest()
+      onRequest({
+        pagination: pagination.value
+      })
       rowclicksel.value = null
     }
 
@@ -348,7 +352,7 @@ export default defineComponent({
     }
 
     function SaveValdb(newVal: any, valinitial: any) {
-      console.log('SaveValdb', newVal)
+      // console.log('SaveValdb', newVal)
       // console.log('SaveValue', newVal, 'rowsel', rowsel)
 
       colsel.value = colclicksel.value
@@ -359,7 +363,7 @@ export default defineComponent({
 
 
     function showandsel(row: any, col: any, newval: any, valinitial: any) {
-      console.log('showandsel', row, col, newval)
+      // console.log('showandsel', row, col, newval)
       rowsel = row
       colsel.value = col
       idsel = row._id
@@ -369,7 +373,7 @@ export default defineComponent({
     }
 
     function annulla(val: any) {
-      console.log('annulla')
+      // console.log('annulla')
       globalStore.DeleteRec({ table: mytable.value, id: newRecord.value._id })
         .then((ris) => {
           return true
@@ -436,7 +440,7 @@ export default defineComponent({
     }
 
     function getrows() {
-      return mypagination.value.rowsNumber
+      return pagination.value.rowsNumber
     }
 
     async function createNewRecordDialog() {
@@ -482,7 +486,7 @@ export default defineComponent({
       const data = await globalStore.saveTable(mydata)
 
       serverData.value.push(data)
-      mypagination.value.rowsNumber++
+      pagination.value.rowsNumber++
 
       loading.value = false
     }
@@ -506,6 +510,7 @@ export default defineComponent({
       mytitle.value = props.prop_mytitle
       mycolumns.value = props.prop_mycolumns
       colkey.value = props.prop_colkey
+      pagination.value = props.prop_pagination
 
     }
 
@@ -526,9 +531,9 @@ export default defineComponent({
           tablesel.value = mytable.value
       }
 
-      // console.log('2) tablesel', tablesel.value)
+      console.log('2) tablesel', tablesel.value)
 
-      changeTable(false)
+      changeTable(tablesel.value)
 
     }
 
@@ -643,7 +648,7 @@ export default defineComponent({
         }
       }
 
-      // console.log('tablesel', tablesel, 'mytab', mytab)
+      console.log('tablesel', tablesel.value, 'mytab', mytab)
 
       if (mytab) {
         mytitle.value = mytab.label
@@ -828,7 +833,7 @@ export default defineComponent({
       colExtra,
       colclicksel,
       selected,
-      mypagination,
+      pagination,
       loading,
       onRequest,
       serverData,

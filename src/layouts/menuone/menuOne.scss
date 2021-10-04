@@ -1,3 +1,6 @@
+.prova{
+  color: red;
+}
 .q-list-header {
   min-height: 12px;
   padding: 5px 8px;
@@ -19,18 +22,6 @@
   padding: 5px;
   margin: 1px;
 }
-
-/*
-.menu-enter-active, .scale-enter {
-    -webkit-animation: moveFromTopFade .5s ease both;
-    animation: moveFromTopFade .5s ease both;
-}
-
-.menu-leave-to, .scale-leave-active {
-    -webkit-animation: moveToBottom .5s ease both;
-    animation: moveToBottom .5s ease both;
-}
-*/
 
 .router-link-active {
   color: #027be3;
@@ -76,7 +67,7 @@
 }
 
 .isManager {
-  color: green;
+  color: green !important;
 }
 
 .isTutor {
@@ -127,3 +118,17 @@
   font-size: 2.5rem !important;
   border-radius: 8px;
 }
+
+
+/*
+.menu-enter-active, .scale-enter {
+    -webkit-animation: moveFromTopFade .5s ease both;
+    animation: moveFromTopFade .5s ease both;
+}
+
+.menu-leave-to, .scale-leave-active {
+    -webkit-animation: moveToBottom .5s ease both;
+    animation: moveToBottom .5s ease both;
+}
+*/
+

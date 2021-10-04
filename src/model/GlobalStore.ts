@@ -238,6 +238,9 @@ export interface IGlobalState {
   TIMER_STATE: number
   URL_RITORNA: string
   URL_RESTORE: string
+  levels: ILevel[],
+  skills: ISkill[],
+  sectors: ISector[],
 }
 
 export interface IMenuList {
@@ -527,4 +530,23 @@ export interface IPagination {
   rowsNumber: number
   page: number,
   rowsPerPage: number // specifying this determines pagination is server-side
+}
+
+export interface ISkill {
+  descr: string
+  idSector: string
+  icon?: string
+  img?: string
+}
+
+export interface ISector {
+  descr: string
+  icon?: string
+  img?: string
+}
+
+export interface ILevel {
+  _id: string
+  descr: string
+  years_of_exp: number
 }

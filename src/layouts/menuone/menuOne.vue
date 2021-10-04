@@ -65,7 +65,7 @@
                             expand-icon-class="my-menu-separat"
                             :header-class="getmymenuclass(child2)"
                             active-class="my-menu-active">
-                            AA5:
+
                               <div v-for="(child3, index) in child2.routes2" :key="index">
                                 <div v-if="child3.active">
                                   <q-expansion-item
@@ -136,6 +136,6 @@
 <script lang="ts" src="./menuOne.ts">
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './menuOne.scss';
 </style>
