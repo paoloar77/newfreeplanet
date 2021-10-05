@@ -116,13 +116,8 @@ export default defineComponent({
 
             emit('loginOk')
 
-            // GlobalStore.actions.createPushSubscription()
-            //   .then((rissub) => {
-            //     // ...
-            //   })
-            //   .catch((e) => {
-            //     console.log('ERROR Subscription = ' + e)
-            //   })
+            globalStore.createPushSubscription()
+
           } else {
             emit('checkErrors', riscode)
           }
