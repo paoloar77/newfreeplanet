@@ -118,6 +118,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     URL_RESTORE: '',
     levels: [],
     skills: [],
+    statusSkills: [],
     sectors: [],
   }),
 
@@ -224,6 +225,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return state.levels
       else if (table === 'skills')
         return state.skills
+      else if (table === 'statusSkills')
+        return state.statusSkills
       else if (table === 'sectors')
         return state.sectors
       else return ris
@@ -759,6 +762,19 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
+    async saveSubRec(mydata: any) {
+      // console.log('saveTable', mydata)
+      const userStore = useUserStore()
+
+      return Api.SendReq('/setsubrec', 'POST', mydata)
+        .then((res) => res.data)
+        .catch((error) => {
+          console.log('error saveSubRec', error)
+          userStore.setErrorCatch(error)
+          return null
+        })
+    },
+
     async saveFieldValue(mydata: IDataToSet) {
       // const userStore = useUserStore()
       return Api.SendReq('/chval', 'PATCH', { data: mydata })
@@ -1110,6 +1126,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.departments = (res.data.departments) ? [...res.data.departments] : []
             this.levels = (res.data.levels) ? [...res.data.levels] : []
             this.skills = (res.data.skills) ? [...res.data.skills] : []
+            this.statusSkills = (res.data.statusSkills) ? [...res.data.statusSkills] : []
             this.sectors = (res.data.sectors) ? [...res.data.sectors] : []
 
             // console.log('res.data.cart', res.data.cart)

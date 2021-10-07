@@ -761,7 +761,16 @@ const msg_it = {
       telegram_key: 'Chiave Bot Telegram',
       telegram_bot_name: 'Telegram BotName',
       pathreg_add: 'Suffisso',
-    }
+    },
+    skill: {
+      name: 'Competenza',
+    },
+    level: {
+      name: 'Livello',
+    },
+    statusSkill: {
+      name: 'Stato',
+    },
   },
 
 };

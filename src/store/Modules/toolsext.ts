@@ -134,7 +134,7 @@ export const toolsext = {
     // this.$q.lang.set(mylang)
   },
 
-  getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: string, id?: any, idmain?: any): any | undefined {
+  getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: string, id?: any, idmain?: any, indrec?: number, subsubkey?: string): any | undefined {
 
     const todos = useTodoStore()
     const userStore = useUserStore()
@@ -143,8 +143,13 @@ export const toolsext = {
       if (keystr === 'profile') {
         if (subkey) {
           // console.log('userStore.my.profile', userStore.my.profile, 'subkey', subkey, )
-          // @ts-ignore
-          return userStore.my.profile[subkey]
+          if (subsubkey && indrec) {
+            // @ts-ignore
+            return userStore.my.profile[subkey][indrec][subsubkey]
+          } else {
+            // @ts-ignore
+            return userStore.my.profile[subkey]
+          }
         }
       } else if (keystr) { // @ts-ignore
         // @ts-ignore

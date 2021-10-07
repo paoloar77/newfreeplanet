@@ -11,7 +11,7 @@ export default defineComponent({
       type: Array,
       required: true,
     },
-    value: [String, Number, Array],
+    value: [String, Number],
     label: {
       type: String,
       required: true,
@@ -57,7 +57,7 @@ export default defineComponent({
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
 
-    const myvalue = ref('')
+    const myvalue = ref(<string | number>'')
 
     function changeval(newval: any) {
       console.log('changeval', newval)
@@ -67,21 +67,29 @@ export default defineComponent({
     }
 
     function mounted() {
+      console.log('mounted', mounted)
       if (props.options) {
         const rec: any = props.options.find((myrec: any) => myrec[`${props.optval}`] === props.value)
-        // console.log('rec', rec)
-        if (!props.useinput) {
-          if (props.value) {
-            myvalue.value = props.value.toString()
-          }
-        } else {
-          if (rec) {
-            if (props.funcgetvaluebyid)
-              myvalue.value = props.funcgetvaluebyid(rec[`${props.optval}`])
-            else
-              myvalue.value = rec[`${props.optlab}`]
+        /*
+        console.log('rec', rec, 'props.useinput', props.useinput)
+        console.log('props.value', props.value)
+        console.log('options', props.options)
+        console.log('optval', props.optval)
+        console.log('optlab', props.optlab)
+         */
 
-            // console.log('myvalue', myvalue, 'optval', optval, 'rec', rec[`${optval}`])
+        if (rec) {
+          if (props.funcgetvaluebyid)
+            myvalue.value = props.funcgetvaluebyid(rec[`${props.optval}`])
+          else
+            myvalue.value = rec[`${props.optlab}`]
+
+          // console.log('myvalue', myvalue, 'optval', optval, 'rec', rec[`${optval}`])
+        } else {
+          if (!props.useinput) {
+            if (props.value) {
+              myvalue.value = props.value
+            }
           }
         }
       }

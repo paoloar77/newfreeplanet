@@ -27,24 +27,24 @@ export default function () {
     return fieldsTable
   }
 
-  function getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any) {
+  function getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any, indrec?: number, subsubkey?: string) {
     // console.log('getValDb')
-    return toolsext.getValDb(keystr, serv, def, table, subkey, id, idmain)
+    return toolsext.getValDb(keystr, serv, def, table, subkey, id, idmain, indrec, subsubkey)
   }
 
 
-  function getValDbLang(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any) {
-    let ris = toolsext.getValDb(`${keystr}_${toolsext.getLocale()}`, serv, def, table, subkey)
+  function getValDbLang(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, indrec?: number, subsubkey?: string) {
+    let ris = toolsext.getValDb(`${keystr}_${toolsext.getLocale()}`, serv, def, table, subkey, indrec, subsubkey)
     if (ris === def) ris = toolsext.getValDb(`${keystr}_it`, serv, def, table, subkey)
     return ris
   }
 
-  async function setValDb($q: any, key: string, value: any, type: any, serv: boolean, table?: string, subkey?: string, id?: any) {
+  async function setValDb($q: any, key: string, value: any, type: any, serv: boolean, table?: string, subkey?: string, id?: any, indrec?: number, subsubkey?: string) {
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
     const { t } = useI18n()
 
-    console.log('setValDb', key, value, serv, table, subkey)
+    console.log('setValDb', key, value, serv, table, subkey, indrec, subsubkey, indrec, subsubkey)
     let mydatatosave: IDataPass | null = null
 
     if (table === 'users') {
@@ -53,8 +53,14 @@ export default function () {
       const myfield: any = {}
 
       if (key === 'profile') {
-        // @ts-ignore
-        userStore.my.profile[subkey] = value
+
+        if (subsubkey && indrec) {
+          // @ts-ignore
+          userStore.my.profile[subkey][indrec][subsubkey] = value
+        }else {
+          // @ts-ignore
+          userStore.my.profile[subkey] = value
+        }
       } else {
         // @ts-ignore
         userStore.my[key] = value

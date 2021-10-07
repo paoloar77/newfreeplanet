@@ -32,6 +32,16 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    indrec: {
+      type: Number,
+      required: false,
+      default: -1,
+    },
+    mysubsubkey: {
+      type: String,
+      required: false,
+      default: '',
+    },
     type: {
       type: Number,
       required: true,
@@ -183,7 +193,7 @@ export default defineComponent({
 
     function savefield(value: any, initialval: any, myq: any) {
       myvalue.value = value
-      setValDb(myq, props.mykey, myvalue.value, props.type, props.serv, props.table, props.mysubkey, props.id)
+      setValDb(myq, props.mykey, myvalue.value, props.type, props.serv, props.table, props.mysubkey, props.id, props.indrec, props.mysubsubkey)
     }
 
     function savefieldboolean(value: any) {
@@ -192,7 +202,7 @@ export default defineComponent({
       else
         myvalue.value = value
 
-      setValDb($q, props.mykey, myvalue, props.type, props.serv, props.table, props.mysubkey, props.id)
+      setValDb($q, props.mykey, myvalue, props.type, props.serv, props.table, props.mysubkey, props.id, props.indrec, props.mysubsubkey)
     }
 
     function selectcountry({ name, iso2, dialCode }: { name: string, iso2: string, dialCode: string }) {

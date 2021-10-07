@@ -9,6 +9,8 @@ const msg_website_it = {
     quantityAvailable: 'Disponibili',
     weight: 'Peso',
     stars: 'Voto',
+    color: 'Colore',
+    theme: 'Tema',
   },
   hours: {
     descr: 'Descrizione',

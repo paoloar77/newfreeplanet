@@ -55,11 +55,18 @@ export default defineComponent({
     function refreshval() {
       myarrvalues.value = []
 
-      // console.table(options)
+      // console.log('options', props.options)
       if (props.options) {
         props.options.forEach((rec: any, index) => {
           if (props.type === costanti.FieldType.multiselect) {
             if (!!myval.value) {
+              /*
+              console.log('rec', rec)
+              console.log('optval', props.optval)
+              console.log('optlab', props.optlab)
+              console.log('myval.value', myval.value)
+              console.log('rec[props.optval]', rec[props.optval])
+               */
               // @ts-ignore
               if (myval.value.includes(rec[props.optval])) {
                 const mydata: any = {
@@ -71,6 +78,18 @@ export default defineComponent({
                   color: tools.getColorByIndexBest(index)
                 }
 
+                if (rec['color']) {
+                  mydata.color = rec['color']
+                }
+
+                /*
+                if (rec['theme']) {
+                  mydata.class = rec['theme']
+                }
+                 */
+
+                // console.log('mydata', mydata)
+
                 if (tools.isObject(props.optlab)) {
                   // @ts-ignore
                   mydata.label = props.options.filter((myrec: any) => myrec[props.optval] === mydata.value).map(props.optlab)
@@ -79,6 +98,8 @@ export default defineComponent({
                 } else {
                   mydata.label = rec[props.optlab]
                 }
+
+                // console.log('mydata.label', mydata.label)
 
                 if (props.opticon)
                   mydata.icon = rec[props.opticon]

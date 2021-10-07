@@ -122,7 +122,7 @@ export default defineComponent({
 
     function mounted() {
       // console.log('mounted')
-      if ((props.subfield !== '') && (props.subfield !== '')) {
+      if (props.subfield !== '') {
         if (props.row[props.field] === undefined) {
           myrow.value[props.field] = {}
           myvalue.value = ''

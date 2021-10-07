@@ -2,6 +2,9 @@
   <q-page class="">
     <h1>Inizio:</h1>
 
+    <CSkill>
+
+    </CSkill>
 
   </q-page>
 

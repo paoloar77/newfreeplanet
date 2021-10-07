@@ -267,31 +267,96 @@ export const colTableStorehouse = [
 ]
 
 export const colSectors = [
+  AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'descr', label_trans: 'store.description' }),
-  AddCol({ name: 'img', label_trans: 'store.img' }),
-  AddCol({ name: 'icon', label_trans: 'store.icon' }),
-  AddCol(DeleteRec),
-  AddCol(DuplicateRec),
-]
-
-export const colLevels = [
-  AddCol({ name: '_id', label_trans: 'index' }),
-  AddCol({ name: 'descr', label_trans: 'store.description' }),
-  AddCol({ name: 'years_of_exp', label_trans: 'years_of_exp', fieldtype: costanti.FieldType.number }),
-  AddCol(DeleteRec),
-  AddCol(DuplicateRec),
-]
-
-export const colSkills = [
-  AddCol({ name: 'descr', label_trans: 'store.description' }),
-  AddCol({ name: 'img', label_trans: 'store.img' }),
-  AddCol({ name: 'icon', label_trans: 'store.icon' }),
   AddCol({
     name: 'idSector',
     label_trans: 'sectors.name',
     fieldtype: costanti.FieldType.select,
     jointable: 'sectors',
   }),
+  AddCol({ name: 'main', label_trans: 'store.main', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'color', label_trans: 'products.color' }),
+  AddCol({ name: 'theme', label_trans: 'products.theme' }),
+  AddCol({ name: 'img', label_trans: 'store.img' }),
+  AddCol({ name: 'icon', label_trans: 'store.icon' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+
+export const colLevels = [
+  AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({ name: 'years_of_exp', label_trans: 'years_of_exp', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'color', label_trans: 'products.color' }),
+  AddCol({ name: 'theme', label_trans: 'products.theme' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colCitys = [
+  AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'comune', label_trans: 'city.comune' }),
+  AddCol({ name: 'prov', label_trans: 'city.prov' }),
+  AddCol({ name: 'reg', label_trans: 'city.reg' }),
+  AddCol({ name: 'pref', label_trans: 'city.pref' }),
+  AddCol({ name: 'cap', label_trans: 'city.cap' }),
+  AddCol({ name: 'abitanti', label_trans: 'city.abitanti', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'country', label_trans: 'city.country' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colSkills = [
+  // AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({ name: 'img', label_trans: 'store.img' }),
+  AddCol({ name: 'icon', label_trans: 'store.icon' }),
+  AddCol({
+    name: 'idSector',
+    label_trans: 'sectors.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'sectors',
+  }),
+  AddCol({ name: 'color', label_trans: 'products.color' }),
+  AddCol({ name: 'theme', label_trans: 'products.theme' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colmySkills = [
+  //AddCol({
+  //  name: 'userId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users',
+  //}),
+  AddCol({
+    name: 'idSkill',
+    label_trans: 'skill.name',
+    fieldtype: costanti.FieldType.select,
+    jointable: 'skills',
+  }),
+  AddCol({
+    name: 'numLevel',
+    label_trans: 'level.name',
+    fieldtype: costanti.FieldType.select,
+    jointable: 'levels',
+  }),
+  AddCol({
+    name: 'idStatusSkill',
+    label_trans: 'statusSkill.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'statusSkills',
+  }),
+  AddCol({ name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colStatusSkills = [
+  AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({ name: 'color', label_trans: 'products.color' }),
+  AddCol({ name: 'theme', label_trans: 'products.theme' }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
 ]
@@ -1354,9 +1419,23 @@ export const fieldsTable = {
       collabel: 'key',
     },
     {
+      value: 'myskills',
+      label: 'Mie Competenze',
+      columns: colmySkills,
+      colkey: '_id',
+      collabel: (rec: any) => `${rec.name} ${rec.surname}`,
+    },
+    {
       value: 'skills',
       label: 'Competenze',
       columns: colSkills,
+      colkey: '_id',
+      collabel: 'descr',
+    },
+    {
+      value: 'statusSkills',
+      label: 'Stato Attuale',
+      columns: colStatusSkills,
       colkey: '_id',
       collabel: 'descr',
     },
@@ -1373,6 +1452,13 @@ export const fieldsTable = {
       columns: colLevels,
       colkey: '_id',
       collabel: 'descr',
+    },
+    {
+      value: 'citys',
+      label: 'Città',
+      columns: colCitys,
+      colkey: '_id',
+      collabel: 'comune',
     },
   ],
 }

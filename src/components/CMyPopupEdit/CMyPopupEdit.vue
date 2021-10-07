@@ -114,18 +114,19 @@
           <CMyChipList
             @update:model-value="changevalRec"
             :type="costanti.FieldType.multiselect"
-            :value="myvalue"
+            v-model:value="myvalue"
             :options="globalStore.getTableJoinByName(col.jointable)"
             :optval="fieldsTable.getKeyByTable(col.jointable)"
             :optlab="fieldsTable.getLabelByTable(col.jointable)"
             :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.select">
+          myvalue: {{ myvalue }}
           <CMyChipList
             @update:model-value="changevalRec"
             myclass="text-center"
             :type="costanti.FieldType.select"
-            :value="myvalue"
+            v-model:value="myvalue"
             :options="globalStore.getTableJoinByName(col.jointable)"
             :optval="fieldsTable.getKeyByTable(col.jointable)"
             :optlab="fieldsTable.getLabelByTable(col.jointable)"
@@ -133,7 +134,8 @@
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.boolean">
           <q-toggle
-            dark color="green" v-model="myvalue" :label="col.title"
+            dark color="green"
+            v-model:value="myvalue" :label="col.title"
             :disable="disable && col.name !== 'profile.saw_zoom_presentation'"
             @update:model-value="changevalRec"></q-toggle>
         </div>
@@ -319,7 +321,7 @@
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.select">
                 <CMySelect
-                  :label="col.title"
+                  :label="col.label"
                   v-model:value="scope.value"
                   :optval="fieldsTable.getKeyByTable(col.jointable)"
                   :optlab="fieldsTable.getLabelByTable(col.jointable)"
@@ -369,7 +371,6 @@
 
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
-                <div>join: {{ col.jointable }}</div>
 
                 <q-select
                   v-model="scope.value"
@@ -385,7 +386,7 @@
                   :option-label="fieldsTable.getLabelByTable(col.jointable)"
                   :option-value="fieldsTable.getKeyByTable(col.jointable)"
                   style="min-width: 150px"
-                  @update:model-value="changeCol">
+                  @update:model-value="changeval">
 
                 </q-select>
               </div>

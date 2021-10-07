@@ -240,6 +240,7 @@ export interface IGlobalState {
   URL_RESTORE: string
   levels: ILevel[],
   skills: ISkill[],
+  statusSkills: IStatusSkill[],
   sectors: ISector[],
 }
 
@@ -533,20 +534,45 @@ export interface IPagination {
 }
 
 export interface ISkill {
+  _id: number
   descr: string
-  idSector: string
+  idSector: number[]
   icon?: string
   img?: string
+}
+
+export interface IStatusSkill {
+  _id: number
+  descr: string
+  color: string
+  theme: string
 }
 
 export interface ISector {
+  _id: number
   descr: string
+  idSector?: number
   icon?: string
   img?: string
+  color: string
+  theme: string
 }
 
 export interface ILevel {
-  _id: string
+  _id: number
   descr: string
+  color: string
+  theme: string
   years_of_exp: number
 }
+
+export interface IMySkill {
+  _id: number
+  idSkill: number
+  idStatusSkill: number[]
+  NumLevel: number
+  note: string
+  date_created?: Date,
+  date_updated?: Date,
+}
+
