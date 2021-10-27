@@ -347,6 +347,19 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.multiselect,
     jointable: 'statusSkills',
   }),
+  AddCol({
+    name: 'idCity',
+    label_trans: 'skill.city',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'cities',
+  }),
+  AddCol({
+    name: 'photos',
+    label_trans: 'skill.photos',
+    fieldtype: costanti.FieldType.listimages,
+    jointable: '',
+  }),
+  AddCol({ name: 'subTitle', label_trans: 'event.title' }),
   AddCol({ name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
@@ -760,6 +773,11 @@ export const fieldsTable = {
     if (myrec) return myrec.label
     return ''
   },
+  getTitleImgByTable(mytable: string): string {
+    const myrec = this.getrecTableList(mytable)
+    if (myrec) return myrec.label
+    return ''
+  },
   getIconByTable(mytable: string): string {
     const myrec: any = this.getrecTableList(mytable)
     if (myrec) return ((myrec.icon) ? myrec.icon : '')
@@ -1102,9 +1120,8 @@ export const fieldsTable = {
       label_trans: 'reg.consiglio',
       fieldtype: costanti.FieldType.boolean,
     }),
-    AddCol({
-      name: 'profile.motivazioni', field: 'profile', subfield: 'motivazioni', label_trans: 'reg.motivazioni',
-    }),
+    AddCol({ name: 'profile.motivazioni', field: 'profile', subfield: 'motivazioni', label_trans: 'reg.motivazioni', }),
+    AddCol({ name: 'profile.biografia', field: 'profile', subfield: 'biografia', label_trans: 'reg.biografia', }),
     AddCol({
       name: 'profile.competenze_professionalita',
       field: 'profile',
@@ -1214,6 +1231,10 @@ export const fieldsTable = {
     }),
     AddCol({ name: 'descr', label_trans: 'pages.description' }),
     AddCol({ name: 'notes', label_trans: 'reg.note' }),
+  ],
+
+  tableForUsers: [
+    'myskills'
   ],
 
   tablesList: [
@@ -1454,7 +1475,7 @@ export const fieldsTable = {
       collabel: 'descr',
     },
     {
-      value: 'citys',
+      value: 'cities',
       label: 'Città',
       columns: colCitys,
       colkey: '_id',

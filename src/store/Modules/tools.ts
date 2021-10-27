@@ -2645,8 +2645,7 @@ export const tools = {
       maxh2 = 500
 
     return maxh2
-  }
-  ,
+  },
 
   myheight_imgtitle(myheight?: number, myheightmobile?: number) {
     let maxheight = 0
@@ -3357,7 +3356,13 @@ export const tools = {
     }
   },
   geturlupload() {
-    return process.env.MONGODB_HOST + '/upload'
+    return process.env.MONGODB_HOST + `/uploadnew/${this.getvers()}/`
+  },
+  escapeslash(mystr: string) {
+    return mystr.replace(/\//g, '-');
+  },
+  geturlrelativeprofile() {
+    return 'upload/profile'
   },
   getvers() {
     return process.env.APP_VERSION

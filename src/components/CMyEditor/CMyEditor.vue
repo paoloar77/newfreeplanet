@@ -9,11 +9,12 @@
       </q-toolbar>
       <q-card-section class="inset-shadow" style="padding: 4px !important;">
 
-        <CTitleBanner :title="title"></CTitleBanner>
+        <CTitleBanner v-if="title" :title="title"></CTitleBanner>
         <form
           autocapitalize="off"
           autocomplete="off"
-          spellcheck="false">
+          spellcheck="false"
+          >
 
           <q-btn rounded size="sm" color="primary">
             <q-icon name="colorize" class="cursor-pointer">

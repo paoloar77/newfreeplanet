@@ -137,6 +137,7 @@
               <div :class="getclrow(props.row)">
 
                 <CMyPopupEdit
+                  :table="prop_mytable"
                   :canEdit="canEdit"
                   :disable="disabilita()"
                   :col="col"
@@ -200,6 +201,7 @@
               @click="colclicksel = mycol">
 
               <CMyPopupEdit
+                :table="prop_mytable"
                 :canEdit="true"
                 :disable="disabilita()"
                 view="field"
@@ -235,6 +237,7 @@
               <div>
 
                 <CMyPopupEdit
+                  :table="prop_mytable"
                   :canEdit="true"
                   :col="col"
                   v-model:row="newRecord"

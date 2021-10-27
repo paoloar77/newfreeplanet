@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import {
-  ICfgServer,
+  ICfgServer, ICity,
   IColGridTable,
   IConfig,
   IDataToSet,
@@ -120,6 +120,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     skills: [],
     statusSkills: [],
     sectors: [],
+    cities: [],
   }),
 
   getters: {
@@ -181,7 +182,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     },
 
     getListByTable: (state: IGlobalState) => (table: string): any => {
-      let ris = null
+      let ris: any = []
 
       const calendarStore = useCalendarStore()
       const userStore = useUserStore()
@@ -229,6 +230,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return state.statusSkills
       else if (table === 'sectors')
         return state.sectors
+      else if (table === 'cities')
+        return state.cities
       else return ris
 
       return ris
@@ -1128,6 +1131,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.skills = (res.data.skills) ? [...res.data.skills] : []
             this.statusSkills = (res.data.statusSkills) ? [...res.data.statusSkills] : []
             this.sectors = (res.data.sectors) ? [...res.data.sectors] : []
+            this.cities = (res.data.cities) ? [...res.data.cities] : []
 
             // console.log('res.data.cart', res.data.cart)
 

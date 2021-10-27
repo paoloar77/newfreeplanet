@@ -19,9 +19,8 @@
           </template>
         </q-field>
       </div>
-      <div :class="getclassCol(col) + ` q-ma-sm q-pa-sm col-grow rounded-borders`" style="border: 1px solid #bbb">
+      <div :class="getclassCol(col) + ` q-ma-sm q-pa-sm col-grow rounded-borders `" style="border: 1px solid #bbb">
         <div v-if="type === costanti.FieldType.date">
-          Date10:
           <CDateTime
             :label="col.label"
             class="cursor-pointer"
@@ -33,7 +32,6 @@
           </CDateTime>
         </div>
         <div v-else-if="type === costanti.FieldType.onlydate">
-          Date11:
           <CDateTime
             :label="col.label"
             class="cursor-pointer"
@@ -103,6 +101,25 @@
               :optlab="fieldsTable.getLabelByTable(col.jointable)"
               :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
           </div>
+          <div v-else-if="type === costanti.FieldType.image">
+
+            <div v-if="myvalue" class="text-center">
+              <q-img
+                :src="myvalue"
+                class="text-center"
+                style="height: 100px; width: 100px;"
+                alt="foto del profilo">
+              </q-img>
+            </div>
+            <div v-else class="text-center">
+              <q-img
+                src="images/noimg-user.svg"
+                class="text-center"
+                style="height: 100px; width: 100px;"
+                alt="nessuna immagine">
+              </q-img>
+            </div>
+          </div>
           <div v-else-if="type === costanti.FieldType.html">
             <div v-html="myvalprinted()">
 
@@ -125,6 +142,7 @@
             @save="(val, initialValue) => savefield(val, initialValue, myq)"
             buttons
             v-slot="scope"
+            class="clinput"
           >
 
             <div v-if="type === costanti.FieldType.boolean">
@@ -135,8 +153,9 @@
             </div>
             <div v-else-if="type === costanti.FieldType.string">
               <q-input
+                :label="title"
                 v-model="scope.value"
-                autogrow
+                :autogrow="$q.screen.gt.md"
                 @keyup.enter.stop
                 autofocus>
 
@@ -271,8 +290,31 @@
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.multioption">
             </div>
+            <div v-else-if="col.fieldtype === costanti.FieldType.image">
+              <q-uploader
+                label="Aggiungi Foto"
+                accept=".jpg, image/*"
+                :url="tools.geturlupload()+ tools.escapeslash(`profile/` + getMyUsername())"
+                :headers="tools.getheaders()"
+                :max-file-size="2000000"
+                auto-upload
+                hide-upload-btn
+                @uploaded="uploaded"
+                style="width: 208px"
+              ></q-uploader>
+
+            </div>
 
           </q-popup-edit>
+        </div>
+      </div>
+      <div>
+        <div v-if="type === costanti.FieldType.image">
+          <q-btn
+            v-if="myvalue"
+            label="Rimuovi Foto"
+            color="blue" icon="fas fa-trash-alt" size="sm"
+            @click="removephoto"></q-btn>
         </div>
       </div>
     </div>

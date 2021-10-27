@@ -451,12 +451,13 @@ const msg_it = {
       accetta_carta_costituzionale_on: 'Ho letto ed Approvo il Progetto',
       iscriviti: 'Iscriviti',
       motivazioni: 'Motivazioni sul perchè intendi iscriverti alla CNM:',
+      biografia: 'Biografia',
       competenze_professionalita: 'Descrivi le tue competenze e professionalità',
       cosa_potrei_offrire: 'Cosa potresti offrire?',
       cosa_vorrei_ricevere: 'Cosa vorresti ricevere? (cosa ti aspetti?)',
       altre_comunicazioni: 'Scrivi altre eventuali informazioni o comunicazioni:',
       come_ci_hai_conosciuto: 'Come ci hai conosciuto?',
-
+      photo: 'Foto',
       err: {
         required: 'è richiesto',
         email: 'inserire una email valida',
@@ -764,6 +765,8 @@ const msg_it = {
     },
     skill: {
       name: 'Competenza',
+      city: 'Città',
+      photos: 'Foto',
     },
     level: {
       name: 'Livello',

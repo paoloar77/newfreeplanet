@@ -1,4 +1,4 @@
-import { defineComponent, ref, PropType, watch } from 'vue'
+import { defineComponent, ref, PropType, watch, onMounted } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useQuasar } from 'quasar'
@@ -14,15 +14,17 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    gall: {
-      type: Object as PropType<IGallery>,
+    title: String,
+    directory: {
+      type: String,
       required: true,
     },
-    listimages: {
-      type: Object as PropType<IImgGallery[] | null>,
+    imgGall: {
+      type: Object as PropType<IImgGallery | string | undefined>,
       required: true,
     },
   },
+  emits: ['showandsave'],
   components: { CMyPage },
   setup(props, { emit }) {
     const $q = useQuasar()
@@ -30,27 +32,55 @@ export default defineComponent({
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
 
-    const mygall = ref(<IGallery>{})
-    const mylistimages = ref(<IImgGallery[] | null>[])
+    const displayGall = ref(false)
 
-    watch(() => props.gall, (newval, oldval) => {
-      mygall.value = props.gall
-    })
+    const gallerylist = ref(<IImgGallery[]>[])
+    const maximizedToggle = ref(true)
 
-    watch(() => props.listimages, (newval, oldval) => {
-      if (props.listimages) {
-        mylistimages.value = props.listimages
+
+    function isValid(myobj: any): boolean {
+      return (myobj && typeof myobj !== 'string' && typeof myobj !== 'undefined')
+    }
+
+    watch(() => props.imgGall, (newval, oldval) => {
+      if (isValid(props.imgGall)) {
+        // @ts-ignore
+        gallerylist.value = props.imgGall
       }
     })
 
     function created() {
-      mygall.value = props.gall
-      mylistimages.value = props.listimages
+      console.log('created cgallery')
+      if (isValid(props.imgGall)) {
+        // @ts-ignore
+        gallerylist.value = props.imgGall
+      } else {
+        gallerylist.value = [
+            {
+              _id: '',
+              imagefile: 'noimg.png',
+              order: 0,
+              alt: '',
+              description: '(nessuna foto)'
+            }]
+      }
+    }
+
+    function showandsave(value: any) {
+      console.log('EMIT: showandsave')
+      emit('showandsave', value)
+    }
+
+    function getnumimages() {
+      if (gallerylist.value && gallerylist.value)
+        return gallerylist.value.length
+      else
+        return 0
     }
 
     function getlistimages() {
-      if (mylistimages.value)
-        return mylistimages.value.slice().sort((a, b) => a.order! - b.order!)
+      if (gallerylist.value && gallerylist.value)
+        return gallerylist.value.slice().sort((a: any, b: any) => a.order! - b.order!)
       else
         return null
     }
@@ -85,7 +115,7 @@ export default defineComponent({
         return
       }
 
-      if (mylistimages.value) {
+      if (gallerylist.value) {
 
         const draggedId = e.dataTransfer.getData('text')
         let dragout = ''
@@ -104,13 +134,13 @@ export default defineComponent({
           return
         }
 
-        const myindex = mylistimages.value.findIndex((rec) => rec._id === draggedId)
-        const myrec: IImgGallery = mylistimages.value[myindex]
+        const myindex = gallerylist.value.findIndex((rec: any) => rec._id === draggedId)
+        const myrec: IImgGallery = gallerylist.value[myindex]
 
         let myrecprec: IImgGallery
         let myrecout: IImgGallery
-        const myindexout = mylistimages.value.findIndex((rec) => rec._id === dragout)
-        myrecout = mylistimages.value[myindexout]
+        const myindexout = gallerylist.value.findIndex((rec: any) => rec._id === dragout)
+        myrecout = gallerylist.value[myindexout]
         let myindexprec = myindexout - 1
 
         if (myindexprec < 0)
@@ -119,7 +149,7 @@ export default defineComponent({
         if (myindex === myindexout)
           return
 
-        myrecprec = mylistimages.value[myindexprec]
+        myrecprec = gallerylist.value[myindexprec]
 
         console.log('myrec', myrec, 'myrecprec', myrecout)
 
@@ -154,17 +184,17 @@ export default defineComponent({
     }
 
     function getclass() {
-      return (props.edit) ? 'my-card-gallery' : 'my-card-gallery-view' + ' text-center'
+      return (props.edit || displayGall.value) ? 'my-card-gallery' : 'my-card-gallery-view' + ' text-center'
     }
 
     function getclimg() {
-      return (props.edit) ? 'myimg' : 'myimg-view'
+      return (props.edit || displayGall.value) ? 'myimg' : 'myimg-view'
     }
 
     function getlastord() {
-      if (mylistimages.value) {
+      if (gallerylist.value) {
         let myord = 0
-        for (const file of mylistimages.value) {
+        for (const file of gallerylist.value) {
           if (file.order! > myord)
             myord = file.order!
         }
@@ -175,22 +205,26 @@ export default defineComponent({
 
     function uploaded(info: any) {
       console.log(info)
-      if (mylistimages.value) {
+      if (gallerylist.value) {
         for (const file of info.files) {
-          mylistimages.value.push({ imagefile: file.name, order: getlastord() })
+          gallerylist.value.push({ imagefile: file.name, order: getlastord() })
         }
 
         save()
       }
     }
 
+    function apri() {
+      displayGall.value = true
+    }
+
     function deleted(rec: any) {
       // console.table(mylistimages)
 
-      if (mylistimages.value) {
-        const index = mylistimages.value.findIndex((elem) => elem.imagefile === rec.imagefile)
+      if (gallerylist.value) {
+        const index = gallerylist.value.findIndex((elem: any) => elem.imagefile === rec.imagefile)
         if (index > -1) {
-          mylistimages.value.splice(index, 1)
+          gallerylist.value.splice(index, 1)
         }
 
         // mylistimages = mylistimages.pop((elem) => elem.imagefile !== rec.imagefile)
@@ -202,7 +236,7 @@ export default defineComponent({
     }
 
     function getfullname(rec: any) {
-      return 'upload/' + mygall.value.directory + '/' + rec.imagefile
+      return 'upload/' + props.directory + '/' + rec.imagefile
     }
 
     function copytoclipboard(rec: any) {
@@ -222,18 +256,28 @@ export default defineComponent({
     }
 
     function save() {
-      emit('showandsave', mylistimages.value)
+      emit('showandsave', gallerylist.value)
     }
 
-    function getsrcimg(mygallery: any) {
+    function getsrcimg(gallerylistery: any) {
 
-      if (tools.getextfile(mygallery.imagefile) === 'pdf')
+      if (tools.getextfile(gallerylistery.imagefile) === 'pdf')
         return 'images/images/pdf.jpg'
       else
-        return 'upload/' + mygall.value.directory + '/' + mygallery.imagefile
+        return 'upload/' + props.directory + '/' + gallerylistery.imagefile
     }
 
-    created()
+    function getParamDir() {
+      return tools.escapeslash(props.directory)
+    }
+
+    function getUrl() {
+      const myurl = tools.geturlupload() + getParamDir()
+      console.log('myurl', myurl)
+      return myurl
+    }
+
+    onMounted(created)
 
     return {
       getlistimages,
@@ -250,6 +294,13 @@ export default defineComponent({
       getsrcimg,
       tools,
       uploaded,
+      gallerylist,
+      getnumimages,
+      apri,
+      displayGall,
+      save,
+      maximizedToggle,
+      getUrl,
     }
   }
 })

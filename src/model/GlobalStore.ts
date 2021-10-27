@@ -242,6 +242,7 @@ export interface IGlobalState {
   skills: ISkill[],
   statusSkills: IStatusSkill[],
   sectors: ISector[],
+  cities: ICity[],
 }
 
 export interface IMenuList {
@@ -566,12 +567,22 @@ export interface ILevel {
   years_of_exp: number
 }
 
+export interface ICity {
+  _id: number
+  istat: string
+  comune: string
+  prov: string
+}
+
 export interface IMySkill {
   _id: number
   idSkill: number
   idStatusSkill: number[]
+  idCity: number[]
+  photos: IGallery[]
   NumLevel: number
   note: string
+  subTitle: string
   date_created?: Date,
   date_updated?: Date,
 }

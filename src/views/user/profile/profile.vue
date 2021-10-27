@@ -5,9 +5,8 @@
       class="q-pa-xs" :title="$t('pages.profile')" bgcolor="bg-primary" clcolor="text-white"
       myclass="myshad" :canopen="true">
 
-
       <div class="column">
-        <div class="row">
+        <div class="myrow">
           <CMyFieldDb
             :title="$t('reg.name')"
             table="users"
@@ -21,7 +20,16 @@
             :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
-        <div class="row">
+        <div class="myrow">
+          <CMyFieldDb
+            :title="$t('reg.photo')"
+            table="users"
+            mykey="profile"
+            mysubkey="img"
+            :type="costanti.FieldType.image">
+          </CMyFieldDb>
+        </div>
+        <div class="myrow">
           <CMyFieldDb
             :title="$t('reg.username')"
             table="users"
@@ -44,7 +52,7 @@
           mysubkey="nationality"
           :type="costanti.FieldType.nationality">
         </CMyFieldDb>
-        <div class="row">
+        <div class="myrow">
           <CMyFieldDb
             :title="$t('reg.intcode_cell')"
             table="users"
@@ -62,7 +70,7 @@
         </div>
 
         <br/>
-        <div class="row justify-center">
+        <div class="myrow justify-center">
           <q-btn
             push
             rounded
@@ -80,9 +88,21 @@
       class="q-pa-xs" title="Informazioni su di te" bgcolor="bg-primary" clcolor="text-white"
       myclass="myshad" :canopen="true">
 
-
       <div class="column">
-        <div class="row">
+        <div class="myrow">
+          <CMyFieldDb
+            title="Biografia"
+            table="users"
+            mykey="profile"
+            mysubkey="biografia"
+            :type="costanti.FieldType.string">
+          </CMyFieldDb>
+        </div>
+      </div>
+
+      <!--
+      <div class="column">
+        <div class="myrow">
           <CMyFieldDb
             title="Motivazioni"
             table="users"
@@ -91,7 +111,7 @@
             :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
-        <div class="row">
+        <div class="myrow">
           <CMyFieldDb
             title="Competenze e Professionalità"
             table="users"
@@ -100,7 +120,7 @@
             :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
-        <div class="row">
+        <div class="myrow">
           <CMyFieldDb
             title="Cosa potrei offrire?"
             table="users"
@@ -109,7 +129,7 @@
             :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
-        <div class="row">
+        <div class="myrow">
           <CMyFieldDb
             title="Cosa vorrei ricevere?"
             table="users"
@@ -118,7 +138,7 @@
             :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
-        <div class="row">
+        <div class="myrow">
           <CMyFieldDb
             title="Altre Comunicazioni"
             table="users"
@@ -127,7 +147,7 @@
             :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
-        <div class="row">
+        <div class="myrow">
           <CMyFieldDb
             title="Come ci hai conosciuto?"
             table="users"
@@ -137,12 +157,14 @@
           </CMyFieldDb>
         </div>
       </div>
+      -->
+
     </CTitleBanner>
 
     <!--
     <CTitleBanner class="q-pa-xs" :title="$t('pages.payment')" bgcolor="bg-primary" clcolor="text-white"
                    myclass="myshad" :canopen="true">
-      <div class="row fa-border justify-center items-center">
+      <div class="myrow fa-border justify-center items-center">
 
         <CMyFieldDb v-if="costanti.isselectPayeer()"
                     :title="$t('reg.payeer_id')"

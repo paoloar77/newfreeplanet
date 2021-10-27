@@ -67,7 +67,11 @@ export default defineComponent({
       required: false,
       default: false,
     },
-
+    table: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   components: { CMyChipList, CDateTime, CDate, CMyToggleList, CMySelect, CMyEditor, CGallery },
   setup(props, { emit }) {
@@ -76,11 +80,11 @@ export default defineComponent({
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
 
-    const myvalue = ref('')
+    const myvalue = ref(<any>'')
     const myvalueprec = ref('false')
     const countryname = ref('')
     const visueditor = ref(false)
-    const showeditor = ref(true)
+    const showeditor = ref(false)
 
     const myrow = toRef(props, 'row')
 
@@ -89,8 +93,8 @@ export default defineComponent({
     }
 
     function changeval(newval: any) {
-      console.log('changeval update:row', newval)
-      emit('update:row', newval)
+      // console.log('changeval update:row', newval)
+      emit('update:row', props.row)
     }
 
     function getrealval(newval: any) {
@@ -100,10 +104,10 @@ export default defineComponent({
     }
 
     function changevalRec(newval: any) {
-      console.log('row', props.row, 'col', props.col, 'newval', newval)
-      console.log('row[col.name]', props.row[props.col.name])
+      // console.log('row', props.row, 'col', props.col, 'newval', newval)
+      // console.log('row[col.name]', props.row[props.col.name])
       myrow.value[props.col.name] = newval
-      console.log('changevalRec update:row', newval)
+      // console.log('changevalRec update:row', newval)
       emit('update:row', props.row)
     }
 
@@ -138,6 +142,25 @@ export default defineComponent({
         }
       }
 
+      if (props.col.fieldtype === costanti.FieldType.listimages) {
+        if (myvalue.value === '' || myvalue.value === undefined) {
+          console.log('set default myvalue.value ')
+          myvalue.value = {
+            title: 'Galleria',
+            directory: 'none',
+            list: [
+              {
+                _id: '',
+                imagefile: 'noimg.png',
+                order: 0,
+                alt: '',
+                description: '(nessuna foto)'
+              }]
+          }
+        }
+      }
+
+      // console.log('myvalue.value', myvalue.value)
       myvalueprec.value = myvalue.value
 
       // console.log('myvalueprec', myvalueprec)
@@ -309,6 +332,18 @@ export default defineComponent({
       }
     }
 
+    function getTitleGall() {
+      return fieldsTable.getTitleImgByTable(props.table);
+    }
+    function getDirectoryGall() {
+      if (fieldsTable.tableForUsers.includes(props.table)) {
+        return 'profile/' + userStore.my.username + '/' + props.table
+      } else {
+        return props.table
+      }
+
+    }
+
     onMounted(mounted)
 
     return {
@@ -336,6 +371,8 @@ export default defineComponent({
       fieldsTable,
       onInput,
       globalStore,
+      getTitleGall,
+      getDirectoryGall,
     }
   }
 })

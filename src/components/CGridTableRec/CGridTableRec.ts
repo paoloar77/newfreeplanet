@@ -328,7 +328,7 @@ export default defineComponent({
     }
 
     function selItem(item: any, col: IColGridTable) {
-      // console.log('selItem', item)
+      console.log('selItem', item)
       rowsel = item
       idsel = item._id
       colsel.value = col
@@ -381,41 +381,59 @@ export default defineComponent({
     }
 
     function SaveValue(newVal: any, valinitial: any) {
-      // console.log('SaveValue', newVal, 'rowsel', rowsel, 'colsel', colsel.value)
-
+      // console.log('SaveValue', newVal)
+      // console.log('rowsel', rowsel, 'colsel', colsel.value)
+      let myfield = ''
+      let subf = ''
       if (colsel.value) {
-        // Update value in table memory
-        if (colsel.value.subfield !== '') {
-          if (rowsel[colsel.value.field!] === undefined)
-            rowsel[colsel.value.field!] = {}
-          rowsel[colsel.value.field!][colsel.value.subfield!] = newVal
-        } else {
-          rowsel[colsel.value.field!] = newVal
+        myfield = colsel.value.field!
+        subf = colsel.value.subfield!
+      }
+
+      if (myfield) {
+        if (colsel.value) {
+          // console.log('rowsel[myfield]', rowsel[myfield], 'field', myfield)
+          // console.log('subf', subf)
         }
-      }
 
-      const mydata = <any>{
-        id: idsel,
-        table: mytable.value,
-        fieldsvalue: {}
-      }
-
-
-      if (colsel.value) {
-        if (colsel.value.subfield !== '') {
-          if (mydata.fieldsvalue[colsel.value.field!] === undefined) {
-            mydata.fieldsvalue[colsel.value.field! + '.' + colsel.value.subfield!] = newVal
+        if (colsel.value) {
+          // Update value in table memory
+          if (subf !== '') {
+            if (rowsel[myfield] === undefined)
+              rowsel[myfield] = {}
+            rowsel[myfield][subf] = newVal
+          } else {
+            rowsel[myfield] = newVal
           }
-          // mydata.fieldsvalue[colsel.value.field][colsel.subfield] = newVal
-        } else {
-          mydata.fieldsvalue[colsel.value.field!] = newVal
         }
+
+        const mydata = <any>{
+          id: idsel,
+          table: mytable.value,
+          fieldsvalue: {}
+        }
+
+
+        if (colsel.value) {
+          if (subf !== '') {
+            if (mydata.fieldsvalue[myfield] === undefined) {
+              mydata.fieldsvalue[myfield + '.' + subf] = newVal
+            }
+            // mydata.fieldsvalue[colsel.value.field][colsel.subfield] = newVal
+          } else {
+            mydata.fieldsvalue[myfield] = newVal
+          }
+        }
+
+        // if (colsel.value)
+        //   console.log(' -> rowsel[myfield]', rowsel[myfield])
+
+        valPrec = valinitial
+
+        // console.log('rowsel FINALE', rowsel)
+
+        saveFieldValue(mydata)
       }
-
-      valPrec = valinitial
-
-      saveFieldValue(mydata)
-
     }
 
     function updatedcol() {

@@ -9,11 +9,13 @@ import { tools } from '@store/Modules/tools'
 import { toolsext } from '@store/Modules/toolsext'
 import { costanti } from '@costanti'
 import MixinBase from '../../mixins/mixin-base'
+import MixinUsers from '../../mixins/mixin-users'
 import { CMyEditor } from '@/components/CMyEditor'
 import { CMySelect } from '@/components/CMySelect'
 import { CMyChipList } from '@/components/CMyChipList'
 import { CMyToggleList } from '@/components/CMyToggleList'
 import { CDateTime } from '@/components/CDateTime'
+import { CGallery } from '@/components/CGallery'
 
 
 export default defineComponent({
@@ -82,7 +84,7 @@ export default defineComponent({
       default: '',
     },
   },
-  components: { CMyEditor, CMySelect, CMyChipList, CMyToggleList, CDateTime },
+  components: { CMyEditor, CMySelect, CMyChipList, CMyToggleList, CDateTime, CGallery },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -97,6 +99,7 @@ export default defineComponent({
     const countryname = ref('')
 
     const { setValDb, getValDb } = MixinBase()
+    const { getMyUsername } = MixinUsers()
 
     function crea() {
 
@@ -221,6 +224,21 @@ export default defineComponent({
       }
     }
 
+    function uploaded(info: any) {
+
+      if (info.files) {
+        myvalue.value = tools.geturlrelativeprofile()+ '/' + getMyUsername() + '/' + info.files[0].name
+        console.log('uploaded', myvalue.value)
+        savefield(myvalue.value, '', $q)
+      }
+      // info.files[0].name
+    }
+
+    function removephoto() {
+      myvalue.value = ''
+      savefield(myvalue.value, '', $q)
+    }
+
     crea()
 
     return {
@@ -241,6 +259,9 @@ export default defineComponent({
       myq: $q,
       fieldsTable,
       globalStore,
+      uploaded,
+      getMyUsername,
+      removephoto,
     }
   },
 })

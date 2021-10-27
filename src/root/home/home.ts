@@ -5,11 +5,13 @@ import {
 
 import { tools } from '@src/store/Modules/tools'
 import { CSkill } from '@/components/CSkill'
+import { CChartMap } from '@src/components/CChartMap'
+import { CMapsEsempio } from '@src/components/CMapsEsempio'
 
 
 export default defineComponent({
   name: 'Home',
-  components: { CSkill },
+  components: { CSkill, CChartMap, CMapsEsempio },
   setup() {
 
     return {

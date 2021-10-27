@@ -40,6 +40,7 @@ export interface ISignupIscrizioneConacreisOptions {
   codiceConacreis?: string
   annoTesseramento?: number
   numTesseraInterna?: number
+  biografia?: string
   motivazioni?: string
   competenze_professionalita?: string
   cosa_potrei_offrire?: string

@@ -6,6 +6,16 @@
 
     </CSkill>
 
+    <!--<CChartMap
+      title="Mappa"
+      subtitle="cartina..."
+      serie1="Serie 1"
+    >
+
+    </CChartMap>-->
+
+    <!--<CMapsEsempio></CMapsEsempio>-->
+
   </q-page>
 
 </template>

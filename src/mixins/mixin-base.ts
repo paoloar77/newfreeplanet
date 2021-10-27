@@ -23,6 +23,7 @@ export default function () {
     tools.showNotif($q, t(msg))
   }
 
+
   function db_fieldsTable() {
     return fieldsTable
   }

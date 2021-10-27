@@ -3,3 +3,10 @@
   margin: 0 auto;
   max-width: 450px;
 }
+
+.myrow{
+  display: flex;
+  @media (max-width: 600px) {
+    flex-flow: column;
+  }
+}

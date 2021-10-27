@@ -83,8 +83,12 @@
 
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.listimages">
+          Galleria:
           <CGallery
-            :gall="row" :listimages="myvalue" :edit="isviewfield()"
+            v-if="myvalue"
+            :title="getTitleGall()"
+            :directory="getDirectoryGall()"
+            :imgGall="myvalue" :edit="isviewfield()"
             @showandsave="Savedb"
             @update:model-value="changevalRec"
           >
@@ -92,8 +96,12 @@
           </CGallery>
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.image">
+
           <CGallery
-            :gall="row" :listimages="myvalue" :edit="isviewfield()"
+            v-if="myvalue"
+            :title="getTitleGall()"
+            :directory="getDirectoryGall()"
+            :imgGall="myvalue" :edit="isviewfield()"
             @update:model-value="changevalRec"
             @showandsave="Savedb">
 
@@ -149,14 +157,20 @@
     <div v-else>
       <div v-if="col.fieldtype === costanti.FieldType.listimages">
         <CGallery
-          :gall="row" :listimages="myvalue" :edit="isviewfield()"
+          v-if="myvalue"
+          :title="getTitleGall()"
+          :directory="getDirectoryGall()"
+          :imgGall="myvalue" :edit="isviewfield()"
           @showandsave="Savedb">
 
         </CGallery>
       </div>
       <div v-else-if="col.fieldtype === costanti.FieldType.image">
         <CGallery
-          :gall="row" :listimages="myvalue" :edit="isviewfield()"
+          v-if="myvalue"
+          :title="getTitleGall()"
+          :directory="getDirectoryGall()"
+          :imgGall="myvalue" :edit="isviewfield()"
           @showandsave="Savedb">
 
         </CGallery>
@@ -252,13 +266,17 @@
 
             <div v-if="col.fieldtype === costanti.FieldType.html">
 
-              <!--<q-dialog v-model="showeditor">-->
-              <CMyEditor
-                v-if="visueditor" v-model:value="myvalue" :title="col.title" @keyup.enter.stop
-                @showandsave="Savedb" @annulla="visueditor=false">
+              <q-dialog v-model="visueditor" no-backdrop-dismiss persistent full-height full-width>
+                <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
+                  <q-card-section>
+                    <CMyEditor
+                      v-if="visueditor" v-model:value="myvalue" :title="col.title" @keyup.enter.stop
+                      @showandsave="Savedb" @annulla="visueditor=false">
 
-              </CMyEditor>
-              <!--</q-dialog>-->
+                    </CMyEditor>
+                  </q-card-section>
+                </q-card>
+              </q-dialog>
             </div>
 
             <q-popup-edit
@@ -383,10 +401,21 @@
                   emit-value
                   map-options
                   :options="globalStore.getTableJoinByName(col.jointable)"
-                  :option-label="fieldsTable.getLabelByTable(col.jointable)"
-                  :option-value="fieldsTable.getKeyByTable(col.jointable)"
                   style="min-width: 150px"
+                  :option-value="fieldsTable.getKeyByTable(col.jointable)"
                   @update:model-value="changeval">
+
+                  <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+                    <q-item v-bind="itemProps">
+
+                      <q-item-section>
+                        <q-item-label>{{ opt[fieldsTable.getLabelByTable(col.jointable)] }}</q-item-label>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
+                      </q-item-section>
+                    </q-item>
+                  </template>
 
                 </q-select>
               </div>
