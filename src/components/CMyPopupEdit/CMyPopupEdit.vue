@@ -83,7 +83,7 @@
 
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.listimages">
-          Galleria:
+          gall1:
           <CGallery
             v-if="myvalue"
             :title="getTitleGall()"
@@ -96,16 +96,43 @@
           </CGallery>
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.image">
+          <div v-if="canEdit">
+            gall2:
+            <CGallery
+              v-if="myvalue"
+              :title="getTitleGall()"
+              :directory="getDirectoryGall()"
+              :imgGall="myvalue" :edit="isviewfield()"
+              :single="isFieldDb()"
+              @update:model-value="changevalRec"
+              @showandsave="Savedb">
 
-          <CGallery
-            v-if="myvalue"
-            :title="getTitleGall()"
-            :directory="getDirectoryGall()"
-            :imgGall="myvalue" :edit="isviewfield()"
-            @update:model-value="changevalRec"
-            @showandsave="Savedb">
+            </CGallery>
+          </div>
+          <div v-else>
+            <div v-if="myvalue" class="text-center">
+              <q-img
+                :src="myvalue"
+                class="text-center"
+                style="height: 100px; width: 100px;"
+                alt="foto">
+              </q-img>
+            </div>
+            <div v-else class="text-center">
+              <q-img
+                src="images/noimg-user.svg"
+                class="text-center"
+                style="height: 100px; width: 100px;"
+                alt="nessuna immagine">
+              </q-img>
+            </div>
+            <q-btn
+              v-if="myvalue"
+              label="Rimuovi Foto"
+              color="blue" icon="fas fa-trash-alt" size="sm"
+              @click="removephoto"></q-btn>
 
-          </CGallery>
+          </div>
         </div>
         <div v-if="col.fieldtype === costanti.FieldType.binary">
           <CMyChipList
@@ -149,13 +176,13 @@
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.html">
           <div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true">
-
           </div>
         </div>
       </div>
     </div>
     <div v-else>
       <div v-if="col.fieldtype === costanti.FieldType.listimages">
+        gall3:
         <CGallery
           v-if="myvalue"
           :title="getTitleGall()"
@@ -166,11 +193,13 @@
         </CGallery>
       </div>
       <div v-else-if="col.fieldtype === costanti.FieldType.image">
+        gall4:
         <CGallery
           v-if="myvalue"
           :title="getTitleGall()"
           :directory="getDirectoryGall()"
-          :imgGall="myvalue" :edit="isviewfield()"
+          :single="isFieldDb()"
+          :imgGall="myImgGall" :edit="isviewfield()"
           @showandsave="Savedb">
 
         </CGallery>
@@ -255,28 +284,25 @@
                 @update:model-value="Savedb"></q-toggle>
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.html">
-              <div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true">
+              <div v-if="isFieldDb()">
+                <div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true"></div>
+              </div>
+              <div v-else>
+                <q-dialog v-model="visueditor" no-backdrop-dismiss persistent full-height full-width>
+                  <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
+                    <q-card-section>
+                      <CMyEditor
+                        v-if="visueditor" v-model:value="myvalue" :title="col.title" @keyup.enter.stop
+                        @showandsave="Savedb" @annulla="visueditor=false">
 
+                      </CMyEditor>
+                    </q-card-section>
+                  </q-card>
+                </q-dialog>
               </div>
             </div>
             <div v-else>
-              {{ visuValByType(myvalue, col, row) }}
-
-            </div>
-
-            <div v-if="col.fieldtype === costanti.FieldType.html">
-
-              <q-dialog v-model="visueditor" no-backdrop-dismiss persistent full-height full-width>
-                <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
-                  <q-card-section>
-                    <CMyEditor
-                      v-if="visueditor" v-model:value="myvalue" :title="col.title" @keyup.enter.stop
-                      @showandsave="Savedb" @annulla="visueditor=false">
-
-                    </CMyEditor>
-                  </q-card-section>
-                </q-card>
-              </q-dialog>
+              <span v-html="visuValByType(myvalue, col, row)"></span>
             </div>
 
             <q-popup-edit
@@ -293,7 +319,7 @@
               <div v-if="col.fieldtype === costanti.FieldType.boolean">
                 <q-checkbox v-model="scope.value" :label="col.title">
                 </q-checkbox>
-                {{ visuValByType(myvalue, col, row) }}
+                <span v-html="visuValByType(myvalue, col, row)"></span>
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.string">
                 <q-input
@@ -321,11 +347,21 @@
                 </q-input>
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.hours">
-                <q-input
-                  v-model="scope.value" type="number"
-                  autofocus>
+                <div v-if="isFieldDb()">
+                  <CMySelect
+                    label="Ore" v-model:value="myvalue"
+                    optval="_id" optlab="label"
+                    :useinput="false"
+                    :options="tools.SelectHours">
+                  </CMySelect>
+                </div>
+                <div v-else>
+                  <q-input
+                    v-model="scope.value" type="number"
+                    autofocus>
 
-                </q-input>
+                  </q-input>
+                </div>
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.binary">
 
@@ -354,6 +390,8 @@
                     :readonly="true"
                     rounded dense
                     debounce="1000"
+                    @keyup.enter="scope.set"
+                    :label="title"
                   >
 
                     <template v-slot:prepend>
@@ -376,16 +414,16 @@
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
 
-<!--                <vue-tel-input
-                  @country-changed="intcode_change"
-                  :value="scope.value"
-                  @update:model-value="oninput"
-                  :placeholder="$t('reg.cell')"
-                  :enabledCountryCode="true"
-                  inputClasses="clCell"
-                  wrapperClasses="clCellCode">
-                </vue-tel-input>
-                -->
+                <!--                <vue-tel-input
+                                  @country-changed="intcode_change"
+                                  :value="scope.value"
+                                  @update:model-value="oninput"
+                                  :placeholder="$t('reg.cell')"
+                                  :enabledCountryCode="true"
+                                  inputClasses="clCell"
+                                  wrapperClasses="clCellCode">
+                                </vue-tel-input>
+                                -->
 
               </div>
               <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
@@ -412,7 +450,7 @@
                         <q-item-label>{{ opt[fieldsTable.getLabelByTable(col.jointable)] }}</q-item-label>
                       </q-item-section>
                       <q-item-section side>
-                        <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
+                        <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)"/>
                       </q-item-section>
                     </q-item>
                   </template>

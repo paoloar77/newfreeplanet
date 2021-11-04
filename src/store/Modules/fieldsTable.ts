@@ -1234,7 +1234,7 @@ export const fieldsTable = {
   ],
 
   tableForUsers: [
-    'myskills'
+    'myskills',
   ],
 
   tablesList: [

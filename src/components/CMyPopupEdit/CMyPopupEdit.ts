@@ -1,9 +1,9 @@
-import { defineComponent, onMounted, ref, toRef } from 'vue'
+import { defineComponent, onMounted, PropType, ref, toRef, watch } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
-import { IColGridTable } from 'model'
+import { IColGridTable, IImgGallery } from 'model'
 import { CMyChipList } from '../CMyChipList'
 import { CDate } from '../CDate'
 import { CDateTime } from '../CDateTime'
@@ -15,16 +15,23 @@ import { tools } from '@store/Modules/tools'
 import { costanti } from '@costanti'
 
 import { fieldsTable } from '@store/Modules/fieldsTable'
+import MixinBase from '@/mixins/mixin-base'
+import MixinUsers from '@/mixins/mixin-users'
 
 export default defineComponent({
   name: 'CMyPopupEdit',
   props: {
+    title: {
+      type: String,
+      required: false,
+      default: '',
+    },
     row: {
       type: Object,
       required: true,
     },
-    col: {
-      type: Object,
+    mycol: {
+      type: Object as PropType<IColGridTable>,
       required: true,
     },
     canEdit: {
@@ -41,6 +48,26 @@ export default defineComponent({
       type: String,
       required: false,
       default: '',
+    },
+    mysubsubkey: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    serv: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    indrec: {
+      type: Number,
+      required: false,
+      default: -1,
+    },
+    type: {
+      type: Number,
+      required: false,
+      default: 0,
     },
     showall: {
       type: Boolean,
@@ -67,7 +94,27 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    jointable: {
+      type: String,
+      required: false,
+      default: '',
+    },
     table: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    myimg: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    id: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    idmain: {
       type: String,
       required: false,
       default: '',
@@ -86,7 +133,58 @@ export default defineComponent({
     const visueditor = ref(false)
     const showeditor = ref(false)
 
+    const myImgGall = ref(<IImgGallery[]>[{}])
+
+    const col = ref(<IColGridTable> { name: 'test', fieldtype: 0 })
+
     const myrow = toRef(props, 'row')
+
+    const { setValDb, getValDb } = MixinBase()
+    const { getMyUsername } = MixinUsers()
+
+    function crea() {
+
+      if (isFieldDb()) {
+        // mykey -> field
+        // mysubkey -> subfield
+        // table -> table
+        // serv -> serv
+        // id -> id
+        // idmain -> idmain
+
+        // console.table(props)
+
+        myvalue.value = getValDb(props.field, props.serv, '', props.table, props.subfield, props.id, props.idmain)
+        // console.log('myvalue.value', myvalue.value)
+        col.value.jointable = props.jointable
+        col.value.fieldtype = props.type
+        col.value.label = props.title
+
+        if (props.type === costanti.FieldType.image) {
+          myImgGall.value = [{
+            _id: '',
+            imagefile: myvalue.value,
+            order: 1,
+            alt: 'img',
+          }]
+        }
+
+        console.log('col', col.value);
+      } else {
+        col.value = {...props.mycol}
+      }
+
+      // console.log('CMyFieldDb crea', myvalue)
+    }
+
+    watch(() => props.id, (newval, oldval) => {
+      crea()
+    })
+
+
+    function isFieldDb(){
+      return props.type !== 0
+    }
 
     function isviewfield() {
       return props.view === 'field'
@@ -98,21 +196,21 @@ export default defineComponent({
     }
 
     function getrealval(newval: any) {
-      if (props.col.fieldtype === costanti.FieldType.hours) {
+      if (col.value.fieldtype === costanti.FieldType.hours) {
         newval = newval.value
       }
     }
 
     function changevalRec(newval: any) {
-      // console.log('row', props.row, 'col', props.col, 'newval', newval)
-      // console.log('row[col.name]', props.row[props.col.name])
-      myrow.value[props.col.name] = newval
+      // console.log('row', props.row, 'col', props.mycol, 'newval', newval)
+      // console.log('row[col.value.name]', props.row[col.value.name])
+      myrow.value[col.value.name] = newval
       // console.log('changevalRec update:row', newval)
       emit('update:row', props.row)
     }
 
     function changevalRecHours(newval: any) {
-      if (props.col.fieldtype === costanti.FieldType.hours) {
+      if (col.value.fieldtype === costanti.FieldType.hours) {
         newval = newval.value
       }
       changevalRec(newval)
@@ -126,23 +224,27 @@ export default defineComponent({
 
     function mounted() {
       // console.log('mounted')
-      if (props.subfield !== '') {
-        if (props.row[props.field] === undefined) {
-          myrow.value[props.field] = {}
-          myvalue.value = ''
-        } else {
-          myvalue.value = myrow.value[props.field][props.subfield]
-        }
+      if (isFieldDb()) {
+
       } else {
-        if (props.field !== '')
-          myvalue.value = myrow.value[props.field]
-        else {
-          // @ts-ignore
-          myvalue.value = myrow.value
+        if (props.subfield !== '') {
+          if (props.row[props.field] === undefined) {
+            myrow.value[props.field] = {}
+            myvalue.value = ''
+          } else {
+            myvalue.value = myrow.value[props.field][props.subfield]
+          }
+        } else {
+          if (props.field !== '')
+            myvalue.value = myrow.value[props.field]
+          else {
+            // @ts-ignore
+            myvalue.value = myrow.value
+          }
         }
       }
 
-      if (props.col.fieldtype === costanti.FieldType.listimages) {
+      if (col.value.fieldtype === costanti.FieldType.listimages) {
         if (myvalue.value === '' || myvalue.value === undefined) {
           console.log('set default myvalue.value ')
           myvalue.value = {
@@ -159,7 +261,6 @@ export default defineComponent({
           }
         }
       }
-
       // console.log('myvalue.value', myvalue.value)
       myvalueprec.value = myvalue.value
 
@@ -171,7 +272,7 @@ export default defineComponent({
       emit('show')
     }
 
-    function getval() {
+    /*function getval() {
       let myval: any = 'false'
 
       if ((props.subfield !== '') && (props.subfield !== '')) {
@@ -189,34 +290,54 @@ export default defineComponent({
       }
 
       return myval
-    }
+    }*/
 
     function SaveValueInt(newVal: any, valinitial: any) {
 
       // console.log('SaveValueInt', newVal, valinitial)
 
-      // Update value in table memory
-      if (props.subfield !== '') {
-        if (myrow.value[props.field] === undefined)
-          myrow.value[props.field] = {}
-        myrow.value[props.field][props.subfield] = newVal
+      if (isFieldDb()) {
+        savefield(newVal, valinitial, $q);
       } else {
-        if (props.field !== '')
-          myrow.value[props.field] = newVal
-        else
-          myrow.value = newVal
-      }
+        // Update value in table memory
+        if (props.subfield !== '') {
+          if (myrow.value[props.field] === undefined)
+            myrow.value[props.field] = {}
+          myrow.value[props.field][props.subfield] = newVal
+        } else {
+          if (props.field !== '')
+            myrow.value[props.field] = newVal
+          else
+            myrow.value = newVal
+        }
 
-      emit('save', newVal, valinitial)
+        emit('save', newVal, valinitial)
+      }
     }
+
+    function savefield(value: any, initialval: any, myq: any) {
+      myvalue.value = value
+      setValDb(myq, props.field, myvalue.value, props.type, props.serv, props.table, props.subfield, props.id, props.indrec, props.mysubsubkey)
+    }
+
 
     function annulla(val: any) {
       emit('annulla', true)
     }
 
+    function savefieldboolean(value: any) {
+      if (myvalue.value === undefined)
+        myvalue.value = 'true'
+      else
+        myvalue.value = value
+
+      setValDb($q, props.field, myvalue, props.type, props.serv, props.table, props.subfield, props.id, props.indrec, props.mysubsubkey)
+    }
+
+
     function Savedb(newVal: any, valinitial: any) {
 
-      if (props.col.fieldtype === costanti.FieldType.boolean) {
+      if (col.value.fieldtype === costanti.FieldType.boolean) {
         // console.log('myvalue', myvalue, newVal, myvalueprec)
         if (myvalueprec.value === undefined) {
           newVal = true
@@ -227,9 +348,14 @@ export default defineComponent({
         // console.log('DOPO myvalue', myvalue, newVal, myvalueprec)
       }
 
+      if (col.value.fieldtype === costanti.FieldType.image) {
+        console.log('newVal.imagefile', newVal)
+        myvalue.value = newVal
+      }
+
       // console.log('Savedb', newVal)
 
-      emit('showandsave', props.row, props.col, newVal, valinitial)
+      emit('showandsave', props.row, props.mycol, newVal, valinitial)
       visueditor.value = false
     }
 
@@ -238,49 +364,59 @@ export default defineComponent({
         return
 
       // let val = ''
-      // if (props.col.subfield !== '') {
-      //   if (row[props.col.field] === undefined)
-      //     row[props.col.field] = {}
+      // if (col.subfield !== '') {
+      //   if (row[col.field] === undefined)
+      //     row[col.field] = {}
       //
-      //   val = row[props.col.field][props.col.subfield]
+      //   val = row[col.field][col.subfield]
       // } else {
-      //   val = row[props.col.field]
+      //   val = row[col.field]
       // }
       //
-      if (props.col.fieldtype === costanti.FieldType.date) {
+      if (col.fieldtype === costanti.FieldType.date) {
         if (val === undefined) {
           return '[]'
         } else {
           return tools.getstrDateTime(val)
         }
-      } else if (props.col.fieldtype === costanti.FieldType.onlydate) {
+      } else if (col.fieldtype === costanti.FieldType.onlydate) {
         if (val === undefined) {
           return '[]'
         } else {
           return tools.getstrDate(val)
         }
-      } else if (props.col.fieldtype === costanti.FieldType.boolean) {
+      } else if (col.fieldtype === costanti.FieldType.boolean) {
         return (val) ? t('dialog.yes') : t('dialog.no')
-      } else if (props.col.fieldtype === costanti.FieldType.binary) {
+      } else if (col.fieldtype === costanti.FieldType.binary) {
         if (val === undefined)
           return '[---]'
         else
           return globalStore.getArrStrByValueBinary(col, val)
-      } else if (props.col.fieldtype === costanti.FieldType.select) {
+      } else if (col.fieldtype === costanti.FieldType.select) {
         if (val === undefined)
           return '[---]'
         else
           return globalStore.getValueByTable(col, val)
-      } else if (props.col.fieldtype === costanti.FieldType.multiselect) {
+      } else if (col.fieldtype === costanti.FieldType.multiselect) {
         if (val === undefined)
           return '[---]'
         else
           return globalStore.getMultiValueByTable(col, val)
+      } else if (col.fieldtype === costanti.FieldType.multioption) {
+        if (val === undefined)
+          return '[---]'
+        else
+          return globalStore.getMultiValueByTable(col, val)
+      } else if (col.fieldtype === costanti.FieldType.password) {
+        if (val === undefined)
+          return '[---]'
+        else
+          return '***************'
       } else {
         if (val === undefined || val === null)
-          return '[]'
+          return ' <span class="text-grey">(' + t('reg.select') + ')</span> '
         else if (val === '') {
-          return '[]'
+          return ' <span class="text-grey">(' + t('reg.select') + ')</span> '
         } else {
           let mystr = ''
           if (props.showall) {
@@ -300,17 +436,23 @@ export default defineComponent({
     }
 
     function visInNewRec(col: any) {
-      return !props.col.notShowInNewRec
+      return !col.notShowInNewRec
     }
 
     function getclassCol(col: any) {
       if (col) {
-        let mycl = (props.col.disable || isviewfield()) ? '' : 'colmodif'
-        mycl += ((props.col.fieldtype === costanti.FieldType.date) || (props.col.fieldtype === costanti.FieldType.onlydate)) ? ' coldate flex flex-container' : ''
+        let mycl = (col.disable || isviewfield()) ? '' : 'colmodif'
+        mycl += ((col.fieldtype === costanti.FieldType.date) || (col.fieldtype === costanti.FieldType.onlydate)) ? ' coldate flex flex-container' : ''
 
         return mycl
       } else {
         return ''
+      }
+    }
+
+    function mycl() {
+      if (props.disable) {
+        return 'cldisable'
       }
     }
 
@@ -333,18 +475,43 @@ export default defineComponent({
     }
 
     function getTitleGall() {
-      return fieldsTable.getTitleImgByTable(props.table);
+      if (fieldsTable.tableForUsers.includes(props.table)) {
+        return 'Profilo'
+      } else {
+        return fieldsTable.getTitleImgByTable(props.table);
+      }
     }
     function getDirectoryGall() {
       if (fieldsTable.tableForUsers.includes(props.table)) {
         return 'profile/' + userStore.my.username + '/' + props.table
+      }else if (props.table === 'users') {
+        return 'profile/' + userStore.my.username
       } else {
         return props.table
       }
 
     }
 
+    function uploaded(info: any) {
+
+      if (info.files) {
+        myvalue.value = tools.geturlrelativeprofile()+ '/' + getMyUsername() + '/' + info.files[0].name
+        console.log('uploaded', myvalue.value)
+        savefield(myvalue.value, '', $q)
+      }
+      // info.files[0].name
+    }
+
+
+    function removephoto() {
+      myvalue.value = ''
+      SaveValueInt(myvalue.value, '')
+    }
+
+
     onMounted(mounted)
+
+    crea()
 
     return {
       myvalue,
@@ -357,7 +524,6 @@ export default defineComponent({
       changevalRecHours,
       updatedata,
       OpenEdit,
-      getval,
       SaveValueInt,
       annulla,
       Savedb,
@@ -373,6 +539,10 @@ export default defineComponent({
       globalStore,
       getTitleGall,
       getDirectoryGall,
+      removephoto,
+      isFieldDb,
+      col,
+      myImgGall,
     }
   }
 })

@@ -4,7 +4,7 @@ function geturl() {
   if (miaurl.includes('localhost')) {
     return 'http://localhost:8084/'
   }
-  return 'https://mandalasolidale.freeplanet.app/'
+  return ''
 }
 
 function getidtrack() {

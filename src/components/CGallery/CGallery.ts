@@ -14,6 +14,11 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    single: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     title: String,
     directory: {
       type: String,
@@ -72,14 +77,14 @@ export default defineComponent({
     }
 
     function getnumimages() {
-      if (gallerylist.value && gallerylist.value)
+      if (gallerylist.value)
         return gallerylist.value.length
       else
         return 0
     }
 
     function getlistimages() {
-      if (gallerylist.value && gallerylist.value)
+      if (gallerylist.value)
         return gallerylist.value.slice().sort((a: any, b: any) => a.order! - b.order!)
       else
         return null
@@ -179,6 +184,7 @@ export default defineComponent({
         // e.target.appendChild(draggedEl)
         e.target.classList.remove('drag-enter')
 
+
         save()
       }
     }
@@ -210,7 +216,8 @@ export default defineComponent({
           gallerylist.value.push({ imagefile: file.name, order: getlastord() })
         }
 
-        save()
+        if (!props.single)
+          save()
       }
     }
 
@@ -219,6 +226,7 @@ export default defineComponent({
     }
 
     function deleted(rec: any) {
+      console.log('deleted', rec.imagefile)
       // console.table(mylistimages)
 
       if (gallerylist.value) {
@@ -231,7 +239,11 @@ export default defineComponent({
 
         // console.table(mylistimages)
 
-        save()
+        console.log('single', props.single)
+
+        if (!props.single) {
+          save()
+        }
       }
     }
 
@@ -246,25 +258,41 @@ export default defineComponent({
 
     async function deleteFile(rec: any)
     {
+      console.log('deleteFile....')
       const filename = getfullname(rec)
 
       // Delete File on server:
       const ris = await globalStore.DeleteFile({ filename })
+      console.log('ris', ris)
       if (ris)
         deleted(rec)
 
     }
 
     function save() {
-      emit('showandsave', gallerylist.value)
+      if (gallerylist.value.length > 0) {
+        if (!props.single) {
+          emit('showandsave', gallerylist.value)
+        } else {
+          emit('showandsave', gallerylist.value[0].imagefile)
+        }
+      }
+    }
+
+    function close() {
+      save()
     }
 
     function getsrcimg(gallerylistery: any) {
 
-      if (tools.getextfile(gallerylistery.imagefile) === 'pdf')
-        return 'images/images/pdf.jpg'
-      else
-        return 'upload/' + props.directory + '/' + gallerylistery.imagefile
+      if (gallerylistery) {
+        if (tools.getextfile(gallerylistery.imagefile) === 'pdf')
+          return 'images/images/pdf.jpg'
+        else
+          return 'upload/' + props.directory + '/' + gallerylistery.imagefile
+      } else {
+        return 'images/noimg.png';
+      }
     }
 
     function getParamDir() {
@@ -273,7 +301,7 @@ export default defineComponent({
 
     function getUrl() {
       const myurl = tools.geturlupload() + getParamDir()
-      console.log('myurl', myurl)
+      // console.log('myurl', myurl)
       return myurl
     }
 
@@ -301,6 +329,7 @@ export default defineComponent({
       save,
       maximizedToggle,
       getUrl,
+      close,
     }
   }
 })

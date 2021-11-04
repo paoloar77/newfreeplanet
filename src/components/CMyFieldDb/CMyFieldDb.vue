@@ -19,6 +19,38 @@
           </template>
         </q-field>
       </div>
+
+      <div :class="` q-ma-sm q-pa-sm col-grow rounded-borders `" style="border: 1px solid #bbb">
+        <CMyPopupEdit
+          :title="title"
+          :field="mykey"
+          :subfield="mysubkey"
+          :mysubsubkey="mysubsubkey"
+          :indrec="indrec"
+          :type="type"
+          :serv="serv"
+          :disable="disable"
+          :jointable="jointable"
+          :table="table"
+          :myimg="myimg"
+          :id="id"
+          :idmain="idmain"
+          :canEdit="true"
+          :mycol="col"
+          v-model:row="row"
+          minuteinterval="1"
+        >
+
+        </CMyPopupEdit>
+      </div>
+
+      <!--
+
+        @save="SaveValue"
+        @show="selItem(props.row, col)"
+        @showandsave="showandsel"
+
+
       <div :class="getclassCol(col) + ` q-ma-sm q-pa-sm col-grow rounded-borders `" style="border: 1px solid #bbb">
         <div v-if="type === costanti.FieldType.date">
           <CDateTime
@@ -53,7 +85,6 @@
               :optlab="fieldsTable.getLabelByTable(col.jointable)"
               :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
           </div>
-          <!-- Show Value -->
           <div v-else-if="type === costanti.FieldType.nationality">
             <q-input
               input-class="cursor-pointer text-center"
@@ -65,14 +96,6 @@
             >
 
               <div class="hidden">
-                <!--<vue-country-code
-                  :defaultCountry="myvalue"
-                  :disabledFetchingCountry="true"
-                  @onSelect="selectcountry"
-                  :preferredCountries="tools.getprefCountries"
-                  :dropdownOptions="{ disabledDialCode: true }">
-
-                </vue-country-code>-->
               </div>
 
             </q-input>
@@ -222,14 +245,6 @@
 
                   <template v-slot:prepend>
                     <div style="font-size: 1rem;">
-                      <!--<vue-country-code
-                        :defaultCountry="myvalue"
-                        :disabledFetchingCountry="true"
-                        @onSelect="selectcountry"
-                        :preferredCountries="tools.getprefCountries"
-                        :dropdownOptions="{ disabledDialCode: true }">
-
-                      </vue-country-code>-->
                     </div>
                   </template>
                 </q-input>
@@ -241,17 +256,6 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
 
               <div class="justify-center q-gutter-sm clgutter q-mt-sm">
-                <!--<vue-tel-input
-                  @country-changed="intcode_change"
-                  :value="myvalue"
-                  @update:model-value="onInput"
-                  :disabledFetchingCountry="true"
-                  :preferredCountries="tools.getprefCountries"
-                  :placeholder="$t('reg.cell')"
-                  :enabledCountryCode="true"
-                  inputClasses="clCell"
-                  wrapperClasses="clCellCode">
-                </vue-tel-input>-->
                 <div style="height: 180px;">
 
                 </div>
@@ -268,25 +272,6 @@
                 :isarray="true">
               </CMyToggleList>
 
-              <!--
-                            <q-select
-                              v-model="scope.value"
-                              rounded
-                              dense
-                              outlined
-                              multiple
-                              options-dense
-                              :display-value="fieldsTable.getTitleByTable(col.jointable)"
-                              emit-value
-                              map-options
-                              :options="globalStore.getTableJoinByName(col.jointable)"
-                              :option-label="fieldsTable.getLabelByTable(col.jointable)"
-                              :option-value="fieldsTable.getKeyByTable(col.jointable)"
-                              style="min-width: 150px"
-                            >
-
-                            </q-select>
-                            -->
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.multioption">
             </div>
@@ -316,7 +301,8 @@
             color="blue" icon="fas fa-trash-alt" size="sm"
             @click="removephoto"></q-btn>
         </div>
-      </div>
+      </div>-->
+
     </div>
   </div>
 </template>
