@@ -39,6 +39,7 @@
           :mycol="col"
           v-model:row="row"
           minuteinterval="1"
+          @showandsave="showandsel"
         >
 
         </CMyPopupEdit>

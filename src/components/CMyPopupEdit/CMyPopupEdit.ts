@@ -20,6 +20,7 @@ import MixinUsers from '@/mixins/mixin-users'
 
 export default defineComponent({
   name: 'CMyPopupEdit',
+  emits: ['showandsave', 'update:row', 'show', 'save', 'annulla'],
   props: {
     title: {
       type: String,
@@ -250,14 +251,7 @@ export default defineComponent({
           myvalue.value = {
             title: 'Galleria',
             directory: 'none',
-            list: [
-              {
-                _id: '',
-                imagefile: 'noimg.png',
-                order: 0,
-                alt: '',
-                description: '(nessuna foto)'
-              }]
+            list: []
           }
         }
       }
@@ -336,6 +330,7 @@ export default defineComponent({
 
 
     function Savedb(newVal: any, valinitial: any) {
+      console.log('Savedb')
 
       if (col.value.fieldtype === costanti.FieldType.boolean) {
         // console.log('myvalue', myvalue, newVal, myvalueprec)

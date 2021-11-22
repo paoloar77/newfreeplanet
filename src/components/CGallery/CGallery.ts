@@ -58,16 +58,17 @@ export default defineComponent({
       console.log('created cgallery')
       if (isValid(props.imgGall)) {
         // @ts-ignore
-        gallerylist.value = props.imgGall
+        let myarr: any = props.imgGall
+        gallerylist.value = []
+        if (myarr) {
+          myarr.forEach((pic: any) => {
+            if (pic.imagefile)
+              gallerylist.value.push(pic)
+          })
+        }
       } else {
         gallerylist.value = [
-            {
-              _id: '',
-              imagefile: 'noimg.png',
-              order: 0,
-              alt: '',
-              description: '(nessuna foto)'
-            }]
+            ]
       }
     }
 
@@ -210,7 +211,7 @@ export default defineComponent({
     }
 
     function uploaded(info: any) {
-      console.log(info)
+      console.log('uploaded', info)
       if (gallerylist.value) {
         for (const file of info.files) {
           gallerylist.value.push({ imagefile: file.name, order: getlastord() })
@@ -218,6 +219,8 @@ export default defineComponent({
 
         if (!props.single)
           save()
+
+        console.log('gallerylist', gallerylist.value)
       }
     }
 
@@ -270,21 +273,27 @@ export default defineComponent({
     }
 
     function save() {
+      console.log('CGallery save')
       if (gallerylist.value.length > 0) {
         if (!props.single) {
           emit('showandsave', gallerylist.value)
         } else {
           emit('showandsave', gallerylist.value[0].imagefile)
         }
+      } else {
+        emit('showandsave', '')
       }
     }
 
     function close() {
-      save()
+      return ''
     }
 
     function getsrcimg(gallerylistery: any) {
 
+      if (!gallerylistery.imagefile) {
+        return 'images/noimg.png';
+      }
       if (gallerylistery) {
         if (tools.getextfile(gallerylistery.imagefile) === 'pdf')
           return 'images/images/pdf.jpg'

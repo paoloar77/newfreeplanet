@@ -839,7 +839,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     async DeleteFile({ filename }: {filename: string}) {
       console.log('DeleteFile', filename)
 
-      return Api.SendReq('/delfile', 'DELETE', { filename })
+      return Api.SendReq(`/delfile/${tools.getvers()}/`, 'DELETE', { filename })
         .then((res) => {
           if (res.status === 200) {
             if (res.data.code === serv_constants.RIS_CODE_OK) {

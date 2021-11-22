@@ -363,7 +363,7 @@ export default defineComponent({
 
 
     function showandsel(row: any, col: any, newval: any, valinitial: any) {
-      // console.log('showandsel', row, col, newval)
+      console.log('showandsel CGridTable', row, col, newval)
       rowsel = row
       colsel.value = col
       idsel = row._id

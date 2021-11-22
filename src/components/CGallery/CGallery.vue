@@ -20,81 +20,89 @@
     </div>
   </div>
   <div v-else>
-    <div class=" row">
-      <!--<q-draggable-rows
-              v-model="order">-->
+    <div v-if="getnumimages() <= 0">
+      <q-btn
+        flat round color="blue" icon="fas fa-tools" size="md"
+        @click="apri"></q-btn>
+    </div>
+    <div v-else>
+      <div class=" row">
+        <!--<q-draggable-rows
+                v-model="order">-->
 
-      <div v-for="(mygallery, index) in getlistimages()" :key="index">
-        <div
-          class="q-pa-sm q-gutter-sm"
-          @dragenter="onDragEnter"
-          @dragleave="onDragLeave"
+        <div v-for="(mygallery, index) in getlistimages()" :key="index">
+          mygallery : {{ mygallery}}
+          <div
+            class="q-pa-sm q-gutter-sm"
+            @dragenter="onDragEnter"
+            @dragleave="onDragLeave"
 
-          @dragover="onDragOver">
-          <q-card
-            :id="mygallery._id" :class="getclass()"
-            draggable="true"
-            @dragstart="onDragStart"
-            @drop="onDrop"
-          >
+            @dragover="onDragOver">
+            <q-card
+              :id="mygallery._id" :class="getclass()"
+              draggable="true"
+              @dragstart="onDragStart"
+              @drop="onDrop"
+            >
 
-            <q-img
-              :src="getsrcimg(mygallery)"
-              :class="getclimg()"
-              :alt="mygallery.alt">
-              <div class="absolute-bottom text-shadow">
-                <!-- <div class="text-h6 text-trans">{{ mygallery.description }} </div> -->
-                <div class="text-subtitle-carica text-trans">{{ mygallery.description }}</div>
-              </div>
-            </q-img>
+              <q-img
+                :src="getsrcimg(mygallery)"
+                :class="getclimg()"
+                :alt="mygallery.alt">
+                <div class="absolute-bottom text-shadow">
+                  <!-- <div class="text-h6 text-trans">{{ mygallery.description }} </div> -->
+                  <div class="text-subtitle-carica text-trans">{{ mygallery.description }}</div>
+                </div>
+              </q-img>
 
 
-            <q-field
-              stack-label
-              dense
-              label="FileName">
-              <template v-slot:control>
-                <div class="self-center full-width no-outline" tabindex="0">{{ mygallery.imagefile }}</div>
-              </template>
+              <q-field
+                stack-label
+                dense
+                label="FileName">
+                <template v-slot:control>
+                  <div class="self-center full-width no-outline" tabindex="0">{{ mygallery.imagefile }}</div>
+                </template>
 
-            </q-field>
+              </q-field>
 
-            <q-input
-              v-model="mygallery.description"
-              dense
-              :label="$t('proj.longdescr')"
-              @keyup.enter.stop
-              @update:model-value="save"
-              debounce="1000"
-              autofocus>
-            </q-input>
+              <q-input
+                v-model="mygallery.description"
+                dense
+                :label="$t('proj.longdescr')"
+                @keyup.enter.stop
+                @update:model-value="save"
+                debounce="1000"
+                autofocus>
+              </q-input>
 
-            <q-card-actions align="center">
-              <q-btn
-                flat round color="blue" icon="fas fa-copy" size="sm"
-                @click="copytoclipboard(mygallery)"></q-btn>
-              <q-btn
-                flat round color="red" icon="fas fa-trash-alt" size="sm"
-                @click="deleteFile(mygallery)"></q-btn>
-            </q-card-actions>
-          </q-card>
+              <q-card-actions align="center">
+                <q-btn
+                  flat round color="blue" icon="fas fa-copy" size="sm"
+                  @click="copytoclipboard(mygallery)"></q-btn>
+                <q-btn
+                  flat round color="red" icon="fas fa-trash-alt" size="sm"
+                  @click="deleteFile(mygallery)"></q-btn>
+              </q-card-actions>
+            </q-card>
+          </div>
         </div>
-      </div>
-      <div class="q-pa-sm">
-        <div v-if="edit" class="q-gutter-sm " style="max-height: 200px; width: 208px;">
-          <q-uploader
-            label="Aggiungi Immagine o PDF"
-            accept=".jpg, image/*, .pdf"
-            :url="getUrl()"
-            :headers="tools.getheaders()"
-            :max-file-size="2000000"
-            multiple
-            auto-upload
-            hide-upload-btn
-            no-thumbnails
-            @uploaded="uploaded"
-            style="width: 208px"
-          ></q-uploader>
+        <div class="q-pa-sm">
+          <div v-if="edit" class="q-gutter-sm " style="max-height: 200px; width: 208px;">
+            <q-uploader
+              label="Aggiungi Immagine"
+              accept=".jpg, image/*, .pdf"
+              :url="getUrl()"
+              :headers="tools.getheaders()"
+              :max-file-size="2000000"
+              multiple
+              auto-upload
+              hide-upload-btn
+              no-thumbnails
+              @uploaded="uploaded"
+              style="width: 208px"
+            ></q-uploader>
+          </div>
         </div>
       </div>
     </div>
@@ -108,7 +116,7 @@
   >
     <q-card>
       <q-bar class="bg-primary text-white">
-        <q-space />
+        <q-space/>
 
         <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
           <q-tooltip v-if="maximizedToggle" class="bg-white text-primary">Minimize</q-tooltip>
@@ -116,7 +124,7 @@
         <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
           <q-tooltip v-if="!maximizedToggle" class="bg-white text-primary">Maximize</q-tooltip>
         </q-btn>
-        <q-btn dense flat icon="close" v-close-popup @click="close">
+        <q-btn dense flat icon="close" v-close-popup>
           <q-tooltip class="bg-white text-primary">Close</q-tooltip>
         </q-btn>
       </q-bar>
@@ -170,14 +178,14 @@
                     autofocus>
                   </q-input>
 
-                <q-card-actions align="center">
-                  <q-btn
-                    flat round color="blue" icon="fas fa-copy" size="sm"
-                    @click="copytoclipboard(mygallery)"></q-btn>
-                  <q-btn
-                    flat round color="red" icon="fas fa-trash-alt" size="sm"
-                    @click="deleteFile(mygallery)"></q-btn>
-                </q-card-actions>
+                  <q-card-actions align="center">
+                    <q-btn
+                      flat round color="blue" icon="fas fa-copy" size="sm"
+                      @click="copytoclipboard(mygallery)"></q-btn>
+                    <q-btn
+                      flat round color="red" icon="fas fa-trash-alt" size="sm"
+                      @click="deleteFile(mygallery)"></q-btn>
+                  </q-card-actions>
                 </q-card-section>
 
               </q-card>
@@ -186,7 +194,7 @@
           <div class="q-pa-sm">
             <div class="q-gutter-sm " style="max-height: 200px; width: 208px;">
               <q-uploader
-                label="Aggiungi Immagine o PDF"
+                label="Aggiungi Immagine"
                 accept=".jpg, image/*, .pdf"
                 :url="getUrl()"
                 :headers="tools.getheaders()"
@@ -201,6 +209,11 @@
             </div>
           </div>
         </div>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Annulla" color="primary" v-close-popup />
+          <q-btn label="salva" color="primary" v-close-popup @click="save"/>
+        </q-card-actions>
 
       </q-card-section>
     </q-card>

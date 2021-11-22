@@ -7,6 +7,7 @@ import { tools } from '@store/Modules/tools'
 import { costanti } from '@costanti'
 import { CMyPopupEdit } from '@/components/CMyPopupEdit'
 import { IColGridTable } from 'model'
+import MixinBase from '@/mixins/mixin-base'
 
 
 export default defineComponent({
@@ -84,6 +85,15 @@ export default defineComponent({
     const col = ref(<IColGridTable> { name: 'test' })
     const row = ref({})
 
+    const { setValDb, getValDb } = MixinBase()
+
+    function showandsel(row: any, col: any, newval: any, valinitial: any) {
+      console.log('showandsel CMyFieldDb', row, col, newval)
+
+      if (newval !== valinitial)
+        setValDb($q, props.mykey, newval, props.type, props.serv, props.table, props.mysubkey, props.id, props.indrec, props.mysubsubkey)
+    }
+
     return {
       tools,
       costanti,
@@ -91,6 +101,7 @@ export default defineComponent({
       globalStore,
       col,
       row,
+      showandsel,
     }
   },
 })

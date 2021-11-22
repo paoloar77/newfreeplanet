@@ -85,7 +85,6 @@
         <div v-else-if="col.fieldtype === costanti.FieldType.listimages">
           gall1:
           <CGallery
-            v-if="myvalue"
             :title="getTitleGall()"
             :directory="getDirectoryGall()"
             :imgGall="myvalue" :edit="isviewfield()"
@@ -99,7 +98,6 @@
           <div v-if="canEdit">
             gall2:
             <CGallery
-              v-if="myvalue"
               :title="getTitleGall()"
               :directory="getDirectoryGall()"
               :imgGall="myvalue" :edit="isviewfield()"
@@ -184,7 +182,6 @@
       <div v-if="col.fieldtype === costanti.FieldType.listimages">
         gall3:
         <CGallery
-          v-if="myvalue"
           :title="getTitleGall()"
           :directory="getDirectoryGall()"
           :imgGall="myvalue" :edit="isviewfield()"
@@ -193,9 +190,8 @@
         </CGallery>
       </div>
       <div v-else-if="col.fieldtype === costanti.FieldType.image">
-        gall4:
+
         <CGallery
-          v-if="myvalue"
           :title="getTitleGall()"
           :directory="getDirectoryGall()"
           :single="isFieldDb()"
