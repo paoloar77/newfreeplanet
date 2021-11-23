@@ -83,7 +83,6 @@
 
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.listimages">
-          gall1:
           <CGallery
             :title="getTitleGall()"
             :directory="getDirectoryGall()"
@@ -96,7 +95,6 @@
         </div>
         <div v-else-if="col.fieldtype === costanti.FieldType.image">
           <div v-if="canEdit">
-            gall2:
             <CGallery
               :title="getTitleGall()"
               :directory="getDirectoryGall()"
@@ -180,7 +178,6 @@
     </div>
     <div v-else>
       <div v-if="col.fieldtype === costanti.FieldType.listimages">
-        gall3:
         <CGallery
           :title="getTitleGall()"
           :directory="getDirectoryGall()"

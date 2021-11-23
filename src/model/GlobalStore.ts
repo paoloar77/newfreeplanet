@@ -369,7 +369,7 @@ export interface ITimeLineMain {
 export interface IImgGallery {
   _id?: string
   imagefile: string
-  order?: number
+  // order?: number
   alt?: string
   description?: string
 }

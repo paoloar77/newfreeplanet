@@ -170,7 +170,7 @@ export const useUserStore = defineStore('UserStore', {
       const myrec = this.getUserByUsername(username)
       // console.log('myrec', myrec)
       if (myrec && myrec.profile && !!myrec.profile.img && myrec.profile.img !== '' && myrec.profile.img !== 'undefined') {
-        return myrec.profile.img
+        return 'upload/profile/' + this.my.username + '/' + myrec.profile.img
       }
       return ''
     },

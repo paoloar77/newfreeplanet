@@ -9,8 +9,8 @@
             <q-img
               :src="getsrcimg(mygallery)" :class="getclimg()"
               :alt="mygallery.alt">
-              <div class="absolute-bottom text-shadow">
-                {{ getnumimages() }} files
+              <div v-if="getnumimages() > 1" class="absolute-bottom text-shadow no-padding">
+                ({{ getnumimages() }})
               </div>
             </q-img>
 
@@ -31,7 +31,7 @@
                 v-model="order">-->
 
         <div v-for="(mygallery, index) in getlistimages()" :key="index">
-          mygallery : {{ mygallery}}
+          mygallery : {{ mygallery }}
           <div
             class="q-pa-sm q-gutter-sm"
             @dragenter="onDragEnter"
@@ -59,7 +59,7 @@
               <q-field
                 stack-label
                 dense
-                label="FileName">
+                label="Nome File">
                 <template v-slot:control>
                   <div class="self-center full-width no-outline" tabindex="0">{{ mygallery.imagefile }}</div>
                 </template>
@@ -138,13 +138,28 @@
 
           <div v-for="(mygallery, index) in getlistimages()" :key="index">
             <div
-              class="q-pa-sm q-gutter-sm"
+              class="q-pa-sm barwidth"
               @dragenter="onDragEnter"
               @dragleave="onDragLeave"
+              @dragover="onDragOver"
+            >
+              <q-bar
+                class="bg-primary text-white"
+              >
+                <q-btn flat round dense icon="menu" class="q-mr-sm"/>
+                <q-btn
+                  flat round icon="fas fa-copy" size="sm"
+                  @click="copytoclipboard(mygallery)"></q-btn>
+                <div>
+                  Foto {{ index + 1 }}
+                </div>
+                <q-space></q-space>
+                <q-btn flat round color="red" icon="fas fa-trash-alt" @click="deleteFile(mygallery)"></q-btn>
+              </q-bar>
 
-              @dragover="onDragOver">
               <q-card
                 :id="mygallery._id" :class="getclass()"
+                :data-ind="index"
                 draggable="true"
                 @dragstart="onDragStart"
                 @drop="onDrop"
@@ -153,7 +168,7 @@
                   :src="getsrcimg(mygallery)"
                   :class="getclimg()"
                   :alt="mygallery.alt">
-                  <div class="absolute-bottom text-shadow">
+                  <div v-if="mygallery.description" class="absolute-bottom text-shadow">
                     <!-- <div class="text-h6 text-trans">{{ mygallery.description }} </div> -->
                     <div class="text-subtitle-carica text-trans">{{ mygallery.description }}</div>
                   </div>
@@ -162,7 +177,7 @@
                   <q-field
                     stack-label
                     dense
-                    label="FileName">
+                    label="Nome File">
                     <template v-slot:control>
                       <div class="self-center full-width no-outline" tabindex="0">{{ mygallery.imagefile }}</div>
                     </template>
@@ -177,15 +192,6 @@
                     debounce="1000"
                     autofocus>
                   </q-input>
-
-                  <q-card-actions align="center">
-                    <q-btn
-                      flat round color="blue" icon="fas fa-copy" size="sm"
-                      @click="copytoclipboard(mygallery)"></q-btn>
-                    <q-btn
-                      flat round color="red" icon="fas fa-trash-alt" size="sm"
-                      @click="deleteFile(mygallery)"></q-btn>
-                  </q-card-actions>
                 </q-card-section>
 
               </q-card>
@@ -211,7 +217,7 @@
         </div>
 
         <q-card-actions align="right">
-          <q-btn flat label="Annulla" color="primary" v-close-popup />
+          <q-btn flat label="Annulla" color="primary" v-close-popup/>
           <q-btn label="salva" color="primary" v-close-popup @click="save"/>
         </q-card-actions>
 

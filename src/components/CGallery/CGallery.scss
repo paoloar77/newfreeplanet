@@ -19,7 +19,13 @@ $grayshadow: #555;
 .myimg {
   border-radius: 10px !important;
   height: 200px;
+  cursor: grab;
 }
+
+.barwidth{
+  width: 250px !important;
+}
+
 
 .myimg-view {
   border-radius: 5px !important;

@@ -1456,7 +1456,7 @@ export const tools = {
       } else {
         this.showNotif($q, t('notification.denied'), { color: 'negative', icon: 'notifications' })
 
-        tools.displayConfirmNotification();
+        tools.displayConfirmNotification()
       }
     })
   },
@@ -3359,7 +3359,7 @@ export const tools = {
     return process.env.MONGODB_HOST + `/uploadnew/${this.getvers()}/`
   },
   escapeslash(mystr: string) {
-    return mystr.replace(/\//g, '-');
+    return mystr.replace(/\//g, '-')
   },
   geturlrelativeprofile() {
     return 'upload/profile'
@@ -4330,6 +4330,16 @@ export const tools = {
     }
   },
 
+  array_move(arr: any, old_index: number, new_index: number) {
+    if (new_index >= arr.length) {
+      let k: any = new_index - arr.length + 1
+      while (k--) {
+        arr.push(undefined)
+      }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0])
+    return arr // for testing
+  },
 // getLocale() {
   //   if (navigator.languages && navigator.languages.length > 0) {
   //     return navigator.languages[0]

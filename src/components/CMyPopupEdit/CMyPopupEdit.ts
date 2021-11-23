@@ -165,7 +165,7 @@ export default defineComponent({
           myImgGall.value = [{
             _id: '',
             imagefile: myvalue.value,
-            order: 1,
+            // order: 1,
             alt: 'img',
           }]
         }

@@ -62,8 +62,9 @@ export default defineComponent({
         gallerylist.value = []
         if (myarr) {
           myarr.forEach((pic: any) => {
-            if (pic.imagefile)
+            if (pic.imagefile) {
               gallerylist.value.push(pic)
+            }
           })
         }
       } else {
@@ -86,7 +87,8 @@ export default defineComponent({
 
     function getlistimages() {
       if (gallerylist.value)
-        return gallerylist.value.slice().sort((a: any, b: any) => a.order! - b.order!)
+        // return gallerylist.value.slice().sort((a: any, b: any) => a.order! - b.order!)
+        return gallerylist.value
       else
         return null
     }
@@ -126,8 +128,8 @@ export default defineComponent({
         const draggedId = e.dataTransfer.getData('text')
         let dragout = ''
         try {
-          dragout = e.target.parentNode.parentNode.id
-        } catch (e) {
+          dragout = e.target.parentNode.parentNode.parentNode.id
+        } catch (err) {
           dragout = ''
         }
         const draggedEl = document.getElementById(draggedId)
@@ -135,56 +137,30 @@ export default defineComponent({
         console.log('dragout', dragout)
 
         // check if original parent node
-        if (draggedEl!.parentNode === e.target) {
-          e.target.classList.remove('drag-enter')
-          return
+        if (draggedEl) {
+          if (draggedEl.parentNode === e.target) {
+            e.target.classList.remove('drag-enter')
+            return
+          }
         }
 
-        const myindex = gallerylist.value.findIndex((rec: any) => rec._id === draggedId)
-        const myrec: IImgGallery = gallerylist.value[myindex]
+        const myindexIn = gallerylist.value.findIndex((rec: any) => rec._id === draggedId)
+        const myrecIn: IImgGallery = gallerylist.value[myindexIn]
 
-        let myrecprec: IImgGallery
-        let myrecout: IImgGallery
+        let myrecOut: IImgGallery
         const myindexout = gallerylist.value.findIndex((rec: any) => rec._id === dragout)
-        myrecout = gallerylist.value[myindexout]
-        let myindexprec = myindexout - 1
+        myrecOut = gallerylist.value[myindexout]
 
-        if (myindexprec < 0)
-          myindexprec = 0
-
-        if (myindex === myindexout)
+        if (myindexIn === myindexout)
           return
 
-        myrecprec = gallerylist.value[myindexprec]
 
-        console.log('myrec', myrec, 'myrecprec', myrecout)
-
-        if (myrec && myrecout)
-          console.log('myrec', myrec, 'myrecprec', myrecout, 'ord1', myrec.order, 'myrecout', myrecout.order)
-
-        if (myrecout) {
-          let diff = 0
-          const ord2 = myrecprec.order
-          const ord1 = myrecout.order
-          diff = Math.round((ord1! - ord2!) / 2)
-          if (diff <= 0)
-            diff++
-          console.log('diff', diff)
-          let mynum = 0
-          mynum = myrecprec.order! + diff
-          console.log('mynum', mynum)
-          myrec.order = mynum
-        } else {
-          myrec.order = Math.round(myrec.order!) - 1
-        }
-
-        console.log('myrec.order', myrec.order)
+        tools.array_move(gallerylist.value, myindexIn, myindexout)
 
         // make the exchange
         // draggedEl.parentNode.removeChild(draggedEl)
         // e.target.appendChild(draggedEl)
         e.target.classList.remove('drag-enter')
-
 
         save()
       }
@@ -198,7 +174,7 @@ export default defineComponent({
       return (props.edit || displayGall.value) ? 'myimg' : 'myimg-view'
     }
 
-    function getlastord() {
+    /*function getlastord() {
       if (gallerylist.value) {
         let myord = 0
         for (const file of gallerylist.value) {
@@ -208,13 +184,13 @@ export default defineComponent({
 
         return myord + 10
       }
-    }
+    }*/
 
     function uploaded(info: any) {
       console.log('uploaded', info)
       if (gallerylist.value) {
         for (const file of info.files) {
-          gallerylist.value.push({ imagefile: file.name, order: getlastord() })
+          gallerylist.value.push({ imagefile: file.name })
         }
 
         if (!props.single)
@@ -259,17 +235,30 @@ export default defineComponent({
       tools.copyStringToClipboard($q, filename, true)
     }
 
-    async function deleteFile(rec: any)
+    function deleteFile(rec: any)
     {
       console.log('deleteFile....')
       const filename = getfullname(rec)
+      const filenamerel = filename.replace(/^.*[\\\/]/, '')
 
-      // Delete File on server:
-      const ris = await globalStore.DeleteFile({ filename })
-      console.log('ris', ris)
-      if (ris)
-        deleted(rec)
+      $q.dialog({
+        message: 'Eliminare il file ' + filenamerel + '?',
+        html: true,
+        ok: {
+          label: 'Elimina',
+          push: true,
+        },
+        title: filenamerel,
+        cancel: true,
+        persistent: false,
+      }).onOk(async () => {
 
+        // Delete File on server:
+        const ris = await globalStore.DeleteFile({ filename })
+        console.log('ris', ris)
+        if (ris)
+          deleted(rec)
+      })
     }
 
     function save() {
@@ -325,7 +314,6 @@ export default defineComponent({
       onDrop,
       getclass,
       getclimg,
-      getlastord,
       copytoclipboard,
       deleteFile,
       getsrcimg,
