@@ -8,7 +8,61 @@
         @click="createNewRecordDialog"></q-btn>
     </div>
 
+    <div
+      v-if="prop_search"
+      class="row justify-center vertical-middle">
+
+      <q-input
+        v-model="search" filled dense type="search" debounce="500" hint="Cerca"
+        v-on:keyup.enter="doSearch">
+        <template v-slot:after>
+          <q-btn v-if="mytable" dense label="" color="primary" @click="refresh" icon="search"></q-btn>
+        </template>
+      </q-input>
+
+      <q-space></q-space>
+
+      <q-select
+        v-if="mytable"
+        v-model="colVisib"
+        rounded
+        outlined
+        multiple
+        dense
+        options-dense
+        :display-value="$t('grid.columns')"
+        emit-value
+        map-options
+        :options="mycolumns"
+        option-value="name"
+        @update:model-value="changeCol">
+
+      </q-select>
+
+    </div>
+    <div class="q-gutter-md q-ma-xs row">
+      <div class="q-table__title" style="min-width: 150px;">{{ mytitle }}</div>
+      <q-space></q-space>
+      <q-btn
+        v-if="mytable" rounded dense size="sm" flat :color="canEdit ? 'positive' : 'light-gray'"
+        :disable="disabilita()"
+        :val="lists.MenuAction.CAN_EDIT_TABLE"
+        icon="fas fa-pencil-alt" @update:model-value="changefuncAct"
+        @click="canEdit = !canEdit">
+      </q-btn>
+      <q-btn
+        v-if="mytable" rounded dense size="sm" flat color="light-gray"
+        :disable="loading"
+        icon="fas fa-plus"
+        @click="createNewRecord">
+
+      </q-btn>
+    </div>
+    <q-inner-loading :showing="spinner_visible">
+      <q-spinner-tail size="2em" color="primary"/>
+    </q-inner-loading>
     <q-table
+      :grid="vertical"
       flat
       bordered
       class="my-sticky-header-table"
@@ -32,7 +86,6 @@
       <template v-slot:header="props">
         <q-tr :props="props">
           <q-th>
-
           </q-th>
           <q-th
             v-for="col in props.cols" :key="col.name"
@@ -47,53 +100,7 @@
         </q-tr>
       </template>
 
-
-      <template v-slot:top-right>
-        <div class="q-table__title" style="min-width: 150px;">{{ mytitle }}</div>
-
-        <!--<p style="color:red"> Rows: {{ getrows }}</p>-->
-
-        <q-input
-          v-model="search" filled dense type="search" debounce="500" hint="Search"
-          v-on:keyup.enter="doSearch">
-          <template v-slot:after>
-            <q-btn v-if="mytable" label="" color="primary" @click="refresh" icon="search"></q-btn>
-          </template>
-        </q-input>
-        <q-toggle
-          v-if="mytable" v-model="canEdit" :disable="disabilita()" :val="lists.MenuAction.CAN_EDIT_TABLE"
-          class="q-mx-sm"
-          :label="$t('grid.editvalues')" @update:model-value="changefuncAct">
-        </q-toggle>
-
-        <q-btn
-          v-if="mytable" flat dense color="primary" :disable="loading || !canEdit"
-          :label="$t('grid.addrecord')"
-          @click="createNewRecord">
-
-        </q-btn>
-
-        <q-space/>
-
-        <!--<q-toggle v-for="(mycol, index) in mycolumns" v-model="colVisib" :val="rec.field" :label="mycol.label"></q-toggle>-->
-
-        <q-select
-          v-if="mytable"
-          v-model="colVisib"
-          rounded
-          outlined
-          multiple
-          dense
-          options-dense
-          :display-value="$t('grid.columns')"
-          emit-value
-          map-options
-          :options="mycolumns"
-          option-value="name"
-          @update:model-value="changeCol">
-
-        </q-select>
-
+      <template v-slot:top-right v-if="tablesList || arrfilters">
         <q-select
           v-if="tablesList"
           v-model="tablesel"
@@ -106,12 +113,6 @@
           @update:model-value="changeTable"
         >
         </q-select>
-
-
-        <q-inner-loading :showing="spinner_visible">
-          <q-spinner-tail size="2em" color="primary"/>
-        </q-inner-loading>
-
 
         <div class="row">
           <q-toggle
@@ -135,7 +136,6 @@
             <div
               v-if="colVisib.includes(col.field + col.subfield)" class="tdclass">
               <div :class="getclrow(props.row)">
-
                 <CMyPopupEdit
                   :table="prop_mytable"
                   :canEdit="canEdit"
@@ -167,6 +167,66 @@
           </q-td>
         </q-tr>
         <br>
+      </template>
+
+      <template v-slot:item="props">
+        <div
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+          :style="props.selected ? 'transform: scale(0.95);' : ''"
+        >
+          <q-card :class="props.selected ? 'bg-grey-2' : ''">
+            <q-list dense>
+              <div v-for="col in mycolumns" :key="col.name">
+                <q-item v-if="colVisib.includes(col.field + col.subfield)" :class="clByCol(col)">
+                  <q-item-section avatar v-if="visuIntestazCol(col)">
+                    <q-item-label class="q-table__col">{{ col.label }}</q-item-label>
+                  </q-item-section>
+                  <q-item-section>
+                      <div class="tdclass">
+                        <div :class="getclrow(props.row)">
+
+                          <CMyPopupEdit
+                            :table="prop_mytable"
+                            :canEdit="canEdit"
+                            :disable="disabilita()"
+                            :mycol="col"
+                            v-model:row="props.row"
+                            :field="col.field"
+                            :subfield="col.subfield"
+                            minuteinterval="1"
+                            @save="SaveValue"
+                            @show="selItem(props.row, col)"
+                            @showandsave="showandsel">
+
+                          </CMyPopupEdit>
+                        </div>
+                      </div>
+                  </q-item-section>
+                </q-item>
+              </div>
+              <div>
+                <q-item-section>
+                  <q-item-label class="q-table__col"></q-item-label>
+                </q-item-section>
+                <q-item class="row justify-center">
+                  <q-item-section side>
+                    <q-item-label caption>
+                      <q-item>
+                        <div v-for="col in mycolumns" :key="col.name">
+                          <div v-if="colExtra.includes(col.name) && col.action" class="tdclass">
+                            <q-btn
+                              flat round color="red" :icon="col.icon" size="sm"
+                              @click="clickFunz(props.row, col)"></q-btn>
+                          </div>
+                        </div>
+                      </q-item>
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </div>
+            </q-list>
+          </q-card>
+        </div>
       </template>
 
       <!--
@@ -223,7 +283,7 @@
     </div>
     <q-dialog v-model="newRecordBool" @hide="hidewindow">
       <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
-        <q-toolbar class="bg-primary text-white">
+        <q-toolbar class="bg-primary text-white centeritems">
           <q-toolbar-title>
             {{ mytitle }}
           </q-toolbar-title>
@@ -257,6 +317,44 @@
         <q-card-actions align="center">
           <q-btn flat :label="$t('dialog.ok')" color="primary" @click="saveNewRecord"></q-btn>
           <q-btn flat :label="$t('dialog.cancel')" color="primary" v-close-popup @click="annulla"></q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="editRecordBool">
+      <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
+        <q-toolbar class="bg-primary text-white centeritems">
+          <q-toolbar-title>
+            {{ mytitle }}
+          </q-toolbar-title>
+          <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
+        </q-toolbar>
+        <q-card-section class="inset-shadow">
+          <div
+            v-for="col in mycolumns" :key="col.name">
+            <div
+              v-if="colVisib.includes(col.field + col.subfield)">
+              <div>
+                <CMyPopupEdit
+                  :table="prop_mytable"
+                  :canEdit="true"
+                  :mycol="col"
+                  :isInModif="true"
+                  v-model:row="recModif"
+                  :field="col.field"
+                  :subfield="col.subfield"
+                  minuteinterval="1"
+                  @save="SaveValue"
+                  @show="selItem(recModif, col, true)"
+                  @showandsave="showandsel">
+
+                </CMyPopupEdit>
+              </div>
+            </div>
+          </div>
+        </q-card-section>
+        <q-card-actions align="center">
+          <q-btn flat :label="$t('dialog.ok')" color="primary" @click="saverecModif"></q-btn>
+          <q-btn flat :label="$t('dialog.cancel')" color="primary" v-close-popup></q-btn>
         </q-card-actions>
       </q-card>
     </q-dialog>

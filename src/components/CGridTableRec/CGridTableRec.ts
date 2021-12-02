@@ -3,7 +3,16 @@ import { useI18n } from '@src/boot/i18n'
 
 import { tools } from '../../store/Modules/tools'
 
-import { IColGridTable, IFilter, ITableRec, IPagination, IParamDialog, IEvents, IDataToSet } from '../../model'
+import {
+  IColGridTable,
+  IFilter,
+  ITableRec,
+  IPagination,
+  IParamDialog,
+  IEvents,
+  IDataToSet,
+  IMySkill
+} from '../../model'
 import { lists } from '../../store/Modules/lists'
 import { IParamsQuery } from '../../model/GlobalStore'
 import { CMyPopupEdit } from '../CMyPopupEdit'
@@ -38,6 +47,16 @@ export default defineComponent({
       type: String,
       required: false,
       default: '',
+    },
+    prop_search: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    vertical: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     prop_codeId: {
       type: String,
@@ -105,8 +124,9 @@ export default defineComponent({
     const addRow = ref('Aggiungi')
 
     const newRecordBool = ref(false)
+    const editRecordBool = ref(false)
     const newRecord: any = ref({})
-    const savenewRec = ref(false)
+    const recModif: any = ref({})
 
     const mytable = ref('')
     const mytitle = ref('')
@@ -275,6 +295,12 @@ export default defineComponent({
     }
 
 
+    function refresh_arr() {
+      const myarr = [...serverData.value]
+      serverData.value = []
+      serverData.value = [...myarr]
+    }
+
     function refresh_table() {
       onRequest({
         pagination: pagination.value
@@ -327,11 +353,14 @@ export default defineComponent({
       }
     }
 
-    function selItem(item: any, col: IColGridTable) {
-      console.log('selItem', item)
+    function selItem(item: any, col: IColGridTable, inmodif?: boolean) {
+      console.log('selItem', item, col)
       rowsel = item
       idsel = item._id
       colsel.value = col
+      if (inmodif) {
+
+      }
     }
 
     function undoVal() {
@@ -373,11 +402,16 @@ export default defineComponent({
     }
 
     function annulla(val: any) {
-      // console.log('annulla')
-      globalStore.DeleteRec({ table: mytable.value, id: newRecord.value._id })
-        .then((ris) => {
-          return true
-        })
+      console.log('annulla')
+      if (newRecord.value) {
+        globalStore.DeleteRec({ table: mytable.value, id: newRecord.value._id })
+          .then((ris) => {
+            // console.log('deleted', ris)
+            serverData.value.pop(ris)
+            newRecord.value = null
+            return true
+          })
+      }
     }
 
     function SaveValue(newVal: any, valinitial: any) {
@@ -391,11 +425,6 @@ export default defineComponent({
       }
 
       if (myfield) {
-        if (colsel.value) {
-          // console.log('rowsel[myfield]', rowsel[myfield], 'field', myfield)
-          // console.log('subf', subf)
-        }
-
         if (colsel.value) {
           // Update value in table memory
           if (subf !== '') {
@@ -465,18 +494,13 @@ export default defineComponent({
 
       const mydata: any = {
         table: mytable.value,
-        data: function () {
-          return {}
-        }
+        data: {}
       }
 
-      mydata.data = props.defaultnewrec
+      if (props.defaultnewrec)
+        mydata.data = props.defaultnewrec()
 
-      // const mykey = fieldsTable.getKeyByTable(mytable)
-
-      // mydata.data[mykey] = ''
-
-      // console.log('mydata', mydata)
+      // console.log('DATA=', mydata.data)
 
       newRecord.value = await globalStore.saveTable(mydata)
       newRecordBool.value = true
@@ -484,26 +508,10 @@ export default defineComponent({
     }
 
     async function createNewRecord() {
-      console.log('createNewRecord')
-      loading.value = true
 
-      const mydata: any = {
-        table: mytable.value,
-        data: {}
-      }
+      await createNewRecordDialog()
 
-      if (props.defaultnewrec) {
-        mydata.data = props.defaultnewrec
-      }
-
-      // const mykey = fieldsTable.getKeyByTable(mytable)
-
-      // mydata.data[mykey] = ''
-
-      console.log('mydata', mydata)
-      const data = await globalStore.saveTable(mydata)
-
-      serverData.value.push(data)
+      serverData.value.push(newRecord.value)
       pagination.value.rowsNumber++
 
       loading.value = false
@@ -549,7 +557,7 @@ export default defineComponent({
           tablesel.value = mytable.value
       }
 
-      console.log('2) tablesel', tablesel.value)
+      // console.log('2) tablesel', tablesel.value)
 
       changeTable(tablesel.value)
 
@@ -590,25 +598,34 @@ export default defineComponent({
           param2: item,
         }
 
-        return $q.dialog({
-          message: translate(col.askaction) + '?',
-          html: true,
-          ok: {
-            label: ok,
-            push: true,
-          },
-          title: 'Action',
-          cancel: true,
-          persistent: false,
-        }).onOk(() => {
-          // console.log('OK')
-          exec_func_table(table, col.action, par)
-          return true
-        }).onCancel(() => {
-          // console.log('CANCEL')
-          exec_func_table(table, funccancel, par)
-          return false
-        })
+        if (col.action === lists.MenuAction.CAN_EDIT_TABLE) {
+          console.log('Edit', item)
+          selItem(item, col)
+          recModif.value = item
+          editRecordBool.value = true
+        } else {
+
+
+          return $q.dialog({
+            message: translate(col.askaction) + '?',
+            html: true,
+            ok: {
+              label: ok,
+              push: true,
+            },
+            title: 'Action',
+            cancel: true,
+            persistent: false,
+          }).onOk(() => {
+            // console.log('OK')
+            exec_func_table(table, col.action, par)
+            return true
+          }).onCancel(() => {
+            // console.log('CANCEL')
+            exec_func_table(table, funccancel, par)
+            return false
+          })
+        }
 
       }
     }
@@ -617,7 +634,7 @@ export default defineComponent({
       if (action === lists.MenuAction.DELETE_RECTABLE) {
         if ((serverData.value.length > 0) && item) {
           serverData.value.splice(serverData.value.indexOf(item), 1)
-          refresh_table()
+          refresh_arr()
         }
       } else if (action === lists.MenuAction.DUPLICATE_RECTABLE) {
         // Add record duplicated
@@ -633,6 +650,21 @@ export default defineComponent({
         } else {
           return false
         }
+      } else {
+        return true
+      }
+    }
+
+    function clByCol(col: IColGridTable) {
+      if (!visuIntestazCol(col)) {
+        return 'row justify-center vertical-middle'
+      } else {
+        return ''
+      }
+    }
+    function visuIntestazCol(col: IColGridTable) {
+      if (col.fieldtype === costanti.FieldType.html || col.fieldtype === costanti.FieldType.listimages) {
+        return false
       } else {
         return true
       }
@@ -666,7 +698,7 @@ export default defineComponent({
         }
       }
 
-      console.log('tablesel', tablesel.value, 'mytab', mytab)
+      // console.log('tablesel', tablesel.value, 'mytab', mytab)
 
       if (mytab) {
         mytitle.value = mytab.label
@@ -774,29 +806,55 @@ export default defineComponent({
 
     async function saveNewRecord() {
       console.log('saveNewRecord')
-      savenewRec.value = true
       const mydata = {
         table: mytable.value,
         data: {}
       }
 
-      mydata.data = newRecord
+      mydata.data = newRecord.value
 
       const data = await globalStore.saveTable(mydata)
         .then((ris) => {
           if (ris) {
             // console.log('ris', ris)
             newRecordBool.value = false
-            refresh()
+            const indrec = serverData.value.findIndex((rec: IMySkill) => rec._id === ris._id)
+            console.log('indrec', indrec, serverData.value[indrec])
+            if (indrec >= 0)
+              serverData.value[indrec] = ris
+            else
+              serverData.value.push(ris)
+
+            newRecord.value = null
+            // refresh()
+          }
+        })
+    }
+
+    async function saverecModif() {
+      console.log('saverecModif')
+      const mydata = {
+        table: mytable.value,
+        data: {}
+      }
+
+      mydata.data = recModif.value
+
+      const data = await globalStore.saveTable(mydata)
+        .then((ris) => {
+          if (ris) {
+            // console.log('ris', ris)
+            editRecordBool.value = false
+            const indrec = serverData.value.findIndex((rec: IMySkill) => rec._id === ris._id)
+            console.log('indrec', indrec, serverData.value[indrec])
+            if (indrec >= 0)
+              serverData.value[indrec] = ris
           }
         })
     }
 
     function hidewindow() {
-      console.log('hidewindow')
-      if (!savenewRec.value) {
-        annulla(0)
-      }
+      annulla(0)
     }
 
     function getlabelAddRow() {
@@ -826,6 +884,8 @@ export default defineComponent({
       saveFieldValue,
       clickFunz,
       visCol,
+      visuIntestazCol,
+      clByCol,
       changeCol,
       changeTable,
       doSearch,
@@ -836,6 +896,7 @@ export default defineComponent({
       selectionclick,
       getusernamesel,
       saveNewRecord,
+      saverecModif,
       hidewindow,
       isfinishLoading,
       getlabelAddRow,
@@ -858,11 +919,15 @@ export default defineComponent({
       myfilter,
       disabilita,
       newRecordBool,
+      editRecordBool,
+      newRecord,
+      recModif,
       lists,
       refresh,
       spinner_visible,
       tablesel,
       myfilterand,
+      tools,
     }
   }
 })

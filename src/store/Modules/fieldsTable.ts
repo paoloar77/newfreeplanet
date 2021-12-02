@@ -16,6 +16,19 @@ const DeleteRec = {
   visuonlyEditVal: true,
 }
 
+const ModifRec = {
+  name: 'modifrec',
+  label_trans: 'reg.edit',
+  align: 'right',
+  field: costanti.NOFIELD,
+  sortable: false,
+  icon: 'fas fa-pencil-alt',
+  action: lists.MenuAction.CAN_EDIT_TABLE,
+  askaction: '',
+  required: true,
+  visuonlyEditVal: true,
+}
+
 const DuplicateRec = {
   name: 'copyrec',
   label_trans: 'event.duplicate',
@@ -321,8 +334,8 @@ export const colSkills = [
   }),
   AddCol({ name: 'color', label_trans: 'products.color' }),
   AddCol({ name: 'theme', label_trans: 'products.theme' }),
-  AddCol(DeleteRec),
   AddCol(DuplicateRec),
+  AddCol(DeleteRec),
 ]
 
 export const colmySkills = [
@@ -338,7 +351,7 @@ export const colmySkills = [
   AddCol({
     name: 'numLevel',
     label_trans: 'level.name',
-    fieldtype: costanti.FieldType.select,
+    fieldtype: costanti.FieldType.star5,
     jointable: 'levels',
   }),
   AddCol({
@@ -361,8 +374,9 @@ export const colmySkills = [
   }),
   AddCol({ name: 'subTitle', label_trans: 'event.title' }),
   AddCol({ name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html }),
-  AddCol(DeleteRec),
   AddCol(DuplicateRec),
+  AddCol(ModifRec),
+  AddCol(DeleteRec),
 ]
 
 export const colStatusSkills = [

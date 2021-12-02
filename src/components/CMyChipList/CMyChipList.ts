@@ -53,6 +53,7 @@ export default defineComponent({
     })
 
     function refreshval() {
+      console.log('refreshval')
       myarrvalues.value = []
 
       // console.log('options', props.options)

@@ -16,8 +16,7 @@
         :option-label="optlab"
         @update:model-value="changeval"
         :label="label"
-        :dense="dense"
-      >
+        :dense="dense">
       </q-select>
     </div>
     <div v-else>
@@ -35,9 +34,7 @@
         :label="label"
         emit-value
         map-options
-        style="min-width: 170px; max-width: 400px;"
-      >
-
+        style="min-width: 170px; max-width: 400px;">
       </q-select>
     </div>
   </div>

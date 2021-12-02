@@ -6,7 +6,7 @@ import { useUserStore } from '@store/UserStore'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
-  name: 'Signup',
+  name: 'SignUp',
   components: { CSignUp },
   props: {},
   setup() {
@@ -21,15 +21,6 @@ export default defineComponent({
       adult.value = !!$route.params.invited
     })
 
-    function created() {
-      // if (!tools.getCookie(tools.APORTADOR_SOLIDARIO, ''))
-      //   tools.setCookie(tools.APORTADOR_SOLIDARIO, $route.params.invited)
-    }
-
-    created()
-
-    return {
-
-    }
+    return {}
   },
 })

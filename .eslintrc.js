@@ -93,15 +93,9 @@ module.exports = {
     // 'multiline-ternary': 'off',
     'vue/max-attributes-per-line': [
       'error', {
-        'singleline': {
-          'max': 6,
-          'allowFirstLine': true,
-        },
-        'multiline': {
-          'max': 6,
-          'allowFirstLine': false,
-        },
-      }],
+        'singleline': 15,
+        'multiline': 15
+    }],
     'import/first': 'off',
     'import/named': 'off',
     'import/namespace': 'error',
@@ -124,6 +118,7 @@ module.exports = {
     '@typescript-eslint/semi': 'off',
     '@typescript-eslint/object-curly-spacing': 'off',
     '@typescript-eslint/restrict-plus-operands': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -153,6 +148,7 @@ module.exports = {
     'no-extra-boolean-cast': 'off',
     'max-attributes-per-line': 'off',
     'vue/no-v-model-argument': 'off',
+    'vue/multi-word-component-names': 'off',
     '@typescript-eslint/ban-types': [
       'error',
       {

@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, ref, toRef, watch } from 'vue'
+import { defineComponent, onMounted, onBeforeMount, PropType, ref, toRef, watch } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
@@ -36,6 +36,11 @@ export default defineComponent({
       required: true,
     },
     canEdit: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    isInModif: {
       type: Boolean,
       required: false,
       default: false,
@@ -143,7 +148,12 @@ export default defineComponent({
     const { setValDb, getValDb } = MixinBase()
     const { getMyUsername } = MixinUsers()
 
+    watch(() => props.row, (newval, oldval) => {
+      refresh()
+    })
+
     function crea() {
+      // console.log('crea', isFieldDb())
 
       if (isFieldDb()) {
         // mykey -> field
@@ -170,7 +180,7 @@ export default defineComponent({
           }]
         }
 
-        console.log('col', col.value);
+        // console.log('col', col.value);
       } else {
         col.value = {...props.mycol}
       }
@@ -192,8 +202,11 @@ export default defineComponent({
     }
 
     function changeval(newval: any) {
-      // console.log('changeval update:row', newval)
+      console.log('changeval update:row', newval)
       emit('update:row', props.row)
+      if (props.isInModif)
+        OpenEdit()
+
     }
 
     function getrealval(newval: any) {
@@ -203,11 +216,14 @@ export default defineComponent({
     }
 
     function changevalRec(newval: any) {
+      console.log('popypedit: changevalRec', newval)
       // console.log('row', props.row, 'col', props.mycol, 'newval', newval)
       // console.log('row[col.value.name]', props.row[col.value.name])
       myrow.value[col.value.name] = newval
       // console.log('changevalRec update:row', newval)
       emit('update:row', props.row)
+      if (props.isInModif)
+        OpenEdit()
     }
 
     function changevalRecHours(newval: any) {
@@ -224,7 +240,8 @@ export default defineComponent({
     }
 
     function mounted() {
-      // console.log('mounted')
+
+      // console.log('mounted', 'isFieldDb()', isFieldDb())
       if (isFieldDb()) {
 
       } else {
@@ -245,9 +262,11 @@ export default defineComponent({
         }
       }
 
+      // console.log('popupedit: myvalue.value', myvalue.value)
+
       if (col.value.fieldtype === costanti.FieldType.listimages) {
         if (myvalue.value === '' || myvalue.value === undefined) {
-          console.log('set default myvalue.value ')
+          // console.log('set default myvalue.value ')
           myvalue.value = {
             title: 'Galleria',
             directory: 'none',
@@ -260,6 +279,11 @@ export default defineComponent({
 
       // console.log('myvalueprec', myvalueprec)
     }
+
+    function refresh() {
+      mounted()
+    }
+
 
     function OpenEdit() {
       // console.log('OpenEdit')
@@ -504,7 +528,7 @@ export default defineComponent({
     }
 
 
-    onMounted(mounted)
+    onBeforeMount(mounted)
 
     crea()
 

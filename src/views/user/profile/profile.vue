@@ -85,6 +85,16 @@
     </CTitleBanner>
 
     <CTitleBanner
+      class="q-pa-xs" title="Competenze e Talenti" bgcolor="bg-primary" clcolor="text-white"
+      myclass="myshad" :canopen="true">
+
+      <CSkill>
+
+      </CSkill>
+
+
+    </CTitleBanner>
+    <CTitleBanner
       class="q-pa-xs" title="Informazioni su di te" bgcolor="bg-primary" clcolor="text-white"
       myclass="myshad" :canopen="true">
 

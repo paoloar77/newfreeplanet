@@ -1,5 +1,5 @@
 export * from './pattern'
-export * from './axios'
+// export * from './axios'
 export * from './debounce'
 export * from './message'
 export { default as GlobalConfig } from '../config'

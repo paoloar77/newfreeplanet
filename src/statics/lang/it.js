@@ -174,7 +174,7 @@ const msg_it = {
       deletetherecord: 'Eliminare il Record?',
       deletedrecord: 'Record Cancellato',
       recdelfailed: 'Errore durante la cancellazione del Record',
-      duplicatedrecord: 'Record Duplicato',
+      duplicatedrecord: 'Vuoi Duplicare il record',
       recdupfailed: 'Errore durante la duplicazione del Record',
     },
     components: {

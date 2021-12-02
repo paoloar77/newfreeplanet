@@ -7,7 +7,7 @@ import { IEstimate } from '@src/model'
 import { tools } from '@src/store/Modules/tools'
 
 export default defineComponent({
-  name: 'Estimate',
+  name: 'EstimateMy',
   props: {
     mystr: {
       type: String,

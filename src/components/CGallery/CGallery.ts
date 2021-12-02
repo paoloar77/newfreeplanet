@@ -25,7 +25,7 @@ export default defineComponent({
       required: true,
     },
     imgGall: {
-      type: Object as PropType<IImgGallery | string | undefined>,
+      type: Object as PropType<IImgGallery | string | undefined | null>,
       required: true,
     },
   },

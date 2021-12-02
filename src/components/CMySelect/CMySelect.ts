@@ -6,6 +6,7 @@ import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name: 'CMySelect',
+  emits: ['update:value', 'changeval'],
   props: {
     options: {
       type: Array,
@@ -67,16 +68,15 @@ export default defineComponent({
     }
 
     function mounted() {
-      console.log('mounted', mounted)
+      // console.log('mounted myselect', props.options)
       if (props.options) {
         const rec: any = props.options.find((myrec: any) => myrec[`${props.optval}`] === props.value)
-        /*
-        console.log('rec', rec, 'props.useinput', props.useinput)
+
+        /*console.log('rec', rec, 'props.useinput', props.useinput)
         console.log('props.value', props.value)
         console.log('options', props.options)
         console.log('optval', props.optval)
-        console.log('optlab', props.optlab)
-         */
+        console.log('optlab', props.optlab)*/
 
         if (rec) {
           if (props.funcgetvaluebyid)
@@ -84,7 +84,7 @@ export default defineComponent({
           else
             myvalue.value = rec[`${props.optlab}`]
 
-          // console.log('myvalue', myvalue, 'optval', optval, 'rec', rec[`${optval}`])
+          // console.log('myvalue', myvalue, 'optval', props.optval, 'rec', rec[`${props.optval}`])
         } else {
           if (!props.useinput) {
             if (props.value) {
@@ -93,6 +93,7 @@ export default defineComponent({
           }
         }
       }
+      // console.log('cmyselect: myvalue.value', myvalue.value)
     }
 
     onMounted(mounted)

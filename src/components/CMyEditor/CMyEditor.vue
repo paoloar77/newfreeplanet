@@ -29,7 +29,6 @@
             toolbar-toggle-color="yellow-8"
             toolbar-bg="primary"
             :toolbar="toolbarcomp"
-            debounce="500"
             :fonts="myfonts"
             @update:model-value="changeval"
             @paste="evt => pasteCapture(evt)"

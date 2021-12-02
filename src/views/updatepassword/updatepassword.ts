@@ -18,7 +18,7 @@ import { complexity } from '../../validation'
 
 
 export default defineComponent({
-  name: 'Updatepassword',
+  name: 'UpdatePassword',
   components: { Logo, CTitleBanner },
   setup(props, { emit }) {
     const $q = useQuasar()

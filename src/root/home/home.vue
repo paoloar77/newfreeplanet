@@ -2,10 +2,6 @@
   <q-page class="">
     <h1>Inizio:</h1>
 
-    <CSkill>
-
-    </CSkill>
-
     <!--<CChartMap
       title="Mappa"
       subtitle="cartina..."

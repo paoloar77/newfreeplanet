@@ -9,6 +9,7 @@ import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 import { colmySkills } from '@store/Modules/fieldsTable'
 import { CGridTableRec } from '@/components/CGridTableRec'
+import { IMySkill, ISkill } from 'model'
 
 export default defineComponent({
   name: 'CSkill',
@@ -47,10 +48,25 @@ export default defineComponent({
       const data = await globalStore.saveSubRec(mydata)
     }
 
+    function getdefaultnewrec(): any {
+      return {
+        _id: 0,
+        idSkill: 0,
+        idStatusSkill: [],
+        idCity: [],
+        NumLevel: 0,
+        photos: [],
+        note: '',
+        subTitle: '',
+      }
+    }
+
+
     return {
       tools,
       costanti,
       colmySkills,
+      getdefaultnewrec,
     }
   },
 })

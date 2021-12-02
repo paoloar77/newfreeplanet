@@ -31,7 +31,6 @@
                 v-model="order">-->
 
         <div v-for="(mygallery, index) in getlistimages()" :key="index">
-          mygallery : {{ mygallery }}
           <div
             class="q-pa-sm q-gutter-sm"
             @dragenter="onDragEnter"

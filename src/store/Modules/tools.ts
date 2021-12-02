@@ -4340,6 +4340,23 @@ export const tools = {
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0])
     return arr // for testing
   },
+  getColByLevel(level: number) {
+    let col = ''
+    if (level === 0){
+      col = 'grey-5'
+    } else if (level === 1){
+      col = 'red-5'
+    } else if (level === 2){
+      col = 'orange-5'
+    } else if (level === 3){
+      col = 'yellow-5'
+    } else if (level === 4){
+      col = 'blue-5'
+    } else if (level === 5){
+      col = 'green-5'
+    }
+    return col
+  }
 // getLocale() {
   //   if (navigator.languages && navigator.languages.length > 0) {
   //     return navigator.languages[0]

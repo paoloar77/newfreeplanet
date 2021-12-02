@@ -106,7 +106,7 @@ export default defineComponent({
     ])
 
     function changeval(newval: any) {
-      // console.log('changeval', newval)
+      console.log('myEditor: changeval', newval)
       emit('update:value', newval)
     }
 

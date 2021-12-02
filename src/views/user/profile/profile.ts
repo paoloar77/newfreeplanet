@@ -1,6 +1,7 @@
 import { CMyFieldDb } from '@/components/CMyFieldDb'
 import { CTitleBanner } from '@/components/CTitleBanner'
 import { CProfile } from '@/components/CProfile'
+import { CSkill } from '@/components/CSkill'
 import { tools } from '@store/Modules/tools'
 import { defineComponent } from 'vue'
 import { useUserStore } from '@store/UserStore'
@@ -13,8 +14,8 @@ import { costanti } from '@costanti'
 
 
 export default defineComponent({
-  name: 'Profile',
-  components: { CProfile, CTitleBanner, CMyFieldDb },
+  name: 'ProfileMy',
+  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill },
   props: {},
   setup() {
     const userStore = useUserStore()
