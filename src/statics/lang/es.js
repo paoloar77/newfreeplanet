@@ -147,7 +147,7 @@ const msg_es = {
       recfailed: 'Error durante el registro de actualización',
       reccanceled: 'Actualización cancelada Restaurar valor anterior',
       deleterecord: 'Eliminar registro',
-      deletetherecord: '¿Eliminar el registro?',
+      deletetherecord: '¿Eliminar el registro',
       deletedrecord: 'Registro cancelado',
       recdelfailed: 'Error durante la eliminación del registro',
       duplicatedrecord: 'Registro Duplicado',

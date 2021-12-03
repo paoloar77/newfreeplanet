@@ -14,6 +14,11 @@ import { CGallery } from '../CGallery'
 import { tools } from '@store/Modules/tools'
 import { costanti } from '@costanti'
 
+
+// @ts-ignore
+// import VueTelInput from 'vue3-tel-input'
+// import 'vue3-tel-input/dist/vue3-tel-input.css'
+
 import { fieldsTable } from '@store/Modules/fieldsTable'
 import MixinBase from '@/mixins/mixin-base'
 import MixinUsers from '@/mixins/mixin-users'
@@ -219,6 +224,9 @@ export default defineComponent({
       console.log('popypedit: changevalRec', newval)
       // console.log('row', props.row, 'col', props.mycol, 'newval', newval)
       // console.log('row[col.value.name]', props.row[col.value.name])
+      if (props.type === costanti.FieldType.image) {
+        console.log('image', newval)
+      }
       myrow.value[col.value.name] = newval
       // console.log('changevalRec update:row', newval)
       emit('update:row', props.row)
@@ -527,6 +535,14 @@ export default defineComponent({
       SaveValueInt(myvalue.value, '')
     }
 
+    function noPopupeditByCol(mycol: IColGridTable) {
+      return (mycol.fieldtype !== costanti.FieldType.html
+        && mycol.fieldtype !== costanti.FieldType.image
+        && mycol.fieldtype !== costanti.FieldType.listimages
+        && mycol.fieldtype !== costanti.FieldType.number
+      )
+    }
+
 
     onBeforeMount(mounted)
 
@@ -562,6 +578,7 @@ export default defineComponent({
       isFieldDb,
       col,
       myImgGall,
+      noPopupeditByCol,
     }
   }
 })

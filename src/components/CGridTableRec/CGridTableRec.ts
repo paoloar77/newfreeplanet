@@ -110,6 +110,11 @@ export default defineComponent({
       type: Function,
       required: false,
     },
+    col_title: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   components: { CMyPopupEdit, CTitleBanner },
   setup(props, { emit }) {
@@ -605,7 +610,6 @@ export default defineComponent({
           editRecordBool.value = true
         } else {
 
-
           return $q.dialog({
             message: translate(col.askaction) + '?',
             html: true,
@@ -613,7 +617,7 @@ export default defineComponent({
               label: ok,
               push: true,
             },
-            title: 'Action',
+            title: translate(col.label_trans),
             cancel: true,
             persistent: false,
           }).onOk(() => {
@@ -804,7 +808,30 @@ export default defineComponent({
       }
     }
 
+    function enableSaveNewRec() {
+
+      let ok = true
+
+      mycolumns.value.forEach((col: IColGridTable) => {
+        if (col.required) {
+          console.log('newRecord.value', newRecord.value, newRecord.value[col.name])
+          if (!newRecord.value[col.name]) {
+
+            ok = false
+          }
+        }
+      })
+
+      return ok
+    }
+
     async function saveNewRecord() {
+      // check if the field are setted
+
+      if (!enableSaveNewRec()){
+        return false
+      }
+
       console.log('saveNewRecord')
       const mydata = {
         table: mytable.value,

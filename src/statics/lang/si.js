@@ -161,7 +161,7 @@ const msg_si = {
       recfailed: 'Napaka pri posodabljanju zapisa',
       reccanceled: 'Preklicana posodobitev. Obnovi prejšnjo vrednost',
       deleterecord: 'Izbriši zapis',
-      deletetherecord: 'Želiš završti zapis?',
+      deletetherecord: 'Želiš završti zapis',
       deletedrecord: 'Zapis je izbrisan',
       recdelfailed: 'Napaka med brisanjem zapisa',
       duplicatedrecord: 'Podvojen zapis',

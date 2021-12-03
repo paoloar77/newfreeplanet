@@ -147,7 +147,7 @@ const msg_fr = {
       recfailed: 'Erreur lors de la mise à jour',
       reccanceled: 'Mise à jour annulée. Restaurer la valeur précédente',
       deleterecord: 'Supprimer l\'enregistrement',
-      deletetherecord: 'Supprimer l\'enregistrement?',
+      deletetherecord: 'Supprimer l\'enregistrement',
       deletedrecord: 'Enregistrement annulé',
       recdelfailed: 'Erreur lors de la suppression de l\'enregistrement',
       duplicatedrecord: 'Enregistrement en double',

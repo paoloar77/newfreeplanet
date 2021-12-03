@@ -12,7 +12,7 @@ const DeleteRec = {
   icon: 'fas fa-trash-alt',
   action: lists.MenuAction.DELETE_RECTABLE,
   askaction: 'db.deletetherecord',
-  required: true,
+  // required: true,
   visuonlyEditVal: true,
 }
 
@@ -25,7 +25,7 @@ const ModifRec = {
   icon: 'fas fa-pencil-alt',
   action: lists.MenuAction.CAN_EDIT_TABLE,
   askaction: '',
-  required: true,
+  // required: true,
   visuonlyEditVal: true,
 }
 
@@ -346,12 +346,14 @@ export const colmySkills = [
     name: 'idSkill',
     label_trans: 'skill.name',
     fieldtype: costanti.FieldType.select,
+    required: true,
     jointable: 'skills',
   }),
   AddCol({
     name: 'numLevel',
     label_trans: 'level.name',
     fieldtype: costanti.FieldType.star5,
+    required: true,
     jointable: 'levels',
   }),
   AddCol({

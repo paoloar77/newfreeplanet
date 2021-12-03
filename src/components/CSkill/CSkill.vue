@@ -6,6 +6,7 @@
         prop_mytitle=""
         :prop_mycolumns="colmySkills"
         prop_colkey="idSkill"
+        col_title="subTitle"
         :vertical="true"
         nodataLabel="Nessuna Competenza inserita"
         :prop_search="false"

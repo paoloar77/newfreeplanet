@@ -175,13 +175,29 @@
           :style="props.selected ? 'transform: scale(0.95);' : ''"
         >
           <q-card :class="props.selected ? 'bg-grey-2' : ''">
-            <q-list dense>
-              <div v-for="col in mycolumns" :key="col.name">
-                <q-item v-if="colVisib.includes(col.field + col.subfield)" :class="clByCol(col)">
-                  <q-item-section avatar v-if="visuIntestazCol(col)">
-                    <q-item-label class="q-table__col">{{ col.label }}</q-item-label>
-                  </q-item-section>
-                  <q-item-section>
+            <q-bar dense class="bg-primary text-white">
+              <span class="ellipsis"> {{ props.row[col_title] }} </span>
+              <q-space />
+              <q-btn
+                flat round color="white" icon="fas fa-pencil-alt" size="sm"
+                @click="clickFunz(props.row, prop_mycolumns.find((rec) => rec.action === lists.MenuAction.CAN_EDIT_TABLE))"></q-btn>
+              <q-btn
+                flat round color="white" icon="fas fa-trash-alt" size="sm"
+                @click="clickFunz(props.row, prop_mycolumns.find((rec) => rec.action === lists.MenuAction.DELETE_RECTABLE))"></q-btn>
+            </q-bar>
+            <!--<q-toolbar dense v-if="col_title" class="bg-primary text-white centeritems">
+              <q-toolbar-title>
+                {{ props.row[col_title] }}
+              </q-toolbar-title>
+            </q-toolbar>-->
+            <q-card-section class="inset-shadow">
+              <q-list dense>
+                <div v-for="col in mycolumns" :key="col.name">
+                  <q-item v-if="colVisib.includes(col.field + col.subfield)" :class="clByCol(col)">
+                    <q-item-section avatar v-if="visuIntestazCol(col)">
+                      <q-item-label class="q-table__col">{{ col.label }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section>
                       <div class="tdclass">
                         <div :class="getclrow(props.row)">
 
@@ -201,30 +217,11 @@
                           </CMyPopupEdit>
                         </div>
                       </div>
-                  </q-item-section>
-                </q-item>
-              </div>
-              <div>
-                <q-item-section>
-                  <q-item-label class="q-table__col"></q-item-label>
-                </q-item-section>
-                <q-item class="row justify-center">
-                  <q-item-section side>
-                    <q-item-label caption>
-                      <q-item>
-                        <div v-for="col in mycolumns" :key="col.name">
-                          <div v-if="colExtra.includes(col.name) && col.action" class="tdclass">
-                            <q-btn
-                              flat round color="red" :icon="col.icon" size="sm"
-                              @click="clickFunz(props.row, col)"></q-btn>
-                          </div>
-                        </div>
-                      </q-item>
-                    </q-item-label>
-                  </q-item-section>
-                </q-item>
-              </div>
-            </q-list>
+                    </q-item-section>
+                  </q-item>
+                </div>
+              </q-list>
+            </q-card-section>
           </q-card>
         </div>
       </template>
@@ -283,18 +280,17 @@
     </div>
     <q-dialog v-model="newRecordBool" @hide="hidewindow">
       <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
-        <q-toolbar class="bg-primary text-white centeritems">
-          <q-toolbar-title>
-            {{ mytitle }}
-          </q-toolbar-title>
+        <q-bar dense class="bg-primary text-white">
+          Nuovo:
+          <q-space />
           <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
-        </q-toolbar>
+        </q-bar>
         <q-card-section class="inset-shadow">
           <div
-            v-for="col in mycolumns" :key="col.name">
+            v-for="col in mycolumns" :key="col.name" class="newrec_fields">
             <div
               v-if="colVisib.includes(col.field + col.subfield)">
-              <div>
+              <div class="">
 
                 <CMyPopupEdit
                   :table="prop_mytable"
@@ -303,8 +299,9 @@
                   v-model:row="newRecord"
                   :field="col.field"
                   :subfield="col.subfield"
+                  :isInModif="true"
                   minuteinterval="1"
-                  :visulabel="true"
+                  :visulabel="false"
                   @save="SaveValue"
                   @show="selItem(newRecord, col)"
                   @showandsave="showandsel">
@@ -322,12 +319,12 @@
     </q-dialog>
     <q-dialog v-model="editRecordBool">
       <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
-        <q-toolbar class="bg-primary text-white centeritems">
-          <q-toolbar-title>
-            {{ mytitle }}
-          </q-toolbar-title>
+        <q-bar dense class="bg-primary text-white">
+          <span v-if="mytitle">{{ mytitle }}</span>
+          <span v-else>{{ recModif[col_title] }}</span>
+          <q-space />
           <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
-        </q-toolbar>
+        </q-bar>
         <q-card-section class="inset-shadow">
           <div
             v-for="col in mycolumns" :key="col.name">

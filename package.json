@@ -40,6 +40,7 @@
     "dotenv": "^10.0.0",
     "echarts": "^5.2.2",
     "eslint-plugin-quasar": "^1.0.0",
+    "eslint-plugin-standard": "^5.0.0",
     "graphql": "^16.0.1",
     "graphql-tag": "^2.12.6",
     "gsap": "^3.8.0",
@@ -70,10 +71,10 @@
     "vue2-dragula": "^2.5.5",
     "vue3-tel-input": "^1.0.4",
     "vuex": "^4.0.1",
-    "vuex-router-sync": "^6.0.0-rc.1",
-    "vuex-typex": "^3.1.9"
+    "vuex-router-sync": "^6.0.0-rc.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.0",
     "@babel/eslint-parser": "^7.16.3",
     "@quasar/app": "^3.2.3",
     "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.6",
@@ -114,6 +115,7 @@
     "typescript": "^4.5.2",
     "vue-cli-plugin-element-ui": "^1.1.4",
     "vueify": "^9.4.1",
+    "webpack": "^5.0.0",
     "workbox-webpack-plugin": "^6.4.1"
   },
   "browser": {
@@ -134,6 +136,5 @@
     "node": ">= 14.17.0",
     "npm": ">= 6.14.8",
     "yarn": ">= 1.21.1"
-  },
-
+  }
 }

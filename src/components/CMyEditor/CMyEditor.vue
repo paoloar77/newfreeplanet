@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;` ">
-      <q-toolbar class="bg-primary text-white" style="min-height: 30px;">
+      <q-toolbar v-if="showButtons" class="bg-primary text-white" style="min-height: 30px;">
         <q-toolbar-title>
           Editor
         </q-toolbar-title>

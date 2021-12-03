@@ -147,7 +147,7 @@ const msg_enUs = {
       recfailed: 'Error during update Record',
       reccanceled: 'Canceled Update. Restore previous value',
       deleterecord: 'Delete Record',
-      deletetherecord: 'Delete the Record?',
+      deletetherecord: 'Delete the Record',
       deletedrecord: 'Record Deleted',
       recdelfailed: 'Error during deletion of the Record',
       duplicatedrecord: 'Duplicate Record',

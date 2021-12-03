@@ -157,7 +157,7 @@ const msg_pt = {
       recfailed: 'Errore durante aggiornamento Record',
       reccanceled: 'Annullato Aggiornamento. Ripristinato valore precendente',
       deleterecord: 'Elimina Record',
-      deletetherecord: 'Eliminare il Record?',
+      deletetherecord: 'Eliminare il Record',
       deletedrecord: 'Record Cancellato',
       recdelfailed: 'Errore durante la cancellazione del Record',
       duplicatedrecord: 'Record Duplicato',

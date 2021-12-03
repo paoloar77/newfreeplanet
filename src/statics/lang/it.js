@@ -171,7 +171,7 @@ const msg_it = {
       recfailed: 'Errore durante aggiornamento Record',
       reccanceled: 'Annullato Aggiornamento. Ripristinato valore precendente',
       deleterecord: 'Elimina Record',
-      deletetherecord: 'Eliminare il Record?',
+      deletetherecord: 'Eliminare il Record',
       deletedrecord: 'Record Cancellato',
       recdelfailed: 'Errore durante la cancellazione del Record',
       duplicatedrecord: 'Vuoi Duplicare il record',
@@ -458,6 +458,7 @@ const msg_it = {
       altre_comunicazioni: 'Scrivi altre eventuali informazioni o comunicazioni:',
       come_ci_hai_conosciuto: 'Come ci hai conosciuto?',
       photo: 'Foto',
+      images: 'Immagini',
       err: {
         required: 'è richiesto',
         email: 'inserire una email valida',
@@ -774,6 +775,15 @@ const msg_it = {
     statusSkill: {
       name: 'Stato',
     },
+    store: {
+      description: 'Descrizione',
+      main: 'Principale',
+      img: 'Immagine',
+      icon: 'Icona',
+    },
+    sectors: {
+      name: 'Settore',
+    }
   },
 
 };

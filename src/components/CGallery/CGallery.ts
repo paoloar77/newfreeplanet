@@ -25,7 +25,7 @@ export default defineComponent({
       required: true,
     },
     imgGall: {
-      type: Object as PropType<IImgGallery | string | undefined | null>,
+      type: Object as PropType<IImgGallery[] | string | undefined | null>,
       required: true,
     },
   },
@@ -55,7 +55,7 @@ export default defineComponent({
     })
 
     function created() {
-      console.log('created cgallery')
+      // console.log('created cgallery')
       if (isValid(props.imgGall)) {
         // @ts-ignore
         let myarr: any = props.imgGall
