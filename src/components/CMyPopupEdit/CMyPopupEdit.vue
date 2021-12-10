@@ -79,7 +79,6 @@
               :directory="getDirectoryGall()"
               :imgGall="myvalue" :edit="isviewfield()"
               @showandsave="Savedb">
-
             </CGallery>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.image">
@@ -93,7 +92,6 @@
                 :single="isFieldDb()"
                 @update:imgGall="changevalRec"
                 @showandsave="Savedb">
-
               </CGallery>
             </div>
             <div v-else>

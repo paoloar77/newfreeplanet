@@ -43,20 +43,22 @@
     <div class="q-gutter-md q-ma-xs row">
       <div class="q-table__title" style="min-width: 150px;">{{ mytitle }}</div>
       <q-space></q-space>
-      <q-btn
-        v-if="mytable" rounded dense size="sm" flat :color="canEdit ? 'positive' : 'light-gray'"
-        :disable="disabilita()"
-        :val="lists.MenuAction.CAN_EDIT_TABLE"
-        icon="fas fa-pencil-alt" @update:model-value="changefuncAct"
-        @click="canEdit = !canEdit">
-      </q-btn>
-      <q-btn
-        v-if="mytable" rounded dense size="sm" flat color="light-gray"
-        :disable="loading"
-        icon="fas fa-plus"
-        @click="createNewRecord">
+      <div v-if="butt_modif_new">
+        <q-btn
+          v-if="mytable" rounded dense size="sm" flat :color="canEdit ? 'positive' : 'light-gray'"
+          :disable="disabilita()"
+          :val="lists.MenuAction.CAN_EDIT_TABLE"
+          icon="fas fa-pencil-alt" @update:model-value="changefuncAct"
+          @click="canEdit = !canEdit">
+        </q-btn>
+        <q-btn
+          v-if="mytable" rounded dense size="sm" flat color="light-gray"
+          :disable="loading"
+          icon="fas fa-plus"
+          @click="createNewRecord">
 
-      </q-btn>
+        </q-btn>
+      </div>
     </div>
     <q-inner-loading :showing="spinner_visible">
       <q-spinner-tail size="2em" color="primary"/>
@@ -126,6 +128,55 @@
         </div>
       </template>
 
+
+      <template v-slot:top-left v-if="searchList">
+        <div class="row">
+          <div v-for="(item, index) in searchList" :key="index">
+            <CMySelect
+              v-if="item.type === costanti.FieldType.select"
+              :label="item.label"
+              v-model:value="item.value"
+              @update:value="searchval"
+              :addall="true"
+              :optval="fieldsTable.getKeyByTable(item.table)"
+              :optlab="fieldsTable.getLabelByTable(item.table)"
+              :options="globalStore.getTableJoinByName(item.table, true)"
+              :useinput="false">
+            </CMySelect>
+
+            <q-select
+              v-if="item.type === costanti.FieldType.multiselect"
+              v-model="item.value"
+              rounded
+              outlined
+              multiple
+              dense
+              options-dense
+              :display-value="fieldsTable.getTitleByTable(item.table)"
+              emit-value
+              map-options
+              :options="globalStore.getTableJoinByName(item.table)"
+              style="min-width: 150px"
+              :option-value="fieldsTable.getKeyByTable(item.table)"
+              @update:model-value="searchval">
+
+              <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+                <q-item v-bind="itemProps">
+
+                  <q-item-section>
+                    <q-item-label>{{ opt[fieldsTable.getLabelByTable(item.table)] }}</q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-toggle :model-value="selected" @update:value="toggleOption(opt)"/>
+                  </q-item-section>
+                </q-item>
+              </template>
+
+            </q-select>
+          </div>
+        </div>
+      </template>
+
       <template v-slot:body="props">
         <q-tr :props="props" class="trclass">
           <q-td auto-width class="tdclass">
@@ -137,7 +188,7 @@
               v-if="colVisib.includes(col.field + col.subfield)" class="tdclass">
               <div :class="getclrow(props.row)">
                 <CMyPopupEdit
-                  :table="prop_mytable"
+                  :table="mytable"
                   :canEdit="canEdit"
                   :disable="disabilita()"
                   :mycol="col"
@@ -177,7 +228,7 @@
           <q-card :class="props.selected ? 'bg-grey-2' : ''">
             <q-bar dense class="bg-primary text-white">
               <span class="ellipsis"> {{ props.row[col_title] }} </span>
-              <q-space />
+              <q-space/>
               <q-btn
                 flat round color="white" icon="fas fa-pencil-alt" size="sm"
                 @click="clickFunz(props.row, prop_mycolumns.find((rec) => rec.action === lists.MenuAction.CAN_EDIT_TABLE))"></q-btn>
@@ -202,7 +253,7 @@
                         <div :class="getclrow(props.row)">
 
                           <CMyPopupEdit
-                            :table="prop_mytable"
+                            :table="mytable"
                             :canEdit="canEdit"
                             :disable="disabilita()"
                             :mycol="col"
@@ -258,7 +309,7 @@
               @click="colclicksel = mycol">
 
               <CMyPopupEdit
-                :table="prop_mytable"
+                :table="mytable"
                 :canEdit="true"
                 :disable="disabilita()"
                 view="field"
@@ -282,18 +333,18 @@
       <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
         <q-bar dense class="bg-primary text-white">
           Nuovo:
-          <q-space />
+          <q-space/>
           <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
         </q-bar>
         <q-card-section class="inset-shadow">
           <div
             v-for="col in mycolumns" :key="col.name" class="newrec_fields">
             <div
-              v-if="colVisib.includes(col.field + col.subfield)">
+              v-if="colVisib.includes(col.field + col.subfield) && col.foredit">
               <div class="">
 
                 <CMyPopupEdit
-                  :table="prop_mytable"
+                  :table="mytable"
                   :canEdit="true"
                   :mycol="col"
                   v-model:row="newRecord"
@@ -322,17 +373,17 @@
         <q-bar dense class="bg-primary text-white">
           <span v-if="mytitle">{{ mytitle }}</span>
           <span v-else>{{ recModif[col_title] }}</span>
-          <q-space />
+          <q-space/>
           <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
         </q-bar>
         <q-card-section class="inset-shadow">
           <div
             v-for="col in mycolumns" :key="col.name">
             <div
-              v-if="colVisib.includes(col.field + col.subfield)">
+              v-if="colVisib.includes(col.field + col.subfield) && col.foredit">
               <div>
                 <CMyPopupEdit
-                  :table="prop_mytable"
+                  :table="mytable"
                   :canEdit="true"
                   :mycol="col"
                   :isInModif="true"

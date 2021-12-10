@@ -64,6 +64,13 @@ export default defineComponent({
           }
         ]
 
+      } else if (tools.appid() === tools.IDAPP_FREEPLANET) {
+          arrfilterand.value = [
+            {
+              label: 'Attivi',
+              value: shared_consts.FILTER_ATTIVI
+            },
+          ]
       }
     }
 

@@ -9,10 +9,11 @@ import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 import { colmySkills } from '@store/Modules/fieldsTable'
 import { CGridTableRec } from '@/components/CGridTableRec'
-import { IMySkill, ISkill } from 'model'
+import { IMySkill, ISearchList, ISkill } from 'model'
+import { shared_consts } from '@/common/shared_vuejs'
 
 export default defineComponent({
-  name: 'CSkill',
+  name: 'CFinder',
   props: {
     defaultnewrec: {
       type: Function,
@@ -26,6 +27,61 @@ export default defineComponent({
     const mytable = 'users'
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
+
+    const arrfilterand: any = ref([])
+    const filtercustom: any = ref([])
+    const searchList = ref(<ISearchList[]>[])
+
+    function mounted() {
+      /*arrfilterand.value = [
+        {
+          label: 'Competenze',
+          value: shared_consts.FILTER_MYSKILL_SKILL
+        },
+
+      ]*/
+
+      searchList.value = [
+        {
+          label: 'Settore',
+          table: 'sectors',
+          key: 'idSector',
+          value: costanti.FILTER_TUTTI,
+          type: costanti.FieldType.select,
+        },
+        {
+          label: 'Competenza',
+          table: 'skills',
+          key: 'idSkill',
+          value: costanti.FILTER_TUTTI,
+          type: costanti.FieldType.select,
+        },
+        {
+          label: 'Citta',
+          table: 'cities',
+          key: 'idCity',
+          value: costanti.FILTER_TUTTI,
+          type: costanti.FieldType.multiselect,
+        },
+        {
+          label: 'Livello',
+          table: 'levels',
+          key: 'numLevel',
+          value: costanti.FILTER_TUTTI,
+          type: costanti.FieldType.select,
+        },
+        {
+          label: 'Stato',
+          table: 'statusSkills',
+          key: 'idStatusSkill',
+          value: costanti.FILTER_TUTTI,
+          type: costanti.FieldType.multiselect,
+        },
+
+      ]
+
+      filtercustom.value = []
+    }
 
     async function createNewRecordInUserTable() {
       console.log('createNewRecordInUserTable')
@@ -76,12 +132,17 @@ export default defineComponent({
       }
     }
 
+    onMounted(mounted)
+
     return {
       tools,
       costanti,
       colmySkills,
       getdefaultnewrec,
       extraparams,
+      arrfilterand,
+      filtercustom,
+      searchList,
     }
   },
 })

@@ -9,8 +9,13 @@
         col_title="subTitle"
         :vertical="true"
         nodataLabel="Nessuna Competenza inserita"
-        :prop_search="false"
+        :prop_search="true"
+        :finder="true"
+        :butt_modif_new="false"
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato"
+        :arrfilters="arrfilterand"
+        :filtercustom="filtercustom"
+        :prop_searchList="searchList"
         :defaultnewrec="getdefaultnewrec"
         :extraparams="extraparams()">
 
@@ -20,8 +25,8 @@
 
 </template>
 
-<script lang="ts" src="./CSkill.ts">
+<script lang="ts" src="./CFinder.ts">
 </script>
 <style lang="scss" scoped>
-@import './CSkill.scss';
+@import './CFinder.scss';
 </style>

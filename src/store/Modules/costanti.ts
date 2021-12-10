@@ -8,6 +8,8 @@ export const costanti = {
   CONFIG_ID_STATE_CONN: '2',
   CONFIG_ID_SHOW_TYPE_TODOS: '3',
 
+  FILTER_TUTTI: -100,
+
   FuncDialog: {
     CANCEL_BOOKING: 1,
   },

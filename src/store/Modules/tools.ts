@@ -62,6 +62,7 @@ export const tools = {
   IDAPP_AYNI: '7',
   IDAPP_SIP: '9',
   IDAPP_CNM: '10',
+  IDAPP_FREEPLANET: '1',
 
   TipoMsg: {
     SEND_LINK_CHAT_DONATORI: 1,

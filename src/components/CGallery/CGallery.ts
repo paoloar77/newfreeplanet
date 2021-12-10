@@ -71,6 +71,7 @@ export default defineComponent({
         gallerylist.value = [
             ]
       }
+
     }
 
     function showandsave(value: any) {

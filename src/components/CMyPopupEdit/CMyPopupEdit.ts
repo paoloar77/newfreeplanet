@@ -509,14 +509,18 @@ export default defineComponent({
       }
     }
     function getDirectoryGall() {
+      let ris = ''
       if (fieldsTable.tableForUsers.includes(props.table)) {
-        return 'profile/' + userStore.my.username + '/' + props.table
+        console.log('1')
+        ris = 'profile/' + myrow.value['username'] + '/' + props.table
       }else if (props.table === 'users') {
-        return 'profile/' + userStore.my.username
+        console.log('2')
+        ris = 'profile/' + userStore.my.username
       } else {
-        return props.table
+        console.log('3')
+        ris = props.table
       }
-
+      return ris
     }
 
     function uploaded(info: any) {

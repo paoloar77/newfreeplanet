@@ -1250,12 +1250,24 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return ''
     },
 
-    getTableJoinByName(table: string) {
+    getTableJoinByName(table: string, addall?: boolean) {
       if (table === 'permissions') return [shared_consts.Permissions.Admin, shared_consts.Permissions.Manager, shared_consts.Permissions.Teacher, shared_consts.Permissions.Tutor, shared_consts.Permissions.Editor, shared_consts.Permissions.Zoomeri, shared_consts.Permissions.Department]
       if (table === 'accepted') return [shared_consts.Accepted.CHECK_READ_GUIDELINES, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI]
       if (table === 'fieldstype') return costanti.FieldTypeArr
       if (table === 'metodo_pagamento') return tools.SelectMetodiPagamento
-      return this.getListByTable(table)
+
+      let myarr = this.getListByTable(table)
+
+      // if (addall)
+      //   myarr = [costanti.FILTER_TUTTI, ...myarr]
+
+      if (!addall) {
+        if (table === 'skills') {
+          myarr = myarr.filter((rec: any) => rec._id > 0)
+        }
+      }
+
+      return myarr
     },
 
   },

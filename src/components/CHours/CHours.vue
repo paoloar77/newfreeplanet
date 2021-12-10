@@ -12,7 +12,7 @@
         :filterdef="myfilterdef"
         :prop_codeId="todoId"
         :defaultnewrec="getdefaultnewrec"
-        :extraparams="extraparams"
+        :extraparams="extraparams()"
         labeladd="Aggiungi Ora">
 
       </CGridTableRec>

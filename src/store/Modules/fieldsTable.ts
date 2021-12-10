@@ -339,9 +339,12 @@ export const colSkills = [
 ]
 
 export const colmySkills = [
-  //AddCol({
-  //  name: 'userId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users',
-  //}),
+  AddCol({
+    name: 'userId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users',
+  }),
+  //AddCol({ name: 'name', label_trans: 'reg.name', fieldtype: costanti.FieldType.string }),
+  //AddCol({ name: 'surname', label_trans: 'reg.surname', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'username', label_trans: 'reg.username', foredit: false }),
   AddCol({
     name: 'idSkill',
     label_trans: 'skill.name',

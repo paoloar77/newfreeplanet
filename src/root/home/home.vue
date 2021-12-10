@@ -1,6 +1,5 @@
 <template>
   <q-page class="">
-    <h1>Inizio:</h1>
 
     <!--<CChartMap
       title="Mappa"
@@ -11,6 +10,8 @@
     </CChartMap>-->
 
     <!--<CMapsEsempio></CMapsEsempio>-->
+
+    <CFinder />
 
   </q-page>
 

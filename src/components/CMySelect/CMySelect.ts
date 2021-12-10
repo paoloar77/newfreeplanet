@@ -1,8 +1,9 @@
-import { defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
+import { costanti } from '@costanti'
 
 export default defineComponent({
   name: 'CMySelect',
@@ -32,6 +33,11 @@ export default defineComponent({
       required: false,
       default: true
     },
+    addall: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     dense: {
       type: Boolean,
       required: false,
@@ -59,6 +65,21 @@ export default defineComponent({
     const globalStore = useGlobalStore()
 
     const myvalue = ref(<string | number>'')
+
+    const valori = computed(() => {
+      let myarr = props.options
+      if (props.addall) {
+        let myobj: any = {}
+        if (typeof props.optlab === 'string') {
+          myobj[props.optlab] = '(Tutti)'
+          myobj[props.optval] = costanti.FILTER_TUTTI
+        }
+
+        myarr = [myobj, ...myarr]
+      }
+
+      return myarr
+    })
 
     function changeval(newval: any) {
       console.log('changeval', newval)
@@ -101,6 +122,7 @@ export default defineComponent({
     return {
       changeval,
       myvalue,
+      valori,
     }
   }
 })

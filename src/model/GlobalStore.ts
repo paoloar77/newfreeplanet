@@ -432,7 +432,9 @@ export interface IParamsQuery {
   endRow: number
   filter: string
   filterand: string
-  sortBy: any
+  filtersearch: string
+  filtercustom: string
+  sortBy: string
   descending: number
   userId: string
   codeId?: string
@@ -477,6 +479,14 @@ export interface ITableRec {
   colicon?: string
   onlyAdmin?: boolean
   noshow: boolean
+}
+
+export interface ISearchList {
+  label: string
+  table: string
+  key: string
+  value: any
+  type: number
 }
 
 export interface IFilter {

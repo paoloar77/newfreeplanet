@@ -3,10 +3,13 @@ import { useI18n } from '@src/boot/i18n'
 
 import { tools } from '../../store/Modules/tools'
 
+import { fieldsTable } from '@store/Modules/fieldsTable'
+
 import {
   IColGridTable,
   IFilter,
   ITableRec,
+  ISearchList,
   IPagination,
   IParamDialog,
   IEvents,
@@ -16,6 +19,8 @@ import {
 import { lists } from '../../store/Modules/lists'
 import { IParamsQuery } from '../../model/GlobalStore'
 import { CMyPopupEdit } from '../CMyPopupEdit'
+import { CMyFieldDb } from '../CMyFieldDb'
+import { CMySelect } from '../CMySelect'
 import { CTitleBanner } from '../CTitleBanner'
 
 import { useUserStore } from '@store/UserStore'
@@ -53,6 +58,16 @@ export default defineComponent({
       required: false,
       default: true,
     },
+    butt_modif_new: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    finder: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     vertical: {
       type: Boolean,
       required: false,
@@ -83,12 +98,24 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    prop_searchList: {
+      type: Object as PropType<ISearchList[]>,
+      required: false,
+      default: null,
+    },
     arrfilters: {
       type: Object as PropType<IFilter[]>,
       required: false,
       default: null,
     },
     filterdef: {
+      type: Array,
+      required: false,
+      default: () => {
+        return []
+      }
+    },
+    filtercustom: {
       type: Array,
       required: false,
       default: () => {
@@ -116,7 +143,7 @@ export default defineComponent({
       default: '',
     },
   },
-  components: { CMyPopupEdit, CTitleBanner },
+  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -145,6 +172,7 @@ export default defineComponent({
 
     const serverData: any = ref([])
     const spinner_visible = ref(false)
+    const searchList = toRef(props, 'prop_searchList')
 
     let idsel = ''
     let colsel = ref(<IColGridTable | null>{ name: '', field: '' })
@@ -153,6 +181,7 @@ export default defineComponent({
     let separator: 'horizontal'
     const myfilter = ref('')
     const myfilterand: any = ref([])
+    const myfiltercustom: any = ref([])
     let rowsel: any = {}
     let dark = true
     const canEdit = ref(false)
@@ -168,6 +197,15 @@ export default defineComponent({
     const selected: any = ref([])
 
     const mycodeid = toRef(props, 'prop_codeId')
+
+    watch(searchList.value, (to: any, from: any) =>  {
+      refresh()
+    })
+
+    function searchval(newval: any) {
+      console.log('searchval')
+      refresh()
+    }
 
     // emulate 'SELECT count(*) FROM ...WHERE...'
     function getRowsNumberCount(myfilter?: any) {
@@ -188,7 +226,7 @@ export default defineComponent({
 
     // emulate ajax call
     // SELECT * FROM ... WHERE...LIMIT...
-    async function fetchFromServer(startRow: any, endRow: any, param_myfilter: any, param_myfilterand: any, sortBy: any, descending: any) {
+    async function fetchFromServer(startRow: any, endRow: any, param_myfilter: any, param_myfilterand: any, filtercustom: any, sortBy: any, descending: any) {
 
       let myobj: any = {}
       if (sortBy) {
@@ -202,12 +240,29 @@ export default defineComponent({
 
       // console.log('sortBy', sortBy)
 
+      let filtersearch: ISearchList[] = []
+
+      if (searchList.value) {
+        searchList.value.forEach((item: ISearchList) => {
+          if (item.value > 0) {
+            let myarr: ISearchList
+            let objitem: any = {}
+            objitem[item.key] = item.value
+            filtersearch.push(objitem)
+          }
+        })
+      }
+
+
       let params: IParamsQuery = {
         table: mytable.value,
         startRow,
         endRow,
         filter: param_myfilter,
         filterand: param_myfilterand,
+        // @ts-ignore
+        filtersearch: filtersearch,
+        filtercustom,
         sortBy: myobj,
         descending,
         userId: userStore.my._id,
@@ -217,6 +272,7 @@ export default defineComponent({
       params.codeId = mycodeid.value
 
       // console.log('params', params)
+      console.log('props.extraparams', props.extraparams)
 
       params = { ...params, ...props.extraparams }
 
@@ -243,6 +299,7 @@ export default defineComponent({
       const { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination
       const myfilternow = myfilter.value
       const myfilterandnow = myfilterand.value
+      const myfiltercustomnow = myfiltercustom.value
 
       savefilter()
 
@@ -269,7 +326,7 @@ export default defineComponent({
       serverData.value = []
 
       // fetch data from "server"
-      return fetchFromServer(startRow, endRow, myfilternow, myfilterandnow, sortBy, descending).then((ris: any) => {
+      return fetchFromServer(startRow, endRow, myfilternow, myfilterandnow, myfiltercustomnow, sortBy, descending).then((ris: any) => {
 
         pagination.value.rowsNumber = getRowsNumberCount(myfilter)
 
@@ -337,6 +394,10 @@ export default defineComponent({
     })
 
     watch(() => myfilterand.value, (newval, oldval) => {
+      refresh()
+    })
+
+    watch(() => myfiltercustom.value, (newval, oldval) => {
       refresh()
     })
 
@@ -542,7 +603,6 @@ export default defineComponent({
       mycolumns.value = props.prop_mycolumns
       colkey.value = props.prop_colkey
       pagination.value = props.prop_pagination
-
     }
 
     function mounted() {
@@ -553,6 +613,7 @@ export default defineComponent({
         tablesel.value = tools.getCookie('tablesel', tablesel.value)
       }
       myfilterand.value = props.filterdef
+      myfiltercustom.value = props.filtercustom
       // console.log('tablesel', tablesel)
 
       if (tablesel.value === '') {
@@ -867,6 +928,8 @@ export default defineComponent({
 
       mydata.data = recModif.value
 
+      const oldrec = serverData.value.find((rec: IMySkill) => rec._id === recModif.value._id)
+
       const data = await globalStore.saveTable(mydata)
         .then((ris) => {
           if (ris) {
@@ -874,6 +937,11 @@ export default defineComponent({
             editRecordBool.value = false
             const indrec = serverData.value.findIndex((rec: IMySkill) => rec._id === ris._id)
             console.log('indrec', indrec, serverData.value[indrec])
+            mycolumns.value.forEach((col:IColGridTable) => {
+              if (!col.foredit) {
+                ris[col.name] = oldrec[col.name]
+              }
+            })
             if (indrec >= 0)
               serverData.value[indrec] = ris
           }
@@ -954,7 +1022,13 @@ export default defineComponent({
       spinner_visible,
       tablesel,
       myfilterand,
+      myfiltercustom,
       tools,
+      costanti,
+      fieldsTable,
+      globalStore,
+      searchList,
+      searchval,
     }
   }
 })
