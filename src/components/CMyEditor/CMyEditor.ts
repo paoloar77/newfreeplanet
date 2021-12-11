@@ -28,6 +28,11 @@ export default defineComponent({
       required: false,
       default: true,
     },
+    canModify: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const $q = useQuasar()

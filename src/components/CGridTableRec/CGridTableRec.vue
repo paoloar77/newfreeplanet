@@ -146,7 +146,8 @@
 
             <q-select
               v-if="item.type === costanti.FieldType.multiselect"
-              v-model="item.value"
+              v-model="item.arrvalue"
+              @update:model-value="searchval"
               rounded
               outlined
               multiple
@@ -158,7 +159,7 @@
               :options="globalStore.getTableJoinByName(item.table)"
               style="min-width: 150px"
               :option-value="fieldsTable.getKeyByTable(item.table)"
-              @update:model-value="searchval">
+              >
 
               <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
                 <q-item v-bind="itemProps">
@@ -167,7 +168,7 @@
                     <q-item-label>{{ opt[fieldsTable.getLabelByTable(item.table)] }}</q-item-label>
                   </q-item-section>
                   <q-item-section side>
-                    <q-toggle :model-value="selected" @update:value="toggleOption(opt)"/>
+                    <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)"/>
                   </q-item-section>
                 </q-item>
               </template>
@@ -230,9 +231,11 @@
               <span class="ellipsis"> {{ props.row[col_title] }} </span>
               <q-space/>
               <q-btn
+                v-if="canModifyThisRec(props.row)"
                 flat round color="white" icon="fas fa-pencil-alt" size="sm"
                 @click="clickFunz(props.row, prop_mycolumns.find((rec) => rec.action === lists.MenuAction.CAN_EDIT_TABLE))"></q-btn>
               <q-btn
+                v-if="canModifyThisRec(props.row)"
                 flat round color="white" icon="fas fa-trash-alt" size="sm"
                 @click="clickFunz(props.row, prop_mycolumns.find((rec) => rec.action === lists.MenuAction.DELETE_RECTABLE))"></q-btn>
             </q-bar>
@@ -255,6 +258,7 @@
                           <CMyPopupEdit
                             :table="mytable"
                             :canEdit="canEdit"
+                            :canModify="canModifyThisRec(props.row)"
                             :disable="disabilita()"
                             :mycol="col"
                             v-model:row="props.row"

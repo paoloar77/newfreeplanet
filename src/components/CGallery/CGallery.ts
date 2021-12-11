@@ -14,6 +14,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    canModify: {
+      type: Boolean,
+      required: true,
+    },
     single: {
       type: Boolean,
       required: false,
@@ -41,6 +45,9 @@ export default defineComponent({
 
     const gallerylist = ref(<IImgGallery[]>[])
     const maximizedToggle = ref(true)
+
+    const fullscreen = ref(false)
+    const fullscreensrc = ref('')
 
 
     function isValid(myobj: any): boolean {
@@ -101,69 +108,77 @@ export default defineComponent({
     }
 
     function onDragEnter(e: any) {
-      // don't drop on other draggables
-      if (e.target.draggable !== true) {
-        e.target.classList.add('drag-enter')
+      if (props.canModify) {
+        // don't drop on other draggables
+        if (e.target.draggable !== true) {
+          e.target.classList.add('drag-enter')
+        }
       }
     }
 
     function onDragLeave(e: any) {
-      e.target.classList.remove('drag-enter')
+      if (props.canModify) {
+        e.target.classList.remove('drag-enter')
+      }
     }
 
     function onDragOver(e: any) {
-      e.preventDefault()
+      if (props.canModify) {
+        e.preventDefault()
+      }
     }
 
     function onDrop(e: any) {
-      console.log('onDrop', e)
-      e.preventDefault()
+      if (props.canModify) {
+        console.log('onDrop', e)
+        e.preventDefault()
 
-      // don't drop on other draggables
-      if (e.target.draggable === true) {
-        return
-      }
-
-      if (gallerylist.value) {
-
-        const draggedId = e.dataTransfer.getData('text')
-        let dragout = ''
-        try {
-          dragout = e.target.parentNode.parentNode.parentNode.id
-        } catch (err) {
-          dragout = ''
-        }
-        const draggedEl = document.getElementById(draggedId)
-        console.log('draggedId', draggedId, 'draggedEl', draggedEl)
-        console.log('dragout', dragout)
-
-        // check if original parent node
-        if (draggedEl) {
-          if (draggedEl.parentNode === e.target) {
-            e.target.classList.remove('drag-enter')
-            return
-          }
-        }
-
-        const myindexIn = gallerylist.value.findIndex((rec: any) => rec._id === draggedId)
-        const myrecIn: IImgGallery = gallerylist.value[myindexIn]
-
-        let myrecOut: IImgGallery
-        const myindexout = gallerylist.value.findIndex((rec: any) => rec._id === dragout)
-        myrecOut = gallerylist.value[myindexout]
-
-        if (myindexIn === myindexout)
+        // don't drop on other draggables
+        if (e.target.draggable === true) {
           return
+        }
+
+        if (gallerylist.value) {
+
+          const draggedId = e.dataTransfer.getData('text')
+          let dragout = ''
+          try {
+            dragout = e.target.parentNode.parentNode.parentNode.id
+          } catch (err) {
+            dragout = ''
+          }
+          const draggedEl = document.getElementById(draggedId)
+          console.log('draggedId', draggedId, 'draggedEl', draggedEl)
+          console.log('dragout', dragout)
+
+          // check if original parent node
+          if (draggedEl) {
+            if (draggedEl.parentNode === e.target) {
+              e.target.classList.remove('drag-enter')
+              return
+            }
+          }
+
+          const myindexIn = gallerylist.value.findIndex((rec: any) => rec._id === draggedId)
+          const myrecIn: IImgGallery = gallerylist.value[myindexIn]
+
+          let myrecOut: IImgGallery
+          const myindexout = gallerylist.value.findIndex((rec: any) => rec._id === dragout)
+          myrecOut = gallerylist.value[myindexout]
+
+          if (myindexIn === myindexout)
+            return
 
 
-        tools.array_move(gallerylist.value, myindexIn, myindexout)
+          tools.array_move(gallerylist.value, myindexIn, myindexout)
 
-        // make the exchange
-        // draggedEl.parentNode.removeChild(draggedEl)
-        // e.target.appendChild(draggedEl)
-        e.target.classList.remove('drag-enter')
+          // make the exchange
+          // draggedEl.parentNode.removeChild(draggedEl)
+          // e.target.appendChild(draggedEl)
+          e.target.classList.remove('drag-enter')
 
-        save()
+          save()
+        }
       }
     }
 
@@ -172,7 +187,10 @@ export default defineComponent({
     }
 
     function getclimg() {
-      return (props.edit || displayGall.value) ? 'myimg' : 'myimg-view'
+      let mycl = (props.edit || displayGall.value) ? 'myimg' : 'myimg-view'
+      if (props.canModify && props.edit)
+        mycl = mycl + ' myimg-modify'
+      return mycl
     }
 
     /*function getlastord() {
@@ -304,6 +322,11 @@ export default defineComponent({
       return myurl
     }
 
+    function ImgFullScreen(mygallery: IImgGallery) {
+      fullscreen.value = true
+      fullscreensrc.value = getfullname(mygallery)
+    }
+
     onMounted(created)
 
     return {
@@ -328,6 +351,9 @@ export default defineComponent({
       maximizedToggle,
       getUrl,
       close,
+      ImgFullScreen,
+      fullscreen,
+      fullscreensrc,
     }
   }
 })

@@ -485,6 +485,7 @@ export interface ISearchList {
   label: string
   table: string
   key: string
+  arrvalue: any[]
   value: any
   type: number
 }

@@ -47,6 +47,7 @@ export default defineComponent({
           table: 'sectors',
           key: 'idSector',
           value: costanti.FILTER_TUTTI,
+          arrvalue: [],
           type: costanti.FieldType.select,
         },
         {
@@ -54,6 +55,7 @@ export default defineComponent({
           table: 'skills',
           key: 'idSkill',
           value: costanti.FILTER_TUTTI,
+          arrvalue: [],
           type: costanti.FieldType.select,
         },
         {
@@ -62,12 +64,14 @@ export default defineComponent({
           key: 'idCity',
           value: costanti.FILTER_TUTTI,
           type: costanti.FieldType.multiselect,
+          arrvalue: [costanti.FILTER_TUTTI],
         },
         {
           label: 'Livello',
           table: 'levels',
           key: 'numLevel',
           value: costanti.FILTER_TUTTI,
+          arrvalue: [],
           type: costanti.FieldType.select,
         },
         {
@@ -75,6 +79,7 @@ export default defineComponent({
           table: 'statusSkills',
           key: 'idStatusSkill',
           value: costanti.FILTER_TUTTI,
+          arrvalue: [],
           type: costanti.FieldType.multiselect,
         },
 

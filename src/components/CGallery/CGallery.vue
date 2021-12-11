@@ -39,7 +39,7 @@
             @dragover="onDragOver">
             <q-card
               :id="mygallery._id" :class="getclass()"
-              draggable="true"
+              :draggable="canModify"
               @dragstart="onDragStart"
               @drop="onDrop"
             >
@@ -77,9 +77,11 @@
 
               <q-card-actions align="center">
                 <q-btn
+                  v-if="canModify"
                   flat round color="blue" icon="fas fa-copy" size="sm"
                   @click="copytoclipboard(mygallery)"></q-btn>
                 <q-btn
+                  v-if="canModify"
                   flat round color="red" icon="fas fa-trash-alt" size="sm"
                   @click="deleteFile(mygallery)"></q-btn>
               </q-card-actions>
@@ -147,25 +149,27 @@
               >
                 <q-btn flat round dense icon="menu" class="q-mr-sm"/>
                 <q-btn
+                  v-if="canModify"
                   flat round icon="fas fa-copy" size="sm"
                   @click="copytoclipboard(mygallery)"></q-btn>
                 <div>
                   Foto {{ index + 1 }}
                 </div>
                 <q-space></q-space>
-                <q-btn flat round color="red" icon="fas fa-trash-alt" @click="deleteFile(mygallery)"></q-btn>
+                <q-btn v-if="canModify" flat round color="red" icon="fas fa-trash-alt" @click="deleteFile(mygallery)"></q-btn>
               </q-bar>
 
               <q-card
                 :id="mygallery._id" :class="getclass()"
                 :data-ind="index"
-                draggable="true"
+                :draggable="canModify"
                 @dragstart="onDragStart"
                 @drop="onDrop"
               >
                 <q-img
                   :src="getsrcimg(mygallery)"
                   :class="getclimg()"
+                  @click="ImgFullScreen(mygallery)"
                   :alt="mygallery.alt">
                   <div v-if="mygallery.description" class="absolute-bottom text-shadow">
                     <!-- <div class="text-h6 text-trans">{{ mygallery.description }} </div> -->
@@ -196,7 +200,9 @@
               </q-card>
             </div>
           </div>
-          <div class="q-pa-sm">
+          <div
+            v-if="canModify"
+            class="q-pa-sm">
             <div class="q-gutter-sm " style="max-height: 200px; width: 208px;">
               <q-uploader
                 label="Aggiungi Immagine"
@@ -215,15 +221,27 @@
           </div>
         </div>
 
+
         <q-card-actions align="right">
-          <q-btn flat label="Annulla" color="primary" v-close-popup/>
-          <q-btn label="salva" color="primary" v-close-popup @click="save"/>
+
+          <q-btn v-if="canModify" flat label="Annulla" color="primary" v-close-popup/>
+          <q-btn v-if="canModify" label="salva" color="primary" v-close-popup @click="save"/>
+          <q-btn v-if="!canModify" label="Chiudi" color="primary" v-close-popup/>
         </q-card-actions>
 
       </q-card-section>
     </q-card>
   </q-dialog>
-
+  <q-dialog
+    v-model="fullscreen"
+    :maximized="false"
+    transition-show="slide-up"
+    transition-hide="slide-down"
+  >
+    <q-card class="my-card">
+      <q-img v-if="fullscreensrc" alt="fullscreen" :src="fullscreensrc" @click="fullscreen = false"></q-img>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script lang="ts" src="./CGallery.ts">

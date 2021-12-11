@@ -38,8 +38,9 @@
         </form>
       </q-card-section>
       <q-card-actions v-if="showButtons" align="center">
-        <q-btn flat :label="$t('dialog.ok')" color="primary" @click="saveval"></q-btn>
-        <q-btn flat :label="$t('dialog.cancel')" color="primary" v-close-popup @click="annulla"></q-btn>
+        <q-btn v-if="canModify" flat :label="$t('dialog.ok')" color="primary" @click="saveval"></q-btn>
+        <q-btn v-if="canModify" flat :label="$t('dialog.cancel')" color="primary" v-close-popup @click="annulla"></q-btn>
+        <q-btn v-if="!canModify" :label="$t('dialog.ok')" color="primary" v-close-popup></q-btn>
       </q-card-actions>
     </q-card>
 

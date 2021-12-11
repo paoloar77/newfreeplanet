@@ -207,6 +207,20 @@ export default defineComponent({
       refresh()
     }
 
+    function canModifyThisRec(rec: any) {
+      // console.log('rec', rec)
+      if (rec.hasOwnProperty('userId')) {
+        let userId = rec.userId
+        if (userId === userStore.my._id) {
+          // E' il mio, quindi modificalo
+          return true
+        }
+      }
+      return false
+      // if (userStore.isAdmin || userStore.isManager)
+      //   return true
+    }
+
     // emulate 'SELECT count(*) FROM ...WHERE...'
     function getRowsNumberCount(myfilter?: any) {
 
@@ -244,11 +258,27 @@ export default defineComponent({
 
       if (searchList.value) {
         searchList.value.forEach((item: ISearchList) => {
+          let myarr: ISearchList
+          let objitem: any = {}
           if (item.value > 0) {
-            let myarr: ISearchList
-            let objitem: any = {}
             objitem[item.key] = item.value
             filtersearch.push(objitem)
+          } else if (item.arrvalue.length > 0) {
+            const myarr = item.arrvalue.filter((value) => value > 0)
+
+            let arr2: any = []
+
+            myarr.forEach((myval) => {
+              let objitem2: any = {}
+              objitem2[item.key] = myval
+              arr2.push(objitem2)
+            })
+
+            let obj2: any = {
+              $or: arr2
+            }
+            if (arr2.length > 0)
+              filtersearch.push(obj2)
           }
         })
       }
@@ -272,7 +302,7 @@ export default defineComponent({
       params.codeId = mycodeid.value
 
       // console.log('params', params)
-      console.log('props.extraparams', props.extraparams)
+      // console.log('props.extraparams', props.extraparams)
 
       params = { ...params, ...props.extraparams }
 
@@ -1029,6 +1059,7 @@ export default defineComponent({
       globalStore,
       searchList,
       searchval,
+      canModifyThisRec,
     }
   }
 })

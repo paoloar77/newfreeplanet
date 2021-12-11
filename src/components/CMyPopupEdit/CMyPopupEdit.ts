@@ -45,6 +45,11 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    canModify: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     isInModif: {
       type: Boolean,
       required: false,

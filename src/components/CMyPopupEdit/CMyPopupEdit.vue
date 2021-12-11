@@ -77,7 +77,9 @@
             <CGallery
               :title="getTitleGall()"
               :directory="getDirectoryGall()"
-              :imgGall="myvalue" :edit="isviewfield()"
+              :imgGall="myvalue"
+              :edit="isviewfield()"
+              :canModify="canModify"
               @showandsave="Savedb">
             </CGallery>
           </div>
@@ -89,6 +91,7 @@
                 :directory="getDirectoryGall()"
                 :imgGall="[{ imagefile: myvalue }]"
                 :edit="isviewfield()"
+                :canModify="canModify"
                 :single="isFieldDb()"
                 @update:imgGall="changevalRec"
                 @showandsave="Savedb">
@@ -320,6 +323,7 @@
                 <CMyEditor
                   v-model:value="myvalue" :title="col.title" @keyup.enter.stop
                   :showButtons="false"
+                  :canModify="canModify"
                   @update:value="changevalRec"
                   @showandsave="Savedb">
                 </CMyEditor>
@@ -333,6 +337,7 @@
                     <q-card-section>
                       <CMyEditor
                         v-if="visueditor" v-model:value="myvalue" :title="col.title" @keyup.enter.stop
+                        :canModify="canModify"
                         @showandsave="Savedb" @annulla="visueditor=false">
 
                       </CMyEditor>
