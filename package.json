@@ -23,16 +23,16 @@
     "generate-sw": "workbox generateSW workbox-config.js"
   },
   "dependencies": {
+    "axios": "0.21.4",
+    "@vue/eslint-config-standard": "5.1.2",
     "@quasar/extras": "^1.12.1",
     "@quasar/quasar-ui-qcalendar": "^4.0.0-beta.6",
     "@vue/compat": "^3.2.26",
     "@vue/compiler-sfc": "^3.2.26",
-    "@vue/eslint-config-standard": "^5.1.2",
     "@vuelidate/core": "^2.0.0-alpha.32",
     "@vuelidate/validators": "^2.0.0-alpha.25",
     "acorn": "^8.6.0",
     "autoprefixer": "^10.4.0",
-    "axios": "0.21.4",
     "babel-loader": "^8.2.3",
     "bcryptjs": "^2.4.3",
     "core-js": "^3.19.1",
@@ -75,6 +75,8 @@
     "vuex-router-sync": "^6.0.0-rc.1"
   },
   "devDependencies": {
+    "node-sass": "6.0.1",
+    "webpack": "^5.0.0",
     "@quasar/app": "^3.2.3",
     "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.6",
     "@types/bcryptjs": "^2.4.2",
@@ -99,7 +101,6 @@
     "http-proxy-middleware": "^2.0.1",
     "jest": "^27.3.1",
     "json-loader": "^0.5.7",
-    "node-sass": "^6.0.1",
     "npm-check-updates": "^12.0.2",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss": "^8.3.11",
@@ -114,7 +115,6 @@
     "typescript": "^4.5.2",
     "vue-cli-plugin-element-ui": "^1.1.4",
     "vueify": "^9.4.1",
-    "webpack": "^5.0.0",
     "workbox-webpack-plugin": "^6.4.1"
   },
   "browser": {
