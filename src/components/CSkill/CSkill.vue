@@ -12,6 +12,7 @@
         :prop_search="false"
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato"
         :defaultnewrec="getdefaultnewrec"
+        :filtercustom="filtercustom"
         :extraparams="extraparams()">
 
       </CGridTableRec>

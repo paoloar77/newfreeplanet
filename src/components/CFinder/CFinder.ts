@@ -41,52 +41,69 @@ export default defineComponent({
 
       ]*/
 
+      function getFilterSkills(recSkill: any, index: number, arr: any) {
+        const recsectors:any = searchList.value.find((rec) => rec.table === 'sectors')
+        if (recsectors) {
+          return recSkill.idSector.includes(recsectors.value)
+        } else {
+          return true
+        }
+      }
+
+
       searchList.value = [
         {
           label: 'Settore',
           table: 'sectors',
           key: 'idSector',
-          value: costanti.FILTER_TUTTI,
+          value: tools.getCookie(tools.COOK_SEARCH + 'sectors', costanti.FILTER_TUTTI),
           arrvalue: [],
           type: costanti.FieldType.select,
+          filter: null,
+          notinsearch: true,
         },
         {
           label: 'Competenza',
           table: 'skills',
           key: 'idSkill',
-          value: costanti.FILTER_TUTTI,
+          value: tools.getCookie(tools.COOK_SEARCH + 'skills', costanti.FILTER_TUTTI),
           arrvalue: [],
           type: costanti.FieldType.select,
+          filter: getFilterSkills,
         },
         {
           label: 'Citta',
           table: 'cities',
           key: 'idCity',
-          value: costanti.FILTER_TUTTI,
+          value: 0,
           type: costanti.FieldType.multiselect,
-          arrvalue: [costanti.FILTER_TUTTI],
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'cities', [costanti.FILTER_TUTTI]),
+          filter: null,
         },
         {
           label: 'Livello',
           table: 'levels',
           key: 'numLevel',
-          value: costanti.FILTER_TUTTI,
+          value: tools.getCookie(tools.COOK_SEARCH + 'levels', costanti.FILTER_TUTTI),
           arrvalue: [],
           type: costanti.FieldType.select,
+          filter: null,
         },
         {
           label: 'Stato',
           table: 'statusSkills',
           key: 'idStatusSkill',
-          value: costanti.FILTER_TUTTI,
-          arrvalue: [],
+          value: 0,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'statusSkills', [costanti.FILTER_TUTTI]),
           type: costanti.FieldType.multiselect,
+          filter: null,
         },
 
       ]
 
       filtercustom.value = []
     }
+
 
     async function createNewRecordInUserTable() {
       console.log('createNewRecordInUserTable')
@@ -125,14 +142,51 @@ export default defineComponent({
 
     function extraparams() {
       return {
-        lk_tab: 'users',
-        lk_LF: 'userId',
-        lk_FF: '_id',
-        lk_as: 'user',
-        af_objId_tab: 'myId',
-        lk_proj: {
-          idSkill: 1, idStatusSkill: 1, idCity: 1, numLevel: 1, photos: 1, note: 1, subTitle: 1, date_created:1, date_updated: 1,
-          userId: 1, username: 1, name: 1, surname: 1
+        lookup1: {
+          lk_tab: 'users',
+          lk_LF: 'userId',
+          lk_FF: '_id',
+          lk_as: 'user',
+          af_objId_tab: 'myId',
+          lk_proj: {
+            'sector.idSector': 1,
+            idSkill: 1,
+            idStatusSkill: 1,
+            idCity: 1,
+            numLevel: 1,
+            photos: 1,
+            note: 1,
+            subTitle: 1,
+            date_created: 1,
+            date_updated: 1,
+            userId: 1,
+            username: 1,
+            name: 1,
+            surname: 1
+          }
+        },
+        lookup2: {
+          lk_tab: 'sectors',
+          lk_LF: 'idSkill',
+          lk_FF: '_id',
+          lk_as: 'sector',
+          af_objId_tab: '',
+          lk_proj: {
+            'sector.idSector': 1,
+            idSkill: 1,
+            idStatusSkill: 1,
+            idCity: 1,
+            numLevel: 1,
+            photos: 1,
+            note: 1,
+            subTitle: 1,
+            date_created: 1,
+            date_updated: 1,
+            userId: 1,
+            username: 1,
+            name: 1,
+            surname: 1
+          }
         }
       }
     }

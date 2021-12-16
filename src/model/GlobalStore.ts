@@ -426,25 +426,29 @@ export interface IFunctionality {
   ENABLE_REG_CNM?: boolean
 }
 
-export interface IParamsQuery {
-  table: string
-  startRow: number
-  endRow: number
-  filter: string
-  filterand: string
-  filtersearch: string
-  filtercustom: string
-  sortBy: string
-  descending: number
-  userId: string
-  codeId?: string
+export interface IParLookup {
   lk_tab?: string,
   af_objId_tab?: string,
   lk_LF?: string,
   lk_FF?: string,
   lk_as?: string,
   lk_proj?: string,
-  lk_col2?: string,
+}
+
+export interface IParamsQuery {
+  table: string
+  startRow: number
+  endRow: number
+  filter: string
+  filterand: string
+  sortBy: string
+  descending: number
+  userId: string
+  codeId?: string
+  filtersearch: string
+  filtercustom: string
+  lookup1?: IParLookup
+  lookup2?: IParLookup
 }
 
 export interface IColGridTable {
@@ -488,6 +492,8 @@ export interface ISearchList {
   arrvalue: any[]
   value: any
   type: number
+  filter: any
+  notinsearch?: boolean
 }
 
 export interface IFilter {

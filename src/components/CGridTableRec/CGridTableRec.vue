@@ -136,18 +136,18 @@
               v-if="item.type === costanti.FieldType.select"
               :label="item.label"
               v-model:value="item.value"
-              @update:value="searchval"
+              @update:value="searchval(item.value, item.table)"
               :addall="true"
               :optval="fieldsTable.getKeyByTable(item.table)"
               :optlab="fieldsTable.getLabelByTable(item.table)"
-              :options="globalStore.getTableJoinByName(item.table, true)"
+              :options="globalStore.getTableJoinByName(item.table, true, item.filter)"
               :useinput="false">
             </CMySelect>
 
             <q-select
               v-if="item.type === costanti.FieldType.multiselect"
               v-model="item.arrvalue"
-              @update:model-value="searchval"
+              @update:model-value="searchval(item.arrvalue, item.table)"
               rounded
               outlined
               multiple
@@ -156,7 +156,7 @@
               :display-value="fieldsTable.getTitleByTable(item.table)"
               emit-value
               map-options
-              :options="globalStore.getTableJoinByName(item.table)"
+              :options="globalStore.getTableJoinByName(item.table, item.filter)"
               style="min-width: 150px"
               :option-value="fieldsTable.getKeyByTable(item.table)"
               >

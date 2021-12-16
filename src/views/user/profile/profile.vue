@@ -45,14 +45,27 @@
             :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
-        <CMyFieldDb
+        <!--<CMyFieldDb
           :title="$t('reg.nationality')"
           table="users"
           mykey="profile"
           mysubkey="nationality"
           :type="costanti.FieldType.nationality">
-        </CMyFieldDb>
+        </CMyFieldDb>-->
+
         <div class="myrow">
+          <CMyFieldDb
+            :title="$t('reg.dateofbirth')"
+            table="users"
+            mykey="profile"
+            mysubkey="dateofbirth"
+            :type="costanti.FieldType.date">
+          </CMyFieldDb>
+        </div>
+
+
+        <div class="myrow">
+
           <CMyFieldDb
             :title="$t('reg.intcode_cell')"
             table="users"
@@ -88,7 +101,8 @@
       class="q-pa-xs" title="Competenze e Talenti" bgcolor="bg-primary" clcolor="text-white"
       myclass="myshad" :canopen="true">
 
-      <CSkill>
+      <CSkill
+      :filtercustom="filtroutente">
 
       </CSkill>
 

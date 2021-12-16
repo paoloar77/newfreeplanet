@@ -14,7 +14,7 @@ import {
   IParamDialog,
   IEvents,
   IDataToSet,
-  IMySkill
+  IMySkill, ISkill
 } from '../../model'
 import { lists } from '../../store/Modules/lists'
 import { IParamsQuery } from '../../model/GlobalStore'
@@ -74,6 +74,11 @@ export default defineComponent({
       default: false,
     },
     prop_codeId: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    keyMain: {
       type: String,
       required: false,
       default: '',
@@ -170,6 +175,8 @@ export default defineComponent({
 
     const loading = ref(false)
 
+    const startsearch = ref(false)
+
     const serverData: any = ref([])
     const spinner_visible = ref(false)
     const searchList = toRef(props, 'prop_searchList')
@@ -181,7 +188,6 @@ export default defineComponent({
     let separator: 'horizontal'
     const myfilter = ref('')
     const myfilterand: any = ref([])
-    const myfiltercustom: any = ref([])
     let rowsel: any = {}
     let dark = true
     const canEdit = ref(false)
@@ -199,11 +205,13 @@ export default defineComponent({
     const mycodeid = toRef(props, 'prop_codeId')
 
     watch(searchList.value, (to: any, from: any) =>  {
+      console.log('watch searchlist', to)
       refresh()
     })
 
-    function searchval(newval: any) {
-      console.log('searchval')
+    function searchval(newval: any, table: any) {
+      console.log('searchval', newval, table)
+      tools.setCookie(tools.COOK_SEARCH + table, newval)
       refresh()
     }
 
@@ -240,7 +248,7 @@ export default defineComponent({
 
     // emulate ajax call
     // SELECT * FROM ... WHERE...LIMIT...
-    async function fetchFromServer(startRow: any, endRow: any, param_myfilter: any, param_myfilterand: any, filtercustom: any, sortBy: any, descending: any) {
+    async function fetchFromServer(startRow: any, endRow: any, param_myfilter: any, param_myfilterand: any, sortBy: any, descending: any) {
 
       let myobj: any = {}
       if (sortBy) {
@@ -254,34 +262,75 @@ export default defineComponent({
 
       // console.log('sortBy', sortBy)
 
-      let filtersearch: ISearchList[] = []
+      let filtersearch: any[] = []
+
+      let recSector = searchList.value.find((item: ISearchList) => item.table === 'sectors')
+      let idSector = recSector ? recSector.value : 0
 
       if (searchList.value) {
         searchList.value.forEach((item: ISearchList) => {
-          let myarr: ISearchList
-          let objitem: any = {}
-          if (item.value > 0) {
-            objitem[item.key] = item.value
-            filtersearch.push(objitem)
-          } else if (item.arrvalue.length > 0) {
-            const myarr = item.arrvalue.filter((value) => value > 0)
+          if (!item.notinsearch) {
+            let objitem: any = {}
+            if (item.value > 0) {
+              objitem[item.key] = item.value
+              filtersearch.push(objitem)
+            } else if (item.arrvalue.length > 0) {
+              const myarr = item.arrvalue.filter((value: any) => value > 0)
 
-            let arr2: any = []
+              let arr2: any = []
 
-            myarr.forEach((myval) => {
-              let objitem2: any = {}
-              objitem2[item.key] = myval
-              arr2.push(objitem2)
-            })
+              myarr.forEach((myval: any) => {
+                let objitem2: any = {}
+                objitem2[item.key] = myval
+                arr2.push(objitem2)
+              })
 
-            let obj2: any = {
-              $or: arr2
+              let obj2: any = {
+                $or: arr2
+              }
+              if (arr2.length > 0)
+                filtersearch.push(obj2)
+            } else {
+              if (item.table === 'skills' && item.value === costanti.FILTER_TUTTI) {
+                // idSector
+                let obj2: any = {
+                  idSector: idSector
+                }
+                filtersearch.push(obj2)
+              }
             }
-            if (arr2.length > 0)
-              filtersearch.push(obj2)
           }
         })
       }
+
+      console.log('filtersearch', filtersearch)
+
+
+      if (props.prop_search) {
+        let nosearch = false
+        if (filtersearch.length <= 0 && !param_myfilter) {
+          nosearch = true
+          returnedData.value = []
+          returnedCount = 0
+        } else {
+          if (props.keyMain) {
+            nosearch = true
+            filtersearch.forEach((rec: any) => {
+              console.log('rec', rec)
+              if (!!rec[props.keyMain]) {
+                nosearch = false
+              }
+            })
+          }
+        }
+        if (false && nosearch && props.finder) {
+          returnedData.value = []
+          returnedCount = 0
+          return true
+        }
+      }
+
+      console.log('filtercustom', props.filtercustom)
 
 
       let params: IParamsQuery = {
@@ -292,7 +341,8 @@ export default defineComponent({
         filterand: param_myfilterand,
         // @ts-ignore
         filtersearch: filtersearch,
-        filtercustom,
+        // @ts-ignore
+        filtercustom: props.filtercustom,
         sortBy: myobj,
         descending,
         userId: userStore.my._id,
@@ -329,12 +379,13 @@ export default defineComponent({
       const { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination
       const myfilternow = myfilter.value
       const myfilterandnow = myfilterand.value
-      const myfiltercustomnow = myfiltercustom.value
 
       savefilter()
 
       if (!mytable.value)
         return
+
+      // console.log('myfilterandnow', myfilterandnow, 'myfilterandnow', myfilterandnow)
 
       // console.log('onRequest', 'myfilter = ', myfilter.value)
 
@@ -356,7 +407,7 @@ export default defineComponent({
       serverData.value = []
 
       // fetch data from "server"
-      return fetchFromServer(startRow, endRow, myfilternow, myfilterandnow, myfiltercustomnow, sortBy, descending).then((ris: any) => {
+      return fetchFromServer(startRow, endRow, myfilternow, myfilterandnow, sortBy, descending).then((ris: any) => {
 
         pagination.value.rowsNumber = getRowsNumberCount(myfilter)
 
@@ -403,6 +454,9 @@ export default defineComponent({
 
     function refresh() {
       // console.log('refresh')
+      if (!startsearch.value)
+        return false
+
       serverData.value = []
 
       search.value = search.value.trim()
@@ -423,12 +477,13 @@ export default defineComponent({
       refresh()
     })
 
-    watch(() => myfilterand.value, (newval, oldval) => {
+    /*watch(() => myfilterand.value, (newval, oldval) => {
       refresh()
-    })
+    })*/
 
-    watch(() => myfiltercustom.value, (newval, oldval) => {
-      refresh()
+    watch(() => props.filtercustom, (newval, oldval) => {
+      // console.log('myfiltercustom change')
+      // refresh()
     })
 
     function isTutor() {
@@ -638,12 +693,14 @@ export default defineComponent({
     function mounted() {
       // console.log('GridTable mounted', tablesel.value)
 
+      console.log('props.filtercustom', props.filtercustom)
+
       if (!!props.tablesList) {
         canEdit.value = tools.getCookie(tools.CAN_EDIT, canEdit) === 'true'
         tablesel.value = tools.getCookie('tablesel', tablesel.value)
       }
       myfilterand.value = props.filterdef
-      myfiltercustom.value = props.filtercustom
+      // myfiltercustom.value = props.filtercustom
       // console.log('tablesel', tablesel)
 
       if (tablesel.value === '') {
@@ -838,6 +895,8 @@ export default defineComponent({
         }
       }
 
+      startsearch.value = true
+
       refresh()
     }
 
@@ -990,11 +1049,11 @@ export default defineComponent({
       return props.labelBtnAddRow !== addRow.value
     }
 
+
     // onMounted(mounted)
 
     created()
     mounted()
-
 
     return {
       selItem,
@@ -1052,7 +1111,6 @@ export default defineComponent({
       spinner_visible,
       tablesel,
       myfilterand,
-      myfiltercustom,
       tools,
       costanti,
       fieldsTable,

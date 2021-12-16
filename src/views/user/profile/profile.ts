@@ -3,7 +3,7 @@ import { CTitleBanner } from '@/components/CTitleBanner'
 import { CProfile } from '@/components/CProfile'
 import { CSkill } from '@/components/CSkill'
 import { tools } from '@store/Modules/tools'
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { useUserStore } from '@store/UserStore'
 import { useRouter } from 'vue-router'
 import { useGlobalStore } from '@store/globalStore'
@@ -23,6 +23,8 @@ export default defineComponent({
     const globalStore = useGlobalStore()
     const $q = useQuasar()
     const { t } = useI18n();
+
+    const filtroutente = ref(<any[]>[])
 
     function getpayment() {
       return userStore.my.profile.paymenttypes
@@ -71,12 +73,21 @@ export default defineComponent({
       })
     }
 
+    function mounted() {
+      filtroutente.value = [
+        { userId: userStore.my._id}
+      ]
+    }
+
+    onMounted(mounted)
+
     return {
       eliminaAccount,
       profile,
       getpayment,
       tools,
       costanti,
+      filtroutente,
     }
   }
 })

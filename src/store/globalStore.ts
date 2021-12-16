@@ -1250,7 +1250,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return ''
     },
 
-    getTableJoinByName(table: string, addall?: boolean) {
+    getTableJoinByName(table: string, addall?: boolean, filter?: any) {
       if (table === 'permissions') return [shared_consts.Permissions.Admin, shared_consts.Permissions.Manager, shared_consts.Permissions.Teacher, shared_consts.Permissions.Tutor, shared_consts.Permissions.Editor, shared_consts.Permissions.Zoomeri, shared_consts.Permissions.Department]
       if (table === 'accepted') return [shared_consts.Accepted.CHECK_READ_GUIDELINES, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI]
       if (table === 'fieldstype') return costanti.FieldTypeArr
@@ -1262,9 +1262,12 @@ export const useGlobalStore = defineStore('GlobalStore', {
       //   myarr = [costanti.FILTER_TUTTI, ...myarr]
 
       if (!addall) {
-        if (table === 'skills') {
+        /*if (table === 'skills') {
           myarr = myarr.filter((rec: any) => rec._id > 0)
-        }
+        } */
+      }
+      if (filter) {
+        myarr = myarr.filter(filter)
       }
 
       return myarr

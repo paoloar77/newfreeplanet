@@ -18,6 +18,13 @@ export default defineComponent({
       type: Function,
       required: false,
     },
+    filtercustom: {
+      type: Array,
+      required: false,
+      default: () => {
+        return []
+      }
+    },
   },
   components: {
     CMyFieldDb, CGridTableRec,
@@ -64,14 +71,27 @@ export default defineComponent({
 
     function extraparams() {
       return {
-        lk_tab: 'users',
-        lk_LF: 'userId',
-        lk_FF: '_id',
-        lk_as: 'user',
-        af_objId_tab: 'myId',
-        lk_proj: {
-          idSkill: 1, idStatusSkill: 1, idCity: 1, numLevel: 1, photos: 1, note: 1, subTitle: 1, date_created:1, date_updated: 1,
-          userId: 1, username: 1, name: 1, surname: 1
+        lookup1: {
+          lk_tab: 'users',
+          lk_LF: 'userId',
+          lk_FF: '_id',
+          lk_as: 'user',
+          af_objId_tab: 'myId',
+          lk_proj: {
+            idSkill: 1,
+            idStatusSkill: 1,
+            idCity: 1,
+            numLevel: 1,
+            photos: 1,
+            note: 1,
+            subTitle: 1,
+            date_created: 1,
+            date_updated: 1,
+            userId: 1,
+            username: 1,
+            name: 1,
+            surname: 1
+          }
         }
       }
     }

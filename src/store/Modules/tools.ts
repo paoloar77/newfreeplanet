@@ -50,6 +50,8 @@ export const tools = {
   TABBED_HOME: 't-home',
   TABBED_NAVE: 't-nave',
 
+  COOK_SEARCH: 'SEARCH_',
+
   getprefCountries: ['it', 'es', 'us'],
 
   APORTADOR_NONE: '------',
@@ -3276,7 +3278,7 @@ export const tools = {
   },
   getCookie(mytok: any, def?: any) {
     const ris = Cookies.get(mytok)
-    // console.log('getCookie', ris)
+    console.log('getCookie', mytok, ris)
     if (!!ris) {
       return ris
     } else {
@@ -3285,6 +3287,7 @@ export const tools = {
   },
 
   setCookie(mytok: any, value: string) {
+    console.log('setCookie', mytok, value)
     return Cookies.set(mytok, value)
   },
 

@@ -863,6 +863,7 @@ export const fieldsTable = {
     AddCol({ name: 'surname', label_trans: 'reg.surname' }),
     AddCol({ name: 'email', label_trans: 'reg.email' }),
     AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
+    AddCol({ name: 'profile.dateofbirth', label_trans: 'reg.dateofbirth', fieldtype: costanti.FieldType.onlydate }),
     AddCol({
       name: 'profile.resplist',
       field: 'profile',
