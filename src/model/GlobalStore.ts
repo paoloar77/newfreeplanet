@@ -446,9 +446,11 @@ export interface IParamsQuery {
   userId: string
   codeId?: string
   filtersearch: string
+  filtersearch2: string
   filtercustom: string
   lookup1?: IParLookup
   lookup2?: IParLookup
+  lookup3?: IParLookup
 }
 
 export interface IColGridTable {
@@ -595,6 +597,7 @@ export interface IMySkill {
   _id: number
   idSkill: number
   idStatusSkill: number[]
+  idContribType: string[]
   idCity: number[]
   photos: IGallery[]
   NumLevel: number

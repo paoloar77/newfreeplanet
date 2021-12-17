@@ -329,6 +329,7 @@ const msg_it = {
       consiglio: 'Consiglio',
       volta: 'volta',
       volte: 'volte',
+      edit: 'Modifica',
       registered: 'Registrato',
       contacted: 'Contattato',
       name_complete: 'Nome Completo',
@@ -784,6 +785,9 @@ const msg_it = {
     },
     sectors: {
       name: 'Settore',
+    },
+    contribtype: {
+      name: 'Contributo'
     }
   },
 

@@ -196,7 +196,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return calendarStore.internalpages
       else if (table === 'wheres')
         return calendarStore.wheres
-      else if (table === 'contribtype')
+      else if (table === 'contribtypes')
         return calendarStore.contribtype
       else if (table === 'disciplines') ris = state.disciplines
       else if (table === toolsext.TABNEWSLETTER) ris = state.newstosent

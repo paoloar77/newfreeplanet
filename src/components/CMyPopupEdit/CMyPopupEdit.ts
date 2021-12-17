@@ -445,10 +445,16 @@ export default defineComponent({
         else
           return '***************'
       } else {
-        if (val === undefined || val === null)
-          return ' <span class="text-grey">(' + t('reg.select') + ')</span> '
-        else if (val === '') {
-          return ' <span class="text-grey">(' + t('reg.select') + ')</span> '
+        if (val === undefined || val === null) {
+          if (props.canEdit)
+            return ' <span class="text-grey">(' + t('reg.select') + ')</span> '
+          else
+            return ''
+        } else if (val === '') {
+          if (props.canEdit)
+            return ' <span class="text-grey">(' + t('reg.select') + ')</span> '
+          else
+            return ''
         } else {
           let mystr = ''
           if (props.showall) {

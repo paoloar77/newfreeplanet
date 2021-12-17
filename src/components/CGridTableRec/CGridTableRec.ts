@@ -263,9 +263,16 @@ export default defineComponent({
       // console.log('sortBy', sortBy)
 
       let filtersearch: any[] = []
+      let filtersearch2: any[] = []
 
-      let recSector = searchList.value.find((item: ISearchList) => item.table === 'sectors')
-      let idSector = recSector ? recSector.value : 0
+      let recSector = null;
+      let idSector = 0;
+      if (searchList.value) {
+        recSector = searchList.value.find((item: ISearchList) => item.table === 'sectors')
+        idSector = recSector ? recSector.value : 0
+      }
+
+      // console.table(searchList.value)
 
       if (searchList.value) {
         searchList.value.forEach((item: ISearchList) => {
@@ -275,7 +282,12 @@ export default defineComponent({
               objitem[item.key] = item.value
               filtersearch.push(objitem)
             } else if (item.arrvalue.length > 0) {
-              const myarr = item.arrvalue.filter((value: any) => value > 0)
+              const myarr = item.arrvalue.filter((value: any) => {
+                if (typeof value === 'number') {
+                  return value > 0;
+                }
+                return true;
+              })
 
               let arr2: any = []
 
@@ -292,11 +304,10 @@ export default defineComponent({
                 filtersearch.push(obj2)
             } else {
               if (item.table === 'skills' && item.value === costanti.FILTER_TUTTI) {
+                let obj2: any = {}
                 // idSector
-                let obj2: any = {
-                  idSector: idSector
-                }
-                filtersearch.push(obj2)
+                obj2['sector._id'] = idSector
+                filtersearch2.push(obj2)
               }
             }
           }
@@ -304,7 +315,6 @@ export default defineComponent({
       }
 
       console.log('filtersearch', filtersearch)
-
 
       if (props.prop_search) {
         let nosearch = false
@@ -341,6 +351,8 @@ export default defineComponent({
         filterand: param_myfilterand,
         // @ts-ignore
         filtersearch: filtersearch,
+        // @ts-ignore
+        filtersearch2: filtersearch2,
         // @ts-ignore
         filtercustom: props.filtercustom,
         sortBy: myobj,
@@ -995,8 +1007,14 @@ export default defineComponent({
           if (ris) {
             // console.log('ris', ris)
             newRecordBool.value = false
-            const indrec = serverData.value.findIndex((rec: IMySkill) => rec._id === ris._id)
+            const indrec = serverData.value.findIndex((rec: any) => rec._id === ris._id)
             console.log('indrec', indrec, serverData.value[indrec])
+
+            if (fieldsTable.tableWithUsername.includes(props.prop_mytable)) {
+              ris.username = userStore.my.username
+            }
+
+            // console.table(serverData.value)
             if (indrec >= 0)
               serverData.value[indrec] = ris
             else
@@ -1047,6 +1065,10 @@ export default defineComponent({
 
     function visButtRow() {
       return props.labelBtnAddRow !== addRow.value
+    }
+
+    function checkIfShowRec(rec: any) {
+      return (rec._id > 0 && typeof rec._id === 'number') || rec._id !== 'number'
     }
 
 
@@ -1118,6 +1140,7 @@ export default defineComponent({
       searchList,
       searchval,
       canModifyThisRec,
+      checkIfShowRec,
     }
   }
 })

@@ -55,11 +55,12 @@ export default defineComponent({
       const data = await globalStore.saveSubRec(mydata)
     }
 
-    function getdefaultnewrec(): any {
+    function getdefaultnewrec(): IMySkill {
       return {
         _id: 0,
         idSkill: 0,
         idStatusSkill: [],
+        idContribType: [],
         idCity: [],
         NumLevel: 0,
         photos: [],
@@ -79,8 +80,6 @@ export default defineComponent({
           af_objId_tab: 'myId',
           lk_proj: {
             idSkill: 1,
-            idStatusSkill: 1,
-            idCity: 1,
             numLevel: 1,
             photos: 1,
             note: 1,

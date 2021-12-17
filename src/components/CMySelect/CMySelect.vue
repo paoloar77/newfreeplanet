@@ -5,6 +5,7 @@
         :multiple="multiple"
         rounded
         outlined
+        v-bind="$attrs"
         :input-class="myclass"
         :model-value="myvalue"
         :use-input="useinput"
@@ -33,8 +34,21 @@
         @update:model-value="changeval"
         :label="label"
         emit-value
+        options-selected-class="text-deep-orange"
         map-options
+        v-bind="$attrs"
         style="min-width: 170px; max-width: 400px;">
+        <template v-slot:option="scope">
+          <q-item v-bind="scope.itemProps">
+            <q-item-section avatar>
+              <q-icon :name="scope.opt.icon ? scope.opt.icon : ''"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ scope.opt.descr }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
+
       </q-select>
     </div>
   </div>

@@ -130,7 +130,7 @@
 
 
       <template v-slot:top-left v-if="searchList">
-        <div class="row">
+        <div class="row text-blue">
           <div v-for="(item, index) in searchList" :key="index">
             <CMySelect
               v-if="item.type === costanti.FieldType.select"
@@ -138,10 +138,13 @@
               v-model:value="item.value"
               @update:value="searchval(item.value, item.table)"
               :addall="true"
+              label-color="primary"
+              color="primary"
               :optval="fieldsTable.getKeyByTable(item.table)"
               :optlab="fieldsTable.getLabelByTable(item.table)"
               :options="globalStore.getTableJoinByName(item.table, true, item.filter)"
-              :useinput="false">
+              :useinput="false"
+            >
             </CMySelect>
 
             <q-select
@@ -156,11 +159,31 @@
               :display-value="fieldsTable.getTitleByTable(item.table)"
               emit-value
               map-options
+              stack-label
               :options="globalStore.getTableJoinByName(item.table, item.filter)"
               style="min-width: 150px"
               :option-value="fieldsTable.getKeyByTable(item.table)"
-              >
+            >
 
+              <template
+                v-if="item.arrvalue.length >= 1"
+                v-slot:selected-item="scope">
+                <q-chip
+                  removable
+                  dense
+                  @remove="scope.removeAtIndex(scope.index)"
+                  v-if="checkIfShowRec(scope.opt)"
+                  color="white"
+                  text-color="mycol"
+                  class="q-my-none q-ml-xs q-mr-none"
+                >
+                  <q-avatar color="primary" text-color="white" :icon="item.icon" size="12px"/>
+                  {{ scope.opt[fieldsTable.getLabelByTable(item.table)] }}
+                </q-chip>
+                <div v-if="scope.opt === -100 && item.arrvalue.length === 1">
+                  {{ fieldsTable.getTitleByTable(item.table) }}
+                </div>
+              </template>
               <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
                 <q-item v-bind="itemProps">
 

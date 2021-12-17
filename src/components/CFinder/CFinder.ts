@@ -98,6 +98,15 @@ export default defineComponent({
           type: costanti.FieldType.multiselect,
           filter: null,
         },
+        {
+          label: 'Contributo',
+          table: 'contribtypes',
+          key: 'idContribType',
+          value: 0,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'contribtypes', [costanti.FILTER_TUTTI]),
+          type: costanti.FieldType.multiselect,
+          filter: null,
+        },
 
       ]
 
@@ -126,11 +135,12 @@ export default defineComponent({
       const data = await globalStore.saveSubRec(mydata)
     }
 
-    function getdefaultnewrec(): any {
+    function getdefaultnewrec(): IMySkill {
       return {
         _id: 0,
         idSkill: 0,
         idStatusSkill: [],
+        idContribType: [],
         idCity: [],
         NumLevel: 0,
         photos: [],
@@ -148,10 +158,19 @@ export default defineComponent({
           lk_FF: '_id',
           lk_as: 'user',
           af_objId_tab: 'myId',
+        },
+        lookup2: {
+          lk_tab: 'skills',
+          lk_LF: 'idSkill',
+          lk_FF: '_id',
+          lk_as: 'recSkill',
+          af_objId_tab: '',
           lk_proj: {
-            'sector.idSector': 1,
+            recSkill: 1,
+            sector: 1,
             idSkill: 1,
             idStatusSkill: 1,
+            idContribType: 1,
             idCity: 1,
             numLevel: 1,
             photos: 1,
@@ -165,29 +184,13 @@ export default defineComponent({
             surname: 1
           }
         },
-        lookup2: {
+        lookup3: {
           lk_tab: 'sectors',
-          lk_LF: 'idSkill',
+          lk_LF: 'recSkill.idSector',
           lk_FF: '_id',
           lk_as: 'sector',
           af_objId_tab: '',
-          lk_proj: {
-            'sector.idSector': 1,
-            idSkill: 1,
-            idStatusSkill: 1,
-            idCity: 1,
-            numLevel: 1,
-            photos: 1,
-            note: 1,
-            subTitle: 1,
-            date_created: 1,
-            date_updated: 1,
-            userId: 1,
-            username: 1,
-            name: 1,
-            surname: 1
-          }
-        }
+        },
       }
     }
 

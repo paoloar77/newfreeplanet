@@ -66,6 +66,7 @@ export default defineComponent({
         filter: '',
         filterand: '',
         filtersearch: '',
+        filtersearch2: '',
         filtercustom: '',
         sortBy: myobj,
         descending,

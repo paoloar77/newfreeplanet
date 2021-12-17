@@ -295,6 +295,7 @@ const msg_enUs = {
       registered: 'Registrato',
       contacted: 'Contattato',
       name_complete: 'Nome Completo',
+      edit: 'Edit',
       num_invitati: 'Num.Invitati',
       is_in_whatsapp: 'In Whatsapp',
       is_in_telegram: 'In Telegram',

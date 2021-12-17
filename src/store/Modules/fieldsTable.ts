@@ -339,9 +339,10 @@ export const colSkills = [
 ]
 
 export const colmySkills = [
-  AddCol({
-    name: 'userId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users',
-  }),
+  /*AddCol({
+    name: 'userId', label_trans: 'order.users', fieldtype: costanti.FieldType.string, jointable: 'users',
+    visible: false
+  }), */
   //AddCol({ name: 'name', label_trans: 'reg.name', fieldtype: costanti.FieldType.string }),
   //AddCol({ name: 'surname', label_trans: 'reg.surname', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'username', label_trans: 'reg.username', foredit: false }),
@@ -364,6 +365,12 @@ export const colmySkills = [
     label_trans: 'statusSkill.name',
     fieldtype: costanti.FieldType.multiselect,
     jointable: 'statusSkills',
+  }),
+  AddCol({
+    name: 'idContribType',
+    label_trans: 'contribtype.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'contribtypes',
   }),
   AddCol({
     name: 'idCity',
@@ -705,7 +712,7 @@ const colTableEvents = [
     name: 'contribtype',
     label_trans: 'event.contribtype',
     fieldtype: costanti.FieldType.select,
-    jointable: 'contribtype',
+    jointable: 'contribtypes',
   }),
   AddCol({ name: 'price', label_trans: 'event.price' }),
   AddCol({ name: 'infoafterprice', label_trans: 'event.infoafterprice' }),
@@ -1257,6 +1264,10 @@ export const fieldsTable = {
     'myskills',
   ],
 
+  tableWithUsername: [
+    'myskills',
+  ],
+
   tablesList: [
     {
       value: 'operators',
@@ -1322,7 +1333,7 @@ export const fieldsTable = {
       collabel: 'title',
     },
     {
-      value: 'contribtype',
+      value: 'contribtypes',
       label: 'Tipi di Contributi',
       columns: colcontribtype,
       colkey: '_id',

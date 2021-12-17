@@ -808,7 +808,7 @@ export default defineComponent({
 
     function createContribType(value: any) {
       console.log('createContribType', value)
-      tools.createNewRecord($q, 'contribtype', { label: value }).then((myrec) => {
+      tools.createNewRecord($q, 'contribtypes', { label: value }).then((myrec) => {
         // console.log('myrec')
         calendarStore.contribtype.push(myrec)
       })
