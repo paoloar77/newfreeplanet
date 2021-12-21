@@ -45,6 +45,11 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    canModify: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
     disable: {
       type: Boolean,
       required: false,
@@ -75,6 +80,16 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    tablesel: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    pickup: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   components: { CMyPopupEdit },
   setup(props, { emit }) {
@@ -94,6 +109,10 @@ export default defineComponent({
         setValDb($q, props.mykey, newval, props.type, props.serv, props.table, props.mysubkey, props.id, props.indrec, props.mysubsubkey)
     }
 
+    function withBorder() {
+      return col.value.fieldtype !== costanti.FieldType.onlydate && col.value.fieldtype !== costanti.FieldType.date
+    }
+
     return {
       tools,
       costanti,
@@ -102,6 +121,7 @@ export default defineComponent({
       col,
       row,
       showandsel,
+      withBorder,
     }
   },
 })

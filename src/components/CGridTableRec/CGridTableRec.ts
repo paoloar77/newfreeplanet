@@ -223,8 +223,9 @@ export default defineComponent({
           // E' il mio, quindi modificalo
           return true
         }
+      } else {
+        return true
       }
-      return false
       // if (userStore.isAdmin || userStore.isManager)
       //   return true
     }

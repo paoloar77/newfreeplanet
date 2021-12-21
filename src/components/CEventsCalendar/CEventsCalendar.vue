@@ -207,12 +207,12 @@
                       :label="$t('event.icon')"></q-input>
                   </div>
 
-                  <CMyEditor v-model:value="eventForm.details" :showButtons="false">
+                  <CMyEditor v-model:value="eventForm.details" :showButtons="false" :canModify="true" >
 
                   </CMyEditor>
                 </q-tab-panel>
                 <q-tab-panel name="container">
-                  <CMyEditor v-model:value="eventForm.bodytext" :showButtons="false">
+                  <CMyEditor v-model:value="eventForm.bodytext" :showButtons="false" :canModify="true">
 
                   </CMyEditor>
                 </q-tab-panel>

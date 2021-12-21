@@ -14,6 +14,7 @@ export default defineComponent({
       required: false,
       default: '40px',
     },
+    //++Todo: add username
   },
 
   setup(props) {
@@ -24,6 +25,7 @@ export default defineComponent({
     const userStore = useUserStore()
     const imgprofile = ref(userStore.my.profile.img)
     const myimgvar = toRef(props, 'myimg')
+
 
     function refresh() {
       if (!props.myimg) {

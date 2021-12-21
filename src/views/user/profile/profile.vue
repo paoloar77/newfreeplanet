@@ -45,15 +45,19 @@
             :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
-        <!--<CMyFieldDb
-          :title="$t('reg.nationality')"
-          table="users"
-          mykey="profile"
-          mysubkey="nationality"
-          :type="costanti.FieldType.nationality">
-        </CMyFieldDb>-->
 
         <div class="myrow">
+          <CMyFieldDb
+            :title="$t('reg.nationality')"
+            table="users"
+            tablesel="countries"
+            mykey="profile"
+            :useinput="false"
+            mysubkey="nationality"
+            :pickup="true"
+            :type="costanti.FieldType.nationality">
+          </CMyFieldDb>
+
           <CMyFieldDb
             :title="$t('reg.dateofbirth')"
             table="users"
@@ -63,7 +67,6 @@
           </CMyFieldDb>
         </div>
 
-
         <div class="myrow">
 
           <CMyFieldDb
@@ -71,7 +74,9 @@
             table="users"
             mykey="profile"
             mysubkey="intcode_cell"
-            :type="costanti.FieldType.intcode">
+            :type="costanti.FieldType.intcode"
+            tablesel="phones"
+            :pickup="true">
           </CMyFieldDb>
           <CMyFieldDb
             :title="$t('reg.cell')"
@@ -102,7 +107,7 @@
       myclass="myshad" :canopen="true">
 
       <CSkill
-      :filtercustom="filtroutente">
+        :filtercustom="filtroutente">
 
       </CSkill>
 

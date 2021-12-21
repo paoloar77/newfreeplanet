@@ -321,6 +321,17 @@ export const colCitys = [
   AddCol(DuplicateRec),
 ]
 
+export const colTableCountry = [
+  AddCol({ name: 'id', label_trans: 'index', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'value', label_trans: 'city.country' }),
+  AddCol({ name: 'flag', label_trans: 'city.flag' }),
+]
+export const colTablePhones = [
+  AddCol({ name: 'id', label_trans: 'index', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'value', label_trans: 'city.country' }),
+  AddCol({ name: 'flag', label_trans: 'city.flag' }),
+]
+
 export const colSkills = [
   // AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'descr', label_trans: 'store.description' }),
@@ -415,6 +426,12 @@ export const colTableSites = [
   AddCol({ name: 'telegram_key', label_trans: 'sites.telegram_key', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'telegram_bot_name', label_trans: 'sites.telegram_bot_name', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'pathreg_add', label_trans: 'sites.pathreg_add', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'who', label_trans: 'sites.who', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'status', label_trans: 'sites.status', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'note', label_trans: 'sites.note', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'domain_provider', label_trans: 'sites.domain_provider', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'domain_expiring', label_trans: 'reg.domain_expiring', fieldtype: costanti.FieldType.onlydate }),
+  AddCol({ name: 'next_payment', label_trans: 'reg.next_payment', fieldtype: costanti.FieldType.onlydate }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
 ]
@@ -871,6 +888,9 @@ export const fieldsTable = {
     AddCol({ name: 'email', label_trans: 'reg.email' }),
     AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
     AddCol({ name: 'profile.dateofbirth', label_trans: 'reg.dateofbirth', fieldtype: costanti.FieldType.onlydate }),
+    AddCol({ name: 'profile.born_city', label_trans: 'reg.born_city', fieldtype: costanti.FieldType.string }),
+    AddCol({ name: 'profile.born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
+    AddCol({ name: 'profile.born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),
     AddCol({
       name: 'profile.resplist',
       field: 'profile',
@@ -1264,6 +1284,11 @@ export const fieldsTable = {
     'myskills',
   ],
 
+  tableRemotePickup: [
+    'countries',
+    'phones',
+  ],
+
   tableWithUsername: [
     'myskills',
   ],
@@ -1511,6 +1536,22 @@ export const fieldsTable = {
       columns: colCitys,
       colkey: '_id',
       collabel: 'comune',
+    },
+    {
+      value: 'countries',
+      label: 'Nazione',
+      columns: colTableCountry,
+      colkey: 'id',
+      collabel: 'value',
+      remote: true,
+    },
+    {
+      value: 'phones',
+      label: 'Prefisso Int.',
+      columns: colTablePhones,
+      colkey: 'id',
+      collabel: 'value',
+      remote: true,
     },
   ],
 }

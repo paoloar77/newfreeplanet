@@ -44,6 +44,11 @@ export const shared_consts = {
   REPORT_FILT_RESP: 1,
   REPORT_FILT_ATTIVITA: 2,
 
+  TAB_COUNTRY: 'countries',
+  TAB_PHONES: 'phones',
+
+  TablePickup: ['countries', 'phones'],
+
   CashType: {
     None: 0,
     Incoming: 1,

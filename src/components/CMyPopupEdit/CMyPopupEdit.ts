@@ -135,6 +135,16 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    tablesel: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    pickup: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   components: { CMyChipList, CDateTime, CDate, CMyToggleList, CMySelect, CMyEditor, CGallery },
   setup(props, { emit }) {
@@ -230,7 +240,7 @@ export default defineComponent({
       // console.log('row', props.row, 'col', props.mycol, 'newval', newval)
       // console.log('row[col.value.name]', props.row[col.value.name])
       if (props.type === costanti.FieldType.image) {
-        console.log('image', newval)
+        // console.log('image', newval)
       }
       myrow.value[col.value.name] = newval
       // console.log('changevalRec update:row', newval)
@@ -429,6 +439,16 @@ export default defineComponent({
           return '[---]'
         else
           return globalStore.getValueByTable(col, val)
+      } else if (col.fieldtype === costanti.FieldType.nationality) {
+        if (!val)
+          return '[---]'
+        else
+          return val
+      } else if (col.fieldtype === costanti.FieldType.intcode) {
+        if (!val)
+          return '[---]'
+        else
+          return val
       } else if (col.fieldtype === costanti.FieldType.multiselect) {
         if (val === undefined)
           return '[---]'
@@ -557,7 +577,6 @@ export default defineComponent({
         && mycol.fieldtype !== costanti.FieldType.number
       )
     }
-
 
     onBeforeMount(mounted)
 

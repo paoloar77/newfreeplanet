@@ -124,52 +124,38 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.nationality">
             <div v-if="isInModif" class="justify-center q-gutter-sm clgutter q-mt-sm">
-              <q-input
-                v-model:value="countryname"
+              <CMySelect
+                :label="col.label"
+                v-model:value="myvalue"
                 @update:value="changevalRec"
-                :readonly="true"
-                rounded dense
-                debounce="1000"
-                @keyup.enter="scope.set"
-                :label="title"
-              >
-
-                <template v-slot:prepend>
-                  <div style="font-size: 1rem;">
-                    <!--<vue-country-code
-                      :defaultCountry="myvalue"
-                      :disabledFetchingCountry="true"
-                      @onSelect="selectcountry"
-                      :preferredCountries="tools.getprefCountries"
-                      :dropdownOptions="{ disabledDialCode: true }">
-
-                    </vue-country-code>-->
-                  </div>
-                </template>
-              </q-input>
-              <div style="height: 180px;">
-
-              </div>
+                :tablesel="tablesel"
+                :pickup="pickup"
+                :optval="fieldsTable.getKeyByTable(col.jointable)"
+                :optlab="fieldsTable.getLabelByTable(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable)"
+                :useinput="false">
+              </CMySelect>
             </div>
             <div v-else>
-              {{ myvalue }}
+              <span v-html="visuValByType(myvalue, col, row)"></span>
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
-            <div v-if="isInModif">
-              <!--                <vue-tel-input
-                                @country-changed="intcode_change"
-                                :value="scope.value"
-                                @update:model-value="oninput"
-                                :placeholder="$t('reg.cell')"
-                                :enabledCountryCode="true"
-                                inputClasses="clCell"
-                                wrapperClasses="clCellCode">
-                              </vue-tel-input>
-                              -->
+            <div v-if="isInModif" class="justify-center q-gutter-sm clgutter q-mt-sm">
+              <CMySelect
+                :label="col.label"
+                v-model:value="myvalue"
+                @update:value="changevalRec"
+                :tablesel="tablesel"
+                :pickup="pickup"
+                :optval="fieldsTable.getKeyByTable(col.jointable)"
+                :optlab="fieldsTable.getLabelByTable(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable)"
+                :useinput="false">
+              </CMySelect>
             </div>
             <div v-else>
-              {{ myvalue }}
+              <span v-html="visuValByType(myvalue, col, row)"></span>
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.date">
@@ -445,46 +431,33 @@
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.nationality">
               <div class="justify-center q-gutter-sm clgutter q-mt-sm">
-                <q-input
-                  v-model="countryname"
-                  :readonly="true"
-                  rounded dense
-                  debounce="1000"
-                  @keyup.enter="scope.set"
-                  :label="title"
-                >
-
-                  <template v-slot:prepend>
-                    <div style="font-size: 1rem;">
-                      <!--<vue-country-code
-                        :defaultCountry="scope.value"
-                        :disabledFetchingCountry="true"
-                        @onSelect="selectcountry"
-                        :preferredCountries="tools.getprefCountries"
-                        :dropdownOptions="{ disabledDialCode: true }">
-
-                      </vue-country-code>-->
-                    </div>
-                  </template>
-                </q-input>
-                <div style="height: 180px;">
-
-                </div>
+                <CMySelect
+                  :label="col.label"
+                  v-model:value="scope.value"
+                  @update:value="changevalRec"
+                  :tablesel="tablesel"
+                  :pickup="pickup"
+                  :optval="fieldsTable.getKeyByTable(tablesel)"
+                  :optlab="fieldsTable.getLabelByTable(tablesel)"
+                  :options="[]"
+                  :useinput="false">
+                </CMySelect>
               </div>
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
-
-              <!--                <vue-tel-input
-                                @country-changed="intcode_change"
-                                :value="scope.value"
-                                @update:model-value="oninput"
-                                :placeholder="$t('reg.cell')"
-                                :enabledCountryCode="true"
-                                inputClasses="clCell"
-                                wrapperClasses="clCellCode">
-                              </vue-tel-input>
-                              -->
-
+              <div class="justify-center q-gutter-sm clgutter q-mt-sm">
+                <CMySelect
+                  :label="col.label"
+                  v-model:value="scope.value"
+                  @update:value="changevalRec"
+                  :tablesel="tablesel"
+                  :pickup="pickup"
+                  :optval="fieldsTable.getKeyByTable(tablesel)"
+                  :optlab="fieldsTable.getLabelByTable(tablesel)"
+                  :options="[]"
+                  :useinput="false">
+                </CMySelect>
+              </div>
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.binary">
 

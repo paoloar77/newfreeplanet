@@ -4,6 +4,8 @@ import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
+import { fieldsTable } from '@store/Modules/fieldsTable'
+import { shared_consts } from '@/common/shared_vuejs'
 
 export default defineComponent({
   name: 'CMySelect',
@@ -23,6 +25,11 @@ export default defineComponent({
       required: false,
       default: ''
     },
+    tablesel: {
+      type: String,
+      required: false,
+      default: ''
+    },
     optlab: [String, Function],
     optval: {
       type: String,
@@ -32,6 +39,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    pickup: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     addall: {
       type: Boolean,
@@ -64,9 +76,12 @@ export default defineComponent({
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
 
+    const optFiltered = ref(<any>[])
+    const valori = ref(<any>[])
+
     const myvalue = ref(<string | number>'')
 
-    const valori = computed(() => {
+    const valoriload = computed(() => {
       let myarr = props.options
       if (props.addall) {
         let myobj: any = {}
@@ -82,10 +97,15 @@ export default defineComponent({
     })
 
     function changeval(newval: any) {
-      console.log('changeval', newval)
-      myvalue.value = newval
-      emit('update:value', newval)
-      emit('changeval', newval)
+      if (props.tablesel === shared_consts.TAB_COUNTRY)
+        myvalue.value = newval && newval['value'] ? newval['value'] : newval
+      else if (props.tablesel === shared_consts.TAB_PHONES)
+        myvalue.value = newval && newval['code'] ? newval['code'] : newval
+      else
+        myvalue.value = newval
+      console.log('Myselect changeval', myvalue.value)
+      emit('update:value', myvalue.value)
+      emit('changeval', myvalue.value)
     }
 
     function mounted() {
@@ -117,12 +137,63 @@ export default defineComponent({
       // console.log('cmyselect: myvalue.value', myvalue.value)
     }
 
+    function filterFn(val: any, update: any, abort: any) {
+      update(
+        async () => {
+          console.log('Filter val', val, val.length)
+          let myarr: any = []
+
+          if (val.length < 1) {
+            abort()
+            return
+          }
+
+          let mystr = val.toLocaleLowerCase()
+
+          if (fieldsTable.tableRemotePickup.includes(props.tablesel)) {
+            // if (myvalue.value.length > 1) {
+            if (mystr !== '')
+              myarr = await globalStore.loadPickup({ table: props.tablesel, search: mystr })
+            // const needle = val.toLocaleLowerCase()
+            // optFiltered.value = optFiltered.value.filter((v: any) => v.toLocaleLowerCase().indexOf(needle) > -1)
+            // }
+          } else {
+            myarr = props.options
+          }
+
+          if (props.addall) {
+            let myobj: any = {}
+            if (typeof props.optlab === 'string') {
+              myobj[props.optlab] = '(Tutti)'
+              myobj[props.optval] = costanti.FILTER_TUTTI
+            }
+
+            myarr = [myobj, ...myarr]
+          }
+
+          valori.value = myarr
+
+          console.log('tablesel', props.tablesel, 'filterFn', myarr)
+        },
+        // "ref" is the Vue reference to the QSelect
+        (ref: any) => {
+          if (val !== '' && ref.options.length > 0) {
+            ref.setOptionIndex(-1) // reset optionIndex in case there is something selected
+            ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
+          }
+        }
+      )
+    }
+
     onMounted(mounted)
+
+    valori.value = valoriload.value
 
     return {
       changeval,
       myvalue,
       valori,
+      filterFn,
     }
   }
 })

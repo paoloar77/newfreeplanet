@@ -12886,10 +12886,10 @@ vue2-dragula@^2.5.5:
   dependencies:
     dragula "3.7.2"
 
-vue3-tel-input@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/vue3-tel-input/-/vue3-tel-input-1.0.4.tgz#ed26cb808d124aebb5073d03f366b23e686804d6"
-  integrity sha512-C60OyAq5ORDErSJ4x7UmJJbF95CDncMswnySmAUtbuBP0pcVcJBu6DOTxKquykvTbJEh9I73DXyqMtDxtLrwJg==
+vue3-tel-input@^5.0.4-vue3:
+  version "5.0.4-vue3"
+  resolved "https://registry.yarnpkg.com/vue3-tel-input/-/vue3-tel-input-5.0.4-vue3.tgz#ed79e21e9fba84eef2ba7a467cade202c2e7ada2"
+  integrity sha512-QvN7tyqzqL/gIBOohNcYdEbjpWzd3kucCMcqyVIpckBIPNl6ki/ARd0y/I73jKfUJ0Hg5RSxHu/IgIWAtMKMrw==
   dependencies:
     core-js "^3.6.5"
     libphonenumber-js "^1.9.6"

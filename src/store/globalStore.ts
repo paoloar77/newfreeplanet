@@ -6,7 +6,7 @@ import {
   IDataToSet,
   IGlobalState,
   IListRoutes,
-  IMyPage,
+  IMyPage, IParamsPickup,
   IParamsQuery,
   ISettings,
   StateConnection,
@@ -232,7 +232,9 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return state.sectors
       else if (table === 'cities')
         return state.cities
-      else return ris
+      else {
+        return ris
+      }
 
       return ris
     },
@@ -715,6 +717,22 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
         .catch((error) => {
           console.log('error loadTable', error)
+          userStore.setErrorCatch(error)
+          return null
+        })
+    },
+
+    async loadPickup(params: IParamsPickup) {
+      console.log('loadPickup', params)
+      const userStore = useUserStore()
+
+      return Api.SendReq('/pickup', 'POST', params)
+        .then((res) => {
+          // console.table(res)
+          return res.data
+        })
+        .catch((error) => {
+          console.log('error loadPickup', error)
           userStore.setErrorCatch(error)
           return null
         })

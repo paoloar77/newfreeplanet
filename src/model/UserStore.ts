@@ -13,8 +13,6 @@ export interface IUserProfile {
   intcode_cell?: string
   iso2_cell?: string
   cell?: string
-  dateofbirth?: Date
-  sex?: ESexType
   country_pay?: string
   email_paypal?: string
   payeer_id?: string
@@ -25,20 +23,27 @@ export interface IUserProfile {
   username_telegram?: string
   teleg_id?: number
   teleg_checkcode?: number
-  my_dream?: string
   paymenttypes?: IPaymentType[]
   manage_telegram?: boolean
+  resplist?: any
+  workerslist?: any
+  dateofbirth?: Date
+  born_city?: string
+  born_province?: string
+  born_country?: string
+  my_dream?: string
+  saw_and_accepted?: boolean
   saw_zoom_presentation?: boolean
   ask_zoom_partecipato?: boolean
-  saw_and_accepted?: boolean
   qualified?: boolean
   qualified_2invitati?: boolean
-  myshares: IShareWithUs[]
+  special_req?: boolean
+  sex?: ESexType
+  biografia?: string
   socio?: boolean
   socioresidente?: boolean
   consiglio?: boolean
-  resplist?: any
-  workerslist?: any
+  myshares: IShareWithUs[]
 }
 
 export interface IPaymentType {

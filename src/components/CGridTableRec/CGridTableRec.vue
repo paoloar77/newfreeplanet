@@ -214,6 +214,7 @@
                 <CMyPopupEdit
                   :table="mytable"
                   :canEdit="canEdit"
+                  :canModify="canModifyThisRec(props.row)"
                   :disable="disabilita()"
                   :mycol="col"
                   v-model:row="props.row"
@@ -338,6 +339,7 @@
               <CMyPopupEdit
                 :table="mytable"
                 :canEdit="true"
+                :canModify="canModifyThisRec(rowclicksel)"
                 :disable="disabilita()"
                 view="field"
                 :mycol="mycol"
@@ -373,6 +375,7 @@
                 <CMyPopupEdit
                   :table="mytable"
                   :canEdit="true"
+                  :canModify="true"
                   :mycol="col"
                   v-model:row="newRecord"
                   :field="col.field"
@@ -412,6 +415,7 @@
                 <CMyPopupEdit
                   :table="mytable"
                   :canEdit="true"
+                  :canModify="canModifyThisRec(recModif)"
                   :mycol="col"
                   :isInModif="true"
                   v-model:row="recModif"

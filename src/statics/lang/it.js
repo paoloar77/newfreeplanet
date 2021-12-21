@@ -374,7 +374,7 @@ const msg_it = {
       intcode_cell: 'Prefisso Int.',
       cell: 'Cellulare',
       cellreg: 'Cellulare con cui ti eri registrato',
-      nationality: 'Nazionalità',
+      nationality: 'Paese di Nascita',
       email_paypal: 'Email Paypal',
       payeer_id: 'Id Payeer',
       advcash_id: 'Email Advanced Cash',

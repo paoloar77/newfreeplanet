@@ -435,6 +435,10 @@ export interface IParLookup {
   lk_proj?: string,
 }
 
+export interface IParamsPickup {
+  table: string
+  search: string
+}
 export interface IParamsQuery {
   table: string
   startRow: number
@@ -485,6 +489,7 @@ export interface ITableRec {
   colicon?: string
   onlyAdmin?: boolean
   noshow: boolean
+  remote?: boolean
 }
 
 export interface ISearchList {

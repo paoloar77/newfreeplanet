@@ -20,8 +20,9 @@
         </q-field>
       </div>
 
-      <div :class="` q-ma-sm q-pa-sm col-grow rounded-borders `" style="border: 1px solid #bbb">
+      <div :class="` q-ma-sm q-pa-sm col-grow rounded-borders `" :style="withBorder() ? `border: 1px solid #bbb` : ``">
         <CMyPopupEdit
+          v-bind="$attrs"
           :title="title"
           :field="mykey"
           :subfield="mysubkey"
@@ -35,8 +36,11 @@
           :myimg="myimg"
           :id="id"
           :idmain="idmain"
+          :canModify="canModify"
           :canEdit="true"
           :mycol="col"
+          :tablesel="tablesel"
+          :pickup="pickup"
           v-model:row="row"
           minuteinterval="1"
           @showandsave="showandsel"
@@ -44,266 +48,6 @@
 
         </CMyPopupEdit>
       </div>
-
-      <!--
-
-        @save="SaveValue"
-        @show="selItem(props.row, col)"
-        @showandsave="showandsel"
-
-
-      <div :class="getclassCol(col) + ` q-ma-sm q-pa-sm col-grow rounded-borders `" style="border: 1px solid #bbb">
-        <div v-if="type === costanti.FieldType.date">
-          <CDateTime
-            :label="col.label"
-            class="cursor-pointer"
-            v-model:value="myvalue"
-            :readonly="false"
-            :dense="true"
-            :canEdit="canEdit"
-          >
-          </CDateTime>
-        </div>
-        <div v-else-if="type === costanti.FieldType.onlydate">
-          <CDateTime
-            :label="col.label"
-            class="cursor-pointer"
-            v-model:value="myvalue"
-            :readonly="false"
-            :dense="true"
-            :canEdit="canEdit"
-            view="date"
-          >
-          </CDateTime>
-        </div>
-        <div v-else :class="mycl">
-          <div v-if="type === costanti.FieldType.binary">
-            <CMyChipList
-              :type="costanti.FieldType.binary"
-              :value="myvalue"
-              :options="globalStore.getTableJoinByName(col.jointable)"
-              :optval="fieldsTable.getKeyByTable(col.jointable)"
-              :optlab="fieldsTable.getLabelByTable(col.jointable)"
-              :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
-          </div>
-          <div v-else-if="type === costanti.FieldType.nationality">
-            <q-input
-              input-class="cursor-pointer text-center"
-              :readonly="true"
-              v-model="countryname"
-              rounded
-              dense
-              debounce="1000"
-            >
-
-              <div class="hidden">
-              </div>
-
-            </q-input>
-          </div>
-          <div v-else-if="type === costanti.FieldType.intcode">
-
-            <div v-html="myvalprinted()"></div>
-
-          </div>
-          <div v-else-if="((type === costanti.FieldType.multiselect) || (type === costanti.FieldType.multioption))">
-            <CMyChipList
-              :type="type"
-              :value="myvalue"
-              :options="globalStore.getTableJoinByName(col.jointable)"
-              :optval="fieldsTable.getKeyByTable(col.jointable)"
-              :optlab="fieldsTable.getLabelByTable(col.jointable)"
-              :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
-          </div>
-          <div v-else-if="type === costanti.FieldType.select">
-            <CMyChipList
-              myclass="text-center"
-              :type="costanti.FieldType.select"
-              :value="myvalue"
-              :options="globalStore.getTableJoinByName(col.jointable)"
-              :optval="fieldsTable.getKeyByTable(col.jointable)"
-              :optlab="fieldsTable.getLabelByTable(col.jointable)"
-              :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
-          </div>
-          <div v-else-if="type === costanti.FieldType.image">
-
-            <div v-if="myvalue" class="text-center">
-              <q-img
-                :src="myvalue"
-                class="text-center"
-                style="height: 100px; width: 100px;"
-                alt="foto del profilo">
-              </q-img>
-            </div>
-            <div v-else class="text-center">
-              <q-img
-                src="images/noimg-user.svg"
-                class="text-center"
-                style="height: 100px; width: 100px;"
-                alt="nessuna immagine">
-              </q-img>
-            </div>
-          </div>
-          <div v-else-if="type === costanti.FieldType.html">
-            <div v-html="myvalprinted()">
-
-            </div>
-          </div>
-          <div v-else-if="type === costanti.FieldType.boolean">
-            <q-toggle
-              dark color="green" v-model="myvalue" :label="col.title"
-              @update:model-value="savefieldboolean"></q-toggle>
-          </div>
-          <div v-else>
-            <div v-html="myvalprinted()"></div>
-          </div>
-
-          <q-popup-edit
-            v-if="(canEdit && type !== costanti.FieldType.boolean) && !disable"
-            v-model="myvalue"
-            :disable="col.disable"
-            :title="col.title"
-            @save="(val, initialValue) => savefield(val, initialValue, myq)"
-            buttons
-            v-slot="scope"
-            class="clinput"
-          >
-
-            <div v-if="type === costanti.FieldType.boolean">
-              <q-checkbox v-model="scope.value" :label="col.title">
-              </q-checkbox>
-              <div v-html="visuValByType(myvalue)">
-              </div>
-            </div>
-            <div v-else-if="type === costanti.FieldType.string">
-              <q-input
-                :label="title"
-                v-model="scope.value"
-                :autogrow="$q.screen.gt.md"
-                @keyup.enter.stop
-                autofocus>
-
-              </q-input>
-            </div>
-            <div v-else-if="type === costanti.FieldType.password">
-              <q-input
-                v-model="scope.value"
-                type="password"
-                @keyup.enter="scope.set"
-                autofocus>
-
-              </q-input>
-            </div>
-            <div v-else-if="type === costanti.FieldType.number">
-              <q-input
-                v-model="scope.value" type="number"
-                @keyup.enter="scope.set"
-                autofocus>
-
-              </q-input>
-            </div>
-            <div v-else-if="type === costanti.FieldType.hours">
-              <CMySelect
-                label="Ore" v-model:value="myvalue"
-                optval="_id" optlab="label"
-                :useinput="false"
-                :options="tools.SelectHours">
-              </CMySelect>
-            </div>
-            <div v-else-if="type === costanti.FieldType.binary">
-              <CMyToggleList
-                :label="col.title"
-                :options="globalStore.getTableJoinByName(col.jointable)"
-                v-model:value="myvalue"
-                :optval="fieldsTable.getKeyByTable(col.jointable)"
-                :optlab="fieldsTable.getLabelByTable(col.jointable)">
-              </CMyToggleList>
-            </div>
-            <div v-else-if="type === costanti.FieldType.html">
-              <CMyEditor v-model:value="myvalue" :title="title" @keyup.enter.stop>
-
-              </CMyEditor>
-            </div>
-            <div v-else-if="type === costanti.FieldType.select">
-              <CMySelect
-                :label="col.title"
-                v-model:value="myvalue"
-                :optval="fieldsTable.getKeyByTable(col.jointable)"
-                :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable)"
-                :useinput="false">
-              </CMySelect>
-            </div>
-            <div v-else-if="col.fieldtype === costanti.FieldType.nationality">
-              <div class="justify-center q-gutter-sm clgutter q-mt-sm">
-                <q-input
-                  v-model="countryname"
-                  :readonly="true"
-                  rounded dense
-                  debounce="1000"
-                  @keyup.enter="scope.set"
-                  :label="title">
-
-                  <template v-slot:prepend>
-                    <div style="font-size: 1rem;">
-                    </div>
-                  </template>
-                </q-input>
-                <div style="height: 180px;">
-
-                </div>
-              </div>
-            </div>
-            <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
-
-              <div class="justify-center q-gutter-sm clgutter q-mt-sm">
-                <div style="height: 180px;">
-
-                </div>
-              </div>
-
-            </div>
-            <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
-              <CMyToggleList
-                :label="col.title"
-                :options="globalStore.getTableJoinByName(col.jointable)"
-                v-model:value="myvalue"
-                :optval="fieldsTable.getKeyByTable(col.jointable)"
-                :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :isarray="true">
-              </CMyToggleList>
-
-            </div>
-            <div v-else-if="col.fieldtype === costanti.FieldType.multioption">
-            </div>
-            <div v-else-if="col.fieldtype === costanti.FieldType.image">
-              <q-uploader
-                label="Aggiungi Foto"
-                accept=".jpg, image/*"
-                :url="tools.geturlupload()+ tools.escapeslash(`profile/` + getMyUsername())"
-                :headers="tools.getheaders()"
-                :max-file-size="2000000"
-                auto-upload
-                hide-upload-btn
-                @uploaded="uploaded"
-                style="width: 208px"
-              ></q-uploader>
-
-            </div>
-
-          </q-popup-edit>
-        </div>
-      </div>
-      <div>
-        <div v-if="type === costanti.FieldType.image">
-          <q-btn
-            v-if="myvalue"
-            label="Rimuovi Foto"
-            color="blue" icon="fas fa-trash-alt" size="sm"
-            @click="removephoto"></q-btn>
-        </div>
-      </div>-->
-
     </div>
   </div>
 </template>
