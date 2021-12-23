@@ -196,8 +196,10 @@
             }}
           </div>
 
-          <!--<span class="text-white" v-if="Verificato"> {{t('reg.verificato')}} </span>-->
-          <!--<span class="text-white background-red" v-else> {{t('reg.non_verificato')}} </span>-->
+          <div class="text-center">
+            <span class="text-white" v-if="Verificato()"> {{t('reg.verificato')}} </span>
+            <span class="text-white background-red" v-else> {{t('reg.non_verificato')}} </span>
+          </div>
 
           <div v-if="isLogged()" id="user-actions" class="column justify-center q-gutter-sm q-ma-sm center-150">
             <q-btn rounded color="primary" icon="person" to="/profile">{{ t('pages.profile') }}</q-btn>

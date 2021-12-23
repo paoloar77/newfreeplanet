@@ -175,6 +175,10 @@ export const useUserStore = defineStore('UserStore', {
       return ''
     },
 
+    isUserOk(): boolean {
+      return this.my.verified_email! && this.my.profile.teleg_id! > 0
+    },
+
     getNameSurnameByUserId(userId: string): string {
 
       const user = this.getUserByUserId(userId)

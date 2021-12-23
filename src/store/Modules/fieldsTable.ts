@@ -789,6 +789,7 @@ export const fields = {
     AddCol({ name: 'value_num', label_trans: 'cal.num', fieldtype: costanti.FieldType.number }),
     AddCol({ name: 'value_bool', label_trans: 'cal.bool', fieldtype: costanti.FieldType.boolean }),
     AddCol({ name: 'serv', label_trans: 'cal.serv', fieldtype: costanti.FieldType.boolean }),
+    AddCol({ name: 'crypted', label_trans: 'cal.crypted', fieldtype: costanti.FieldType.boolean }),
     AddCol(DeleteRec),
     AddCol(DuplicateRec),
   ],

@@ -46,6 +46,7 @@ export interface ISettings {
   value_num?: number
   value_bool?: boolean
   serv?: boolean
+  crypted?: boolean
 }
 
 export interface ITeachUname {

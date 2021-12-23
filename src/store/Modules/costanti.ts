@@ -47,6 +47,7 @@ export const costanti = {
     multioption: 6000,
     onlydate: 7000,
     hours: 8000,
+    crypted: 9000,
   },
   FieldTypeArr: [
     { label: 'Boolean', value: 1 },

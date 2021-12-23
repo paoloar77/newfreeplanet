@@ -152,8 +152,18 @@ export default defineComponent({
 
           if (fieldsTable.tableRemotePickup.includes(props.tablesel)) {
             // if (myvalue.value.length > 1) {
-            if (mystr !== '')
-              myarr = await globalStore.loadPickup({ table: props.tablesel, search: mystr })
+            try {
+              if (mystr !== '')
+                myarr = await globalStore.loadPickup({ table: props.tablesel, search: mystr })
+
+              if (myarr === null){
+                abort()
+                return
+              }
+            }catch (e) {
+              abort()
+              return
+            }
             // const needle = val.toLocaleLowerCase()
             // optFiltered.value = optFiltered.value.filter((v: any) => v.toLocaleLowerCase().indexOf(needle) > -1)
             // }

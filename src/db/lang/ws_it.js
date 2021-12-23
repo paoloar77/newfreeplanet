@@ -1,8 +1,8 @@
 const msg_website_it = {
   ws: {
-    sitename: 'Prima APP',
-    siteshortname: 'Prima APP',
-    botname: 'Prima APP',
+    sitename: 'FreePlanet',
+    siteshortname: 'FreePlanet',
+    botname: 'il Bot di FreePlanet',
   },
   products: {
     quantity: 'Quantità',
@@ -23,6 +23,7 @@ const msg_website_it = {
   pages: {
     home: 'Home',
     profile: 'Profilo',
+    test: 'Test',
     projects: 'Progetti',
     report: 'Report Ore',
     producer: 'Produttore',

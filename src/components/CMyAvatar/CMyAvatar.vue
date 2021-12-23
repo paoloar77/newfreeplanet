@@ -1,6 +1,5 @@
 <template>
     <div>
-      {{myimgint}}
         <q-avatar v-if="!myimgint" class="q-mb-sx center_img" :icon="myicon" :font-size="size">
 
         </q-avatar>

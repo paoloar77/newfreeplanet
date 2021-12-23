@@ -281,10 +281,12 @@ export const useGlobalStore = defineStore('GlobalStore', {
         if ((myrec.type === costanti.FieldType.date) || (myrec.type === costanti.FieldType.onlydate)) return myrec.value_date
         if ((myrec.type === costanti.FieldType.number) || (myrec.type === costanti.FieldType.hours)) return myrec.value_num
         if (myrec.type === costanti.FieldType.boolean) return myrec.value_bool
-        if (myrec.value_str === undefined) {
+        else if (myrec.type === costanti.FieldType.crypted)
+          return '***********'
+        else if (myrec.value_str === undefined) {
           return ''
         } else {
-          myrec.value_str
+          return myrec.value_str
         }
       }
       return ''
@@ -1199,6 +1201,20 @@ export const useGlobalStore = defineStore('GlobalStore', {
           return new Types.AxiosError(serv_constants.RIS_CODE_ERR, null, toolsext.ERR_GENERICO, error)
         })
     },
+
+    async sendEmailTest({ previewonly}:{previewonly: any}) {
+      const usertosend = {
+        locale: tools.getLocale(),
+        previewonly
+      }
+      console.log(usertosend)
+
+      return Api.SendReq('/news/testemail', 'POST', usertosend)
+        .then((res) => {
+          return res
+        })
+    },
+
 
     getArrStrByValueBinary(col: IColGridTable, val: any) {
       const arr = this.getArrByValueBinary(null, col, val)

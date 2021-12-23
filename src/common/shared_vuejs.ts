@@ -46,6 +46,9 @@ export const shared_consts = {
 
   TAB_COUNTRY: 'countries',
   TAB_PHONES: 'phones',
+  TAB_SETTINGS: 'settings',
+
+  KEY_TO_CRYPTED: ['PWD_FROM'],
 
   TablePickup: ['countries', 'phones'],
 

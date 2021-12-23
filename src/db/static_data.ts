@@ -109,6 +109,65 @@ const routes_admin: IListRoutes[] = [
   }
 ]
 
+const routes_newsletter: IListRoutes[] = [
+  {
+    active: true,
+    order: 10,
+    name: 'newsletter.template', path: '/admin/newsletter/templemail', materialIcon: 'fas fa-users',
+    component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+  },
+  {
+    active: true,
+    order: 20,
+    name: 'newsletter.sendemail', path: '/admin/newsletter/newnewsletter', materialIcon: 'fas fa-users',
+    component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+  },
+  {
+    active: true,
+    order: 30,
+    name: 'newsletter.check', path: '/admin/newsletter/check', materialIcon: 'fas fa-users',
+    component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+  },
+  {
+    active: true,
+    order: 40,
+    name: 'newsletter.sent', path: '/admin/newsletter/newslist', materialIcon: 'fas fa-users',
+    component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+  },
+  {
+    active: true,
+    order: 50,
+    name: 'newsletter.mailinglist', path: '/admin/newsletter/mailinglist', materialIcon: 'fas fa-users',
+    component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+  },
+  {
+    active: true,
+    order: 60,
+    name: 'newsletter.settings', path: '/admin/newsletter/settings', materialIcon: 'fas fa-users',
+    component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+  },
+  {
+    active: true,
+    order: 70,
+    name: 'newsletter.serversettings', path: '/admin/newsletter/main_settings', materialIcon: 'fas fa-users',
+    component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+  },
+  {
+    active: true,
+    order: 80,
+    name: 'newsletter.others', path: '/admin/newsletter/events', materialIcon: 'fas fa-users',
+    component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+  }
+]
+
 const routes_manager: IListRoutes[] = [
   {
     active: functionality.BOOKING_EVENTS,
@@ -199,7 +258,7 @@ const routes_manager: IListRoutes[] = [
     onlyManager: true,
     onlyEditor: true
   },
-  /*{
+  {
     active: true,
     path: '/admin/newsletter',
     order: 60,
@@ -215,7 +274,8 @@ const routes_manager: IListRoutes[] = [
     onlyAdmin: true,
     onlyManager: true
   },
-  {
+  /*
+    {
     active: functionality.ENABLE_ECOMMERCE,
     path: '/admin/ecommerce',
     order: 31,
@@ -310,6 +370,17 @@ const baseroutes: IListRoutes[] = [
     materialIcon: 'fas fa-user',
     name: 'pages.profile',
     component: () => import('@/views/user/profile/profile.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
+    order: 120,
+    path: '/test',
+    materialIcon: 'fas fa-user',
+    name: 'pages.test',
+    component: () => import('@/views/user/test/test.vue'),
     meta: { requiresAuth: true },
     inmenu: true,
     infooter: true,
@@ -472,6 +543,16 @@ const baseroutes: IListRoutes[] = [
     extraclass: 'isCalendar',
     inmenu: true,
     infooter: true
+  },
+  {
+    active: true,
+    order: 1000,
+    path: '/admin/newsletter/:idparam',
+    materialIcon: 'event',
+    name: 'pages.newsletter.menu',
+    component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
+    inmenu: false,
+    infooter: false
   },
   {
     active: true,

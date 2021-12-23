@@ -134,7 +134,7 @@
 
       <div v-if="!tools.isMobile()"><br></div>
 
-      showcell: {{ showcell}}
+
       <!--<vue-tel-input
         v-if="showcell"
         @country-changed="intcode_change()"
