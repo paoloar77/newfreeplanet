@@ -15,6 +15,11 @@ export default function () {
     return `${userStore.getImgByUsername(username)}`
   }
 
+  function getRefLink(username: string) {
+    const userStore = useUserStore()
+    return `${userStore.getRefLink(username)}`
+  }
+
   function isValidUsername(username: string) {
     return username && username !== 'nessuno' && username !== 'none'
   }
@@ -103,7 +108,7 @@ export default function () {
 
   function Verificato() {
     const userStore = useUserStore()
-    return userStore.my.verified_email
+    return userStore.my.verified_email && userStore.my.verified_by_aportador
   }
 
   function paotest() {

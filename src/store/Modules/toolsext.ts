@@ -66,6 +66,7 @@ export const toolsext = {
   TABGALLERY: 'gallery',
   TABMAILINGLIST: 'mailinglist',
   TABMYPAGE: 'mypage',
+  TABMYBOT: 'mybots',
   TABCALZOOM: 'calzoom',
   TABGROUPS: 'groups',
   TABTEMPLEMAIL: 'templemail',
@@ -80,6 +81,7 @@ export const toolsext = {
   localStorage: {
     teleg_id: 'ti',
     verified_email: 'vf',
+    verified_by_aportador: 'va',
     made_gift: 'mg',
     wasAlreadySubOnDb: 'sb',
     categorySel: 'cs',

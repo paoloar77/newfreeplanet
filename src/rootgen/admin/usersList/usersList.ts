@@ -84,6 +84,8 @@ export default defineComponent({
         return db_fieldsTable().colTableUsers
       } else if (static_data.functionality.ENABLE_REG_CNM) {
         return db_fieldsTable().colTableUsersCNM
+      } else if (static_data.functionality.ENABLE_REG_ISP) {
+        return db_fieldsTable().colTableUsersISP
       } else {
         return db_fieldsTable().colTableUsersBase
       }

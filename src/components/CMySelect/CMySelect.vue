@@ -85,7 +85,7 @@
               <q-icon :name="scope.opt.icon ? scope.opt.icon : ''"/>
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ scope.opt.descr }}</q-item-label>
+              <q-item-label>{{ scope.opt[optlab] }}</q-item-label>
             </q-item-section>
           </q-item>
         </template>

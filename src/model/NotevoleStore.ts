@@ -2,6 +2,7 @@ import { IUserFields, IUserProfile } from '@src/model/UserStore'
 
 export interface ICheckUser {
   verified_email?: boolean
+  verified_by_aportador?: boolean
   teleg_id?: number
   profile?: IUserProfile
 }

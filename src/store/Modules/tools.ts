@@ -3077,7 +3077,7 @@ export const tools = {
     }
   },
 
-  SignUpcheckErrors(mythisq: any, riscode: number, msg: string) {
+  SignUpcheckErrors(mythisq: any, $router: any, riscode: number, msg: string) {
     console.log('SignUpcheckErrors', riscode)
     const endload = true
 
@@ -3105,13 +3105,13 @@ export const tools = {
       const msg2 = t('fetch.errore_generico') + userStore.getMsgError(riscode)
       this.showNotif(mythisq, msg2)
     } else if (riscode === this.OK) {
-      mythisq.$router.push('/regok')
+      $router.push('/regok')
       this.showNotif(mythisq, t('components.authentication.email_verification.link_sent', { botname: t('ws.botname') }), {
         color: 'green',
         textColor: 'black',
       })
     } else if (riscode === serv_constants.RIS_ISCRIZIONE_OK) {
-      mythisq.$router.push('/')
+      $router.push('/')
       this.showNotif(mythisq, t('components.authentication.iscrizione_ok', { botname: t('ws.botname') }), {
         color: 'green',
         textColor: 'black',
@@ -4276,7 +4276,7 @@ export const tools = {
       if (!item.$error) {
         return ''
       }
-      console.log('errorMsg', cosa, item)
+      // console.log('errorMsg', cosa, item)
 
       if (item.email) {
         if (item.email.$invalid)

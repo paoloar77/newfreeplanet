@@ -64,6 +64,20 @@ export interface IResp {
   surname?: string
 }
 
+export interface IMyBot {
+  _id?: string
+  page?: number
+  index?: number
+  riga?: number
+  active?: boolean
+  main?: boolean
+  label?: string
+  type?: number
+  value?: string
+  visibility?: number
+  date_updated?: Date
+}
+
 export interface IMyPage {
   _id?: string
   author_username?: string
@@ -423,8 +437,8 @@ export interface IFunctionality {
   SHOW_MESSAGES?: boolean
   BOOKING_EVENTS?: boolean
   ENABLE_REG_AYNI?: boolean
-  ENABLE_REG_SIP?: boolean
   ENABLE_REG_CNM?: boolean
+  ENABLE_REG_ISP?: boolean
 }
 
 export interface IParLookup {

@@ -145,6 +145,22 @@ export const colmypage = [
   AddCol(DuplicateRec),
 ]
 
+export const colmybot = [
+  AddCol({ name: 'page', label_trans: 'bot.page', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'riga', label_trans: 'bot.riga', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'index', label_trans: 'bot.index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'active', label_trans: 'bot.active', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'lang', label_trans: 'bot.lang' }),
+  AddCol({ name: 'main', label_trans: 'bot.main', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'label', label_trans: 'bot.label' }),
+  AddCol({ name: 'type', label_trans: 'bot.type', fieldtype: costanti.FieldType.select, jointable: 'bottype' }),
+  AddCol({ name: 'value', label_trans: 'bot.value' }),
+  AddCol({ name: 'visibility', label_trans: 'bot.visibility', fieldtype: costanti.FieldType.binary, jointable: 'visibility' }),
+  AddCol({ name: 'date_updated', label_trans: 'bot.date_updated', fieldtype: costanti.FieldType.date }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
 export const colopzemail = [
   AddCol({ name: 'key', label_trans: 'col.key' }),
   AddCol({ name: 'label_it', label_trans: 'col.label' }),
@@ -1229,6 +1245,135 @@ export const fieldsTable = {
     AddCol(DuplicateRec),
   ],
 
+  colTableUsersISP: [
+    // AddCol({ name: '_id', label_trans: 'reg.id' }),
+    AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
+    // AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
+    AddCol({ name: 'username', label_trans: 'reg.username_short' }),
+    AddCol({ name: 'name', label_trans: 'reg.name' }),
+    AddCol({ name: 'surname', label_trans: 'reg.surname' }),
+    AddCol({ name: 'email', label_trans: 'reg.email' }),
+    AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
+    AddCol({ name: 'note', label_trans: 'reg.note' }),
+    AddCol({ name: 'aportador_solidario', label_trans: 'reg.aportador_solidario' }),
+    AddCol({ name: 'verified_by_aportador', label_trans: 'reg.verified_by_aportador', fieldtype: costanti.FieldType.boolean }),
+    AddCol({
+      name: 'profile.resplist',
+      field: 'profile',
+      subfield: 'resplist',
+      label_trans: 'reg.resplist',
+      fieldtype: costanti.FieldType.boolean,
+    }),
+    AddCol({
+      name: 'profile.workerslist',
+      field: 'profile',
+      subfield: 'workerslist',
+      label_trans: 'reg.workerslist',
+      fieldtype: costanti.FieldType.boolean,
+    }),
+    AddCol({
+      name: 'profile.special_req',
+      field: 'profile',
+      subfield: 'special_req',
+      label_trans: 'reg.special_req',
+      fieldtype: costanti.FieldType.boolean,
+    }),
+    AddCol({
+      name: 'profile.my_dream', field: 'profile', subfield: 'my_dream', label_trans: 'reg.my_dream',
+    }),
+    AddCol({ name: 'lang', field: 'lang', label_trans: 'reg.lang' }),
+    AddCol({
+      name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
+    }),
+    AddCol({
+      name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
+    }),
+    AddCol({
+      name: 'profile.email_paypal',
+      field: 'profile',
+      subfield: 'email_paypal',
+      label_trans: 'reg.email_paypal',
+    }),
+    /* AddCol({
+      name: 'profile.payeer_id',
+      field: 'profile',
+      subfield: 'payeer_id',
+      label_trans: 'reg.payeer_id'
+    }),
+    AddCol({
+      name: 'profile.advcash_id',
+      field: 'profile',
+      subfield: 'advcash_id',
+      label_trans: 'reg.advcash_id'
+    }),
+    AddCol({
+      name: 'profile.revolut',
+      field: 'profile',
+      subfield: 'revolut',
+      label_trans: 'revolut'
+    }), */
+    AddCol({
+      name: 'profile.teleg_id', field: 'profile', subfield: 'teleg_id', label_trans: 'reg.teleg_id',
+    }),
+
+    AddCol({
+      name: 'profile.teleg_checkcode',
+      field: 'profile',
+      subfield: 'teleg_checkcode',
+      label_trans: 'reg.teleg_checkcode',
+    }),
+    AddCol({
+      name: 'profile.manage_telegram',
+      field: 'profile',
+      subfield: 'manage_telegram',
+      label_trans: 'reg.manage_telegram',
+      fieldtype: costanti.FieldType.boolean,
+    }),
+    AddCol({
+      name: 'profile.socio',
+      field: 'profile',
+      subfield: 'socio',
+      label_trans: 'reg.socio',
+      fieldtype: costanti.FieldType.boolean,
+    }),
+    AddCol({
+      name: 'profile.socioresidente',
+      field: 'profile',
+      subfield: 'socioresidente',
+      label_trans: 'reg.socioresidente',
+      fieldtype: costanti.FieldType.boolean,
+    }),
+    AddCol({
+      name: 'profile.consiglio',
+      field: 'profile',
+      subfield: 'consiglio',
+      label_trans: 'reg.consiglio',
+      fieldtype: costanti.FieldType.boolean,
+    }),
+    AddCol({ name: 'profile.motivazioni', field: 'profile', subfield: 'motivazioni', label_trans: 'reg.motivazioni', }),
+    AddCol({ name: 'profile.biografia', field: 'profile', subfield: 'biografia', label_trans: 'reg.biografia', }),
+    AddCol({
+      name: 'profile.paymenttypes',
+      field: 'profile',
+      subfield: 'paymenttypes',
+      label_trans: 'reg.paymenttype',
+      fieldtype: costanti.FieldType.multiselect,
+      jointable: 'paymenttypes',
+    }),
+    AddCol({
+      name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
+    }),
+    AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
+    AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
+    AddCol({
+      name: 'perm', label_trans: 'reg.perm', fieldtype: costanti.FieldType.binary, jointable: 'permissions', titlepopupedit: 'Permessi'
+    }),
+    AddCol({ name: 'ipaddr', label_trans: 'reg.ipaddr' }),
+    AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
+    AddCol(DeleteRec),
+    AddCol(DuplicateRec),
+  ],
+
   colTableExtraList: [
     // AddCol({ name: '_id', label_trans: 'reg.id' }),
     AddCol({ name: 'username', label_trans: 'reg.username_short' }),
@@ -1462,6 +1607,24 @@ export const fieldsTable = {
     {
       value: 'permissions',
       label: 'Permessi',
+      columns: colTablePermission,
+      colkey: 'value',
+      collabel: 'label',
+      colicon: 'icon',
+      noshow: true,
+    },
+    {
+      value: 'bottype',
+      label: 'Tipo di Bot',
+      columns: colTablePermission,
+      colkey: 'value',
+      collabel: 'label',
+      colicon: 'icon',
+      noshow: true,
+    },
+    {
+      value: 'visibility',
+      label: 'Visibilità',
       columns: colTablePermission,
       colkey: 'value',
       collabel: 'label',

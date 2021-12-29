@@ -31,6 +31,7 @@ export const DefaultUser: IUserFields = {
   password: '',
   tokens: [],
   verified_email: false,
+  verified_by_aportador: false,
   aportador_solidario: '',
   made_gift: false,
   profile: {
@@ -60,7 +61,7 @@ export const DefaultProfile: IUserProfile = {
   nationality: '',
   intcode_cell: '',
   cell: process.env.TEST_CELL || '',
-  dateofbirth: new Date(),
+  dateofbirth: null,
   sex: 0,
   country_pay: '',
   email_paypal: '',
@@ -175,8 +176,14 @@ export const useUserStore = defineStore('UserStore', {
       return ''
     },
 
+    getRefLink(username: string): string {
+      if (username === '')
+        username = this.my.username
+      return tools.getUrlSite() + '/signup/' + username
+    },
+
     isUserOk(): boolean {
-      return this.my.verified_email! && this.my.profile.teleg_id! > 0
+      return this.my.verified_email! && this.my.profile.teleg_id! > 0 && this.my.verified_by_aportador!
     },
 
     getNameSurnameByUserId(userId: string): string {
@@ -398,22 +405,27 @@ export const useUserStore = defineStore('UserStore', {
     },
 
     authUser(data: IUserFields) {
-      this.my = { ...data }
-      if (!this.my.profile) {
-        this.my.profile = DefaultProfile
+      try {
+        this.my = { ...data }
+        if (!this.my.profile) {
+          this.my.profile = DefaultProfile
+        }
+
+        this.isAdmin = tools.isBitActive(this.my.perm, shared_consts.Permissions.Admin.value)
+        this.isManager = tools.isBitActive(this.my.perm, shared_consts.Permissions.Manager.value)
+        this.isTutor = tools.isBitActive(this.my.perm, shared_consts.Permissions.Tutor.value)
+        this.isZoomeri = tools.isBitActive(this.my.perm, shared_consts.Permissions.Zoomeri.value)
+        this.isDepartment = tools.isBitActive(this.my.perm, shared_consts.Permissions.Department.value)
+        this.isTeacher = tools.isBitActive(this.my.perm, shared_consts.Permissions.Teacher.value)
+        this.isEditor = tools.isBitActive(this.my.perm, shared_consts.Permissions.Editor.value)
+
+        this.my.tokens = []
+        this.resetArrToken(this.my.tokens)
+        this.my.tokens.push({ access: 'auth', token: this.x_auth_token, data_login: tools.getDateNow() })
+
+      } catch (e) {
+        console.log('Error authUser: ' + e)
       }
-
-      this.isAdmin = tools.isBitActive(this.my.perm, shared_consts.Permissions.Admin.value)
-      this.isManager = tools.isBitActive(this.my.perm, shared_consts.Permissions.Manager.value)
-      this.isTutor = tools.isBitActive(this.my.perm, shared_consts.Permissions.Tutor.value)
-      this.isZoomeri = tools.isBitActive(this.my.perm, shared_consts.Permissions.Zoomeri.value)
-      this.isDepartment = tools.isBitActive(this.my.perm, shared_consts.Permissions.Department.value)
-      this.isTeacher = tools.isBitActive(this.my.perm, shared_consts.Permissions.Teacher.value)
-      this.isEditor = tools.isBitActive(this.my.perm, shared_consts.Permissions.Editor.value)
-
-      this.my.tokens = []
-      this.resetArrToken(this.my.tokens)
-      this.my.tokens.push({ access: 'auth', token: this.x_auth_token, data_login: tools.getDateNow() })
 
     },
 
@@ -436,6 +448,7 @@ export const useUserStore = defineStore('UserStore', {
       localStorage.setItem(toolsext.localStorage.expirationDate, expirationDate.toString())
       localStorage.setItem(toolsext.localStorage.isLogged, String(true))
       localStorage.setItem(toolsext.localStorage.verified_email, String(myuser.verified_email))
+      localStorage.setItem(toolsext.localStorage.verified_by_aportador, String(myuser.verified_by_aportador))
       localStorage.setItem(toolsext.localStorage.teleg_id, String(myuser.profile.teleg_id))
       localStorage.setItem(toolsext.localStorage.made_gift, String(myuser.made_gift))
       localStorage.setItem(toolsext.localStorage.wasAlreadySubOnDb, String(globalStore.wasAlreadySubOnDb))
@@ -461,18 +474,6 @@ export const useUserStore = defineStore('UserStore', {
 
       return bcrypt.hash(authData.password!, bcrypt.genSaltSync(12))
         .then((hashedPassword: string) => {
-          /*
-                  const usertosend = {
-                    lang: mylang,
-                    email: authData.email,
-                    password: String(hashedPassword),
-                    username: authData.username,
-                    name: authData.name,
-                    surname: authData.surname
-                  }
-                  console.log(usertosend)
-
-          */
           authData.lang = mylang
           authData.password = String(hashedPassword)
 
@@ -506,14 +507,16 @@ export const useUserStore = defineStore('UserStore', {
                 localStorage.setItem(toolsext.localStorage.token, this.x_auth_token)
                 localStorage.setItem(toolsext.localStorage.expirationDate, expirationDate.toString())
                 localStorage.setItem(toolsext.localStorage.verified_email, String(false))
+                localStorage.setItem(toolsext.localStorage.verified_by_aportador, String(false))
 
                 // Even if you has registered, you have to SignIn first
                 this.isLogged = false
                 // dispatch('storeUser', authData);
                 // dispatch('setLogoutTimer', myres.data.expiresIn);
-
+                console.log('OK')
                 return { code: tools.OK, msg: '' }
               } else {
+                console.log('ERR GENERICO')
                 return { code: toolsext.ERR_GENERICO, msg: '' }
               }
             })
@@ -674,6 +677,7 @@ export const useUserStore = defineStore('UserStore', {
       localStorage.removeItem(toolsext.localStorage.isLogged)
       // localStorage.removeItem(rescodes.localStorage.leftDrawerOpen)
       localStorage.removeItem(toolsext.localStorage.verified_email)
+      localStorage.removeItem(toolsext.localStorage.verified_by_aportador)
       localStorage.removeItem(toolsext.localStorage.teleg_id)
       localStorage.removeItem(toolsext.localStorage.made_gift)
       localStorage.removeItem(toolsext.localStorage.categorySel)
@@ -759,6 +763,7 @@ export const useUserStore = defineStore('UserStore', {
             const name = String(localStorage.getItem(toolsext.localStorage.name))
             const surname = String(localStorage.getItem(toolsext.localStorage.surname))
             const verified_email = localStorage.getItem(toolsext.localStorage.verified_email) === 'true'
+            const verified_by_aportador = localStorage.getItem(toolsext.localStorage.verified_by_aportador) === 'true'
             const made_gift = localStorage.getItem(toolsext.localStorage.made_gift) === 'true'
             const myperm = localStorage.getItem(toolsext.localStorage.perm)
             let perm = 0
@@ -780,6 +785,7 @@ export const useUserStore = defineStore('UserStore', {
               name,
               surname,
               verified_email,
+              verified_by_aportador,
               made_gift,
               perm,
               profile: { img, teleg_id, myshares: [] },

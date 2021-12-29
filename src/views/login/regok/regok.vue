@@ -15,19 +15,19 @@
         </div>
       </div>
       <q-banner
-        v-if="!isEmailVerified"
+        v-if="!isEmailVerified()"
         rounded
         class="bg-warning text-black"
         color="primary q-title"
         style="text-align: center;">
-        <div class="mybanner" v-html="$t('components.authentication.email_verification.link_sent', {botname: $t('site.botname') })">
+        <div class="mybanner" v-html="$t('components.authentication.email_verification.link_sent', {botname: $t('ws.botname') })">
 
         </div>
 
       </q-banner>
       <br>
       <q-banner
-        v-if="!isEmailVerified"
+        v-if="!isEmailVerified()"
         rounded
         class="bg-warning text-black"
         color="primary q-title"

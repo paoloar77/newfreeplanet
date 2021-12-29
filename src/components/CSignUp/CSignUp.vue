@@ -6,9 +6,27 @@
       </p>
     </div>
 
-    <!--Prova URL :  {{env('PROVA_PAOLO')}}-->
-
     <div class="q-gutter-sm">
+
+      <q-input
+        v-if="showaportador && signup.aportador_solidario !== tools.APORTADOR_NONE"
+        bg-color="lightblue"
+        :readonly="true"
+        v-model="signup.aportador_solidario"
+        rounded outlined
+        @blur="v$.aportador_solidario.$touch"
+        :error="v$.aportador_solidario.$error"
+        :error-message="tools.errorMsg('aportador_solidario', v$.aportador_solidario)"
+        maxlength="20"
+        debounce="1000"
+
+        :label="$t('reg.aportador_solidario')">
+
+        <template v-slot:prepend>
+          <q-icon name="person"/>
+        </template>
+
+      </q-input>
 
       <q-input
         v-model="signup.email"
@@ -172,6 +190,7 @@
         <q-btn rounded size="lg" color="positive" @click="submitOk" :disabled='!allowSubmit()' :label="$t('reg.submit')">
         </q-btn>
       </div>
+      <br /><br /><br />
     </div>
 
   </div>

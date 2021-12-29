@@ -431,7 +431,11 @@ export default defineComponent({
           // if (serverData.length > 0)
           //   serverData.splice(0, serverData.length, ...returnedData)
           // else
-          serverData.value = [...returnedData.value]
+          try {
+            serverData.value = [...returnedData.value]
+          }catch (e) {
+            serverData.value = []
+          }
         }
 
         // console.log('serverData', serverData)

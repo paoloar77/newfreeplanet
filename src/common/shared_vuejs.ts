@@ -58,6 +58,50 @@ export const shared_consts = {
     Outcoming: 2,
   },
 
+  BOTTYPE_NONE: 0,
+  BOTTYPE_PAGE: 1,
+  BOTTYPE_LINK: 2,
+  BOTTYPE_TEXT: 3,
+
+  BotType: [
+    {
+      value: 0,
+      label: '[Nessuno]',
+    },
+    {
+      value: 1,
+      label: 'Pagina',
+    },
+    {
+      value: 2,
+      label: 'Link',
+    },
+    {
+      value: 3,
+      label: 'Testo',
+    },
+  ],
+
+  VISIB_ALL: 0,
+  VISIB_ONLYIF_VERIFIED: 1,
+  VISIB_ONLY_MANAGER: 2,
+  VISIB_ONLY_ADMIN: 4,
+
+  Visibility: [
+    {
+      value: 1,
+      label: 'Verificato',
+    },
+    {
+      value: 2,
+      label: 'Gestione',
+    },
+    {
+      value: 4,
+      label: 'Admin',
+    },
+  ],
+
   Permissions: {
     Admin: {
       value: 1,
@@ -228,7 +272,7 @@ export const shared_consts = {
   },
 
   fieldsUserToChange() {
-    return ['_id', 'username', 'email', 'name', 'surname', 'perm', 'date_reg', 'verified_email', 'img', 'ipaddr', 'lasttimeonline', 'profile', 'news_on']
+    return ['_id', 'username', 'email', 'name', 'surname', 'perm', 'date_reg', 'verified_email', 'verified_by_aportador', 'img', 'ipaddr', 'lasttimeonline', 'profile', 'news_on']
   },
 
 }

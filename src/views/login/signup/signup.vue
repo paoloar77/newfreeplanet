@@ -1,6 +1,6 @@
 <template>
     <q-page padding class="signup">
-        <CSignUp :showcell="true">
+        <CSignUp :showcell="false" :showaportador="true">
 
         </CSignUp>
     </q-page>

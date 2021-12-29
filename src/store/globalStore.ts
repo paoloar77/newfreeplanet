@@ -1289,6 +1289,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
       if (table === 'accepted') return [shared_consts.Accepted.CHECK_READ_GUIDELINES, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI]
       if (table === 'fieldstype') return costanti.FieldTypeArr
       if (table === 'metodo_pagamento') return tools.SelectMetodiPagamento
+      if (table === 'bottype') return shared_consts.BotType
+      if (table === 'visibility') return shared_consts.Visibility
 
       let myarr = this.getListByTable(table)
 

@@ -212,7 +212,7 @@
         <div v-show="!isLogged()">
 
           <div class="q-ma-md" style="">
-            <CSigninNoreg :showregbutt="true">
+            <CSigninNoreg :showregbutt="static_data.functionality.SHOW_REG_BUTTON">
 
             </CSigninNoreg>
           </div>

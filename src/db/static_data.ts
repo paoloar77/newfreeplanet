@@ -9,7 +9,7 @@ const functionality: IFunctionality = {
   PWA: true,
   SHOW_USER_MENU: true, // Cambiare con true
   SHOW_PROFILE: true,
-  SHOW_REG_BUTTON: true,
+  SHOW_REG_BUTTON: false,
   ENABLE_REGISTRATION: true, // Cambiare con true
   ENABLE_REG_AYNI: false,
   SHOW_NEWSLETTER: false,
@@ -260,6 +260,20 @@ const routes_manager: IListRoutes[] = [
   },
   {
     active: true,
+    order: 30,
+    path: '/admin/bot',
+    materialIcon: 'fas fa-file-alt',
+    name: 'otherpages.admin.bot',
+    component: () => import('@/rootgen/admin/bot/bot.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyEditor: true
+  },
+  {
+    active: true,
     path: '/admin/newsletter',
     order: 60,
     faIcon: 'fa fa-list-alt',
@@ -468,7 +482,7 @@ const baseroutes: IListRoutes[] = [
   {
     active: functionality.ENABLE_REGISTRATION,
     order: 1000,
-    path: '/signup',
+    path: '/signup/:invited',
     materialIcon: 'how_to_reg',
     name: 'pages.SignUp',
     component: () => import('@/views/login/signup/signup.vue'),

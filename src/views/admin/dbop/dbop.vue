@@ -207,6 +207,12 @@
         @click="EseguiFunz('CorreggiTabHours')"></q-btn>
       <br>
     </div>
+    <div class="row">
+      <q-btn
+        label="setVerifiedByAportadorToALL" color="negative"
+        @click="EseguiFunz('setVerifiedByAportadorToALL')"></q-btn>
+      <br>
+    </div>
 
 
     <q-field

@@ -111,7 +111,7 @@ module.exports = {
   },
 
   fieldsUserToChange() {
-    return ['_id', 'index', 'username', 'email', 'name', 'surname', 'perm', 'date_reg', 'verified_email', 'ipaddr', 'lasttimeonline', 'profile', 'calcstat', 'news_on', 'aportador_solidario', 'made_gift', 'ind_order', 'old_order', 'numinvitati', 'numinvitatiattivi', 'qualified']
+    return ['_id', 'index', 'username', 'email', 'name', 'surname', 'perm', 'date_reg', 'verified_email', 'verified_by_aportador', 'ipaddr', 'lasttimeonline', 'profile', 'calcstat', 'news_on', 'aportador_solidario', 'made_gift', 'ind_order', 'old_order', 'numinvitati', 'numinvitatiattivi', 'qualified']
   },
 
 };

@@ -81,7 +81,6 @@ export default defineComponent({
     }
 
     watch(idparam, (newval, oldval) => {
-      console.log('$route.params.idparam')
       tab.value = idparam.value
     })
 

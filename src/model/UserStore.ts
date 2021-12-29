@@ -27,7 +27,7 @@ export interface IUserProfile {
   manage_telegram?: boolean
   resplist?: any
   workerslist?: any
-  dateofbirth?: Date
+  dateofbirth?: Date|null
   born_city?: string
   born_province?: string
   born_country?: string
@@ -62,6 +62,7 @@ export interface IUserFields {
   ipaddr?: string
   perm?: number
   verified_email?: boolean
+  verified_by_aportador?: boolean
   aportador_solidario?: string
 
   made_gift?: boolean

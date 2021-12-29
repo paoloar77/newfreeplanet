@@ -52,6 +52,7 @@ const msg_it = {
         media: 'Media',
         gallery: 'Gallerie',
         listaflotte: 'Flotte',
+        bot: 'Bot',
       },
       manage: {
         menu: 'Segreteria',
@@ -358,6 +359,7 @@ const msg_it = {
       invitante_regalato: 'Invitante Regalato',
       legenda: 'Legenda',
       aportador_solidario: 'Chi ti ha Invitato',
+      verified_by_aportador: 'Verificato dall\'Invitante',
       username_regala_invitato: 'Username del Destinatario del regalo',
       aportador_solidario_nome_completo: 'Nominativo Invitante',
       aportador_solidario_nome_completo_orig: 'Invitante Originario',
@@ -788,7 +790,19 @@ const msg_it = {
     },
     contribtype: {
       name: 'Contributo'
-    }
+    },
+    bot: {
+      page: 'Pagina',
+      index: 'Posizione',
+      riga: 'Riga',
+      active: 'Attivo',
+      lang: 'Lingua',
+      label: 'Etichetta',
+      type: 'Tipo',
+      value: 'Contenuto',
+      visibility: 'Visibilità',
+      date_updated: 'Ult. Aggiornamento',
+    },
   },
 
 };

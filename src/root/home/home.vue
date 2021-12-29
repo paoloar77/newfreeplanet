@@ -26,7 +26,7 @@
 
     </div>
     <div v-else>
-      <div v-if="!isLogged() && static_data.functionality.ENABLE_REGISTRATION" style="margin:20px; text-align: center;">
+      <div v-if="!isLogged() && static_data.functionality.ENABLE_REGISTRATION && static_data.functionality.SHOW_REG_BUTTON" style="margin:20px; text-align: center;">
         <q-btn rounded size="lg" color="primary" @click="openrighttoolbar">{{ $t('login.enter') }}
         </q-btn>
       </div>
