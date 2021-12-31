@@ -1,4 +1,4 @@
-import { computed, defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
@@ -96,6 +96,16 @@ export default defineComponent({
       return myarr
     })
 
+    watch(() => props.options, (value: any, oldval: any) => {
+      valori.value = valoriload.value
+      },
+    )
+    watch(() => props.value, (value: any, oldval: any) => {
+      mounted()
+      },
+    )
+
+
     function changeval(newval: any) {
       if (props.tablesel === shared_consts.TAB_COUNTRY)
         myvalue.value = newval && newval['value'] ? newval['value'] : newval
@@ -113,19 +123,11 @@ export default defineComponent({
       if (props.options) {
         const rec: any = props.options.find((myrec: any) => myrec[`${props.optval}`] === props.value)
 
-        /*console.log('rec', rec, 'props.useinput', props.useinput)
-        console.log('props.value', props.value)
-        console.log('options', props.options)
-        console.log('optval', props.optval)
-        console.log('optlab', props.optlab)*/
-
         if (rec) {
           if (props.funcgetvaluebyid)
             myvalue.value = props.funcgetvaluebyid(rec[`${props.optval}`])
           else
             myvalue.value = rec[`${props.optlab}`]
-
-          // console.log('myvalue', myvalue, 'optval', props.optval, 'rec', rec[`${props.optval}`])
         } else {
           if (!props.useinput) {
             if (props.value) {

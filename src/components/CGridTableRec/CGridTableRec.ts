@@ -204,6 +204,18 @@ export default defineComponent({
 
     const mycodeid = toRef(props, 'prop_codeId')
 
+    const valoriopt = computed(() => (item: any, addall: boolean) => {
+      // console.log('valoriopt', item.table)
+      return globalStore.getTableJoinByName(item.table, addall, item.filter)
+    })
+
+    const labelcombo = computed(() => (item: any) => {
+      let lab = item.label
+      if (item.showcount)
+        lab += ' (' + valoriopt.value(item, false).length + ')'
+      return lab
+    })
+
     watch(searchList.value, (to: any, from: any) =>  {
       console.log('watch searchlist', to)
       refresh()
@@ -212,6 +224,37 @@ export default defineComponent({
     function searchval(newval: any, table: any) {
       console.log('searchval', newval, table)
       tools.setCookie(tools.COOK_SEARCH + table, newval)
+
+      if (table === 'skills') {
+        const recSector = searchList.value.find((rec) => rec.table === 'sectors')
+        if (recSector)
+          tools.setCookie(tools.COOK_SEARCH + table + '_' + recSector.value, newval)
+      }
+
+      if (table === 'sectors') {
+        for (const item of searchList.value) {
+          if ((item.table === 'subskills')) {
+            // item.arrvalue = [costanti.FILTER_TUTTI]
+          }
+          if (item.table === 'skills') {
+            // console.log('---PRIMA ', item.value)
+            const valsaved = tools.getCookie(tools.COOK_SEARCH + 'skills' + '_' + newval, costanti.FILTER_TUTTI)
+            if (valsaved)
+              item.value = valsaved
+            else
+              item.value = costanti.FILTER_TUTTI
+            // console.log('---DOPO ', item.value)
+          }
+        }
+      }
+      /*if (table === 'skills') {
+        for (const item of searchList.value) {
+          if (item.table === 'subskills') {
+            item.arrvalue = [costanti.FILTER_TUTTI]
+          }
+        }
+      } */
+
       refresh()
     }
 
@@ -267,16 +310,24 @@ export default defineComponent({
       let filtersearch2: any[] = []
 
       let recSector = null;
+      let recSkill = null;
       let idSector = 0;
+      let idSkill = 0;
       if (searchList.value) {
         recSector = searchList.value.find((item: ISearchList) => item.table === 'sectors')
         idSector = recSector ? recSector.value : 0
       }
 
+      if (searchList.value) {
+        recSkill = searchList.value.find((item: ISearchList) => item.table === 'skills')
+        idSkill = recSkill ? recSkill.value : 0
+      }
+
       // console.table(searchList.value)
 
       if (searchList.value) {
-        searchList.value.forEach((item: ISearchList) => {
+        for (const item of searchList.value) {
+        //searchList.value.forEach((item: ISearchList) => {
           if (!item.notinsearch) {
             let objitem: any = {}
             if (item.value > 0) {
@@ -304,15 +355,22 @@ export default defineComponent({
               if (arr2.length > 0)
                 filtersearch.push(obj2)
             } else {
-              if (item.table === 'skills' && item.value === costanti.FILTER_TUTTI) {
+              if ((item.table === 'skills') && item.value === costanti.FILTER_TUTTI) {
                 let obj2: any = {}
                 // idSector
                 obj2['sector._id'] = idSector
                 filtersearch2.push(obj2)
               }
+              if ((item.table === 'subskills') && item.value === costanti.FILTER_TUTTI) {
+                let obj2: any = {}
+                // idSector
+                obj2['myskill._id'] = idSkill
+                filtersearch2.push(obj2)
+              }
             }
+
           }
-        })
+        }
       }
 
       console.log('filtersearch', filtersearch)
@@ -1146,6 +1204,8 @@ export default defineComponent({
       searchval,
       canModifyThisRec,
       checkIfShowRec,
+      valoriopt,
+      labelcombo,
     }
   }
 })

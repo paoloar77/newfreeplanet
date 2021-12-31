@@ -59,6 +59,7 @@ export default defineComponent({
       return {
         _id: 0,
         idSkill: 0,
+        idSubSkill: [],
         idStatusSkill: [],
         idContribType: [],
         idCity: [],
@@ -80,6 +81,7 @@ export default defineComponent({
           af_objId_tab: 'myId',
           lk_proj: {
             idSkill: 1,
+            idSubSkill: 1,
             numLevel: 1,
             photos: 1,
             note: 1,

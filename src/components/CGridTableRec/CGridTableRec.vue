@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-xs" v-if="isfinishLoading">
+  <div :class="$q.screen.lt.sm ? `` : `q-pa-xs`" v-if="isfinishLoading">
     <div class="centermydiv q-ma-sm" style="text-align: center">
       <q-btn
         v-if="mytable && visButtRow()" rounded dense color="primary"
@@ -8,39 +8,7 @@
         @click="createNewRecordDialog"></q-btn>
     </div>
 
-    <div
-      v-if="prop_search"
-      class="row justify-center vertical-middle">
-
-      <q-input
-        v-model="search" filled dense type="search" debounce="500" hint="Cerca"
-        v-on:keyup.enter="doSearch">
-        <template v-slot:after>
-          <q-btn v-if="mytable" dense label="" color="primary" @click="refresh" icon="search"></q-btn>
-        </template>
-      </q-input>
-
-      <q-space></q-space>
-
-      <q-select
-        v-if="mytable"
-        v-model="colVisib"
-        rounded
-        outlined
-        multiple
-        dense
-        options-dense
-        :display-value="$t('grid.columns')"
-        emit-value
-        map-options
-        :options="mycolumns"
-        option-value="name"
-        @update:model-value="changeCol">
-
-      </q-select>
-
-    </div>
-    <div class="q-gutter-md q-ma-xs row">
+    <div :class="$q.screen.lt.sm ? `` : `q-gutter-md q-ma-xs`  + ` row`">
       <div class="q-table__title" style="min-width: 150px;">{{ mytitle }}</div>
       <q-space></q-space>
       <div v-if="butt_modif_new">
@@ -128,60 +96,61 @@
         </div>
       </template>
 
+      <template v-slot:top-left>
 
-      <template v-slot:top-left v-if="searchList">
-        <div class="row text-blue">
-          <div v-for="(item, index) in searchList" :key="index">
+        <div v-if="searchList"
+          :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue`">
+          <span v-for="(item, index) in searchList" :key="index">
             <CMySelect
               v-if="item.type === costanti.FieldType.select"
-              :label="item.label"
+              :label="labelcombo(item)"
               v-model:value="item.value"
               @update:value="searchval(item.value, item.table)"
               :addall="true"
               label-color="primary"
+              class="combowidth"
               color="primary"
               :optval="fieldsTable.getKeyByTable(item.table)"
               :optlab="fieldsTable.getLabelByTable(item.table)"
-              :options="globalStore.getTableJoinByName(item.table, true, item.filter)"
-              :useinput="false"
-            >
+              :options="valoriopt(item, false)"
+              :useinput="false">
             </CMySelect>
 
             <q-select
               v-if="item.type === costanti.FieldType.multiselect"
               v-model="item.arrvalue"
+              label-color="primary"
+              :label="labelcombo(item)"
               @update:model-value="searchval(item.arrvalue, item.table)"
               rounded
+              dense
               outlined
               multiple
-              dense
               options-dense
-              :display-value="fieldsTable.getTitleByTable(item.table)"
               emit-value
               map-options
               stack-label
-              :options="globalStore.getTableJoinByName(item.table, item.filter)"
-              style="min-width: 150px"
+              :options="valoriopt(item, item.addall)"
+              class="combowidth"
               :option-value="fieldsTable.getKeyByTable(item.table)"
             >
 
               <template
                 v-if="item.arrvalue.length >= 1"
                 v-slot:selected-item="scope">
-                <q-chip
-                  removable
-                  dense
-                  @remove="scope.removeAtIndex(scope.index)"
-                  v-if="checkIfShowRec(scope.opt)"
-                  color="white"
-                  text-color="mycol"
-                  class="q-my-none q-ml-xs q-mr-none"
-                >
-                  <q-avatar color="primary" text-color="white" :icon="item.icon" size="12px"/>
-                  {{ scope.opt[fieldsTable.getLabelByTable(item.table)] }}
-                </q-chip>
-                <div v-if="scope.opt === -100 && item.arrvalue.length === 1">
-                  {{ fieldsTable.getTitleByTable(item.table) }}
+                <div v-if="scope.opt[fieldsTable.getLabelByTable(item.table)]">
+                  <q-chip
+                    removable
+                    dense
+                    @remove="scope.removeAtIndex(scope.index)"
+                    v-if="checkIfShowRec(scope.opt)"
+                    color="white"
+                    text-color="mycol"
+                    class="q-my-none q-ml-xs q-mr-none"
+                  >
+                    <q-avatar color="primary" text-color="white" :icon="item.icon" size="12px"/>
+                    {{ scope.opt[fieldsTable.getLabelByTable(item.table)] }}
+                  </q-chip>
                 </div>
               </template>
               <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
@@ -197,8 +166,43 @@
               </template>
 
             </q-select>
-          </div>
+          </span>
         </div>
+
+        <div
+          class="row justify-center vertical-middle">
+
+          <div v-if="prop_search" class="q-mr-sm">
+            <q-input
+              v-model="search" filled dense type="search" debounce="500" hint="Cerca"
+              v-on:keyup.enter="doSearch">
+              <template v-slot:after>
+                <q-btn v-if="mytable" dense label="" color="primary" @click="refresh" icon="search"></q-btn>
+              </template>
+            </q-input>
+          </div>
+
+          <q-space></q-space>
+          <q-select
+            v-if="mytable"
+            v-model="colVisib"
+            rounded
+            outlined
+            multiple
+            dense
+            options-dense
+            :display-value="$t('grid.columns')"
+            emit-value
+            map-options
+            :options="mycolumns"
+            option-value="name"
+            @update:model-value="changeCol">
+
+          </q-select>
+
+        </div>
+
+        <div v-if="pagination.rowsNumber > 0">{{ pagination.rowsNumber }} elementi trovati</div>
       </template>
 
       <template v-slot:body="props">
@@ -245,6 +249,7 @@
         <br>
       </template>
 
+
       <template v-slot:item="props">
         <div
           class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
@@ -271,7 +276,7 @@
             <q-card-section class="inset-shadow">
               <q-list dense>
                 <div v-for="col in mycolumns" :key="col.name">
-                  <q-item v-if="colVisib.includes(col.field + col.subfield)" :class="clByCol(col)">
+                  <q-item v-if="colVisib.includes(col.field + col.subfield)" :class="clByCol(col)" class="riduci_pad">
                     <q-item-section avatar v-if="visuIntestazCol(col)">
                       <q-item-label class="q-table__col">{{ col.label }}</q-item-label>
                     </q-item-section>

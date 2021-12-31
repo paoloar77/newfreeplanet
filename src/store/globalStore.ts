@@ -118,6 +118,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     URL_RESTORE: '',
     levels: [],
     skills: [],
+    subSkills: [],
     statusSkills: [],
     sectors: [],
     cities: [],
@@ -226,6 +227,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return state.levels
       else if (table === 'skills')
         return state.skills
+      else if (table === 'subskills')
+        return state.subSkills
       else if (table === 'statusSkills')
         return state.statusSkills
       else if (table === 'sectors')
@@ -1149,6 +1152,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.departments = (res.data.departments) ? [...res.data.departments] : []
             this.levels = (res.data.levels) ? [...res.data.levels] : []
             this.skills = (res.data.skills) ? [...res.data.skills] : []
+            this.subSkills = (res.data.subSkills) ? [...res.data.subSkills] : []
             this.statusSkills = (res.data.statusSkills) ? [...res.data.statusSkills] : []
             this.sectors = (res.data.sectors) ? [...res.data.sectors] : []
             this.cities = (res.data.cities) ? [...res.data.cities] : []
@@ -1294,8 +1298,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       let myarr = this.getListByTable(table)
 
-      // if (addall)
-      //   myarr = [costanti.FILTER_TUTTI, ...myarr]
+      if (addall)
+         myarr = [costanti.FILTER_TUTTI, ...myarr]
 
       if (!addall) {
         /*if (table === 'skills') {

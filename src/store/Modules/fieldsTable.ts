@@ -365,6 +365,23 @@ export const colSkills = [
   AddCol(DeleteRec),
 ]
 
+export const colSubSkills = [
+  // AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({ name: 'img', label_trans: 'store.img' }),
+  AddCol({ name: 'icon', label_trans: 'store.icon' }),
+  AddCol({
+    name: 'idSkill',
+    label_trans: 'skill.name',
+    fieldtype: costanti.FieldType.select,
+    jointable: 'skills',
+  }),
+  AddCol({ name: 'color', label_trans: 'products.color' }),
+  AddCol({ name: 'theme', label_trans: 'products.theme' }),
+  AddCol(DuplicateRec),
+  AddCol(DeleteRec),
+]
+
 export const colmySkills = [
   /*AddCol({
     name: 'userId', label_trans: 'order.users', fieldtype: costanti.FieldType.string, jointable: 'users',
@@ -379,6 +396,13 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.select,
     required: true,
     jointable: 'skills',
+  }),
+  AddCol({
+    name: 'idSubSkill',
+    label_trans: 'skill.subskill',
+    fieldtype: costanti.FieldType.multiselect,
+    required: true,
+    jointable: 'subskills',
   }),
   AddCol({
     name: 'numLevel',
@@ -411,7 +435,7 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.listimages,
     jointable: '',
   }),
-  AddCol({ name: 'subTitle', label_trans: 'event.title' }),
+  AddCol({ name: 'subTitle', label_trans: 'skill.note' }),
   AddCol({ name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html }),
   AddCol(DuplicateRec),
   AddCol(ModifRec),
@@ -1670,6 +1694,13 @@ export const fieldsTable = {
       value: 'skills',
       label: 'Competenze',
       columns: colSkills,
+      colkey: '_id',
+      collabel: 'descr',
+    },
+    {
+      value: 'subskills',
+      label: 'Specializz',
+      columns: colSubSkills,
       colkey: '_id',
       collabel: 'descr',
     },

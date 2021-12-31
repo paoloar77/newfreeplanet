@@ -20,7 +20,7 @@ import { email, minLength, required, sameAs } from '@vuelidate/validators'
 // import { ValidationRuleset } from 'vuelidate'
 import { complexity, registeredemail, registereduser, aportadorexist } from '../../validation'
 
-import 'vue3-tel-input/dist/vue3-tel-input.css'
+// import 'vue3-tel-input/dist/vue3-tel-input.css'
 import { useRoute, useRouter } from 'vue-router'
 
 // import {Loading, QSpinnerFacebook, QSpinnerGears} from 'quasar'

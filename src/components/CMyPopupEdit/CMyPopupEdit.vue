@@ -224,7 +224,7 @@
                 emit-value
                 map-options
                 :options="globalStore.getTableJoinByName(col.jointable)"
-                style="min-width: 150px"
+                class="combowidth"
                 :option-value="fieldsTable.getKeyByTable(col.jointable)"
                 @update:model-value="changevalRec">
 
@@ -482,7 +482,7 @@
                 emit-value
                 map-options
                 :options="globalStore.getTableJoinByName(col.jointable)"
-                style="min-width: 150px"
+                class="combowidth"
                 :option-value="fieldsTable.getKeyByTable(col.jointable)"
                 @update:model-value="changeval">
 

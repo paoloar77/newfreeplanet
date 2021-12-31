@@ -255,6 +255,7 @@ export interface IGlobalState {
   URL_RESTORE: string
   levels: ILevel[],
   skills: ISkill[],
+  subSkills: ISubSkill[],
   statusSkills: IStatusSkill[],
   sectors: ISector[],
   cities: ICity[],
@@ -470,6 +471,7 @@ export interface IParamsQuery {
   lookup1?: IParLookup
   lookup2?: IParLookup
   lookup3?: IParLookup
+  lookup4?: IParLookup
 }
 
 export interface IColGridTable {
@@ -516,6 +518,8 @@ export interface ISearchList {
   type: number
   filter: any
   notinsearch?: boolean
+  addall?: boolean
+  showcount?: boolean
 }
 
 export interface IFilter {
@@ -581,6 +585,14 @@ export interface ISkill {
   img?: string
 }
 
+export interface ISubSkill {
+  _id: number
+  descr: string
+  idSkill: number
+  icon?: string
+  img?: string
+}
+
 export interface IStatusSkill {
   _id: number
   descr: string
@@ -616,6 +628,7 @@ export interface ICity {
 export interface IMySkill {
   _id: number
   idSkill: number
+  idSubSkill: number[]
   idStatusSkill: number[]
   idContribType: string[]
   idCity: number[]

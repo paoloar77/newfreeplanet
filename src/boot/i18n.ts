@@ -1,5 +1,6 @@
 // @ts-ignore
-import { createI18n } from 'vue-i18n/dist/vue-i18n.esm-bundler'
+// import { createI18n } from 'vue-i18n/index'
+import { createI18n } from 'vue-i18n/dist/vue-i18n.esm-bundler.js'
 import messages from '../statics/i18n'
 import { boot } from 'quasar/wrappers'
 // you'll need to create the src/i18n/index.js file too

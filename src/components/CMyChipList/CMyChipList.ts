@@ -42,7 +42,6 @@ export default defineComponent({
   },
   components: {},
   setup(props, { emit }) {
-    const $q = useQuasar()
     const { t } = useI18n()
 
     const myval = toRef(props, 'value')

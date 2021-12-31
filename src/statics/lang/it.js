@@ -772,6 +772,8 @@ const msg_it = {
       name: 'Competenza',
       city: 'Città',
       photos: 'Foto',
+      note: 'Note',
+      subskill: 'Specializz.',
     },
     level: {
       name: 'Livello',

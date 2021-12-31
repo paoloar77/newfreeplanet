@@ -78,7 +78,8 @@
         options-selected-class="text-deep-orange"
         map-options
         v-bind="$attrs"
-        style="min-width: 170px; max-width: 400px;">
+        class="combowidth"
+      >
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
             <q-item-section avatar>

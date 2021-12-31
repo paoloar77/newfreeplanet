@@ -43,8 +43,19 @@ export default defineComponent({
 
       function getFilterSkills(recSkill: any, index: number, arr: any) {
         const recsectors:any = searchList.value.find((rec) => rec.table === 'sectors')
+        // console.log('getFilterSkills', recSkill.idSector, recsectors.value)
         if (recsectors) {
           return recSkill.idSector.includes(recsectors.value)
+        } else {
+          return true
+        }
+      }
+
+      function getFilterSubSkills(recSubSkill: any, index: number, arr: any) {
+        const recskills:any = searchList.value.find((rec) => rec.table === 'skills')
+        // console.log('recSubSkill', recSubSkill, 'recskills', recskills)
+        if (recskills) {
+          return recSubSkill.idSkill === recskills.value
         } else {
           return true
         }
@@ -60,16 +71,30 @@ export default defineComponent({
           arrvalue: [],
           type: costanti.FieldType.select,
           filter: null,
+          addall: true,
           notinsearch: true,
         },
         {
           label: 'Competenza',
           table: 'skills',
           key: 'idSkill',
-          value: tools.getCookie(tools.COOK_SEARCH + 'skills', costanti.FILTER_TUTTI),
+          value: tools.getCookie(tools.COOK_SEARCH + 'skills' + '_' + tools.getCookie(tools.COOK_SEARCH + 'sectors', costanti.FILTER_TUTTI), costanti.FILTER_TUTTI),
           arrvalue: [],
           type: costanti.FieldType.select,
+          addall: true,
           filter: getFilterSkills,
+          showcount: true,
+        },
+        {
+          label: 'Specializz.',
+          table: 'subskills',
+          key: 'idSubSkill',
+          value: 0,
+          type: costanti.FieldType.multiselect,
+          arrvalue: [costanti.FILTER_TUTTI],
+          addall: true,
+          filter: getFilterSubSkills,
+          showcount: true,
         },
         {
           label: 'Citta',
@@ -139,6 +164,7 @@ export default defineComponent({
       return {
         _id: 0,
         idSkill: 0,
+        idSubSkill: [],
         idStatusSkill: [],
         idContribType: [],
         idCity: [],
@@ -169,6 +195,7 @@ export default defineComponent({
             recSkill: 1,
             sector: 1,
             idSkill: 1,
+            idSubSkill: 1,
             idStatusSkill: 1,
             idContribType: 1,
             idCity: 1,
@@ -189,6 +216,13 @@ export default defineComponent({
           lk_LF: 'recSkill.idSector',
           lk_FF: '_id',
           lk_as: 'sector',
+          af_objId_tab: '',
+        },
+        lookup4: {
+          lk_tab: 'subskills',
+          lk_LF: 'idSubSkill',
+          lk_FF: '_id',
+          lk_as: 'myskill',
           af_objId_tab: '',
         },
       }
