@@ -36,4 +36,24 @@ export const serv_constants = {
   RIS_UNSUBSCRIBED_STR: 'unsubscribed',
   RIS_UNSUBSCRIBED_NOT_EXIST: -5,
 
+  LIST_END: '10000000',
+  LIST_START: null,
+
+  PREFIX_IMG: 'm_',
+  PREFIX_IMG_SMALL: 'sm_',
+
+  Privacy: {
+    all: 'all',
+    friends: 'friends',
+    mygroup: 'mygroup',
+    onlyme: 'onlyme',
+    inherited: 'inherited'
+  },
+
+  TypeProj: {
+    TYPE_PROJECT: 1,
+    TYPE_SUBDIR: 2,
+  }
+
+
 }

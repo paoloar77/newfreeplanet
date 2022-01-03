@@ -45,12 +45,13 @@ export const shared_consts = {
   REPORT_FILT_ATTIVITA: 2,
 
   TAB_COUNTRY: 'countries',
+  TAB_CITIES: 'cities',
   TAB_PHONES: 'phones',
   TAB_SETTINGS: 'settings',
 
   KEY_TO_CRYPTED: ['PWD_FROM'],
 
-  TablePickup: ['countries', 'phones'],
+  TablePickup: ['countries', 'phones', 'cities'],
 
   CashType: {
     None: 0,

@@ -49,6 +49,7 @@ export const costanti = {
     hours: 8000,
     crypted: 9000,
   },
+
   FieldTypeArr: [
     { label: 'Boolean', value: 1 },
     { label: 'Date', value: 2 },
@@ -59,5 +60,10 @@ export const costanti = {
     { label: 'Number', value: 64 },
   ],
 
+  TipoVisu: {
+    TESTO: 1,
+    LINK: 2,
+    BUTTON: 3,
+  },
 
 }

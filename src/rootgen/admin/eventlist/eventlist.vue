@@ -101,7 +101,7 @@
         </tbody>
       </q-markup-table>
       <q-dialog v-model="shownote">
-        <q-card v-if="eventsel" :style="`min-width: ` + tools.myheight_dialog() + `px;`">
+        <q-card v-if="eventsel" class="dialog_card">
           <q-toolbar class="bg-primary text-white">
             <q-toolbar-title>
               Note: {{ eventsel.title }}
@@ -122,7 +122,7 @@
         </q-card>
       </q-dialog>
       <q-dialog v-model="showpeople">
-        <q-card v-if="eventsel" :style="`min-width: ` + tools.myheight_dialog() + `px;`">
+        <q-card v-if="eventsel" class="dialog_card">
           <q-toolbar class="bg-primary text-white">
             <q-toolbar-title>
               {{ eventsel.title }}

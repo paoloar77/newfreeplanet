@@ -157,6 +157,7 @@ export default defineComponent({
     const myvalueprec = ref('false')
     const countryname = ref('')
     const visueditor = ref(false)
+    const visuhtml = ref(false)
     const showeditor = ref(false)
 
     const myImgGall = ref(<IImgGallery[]>[{}])
@@ -477,6 +478,17 @@ export default defineComponent({
             return ''
         } else {
           let mystr = ''
+          let mylink = ''
+
+          if (col.link)
+            mylink = col.link.replace(col.name, val)
+          if (col.tipovisu === costanti.TipoVisu.LINK && col.link) {
+            return "<a href='"+mylink+"'>" + val + '</a>'
+          } else if (col.tipovisu === costanti.TipoVisu.BUTTON && col.link) {
+            return ''
+          }
+
+
           if (props.showall) {
             return val
           } else {
@@ -586,6 +598,7 @@ export default defineComponent({
       myvalue,
       countryname,
       visueditor,
+      visuhtml,
       showeditor,
       isviewfield,
       changeval,

@@ -96,7 +96,7 @@ export const tools = {
     'yellow',
   ],
 
-  MAX_CHARACTERS: 60,
+  MAX_CHARACTERS: 200,
   projects: 'projects',
   todos: 'todos',
   EMPTY: 0,
@@ -3338,7 +3338,7 @@ export const tools = {
     return ''
   },
   getsuffisso() {
-    if (this.isTest()) return 'TEST: '
+    if (this.isTest()) return 'T: '
     return ''
   },
 
@@ -4360,7 +4360,16 @@ export const tools = {
       col = 'green-5'
     }
     return col
-  }
+  },
+
+  baseurl(folder: string) {
+    return folder.substring(0, folder.lastIndexOf('/'))
+  },
+
+  getLastItem(thePath: string) {
+    return thePath.substring(thePath.lastIndexOf('/') + 1)
+  },
+
 // getLocale() {
   //   if (navigator.languages && navigator.languages.length > 0) {
   //     return navigator.languages[0]

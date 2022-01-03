@@ -2,6 +2,8 @@ import { IMessage } from '@src/model'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useProducts } from '@store/Products'
+import { serv_constants } from '@store/Modules/serv_constants'
+import { tools } from '@store/Modules/tools'
 
 // You can declare a mixin as the same style as components.
 export default function () {
@@ -70,8 +72,10 @@ export default function () {
 
   function getMyImgforIcon() {
     const userStore = useUserStore()
-    const ris = userStore.getImgByUsername(userStore.my.username)
-    return (ris !== '') ? `img:${ris}` : 'fas fa-user'
+    const mypath = userStore.getImgByUsername(userStore.my.username)
+    let img_small = tools.baseurl(mypath) + '/' + serv_constants.PREFIX_IMG_SMALL + tools.getLastItem(mypath);
+    console.log('img_small', img_small)
+    return (img_small !== '') ? `img:${img_small}` : 'fas fa-user'
   }
 
   function getIconCart() {

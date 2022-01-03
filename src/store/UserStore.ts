@@ -176,6 +176,16 @@ export const useUserStore = defineStore('UserStore', {
       return ''
     },
 
+    getImgByProfile(userparam: IUserFields): string {
+
+      try{
+        if (userparam.profile && userparam.profile.img) {
+          return 'upload/profile/' + userparam.username + '/' + userparam.profile.img
+        }
+      }catch (e) {}
+      return 'images/noimg.png'
+    },
+
     getRefLink(username: string): string {
       if (username === '')
         username = this.my.username
@@ -805,5 +815,19 @@ export const useUserStore = defineStore('UserStore', {
         return false
       }
     },
+
+    async loadUserProfile(username: string) {
+      const data = {
+        username
+      }
+
+      return Api.SendReq('/users/profile', 'POST', data)
+        .then((res) => {
+          return res.data
+        }).catch((error) => {
+          return {}
+        })
+
+    }
   },
 })

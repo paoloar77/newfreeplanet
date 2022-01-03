@@ -14,7 +14,7 @@ import { costanti } from '@costanti'
 
 
 export default defineComponent({
-  name: 'ProfileMy',
+  name: 'EditProfile',
   components: { CProfile, CTitleBanner, CMyFieldDb, CSkill },
   props: {},
   setup() {

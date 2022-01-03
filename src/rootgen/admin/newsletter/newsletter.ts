@@ -80,7 +80,7 @@ export default defineComponent({
       }
     }
 
-    watch(idparam, (newval, oldval) => {
+    watch(() => idparam, (newval, oldval) => {
       tab.value = idparam.value
     })
 

@@ -135,7 +135,7 @@ export default defineComponent({
       type: Object as PropType<IPagination>,
       required: false,
       default: () => {
-        return { sortBy: 'desc', descending: false, page: 1, rowsNumber: 10, rowsPerPage: 10 }
+        return { sortBy: 'desc', descending: false, page: 1, rowsNumber: 0, rowsPerPage: 10 }
       },
     },
     defaultnewrec: {
@@ -216,8 +216,13 @@ export default defineComponent({
       return lab
     })
 
-    watch(searchList.value, (to: any, from: any) =>  {
+    watch(() => searchList.value, (to: any, from: any) =>  {
       console.log('watch searchlist', to)
+      refresh()
+    })
+
+    watch(() => props.filtercustom, (to: any, from: any) =>  {
+      console.log('filtercustom', to)
       refresh()
     })
 

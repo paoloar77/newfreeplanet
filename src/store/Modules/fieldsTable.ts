@@ -59,6 +59,8 @@ function AddCol(params: IColGridTable) {
     action: (params.action === undefined) ? '' : params.action,
     foredit: (params.foredit === undefined) ? true : params.foredit,
     fieldtype: (params.fieldtype === undefined) ? costanti.FieldType.string : params.fieldtype,
+    tipovisu: (params.tipovisu === undefined) ? costanti.TipoVisu.TESTO : params.tipovisu,
+    link: (params.link === undefined) ? '' : params.link,
     visuonlyEditVal: (params.visuonlyEditVal === undefined) ? false : params.visuonlyEditVal,
     askaction: (params.askaction === undefined) ? '' : params.askaction,
     jointable: (params.jointable === undefined) ? '' : params.jointable,
@@ -389,7 +391,7 @@ export const colmySkills = [
   }), */
   //AddCol({ name: 'name', label_trans: 'reg.name', fieldtype: costanti.FieldType.string }),
   //AddCol({ name: 'surname', label_trans: 'reg.surname', fieldtype: costanti.FieldType.string }),
-  AddCol({ name: 'username', label_trans: 'reg.username', foredit: false }),
+  AddCol({ name: 'username', label_trans: 'reg.username', foredit: false, tipovisu: costanti.TipoVisu.LINK, link: '/my/username' }),
   AddCol({
     name: 'idSkill',
     label_trans: 'skill.name',
@@ -1309,6 +1311,10 @@ export const fieldsTable = {
     AddCol({
       name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
     }),
+    AddCol({ name: 'profile.dateofbirth', label_trans: 'reg.dateofbirth', fieldtype: costanti.FieldType.onlydate }),
+    AddCol({ name: 'profile.born_city', label_trans: 'reg.born_city', fieldtype: costanti.FieldType.string }),
+    AddCol({ name: 'profile.born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
+    AddCol({ name: 'profile.born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),
     AddCol({
       name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
     }),
@@ -1457,6 +1463,7 @@ export const fieldsTable = {
   tableRemotePickup: [
     'countries',
     'phones',
+    'cities',
   ],
 
   tableWithUsername: [

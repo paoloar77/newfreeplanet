@@ -11,7 +11,7 @@
     <div>
       <!-- display an myevent -->
       <q-dialog v-model="displayEvent">
-        <q-card v-if="myevent" :style="`min-width: ` + tools.myheight_dialog() + `px;`">
+        <q-card v-if="myevent" class="dialog_card">
           <q-toolbar class="bg-primary text-white">
             <!--<q-toolbar :class="tools.displayClasses(myevent)"-->
             <!--:style="tools.displayStyles(myevent) + ` min-width: `+ tools.myheight_dialog() + `px;`">-->
@@ -120,7 +120,7 @@
       <!-- id_bookedeventadd/edit an myevent -->
 
       <q-dialog v-model="addEvent" no-backdrop-dismiss persistent>
-        <q-card v-if="addEvent" :style="`min-width: `+ tools.myheight_dialog() + `px;`">
+        <q-card v-if="addEvent" class="dialog_card">
           <q-toolbar class="bg-primary text-white">
             <q-toolbar-title>
               {{ addOrUpdateEvent() }} {{ $t('cal.event') }}
@@ -350,7 +350,7 @@
       </q-dialog>
 
       <q-dialog v-model="bookEventpage.show" no-backdrop-dismiss>
-        <q-card v-if="bookEventpage.show" :style="`min-width: `+ tools.myheight_dialog() + `px;`">
+        <q-card v-if="bookEventpage.show" class="dialog_card">
           <q-toolbar class="bg-primary text-white">
             <q-toolbar-title>
               {{ $t('cal.booking') }}
@@ -481,7 +481,7 @@
       </q-dialog>
 
       <q-dialog v-model="askInfopage.show" no-backdrop-dismiss>
-        <q-card v-if="askInfopage.show" :style="`min-width: `+ tools.myheight_dialog() + `px;`">
+        <q-card v-if="askInfopage.show" class="dialog_card">
           <q-toolbar class="bg-primary text-white">
             <q-toolbar-title>
               {{ $t('cal.booking') }}

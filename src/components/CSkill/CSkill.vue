@@ -2,6 +2,7 @@
   <div>
     <div class="q-ma-sm q-gutter-sm q-pa-xs">
       <CGridTableRec
+        v-if="filtercustom.length > 0"
         prop_mytable="myskills"
         prop_mytitle=""
         :prop_mycolumns="colmySkills"
@@ -13,6 +14,7 @@
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato"
         :defaultnewrec="getdefaultnewrec"
         :filtercustom="filtercustom"
+        v-bind="$attrs"
         :extraparams="extraparams()">
 
       </CGridTableRec>

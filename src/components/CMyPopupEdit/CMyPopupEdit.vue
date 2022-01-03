@@ -2,7 +2,7 @@
   <div :class="getclassCol(col)">
     <div v-if="(visInNewRec(col) && visulabel) || !visulabel " style="flex-grow: 1;">
       <div
-        :class="{ editor: (col.fieldtype === costanti.FieldType.html) && !isInModif, flex: true, 'justify-center': true }">
+        :class="{ flex: true, 'justify-center': true }">
         <div>
           <!-- Edit Value -->
           <div v-if="col.fieldtype === costanti.FieldType.boolean">
@@ -24,8 +24,10 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.string">
             <div v-if="visulabel || isInModif" class="flex">
               <q-input
+                v-bind="$attrs"
                 v-model="myvalue"
                 autogrow
+                :disable="disable"
                 @keyup.enter.stop
                 @update:model-value="changevalRec"
                 autofocus
@@ -33,12 +35,21 @@
               </q-input>
             </div>
             <div v-else>
-              <span v-html="visuValByType(myvalue, col, row)"></span>
+
+              <q-btn v-if="col.tipovisu === costanti.TipoVisu.LINK && myvalue" type="a" rounded dense size="sm"
+                     color="white" text-color="blue" icon="person" :to="col.link.replace(col.name, myvalue)">
+                {{ myvalue }}
+              </q-btn>
+              <q-btn v-else-if="col.tipovisu === costanti.TipoVisu.BUTTON && myvalue" rounded dense size="sm"
+                     color="primary" icon="person" :to="col.link.replace(col.name, myvalue)">{{ myvalue }}
+              </q-btn>
+              <span v-else v-html="visuValByType(myvalue, col, row)"></span>
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.number">
             <div v-if="canEdit || isInModif">
               <q-input
+                v-bind="$attrs"
                 v-model="myvalue"
                 @update:model-value="Savedb"
                 type="number"
@@ -316,10 +327,28 @@
               </div>
             </div>
             <div v-else>
-              <div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true"></div>
+              <q-btn
+                v-if="myvalue"
+                :label="$t('cal.details')" color="primary" text-color="white"
+                @click="visuhtml = true">
+              </q-btn>
+              <!--<div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true"></div>-->
+
               <div v-if="!isFieldDb()">
+                <q-dialog v-model="visuhtml" full-height full-width auto-close>
+                  <q-card>
+                    <q-bar dense class="bg-primary text-white">
+                      <q-space/>
+                    </q-bar>
+                    <q-card-section class="inset-shadow">
+                      <q-card class="dialog_card">
+                        <div v-html="myvalue" class="wrap_anywhere"></div>
+                      </q-card>
+                    </q-card-section>
+                  </q-card>
+                </q-dialog>
                 <q-dialog v-model="visueditor" no-backdrop-dismiss persistent full-height full-width>
-                  <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
+                  <q-card class="dialog_card">
                     <q-card-section>
                       <CMyEditor
                         v-if="visueditor" v-model:value="myvalue" :title="col.title" @keyup.enter.stop
@@ -369,6 +398,7 @@
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.string">
               <q-input
+                v-bind="$attrs"
                 v-model="scope.value"
                 autogrow
                 @keyup.enter.stop

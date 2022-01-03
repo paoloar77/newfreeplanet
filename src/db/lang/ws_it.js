@@ -23,6 +23,7 @@ const msg_website_it = {
   pages: {
     home: 'Home',
     profile: 'Profilo',
+    profile2: 'ProfiloU',
     test: 'Test',
     projects: 'Progetti',
     report: 'Report Ore',

@@ -1,7 +1,7 @@
 <template>
     <span>
         <q-dialog v-model="showuserdetails" v-if="myop">
-            <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
+            <q-card class="dialog_card">
                 <q-toolbar class="bg-primary text-white">
                     <q-toolbar-title>
                         {{ myop.name }} {{ myop.surname }}

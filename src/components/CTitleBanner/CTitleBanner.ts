@@ -70,9 +70,11 @@ export default defineComponent({
     }
 
     function apri() {
-      myvisible.value = !myvisible.value
-      if (myvisible.value)
-        emit('apri')
+      if (props.canopen) {
+        myvisible.value = !myvisible.value
+        if (myvisible.value)
+          emit('apri')
+      }
     }
 
     function getclass() {

@@ -25,6 +25,11 @@ export default defineComponent({
         return []
       }
     },
+    username: {
+      type: String,
+      required: false,
+      default: ''
+    }
   },
   components: {
     CMyFieldDb, CGridTableRec,
@@ -44,7 +49,7 @@ export default defineComponent({
           data: {},
           field: 'myskills'
         }
-      };
+      }
 
       if (props.defaultnewrec) {
 
@@ -72,13 +77,23 @@ export default defineComponent({
 
 
     function extraparams() {
+      let lk_tab = 'users'
+      let lk_LF = 'userId'
+      let lk_FF = '_id'
+      let lk_as = 'user'
+      let af_objId_tab = 'myId'
+
+      if (props.username) {
+        // lk_LF = 'username'
+      }
+
       return {
         lookup1: {
-          lk_tab: 'users',
-          lk_LF: 'userId',
-          lk_FF: '_id',
-          lk_as: 'user',
-          af_objId_tab: 'myId',
+          lk_tab,
+          lk_LF,
+          lk_FF,
+          lk_as,
+          af_objId_tab,
           lk_proj: {
             idSkill: 1,
             idSubSkill: 1,
@@ -97,12 +112,24 @@ export default defineComponent({
       }
     }
 
+    function getFilterCustom() {
+      /*if (props.username) {
+        return [
+          { username: props.username }
+        ]
+      } else {
+        return props.filtercustom
+      }*/
+
+    }
+
     return {
       tools,
       costanti,
       colmySkills,
       getdefaultnewrec,
       extraparams,
+      getFilterCustom,
     }
   },
 })

@@ -869,7 +869,29 @@ $heightBtn: 100%;
 
 .combowidth {
   min-width: 150px;
-  @media (max-width: 400px) {
+  @media (max-width: 450px) {
     min-width: 300px;
   }
+}
+
+.myimg-view {
+  border-radius: 5px !important;
+  height: 80px;
+}
+
+.dialog_card{
+  min-width: 100%;
+  width: 100% !important;
+  margin-left: 2px !important;
+  margin-right: 2px !important;
+
+  @media (max-width: 600px) {
+    width: auto;
+    min-width: auto;
+  }
+
+}
+
+.wrap_anywhere {
+  overflow-wrap: anywhere;
 }

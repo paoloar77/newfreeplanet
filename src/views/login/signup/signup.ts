@@ -17,7 +17,7 @@ export default defineComponent({
     const invited = computed(() => $route.params.invited)
 
     // @ts-ignore
-    watch(invited, (newval, oldval) => {
+    watch(() => invited, (newval, oldval) => {
       console.log('$route.params.invited')
       adult.value = !!$route.params.invited
     })

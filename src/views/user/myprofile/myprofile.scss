@@ -1,0 +1,18 @@
+.profile {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 450px;
+}
+
+.myrow{
+  display: flex;
+  @media (max-width: 600px) {
+    flex-flow: column;
+  }
+}
+
+.imgprofile{
+  border: 4px solid rgb(29, 118, 13);
+  border-radius: 16px;
+  box-shadow: 0 0 45px rgba(246, 246, 246, 0.2);
+}

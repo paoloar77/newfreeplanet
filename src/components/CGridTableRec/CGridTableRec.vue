@@ -169,8 +169,8 @@
           </span>
         </div>
 
-        <div
-          class="row justify-center vertical-middle">
+        <div v-if="(prop_search || canEdit)"
+             class="row justify-center vertical-middle">
 
           <div v-if="prop_search" class="q-mr-sm">
             <q-input
@@ -184,7 +184,7 @@
 
           <q-space></q-space>
           <q-select
-            v-if="mytable"
+            v-if="mytable && pagination.rowsNumber > 0 && (prop_search || canEdit)"
             v-model="colVisib"
             rounded
             outlined
@@ -202,7 +202,7 @@
 
         </div>
 
-        <div v-if="pagination.rowsNumber > 0">{{ pagination.rowsNumber }} elementi trovati</div>
+        <div v-if="pagination.rowsNumber > 0 && prop_search">{{ pagination.rowsNumber }} elementi trovati</div>
       </template>
 
       <template v-slot:body="props">
@@ -364,7 +364,7 @@
       </div>
     </div>
     <q-dialog v-model="newRecordBool" @hide="hidewindow">
-      <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
+      <q-card class="dialog_card">
         <q-bar dense class="bg-primary text-white">
           Nuovo:
           <q-space/>
@@ -404,7 +404,7 @@
       </q-card>
     </q-dialog>
     <q-dialog v-model="editRecordBool">
-      <q-card :style="`min-width: `+ tools.myheight_dialog() + `px;`">
+      <q-card class="dialog_card">
         <q-bar dense class="bg-primary text-white">
           <span v-if="mytitle">{{ mytitle }}</span>
           <span v-else>{{ recModif[col_title] }}</span>

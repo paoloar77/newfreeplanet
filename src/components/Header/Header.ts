@@ -345,9 +345,13 @@ export default defineComponent({
 
     function getappname() {
       let mystr = tools.getsuffisso() + tools.getappname(tools.isMobile())
-      //if (!tools.isMobile()) {
+      if (!tools.isMobile()) {
+        //if (!tools.isMobile()) {
         mystr += ' ' + getAppVersion()
-      //}
+        //}
+      } else {
+        mystr = ''
+      }
 
       return mystr
 
