@@ -1,8 +1,8 @@
 const msg_website_it = {
   ws: {
-    sitename: 'FreePlanet',
-    siteshortname: 'FreePlanet',
-    botname: 'il Bot di FreePlanet',
+    sitename: 'PopoloDelNuovoMondo',
+    siteshortname: 'PDNM',
+    botname: 'il Bot di PdNM',
   },
   products: {
     quantity: 'Quantità',

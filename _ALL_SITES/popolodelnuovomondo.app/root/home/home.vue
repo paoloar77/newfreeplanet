@@ -11,6 +11,7 @@
 
     <!--<CMapsEsempio></CMapsEsempio>-->
 
+
     <div v-if="isLogged()">
       <CVerifyEmail v-if="!isEmailVerified()">
 
@@ -21,15 +22,17 @@
       </CVerifyTelegram>
 
       <div v-if="isUserOk()">
-        <q-banner rounded class="bg-primary text-white">
-          <div class="text-h6 text-center">
-            Ora Accedi al Bot Telegram <br>
-            per vedere tutti i Menu e le chat !
-          </div>
-          <template v-slot:action>
-            <q-btn flat color="white" label="Accedi al Bot Telegram" @click="getLinkBotTelegram()"/>
-          </template>
-        </q-banner>
+        <div v-if="isUserOk()">
+          <q-banner rounded class="bg-primary text-white">
+            <div class="text-h6 text-center">
+              Ora Accedi al Bot Telegram <br>
+              per vedere tutti i Menu e le chat !
+            </div>
+            <template v-slot:action>
+              <q-btn icon="fab fa-telegram" flat color="white" label="Accedi al Bot Telegram" @click="getLinkBotTelegram()"/>
+            </template>
+          </q-banner>
+        </div>
       </div>
 
     </div>

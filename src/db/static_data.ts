@@ -58,7 +58,7 @@ const routes_admin: IListRoutes[] = [
   {
     active: true,
     order: 10,
-    path: '/admin',
+    path: '/admin/sites',
     materialIcon: 'event_seat',
     name: 'pages.Sites',
     component: () => import('@/rootgen/admin/sites/sites.vue'),

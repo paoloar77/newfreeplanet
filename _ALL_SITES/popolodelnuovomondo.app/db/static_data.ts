@@ -58,7 +58,7 @@ const routes_admin: IListRoutes[] = [
   {
     active: true,
     order: 10,
-    path: '/admin',
+    path: '/admin/sites',
     materialIcon: 'event_seat',
     name: 'pages.Sites',
     component: () => import('@/rootgen/admin/sites/sites.vue'),
@@ -366,7 +366,7 @@ const baseroutes: IListRoutes[] = [
     inmenu: true,
     infooter: true,
   },
-  {
+  /*{
     active: true,
     order: 100,
     path: '/presentazione',
@@ -376,7 +376,7 @@ const baseroutes: IListRoutes[] = [
     reqauth: false,
     inmenu: true,
     infooter: true,
-  },
+  },*/
   {
     active: true,
     order: 120,
@@ -558,7 +558,7 @@ const baseroutes: IListRoutes[] = [
     isseparator: true,
     inmenu: true,
   },
-  {
+  /*{
     active: true,
     order: 80,
     path: '/calendario-eventi',
@@ -568,7 +568,7 @@ const baseroutes: IListRoutes[] = [
     extraclass: 'isCalendar',
     inmenu: true,
     infooter: true
-  },
+  },*/
   {
     active: true,
     order: 1000,

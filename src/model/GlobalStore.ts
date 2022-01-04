@@ -123,12 +123,15 @@ export interface ISites {
   manageremail?: string
   replyTo?: string
   host?: string
+  host_test?: string
   portapp?: string
   dir?: string
   email_from?: string
   email_pwd?: string
   telegram_key?: string
   telegram_bot_name?: string
+  telegram_key_test?: string
+  telegram_bot_name_test?: string
   pathreg_add?: string
 }
 

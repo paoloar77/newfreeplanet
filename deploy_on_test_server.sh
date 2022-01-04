@@ -2,7 +2,7 @@
 
 source ./.env.test
 
-msg="*** Sincronizzazione ???  $DIRECTORY_LOCAL e $DIRECTORY_SERVER (Y/N) ? "
+msg="*** Sincronizzazione ???  $DIRECTORY_LOCAL e $SERVERDIR_WEBSITE (Y/N) ? "
 
 if [ "$1" = "" ]; then
   read -p "$msg" risposta
