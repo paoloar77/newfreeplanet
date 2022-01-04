@@ -8,3 +8,6 @@
 babel.config.js
 /src-ssr
 !/_ALL_SITES/
+/.env.development
+/.env.production
+/.env.test
