@@ -146,7 +146,7 @@ module.exports = configure((ctx) => ({
   },
   devServer: {
     https: false,
-    port: 8083,
+    port: 8082,
     open: false, // opens browser window automatically
   },
 

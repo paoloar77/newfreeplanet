@@ -32,3 +32,24 @@ yarn-error.log*
 *.njsproj
 *.sln
 /_BAK/
+!/_ALL_SITES/popolodelnuovomondo.app/.env.development
+!/_ALL_SITES/popolodelnuovomondo.app/.env.test
+!/_ALL_SITES/popolodelnuovomondo.app/.env.production
+!/_ALL_SITES/freeplanet.app/.env.test
+!/_ALL_SITES/freeplanet.app/.env.production
+!/_ALL_SITES/freeplanet.app/.env.development
+Eliminerei _ALL_SITES/freeplanet.app/.env.development
+Eliminerei _ALL_SITES/freeplanet.app/.env.production
+Eliminerei _ALL_SITES/freeplanet.app/.env.test
+Eliminerei _ALL_SITES/popolodelnuovomondo.app/.env.development
+Eliminerei _ALL_SITES/popolodelnuovomondo.app/.env.production
+Eliminerei _ALL_SITES/popolodelnuovomondo.app/.env.test
+Eliminerei now.txt
+Eliminerei public/upload/myskills/
+Eliminerei public/upload/none/noimg.png
+Eliminerei public/upload/profile/paoloar77/myskills/foto_tessera.jpg
+Eliminerei public/upload/profile/paoloar77/myskills/small_foto_tessera.jpg
+Eliminerei src/boot/__tests__/
+!/.env.development
+!/.env.test
+!/.env.production

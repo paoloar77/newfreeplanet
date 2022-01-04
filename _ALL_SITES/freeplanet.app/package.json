@@ -1,8 +1,8 @@
 {
-  "name": "popolodelnuovomondo",
-  "version": "0.0.8",
-  "description": "Popolo Del Nuovo Mondo",
-  "productName": "Popolo Del Nuovo Mondo",
+  "name": "freeplanet",
+  "version": "0.0.7",
+  "description": "FreePlanet",
+  "productName": "FreePlanet",
   "author": "Paolo Arena",
   "private": true,
   "keywords": [

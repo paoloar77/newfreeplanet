@@ -1,7 +1,7 @@
 import { date, useQuasar } from 'quasar'
 import { useUserStore } from '@store/UserStore'
 // import { useGlobalStore } from '@store/globalStore'
-import { static_data } from '../../db/static_data'
+import { static_data } from '@/db/static_data'
 import { useGlobalStore } from '@store/globalStore'
 import { useTodoStore } from '@store/Todos'
 import { Router } from 'vue-router'
@@ -197,12 +197,10 @@ export const toolsext = {
     return ris
   },
 
-  checkLangPassed($router: Router, mylangprop: string) {
+  checkLangPassed($q: any, $router: Router, mylangprop: string) {
     // console.log('checkLangPassed ', mylang)
 
     let mylang = mylangprop
-
-    const $q = useQuasar()
 
     const userStore = useUserStore()
     const mybrowserLang = $q.lang.isoName

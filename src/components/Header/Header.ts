@@ -9,7 +9,7 @@ import { shared_consts } from '@src/common/shared_vuejs'
 import { useI18n } from '@src/boot/i18n'
 import { boot } from 'quasar/wrappers'
 import { useRouter } from 'vue-router'
-import { static_data } from '../../db/static_data'
+import { static_data } from '@/db/static_data'
 import messagePopover from '../../layouts/toolbar/messagePopover/messagePopover.vue'
 import drawer from '../../layouts/drawer/drawer.vue'
 import { CMyAvatar } from '@/components/CMyAvatar'
@@ -194,7 +194,7 @@ export default defineComponent({
 
         let mylangtopass = mylang
 
-        mylangtopass = toolsext.checkLangPassed($router, mylangtopass)
+        mylangtopass = toolsext.checkLangPassed($q, $router, mylangtopass)
 
         setshortlang(mylangtopass)
 
@@ -304,7 +304,7 @@ export default defineComponent({
         // console.log('IMPOSTA LANGMY', mylang)
       }
 
-      mylang = toolsext.checkLangPassed($router, mylang)
+      mylang = toolsext.checkLangPassed($q, $router, mylang)
 
       setLangAtt(mylang)
       setshortlang(mylang)

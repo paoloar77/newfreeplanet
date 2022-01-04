@@ -1942,7 +1942,7 @@ export const tools = {
     return true
   },
 
-  checkLangPassed($router: Router, mylangpass: string) {
+  checkLangPassed($q: any, $router: Router, mylangpass: string) {
     // console.log('checkLangPassed ', mylang)
     const userStore = useUserStore()
 

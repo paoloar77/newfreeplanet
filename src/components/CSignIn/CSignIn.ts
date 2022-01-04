@@ -6,7 +6,7 @@ import { useQuasar } from 'quasar'
 
 import { validationMixin } from 'vuelidate'
 import { Logo } from '../logo'
-import { static_data } from '../../db/static_data'
+import { static_data } from '@/db/static_data'
 import { tools } from '@store/Modules/tools'
 import { ISigninOptions } from 'model'
 import { serv_constants } from '@store/Modules/serv_constants'
