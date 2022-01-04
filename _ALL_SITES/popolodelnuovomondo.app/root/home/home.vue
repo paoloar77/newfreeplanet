@@ -29,7 +29,7 @@
               per vedere tutti i Menu e le chat !
             </div>
             <template v-slot:action>
-              <q-btn icon="fab fa-telegram" flat color="white" label="Accedi al Bot Telegram" @click="getLinkBotTelegram()"/>
+              <q-btn icon="fab fa-telegram" flat color="white" label="Accedi al Bot Telegram" type="a" target="__blank" :href="getLinkBotTelegram()"/>
             </template>
           </q-banner>
         </div>

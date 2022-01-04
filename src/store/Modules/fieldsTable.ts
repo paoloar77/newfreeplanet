@@ -463,6 +463,7 @@ export const colTableSites = [
   AddCol({ name: 'host', label_trans: 'sites.host', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'host_test', label_trans: 'sites.host_test', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'portapp', label_trans: 'sites.portapp', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'dir', label_trans: 'sites.dir' }),
   AddCol({ name: 'dir_test', label_trans: 'sites.dir_test', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'email_from', label_trans: 'sites.email_from', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'email_pwd', label_trans: 'sites.email_pwd', fieldtype: costanti.FieldType.string }),

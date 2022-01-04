@@ -146,7 +146,7 @@ module.exports = configure((ctx) => ({
   },
   devServer: {
     https: false,
-    port: 8082,
+    port: 8083,
     open: false, // opens browser window automatically
   },
 
@@ -284,9 +284,9 @@ module.exports = configure((ctx) => ({
     },
 
     manifest: {
-      name: 'FreePlanet',
-      short_name: 'FreePlanet',
-      description: 'New Free Social',
+      name: 'PopoloDelNuovoMondo',
+      short_name: 'PdNM',
+      description: 'Popolo del Nuovo Mondo',
       display: 'standalone',
       orientation: 'portrait',
       background_color: '#ffffff',

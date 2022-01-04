@@ -11,16 +11,15 @@ const functionality: IFunctionality = {
   SHOW_PROFILE: true,
   SHOW_REG_BUTTON: false,
   ENABLE_REGISTRATION: true, // Cambiare con true
-  ENABLE_REG_AYNI: false,
   SHOW_NEWSLETTER: false,
   SHOW_ONLY_POLICY: false,
-  ENABLE_TODOS_LOADING: true,
+  ENABLE_TODOS_LOADING: false,
   ENABLE_PROJECTS_LOADING: false,
   SHOW_IF_IS_SERVER_CONNECTION: false,
   SHOW_MESSAGES: false,
   BOOKING_EVENTS: true,
-  ENABLE_ECOMMERCE: true,
-  ENABLE_REG_CNM: true,
+  ENABLE_ECOMMERCE: false,
+  ENABLE_REG_ISP: true,
 }
 
 // const SHOW_PROJINTHEMENU = false
@@ -366,7 +365,7 @@ const baseroutes: IListRoutes[] = [
     inmenu: true,
     infooter: true,
   },
-  {
+  /*{
     active: true,
     order: 100,
     path: '/presentazione',
@@ -376,7 +375,7 @@ const baseroutes: IListRoutes[] = [
     reqauth: false,
     inmenu: true,
     infooter: true,
-  },
+  },*/
   {
     active: true,
     order: 120,
@@ -558,7 +557,7 @@ const baseroutes: IListRoutes[] = [
     isseparator: true,
     inmenu: true,
   },
-  {
+  /*{
     active: true,
     order: 80,
     path: '/calendario-eventi',
@@ -568,7 +567,7 @@ const baseroutes: IListRoutes[] = [
     extraclass: 'isCalendar',
     inmenu: true,
     infooter: true
-  },
+  },*/
   {
     active: true,
     order: 1000,
