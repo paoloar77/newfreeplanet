@@ -474,6 +474,7 @@ const msg_it = {
         terms: 'Devi accettare le condizioni, per continuare.',
         email_not_exist: 'l\'Email non è presente in archivio, verificare se è corretta',
         duplicate_email: 'l\'Email è già stata registrata',
+        invalid_email: 'l\'Email non è valida',
         user_already_exist: 'La registrazione con questi dati (nome, cognome e cellulare) è stata già effettuata. Per accedere al sito, cliccare sul bottone LOGIN dalla HomePage.',
         user_extralist_not_found: 'Utente in archivio non trovato, inserire il Nome, Cognome e numero di cellulare comunicato nella lista nel 2019. Se questa è una nuova registrazione, dovete registrarvi tramite il LINK di chi vi sta invitando.',
         user_not_this_aportador: 'Stai utilizzando un link di una persona diversa dal tuo invitato originale.',
@@ -771,6 +772,7 @@ const msg_it = {
       telegram_key_test: 'Chiave Bot Test',
       telegram_bot_name_test: 'BotName Test',
       pathreg_add: 'Suffisso',
+      ask_to_verify_reg: 'Chiedi Verif. Reg',
     },
     skill: {
       name: 'Competenza',
@@ -809,6 +811,11 @@ const msg_it = {
       visibility: 'Visibilità',
       date_updated: 'Ult. Aggiornamento',
     },
+    mypages: {
+      friends: 'Amici',
+      request_trust: 'Richieste di Fiducia',
+      trusted: 'Accettati',
+    }
   },
 
 };

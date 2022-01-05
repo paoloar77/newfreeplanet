@@ -472,6 +472,7 @@ export const colTableSites = [
   AddCol({ name: 'telegram_key_test', label_trans: 'sites.telegram_key_test', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'telegram_bot_name_test', label_trans: 'sites.telegram_bot_name_test', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'pathreg_add', label_trans: 'sites.pathreg_add', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'ask_to_verify_reg', label_trans: 'sites.ask_to_verify_reg', fieldtype: costanti.FieldType.boolean }),
   AddCol({ name: 'who', label_trans: 'sites.who', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'status', label_trans: 'sites.status', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'note', label_trans: 'sites.note', fieldtype: costanti.FieldType.string }),

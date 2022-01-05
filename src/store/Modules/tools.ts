@@ -35,6 +35,8 @@ import { useTodoStore } from '@store/Todos'
 import { useUserStore } from '@store/UserStore'
 import { useCalendarStore } from '@store/CalendarStore'
 import { Router } from 'vue-router'
+import { AxiosResponse, default as Axios } from 'axios'
+import { PayloadMessageTypes } from '@/common'
 
 export interface INotify {
   color?: string | 'primary'
@@ -4305,9 +4307,6 @@ export const tools = {
       if (cosa === 'email') {
         // console.log("EMAIL " + item.isUnique);
         // console.log(item);
-        if (item.registeredemail.$invalid) {
-          return t('reg.err.duplicate_email')
-        }
       } else if (cosa === 'username') {
         if (item.registereduser.$invalid) {
           return t('reg.err.duplicate_username')
@@ -4369,6 +4368,28 @@ export const tools = {
   getLastItem(thePath: string) {
     return thePath.substring(thePath.lastIndexOf('/') + 1)
   },
+
+  async registeredemail(email: string) {
+
+    const VALIDATE_USER_URL = process.env.MONGODB_HOST + '/email/ck'
+
+    let onSuccess = (res: AxiosResponse) => {
+      return res.status !== PayloadMessageTypes.statusfound
+    }
+
+    return Axios.post(VALIDATE_USER_URL, {idapp: process.env.APP_ID, email, key: process.env.PAO_APP_ID})
+      .then(onSuccess)
+      .catch((err) => {
+        return true
+      })
+
+  },
+
+  isEmail(email: string) {
+    const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return res.test(String(email).toLowerCase())
+  },
+
 
 // getLocale() {
   //   if (navigator.languages && navigator.languages.length > 0) {

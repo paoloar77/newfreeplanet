@@ -828,6 +828,16 @@ export const useUserStore = defineStore('UserStore', {
           return {}
         })
 
+    },
+
+    async loadFriends(username: string) {
+      return Api.SendReq('/users/friends', 'POST', null)
+        .then((res) => {
+          return res.data
+        }).catch((error) => {
+          return {}
+        })
+
     }
   },
 })

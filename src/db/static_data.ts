@@ -390,6 +390,17 @@ const baseroutes: IListRoutes[] = [
   {
     active: true,
     order: 130,
+    path: '/friends',
+    materialIcon: 'fas fa-users',
+    name: 'mypages.friends',
+    component: () => import('@/views/user/myfriends/myfriends.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
+    order: 130,
     path: '/my/:username',
     materialIcon: 'fas fa-user',
     name: 'pages.profile2',
@@ -398,50 +409,6 @@ const baseroutes: IListRoutes[] = [
     inmenu: false,
     infooter: false,
   },
-  {
-    active: true,
-    order: 120,
-    path: '/test',
-    materialIcon: 'fas fa-user',
-    name: 'pages.test',
-    component: () => import('@/views/user/test/test.vue'),
-    meta: { requiresAuth: true },
-    inmenu: true,
-    infooter: true,
-  },
-  /*{
-    active: true,
-    order: 6,
-    path: '/b',
-    faIcon: 'fa fa-list-alt',
-    materialIcon: 'format_list_numbered',
-    name: 'pages.Todo',
-    routes2: routes_todo,
-    level_parent: 0,
-    level_child: 0.5,
-    inmenu: true,
-    solotitle: true,
-    infooter: true,
-  },
-
-   */
-
-  /*
-  <{
-    active: true,
-    order: 7,
-    path: '/c',
-    faIcon: 'fa fa-list-alt',
-    materialIcon: 'next_week',
-    name: 'pages.projects',
-    // routes2: routes_projects,
-    level_parent: 0,
-    level_child: 0.5,
-    inmenu: true,
-    solotitle: true,
-    infooter: true,
-  },
-  */
   {
     active: true,
     order: 2000,

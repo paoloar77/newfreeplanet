@@ -8,6 +8,10 @@ export const costanti = {
   CONFIG_ID_STATE_CONN: '2',
   CONFIG_ID_SHOW_TYPE_TODOS: '3',
 
+  FRIENDS: 1,
+  ASK_TRUST: 2,
+  TRUSTED: 3,
+
   FILTER_TUTTI: -100,
 
   FuncDialog: {

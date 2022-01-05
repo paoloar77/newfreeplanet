@@ -28,6 +28,7 @@
                 v-model="myvalue"
                 autogrow
                 :disable="disable"
+                :readonly="disable"
                 @keyup.enter.stop
                 @update:model-value="changevalRec"
                 autofocus
@@ -38,12 +39,12 @@
 
               <q-btn v-if="col.tipovisu === costanti.TipoVisu.LINK && myvalue" type="a" rounded dense size="sm"
                      color="white" text-color="blue" icon="person" :to="col.link.replace(col.name, myvalue)">
-                {{ myvalue }}
+                <span :class="{disabled: disable }">{{ myvalue }}</span>
               </q-btn>
               <q-btn v-else-if="col.tipovisu === costanti.TipoVisu.BUTTON && myvalue" rounded dense size="sm"
                      color="primary" icon="person" :to="col.link.replace(col.name, myvalue)">{{ myvalue }}
               </q-btn>
-              <span v-else v-html="visuValByType(myvalue, col, row)"></span>
+              <span v-else :class="{disabled: disable }" v-html="visuValByType(myvalue, col, row)"></span>
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.number">
@@ -383,7 +384,8 @@
           <q-popup-edit
             v-if="(!isInModif && canEdit && noPopupeditByCol(col))"
             v-model="myvalue"
-            :disable="col.disable"
+            :disable="col.disable || disable"
+            :readonly="col.disable || disable"
             :title="col.title ? col.title : col.titlepopupedit"
             buttons
             persistent

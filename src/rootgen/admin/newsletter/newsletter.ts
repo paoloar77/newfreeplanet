@@ -80,8 +80,8 @@ export default defineComponent({
       }
     }
 
-    watch(() => idparam, (newval, oldval) => {
-      tab.value = idparam.value
+    watch(() => idparam.value, (newval, oldval) => {
+      tab.value = newval
     })
 
     async function createNewsletter(minuti: number, loading: boolean) {

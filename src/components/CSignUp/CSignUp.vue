@@ -28,15 +28,31 @@
 
       </q-input>
 
-      <q-input
+      <!--<q-input
         v-model="signup.email"
         rounded outlined
         @blur="v$.email.$touch"
         @update:model-value="changeemail()"
-        :error="v$.email.$error"
+        :error="v$.email.$invalid"
         :error-message="tools.errorMsg( 'email', v$.email)"
         maxlength="50"
+        debounce="2000"
+        :label="$t('reg.email')">
+
+        <template v-slot:prepend>
+          <q-icon name="email"/>
+        </template>
+
+      </q-input> -->
+
+      <q-input
+        v-model="signup.email"
+        rounded outlined
+        @update:model-value="changeemail()"
+        maxlength="50"
         debounce="3000"
+        :rules="[ myRuleEmail ]"
+        lazy-rules
         :label="$t('reg.email')">
 
         <template v-slot:prepend>

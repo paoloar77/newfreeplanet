@@ -15,10 +15,10 @@ import { DefaultProfile, useUserStore } from '@store/UserStore'
 import useValidate from '@vuelidate/core'
 import useVuelidate from '@vuelidate/core'
 
-import { email, minLength, required, sameAs } from '@vuelidate/validators'
+import { minLength, required, sameAs } from '@vuelidate/validators'
 
 // import { ValidationRuleset } from 'vuelidate'
-import { complexity, registeredemail, registereduser, aportadorexist } from '../../validation'
+import { complexity, registereduser, aportadorexist } from '../../validation'
 
 // import 'vue3-tel-input/dist/vue3-tel-input.css'
 import { useRoute, useRouter } from 'vue-router'
@@ -94,11 +94,6 @@ export default defineComponent({
           required,
         },
         surname: {
-          required,
-        },
-        email: {
-          email,
-          registeredemail,
           required,
         },
         terms: {
@@ -235,6 +230,33 @@ export default defineComponent({
       console.log('signup.aportador_solidario', signup.aportador_solidario)
     }
 
+    function myRuleEmail(val: string) {
+
+      return new Promise((resolve, reject) => {
+        // call
+        //  resolve(true)
+        //     --> content is valid
+        //  resolve(false)
+        //     --> content is NOT valid, no error message
+        //  resolve(error_message)
+        //     --> content is NOT valid, we have error message
+        tools.registeredemail(val).then((ris) => {
+          let risp = !!ris || t('reg.err.duplicate_email')
+          if (ris) {
+            risp = tools.isEmail(val) || t('reg.err.invalid_email')
+          }
+          resolve(risp)
+
+        })
+
+        // calling reject(...) will also mark the input
+        // as having an error, but there will not be any
+        // error message displayed below the input
+        // (only in browser console)
+      })
+
+    }
+
     created()
 
     return {
@@ -250,6 +272,7 @@ export default defineComponent({
       iamadult,
       v$,
       allowSubmit,
+      myRuleEmail,
     }
   },
 })
