@@ -360,7 +360,7 @@ const baseroutes: IListRoutes[] = [
     path: '/',
     materialIcon: 'home',
     name: 'pages.home',
-    component: () => import('@src/root/home/home.vue'),
+    component: () => import('@src/root/home_freeplanet/home_freeplanet.vue'),
     reqauth: false,
     inmenu: true,
     infooter: true,

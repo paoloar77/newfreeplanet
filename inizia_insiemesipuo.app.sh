@@ -1,8 +1,8 @@
 #!/bin/bash
 
-site=popolodelnuovomondo.app
+site=insiemesipuo.app
 
 rmdir __newfreeplanet.app
-rmdir __insiemesipuo.app
+rmdir __popolodelnuovomondo.app
 
 source __inizia.sh

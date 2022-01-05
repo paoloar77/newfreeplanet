@@ -360,22 +360,11 @@ const baseroutes: IListRoutes[] = [
     path: '/',
     materialIcon: 'home',
     name: 'pages.home',
-    component: () => import('@src/root/home_pdnm/home_pdnm.vue'),
+    component: () => import('@src/root/home_insiemesipuo/home_insiemesipuo.vue'),
     reqauth: false,
     inmenu: true,
     infooter: true,
   },
-  /*{
-    active: true,
-    order: 100,
-    path: '/presentazione',
-    materialIcon: 'fas fa-info',
-    name: 'pages.presentazione',
-    component: () => import('@src/root/presentazione/presentazione.vue'),
-    reqauth: false,
-    inmenu: true,
-    infooter: true,
-  },*/
   {
     active: true,
     order: 120,
@@ -397,17 +386,6 @@ const baseroutes: IListRoutes[] = [
     meta: { requiresAuth: true },
     inmenu: false,
     infooter: false,
-  },
-  {
-    active: true,
-    order: 120,
-    path: '/test',
-    materialIcon: 'fas fa-user',
-    name: 'pages.test',
-    component: () => import('@/views/user/test/test.vue'),
-    meta: { requiresAuth: true },
-    inmenu: true,
-    infooter: true,
   },
   /*{
     active: true,
@@ -557,7 +535,7 @@ const baseroutes: IListRoutes[] = [
     isseparator: true,
     inmenu: true,
   },
-  /*{
+  {
     active: true,
     order: 80,
     path: '/calendario-eventi',
@@ -567,7 +545,7 @@ const baseroutes: IListRoutes[] = [
     extraclass: 'isCalendar',
     inmenu: true,
     infooter: true
-  },*/
+  },
   {
     active: true,
     order: 1000,

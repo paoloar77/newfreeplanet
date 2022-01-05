@@ -16,7 +16,5 @@ else
   cp -R ./.env.development _ALL_SITES/$site/
   cp -R ./.env.production _ALL_SITES/$site/
   cp -R ./.env.test _ALL_SITES/$site/
-  mkdir _ALL_SITES/$site/root
-  cp -R src/root/home _ALL_SITES/$site/root/
 
 fi

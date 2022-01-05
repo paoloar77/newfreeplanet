@@ -69,8 +69,8 @@
   </q-page>
 
 </template>
-<script lang="ts" src="./home.ts">
+<script lang="ts" src="./home_freeplanet.ts">
 </script>
 <style lang="scss" scoped>
-@import './home.scss';
+@import './home_freeplanet.scss';
 </style>

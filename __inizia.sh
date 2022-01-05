@@ -12,7 +12,6 @@ else
   cp -R .env.development _BAK/1/
   cp -R .env.production _BAK/1/
   cp -R .env.test _BAK/1/
-  cp -R root/home _BAK/1/
 
   cp -R _ALL_SITES/$site/db src/
   cp -R _ALL_SITES/$site/statics src/
@@ -21,6 +20,5 @@ else
   cp -R _ALL_SITES/$site/.env.development .
   cp -R _ALL_SITES/$site/.env.production .
   cp -R _ALL_SITES/$site/.env.test .
-  cp -R _ALL_SITES/$site/root/home src/root/
 
 fi

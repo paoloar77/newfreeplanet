@@ -42,5 +42,6 @@ yarn-error.log*
 /.env.test
 /.env.production
 /.env.prod.bak
-!/.env.development
-!/.env.prod.bak
+!/_ALL_SITES/insiemesipuo.app/.env.test
+!/_ALL_SITES/insiemesipuo.app/.env.production
+!/_ALL_SITES/insiemesipuo.app/.env.development
