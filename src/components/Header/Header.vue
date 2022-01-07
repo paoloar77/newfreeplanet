@@ -203,7 +203,7 @@
           </div>
 
           <div v-if="isLogged()" id="user-actions" class="column justify-center q-gutter-sm q-ma-sm center-150">
-            <q-btn rounded color="primary" icon="person" to="/profile">{{ t('pages.profile') }}</q-btn>
+            <q-btn rounded color="primary" icon="person" :to="`/my/`+getMyUsername()">{{ t('pages.profile') }}</q-btn>
             <!--<q-btn round color="warning" icon="lock"></q-btn>-->
             <q-btn rounded color="negative" icon="exit_to_app" @click='logoutHandler'>{{ t('login.esci') }}</q-btn>
           </div>

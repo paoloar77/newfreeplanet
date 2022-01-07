@@ -24,7 +24,7 @@ export default defineComponent({
     const $route = useRoute()
     const { t } = useI18n()
 
-    const username = computed(() => $route.params.username.toString())
+    const username = computed(() => $route.params.username ? $route.params.username.toString() : userStore.my.username)
 
     const filtroutente = ref(<any[]>[])
     const showPic = ref(false)
@@ -33,6 +33,10 @@ export default defineComponent({
 
     function profile() {
       return userStore.my.profile
+    }
+
+    function myusername() {
+      return userStore.my.username
     }
 
     function loadProfile() {
@@ -46,7 +50,7 @@ export default defineComponent({
       }
     }
 
-    watch(() => username, (to: any, from: any) => {
+    watch(() => username.value, (to: any, from: any) => {
       loadProfile()
     })
 
@@ -83,6 +87,7 @@ export default defineComponent({
       getLinkUserTelegram,
       filtroutente,
       showPic,
+      myusername,
     }
   }
 })

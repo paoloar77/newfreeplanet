@@ -1,0 +1,5 @@
+ellipsis-h
+caret-square-down
+caret-down
+
+user-minus

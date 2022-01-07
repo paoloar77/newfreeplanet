@@ -11,6 +11,7 @@ export const costanti = {
   FRIENDS: 1,
   ASK_TRUST: 2,
   TRUSTED: 3,
+  REEJECTED: 4,
 
   FILTER_TUTTI: -100,
 

@@ -177,6 +177,11 @@ const msg_it = {
       recdelfailed: 'Errore durante la cancellazione del Record',
       duplicatedrecord: 'Vuoi Duplicare il record',
       recdupfailed: 'Errore durante la duplicazione del Record',
+      friendsadded: 'Aggiunto alla lista di Amici',
+      blockedfriend: 'Utente Bloccato',
+      removedfriend: 'Rimosso dalla lista di Amici',
+      trusted: 'Accettato la Fiducia',
+      rejected: 'Rifiutato la Fiducia',
     },
     components: {
       authentication: {
@@ -360,6 +365,8 @@ const msg_it = {
       legenda: 'Legenda',
       aportador_solidario: 'Chi ti ha Invitato',
       verified_by_aportador: 'Verificato dall\'Invitante',
+      blocked: 'Bloccato',
+      username_who_block: 'Bloccato da',
       username_regala_invitato: 'Username del Destinatario del regalo',
       aportador_solidario_nome_completo: 'Nominativo Invitante',
       aportador_solidario_nome_completo_orig: 'Invitante Originario',
@@ -815,6 +822,13 @@ const msg_it = {
       friends: 'Amici',
       request_trust: 'Richieste di Fiducia',
       trusted: 'Accettati',
+      rejected: 'Rifiutati',
+    },
+    friends: {
+      accept: 'Accetta',
+      reject: 'Rifiuta',
+      remove_from_myfriends: 'Rimuovi dagli Amici',
+      block_user: 'Blocca Utente',
     }
   },
 

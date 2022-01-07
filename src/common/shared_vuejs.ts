@@ -41,6 +41,13 @@ export const shared_consts = {
 
   FILTER_MYSKILL_SKILL: 1,
 
+  FRIENDSCMD: {
+    SETTRUST: 121,
+    SETFRIEND: 132,
+    REMOVE_FROM_MYFRIENDS: 144,
+    BLOCK_USER: 155,
+  },
+
   REPORT_FILT_RESP: 1,
   REPORT_FILT_ATTIVITA: 2,
 

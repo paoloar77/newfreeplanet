@@ -379,10 +379,10 @@ const baseroutes: IListRoutes[] = [
   {
     active: true,
     order: 120,
-    path: '/profile',
+    path: '/myprofile',
     materialIcon: 'fas fa-user',
     name: 'pages.profile',
-    component: () => import('@/views/user/editprofile/editprofile.vue'),
+    component: () => import('@/views/user/myprofile/myprofile.vue'),
     meta: { requiresAuth: true },
     inmenu: true,
     infooter: true,

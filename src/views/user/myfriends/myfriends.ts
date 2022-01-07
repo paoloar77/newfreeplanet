@@ -13,6 +13,7 @@ import { toolsext } from '@store/Modules/toolsext'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
 import { IUserFields, IUserProfile } from 'model'
+import { shared_consts } from '@/common/shared_vuejs'
 
 
 export default defineComponent({
@@ -21,7 +22,9 @@ export default defineComponent({
   props: {},
   setup() {
     const userStore = useUserStore()
+    const $router = useRouter()
     const $route = useRoute()
+    const $q = useQuasar()
     const { t } = useI18n()
 
     const username = ref('')
@@ -36,9 +39,11 @@ export default defineComponent({
       if (filter.value === costanti.FRIENDS) {
         arr = listFriends.value
       }else if (filter.value === costanti.ASK_TRUST) {
-        arr = listTrusted.value.filter((user: IUserFields) => !user.verified_by_aportador)
+        arr = listTrusted.value.filter((user: IUserFields) => user.verified_by_aportador === undefined)
       }else if (filter.value === costanti.TRUSTED) {
-        arr = listTrusted.value.filter((user: IUserFields) => !user.verified_by_aportador)
+        arr = listTrusted.value.filter((user: IUserFields) => user.verified_by_aportador)
+      }else if (filter.value === costanti.REEJECTED) {
+        arr = listTrusted.value.filter((user: IUserFields) => user.verified_by_aportador === false)
       }
 
       return arr
@@ -50,12 +55,17 @@ export default defineComponent({
     })
 
     const numAskTrust = computed(() => {
-      const arr = listTrusted.value.filter((user: IUserFields) => !user.verified_by_aportador)
+      const arr = listTrusted.value.filter((user: IUserFields) => user.verified_by_aportador === undefined)
       return (arr) ? arr.length : 0
     })
 
-    const numAskTrusted = computed(() => {
+    const numTrusted = computed(() => {
       const arr = listTrusted.value.filter((user: IUserFields) => user.verified_by_aportador)
+      return (arr) ? arr.length : 0
+    })
+
+    const numRejected = computed(() => {
+      const arr = listTrusted.value.filter((user: IUserFields) => user.verified_by_aportador === false)
       return (arr) ? arr.length : 0
     })
 
@@ -83,6 +93,44 @@ export default defineComponent({
       return userStore.getImgByProfile(profile)
     }
 
+    function setRequestTrust(usernameDest: string, value: any) {
+      userStore.setFriendsCmd($q, t, username.value, usernameDest, shared_consts.FRIENDSCMD.SETTRUST, value).then((res) => {
+        if (res) {
+          const myuser: IUserFields|undefined = listTrusted.value.find((rec: IUserFields) => rec.username === usernameDest )
+          if (myuser) {
+            listFriends.value.push(myuser)
+            listTrusted.value = listTrusted.value.filter((rec: IUserFields) => rec.username !== usernameDest)
+          }
+          tools.showPositiveNotif($q, t('db.trusted'))
+
+        } else {
+          tools.showNegativeNotif($q, t('db.recfailed'))
+        }
+      })
+    }
+
+    function removeFromMyFriends(usernameDest: string) {
+      userStore.setFriendsCmd($q, t, username.value, usernameDest, shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS, null).then((res) => {
+        if (res) {
+          listFriends.value = listFriends.value.filter((rec: IUserFields) => rec.username !== usernameDest)
+          tools.showPositiveNotif($q, t('db.removedfriend'))
+        }
+      })
+    }
+
+    function blockUser(usernameDest: string) {
+      userStore.setFriendsCmd($q, t, username.value, usernameDest, shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS, null).then((res) => {
+        if (res) {
+          listFriends.value = listFriends.value.filter((rec: IUserFields) => rec.username !== usernameDest)
+          tools.showPositiveNotif($q, t('db.blockedfriend'))
+        }
+      })
+    }
+
+    function naviga(path: string) {
+      $router.push(path)
+    }
+
     onMounted(mounted)
 
     return {
@@ -95,7 +143,12 @@ export default defineComponent({
       listfriendsfiltered,
       numFriends,
       numAskTrust,
-      numAskTrusted,
+      numTrusted,
+      numRejected,
+      setRequestTrust,
+      removeFromMyFriends,
+      blockUser,
+      naviga,
     }
   }
 })

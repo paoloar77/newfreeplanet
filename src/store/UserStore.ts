@@ -838,6 +838,17 @@ export const useUserStore = defineStore('UserStore', {
           return {}
         })
 
+    },
+
+    async setFriendsCmd($q: any, t: any, usernameOrig: string, usernameDest: string, cmd: number, value: any) {
+      return Api.SendReq('/users/friends/cmd', 'POST', {usernameOrig, usernameDest, cmd, value})
+        .then((res) => {
+          return !!res
+        }).catch((error) => {
+          tools.showNegativeNotif($q, t('db.recfailed'))
+          return {}
+        })
+
     }
   },
 })

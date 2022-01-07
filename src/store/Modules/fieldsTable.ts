@@ -1288,6 +1288,8 @@ export const fieldsTable = {
     AddCol({ name: 'note', label_trans: 'reg.note' }),
     AddCol({ name: 'aportador_solidario', label_trans: 'reg.aportador_solidario' }),
     AddCol({ name: 'verified_by_aportador', label_trans: 'reg.verified_by_aportador', fieldtype: costanti.FieldType.boolean }),
+    AddCol({ name: 'blocked', label_trans: 'reg.blocked', fieldtype: costanti.FieldType.boolean }),
+    AddCol({ name: 'username_who_block', label_trans: 'reg.username_who_block' }),
     AddCol({
       name: 'profile.resplist',
       field: 'profile',

@@ -24,6 +24,7 @@ const msg_website_it = {
     home: 'Home',
     profile: 'Profilo',
     profile2: 'ProfiloU',
+    profile3: 'Profilo3',
     test: 'Test',
     projects: 'Progetti',
     report: 'Report Ore',
