@@ -10,12 +10,16 @@ function translate(params: any) {
   const stringa = messages[lang]
 
   let ris = stringa
-  if (ris) {
-    msg.forEach((param: any) => {
-      ris = ris[param]
-    })
-  } else {
-    console.log('ERRORE IN TRANSLATE! ', params, ' NON ESISTE!')
+  try {
+    if (ris) {
+      msg.forEach((param: any) => {
+        ris = ris[param]
+      })
+    } else {
+      console.log('ERRORE IN TRANSLATE! ', params, ' NON ESISTE!')
+      return params
+    }
+  }catch (e) {
     return params
   }
 

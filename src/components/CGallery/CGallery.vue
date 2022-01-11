@@ -95,7 +95,7 @@
               accept=".jpg, image/*, .pdf"
               :url="getUrl()"
               :headers="tools.getheaders()"
-              :max-file-size="2000000"
+              :max-file-size="3000000"
               multiple
               auto-upload
               hide-upload-btn

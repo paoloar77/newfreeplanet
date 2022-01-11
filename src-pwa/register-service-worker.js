@@ -21,6 +21,9 @@ register(process.env.SERVICE_WORKER_FILE ? process.env.SERVICE_WORKER_FILE : '',
     // $('#newvers').addClass('btnNewVersShow').removeClass("btnNewVersHide")
   },
   updated(registration) {
+    document.dispatchEvent(
+      new CustomEvent('swUpdated', { detail: registration })
+    )
     console.log('New content is available; please refresh.')
   },
   offline() {

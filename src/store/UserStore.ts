@@ -21,6 +21,7 @@ import { useTodoStore } from '@store/Todos'
 import { Router } from 'vue-router'
 import { useProjectStore } from '@store/Projects'
 import { shared_consts } from '@/common/shared_vuejs'
+import { costanti } from '@costanti'
 
 export const DefaultUser: IUserFields = {
   _id: '',
@@ -171,7 +172,7 @@ export const useUserStore = defineStore('UserStore', {
       const myrec = this.getUserByUsername(username)
       // console.log('myrec', myrec)
       if (myrec && myrec.profile && !!myrec.profile.img && myrec.profile.img !== '' && myrec.profile.img !== 'undefined') {
-        return 'upload/profile/' + this.my.username + '/' + myrec.profile.img
+        return costanti.DIR_UPLOAD+'profile/' + this.my.username + '/' + myrec.profile.img
       }
       return ''
     },
@@ -180,7 +181,7 @@ export const useUserStore = defineStore('UserStore', {
 
       try{
         if (userparam.profile && userparam.profile.img) {
-          return 'upload/profile/' + userparam.username + '/' + userparam.profile.img
+          return costanti.DIR_UPLOAD + 'profile/' + userparam.username + '/' + userparam.profile.img
         }
       }catch (e) {}
       return 'images/noimg.png'
@@ -843,7 +844,7 @@ export const useUserStore = defineStore('UserStore', {
     async setFriendsCmd($q: any, t: any, usernameOrig: string, usernameDest: string, cmd: number, value: any) {
       return Api.SendReq('/users/friends/cmd', 'POST', {usernameOrig, usernameDest, cmd, value})
         .then((res) => {
-          return !!res
+          return res.data
         }).catch((error) => {
           tools.showNegativeNotif($q, t('db.recfailed'))
           return {}

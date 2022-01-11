@@ -8,10 +8,15 @@ export const costanti = {
   CONFIG_ID_STATE_CONN: '2',
   CONFIG_ID_SHOW_TYPE_TODOS: '3',
 
+  SHOW_USERINFO: 1,
+
+  DIR_UPLOAD: 'upload/', // upload/
+
   FRIENDS: 1,
   ASK_TRUST: 2,
   TRUSTED: 3,
   REEJECTED: 4,
+  FIND_PEOPLE: 10,
 
   FILTER_TUTTI: -100,
 

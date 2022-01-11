@@ -3368,7 +3368,7 @@ export const tools = {
     return mystr.replace(/\//g, '-')
   },
   geturlrelativeprofile() {
-    return 'upload/profile'
+    return costanti.DIR_UPLOAD + 'profile'
   },
   getvers() {
     return process.env.APP_VERSION

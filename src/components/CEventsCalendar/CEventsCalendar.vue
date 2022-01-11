@@ -79,7 +79,7 @@
                                     <q-chip>
                                         <q-avatar v-if="getWhereIcon(myevent.wherecode)">
                                             <img
-                                              :src="`../../public/images/avatar/` + getWhereIcon(myevent.wherecode)"
+                                              :src="`images/avatar/` + getWhereIcon(myevent.wherecode)"
                                               alt="Località">
                                         </q-avatar>
                                         <q-avatar v-else color="blue" font-size="20px" text-color="white" icon="home">
@@ -837,7 +837,7 @@
                                         <q-chip>
                                             <q-avatar v-if="getWhereIcon(event.wherecode)">
                                                 <img
-                                                  :src="`../../public/images/avatar/` + getWhereIcon(event.wherecode)"
+                                                  :src="`images/avatar/` + getWhereIcon(event.wherecode)"
                                                   :alt="event.wherecode">
                                             </q-avatar>
                                             <q-avatar color="blue" font-size="20px" text-color="white" icon="home">

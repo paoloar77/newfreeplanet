@@ -174,7 +174,7 @@
 
           <div v-if="prop_search" class="q-mr-sm">
             <q-input
-              v-model="search" filled dense type="search" debounce="500" hint="Cerca"
+              v-model="search" filled dense type="search" debounce="500" :hint="hint"
               v-on:keyup.enter="doSearch">
               <template v-slot:after>
                 <q-btn v-if="mytable" dense label="" color="primary" @click="refresh" icon="search"></q-btn>
@@ -251,7 +251,14 @@
 
 
       <template v-slot:item="props">
+        <div v-if="showType === costanti.SHOW_USERINFO">
+          <CMyUser
+            :mycontact="props.row">
+          </CMyUser>
+
+        </div>
         <div
+          v-else
           class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
           :style="props.selected ? 'transform: scale(0.95);' : ''"
         >

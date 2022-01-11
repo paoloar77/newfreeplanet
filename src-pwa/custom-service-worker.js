@@ -94,7 +94,7 @@ if (workbox) {
   registerRoute(
     new RegExp(/\.(?:png|gif|jpg|jpeg)$/),
     new CacheFirst({
-      cacheName: 'images',
+      cacheName: 'images-upload',
       plugins: [
         // Ensure that only requests that result in a 200 status are cached
         new CacheableResponsePlugin({
@@ -314,9 +314,9 @@ if (workbox) {
   )
 
   registerRoute(
-    new RegExp(/.*\/(?:statics).*$/),
+    new RegExp(/.*\/(?:public).*$/),
     new CacheFirst({
-      cacheName: 'statics',
+      cacheName: 'public',
       plugins: [
         // Ensure that only requests that result in a 200 status are cached
         new CacheableResponsePlugin({

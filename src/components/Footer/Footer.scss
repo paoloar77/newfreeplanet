@@ -32,7 +32,7 @@ $textcol_scuro: darkblue;
   background-repeat: no-repeat !important;
   background-position: top;
   background-size: contain !important;
-  background-image: url(../../../public/images/landing_first_section.png) !important
+  background-image: url(/public/images/landing_first_section.png) !important
 }
 
 
@@ -67,7 +67,6 @@ $textcol_scuro: darkblue;
 }
 
 .carousel_img_3 {
-  //background-image: url(../../public/images/cibo_sano.jpg);
   background-size: cover !important;
   background-position: 50% center !important;
   background-repeat: no-repeat !important;

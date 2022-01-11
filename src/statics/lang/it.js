@@ -180,8 +180,15 @@ const msg_it = {
       friendsadded: 'Aggiunto alla lista di Amici',
       blockedfriend: 'Utente Bloccato',
       removedfriend: 'Rimosso dalla lista di Amici',
+      addedfriend: 'Aggiunto alla lista di Amici',
+      domanda_trusted: 'Accettare la Fiducia a {username}?',
+      domanda_rejectedtrust: 'Rifiutare la Fiducia a {username}?',
+      domanda_blockuser: 'Bloccare {username}?',
+      domanda: 'Domanda',
       trusted: 'Accettato la Fiducia',
       rejected: 'Rifiutato la Fiducia',
+      domanda_addtofriend: 'Aggiungere agli amici {username}?',
+      domanda_removefriend: 'Rimuovi dagli Amici {username}?',
     },
     components: {
       authentication: {
@@ -819,14 +826,17 @@ const msg_it = {
       date_updated: 'Ult. Aggiornamento',
     },
     mypages: {
+      find_people: 'Cerca Persone',
       friends: 'Amici',
-      request_trust: 'Richieste di Fiducia',
+      request_trust: 'Richieste',
       trusted: 'Accettati',
       rejected: 'Rifiutati',
     },
     friends: {
-      accept: 'Accetta',
-      reject: 'Rifiuta',
+      accept_trust: 'Accetta Fiducia',
+      accept_friend: 'Accetta Amicizia',
+      reject_trust: 'Rifiuta Fiducia',
+      reject_friend: 'Rifiuta Fiducia',
       remove_from_myfriends: 'Rimuovi dagli Amici',
       block_user: 'Blocca Utente',
     }

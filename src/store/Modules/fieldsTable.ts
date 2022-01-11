@@ -384,6 +384,19 @@ export const colSubSkills = [
   AddCol(DeleteRec),
 ]
 
+export const colmyUserPeople = [
+  // AddCol({ name: '_id', label_trans: 'reg.id' }),
+  AddCol({ name: 'username', label_trans: 'reg.username_short' }),
+  AddCol({ name: 'name', label_trans: 'reg.name' }),
+  AddCol({
+    name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
+  }),
+  // AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
+  // AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
+]
+
+
+
 export const colmySkills = [
   /*AddCol({
     name: 'userId', label_trans: 'order.users', fieldtype: costanti.FieldType.string, jointable: 'users',

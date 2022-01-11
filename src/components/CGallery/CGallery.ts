@@ -6,6 +6,7 @@ import { IGallery, IImgGallery } from 'model'
 import { CMyPage } from '@/components/CMyPage'
 import { tools } from '@store/Modules/tools'
 import { useGlobalStore } from '@store/globalStore'
+import { costanti } from '@costanti'
 
 export default defineComponent({
   name: 'CGallery',
@@ -246,7 +247,7 @@ export default defineComponent({
     }
 
     function getfullname(rec: any) {
-      return 'upload/' + props.directory + '/' + rec.imagefile
+      return costanti.DIR_UPLOAD + props.directory + '/' + rec.imagefile
     }
 
     function copytoclipboard(rec: any) {
@@ -306,7 +307,7 @@ export default defineComponent({
         if (tools.getextfile(gallerylistery.imagefile) === 'pdf')
           return 'images/images/pdf.jpg'
         else
-          return 'upload/' + props.directory + '/' + gallerylistery.imagefile
+          return costanti.DIR_UPLOAD + props.directory + '/' + gallerylistery.imagefile
       } else {
         return 'images/noimg.png';
       }

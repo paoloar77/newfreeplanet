@@ -12,6 +12,7 @@
         color="white"
         text-color="primary"
         :options="[
+          {label: $t('mypages.find_people'), value: costanti.FIND_PEOPLE},
           {label: $t('mypages.friends') + ' (' + numFriends + ')', value: costanti.FRIENDS},
           {label: $t('mypages.request_trust') + ' (' + numAskTrust + ')', value: costanti.ASK_TRUST},
           {label: $t('mypages.trusted') + ' (' + numTrusted + ')', value: costanti.TRUSTED},
@@ -20,75 +21,42 @@
       />
     </div>
 
-    <q-list>
-      <q-item v-for="(contact, index) in listfriendsfiltered" :key="index" class="q-my-sm" clickable>
-        <q-item-section avatar @click="naviga(`/my/` + contact.username)">
-          <q-avatar size="60px">
-            <q-img :src="getImgUser(contact)" :alt="contact.username" img-class="imgprofile" height="60px" />
-          </q-avatar>
-        </q-item-section>
+    <div v-if="filter === costanti.FIND_PEOPLE">
+      <CGridTableRec
+        prop_mytable="users"
+        prop_mytitle=""
+        :prop_mycolumns="colmyUserPeople"
+        prop_colkey="_id"
+        col_title="username"
+        :vertical="true"
+        nodataLabel=" "
+        :prop_search="true"
+        hint="Username da trovare"
+        :finder="true"
+        :finder_noNull="true"
+        :options="shared_consts.OPTIONS_SEARCH_ONLY_FULL_WORDS"
+        :butt_modif_new="false"
+        noresultLabel="Username non trovato"
+        :arrfilters="arrfilterand"
+        :filtercustom="filtercustom"
+        :prop_searchList="searchList"
+        :showType="costanti.SHOW_USERINFO"
+        keyMain=""
+        :extraparams="extraparams()">
 
-        <q-item-section @click="naviga(`/my/` + contact.username)">
-          <q-item-label><strong>{{ contact.name }} {{ contact.surname }}</strong> ({{ contact.username }})
-          </q-item-label>
-          <q-item-label caption lines="1">{{ contact.email }}</q-item-label>
-        </q-item-section>
-
-
-        <q-item-section side v-if="filter === costanti.FRIENDS">
-          <q-item-label>
-            <q-btn rounded icon="fas fa-ellipsis-h">
-              <q-menu>
-                <q-list style="min-width: 150px">
-                  <q-item clickable icon="fas fa-user-minus" v-close-popup @click="removeFromMyFriends(contact.username)">
-                    <q-item-section>{{$t('friends.remove_from_myfriends')}}</q-item-section>
-                  </q-item>
-                </q-list>
-                <q-list style="min-width: 150px">
-                  <q-item clickable icon="fas fa-ban" v-close-popup @click="blockUser(contact.username)">
-                    <q-item-section>{{$t('friends.block_user')}}</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
-          </q-item-label>
-        </q-item-section>
-        <q-item-section side v-if="filter === costanti.ASK_TRUST">
-          <q-item-label>
-            <q-btn color="positive" :label="$t('friends.accept')" @click="setRequestTrust(contact.username, true)"/>
-          </q-item-label>
-          <q-item-label>
-            <q-btn color="negative" :label="$t('friends.reject')" @click="setRequestTrust(contact.username, false)"/>
-          </q-item-label>
-        </q-item-section>
-        <q-item-section side v-if="filter === costanti.TRUSTED">
-          <q-item-label>
-            <q-btn rounded icon="fas fa-ellipsis-h">
-              <q-menu>
-                <q-list style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="removeFromMyFriends(contact.username)">
-                    <q-item-section>{{$t('friends.reject')}}</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
-          </q-item-label>
-        </q-item-section>
-        <q-item-section side v-if="filter === costanti.REEJECTED">
-          <q-item-label>
-            <q-btn rounded icon="fas fa-ellipsis-h">
-              <q-menu>
-                <q-list style="min-width: 200px">
-                  <q-item clickable icon="fas fa-user-minus" v-close-popup @click="setRequestTrust(contact.username, false)">
-                    <q-item-section>{{$t('friends.accept')}}</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
-          </q-item-label>
-        </q-item-section>
-      </q-item>
-    </q-list>
+      </CGridTableRec>
+    </div>
+    <div v-else>
+      <q-list>
+        <span v-for="(contact, index) in listfriendsfiltered" :key="index" class="q-my-sm" clickable>
+          <CMyUser
+            :mycontact="contact"
+            @setCmd="setCmd"
+            :visu="filter">
+          </CMyUser>
+        </span>
+      </q-list>
+    </div>
 
   </div>
 </template>

@@ -69,7 +69,7 @@
             <!-- Se c'è un link, allora -->
             <q-btn
               class="text-center boldhigh" v-if="myevent.linkpdf" size="md" type="a"
-              :href="`../../public/` + myevent.linkpdf"
+              :href="myevent.linkpdf"
               target="_blank"
               ripple rounded :label="myevent.title"
               :color="myevent.bgcolor" text-color="white" glossy>
@@ -117,7 +117,7 @@
                                         <q-chip>
                                             <q-avatar v-if="getWhereIcon(myevent.wherecode)">
                                                 <img
-                                                  :src="`../../public/images/avatar/` + getWhereIcon(myevent.wherecode)"
+                                                  :src="`images/avatar/` + getWhereIcon(myevent.wherecode)"
                                                   alt="località">
                                             </q-avatar>
                                             <q-avatar
@@ -152,7 +152,7 @@
           <div class="row justify-start q-ma-md">
             <q-btn
               v-if="myevent.linkpdf"
-              size="md" type="a" :href="`../../public/` + myevent.linkpdf"
+              size="md" type="a" :href="myevent.linkpdf"
               target="_blank" rounded outline
               color="primary" icon="info"
               :label="$t('cal.showpdf')">

@@ -475,6 +475,7 @@ export interface IParamsQuery {
   lookup2?: IParLookup
   lookup3?: IParLookup
   lookup4?: IParLookup
+  options?: number
 }
 
 export interface IColGridTable {

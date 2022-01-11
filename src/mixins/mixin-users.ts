@@ -73,9 +73,10 @@ export default function () {
   function getMyImgforIcon() {
     const userStore = useUserStore()
     const mypath = userStore.getImgByUsername(userStore.my.username)
-    let img_small = tools.baseurl(mypath) + '/' + serv_constants.PREFIX_IMG_SMALL + tools.getLastItem(mypath);
+    const filename = tools.getLastItem(mypath)
+    let img_small = tools.baseurl(mypath) + '/' + serv_constants.PREFIX_IMG_SMALL + filename
     console.log('img_small', img_small)
-    return (img_small !== '') ? `img:${img_small}` : 'fas fa-user'
+    return (filename !== '') ? `img:${img_small}` : 'fas fa-user'
   }
 
   function getIconCart() {

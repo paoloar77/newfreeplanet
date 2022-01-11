@@ -18,6 +18,7 @@ import {
 } from '../../model'
 import { lists } from '../../store/Modules/lists'
 import { IParamsQuery } from '../../model/GlobalStore'
+import { CMyUser } from '../CMyUser'
 import { CMyPopupEdit } from '../CMyPopupEdit'
 import { CMyFieldDb } from '../CMyFieldDb'
 import { CMySelect } from '../CMySelect'
@@ -53,6 +54,11 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    hint: {
+      type: String,
+      required: false,
+      default: 'Cerca',
+    },
     prop_search: {
       type: Boolean,
       required: false,
@@ -64,6 +70,16 @@ export default defineComponent({
       default: true,
     },
     finder: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    showType: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    finder_noNull: {
       type: Boolean,
       required: false,
       default: false,
@@ -131,6 +147,10 @@ export default defineComponent({
       required: false,
       default: {},
     },
+    options: {
+      required: false,
+      default: 0,
+    },
     prop_pagination: {
       type: Object as PropType<IPagination>,
       required: false,
@@ -148,7 +168,7 @@ export default defineComponent({
       default: '',
     },
   },
-  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect },
+  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyUser },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -272,10 +292,10 @@ export default defineComponent({
           return true
         }
       } else {
-        return true
+        return false
       }
-      // if (userStore.isAdmin || userStore.isManager)
-      //   return true
+      if (userStore.isAdmin || userStore.isManager)
+        return true
     }
 
     // emulate 'SELECT count(*) FROM ...WHERE...'
@@ -397,7 +417,7 @@ export default defineComponent({
             })
           }
         }
-        if (false && nosearch && props.finder) {
+        if ((false && nosearch && props.finder) || (props.finder_noNull && nosearch)) {
           returnedData.value = []
           returnedCount = 0
           return true
@@ -423,6 +443,7 @@ export default defineComponent({
         descending,
         userId: userStore.my._id,
         codeId: '',
+        options: props.options,
       }
 
       params.codeId = mycodeid.value
@@ -820,7 +841,7 @@ export default defineComponent({
 
 
     function clickFunz(item: any, col: IColGridTable) {
-      if (col.action) {
+      if (!!col && col.action) {
 
         const table = mytable.value
         const ok = translate('dialog.yes')
