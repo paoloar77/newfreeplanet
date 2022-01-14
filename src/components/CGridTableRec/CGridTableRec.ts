@@ -12,14 +12,12 @@ import {
   ISearchList,
   IPagination,
   IParamDialog,
-  IEvents,
-  IDataToSet,
-  IMySkill, ISkill
-} from '../../model'
-import { lists } from '../../store/Modules/lists'
-import { IParamsQuery } from '../../model/GlobalStore'
-import { CMyUser } from '../CMyUser'
+  IMySkill
+} from 'model'
+import { lists } from '@store/Modules/lists'
+import { IParamsQuery } from 'model'
 import { CMyPopupEdit } from '../CMyPopupEdit'
+import { CMyFriends } from '../CMyFriends'
 import { CMyFieldDb } from '../CMyFieldDb'
 import { CMySelect } from '../CMySelect'
 import { CTitleBanner } from '../CTitleBanner'
@@ -28,9 +26,7 @@ import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
-import { useCalendarStore } from '@store/CalendarStore'
 import translate from '@/globalroutines/util'
-import { toolsext } from '@store/Modules/toolsext'
 
 export default defineComponent({
   name: 'CGridTableRec',
@@ -167,8 +163,13 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    showCol: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
   },
-  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyUser },
+  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -189,7 +190,7 @@ export default defineComponent({
     const mytitle = ref('')
     const mycolumns = ref([])
     const colkey = ref('')
-    const search = ref('')
+    const search = ref('paoloar773')
 
     const tablesel = ref('')
 
@@ -221,6 +222,8 @@ export default defineComponent({
     const colclicksel = ref(null)
 
     const selected: any = ref([])
+
+    const filter = ref(0)
 
     const mycodeid = toRef(props, 'prop_codeId')
 
@@ -1232,6 +1235,7 @@ export default defineComponent({
       checkIfShowRec,
       valoriopt,
       labelcombo,
+      filter,
     }
   }
 })

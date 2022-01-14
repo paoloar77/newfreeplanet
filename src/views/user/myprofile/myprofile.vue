@@ -5,7 +5,7 @@
 
       <div class="">
         <q-avatar size="140px">
-          <q-img :src="getImgUser()" :alt="username" img-class="imgprofile" height="140px" @click="showPic = true" />
+          <q-img :src="getImgUser()" :alt="username" img-class="imgprofile" height="140px" @click="showPic = true"/>
         </q-avatar>
       </div>
 
@@ -14,11 +14,12 @@
           myuser.surname
         }}</span>
       </div>
-      <div class="col-12 text-h8 text-grey">
+      <div class="col-12 text-h7 text-blue text-shadow-2">
         {{ myuser.username }}
       </div>
       <div class="col-12 text-h7">
-        <span v-if="myuser.profile.born_city">{{ myuser.profile.born_city }}</span> <span v-if="myuser.profile.nationality">({{ myuser.profile.nationality }})</span>
+        <span v-if="myuser.profile.born_city">{{ myuser.profile.born_city }}</span> <span
+        v-if="myuser.profile.nationality">({{ myuser.profile.nationality }})</span>
       </div>
 
       <div class="col-12 text-h8 q-mt-sm">
@@ -44,6 +45,27 @@
         </q-btn>
 
       </div>
+    </div>
+    <div v-else class="fit column no-wrap justify-evenly items-center content-start">
+      <q-skeleton type="QAvatar" size="140px" height="140px" animation="fade"/>
+      <q-card flat bordered style="width: 250px">
+        <div class="text-h6">
+          <q-skeleton :animation="animation"/>
+        </div>
+        <div class="col-12 text-h7 text-grey text-center">
+          {{ username }}
+        </div>
+        <div class="col-12 text-h7">
+          <q-skeleton :animation="animation"/>
+        </div>
+
+        <div class="col-12 text-h8 q-mt-sm">
+          <q-skeleton :animation="animation"/>
+        </div>
+        <div class="col-12 text-h8 q-mt-sm">
+          <q-skeleton :animation="animation"/>
+        </div>
+      </q-card>
     </div>
 
     <CTitleBanner
@@ -84,7 +106,7 @@
   <q-dialog
     v-model="showPic"
     full-height full-width
-    >
+  >
 
     <img :src="getImgUser()" :alt="username" class="full-width">
 

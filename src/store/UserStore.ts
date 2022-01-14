@@ -46,6 +46,9 @@ export const DefaultUser: IUserFields = {
     socio: false,
     socioresidente: false,
     myshares: [],
+    friends: [],
+    req_friends: [],
+    asked_friends: [],
   },
   cart: {
     userId: '',
@@ -81,10 +84,13 @@ export const DefaultProfile: IUserProfile = {
   saw_and_accepted: false,
   socio: false,
   socioresidente: false,
-  myshares: [],
   paymenttypes: [],
   qualified: false,
   qualified_2invitati: false,
+  myshares: [],
+  friends: [],
+  req_friends: [],
+  asked_friends: [],
 }
 
 export const useUserStore = defineStore('UserStore', {
@@ -129,6 +135,7 @@ export const useUserStore = defineStore('UserStore', {
       return true
     },
 
+
     IsMyGroup: (mystate: IUserState) => (userIdOwner: string): boolean => {
       // ++TODO Check if userIdOwner is on my groups
       // userIdOwner is on my groups ?
@@ -155,6 +162,27 @@ export const useUserStore = defineStore('UserStore', {
   },
 
   actions: {
+    IsMyFriendByUsername(username: string): boolean {
+      if (this.my.profile.friends)
+        return this.my.profile.friends.findIndex((rec) => rec.username === username) >= 0
+      else
+        return false
+    },
+
+    IsAskedFriendByUsername(username: string): boolean {
+      if (this.my.profile.asked_friends)
+        return this.my.profile.asked_friends.findIndex((rec) => rec.username === username) >= 0
+      else
+        return false
+    },
+
+    IsReqFriendByUsername(username: string): boolean {
+      if (this.my.profile.req_friends)
+        return this.my.profile.req_friends.includes(username)
+      else
+        return false
+    },
+
     getUserByUsername(username: string): IUserFields | null {
       // Check if is this User!
       if (this.my.username === username) return this.my
@@ -172,18 +200,19 @@ export const useUserStore = defineStore('UserStore', {
       const myrec = this.getUserByUsername(username)
       // console.log('myrec', myrec)
       if (myrec && myrec.profile && !!myrec.profile.img && myrec.profile.img !== '' && myrec.profile.img !== 'undefined') {
-        return costanti.DIR_UPLOAD+'profile/' + this.my.username + '/' + myrec.profile.img
+        return costanti.DIR_UPLOAD + 'profile/' + this.my.username + '/' + myrec.profile.img
       }
       return ''
     },
 
     getImgByProfile(userparam: IUserFields): string {
 
-      try{
+      try {
         if (userparam.profile && userparam.profile.img) {
           return costanti.DIR_UPLOAD + 'profile/' + userparam.username + '/' + userparam.profile.img
         }
-      }catch (e) {}
+      } catch (e) {
+      }
       return 'images/noimg.png'
     },
 
@@ -420,6 +449,9 @@ export const useUserStore = defineStore('UserStore', {
         this.my = { ...data }
         if (!this.my.profile) {
           this.my.profile = DefaultProfile
+
+          // Memory
+          this.my.profile.asked_friends = []
         }
 
         this.isAdmin = tools.isBitActive(this.my.perm, shared_consts.Permissions.Admin.value)
@@ -799,7 +831,7 @@ export const useUserStore = defineStore('UserStore', {
               verified_by_aportador,
               made_gift,
               perm,
-              profile: { img, teleg_id, myshares: [] },
+              profile: { img, teleg_id, myshares: [], friends: [], req_friends: [], asked_friends: [] },
             })
 
             isLogged = true
@@ -842,7 +874,7 @@ export const useUserStore = defineStore('UserStore', {
     },
 
     async setFriendsCmd($q: any, t: any, usernameOrig: string, usernameDest: string, cmd: number, value: any) {
-      return Api.SendReq('/users/friends/cmd', 'POST', {usernameOrig, usernameDest, cmd, value})
+      return Api.SendReq('/users/friends/cmd', 'POST', { usernameOrig, usernameDest, cmd, value })
         .then((res) => {
           return res.data
         }).catch((error) => {

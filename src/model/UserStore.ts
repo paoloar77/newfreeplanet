@@ -44,12 +44,18 @@ export interface IUserProfile {
   socioresidente?: boolean
   consiglio?: boolean
   myshares: IShareWithUs[]
+  friends: any[]
+  req_friends: string[]
+
+  // in memory
+  asked_friends: any[]
 }
 
 export interface IPaymentType {
   key: string
   label: string
 }
+
 
 export interface IUserFields {
   _id: string

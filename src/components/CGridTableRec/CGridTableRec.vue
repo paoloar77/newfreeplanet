@@ -8,7 +8,7 @@
         @click="createNewRecordDialog"></q-btn>
     </div>
 
-    <div :class="$q.screen.lt.sm ? `` : `q-gutter-md q-ma-xs`  + ` row`">
+    <div v-if="butt_modif_new || mytitle" :class="$q.screen.lt.sm ? `` : `q-gutter-md q-ma-xs`  + ` row`">
       <div class="q-table__title" style="min-width: 150px;">{{ mytitle }}</div>
       <q-space></q-space>
       <div v-if="butt_modif_new">
@@ -99,7 +99,7 @@
       <template v-slot:top-left>
 
         <div v-if="searchList"
-          :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue`">
+             :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue`">
           <span v-for="(item, index) in searchList" :key="index">
             <CMySelect
               v-if="item.type === costanti.FieldType.select"
@@ -184,7 +184,7 @@
 
           <q-space></q-space>
           <q-select
-            v-if="mytable && pagination.rowsNumber > 0 && (prop_search || canEdit)"
+            v-if="mytable && pagination.rowsNumber > 0 && (prop_search || canEdit) && showCol"
             v-model="colVisib"
             rounded
             outlined
@@ -251,10 +251,15 @@
 
 
       <template v-slot:item="props">
-        <div v-if="showType === costanti.SHOW_USERINFO">
-          <CMyUser
-            :mycontact="props.row">
-          </CMyUser>
+        <div v-if="showType === costanti.SHOW_USERINFO" class="fill-all-width">
+          <div>
+            <CMyFriends
+              v-model="filter"
+              :finder="false"
+              :mycontact="props.row"
+              :visu="costanti.FIND_PEOPLE"
+            />
+          </div>
 
         </div>
         <div
@@ -316,16 +321,6 @@
           </q-card>
         </div>
       </template>
-
-      <!--
-                      <q-btn
-                              flat round dense
-                              :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                              @click="props.toggleFullscreen"
-                              class="q-ml-md">
-                      </q-btn>
-      -->
-      <!---->
     </q-table>
 
     <div v-if="rowclicksel">

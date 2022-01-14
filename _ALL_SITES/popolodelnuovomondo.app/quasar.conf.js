@@ -217,6 +217,7 @@ module.exports = configure((ctx) => ({
       'QCarouselSlide',
       'QPageScroller',
       'QAvatar',
+      'QSkeleton',
       'QImg',
       'QSplitter',
       'QRating',

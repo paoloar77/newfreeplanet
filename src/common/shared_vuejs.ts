@@ -45,8 +45,11 @@ export const shared_consts = {
 
   FRIENDSCMD: {
     SETTRUST: 121,
+    REQFRIEND: 125,
     SETFRIEND: 132,
     REMOVE_FROM_MYFRIENDS: 144,
+    REFUSE_REQ_FRIEND: 145,
+    CANCEL_REQ_FRIEND: 146,
     BLOCK_USER: 155,
     FIND_PEOPLE: 166,
   },

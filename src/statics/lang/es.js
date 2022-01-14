@@ -627,7 +627,25 @@ const msg_es = {
     },
     privacy_policy: 'Política de privacidad',
     cookies: 'Utilizamos cookies para un mejor rendimiento web.',
-  },
+    mypages: {
+      find_people: 'Busca Personas',
+      friends: 'Amigos',
+      request_friends: 'Rich. Amicizia',
+      request_sent_friends: 'Rich. Inviate',
+      request_trust: 'Rich. Fiducia',
+      trusted: 'Fiducia Accettata',
+      rejected: 'Rifiutati',
+    },
+    friends: {
+      accept_trust: 'Accetta Fiducia',
+      accept_friend: 'Accetta Amicizia',
+      reject_trust: 'Rifiuta Fiducia',
+      remove_from_myfriends: 'Rimuovi dagli Amici',
+      block_user: 'Blocca Utente',
+      ask_friend: 'Chiedi l\'Amicizia',
+      cancel_ask_friend: 'Annulla la richiesta di Amicizia',
+      reject_ask_friend: 'Rifiuta la richiesta di Amicizia',
+    }  },
 };
 
 export default msg_es;

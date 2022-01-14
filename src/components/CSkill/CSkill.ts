@@ -112,24 +112,12 @@ export default defineComponent({
       }
     }
 
-    function getFilterCustom() {
-      /*if (props.username) {
-        return [
-          { username: props.username }
-        ]
-      } else {
-        return props.filtercustom
-      }*/
-
-    }
-
     return {
       tools,
       costanti,
       colmySkills,
       getdefaultnewrec,
       extraparams,
-      getFilterCustom,
     }
   },
 })

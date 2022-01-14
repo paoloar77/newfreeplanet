@@ -902,3 +902,7 @@ $heightBtn: 100%;
   box-shadow: 0 0 45px rgba(246, 246, 246, 0.2);
   margin: 1px;
 }
+
+.fill-all-width {
+  width: -webkit-fill-available;
+}

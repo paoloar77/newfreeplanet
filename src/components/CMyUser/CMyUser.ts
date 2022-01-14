@@ -81,6 +81,7 @@ export default defineComponent({
       naviga,
       setCmd,
       shared_consts,
+      userStore,
     }
   },
 })
