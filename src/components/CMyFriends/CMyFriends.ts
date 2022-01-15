@@ -4,7 +4,7 @@ import { useUserStore } from '@store/UserStore'
 import { useI18n } from '@/boot/i18n'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
-import { ISearchList, IUserFields } from 'model'
+import { IFriends, ISearchList, IUserFields } from 'model'
 import { shared_consts } from '@/common/shared_vuejs'
 import { tools } from '@store/Modules/tools'
 
@@ -247,7 +247,7 @@ export default defineComponent({
             if (res) {
               console.log('res = ', res)
               userStore.my.profile.friends = [...userStore.my.profile.friends, res]
-              userStore.my.profile.req_friends = userStore.my.profile.req_friends.filter((rec: any) => rec.username !== usernameDest)
+              userStore.my.profile.req_friends = userStore.my.profile.req_friends.filter((rec: IFriends) => rec.username !== usernameDest)
               tools.showPositiveNotif($q, t('db.addedfriend'))
             }
           })
@@ -264,7 +264,7 @@ export default defineComponent({
 
         userStore.setFriendsCmd($q, t, username.value, usernameDest, shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS, null).then((res) => {
           if (res) {
-            userStore.my.profile.friends = userStore.my.profile.friends.filter((rec: IUserFields) => rec.username !== usernameDest)
+            userStore.my.profile.friends = userStore.my.profile.friends.filter((rec: IFriends) => rec.username !== usernameDest)
             tools.showPositiveNotif($q, t('db.removedfriend'))
           }
         })
@@ -281,7 +281,7 @@ export default defineComponent({
 
         userStore.setFriendsCmd($q, t, username.value, usernameDest, shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS, null).then((res) => {
           if (res) {
-            userStore.my.profile.req_friends = userStore.my.profile.req_friends.filter((user: any) => user !== usernameDest)
+            userStore.my.profile.req_friends = userStore.my.profile.req_friends.filter((user: IFriends) => user.username !== usernameDest)
             tools.showPositiveNotif($q, t('db.removedfriend'))
           }
         })
@@ -314,7 +314,7 @@ export default defineComponent({
       }).onOk(() => {
         userStore.setFriendsCmd($q, t, username.value, usernameDest, shared_consts.FRIENDSCMD.BLOCK_USER, null).then((res) => {
           if (res) {
-            userStore.my.profile.friends = userStore.my.profile.friends.filter((rec: IUserFields) => rec.username !== usernameDest)
+            userStore.my.profile.friends = userStore.my.profile.friends.filter((rec: IFriends) => rec.username !== usernameDest)
             tools.showPositiveNotif($q, t('db.blockedfriend'))
           }
         })

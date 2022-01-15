@@ -286,7 +286,7 @@ export const shared_consts = {
   },
 
   fieldsUserToChange() {
-    return ['_id', 'username', 'email', 'name', 'surname', 'perm', 'date_reg', 'verified_email', 'verified_by_aportador', 'img', 'ipaddr', 'lasttimeonline', 'profile', 'news_on']
+    return ['_id', 'username', 'email', 'name', 'surname', 'perm', 'date_reg', 'verified_email', 'verified_by_aportador', 'trust_modified', 'img', 'ipaddr', 'lasttimeonline', 'profile', 'news_on']
   },
 
 }

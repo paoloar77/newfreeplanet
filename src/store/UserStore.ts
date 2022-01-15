@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 
 import {
+  IFriends,
   ISigninOptions,
   ISignupOptions, IUserFields, IUserProfile, IUserState,
 } from '@src/model'
@@ -172,13 +173,6 @@ export const useUserStore = defineStore('UserStore', {
     IsAskedFriendByUsername(username: string): boolean {
       if (this.my.profile.asked_friends)
         return this.my.profile.asked_friends.findIndex((rec) => rec.username === username) >= 0
-      else
-        return false
-    },
-
-    IsReqFriendByUsername(username: string): boolean {
-      if (this.my.profile.req_friends)
-        return this.my.profile.req_friends.includes(username)
       else
         return false
     },

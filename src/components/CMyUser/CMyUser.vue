@@ -70,7 +70,7 @@
             <q-btn color="positive" :label="$t('friends.accept_trust')" @click="setCmd(shared_consts.FRIENDSCMD.SETTRUST, contact.username, true)"/>
           </q-item-label>
           <q-item-label>
-            <q-btn color="negative" :label="$t('friends.reject_trust')" @click="setCmd(shared_consts.FRIENDSCMD.SETTRUST, contact.username, false)"/>
+            <q-btn color="negative" :label="$t('friends.refuse_trust')" @click="setCmd(shared_consts.FRIENDSCMD.SETTRUST, contact.username, false)"/>
           </q-item-label>
         </q-item-section>
         <q-item-section side v-if="visu === costanti.TRUSTED">

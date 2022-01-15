@@ -378,6 +378,7 @@ const msg_it = {
       legenda: 'Legenda',
       aportador_solidario: 'Chi ti ha Invitato',
       verified_by_aportador: 'Verificato dall\'Invitante',
+      trust_modified: 'Fiducia Modificata',
       blocked: 'Bloccato',
       username_who_block: 'Bloccato da',
       username_regala_invitato: 'Username del Destinatario del regalo',
@@ -843,7 +844,8 @@ const msg_it = {
     friends: {
       accept_trust: 'Accetta Fiducia',
       accept_friend: 'Accetta Amicizia',
-      reject_trust: 'Rifiuta Fiducia',
+      refuse_trust: 'Rifiuta Fiducia',
+      reject_trust: 'Revoca Fiducia',
       remove_from_myfriends: 'Rimuovi dagli Amici',
       block_user: 'Blocca Utente',
       ask_friend: 'Chiedi l\'Amicizia',

@@ -7,6 +7,11 @@ const enum ESexType {
   Female = 2,
 }
 
+export interface IFriends {
+  username?: string
+  date?: Date
+}
+
 export interface IUserProfile {
   img?: string
   nationality?: string
@@ -44,8 +49,8 @@ export interface IUserProfile {
   socioresidente?: boolean
   consiglio?: boolean
   myshares: IShareWithUs[]
-  friends: any[]
-  req_friends: string[]
+  friends: IFriends[]
+  req_friends: IFriends[]
 
   // in memory
   asked_friends: any[]
@@ -69,6 +74,7 @@ export interface IUserFields {
   perm?: number
   verified_email?: boolean
   verified_by_aportador?: boolean
+  trust_modified?: Date
   aportador_solidario?: string
 
   made_gift?: boolean
