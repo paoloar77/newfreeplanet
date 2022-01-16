@@ -101,6 +101,22 @@ export const shared_consts = {
   VISIB_ONLY_MANAGER: 2,
   VISIB_ONLY_ADMIN: 4,
 
+
+  Lang: [
+    {
+      value: 'it',
+      label: 'Italiano',
+    },
+    {
+      value: 'es',
+      label: 'Spagnolo',
+    },
+    {
+      value: 'enUs',
+      label: 'Inglese',
+    },
+  ],
+
   Visibility: [
     {
       value: 1,

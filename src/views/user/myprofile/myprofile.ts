@@ -13,6 +13,7 @@ import { toolsext } from '@store/Modules/toolsext'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
 import { IUserFields } from 'model'
+import { shared_consts } from '@/common/shared_vuejs'
 
 
 export default defineComponent({
@@ -22,6 +23,7 @@ export default defineComponent({
   setup() {
     const userStore = useUserStore()
     const $route = useRoute()
+    const $q = useQuasar()
     const { t } = useI18n()
 
     const username = computed(() => $route.params.username ? $route.params.username.toString() : userStore.my.username)
@@ -82,12 +84,16 @@ export default defineComponent({
       tools,
       costanti,
       myuser,
+      shared_consts,
       getImgUser,
       checkifShow,
       getLinkUserTelegram,
       filtroutente,
       showPic,
       myusername,
+      userStore,
+      $q,
+      t,
     }
   }
 })

@@ -1295,6 +1295,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       if (table === 'metodo_pagamento') return tools.SelectMetodiPagamento
       if (table === 'bottype') return shared_consts.BotType
       if (table === 'visibility') return shared_consts.Visibility
+      if (table === 'lang') return shared_consts.Lang
 
       let myarr = this.getListByTable(table)
 

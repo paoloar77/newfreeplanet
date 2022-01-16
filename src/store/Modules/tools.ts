@@ -2,7 +2,7 @@ import { translation } from '@store/Modules/translation'
 import {
   IColl,
   ICollaborations, IDataToSet,
-  IEvents,
+  IEvents, IFriends,
   IListRoutes,
   IParamDialog,
   IPathFile,
@@ -4345,17 +4345,17 @@ export const tools = {
   },
   getColByLevel(level: number) {
     let col = ''
-    if (level === 0){
+    if (level === 0) {
       col = 'grey-5'
-    } else if (level === 1){
+    } else if (level === 1) {
       col = 'red-5'
-    } else if (level === 2){
+    } else if (level === 2) {
       col = 'orange-5'
-    } else if (level === 3){
+    } else if (level === 3) {
       col = 'yellow-5'
-    } else if (level === 4){
+    } else if (level === 4) {
       col = 'blue-5'
-    } else if (level === 5){
+    } else if (level === 5) {
       col = 'green-5'
     }
     return col
@@ -4377,7 +4377,7 @@ export const tools = {
       return res.status !== PayloadMessageTypes.statusfound
     }
 
-    return Axios.post(VALIDATE_USER_URL, {idapp: process.env.APP_ID, email, key: process.env.PAO_APP_ID})
+    return Axios.post(VALIDATE_USER_URL, { idapp: process.env.APP_ID, email, key: process.env.PAO_APP_ID })
       .then(onSuccess)
       .catch((err) => {
         return true
@@ -4386,8 +4386,71 @@ export const tools = {
   },
 
   isEmail(email: string) {
-    const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return res.test(String(email).toLowerCase())
+  },
+
+  addToMyFriends($q: any, t: any, username: string, usernameDest: string) {
+
+    const userStore = useUserStore()
+    $q.dialog({
+      message: t('db.domanda_addtofriend', { username: usernameDest }),
+      ok: { label: t('dialog.yes'), push: true },
+      cancel: { label: t('dialog.cancel') },
+      title: t('db.domanda')
+    }).onOk(() => {
+
+      userStore.setFriendsCmd($q, t, username, usernameDest, shared_consts.FRIENDSCMD.SETFRIEND, null)
+        .then((res: any) => {
+          if (res) {
+            userStore.my.profile.friends = [...userStore.my.profile.friends, res]
+            userStore.my.profile.req_friends = userStore.my.profile.req_friends.filter((rec: IFriends) => rec.username !== usernameDest)
+            tools.showPositiveNotif($q, t('db.addedfriend'))
+          }
+        })
+    })
+  },
+  setRequestFriendship($q: any, t: any, username: string, usernameDest: string, value: boolean) {
+
+    const userStore = useUserStore()
+
+    let msg = ''
+    if (value) {
+      msg = t('db.domanda_ask_friend', { username: usernameDest })
+    } else {
+      msg = t('db.domanda_revoke_friend', { username: usernameDest })
+    }
+
+    $q.dialog({
+      message: msg,
+      ok: {
+        label: t('dialog.yes'),
+        push: true
+      },
+      cancel: {
+        label: t('dialog.cancel')
+      },
+      title: t('db.domanda')
+    }).onOk(() => {
+
+      userStore.setFriendsCmd($q, t, username, usernameDest, shared_consts.FRIENDSCMD.REQFRIEND, value)
+        .then((res: any) => {
+          if (res) {
+            if (value) {
+              // ADD to req Friends
+              userStore.my.profile.asked_friends.push(res)
+              tools.showPositiveNotif($q, t('db.askedtofriend', { username: usernameDest }))
+            } else {
+              // REMOVE to req Friends
+              userStore.my.profile.asked_friends = userStore.my.profile.asked_friends.filter((rec: IUserFields) => rec.username !== usernameDest)
+              tools.showPositiveNotif($q, t('db.revoketofriend', { username: usernameDest }))
+            }
+
+          } else {
+            tools.showNegativeNotif($q, t('db.recfailed'))
+          }
+        })
+    })
   },
 
 

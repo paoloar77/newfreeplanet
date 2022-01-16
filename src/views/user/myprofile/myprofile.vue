@@ -22,6 +22,14 @@
         v-if="myuser.profile.nationality">({{ myuser.profile.nationality }})</span>
       </div>
 
+      <div>
+        <q-btn
+          v-if="!userStore.IsMyFriendByUsername(myuser.username)"
+          icon="fas fa-user-plus"
+          color="primary" :label="$t('friends.ask_friend')"
+          @click="tools.setRequestFriendship($q, t, userStore.my.username, myuser.username, true)"/>
+      </div>
+
       <div class="col-12 text-h8 q-mt-sm">
         {{ myuser.profile.biografia }}
       </div>

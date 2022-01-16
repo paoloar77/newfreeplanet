@@ -825,6 +825,7 @@ const msg_it = {
       index: 'Posizione',
       riga: 'Riga',
       active: 'Attivo',
+      main: 'Menu Principale',
       lang: 'Lingua',
       label: 'Etichetta',
       type: 'Tipo',

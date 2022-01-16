@@ -45,6 +45,11 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    insertMode: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     canModify: {
       type: Boolean,
       required: false,

@@ -194,66 +194,6 @@ export default defineComponent({
       })
     }
 
-    function setRequestFriendship(usernameDest: string, value: boolean) {
-      let msg = ''
-      if (value) {
-        msg = t('db.domanda_ask_friend', { username: usernameDest })
-      } else {
-        msg = t('db.domanda_revoke_friend', { username: usernameDest })
-      }
-
-      $q.dialog({
-        message: msg,
-        ok: {
-          label: t('dialog.yes'),
-          push: true
-        },
-        cancel: {
-          label: t('dialog.cancel')
-        },
-        title: t('db.domanda')
-      }).onOk(() => {
-
-        userStore.setFriendsCmd($q, t, username.value, usernameDest, shared_consts.FRIENDSCMD.REQFRIEND, value)
-          .then((res: any) => {
-            if (res) {
-              if (value) {
-                // ADD to req Friends
-                userStore.my.profile.asked_friends.push(res)
-                tools.showPositiveNotif($q, t('db.askedtofriend', { username: usernameDest }))
-              } else {
-                // REMOVE to req Friends
-                userStore.my.profile.asked_friends = userStore.my.profile.asked_friends.filter((rec: IUserFields) => rec.username !== usernameDest)
-                tools.showPositiveNotif($q, t('db.revoketofriend', { username: usernameDest }))
-              }
-
-            } else {
-              tools.showNegativeNotif($q, t('db.recfailed'))
-            }
-          })
-      })
-    }
-
-    function addToMyFriends(usernameDest: string) {
-      $q.dialog({
-        message: t('db.domanda_addtofriend', { username: usernameDest }),
-        ok: { label: t('dialog.yes'), push: true },
-        cancel: { label: t('dialog.cancel') },
-        title: t('db.domanda')
-      }).onOk(() => {
-
-        userStore.setFriendsCmd($q, t, username.value, usernameDest, shared_consts.FRIENDSCMD.SETFRIEND, null)
-          .then((res: any) => {
-            if (res) {
-              console.log('res = ', res)
-              userStore.my.profile.friends = [...userStore.my.profile.friends, res]
-              userStore.my.profile.req_friends = userStore.my.profile.req_friends.filter((rec: IFriends) => rec.username !== usernameDest)
-              tools.showPositiveNotif($q, t('db.addedfriend'))
-            }
-          })
-      })
-    }
-
     function removeFromMyFriends(usernameDest: string) {
       $q.dialog({
         message: t('db.domanda_removefriend', { username: usernameDest }),
@@ -329,9 +269,9 @@ export default defineComponent({
       } else if (cmd === shared_consts.FRIENDSCMD.BLOCK_USER) {
         blockUser(usernameDest)
       } else if (cmd === shared_consts.FRIENDSCMD.SETFRIEND) {
-        addToMyFriends(usernameDest)
+        tools.addToMyFriends($q, t, username.value, usernameDest)
       } else if (cmd === shared_consts.FRIENDSCMD.REQFRIEND) {
-        setRequestFriendship(usernameDest, value)
+        tools.setRequestFriendship($q, t, username.value, usernameDest, value)
       } else if (cmd === shared_consts.FRIENDSCMD.REFUSE_REQ_FRIEND) {
         refuseReqFriends(usernameDest)
       } else if (cmd === shared_consts.FRIENDSCMD.CANCEL_REQ_FRIEND) {

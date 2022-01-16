@@ -190,7 +190,7 @@ export default defineComponent({
     const mytitle = ref('')
     const mycolumns = ref([])
     const colkey = ref('')
-    const search = ref('paoloar773')
+    const search = ref('')
 
     const tablesel = ref('')
 

@@ -7,12 +7,21 @@
           <!-- Edit Value -->
           <div v-if="col.fieldtype === costanti.FieldType.boolean">
             <div v-if="isInModif">
-              <q-checkbox
-                v-model="myvalue"
-                @update:model-value="changevalRec"
-                :label="col.title">
-              </q-checkbox>
-              <span v-html="visuValByType(myvalue, col, row)"></span>
+              <span v-if="insertMode">
+                <q-checkbox
+                  v-model="myvalue"
+                  @update:model-value="changevalRec"
+                  :label="col.label">
+                </q-checkbox>
+              </span>
+              <span v-else>
+                <q-checkbox
+                  v-model="myvalue"
+                  @update:model-value="changevalRec"
+                  :label="col.title">
+                </q-checkbox>
+                <span v-html="visuValByType(myvalue, col, row)"></span>
+              </span>
             </div>
             <div v-else>
               <q-toggle
@@ -53,6 +62,7 @@
                 v-bind="$attrs"
                 v-model="myvalue"
                 @update:model-value="Savedb"
+                :label="visulabel ? col.label : ''"
                 type="number"
                 autofocus>
 
@@ -201,6 +211,9 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.binary">
             <div v-if="isInModif">
+              <span v-if="insertMode">
+                {{col.label }}:
+              </span>
               <CMyToggleList
                 :label="col.titlepopupedit"
                 :options="globalStore.getTableJoinByName(col.jointable)"

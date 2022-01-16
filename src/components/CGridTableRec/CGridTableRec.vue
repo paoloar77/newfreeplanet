@@ -389,7 +389,8 @@
                   :subfield="col.subfield"
                   :isInModif="true"
                   minuteinterval="1"
-                  :visulabel="false"
+                  :visulabel="true"
+                  :insertMode="true"
                   @save="SaveValue"
                   @show="selItem(newRecord, col)"
                   @showandsave="showandsel">

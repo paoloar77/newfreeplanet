@@ -69,8 +69,8 @@
   </q-page>
 
 </template>
-<script lang="ts" src="./home_pdnm.ts">
+<script lang="ts" src="./home_insiemesipuo.ts">
 </script>
 <style lang="scss" scoped>
-@import './home_pdnm.scss';
+@import './home_insiemesipuo.scss';
 </style>
