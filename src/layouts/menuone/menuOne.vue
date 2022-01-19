@@ -3,7 +3,7 @@
     <q-list class="rounded-borders text-primary">
       <div v-for="ind1 in getmenu()" :key="ind1">
         <!--<div class="q-list-header">{{replaceUnderlineToSpace(index)}}</div>-->
-        <div v-for="(myitemmenu, ind2) in static_data.routes" :key="ind2">
+        <div v-for="(myitemmenu, ind2) in myroutes" :key="ind2">
           <div v-if="myitemmenu.active">
             <div v-if="myitemmenu.routes2 && myitemmenu.inmenu && tools.visumenu(myitemmenu)">
 

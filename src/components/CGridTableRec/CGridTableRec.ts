@@ -227,6 +227,8 @@ export default defineComponent({
 
     const mycodeid = toRef(props, 'prop_codeId')
 
+    const myvertical = ref(0)
+
     const valoriopt = computed(() => (item: any, addall: boolean) => {
       // console.log('valoriopt', item.table)
       return globalStore.getTableJoinByName(item.table, addall, item.filter)
@@ -730,7 +732,9 @@ export default defineComponent({
           const mysub = elem.subfield ? elem.subfield : ''
           if (elem) {
             if (elem.field !== costanti.NOFIELD) {
-              colVisib.value.push(elem.field + mysub)
+              if (checkIfColShow(elem.field)) {
+                colVisib.value.push(elem.field + mysub)
+              }
             }
 
             if (elem.visible && elem.field === costanti.NOFIELD) {
@@ -792,6 +796,11 @@ export default defineComponent({
       mycolumns.value = props.prop_mycolumns
       colkey.value = props.prop_colkey
       pagination.value = props.prop_pagination
+
+      myvertical.value = props.vertical ? -1 : 0
+      if (props.finder) {
+        myvertical.value = tools.getCookie('myv', 0)
+      }
     }
 
     function mounted() {
@@ -799,10 +808,12 @@ export default defineComponent({
 
       console.log('props.filtercustom', props.filtercustom)
 
+
       if (!!props.tablesList) {
         canEdit.value = tools.getCookie(tools.CAN_EDIT, canEdit) === 'true'
         tablesel.value = tools.getCookie('tablesel', tablesel.value)
       }
+
       myfilterand.value = props.filterdef
       // myfiltercustom.value = props.filtercustom
       // console.log('tablesel', tablesel)
@@ -926,6 +937,16 @@ export default defineComponent({
       }
     }
 
+    function checkIfColShow(field: string|undefined) {
+      let vis = true
+      if (props.prop_mytable === 'myskills' && !props.prop_search) {
+        if (field === 'username') {
+          vis = false
+        }
+      }
+      return vis
+    }
+
     function changeCol(newval: any) {
       // console.log('changecol', mytable.value)
       if (!!mytable.value) {
@@ -993,8 +1014,11 @@ export default defineComponent({
           colVisib.value = myselcol.split('|')
         } else {
           mycolumns.value.forEach((elem: any) => {
-            if (elem.field !== costanti.NOFIELD)
-              colVisib.value.push(elem.field + elem.subfield)
+            if (elem.field !== costanti.NOFIELD) {
+              if (checkIfColShow(elem.field)) {
+                colVisib.value.push(elem.field + elem.subfield)
+              }
+            }
           })
         }
       }
@@ -1163,7 +1187,6 @@ export default defineComponent({
       return (rec._id > 0 && typeof rec._id === 'number') || rec._id !== 'number'
     }
 
-
     // onMounted(mounted)
 
     created()
@@ -1236,6 +1259,7 @@ export default defineComponent({
       valoriopt,
       labelcombo,
       filter,
+      myvertical,
     }
   }
 })

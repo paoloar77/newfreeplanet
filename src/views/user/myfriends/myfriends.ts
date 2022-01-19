@@ -50,6 +50,7 @@ export default defineComponent({
             username: 1,
             name: 1,
             'profile.img': 1,
+            'profile.qualifica': 1,
           }
         }
       }

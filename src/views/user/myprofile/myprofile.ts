@@ -26,6 +26,8 @@ export default defineComponent({
     const $q = useQuasar()
     const { t } = useI18n()
 
+    const animation = ref('fade')
+
     const username = computed(() => $route.params.username ? $route.params.username.toString() : userStore.my.username)
 
     const filtroutente = ref(<any[]>[])
@@ -92,8 +94,8 @@ export default defineComponent({
       showPic,
       myusername,
       userStore,
-      $q,
       t,
+      animation,
     }
   }
 })

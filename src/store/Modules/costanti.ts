@@ -54,6 +54,8 @@ export const costanti = {
     listimages: 1024,
     exact: 2048,
     image: 3000,
+    select_by_server: 4000,
+    multiselect_by_server: 4010,
     nationality: 4096,
     intcode: 5000,
     multioption: 6000,
@@ -76,6 +78,7 @@ export const costanti = {
     TESTO: 1,
     LINK: 2,
     BUTTON: 3,
+    LINKIMG: 4,
   },
 
 }

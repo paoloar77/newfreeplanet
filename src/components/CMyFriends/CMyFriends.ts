@@ -228,22 +228,6 @@ export default defineComponent({
       })
     }
 
-    function cancelReqFriends(usernameDest: string) {
-      $q.dialog({
-        message: t('db.domanda_cancel_req_friend', { username: usernameDest }),
-        ok: { label: t('dialog.yes'), push: true },
-        cancel: { label: t('dialog.cancel') },
-        title: t('db.domanda')
-      }).onOk(() => {
-
-        userStore.setFriendsCmd($q, t, username.value, usernameDest, shared_consts.FRIENDSCMD.CANCEL_REQ_FRIEND, null).then((res) => {
-          if (res) {
-            userStore.my.profile.asked_friends = userStore.my.profile.asked_friends.filter((rec: IUserFields) => rec.username !== usernameDest)
-            tools.showPositiveNotif($q, t('db.cancel_req_friend'))
-          }
-        })
-      })
-    }
 
     function blockUser(usernameDest: string) {
       $q.dialog({
@@ -269,13 +253,13 @@ export default defineComponent({
       } else if (cmd === shared_consts.FRIENDSCMD.BLOCK_USER) {
         blockUser(usernameDest)
       } else if (cmd === shared_consts.FRIENDSCMD.SETFRIEND) {
-        tools.addToMyFriends($q, t, username.value, usernameDest)
+        tools.addToMyFriends($q, username.value, usernameDest)
       } else if (cmd === shared_consts.FRIENDSCMD.REQFRIEND) {
-        tools.setRequestFriendship($q, t, username.value, usernameDest, value)
+        tools.setRequestFriendship($q, username.value, usernameDest, value)
       } else if (cmd === shared_consts.FRIENDSCMD.REFUSE_REQ_FRIEND) {
         refuseReqFriends(usernameDest)
       } else if (cmd === shared_consts.FRIENDSCMD.CANCEL_REQ_FRIEND) {
-        cancelReqFriends(usernameDest)
+        tools.cancelReqFriends($q, username.value, usernameDest)
       }
     }
 

@@ -19,17 +19,27 @@
       </div>
       <div class="col-12 text-h7">
         <span v-if="myuser.profile.born_city">{{ myuser.profile.born_city }}</span> <span
-        v-if="myuser.profile.nationality">({{ myuser.profile.nationality }})</span>
+        v-if="myuser.profile.nationality && myuser.profile.nationality !== 'Italia'">({{ myuser.profile.nationality }})</span>
       </div>
 
-      <div>
+      <div v-if="myuser.username !== userStore.my.username">
         <q-btn
-          v-if="!userStore.IsMyFriendByUsername(myuser.username)"
+          v-if="!userStore.IsMyFriendByUsername(myuser.username) && !userStore.IsAskedFriendByUsername(myuser.username)"
           icon="fas fa-user-plus"
           color="primary" :label="$t('friends.ask_friend')"
-          @click="tools.setRequestFriendship($q, t, userStore.my.username, myuser.username, true)"/>
+          @click="tools.setRequestFriendship($q, userStore.my.username, myuser.username, true)"
+        />
+        <q-btn
+          v-if="userStore.IsAskedFriendByUsername(myuser.username) && !userStore.IsMyFriendByUsername(myuser.username)"
+          icon="fas fa-user-minus"
+          flat :label="$t('friends.cancel_ask_friend_short')"
+          @click="tools.cancelReqFriends($q, userStore.my.username, myuser.username)"
+        />
       </div>
 
+      <div class="col-12 text-h8 q-mt-sm">
+        <em><span class="qualifica">{{ myuser.profile.qualifica }}</span></em>
+      </div>
       <div class="col-12 text-h8 q-mt-sm">
         {{ myuser.profile.biografia }}
       </div>
@@ -103,6 +113,7 @@
       <CSkill
         :filtercustom="filtroutente"
         :butt_modif_new="false"
+
       >
 
       </CSkill>

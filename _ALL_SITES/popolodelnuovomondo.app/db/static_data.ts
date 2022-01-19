@@ -105,6 +105,19 @@ const routes_admin: IListRoutes[] = [
     inmenu: true,
     submenu: true,
     onlyAdmin: true
+  },
+  {
+    active: true,
+    order: 1040,
+    path: '/admin/importfile',
+    materialIcon: 'event_seat',
+    name: 'otherpages.manage.importfile',
+    component: () => import('@/rootgen/admin/importdata/importdata.vue'),
+    level_parent: 0.0,
+    level_child: 0.5,
+    inmenu: true,
+    submenu: true,
+    onlyAdmin: true
   }
 ]
 

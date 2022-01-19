@@ -124,13 +124,22 @@
           </q-badge>
         </q-btn>
 
-        <q-btn
-          class="q-mx-xs" v-if="static_data.functionality.SHOW_USER_MENU && isLogged()" round dense flat
+        <!--<q-avatar v-if="static_data.functionality.SHOW_USER_MENU && isLogged()"
+                  size="30px"
+                  @click="rightDrawerOpen = !rightDrawerOpen" :color="getcolormenu()">
+          <q-img :src="getMyImgforIcon()" :alt="Username()" img-class=""/>
+        </q-avatar>-->
+
+        <q-avatar v-if="static_data.functionality.SHOW_USER_MENU && isLogged()"
+                  size="36px" class="center_img cursor-pointer"
+                  @click="rightDrawerOpen = !rightDrawerOpen">
+          <q-img ratio="1" fit="conver" :src="getMyImg()" :alt="Username()" img-class="imgprofile_small" stretch="false" />
+        </q-avatar>
+
+        <!--<q-btn
+          class="q-mx-xs iconprofile_small" v-if="static_data.functionality.SHOW_USER_MENU && isLogged()" round dense flat
           @click="rightDrawerOpen = !rightDrawerOpen" :icon="getMyImgforIcon()" :color="getcolormenu()">
-          <!--<q-badge v-if="isSocio" color="green" floating transparent>
-            s
-          </q-badge>-->
-        </q-btn>
+        </q-btn>-->
 
       </q-toolbar>
 
@@ -169,7 +178,11 @@
         <div class="absolute-top bg-transparent text-black center_img" style="margin-top: 10px;">
           <div class="text-center q-ma-xs boldhigh text-white text-h7">Area Personale</div>
 
-          <CMyAvatar :myimg="getMyImg()"></CMyAvatar>
+          <q-avatar size="80px" class="center_img q-ma-md">
+            <q-img fit="cover" :src="getMyImg()" :alt="Username()" img-class="imgprofile" height="80px"/>
+          </q-avatar>
+
+          <!--<CMyAvatar :myimg="getMyImg()"></CMyAvatar>-->
 
           <q-btn
             class="absolute-top-right" style="margin-right: 10px; color: white;"

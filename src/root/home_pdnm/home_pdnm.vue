@@ -11,7 +11,6 @@
 
     <!--<CMapsEsempio></CMapsEsempio>-->
 
-
     <div v-if="isLogged()">
       <CVerifyEmail v-if="!isEmailVerified()">
 
@@ -20,6 +19,7 @@
       <CVerifyTelegram v-if="TelegCode() || !TelegVerificato()">
 
       </CVerifyTelegram>
+
 
 
       <div v-if="isUserOk()">

@@ -158,7 +158,7 @@ export default defineComponent({
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
 
-    const myvalue = ref(<any>'')
+    const myvalue = ref(<any>null)
     const myvalueprec = ref('false')
     const countryname = ref('')
     const visueditor = ref(false)
@@ -445,7 +445,7 @@ export default defineComponent({
           return '[---]'
         else
           return globalStore.getValueByTable(col, val)
-      } else if (col.fieldtype === costanti.FieldType.nationality) {
+      } else if ((col.fieldtype === costanti.FieldType.nationality) || (col.fieldtype === costanti.FieldType.select_by_server) || (col.fieldtype === costanti.FieldType.multiselect_by_server)) {
         if (!val)
           return '[---]'
         else

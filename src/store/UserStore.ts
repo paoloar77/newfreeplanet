@@ -876,6 +876,19 @@ export const useUserStore = defineStore('UserStore', {
           return {}
         })
 
+    },
+
+    async importToServerCmd($q: any, t: any, cmd: number, data: any) {
+      return Api.SendReq('/admin/import', 'POST', { cmd, data })
+        .then((res) => {
+          if (res) {
+            tools.showPositiveNotif($q, t('db.recupdated'))
+          }
+        }).catch((error) => {
+          tools.showNegativeNotif($q, t('db.recfailed'))
+          return {}
+        })
+
     }
   },
 })

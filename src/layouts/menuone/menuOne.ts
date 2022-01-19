@@ -1,9 +1,10 @@
 import { IListRoutes } from '@src/model'
 import { useGlobalStore } from '@store/globalStore'
 import { tools } from '@store/Modules/tools'
-import { computed, defineComponent, watch } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { static_data } from '@/db/static_data'
+import { useUserStore } from '@store/UserStore'
 
 export default defineComponent({
   name: 'MenuOne',
@@ -17,11 +18,16 @@ export default defineComponent({
 
   setup(props) {
     const route = useRoute()
+    const userStore = useUserStore()
     const globalStore = useGlobalStore()
 
     const finishLoading = computed(() => globalStore.finishLoading)
 
     const path = computed(() => route.path)
+
+    const getroutes = computed(() => static_data.routes)
+
+    const myroutes = ref(<IListRoutes[]>[])
 
     function getmenu(): any {
       // console.log('getmenu menuOne!')
@@ -36,7 +42,12 @@ export default defineComponent({
       })
     }
 
-    watch(path, (to: string, from: string) => {
+    watch(() => userStore.isLogged,(to, from) => {
+      myroutes.value = []
+      myroutes.value = static_data.routes
+    })
+
+    watch(() => path, (to, from) => {
       const mymenu = globalStore.getmenu
       // console.log('watch:', mymenu)
       Object.keys(mymenu).forEach((parentName: any) => {
@@ -80,6 +91,8 @@ export default defineComponent({
       return menu
     }
 
+    myroutes.value = static_data.routes
+
     return {
       getmenu,
       finishLoading,
@@ -87,6 +100,8 @@ export default defineComponent({
       getroute,
       static_data,
       tools,
+      getroutes,
+      myroutes,
     }
   },
 })

@@ -76,11 +76,21 @@
       </div>
 
       <CMyFieldDb
+        title="Qualifica"
+        table="users"
+        mykey="profile"
+        mysubkey="qualifica"
+        maxlength="40"
+        :showall="true"
+        :type="costanti.FieldType.string">
+      </CMyFieldDb>
+
+      <CMyFieldDb
         title="Biografia"
         table="users"
         mykey="profile"
         mysubkey="biografia"
-        maxlength="200"
+        maxlength="300"
         :showall="true"
         :type="costanti.FieldType.string">
       </CMyFieldDb>

@@ -233,8 +233,6 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return state.statusSkills
       else if (table === 'sectors')
         return state.sectors
-      else if (table === 'cities')
-        return state.cities
       else {
         return ris
       }
@@ -1296,6 +1294,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       if (table === 'bottype') return shared_consts.BotType
       if (table === 'visibility') return shared_consts.Visibility
       if (table === 'lang') return shared_consts.Lang
+      if (table === 'regions') return shared_consts.Regions
 
       let myarr = this.getListByTable(table)
 

@@ -63,6 +63,7 @@ function AddCol(params: IColGridTable) {
     link: (params.link === undefined) ? '' : params.link,
     visuonlyEditVal: (params.visuonlyEditVal === undefined) ? false : params.visuonlyEditVal,
     askaction: (params.askaction === undefined) ? '' : params.askaction,
+    tablesel: (params.tablesel === undefined) ? '' : params.tablesel,
     jointable: (params.jointable === undefined) ? '' : params.jointable,
     notShowInNewRec: (params.notShowInNewRec === undefined) ? false : params.notShowInNewRec,
   }
@@ -333,7 +334,7 @@ export const colCitys = [
   AddCol({ name: 'reg', label_trans: 'city.reg' }),
   AddCol({ name: 'pref', label_trans: 'city.pref' }),
   AddCol({ name: 'cap', label_trans: 'city.cap' }),
-  AddCol({ name: 'abitanti', label_trans: 'city.abitanti', fieldtype: costanti.FieldType.number }),
+  // AddCol({ name: 'abitanti', label_trans: 'city.abitanti', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'country', label_trans: 'city.country' }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
@@ -441,8 +442,9 @@ export const colmySkills = [
   AddCol({
     name: 'idCity',
     label_trans: 'skill.city',
-    fieldtype: costanti.FieldType.multiselect,
+    fieldtype: costanti.FieldType.multiselect_by_server,
     jointable: 'cities',
+    tablesel: 'cities',
   }),
   AddCol({
     name: 'photos',
@@ -450,7 +452,7 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.listimages,
     jointable: '',
   }),
-  AddCol({ name: 'subTitle', label_trans: 'skill.note' }),
+  AddCol({ name: 'subTitle', label_trans: 'skill.note', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html }),
   AddCol(DuplicateRec),
   AddCol(ModifRec),
@@ -1403,6 +1405,7 @@ export const fieldsTable = {
     }),
     AddCol({ name: 'profile.motivazioni', field: 'profile', subfield: 'motivazioni', label_trans: 'reg.motivazioni', }),
     AddCol({ name: 'profile.biografia', field: 'profile', subfield: 'biografia', label_trans: 'reg.biografia', }),
+    AddCol({ name: 'profile.qualifica', field: 'profile', subfield: 'qualifica', label_trans: 'reg.qualifica', }),
     AddCol({
       name: 'profile.paymenttypes',
       field: 'profile',
@@ -1693,6 +1696,15 @@ export const fieldsTable = {
       noshow: true,
     },
     {
+      value: 'regions',
+      label: 'Regioni',
+      columns: colTablePermission,
+      colkey: 'value',
+      collabel: 'label',
+      colicon: 'icon',
+      noshow: true,
+    },
+    {
       value: 'accepted',
       label: 'Condizioni',
       colkey: 'value',
@@ -1764,10 +1776,11 @@ export const fieldsTable = {
     },
     {
       value: 'cities',
-      label: 'Città',
+      label: 'Comune',
       columns: colCitys,
       colkey: '_id',
       collabel: 'comune',
+      remote: true,
     },
     {
       value: 'countries',

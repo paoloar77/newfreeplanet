@@ -903,6 +903,18 @@ $heightBtn: 100%;
   margin: 1px;
 }
 
+.imgprofile_small{
+  border: 0px solid rgb(29, 118, 13);
+  border-radius: 30px;
+  box-shadow: 0 0 45px rgba(246, 246, 246, 0.2);
+  margin: 1px;
+  transform: scale(1.0);
+}
+
+.iconprofile_small{
+  border-radius: 30px;
+}
+
 .fill-all-width {
   width: -webkit-fill-available;
 }

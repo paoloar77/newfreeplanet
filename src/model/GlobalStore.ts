@@ -501,6 +501,7 @@ export interface IColGridTable {
   resultjoin?: string[]
   visuonlyEditVal?: boolean
   notShowInNewRec?: boolean
+  tablesel?: string
 }
 
 export interface ITableRec {
@@ -523,9 +524,11 @@ export interface ISearchList {
   value: any
   type: number
   filter: any
+  useinput: boolean
   notinsearch?: boolean
   addall?: boolean
   showcount?: boolean
+  tablesel?: string
 }
 
 export interface IFilter {

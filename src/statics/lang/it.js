@@ -32,6 +32,7 @@ const msg_it = {
       sito_offline: 'Sito in Aggiornamento',
       modifprof: 'Modifica Profilo',
       biografia: 'Biografia',
+      qualifica: 'Qualifica (in breve)',
       update: 'Aggiornamento in Corso...',
       error404: 'error404',
       error404def: 'error404def',
@@ -59,6 +60,7 @@ const msg_it = {
         manager: 'Segreteria',
         nessuno: 'Nessuno',
         sendpushnotif: 'Invia Msg Push',
+        importfile: 'Importa File',
       },
       messages: {
         menu: 'I tuoi Messaggi',
@@ -851,6 +853,7 @@ const msg_it = {
       block_user: 'Blocca Utente',
       ask_friend: 'Chiedi l\'Amicizia',
       cancel_ask_friend: 'Annulla la richiesta di Amicizia',
+      cancel_ask_friend_short: 'Annulla richiesta',
       reject_ask_friend: 'Rifiuta la richiesta di Amicizia',
     }
   },

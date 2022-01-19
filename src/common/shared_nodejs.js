@@ -45,6 +45,12 @@ module.exports = {
     Outcoming: 2,
   },
 
+  Cmd: {
+    PROVINCE: 1,
+    COMUNI: 2,
+    CITIES_SERVER: 3,
+  },
+
   WalletFinalStatusType: {
     None: 0,
     InCommonCash: 1,

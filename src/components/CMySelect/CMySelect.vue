@@ -1,6 +1,69 @@
 <template>
   <div class="text-center">
-    <div v-if="useinput">
+    <div v-if="multiselect_by_server">
+      <q-select
+        :model-value="myarrvalue"
+        label-color="primary"
+        :label="label"
+        @filter="filterFn"
+        @filter-abort="abortFilterFn"
+        @update:model-value="changeval"
+        input-debounce="300"
+        rounded
+        outlined
+        fill-input
+        multiple
+        options-dense
+        map-options
+        stack-label
+        emit-value
+        :use-input="true"
+        :dense="dense"
+        :input-class="myclass"
+        :options="valori"
+        :option-value="optval"
+        class="combowidth"
+      >
+
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
+        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+          <q-item v-bind="itemProps">
+
+            <q-item-section>
+              <q-item-label>{{ opt[fieldsTable.getLabelByTable(tablesel)] }}</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)"/>
+            </q-item-section>
+          </q-item>
+        </template>
+        <template v-slot:selected-item="scope">
+          <div v-if="scope.opt[fieldsTable.getLabelByTable(tablesel)]">
+            <q-chip
+              removable
+              dense
+              @remove="scope.removeAtIndex(scope.index)"
+              v-if="checkIfShowRec(scope.opt)"
+              color="white"
+              text-color="mycol"
+              class="q-my-none q-ml-xs q-mr-none"
+            >
+              <q-avatar color="primary" text-color="white" icon="" size="12px"/>
+              {{ scope.opt[fieldsTable.getLabelByTable(tablesel)] }}
+            </q-chip>
+          </div>
+        </template>
+
+      </q-select>
+
+    </div>
+    <div v-else-if="useinput">
       <q-select
         :multiple="multiple"
         rounded
@@ -9,6 +72,7 @@
         :input-class="myclass"
         :model-value="myvalue"
         :use-input="useinput"
+        @filter="filterFn"
         input-debounce="0"
         @new-value="newvaluefunc"
         new-value-mode="add-unique"
@@ -52,11 +116,8 @@
         </template>
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
-            <q-item-section avatar>
-              {{ scope.opt.flag }}
-            </q-item-section>
             <q-item-section>
-              <q-item-label> {{ scope.opt.value }}</q-item-label>
+              <q-item-label> {{ scope.opt[optlab] }}</q-item-label>
             </q-item-section>
           </q-item>
         </template>

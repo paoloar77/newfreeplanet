@@ -2,7 +2,7 @@
   <div :class="getclassCol(col)">
     <div v-if="(visInNewRec(col) && visulabel) || !visulabel " style="flex-grow: 1;">
       <div
-        :class="{ flex: true, 'justify-center': true }">
+        :class="{ flex: !isInModif, 'justify-center': true }">
         <div>
           <!-- Edit Value -->
           <div v-if="col.fieldtype === costanti.FieldType.boolean">
@@ -31,11 +31,12 @@
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.string">
-            <div v-if="visulabel || isInModif" class="flex">
+            <div v-if="visulabel || isInModif" :class="{ flex: !isInModif }">
               <q-input
                 v-bind="$attrs"
                 v-model="myvalue"
                 autogrow
+                counter
                 :disable="disable"
                 :readonly="disable"
                 @keyup.enter.stop
@@ -50,6 +51,10 @@
                      color="white" text-color="blue" icon="person" :to="col.link.replace(col.name, myvalue)">
                 <span :class="{disabled: disable }">{{ myvalue }}</span>
               </q-btn>
+              <q-avatar v-else-if="col.tipovisu === costanti.TipoVisu.LINKIMG && myvalue" size="60px">
+
+                <q-img :src="getImgUser(contact)" :alt="myvalue" img-class="imgprofile" height="60px"/>
+              </q-avatar>
               <q-btn v-else-if="col.tipovisu === costanti.TipoVisu.BUTTON && myvalue" rounded dense size="sm"
                      color="primary" icon="person" :to="col.link.replace(col.name, myvalue)">{{ myvalue }}
               </q-btn>
@@ -279,11 +284,13 @@
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
             </div>
           </div>
-          <div v-else-if="col.fieldtype === costanti.FieldType.select">
+          <div v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
             <div v-if="isInModif">
               <CMySelect
                 :label="col.label"
                 v-model:value="myvalue"
+                :pickup="col.fieldtype === costanti.FieldType.select_by_server"
+                :tablesel="col.type === costanti.FieldType.select_by_server ? tablesel : ''"
                 @update:value="changevalRec"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
@@ -302,6 +309,27 @@
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
             </div>
+          </div>
+          <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
+            tablesel: {{tablesel}}
+            myvalue: {{ myvalue}}
+            <CMySelect
+              :isarray="true"
+              :multiselect_by_server="true"
+              :label="col.label"
+              v-model:arrvalue="myvalue"
+              @update:arrvalue="changevalRec"
+              :addall="true"
+              :tablesel="tablesel"
+              :pickup="true"
+              label-color="primary"
+              class="combowidth"
+              color="primary"
+              :optval="fieldsTable.getKeyByTable(col.jointable)"
+              :optlab="fieldsTable.getLabelByTable(col.jointable)"
+              :options="globalStore.getTableJoinByName(col.jointable)"
+              :useinput="true">
+            </CMySelect>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.star5">
             <div v-if="isInModif">
@@ -330,6 +358,9 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.html">
             <div v-if="isInModif">
+              <div v-if="insertMode">
+
+              </div>
               <div v-if="!isFieldDb()">
                 <CMyEditor
                   v-model:value="myvalue" :title="col.title" @keyup.enter.stop
@@ -414,6 +445,7 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.string">
               <q-input
                 v-bind="$attrs"
+                counter
                 v-model="scope.value"
                 autogrow
                 @keyup.enter.stop
@@ -464,15 +496,65 @@
                 </q-input>
               </div>
             </div>
-            <div v-else-if="col.fieldtype === costanti.FieldType.select">
+            <div v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
               <CMySelect
                 :label="col.label"
                 v-model:value="scope.value"
+                :pickup="col.fieldtype === costanti.FieldType.select_by_server"
+                :tablesel="col.type === costanti.FieldType.select_by_server ? tablesel : ''"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :options="globalStore.getTableJoinByName(col.jointable)"
                 :useinput="false">
               </CMySelect>
+            </div>
+            <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
+              <CMySelect
+                :multiselect_by_server="true"
+                :label="col.label"
+                v-model:arrvalue="scope.value"
+                @update:arrvalue="changevalRec"
+                :addall="false"
+                :tablesel="tablesel"
+                :pickup="true"
+                label-color="primary"
+                class="combowidth"
+                color="primary"
+                :optval="fieldsTable.getKeyByTable(col.jointable)"
+                :optlab="fieldsTable.getLabelByTable(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable)"
+                :useinput="true">
+              </CMySelect>
+            </div>
+            <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
+              <q-select
+                v-model="scope.value"
+                rounded
+                outlined
+                multiple
+                dense
+                options-dense
+                :display-value="fieldsTable.getTitleByTable(col.jointable)"
+                emit-value
+                map-options
+                :options="globalStore.getTableJoinByName(col.jointable)"
+                class="combowidth"
+                :option-value="fieldsTable.getKeyByTable(col.jointable)"
+                @update:model-value="changeval">
+
+                <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+                  <q-item v-bind="itemProps">
+
+                    <q-item-section>
+                      <q-item-label>{{ opt[fieldsTable.getLabelByTable(col.jointable)] }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)"/>
+                    </q-item-section>
+                  </q-item>
+                </template>
+
+              </q-select>
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.nationality">
               <div class="justify-center q-gutter-sm clgutter q-mt-sm">
@@ -513,37 +595,6 @@
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)">
               </CMyToggleList>
-            </div>
-            <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
-
-              <q-select
-                v-model="scope.value"
-                rounded
-                outlined
-                multiple
-                dense
-                options-dense
-                :display-value="fieldsTable.getTitleByTable(col.jointable)"
-                emit-value
-                map-options
-                :options="globalStore.getTableJoinByName(col.jointable)"
-                class="combowidth"
-                :option-value="fieldsTable.getKeyByTable(col.jointable)"
-                @update:model-value="changeval">
-
-                <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
-                  <q-item v-bind="itemProps">
-
-                    <q-item-section>
-                      <q-item-label>{{ opt[fieldsTable.getLabelByTable(col.jointable)] }}</q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                      <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)"/>
-                    </q-item-section>
-                  </q-item>
-                </template>
-
-              </q-select>
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.star5">
               <CMySelect

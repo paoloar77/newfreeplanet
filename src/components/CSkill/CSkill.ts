@@ -97,18 +97,47 @@ export default defineComponent({
           lk_proj: {
             idSkill: 1,
             idSubSkill: 1,
+            idCity: 1,
             numLevel: 1,
             photos: 1,
             note: 1,
             subTitle: 1,
             date_created: 1,
             date_updated: 1,
+            comune: 1,
             userId: 1,
             username: 1,
             name: 1,
-            surname: 1
+            surname: 1,
+            'profile.img': 1,
+            'profile.qualifica': 1,
           }
-        }
+        },
+        lookup2: {
+          lk_tab: 'cities',
+          lk_LF: 'idCity',
+          lk_FF: '_id',
+          lk_as: 'comune',
+          af_objId_tab: '',
+          lk_proj: {
+            idSkill: 1,
+            idSubSkill: 1,
+            idCity: 1,
+            numLevel: 1,
+            photos: 1,
+            note: 1,
+            subTitle: 1,
+            date_created: 1,
+            date_updated: 1,
+            comune: 1,
+            userId: 1,
+            username: 1,
+            name: 1,
+            surname: 1,
+            'profile.img': 1,
+            'profile.qualifica': 1,
+          }
+        },
       }
     }
 

@@ -60,6 +60,7 @@ export const shared_consts = {
   TAB_COUNTRY: 'countries',
   TAB_CITIES: 'cities',
   TAB_PHONES: 'phones',
+  TAB_SITES: 'sites',
   TAB_SETTINGS: 'settings',
 
   KEY_TO_CRYPTED: ['PWD_FROM'],
@@ -70,6 +71,12 @@ export const shared_consts = {
     None: 0,
     Incoming: 1,
     Outcoming: 2,
+  },
+
+  Cmd: {
+    PROVINCE: 1,
+    COMUNI: 2,
+    CITIES_SERVER: 3,
   },
 
   BOTTYPE_NONE: 0,
@@ -101,6 +108,89 @@ export const shared_consts = {
   VISIB_ONLY_MANAGER: 2,
   VISIB_ONLY_ADMIN: 4,
 
+
+  Regions: [
+    {
+      value: 'ABR',
+      label: 'Abruzzo',
+    },
+    {
+      value: 'BAS',
+      label: 'Basilicata',
+    },
+    {
+      value: 'CAL',
+      label: 'Calabria',
+    },
+    {
+      value: 'CAM',
+      label: 'Campania',
+    },
+    {
+      value: 'EMI',
+      label: 'Emilia-Romagna',
+    },
+    {
+      value: 'FRI',
+      label: 'Friuli Venezia Giulia',
+    },
+    {
+      value: 'LAZ',
+      label: 'Lazio',
+    },
+    {
+      value: 'LIG',
+      label: 'Liguria',
+    },
+    {
+      value: 'LOM',
+      label: 'Lombardia',
+    },
+    {
+      value: 'MAR',
+      label: 'Marche',
+    },
+    {
+      value: 'MOL',
+      label: 'Molise',
+    },
+    {
+      value: 'PIE',
+      label: 'Piemonte',
+    },
+    {
+      value: 'PUG',
+      label: 'Puglia',
+    },
+    {
+      value: 'SAR',
+      label: 'Sardegna',
+    },
+    {
+      value: 'SIC',
+      label: 'Sicilia',
+    },
+    {
+      value: 'TOS',
+      label: 'Toscana',
+    },
+    {
+      value: 'TRE',
+      label: 'Trentino-Alto Adige',
+    },
+    {
+      value: 'UMB',
+      label: 'Umbria',
+    },
+    {
+      value: 'VAL',
+      label: 'Valle d\'Aosta',
+    },
+    {
+      value: 'VEN',
+      label: 'Veneto',
+    },
+  ],
 
   Lang: [
     {

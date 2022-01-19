@@ -32,7 +32,7 @@
       <q-spinner-tail size="2em" color="primary"/>
     </q-inner-loading>
     <q-table
-      :grid="vertical"
+      :grid="myvertical === -1 || myvertical === 2"
       flat
       bordered
       class="my-sticky-header-table"
@@ -102,22 +102,46 @@
              :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue`">
           <span v-for="(item, index) in searchList" :key="index">
             <CMySelect
-              v-if="item.type === costanti.FieldType.select"
+              v-if="(item.type === costanti.FieldType.select) || (item.type === costanti.FieldType.select_by_server)"
               :label="labelcombo(item)"
               v-model:value="item.value"
               @update:value="searchval(item.value, item.table)"
               :addall="true"
+              :tablesel="item.type === costanti.FieldType.select_by_server ? item.tablesel : ''"
+              :pickup="item.type === costanti.FieldType.select_by_server"
               label-color="primary"
               class="combowidth"
               color="primary"
               :optval="fieldsTable.getKeyByTable(item.table)"
               :optlab="fieldsTable.getLabelByTable(item.table)"
               :options="valoriopt(item, false)"
-              :useinput="false">
+              :useinput="item.useinput && item.type !== costanti.FieldType.select_by_server">
+            </CMySelect>
+
+            <!--<div v-if="item.type === costanti.FieldType.multiselect_by_server">
+              item: {{ item}}
+            </div>-->
+
+            <CMySelect
+              v-if="item.type === costanti.FieldType.multiselect_by_server"
+              :multiselect_by_server="true"
+              :label="labelcombo(item)"
+              v-model:arrvalue="item.arrvalue"
+              @update:arrvalue="searchval(item.arrvalue, item.table)"
+              :addall="false"
+              :tablesel="item.tablesel"
+              :pickup="true"
+              label-color="primary"
+              class="combowidth"
+              color="primary"
+              :optval="fieldsTable.getKeyByTable(item.table)"
+              :optlab="fieldsTable.getLabelByTable(item.table)"
+              :options="valoriopt(item, false)"
+              :useinput="true">
             </CMySelect>
 
             <q-select
-              v-if="item.type === costanti.FieldType.multiselect"
+              v-if="(item.type === costanti.FieldType.multiselect)"
               v-model="item.arrvalue"
               label-color="primary"
               :label="labelcombo(item)"
@@ -130,6 +154,7 @@
               emit-value
               map-options
               stack-label
+              :useinput="item.useinput"
               :options="valoriopt(item, item.addall)"
               class="combowidth"
               :option-value="fieldsTable.getKeyByTable(item.table)"
@@ -202,7 +227,14 @@
 
         </div>
 
-        <div v-if="pagination.rowsNumber > 0 && prop_search">{{ pagination.rowsNumber }} elementi trovati</div>
+        <div v-if="pagination.rowsNumber === 1 && prop_search">{{ pagination.rowsNumber }} elemento trovato</div>
+        <div v-if="pagination.rowsNumber > 1 && prop_search">{{ pagination.rowsNumber }} elementi trovati</div>
+
+        <div v-if="finder" class="">
+          <q-radio v-model="myvertical" :val="2" label="Lista" @update:model-value="tools.setCookie('myv', myvertical) "/>
+          <q-radio v-model="myvertical" :val="-1" label="Scheda" @update:model-value="tools.setCookie('myv', myvertical) "/>
+          <q-radio v-model="myvertical" :val="0" label="Tabella" @update:model-value="tools.setCookie('myv', myvertical) "/>
+        </div>
       </template>
 
       <template v-slot:body="props">
@@ -251,7 +283,7 @@
 
 
       <template v-slot:item="props">
-        <div v-if="showType === costanti.SHOW_USERINFO" class="fill-all-width">
+        <div v-if="(showType === costanti.SHOW_USERINFO) || (myvertical === 2)" class="fill-all-width">
           <div>
             <CMyFriends
               v-model="filter"
@@ -267,7 +299,7 @@
           class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
           :style="props.selected ? 'transform: scale(0.95);' : ''"
         >
-          <q-card :class="props.selected ? 'bg-grey-2' : ''">
+          <q-card :class="props.selected ? 'bg-grey-2' : ''" style="min-width: 200px;">
             <q-bar dense class="bg-primary text-white">
               <span class="ellipsis"> {{ props.row[col_title] }} </span>
               <q-space/>
@@ -352,6 +384,7 @@
                 :mycol="mycol"
                 :showall="true"
                 :row="rowclicksel"
+                :tablesel="col.tablesel"
                 :field="mycol.field"
                 :subfield="mycol.subfield"
                 @save="SaveValdb"
@@ -378,7 +411,6 @@
             <div
               v-if="colVisib.includes(col.field + col.subfield) && col.foredit">
               <div class="">
-
                 <CMyPopupEdit
                   :table="mytable"
                   :canEdit="true"
@@ -387,6 +419,7 @@
                   v-model:row="newRecord"
                   :field="col.field"
                   :subfield="col.subfield"
+                  :tablesel="col.tablesel"
                   :isInModif="true"
                   minuteinterval="1"
                   :visulabel="true"
@@ -424,6 +457,7 @@
                   :table="mytable"
                   :canEdit="true"
                   :canModify="canModifyThisRec(recModif)"
+                  :tablesel="col.tablesel"
                   :mycol="col"
                   :isInModif="true"
                   v-model:row="recModif"

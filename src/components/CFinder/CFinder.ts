@@ -51,6 +51,10 @@ export default defineComponent({
         }
       }
 
+       function getFilterCities(recSkill: any, index: number, arr: any) {
+        return true
+      }
+
       function getFilterSubSkills(recSubSkill: any, index: number, arr: any) {
         const recskills:any = searchList.value.find((rec) => rec.table === 'skills')
         // console.log('recSubSkill', recSubSkill, 'recskills', recskills)
@@ -73,6 +77,7 @@ export default defineComponent({
           filter: null,
           addall: true,
           notinsearch: true,
+          useinput: false,
         },
         {
           label: 'Competenza',
@@ -84,6 +89,7 @@ export default defineComponent({
           addall: true,
           filter: getFilterSkills,
           showcount: true,
+          useinput: true,
         },
         {
           label: 'Specializz.',
@@ -95,15 +101,28 @@ export default defineComponent({
           addall: true,
           filter: getFilterSubSkills,
           showcount: true,
+          useinput: false,
+        },
+        {
+          label: 'Regione',
+          table: 'regions',
+          key: 'idReg',
+          value: 0,
+          type: costanti.FieldType.select,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'regions', [costanti.FILTER_TUTTI]),
+          filter: null,
+          useinput: true,
         },
         {
           label: 'Citta',
           table: 'cities',
           key: 'idCity',
+          type: costanti.FieldType.multiselect_by_server,
           value: 0,
-          type: costanti.FieldType.multiselect,
           arrvalue: tools.getCookie(tools.COOK_SEARCH + 'cities', [costanti.FILTER_TUTTI]),
           filter: null,
+          useinput: true,
+          tablesel: 'cities',
         },
         {
           label: 'Livello',
@@ -113,6 +132,7 @@ export default defineComponent({
           arrvalue: [],
           type: costanti.FieldType.select,
           filter: null,
+          useinput: false,
         },
         {
           label: 'Stato',
@@ -122,6 +142,7 @@ export default defineComponent({
           arrvalue: tools.getCookie(tools.COOK_SEARCH + 'statusSkills', [costanti.FILTER_TUTTI]),
           type: costanti.FieldType.multiselect,
           filter: null,
+          useinput: false,
         },
         {
           label: 'Contributo',
@@ -131,6 +152,7 @@ export default defineComponent({
           arrvalue: tools.getCookie(tools.COOK_SEARCH + 'contribtypes', [costanti.FILTER_TUTTI]),
           type: costanti.FieldType.multiselect,
           filter: null,
+          useinput: false,
         },
 
       ]
@@ -208,7 +230,10 @@ export default defineComponent({
             userId: 1,
             username: 1,
             name: 1,
-            surname: 1
+            surname: 1,
+            comune: 1,
+            'profile.img': 1,
+            'profile.qualifica': 1,
           }
         },
         lookup3: {
@@ -223,6 +248,13 @@ export default defineComponent({
           lk_LF: 'idSubSkill',
           lk_FF: '_id',
           lk_as: 'myskill',
+          af_objId_tab: '',
+        },
+        lookup5: {
+          lk_tab: 'cities',
+          lk_LF: 'idCity',
+          lk_FF: '_id',
+          lk_as: 'comune',
           af_objId_tab: '',
         },
       }
