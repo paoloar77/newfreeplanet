@@ -123,7 +123,7 @@ export default defineComponent({
 
     watch(() => props.arrvalue, (value: any, oldval: any) => {
         console.log(' MODIF props.arrvalue', props.arrvalue)
-        // mounted()
+        mounted()
       },
     )
 
@@ -203,6 +203,16 @@ export default defineComponent({
       if (props.multiselect_by_server) {
         const num = parseInt(localStorage.getItem(props.tablesel + 'NUM')!)
         console.log('num LOADED ', num)
+        arrtempOpt.value = []
+        if (props.addall) {
+          let myobj: any = {}
+          if (typeof props.optlab === 'string') {
+            myobj[props.optlab] = '(Tutti)'
+            myobj[props.optval] = costanti.FILTER_TUTTI
+          }
+
+          arrtempOpt.value.push(myobj)
+        }
         for (let i = 0; i < num; i++) {
           const itemId = parseInt(localStorage.getItem(props.tablesel + i + props.optval)!)
           const itemlab = localStorage.getItem(props.tablesel + i + props.optlab)
@@ -210,7 +220,8 @@ export default defineComponent({
             let obj: any = {}
             obj[`${props.optval}`] = itemId
             obj[`${props.optlab}`] = itemlab
-            arrtempOpt.value.push(obj)
+            if (!arrtempOpt.value.find((rec) => rec._id === itemId))
+              arrtempOpt.value.push(obj)
           }
         }
 
@@ -233,6 +244,12 @@ export default defineComponent({
           myvalue.value = props.value
         }
         // }
+      }
+      if (!props.multiselect_by_server) {
+        valori.value = valoriload.value
+        console.log('@@@ VALORI CHANGED (4)', valori.value)
+      } else {
+        valori.value = arrtempOpt.value
       }
       // console.log('cmyselect: myvalue.value', myvalue.value)
     }
@@ -259,6 +276,15 @@ export default defineComponent({
                   .then((ris) => {
                     myarr = props.options
                     if (ris) {
+                      if (props.addall) {
+                        let myobj: any = {}
+                        if (typeof props.optlab === 'string') {
+                          myobj[props.optlab] = '(Tutti)'
+                          myobj[props.optval] = costanti.FILTER_TUTTI
+                        }
+
+                        ris = [myobj, ...ris]
+                      }
                       valori.value = ris
                       if (props.multiselect_by_server) {
                         console.log('@@@ VALORI CHANGED (2)', valori.value)
@@ -320,12 +346,6 @@ export default defineComponent({
 
     onMounted(mounted)
 
-    if (!props.multiselect_by_server) {
-      valori.value = valoriload.value
-      console.log('@@@ VALORI CHANGED (4)', valori.value)
-    } else {
-      valori.value = arrtempOpt.value
-    }
 
     return {
       changeval,

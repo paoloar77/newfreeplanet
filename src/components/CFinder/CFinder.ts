@@ -51,10 +51,6 @@ export default defineComponent({
         }
       }
 
-       function getFilterCities(recSkill: any, index: number, arr: any) {
-        return true
-      }
-
       function getFilterSubSkills(recSubSkill: any, index: number, arr: any) {
         const recskills:any = searchList.value.find((rec) => rec.table === 'skills')
         // console.log('recSubSkill', recSubSkill, 'recskills', recskills)
@@ -119,6 +115,7 @@ export default defineComponent({
           key: 'idCity',
           type: costanti.FieldType.multiselect_by_server,
           value: 0,
+          addall: true,
           arrvalue: tools.getCookie(tools.COOK_SEARCH + 'cities', [costanti.FILTER_TUTTI]),
           filter: null,
           useinput: true,

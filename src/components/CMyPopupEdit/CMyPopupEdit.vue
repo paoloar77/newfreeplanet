@@ -506,6 +506,7 @@
               </CMySelect>
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
+              myvalue2 : {{scope.value}}
               <CMySelect
                 :multiselect_by_server="true"
                 :label="col.label"

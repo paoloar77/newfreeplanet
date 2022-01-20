@@ -128,7 +128,7 @@
               :label="labelcombo(item)"
               v-model:arrvalue="item.arrvalue"
               @update:arrvalue="searchval(item.arrvalue, item.table)"
-              :addall="false"
+              :addall="true"
               :tablesel="item.tablesel"
               :pickup="true"
               label-color="primary"
