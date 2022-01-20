@@ -2,6 +2,7 @@
   <div class="text-center">
     <div v-if="multiselect_by_server">
       <q-select
+        v-bind="$attrs"
         :model-value="myarrvalue"
         label-color="primary"
         :label="label"
@@ -16,7 +17,8 @@
         map-options
         stack-label
         emit-value
-        :use-input="true"
+        :readonly="sola_lettura"
+        :use-input="useinput"
         :dense="dense"
         :input-class="myclass"
         :options="valori"
@@ -35,7 +37,7 @@
         <template v-slot:selected-item="scope">
           <div v-if="scope.opt[fieldsTable.getLabelByTable(tablesel)]">
             <q-chip
-              removable
+              :removable="!sola_lettura"
               dense
               @remove="scope.removeAtIndex(scope.index)"
               v-if="checkIfShowRec(scope.opt)"

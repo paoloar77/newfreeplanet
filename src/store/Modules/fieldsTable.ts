@@ -65,6 +65,9 @@ function AddCol(params: IColGridTable) {
     askaction: (params.askaction === undefined) ? '' : params.askaction,
     tablesel: (params.tablesel === undefined) ? '' : params.tablesel,
     jointable: (params.jointable === undefined) ? '' : params.jointable,
+    addall: (params.addall === undefined) ? false : params.addall,
+    filter: (params.filter === undefined) ? null : params.filter,
+    noshowifnone: (params.noshowifnone === undefined) ? false : params.noshowifnone,
     notShowInNewRec: (params.notShowInNewRec === undefined) ? false : params.notShowInNewRec,
   }
 }
@@ -426,18 +429,21 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.star5,
     required: true,
     jointable: 'levels',
+    noshowifnone: true,
   }),
   AddCol({
     name: 'idStatusSkill',
     label_trans: 'statusSkill.name',
     fieldtype: costanti.FieldType.multiselect,
     jointable: 'statusSkills',
+    noshowifnone: true,
   }),
   AddCol({
     name: 'idContribType',
     label_trans: 'contribtype.name',
     fieldtype: costanti.FieldType.multiselect,
     jointable: 'contribtypes',
+    noshowifnone: true,
   }),
   AddCol({
     name: 'idCity',
@@ -451,9 +457,10 @@ export const colmySkills = [
     label_trans: 'skill.photos',
     fieldtype: costanti.FieldType.listimages,
     jointable: '',
+    noshowifnone: true,
   }),
   AddCol({ name: 'subTitle', label_trans: 'skill.note', fieldtype: costanti.FieldType.string }),
-  AddCol({ name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html }),
+  AddCol({ name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html, noshowifnone: true }),
   AddCol(DuplicateRec),
   AddCol(ModifRec),
   AddCol(DeleteRec),

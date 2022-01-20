@@ -498,8 +498,11 @@ export interface IColGridTable {
   tipovisu?: number
   link?: string
   jointable?: string
+  addall?: boolean
+  filter?: any
   resultjoin?: string[]
   visuonlyEditVal?: boolean
+  noshowifnone?: boolean
   notShowInNewRec?: boolean
   tablesel?: string
 }

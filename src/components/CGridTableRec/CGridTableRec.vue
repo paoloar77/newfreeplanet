@@ -13,14 +13,17 @@
       <q-space></q-space>
       <div v-if="butt_modif_new">
         <q-btn
-          v-if="mytable" rounded dense size="sm" flat :color="canEdit ? 'positive' : 'light-gray'"
+          v-if="mytable && mytable !== 'myskills'" rounded dense size="sm" flat
+          :color="canEdit ? 'positive' : 'light-gray'"
           :disable="disabilita()"
           :val="lists.MenuAction.CAN_EDIT_TABLE"
           icon="fas fa-pencil-alt" @update:model-value="changefuncAct"
           @click="canEdit = !canEdit">
         </q-btn>
         <q-btn
-          v-if="mytable" rounded dense size="sm" flat color="light-gray"
+          v-if="mytable" rounded size="md" color="primary"
+          class="centermydiv"
+          label="Aggiungi"
           :disable="loading"
           icon="fas fa-plus"
           @click="createNewRecord">
@@ -231,9 +234,12 @@
         <div v-if="pagination.rowsNumber > 1 && prop_search">{{ pagination.rowsNumber }} elementi trovati</div>
 
         <div v-if="finder" class="">
-          <q-radio v-model="myvertical" :val="2" label="Lista" @update:model-value="tools.setCookie('myv', myvertical) "/>
-          <q-radio v-model="myvertical" :val="-1" label="Scheda" @update:model-value="tools.setCookie('myv', myvertical) "/>
-          <q-radio v-model="myvertical" :val="0" label="Tabella" @update:model-value="tools.setCookie('myv', myvertical) "/>
+          <q-radio v-model="myvertical" :val="2" label="Lista"
+                   @update:model-value="tools.setCookie('myv', myvertical) "/>
+          <q-radio v-model="myvertical" :val="-1" label="Scheda"
+                   @update:model-value="tools.setCookie('myv', myvertical) "/>
+          <q-radio v-model="myvertical" :val="0" label="Tabella"
+                   @update:model-value="tools.setCookie('myv', myvertical) "/>
         </div>
       </template>
 
@@ -320,7 +326,10 @@
             <q-card-section class="inset-shadow">
               <q-list dense>
                 <div v-for="col in mycolumns" :key="col.name">
-                  <q-item v-if="colVisib.includes(col.field + col.subfield)" :class="clByCol(col)" class="riduci_pad">
+                  <q-item v-if="colVisib.includes(col.field + col.subfield) &&
+                          !col.noshowifnone || (col.noshowifnone && !!props.row.value)"
+                          :class="clByCol(col)" class="riduci_pad">
+
                     <q-item-section avatar v-if="visuIntestazCol(col)">
                       <q-item-label class="q-table__col">{{ col.label }}</q-item-label>
                     </q-item-section>

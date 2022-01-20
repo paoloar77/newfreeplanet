@@ -78,6 +78,10 @@ export default defineComponent({
     multiselect_by_server: {
       type: Boolean,
       default: false,
+    },
+    sola_lettura: {
+      type: Boolean,
+      default: false,
     }
   },
   components: {},

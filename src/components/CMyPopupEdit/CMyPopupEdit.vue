@@ -159,7 +159,7 @@
                 :pickup="pickup"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :useinput="false">
               </CMySelect>
             </div>
@@ -177,7 +177,7 @@
                 :pickup="pickup"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :useinput="false">
               </CMySelect>
             </div>
@@ -217,11 +217,11 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.binary">
             <div v-if="isInModif">
               <span v-if="insertMode">
-                {{col.label }}:
+                {{ col.label }}:
               </span>
               <CMyToggleList
                 :label="col.titlepopupedit"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
@@ -233,7 +233,7 @@
                 :type="costanti.FieldType.binary"
                 :value="myvalue"
                 @update:value="changevalRec"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -253,7 +253,7 @@
                 :display-value="fieldsTable.getTitleByTable(col.jointable)"
                 emit-value
                 map-options
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 class="combowidth"
                 :option-value="fieldsTable.getKeyByTable(col.jointable)"
                 @update:model-value="changevalRec">
@@ -278,13 +278,14 @@
                 :type="col.fieldtype"
                 @update:value="changevalRec"
                 :value="myvalue"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
             </div>
           </div>
-          <div v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
+          <div
+            v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
             <div v-if="isInModif">
               <CMySelect
                 :label="col.label"
@@ -294,7 +295,7 @@
                 @update:value="changevalRec"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :useinput="false">
               </CMySelect>
             </div>
@@ -304,7 +305,7 @@
                 :type="col.fieldtype"
                 @update:value="changevalRec"
                 v-model:value="myvalue"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -324,8 +325,9 @@
               color="primary"
               :optval="fieldsTable.getKeyByTable(col.jointable)"
               :optlab="fieldsTable.getLabelByTable(col.jointable)"
-              :options="globalStore.getTableJoinByName(col.jointable)"
-              :useinput="true">
+              :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+              :sola_lettura="!isInModif"
+              :useinput="isInModif">
             </CMySelect>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.star5">
@@ -336,7 +338,7 @@
                 @update:value="changevalRec"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :useinput="false">
               </CMySelect>
             </div>
@@ -493,7 +495,8 @@
                 </q-input>
               </div>
             </div>
-            <div v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
+            <div
+              v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
               <CMySelect
                 :label="col.label"
                 v-model:value="scope.value"
@@ -501,12 +504,11 @@
                 :tablesel="col.type === costanti.FieldType.select_by_server ? tablesel : ''"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :useinput="false">
               </CMySelect>
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
-              myvalue2 : {{scope.value}}
               <CMySelect
                 :multiselect_by_server="true"
                 :label="col.label"
@@ -520,7 +522,7 @@
                 color="primary"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :useinput="true">
               </CMySelect>
             </div>
@@ -535,7 +537,7 @@
                 :display-value="fieldsTable.getTitleByTable(col.jointable)"
                 emit-value
                 map-options
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 class="combowidth"
                 :option-value="fieldsTable.getKeyByTable(col.jointable)"
                 @update:model-value="changeval">
@@ -588,7 +590,7 @@
 
               <CMyToggleList
                 :label="col.titlepopupedit"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 v-model:value="scope.value"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)">
@@ -600,7 +602,7 @@
                 v-model:value="scope.value"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :useinput="false">
               </CMySelect>
             </div>
