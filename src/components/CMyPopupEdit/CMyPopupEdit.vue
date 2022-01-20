@@ -311,16 +311,13 @@
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
-            tablesel: {{tablesel}}
-            myvalue: {{ myvalue}}
             <CMySelect
-              :isarray="true"
               :multiselect_by_server="true"
               :label="col.label"
               v-model:arrvalue="myvalue"
               @update:arrvalue="changevalRec"
-              :addall="true"
-              :tablesel="tablesel"
+              :addall="false"
+              :tablesel="col.tablesel"
               :pickup="true"
               label-color="primary"
               class="combowidth"

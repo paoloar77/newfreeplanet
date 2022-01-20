@@ -135,8 +135,11 @@ export default defineComponent({
           if (!trovato) {
             const rec = valori.value.find((rec: any) => rec._id === id)
             if (rec) {
-              console.log('SAVE OPT rec', rec)
-              arrtempOpt.value.push({ _id: id, comune: rec.comune })
+              // console.log('SAVE OPT rec', rec)
+              let obj: any = {}
+              obj[`${props.optval}`] = id
+              obj[`${props.optlab}`] = rec[`${props.optlab}`]
+              arrtempOpt.value.push(obj)
               let num = localStorage.getItem(props.tablesel + 'NUM') || 0
               try {
                 if (!num) {
@@ -147,11 +150,11 @@ export default defineComponent({
               } catch (e) {
                 num = 0
               }
-              console.log('-----------  valori.value', valori.value)
-              console.log('-----------  arrtempOpt.value', arrtempOpt.value)
+              // console.log('-----------  valori.value', valori.value)
+              // console.log('-----------  arrtempOpt.value', arrtempOpt.value)
 
-              localStorage.setItem(props.tablesel + num + 'ID', rec._id)
-              localStorage.setItem(props.tablesel + num + 'COMUNE', rec.comune)
+              localStorage.setItem(props.tablesel + num + props.optval, id)
+              localStorage.setItem(props.tablesel + num + props.optlab, rec[`${props.optlab}`])
 
               num += 1
               localStorage.setItem(props.tablesel + 'NUM', num.toString())
@@ -163,13 +166,13 @@ export default defineComponent({
 
 
     function changeval(newval: any) {
-      console.log(' ½½½½½½½ changeval', newval)
+      // console.log(' ½½½½½½½ changeval', newval)
       if (props.multiselect_by_server) {
         // localStorage.setItem(props.tablesel + '_' + newval, valori.value[newval])
         myarrvalue.value = newval && newval['arrvalue'] ? newval['arrvalue'] : newval
         saveOptInCookie(newval)
 
-        console.log(' ----- Myselect changeval Arrvalue', myarrvalue.value)
+        // console.log(' ----- Myselect changeval Arrvalue', myarrvalue.value)
         emit('update:arrvalue', myarrvalue.value)
         emit('changeval', myarrvalue.value)
 
@@ -183,7 +186,7 @@ export default defineComponent({
           myvalue.value = newval && newval['code'] ? newval['code'] : newval
         else
           myvalue.value = newval
-        console.log('Myselect changeval', myvalue.value)
+        // console.log('Myselect changeval', myvalue.value)
         emit('update:value', myvalue.value)
         emit('changeval', myvalue.value)
       }
@@ -201,10 +204,13 @@ export default defineComponent({
         const num = parseInt(localStorage.getItem(props.tablesel + 'NUM')!)
         console.log('num LOADED ', num)
         for (let i = 0; i < num; i++) {
-          const itemId = parseInt(localStorage.getItem(props.tablesel + i + 'ID')!)
-          const itemcomune = localStorage.getItem(props.tablesel + i + 'COMUNE')
+          const itemId = parseInt(localStorage.getItem(props.tablesel + i + props.optval)!)
+          const itemlab = localStorage.getItem(props.tablesel + i + props.optlab)
           if (itemId) {
-            arrtempOpt.value.push({ _id: itemId, comune: itemcomune })
+            let obj: any = {}
+            obj[`${props.optval}`] = itemId
+            obj[`${props.optlab}`] = itemlab
+            arrtempOpt.value.push(obj)
           }
         }
 
@@ -285,7 +291,7 @@ export default defineComponent({
             myarr = [myobj, ...myarr]
           }
 
-          if (myarr.length > 0) {
+          if (myarr && myarr.length > 0) {
             valori.value = myarr
             if (props.multiselect_by_server) {
               console.log('@@@ VALORI CHANGED (3)', valori.value)

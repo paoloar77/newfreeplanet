@@ -103,7 +103,7 @@ export default defineComponent({
           showcount: true,
           useinput: false,
         },
-        {
+        /*{
           label: 'Regione',
           table: 'regions',
           key: 'idReg',
@@ -112,7 +112,7 @@ export default defineComponent({
           arrvalue: tools.getCookie(tools.COOK_SEARCH + 'regions', [costanti.FILTER_TUTTI]),
           filter: null,
           useinput: true,
-        },
+        },*/
         {
           label: 'Citta',
           table: 'cities',

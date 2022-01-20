@@ -11,7 +11,6 @@
         input-debounce="300"
         rounded
         outlined
-        fill-input
         multiple
         options-dense
         map-options
@@ -32,17 +31,7 @@
             </q-item-section>
           </q-item>
         </template>
-        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
-          <q-item v-bind="itemProps">
 
-            <q-item-section>
-              <q-item-label>{{ opt[fieldsTable.getLabelByTable(tablesel)] }}</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)"/>
-            </q-item-section>
-          </q-item>
-        </template>
         <template v-slot:selected-item="scope">
           <div v-if="scope.opt[fieldsTable.getLabelByTable(tablesel)]">
             <q-chip
@@ -60,6 +49,18 @@
           </div>
         </template>
 
+        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+          <q-item v-bind="itemProps">
+
+            <q-item-section>
+              <q-item-label>{{ opt[fieldsTable.getLabelByTable(tablesel)] }}</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)"/>
+            </q-item-section>
+          </q-item>
+        </template>
+
       </q-select>
 
     </div>
@@ -72,10 +73,11 @@
         :input-class="myclass"
         :model-value="myvalue"
         :use-input="useinput"
-        @filter="filterFn"
         input-debounce="0"
         @new-value="newvaluefunc"
         new-value-mode="add-unique"
+        map-options
+        emit-value
         :options="valori"
         :option-value="optval"
         :option-label="optlab"
@@ -153,6 +155,7 @@
         </template>
 
       </q-select>
+
     </div>
   </div>
 </template>
