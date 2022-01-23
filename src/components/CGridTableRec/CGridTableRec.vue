@@ -134,6 +134,7 @@
               :addall="true"
               :tablesel="item.tablesel"
               :pickup="true"
+              :param1="item.param1"
               label-color="primary"
               class="combowidth"
               color="primary"
@@ -233,7 +234,7 @@
         <div v-if="pagination.rowsNumber === 1 && prop_search">{{ pagination.rowsNumber }} elemento trovato</div>
         <div v-if="pagination.rowsNumber > 1 && prop_search">{{ pagination.rowsNumber }} elementi trovati</div>
 
-        <div v-if="finder" class="">
+        <div v-if="choose_visutype" class="">
           <q-radio v-model="myvertical" :val="2" label="Lista"
                    @update:model-value="tools.setCookie('myv', myvertical) "/>
           <q-radio v-model="myvertical" :val="-1" label="Scheda"
@@ -326,8 +327,9 @@
             <q-card-section class="inset-shadow">
               <q-list dense>
                 <div v-for="col in mycolumns" :key="col.name">
+
                   <q-item v-if="colVisib.includes(col.field + col.subfield) &&
-                          !col.noshowifnone || (col.noshowifnone && !!props.row.value)"
+                          (!col.noshowifnone || (col.noshowifnone && tools.getValue(props.row,col.field, col.subfield)))"
                           :class="clByCol(col)" class="riduci_pad">
 
                     <q-item-section avatar v-if="visuIntestazCol(col)">

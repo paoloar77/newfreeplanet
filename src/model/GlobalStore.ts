@@ -505,6 +505,12 @@ export interface IColGridTable {
   noshowifnone?: boolean
   notShowInNewRec?: boolean
   tablesel?: string
+  notsave?: boolean
+  maxlength?: number
+  filter_table?: string
+  filter_field?: string
+  field_extra1?: string
+  subfield_extra1?: string
 }
 
 export interface ITableRec {
@@ -527,6 +533,7 @@ export interface ISearchList {
   value: any
   type: number
   filter: any
+  param1?: any
   useinput: boolean
   notinsearch?: boolean
   addall?: boolean

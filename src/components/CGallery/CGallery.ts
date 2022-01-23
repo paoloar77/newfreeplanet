@@ -328,6 +328,14 @@ export default defineComponent({
       fullscreensrc.value = getfullname(mygallery)
     }
 
+    function onRejected (rejectedEntries: any) {
+      // Notify plugin needs to be installed
+      // https://quasar.dev/quasar-plugins/notify#Installation
+      $q.notify({
+        type: 'negative',
+        message: 'La Dimensione massima dell\'immagine è di 2 MB'
+      })
+    }
     onMounted(created)
 
     return {
@@ -355,6 +363,7 @@ export default defineComponent({
       ImgFullScreen,
       fullscreen,
       fullscreensrc,
+      onRejected,
     }
   }
 })

@@ -4484,7 +4484,7 @@ export const tools = {
         '(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|' +
 
         // Standard fields.
-        '([^\'\\' + strDelimiter + '\\r\\n]*))'
+        '([^\"\\' + strDelimiter + '\\r\\n]*))'
       ),
       'gi'
     )
@@ -4549,6 +4549,33 @@ export const tools = {
 
     // Return the parsed data.
     return (arrData)
+  },
+
+  getValue(myrow: any, field: string, subfield: string) {
+    let myvalue = ''
+    if (subfield !== '') {
+      if (myrow[field] === undefined) {
+        myrow[field] = {}
+        myvalue = ''
+      } else {
+        myvalue = myrow[field][subfield]
+      }
+    } else {
+      if (field !== '')
+        myvalue = myrow[field]
+      else {
+        // @ts-ignore
+        myvalue = myrow
+      }
+    }
+    if (Array.isArray(myvalue)) {
+      return myvalue.length > 0 ? myvalue : ''
+    } else {
+      return myvalue
+    }
+  },
+  addslashes(str: string) {
+    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0')
   },
 
 

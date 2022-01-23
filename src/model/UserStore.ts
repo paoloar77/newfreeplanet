@@ -26,6 +26,7 @@ export interface IUserProfile {
   link_payment?: string
   note_payment?: string
   username_telegram?: string
+  website?: string
   teleg_id?: number
   teleg_checkcode?: number
   paymenttypes?: IPaymentType[]

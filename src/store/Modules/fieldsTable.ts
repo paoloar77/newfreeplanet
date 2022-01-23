@@ -54,6 +54,8 @@ function AddCol(params: IColGridTable) {
     sortable: (params.sortable === undefined) ? true : params.sortable,
     disable: (params.disable === undefined) ? false : params.disable,
     titlepopupedit: (params.titlepopupedit === undefined) ? '' : params.titlepopupedit,
+    field_extra1: (params.field_extra1 === undefined) ? '' : params.field_extra1,
+    subfield_extra1: (params.subfield_extra1 === undefined) ? '' : params.subfield_extra1,
     visible: (params.visible === undefined) ? true : params.visible,
     icon: (params.icon === undefined) ? '' : params.icon,
     action: (params.action === undefined) ? '' : params.action,
@@ -69,6 +71,10 @@ function AddCol(params: IColGridTable) {
     filter: (params.filter === undefined) ? null : params.filter,
     noshowifnone: (params.noshowifnone === undefined) ? false : params.noshowifnone,
     notShowInNewRec: (params.notShowInNewRec === undefined) ? false : params.notShowInNewRec,
+    notsave: (params.notsave === undefined) ? false : params.notsave,
+    filter_table: (params.filter_table === undefined) ? '' : params.filter_table,
+    maxlength: (params.maxlength === undefined) ? 0 : params.maxlength,
+    filter_field: (params.filter_field === undefined) ? '' : params.filter_field,
   }
 }
 
@@ -343,6 +349,14 @@ export const colCitys = [
   AddCol(DuplicateRec),
 ]
 
+export const colProvinces = [
+  // AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'label', label_trans: 'store.description' }),
+  AddCol({ name: 'value', label_trans: 'city.prov' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
 export const colTableCountry = [
   AddCol({ name: 'id', label_trans: 'index', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'value', label_trans: 'city.country' }),
@@ -409,12 +423,22 @@ export const colmySkills = [
   //AddCol({ name: 'name', label_trans: 'reg.name', fieldtype: costanti.FieldType.string }),
   //AddCol({ name: 'surname', label_trans: 'reg.surname', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'username', label_trans: 'reg.username', foredit: false, tipovisu: costanti.TipoVisu.LINK, link: '/my/username' }),
+  /*AddCol({
+    name: 'idSector',
+    label_trans: 'sectors.name',
+    fieldtype: costanti.FieldType.select,
+    required: true,
+    jointable: 'sectors',
+
+  }), */
+  AddCol({ name: 'subTitle', label_trans: 'event.title', fieldtype: costanti.FieldType.string, noshowifnone: true, maxlength: 40 }),
   AddCol({
     name: 'idSkill',
     label_trans: 'skill.name',
     fieldtype: costanti.FieldType.select,
     required: true,
     jointable: 'skills',
+    // filter_table: 'sectors',
   }),
   AddCol({
     name: 'idSubSkill',
@@ -422,6 +446,8 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.multiselect,
     required: true,
     jointable: 'subskills',
+    filter_table: 'skills',
+    filter_field: 'idSkill',
   }),
   AddCol({
     name: 'numLevel',
@@ -459,8 +485,8 @@ export const colmySkills = [
     jointable: '',
     noshowifnone: true,
   }),
-  AddCol({ name: 'subTitle', label_trans: 'skill.note', fieldtype: costanti.FieldType.string }),
-  AddCol({ name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html, noshowifnone: true }),
+  AddCol({ name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html, noshowifnone: true,
+    titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '' }),
   AddCol(DuplicateRec),
   AddCol(ModifRec),
   AddCol(DeleteRec),
@@ -1787,6 +1813,14 @@ export const fieldsTable = {
       columns: colCitys,
       colkey: '_id',
       collabel: 'comune',
+      remote: true,
+    },
+    {
+      value: 'provinces',
+      label: 'Provincia',
+      columns: colTablePermission,
+      colkey: 'value',
+      collabel: 'label',
       remote: true,
     },
     {

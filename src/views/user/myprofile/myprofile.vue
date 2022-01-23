@@ -19,7 +19,9 @@
       </div>
       <div class="col-12 text-h7">
         <span v-if="myuser.profile.born_city">{{ myuser.profile.born_city }}</span> <span
-        v-if="myuser.profile.nationality && myuser.profile.nationality !== 'Italia'">({{ myuser.profile.nationality }})</span>
+        v-if="myuser.profile.nationality && myuser.profile.nationality !== 'Italia'">({{
+          myuser.profile.nationality
+        }})</span>
       </div>
 
       <div v-if="myuser.username !== userStore.my.username">
@@ -52,16 +54,29 @@
         to="/editprofile">
       </q-btn>
 
-      <div class="col-12 row justify-evenly q-mt-md">
-        <q-btn
-          v-if="getLinkUserTelegram()" icon="fab fa-telegram"
-          color="blue" type="a"
-          size="md"
-          rounded
-          :label="$t('msgs.message')"
-          :href="getLinkUserTelegram()" target="__blank">
-        </q-btn>
+      <div class="row justify-evenly q-pa-sm q-ma-sm">
 
+        <div class="col-md-6 q-mx-sm">
+          <q-btn
+            v-if="getLinkUserTelegram()" icon="fab fa-telegram"
+            color="blue" type="a"
+            size="md"
+            rounded
+            :label="$t('msgs.message')"
+            :href="getLinkUserTelegram()" target="__blank">
+          </q-btn>
+
+        </div>
+        <div class="col-md-6 q-mx-sm">
+          <q-btn
+            v-if="getLinkWebSite()" icon="fas fa-globe"
+            color="blue" type="a"
+            size="md"
+            rounded
+            :label="$t('reg.website')"
+            :href="getLinkWebSite()" target="__blank">
+          </q-btn>
+        </div>
       </div>
     </div>
     <div v-else class="fit column no-wrap justify-evenly items-center content-start">

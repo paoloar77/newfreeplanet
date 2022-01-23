@@ -396,6 +396,7 @@ const msg_it = {
       iscrizioneincorso: 'Iscrizione in corso...',
       richiesto: 'Campo Richiesto',
       email: 'Email',
+      website: 'Sito Web',
       intcode_cell: 'Prefisso Int.',
       cell: 'Cellulare',
       cellreg: 'Cellulare con cui ti eri registrato',
@@ -486,6 +487,7 @@ const msg_it = {
       come_ci_hai_conosciuto: 'Come ci hai conosciuto?',
       photo: 'Foto',
       images: 'Immagini',
+      image: 'Immagine',
       err: {
         required: 'è richiesto',
         email: 'inserire una email valida',
@@ -732,6 +734,7 @@ const msg_it = {
       showinhome: 'Mostra nella Home',
       showinnewsletter: 'Mostra nella Newsletter',
       color: 'Colore del titolo',
+      testo_di_spiegazione: 'Testo di Spiegazione',
     },
     disc: {
       typol_code: 'Codice Tipologia',
@@ -802,6 +805,7 @@ const msg_it = {
       city: 'Città',
       photos: 'Foto',
       note: 'Note',
+      short_node: 'Breve Nota',
       subskill: 'Specializz.',
     },
     level: {

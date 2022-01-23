@@ -15,6 +15,7 @@
         :prop_search="true"
         hint="Username da trovare"
         :finder="true"
+        :choose_visutype="true"
         :finder_noNull="true"
         :options="shared_consts.OPTIONS_SEARCH_ONLY_FULL_WORDS"
         :butt_modif_new="false"

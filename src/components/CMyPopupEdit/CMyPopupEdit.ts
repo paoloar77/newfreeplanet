@@ -595,6 +595,19 @@ export default defineComponent({
       )
     }
 
+    function getTitleEditor(col: IColGridTable, row: any) {
+
+      let title = ''
+      if (!!col.field_extra1) {
+        try {
+          title = tools.getValue(row, col.field_extra1, col.subfield_extra1!)
+        }catch (e){}
+      }
+
+      return title
+
+    }
+
     onBeforeMount(mounted)
 
     crea()
@@ -631,6 +644,7 @@ export default defineComponent({
       col,
       myImgGall,
       noPopupeditByCol,
+      getTitleEditor,
     }
   }
 })

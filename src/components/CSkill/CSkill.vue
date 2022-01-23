@@ -9,6 +9,7 @@
         prop_colkey="idSkill"
         col_title="subTitle"
         :vertical="true"
+        :choose_visutype="true"
         nodataLabel="Nessuna Competenza inserita"
         :prop_search="false"
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato"

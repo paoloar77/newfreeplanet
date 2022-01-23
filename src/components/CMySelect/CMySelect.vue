@@ -9,7 +9,7 @@
         @filter="filterFn"
         @filter-abort="abortFilterFn"
         @update:model-value="changeval"
-        input-debounce="300"
+        input-debounce="600"
         rounded
         outlined
         multiple
@@ -66,29 +66,7 @@
       </q-select>
 
     </div>
-    <div v-else-if="useinput">
-      <q-select
-        :multiple="multiple"
-        rounded
-        outlined
-        v-bind="$attrs"
-        :input-class="myclass"
-        :model-value="myvalue"
-        :use-input="useinput"
-        input-debounce="0"
-        @new-value="newvaluefunc"
-        new-value-mode="add-unique"
-        map-options
-        emit-value
-        :options="valori"
-        :option-value="optval"
-        :option-label="optlab"
-        @update:model-value="changeval"
-        :label="label"
-        :dense="dense">
-      </q-select>
-    </div>
-    <div v-else>
+    <div v-else-if="pickup">
       <q-select
         v-if="pickup"
         filled
@@ -126,9 +104,67 @@
           </q-item>
         </template>
       </q-select>
+    </div>
+    <div v-else-if="multiple">
       <q-select
-        v-else
-        :multiple="multiple"
+        :multiple="true"
+        :model-value="myarrvalue"
+        label-color="primary"
+        :label="label"
+        @update:model-value="changeval"
+        rounded
+        outlined
+        v-bind="$attrs"
+        :input-class="myclass"
+        :use-input="useinput"
+        input-debounce="0"
+        @new-value="newvaluefunc"
+        new-value-mode="add-unique"
+        map-options
+        emit-value
+        stack-label
+        :options="valori"
+        :option-value="optval"
+        :option-label="optlab"
+        :dense="dense">
+
+        <template
+          v-slot:selected-item="scope">
+          <div v-if="scope.opt[optlab]">
+            <q-chip
+              removable
+              dense
+              @remove="scope.removeAtIndex(scope.index)"
+              v-if="checkIfShowRec(scope.opt)"
+              color="white"
+              text-color="mycol"
+              class="q-my-none q-ml-xs q-mr-none"
+            >
+              <q-avatar color="primary" text-color="white" :icon="scope.opt.icon ? scope.opt.icon : ''" size="12px"/>
+              {{ scope.opt[optlab] }}
+            </q-chip>
+          </div>
+        </template>
+        <template
+          v-if="withToggle"
+          v-slot:option="{ itemProps, opt, selected, toggleOption }">
+          <q-item v-bind="itemProps">
+
+            <q-item-section>
+              <q-item-label>{{ opt[optlab] }}</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle :model-value="selected" @update:value="toggleOption(opt)"/>
+            </q-item-section>
+          </q-item>
+        </template>
+
+      </q-select>
+
+    </div>
+    <div v-else>
+      <q-select
+        :multiple="false"
         rounded
         outlined
         :dense="dense"

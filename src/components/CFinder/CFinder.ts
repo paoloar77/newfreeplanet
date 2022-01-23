@@ -61,6 +61,16 @@ export default defineComponent({
         }
       }
 
+      function getFilterCitiesByProvince(recSubSkill: any, index: number, arr: any) {
+        const recprov:any = searchList.value.find((rec) => rec.table === 'provinces')
+        // console.log('recSubSkill', recSubSkill, 'recskills', recskills)
+        if (recprov) {
+          return recSubSkill.idSkill === recprov.value
+        } else {
+          return true
+        }
+      }
+
 
       searchList.value = [
         {
@@ -110,15 +120,28 @@ export default defineComponent({
           useinput: true,
         },*/
         {
-          label: 'Citta',
+          label: 'Provincia',
+          table: 'provinces',
+          key: 'idProvince',
+          type: costanti.FieldType.multiselect,
+          value: 0,
+          addall: true,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'provinces', [costanti.FILTER_TUTTI]),
+          filter: null,
+          useinput: true,
+          notinsearch: true,
+        },
+        {
+          label: 'Città',
           table: 'cities',
-          key: 'idCity',
+          key: 'idProvince',
           type: costanti.FieldType.multiselect_by_server,
           value: 0,
           addall: true,
           arrvalue: tools.getCookie(tools.COOK_SEARCH + 'cities', [costanti.FILTER_TUTTI]),
-          filter: null,
           useinput: true,
+          filter: getFilterCitiesByProvince,
+          // param1: shared_consts.PARAM_SHOW_PROVINCE,
           tablesel: 'cities',
         },
         {
@@ -248,10 +271,10 @@ export default defineComponent({
           af_objId_tab: '',
         },
         lookup5: {
-          lk_tab: 'cities',
-          lk_LF: 'idCity',
-          lk_FF: '_id',
-          lk_as: 'comune',
+          lk_tab: 'provinces',
+          lk_LF: 'idProvince',
+          lk_FF: 'prov',
+          lk_as: 'descr',
           af_objId_tab: '',
         },
       }

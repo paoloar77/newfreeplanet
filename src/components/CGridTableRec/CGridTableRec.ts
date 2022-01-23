@@ -167,6 +167,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    choose_visutype: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends },
@@ -1116,7 +1121,17 @@ export default defineComponent({
         data: {}
       }
 
-      mydata.data = newRecord.value
+      const myobj = newRecord.value
+
+
+      //++ Eliminare eventuali campi ?
+      mycolumns.value.forEach((col:IColGridTable) => {
+        if (col.notsave) {
+          delete myobj[col.name]
+        }
+      })
+
+      mydata.data = myobj
 
       const data = await globalStore.saveTable(mydata)
         .then((ris) => {

@@ -31,12 +31,15 @@
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.string">
-            <div v-if="visulabel || isInModif" :class="{ flex: !isInModif }">
+            <div v-if="visulabel || isInModif" :class="{ flex: !isInModif}">
+
               <q-input
                 v-bind="$attrs"
                 v-model="myvalue"
                 autogrow
+                :style="$q.screen.lt.sm ? 'min-width: 300px' : ''"
                 counter
+                :maxlength="col.maxlength ? col.maxlength : undefined"
                 :disable="disable"
                 :readonly="disable"
                 @keyup.enter.stop
@@ -99,7 +102,7 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.listimages" style="text-align: center;">
             <p v-if="isInModif">
-              {{ $t('reg.images') }}:
+              {{ $t('reg.image') }}:
             </p>
             <CGallery
               :title="getTitleGall()"
@@ -243,7 +246,24 @@
           <!-- Show Value -->
           <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
             <div v-if="isInModif">
-              <q-select
+              <CMySelect
+                :multiple="true"
+                :withToggle="true"
+                :label="col.label"
+                v-model:arrvalue="myvalue"
+                @update:arrvalue="changevalRec"
+                :addall="false"
+                label-color="primary"
+                class="combowidth"
+                color="primary"
+                :optval="fieldsTable.getKeyByTable(col.jointable)"
+                :optlab="fieldsTable.getLabelByTable(col.jointable)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :sola_lettura="!isInModif"
+                :useinput="false">
+              </CMySelect>
+
+              <!--<q-select
                 v-model="myvalue"
                 rounded
                 outlined
@@ -270,7 +290,7 @@
                   </q-item>
                 </template>
 
-              </q-select>
+              </q-select>-->
 
             </div>
             <div v-else>
@@ -360,9 +380,12 @@
               <div v-if="insertMode">
 
               </div>
+              <p v-if="isInModif" class="text-center">
+                {{ $t('event.testo_di_spiegazione') }}:
+              </p>
               <div v-if="!isFieldDb()">
                 <CMyEditor
-                  v-model:value="myvalue" :title="col.title" @keyup.enter.stop
+                  v-model:value="myvalue" :title="getTitleEditor(col, row)" @keyup.enter.stop
                   :showButtons="false"
                   :canModify="canModify"
                   @update:value="changevalRec"
@@ -379,10 +402,12 @@
               <!--<div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true"></div>-->
 
               <div v-if="!isFieldDb()">
-                <q-dialog v-model="visuhtml" full-height full-width auto-close>
+                <q-dialog v-model="visuhtml" full-height full-width>
                   <q-card>
                     <q-bar dense class="bg-primary text-white">
+                      <span class="ellipsis"> {{ getTitleEditor(col, row) }} </span>
                       <q-space/>
+                      <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
                     </q-bar>
                     <q-card-section class="inset-shadow">
                       <q-card class="dialog_card">
@@ -437,7 +462,7 @@
             v-slot="scope">
 
             <div v-if="col.fieldtype === costanti.FieldType.boolean">
-              <q-checkbox v-model="scope.value" :label="col.title">
+              <q-checkbox v-model="scope.value" :label="col.title ? col.title : col.titlepopupedit">
               </q-checkbox>
               <span v-html="visuValByType(myvalue, col, row)"></span>
             </div>
@@ -445,6 +470,7 @@
               <q-input
                 v-bind="$attrs"
                 counter
+                :maxlength="col.maxlength ? col.maxlength : undefined"
                 v-model="scope.value"
                 autogrow
                 @keyup.enter.stop

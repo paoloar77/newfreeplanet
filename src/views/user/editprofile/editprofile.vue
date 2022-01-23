@@ -36,11 +36,20 @@
             mysubkey="username_telegram"
             :type="costanti.FieldType.string">
           </CMyFieldDb>
+        </div>
+        <div class="row">
           <CMyFieldDb
             :title="$t('reg.email')"
             table="users"
             mykey="email"
             :disable="true"
+            :type="costanti.FieldType.string">
+          </CMyFieldDb>
+          <CMyFieldDb
+            :title="$t('reg.website')"
+            table="users"
+            mykey="profile"
+            mysubkey="website"
             :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>

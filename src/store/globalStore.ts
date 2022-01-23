@@ -725,7 +725,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async loadPickup(params: IParamsPickup) {
+    loadPickup(params: IParamsPickup) {
       console.log('loadPickup', params)
       const userStore = useUserStore()
 
@@ -1295,6 +1295,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       if (table === 'visibility') return shared_consts.Visibility
       if (table === 'lang') return shared_consts.Lang
       if (table === 'regions') return shared_consts.Regions
+      if (table === 'provinces') return shared_consts.Provinces
 
       let myarr = this.getListByTable(table)
 

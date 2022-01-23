@@ -12,6 +12,7 @@
         nodataLabel="Nessuna Competenza trovata"
         :prop_search="true"
         :finder="true"
+        :choose_visutype="true"
         :butt_modif_new="false"
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato"
         :arrfilters="arrfilterand"

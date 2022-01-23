@@ -82,6 +82,10 @@ export default defineComponent({
     sola_lettura: {
       type: Boolean,
       default: false,
+    },
+    withToggle: {
+      type: Boolean,
+      default: false,
     }
   },
   components: {},
@@ -116,7 +120,8 @@ export default defineComponent({
     watch(() => props.options, (value: any, oldval: any) => {
         if (!props.multiselect_by_server) {
           valori.value = valoriload.value
-          // console.log('@@@ VALORI CHANGED (1)', valori.value)
+        } else {
+          console.log('@@@ VALORI CHANGED (1)', valori.value)
         }
       },
     )
@@ -170,8 +175,8 @@ export default defineComponent({
 
 
     function changeval(newval: any) {
-      // console.log(' ½½½½½½½ changeval', newval)
-      if (props.multiselect_by_server) {
+      console.log(' ½½½½½½½ changeval', newval)
+      if (props.multiple || props.multiselect_by_server) {
         // localStorage.setItem(props.tablesel + '_' + newval, valori.value[newval])
         myarrvalue.value = newval && newval['arrvalue'] ? newval['arrvalue'] : newval
         saveOptInCookie(newval)
@@ -249,9 +254,9 @@ export default defineComponent({
         }
         // }
       }
+      console.log('@@@ VALORI CHANGED (4)', valori.value)
       if (!props.multiselect_by_server) {
         valori.value = valoriload.value
-        console.log('@@@ VALORI CHANGED (4)', valori.value)
       } else {
         valori.value = arrtempOpt.value
       }
@@ -260,50 +265,34 @@ export default defineComponent({
 
     function filterFn(val: any, update: any, abort: any) {
       update(
-        () => {
+         async () => {
           console.log('Filter val', val, val.length)
           let myarr: any = []
 
           if (val.length <= 1) {
-            valori.value = arrtempOpt.value
+            console.log('@@@ LENGTH <= 1')
+            abort()
             return
           }
 
           let mystr = val.toLocaleLowerCase()
 
-          console.log('props.tablesel', props.tablesel)
+          // console.log('props.tablesel', props.tablesel)
 
           if (fieldsTable.tableRemotePickup.includes(props.tablesel)) {
             try {
+              myarr = props.options
               if (mystr !== '')
-                return globalStore.loadPickup({ table: props.tablesel, search: mystr })
-                  .then((ris) => {
-                    myarr = props.options
-                    if (ris) {
-                      if (props.addall) {
-                        let myobj: any = {}
-                        if (typeof props.optlab === 'string') {
-                          myobj[props.optlab] = '(Tutti)'
-                          myobj[props.optval] = costanti.FILTER_TUTTI
-                        }
-
-                        ris = [myobj, ...ris]
-                      }
-                      valori.value = ris
-                      if (props.multiselect_by_server) {
-                        console.log('@@@ VALORI CHANGED (2)', valori.value)
-                      }
-                    }
-
-                  })
+                // myarr = [{_id:1, prov: 'RN', descr: 'Rimini'}]
+                myarr = await globalStore.loadPickup({ table: props.tablesel, search: mystr.trim() })
 
               if (myarr === null) {
+                console.log('@@@ VALORI VALUE XXX', valori.value)
                 valori.value = arrtempOpt.value
-                return
               }
             } catch (e) {
+              console.log('@@@ VALORI VALUE XXX', valori.value)
               valori.value = arrtempOpt.value
-              return
             }
             // const needle = val.toLocaleLowerCase()
             // optFiltered.value = optFiltered.value.filter((v: any) => v.toLocaleLowerCase().indexOf(needle) > -1)
@@ -332,6 +321,7 @@ export default defineComponent({
         },
         // "ref" is the Vue reference to the QSelect
         (ref: any) => {
+           // console.log('ref.options', ref.options)
           if (val !== '' && ref.options.length > 0) {
             ref.setOptionIndex(-1) // reset optionIndex in case there is something selected
             ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value

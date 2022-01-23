@@ -78,6 +78,16 @@ export default defineComponent({
       }
     }
 
+    function getLinkWebSite() {
+      let site = myuser.value.profile.website!
+      if (site) {
+        if (!site.startsWith('http')) {
+          site = 'https://' + site
+        }
+      }
+      return site
+    }
+
     onMounted(mounted)
 
     return {
@@ -90,6 +100,7 @@ export default defineComponent({
       getImgUser,
       checkifShow,
       getLinkUserTelegram,
+      getLinkWebSite,
       filtroutente,
       showPic,
       myusername,

@@ -101,6 +101,7 @@
               hide-upload-btn
               no-thumbnails
               @uploaded="uploaded"
+              @rejected="onRejected"
               style="width: 208px"
             ></q-uploader>
           </div>
@@ -215,6 +216,7 @@
                 hide-upload-btn
                 no-thumbnails
                 @uploaded="uploaded"
+                @rejected="onRejected"
                 style="width: 208px"
               ></q-uploader>
             </div>

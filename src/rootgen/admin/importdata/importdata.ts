@@ -66,36 +66,36 @@ export default defineComponent({
 
       for (const rec of myarr) {
 
-        let lab = rec[0]
-        let val = rec[1]
+        let lab = tools.addslashes(rec[0])
+        let val = tools.addslashes(rec[1])
         if (cmd === shared_consts.Cmd.PROVINCE) {
-          val = rec[2]
 
           strris += '{ \n'
-          strris += '   label:\'' + lab + '\','
-          strris += '   value:\'' + val + '\','
+          strris += '   _id:' + ind + ','
+          strris += '   prov:\'' + val + '\','
+          strris += '   descr:\'' + lab + '\','
           strris += '}, \n'
 
         } else if (cmd === shared_consts.Cmd.COMUNI) {
           strris += '{ \n'
-          strris += '   istat:\'' + rec[0] + '\','
-          strris += '   comune:\'' + rec[1] + '\','
-          strris += '   prov:\'' + rec[2] + '\''
+          strris += '   istat:\'' + tools.addslashes(rec[0]) + '\','
+          strris += '   comune:\'' + tools.addslashes(rec[1]) + '\','
+          strris += '   prov:\'' + tools.addslashes(rec[2]) + '\''
 
         } else if (cmd === shared_consts.Cmd.CITIES_SERVER) {
           strris += '{ \n'
           strris += '   _id :' + ind + ',\n'
           strris += '   istat :\'' + rec[0] + '\'\n,'
-          strris += '   comune :\'' + rec[1] + '\'\n,'
+          strris += '   comune :\'' + tools.addslashes(rec[1]) + '\'\n,'
           strris += '   prov :\'' + rec[2] + '\'\n,'
-          strris += '   reg :\'' + rec[3] + '\'\n,'
-          strris += '   pref :\'' + rec[4] + '\'\n,'
+          strris += '   reg :\'' + tools.addslashes(rec[3]) + '\'\n,'
+          strris += '   pref :\'' + tools.addslashes(rec[4]) + '\'\n,'
           strris += '   cap :\'' + rec[5] + '\'\n,'
           strris += '   abitanti :\'' + rec[6] + '\'\n,'
           strris += '   country : \'IT\'\n'
           strris += '}, \n'
-          ind += 1
         }
+        ind += 1
 
       }
 
