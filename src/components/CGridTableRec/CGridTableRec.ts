@@ -182,7 +182,7 @@ export default defineComponent({
     const globalStore = useGlobalStore()
     const isfinishLoading = computed(() => globalStore.finishLoading)
 
-    const pagination = ref(<IPagination> { sortBy: 'desc', descending: false, page: 1, rowsNumber: 10, rowsPerPage: 10 })
+    const pagination = ref(<IPagination>{ sortBy: 'desc', descending: false, page: 1, rowsNumber: 10, rowsPerPage: 10 })
 
     const addRow = ref('Aggiungi')
 
@@ -246,12 +246,12 @@ export default defineComponent({
       return lab
     })
 
-    watch(() => searchList.value, (to: any, from: any) =>  {
+    watch(() => searchList.value, (to: any, from: any) => {
       console.log('watch searchlist', to)
       refresh()
     })
 
-    watch(() => props.filtercustom, (to: any, from: any) =>  {
+    watch(() => props.filtercustom, (to: any, from: any) => {
       console.log('filtercustom', to)
       refresh()
     })
@@ -343,14 +343,21 @@ export default defineComponent({
 
       let filtersearch: any[] = []
       let filtersearch2: any[] = []
+      let filtersearch3or: any[] = []
 
-      let recSector = null;
-      let recSkill = null;
-      let idSector = 0;
-      let idSkill = 0;
+      let recSector = null
+      let recProvince = null
+      let recSkill = null
+      let idSector = 0
+      let idProvince = 0
+      let idSkill = 0
       if (searchList.value) {
         recSector = searchList.value.find((item: ISearchList) => item.table === 'sectors')
         idSector = recSector ? recSector.value : 0
+      }
+      if (searchList.value) {
+        recProvince = searchList.value.find((item: ISearchList) => item.table === 'provinces')
+        idProvince = recProvince ? recProvince.value : 0
       }
 
       if (searchList.value) {
@@ -362,33 +369,51 @@ export default defineComponent({
 
       if (searchList.value) {
         for (const item of searchList.value) {
-        //searchList.value.forEach((item: ISearchList) => {
+          //searchList.value.forEach((item: ISearchList) => {
           if (!item.notinsearch) {
             let objitem: any = {}
+            // console.log('        item ', item)
             if (item.value > 0) {
               objitem[item.key] = item.value
               filtersearch.push(objitem)
             } else if (item.arrvalue.length > 0) {
               const myarr = item.arrvalue.filter((value: any) => {
                 if (typeof value === 'number') {
-                  return value > 0;
+                  return value > 0
                 }
-                return true;
+                return true
               })
 
               let arr2: any = []
 
-              myarr.forEach((myval: any) => {
-                let objitem2: any = {}
-                objitem2[item.key] = myval
-                arr2.push(objitem2)
-              })
+              if (item.table === 'provinces') {
+                arr2 = []
+                myarr.forEach((myval: any) => {
+                  let objitem3: any = {}
+                  objitem3['mycities.prov'] = myval
+                  arr2.push(objitem3)
+                })
+                let obj2: any = {
+                  $or: arr2
+                }
+                if (arr2.length > 0) {
+                  filtersearch3or = arr2
+                }
+              } else {
+                myarr.forEach((myval: any) => {
+                  let objitem2: any = {}
+                  objitem2[item.key] = myval
+                  arr2.push(objitem2)
+                })
 
-              let obj2: any = {
-                $or: arr2
+                let obj2: any = {
+                  $or: arr2
+                }
+                if (arr2.length > 0) {
+                  filtersearch.push(obj2)
+                }
               }
-              if (arr2.length > 0)
-                filtersearch.push(obj2)
+
             } else {
               if ((item.table === 'skills') && item.value === costanti.FILTER_TUTTI) {
                 let obj2: any = {}
@@ -447,6 +472,7 @@ export default defineComponent({
         filtersearch: filtersearch,
         // @ts-ignore
         filtersearch2: filtersearch2,
+        filtersearch3or: filtersearch3or,
         // @ts-ignore
         filtercustom: props.filtercustom,
         sortBy: myobj,
@@ -527,7 +553,7 @@ export default defineComponent({
           // else
           try {
             serverData.value = [...returnedData.value]
-          }catch (e) {
+          } catch (e) {
             serverData.value = []
           }
         }
@@ -934,6 +960,7 @@ export default defineComponent({
         return ''
       }
     }
+
     function visuIntestazCol(col: IColGridTable) {
       if (col.fieldtype === costanti.FieldType.html || col.fieldtype === costanti.FieldType.listimages) {
         return false
@@ -942,7 +969,7 @@ export default defineComponent({
       }
     }
 
-    function checkIfColShow(field: string|undefined) {
+    function checkIfColShow(field: string | undefined) {
       let vis = true
       if (props.prop_mytable === 'myskills' && !props.prop_search) {
         if (field === 'username') {
@@ -1111,7 +1138,7 @@ export default defineComponent({
     async function saveNewRecord() {
       // check if the field are setted
 
-      if (!enableSaveNewRec()){
+      if (!enableSaveNewRec()) {
         return false
       }
 
@@ -1125,7 +1152,7 @@ export default defineComponent({
 
 
       //++ Eliminare eventuali campi ?
-      mycolumns.value.forEach((col:IColGridTable) => {
+      mycolumns.value.forEach((col: IColGridTable) => {
         if (col.notsave) {
           delete myobj[col.name]
         }
@@ -1175,7 +1202,7 @@ export default defineComponent({
             editRecordBool.value = false
             const indrec = serverData.value.findIndex((rec: IMySkill) => rec._id === ris._id)
             console.log('indrec', indrec, serverData.value[indrec])
-            mycolumns.value.forEach((col:IColGridTable) => {
+            mycolumns.value.forEach((col: IColGridTable) => {
               if (!col.foredit) {
                 ris[col.name] = oldrec[col.name]
               }
