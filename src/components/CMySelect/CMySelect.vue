@@ -114,6 +114,7 @@
         @update:model-value="changeval"
         rounded
         outlined
+        @filter="filterFn"
         v-bind="$attrs"
         :input-class="myclass"
         :use-input="useinput"
@@ -149,7 +150,6 @@
           v-if="withToggle"
           v-slot:option="{ itemProps, opt, selected, toggleOption }">
           <q-item v-bind="itemProps">
-
             <q-item-section>
               <q-item-label>{{ opt[optlab] }}</q-item-label>
             </q-item-section>
@@ -174,6 +174,7 @@
         :option-value="optval"
         :option-label="optlab"
         @update:model-value="changeval"
+        @filter="filterFn"
         :label="label"
         emit-value
         options-selected-class="text-deep-orange"

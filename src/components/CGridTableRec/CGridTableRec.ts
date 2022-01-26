@@ -70,6 +70,11 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    visuinpage: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     showType: {
       type: Number,
       required: false,
@@ -962,7 +967,7 @@ export default defineComponent({
     }
 
     function visuIntestazCol(col: IColGridTable) {
-      if (col.fieldtype === costanti.FieldType.html || col.fieldtype === costanti.FieldType.listimages) {
+      if (col.fieldtype === costanti.FieldType.html || col.fieldtype === costanti.FieldType.listimages || col.noshowlabel) {
         return false
       } else {
         return true
@@ -1226,7 +1231,23 @@ export default defineComponent({
     }
 
     function checkIfShowRec(rec: any) {
-      return (rec._id > 0 && typeof rec._id === 'number') || rec._id !== 'number'
+      return ((rec._id > 0 && typeof rec._id === 'number') || rec._id !== 'number') && rec !== -100
+    }
+
+    function showColCheck(col: IColGridTable, newrec: boolean){
+      return (colVisib.value.includes(col.field! + col.subfield) || colVisib.value.includes(col.field + '.' + col.subfield)) &&
+        (!col.showOnlyNewRec || (col.showOnlyNewRec && newrec)) &&
+        (col.visible) &&
+        (!props.visuinpage || (col.visuinpage && props.visuinpage))
+    }
+
+    function getValueExtra(col: IColGridTable, record: any) {
+      if (record) {
+        if (col.filter_field! in record) {
+          return col.filter_field ? record[col.filter_field] || '' : ''
+        }
+      }
+      return ''
     }
 
     // onMounted(mounted)
@@ -1302,6 +1323,8 @@ export default defineComponent({
       labelcombo,
       filter,
       myvertical,
+      showColCheck,
+      getValueExtra,
     }
   }
 })

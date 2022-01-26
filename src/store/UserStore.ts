@@ -857,6 +857,20 @@ export const useUserStore = defineStore('UserStore', {
 
     },
 
+    async loadSkill(idSkill: string) {
+      const data = {
+        idSkill
+      }
+
+      return Api.SendReq('/myskills/page', 'POST', data)
+        .then((res) => {
+          return res.data
+        }).catch((error) => {
+          return {}
+        })
+
+    },
+
     async loadFriends(username: string) {
       return Api.SendReq('/users/friends', 'POST', null)
         .then((res) => {

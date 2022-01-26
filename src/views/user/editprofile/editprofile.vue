@@ -37,7 +37,7 @@
             :type="costanti.FieldType.string">
           </CMyFieldDb>
         </div>
-        <div class="row">
+        <div class="myrow">
           <CMyFieldDb
             :title="$t('reg.email')"
             table="users"

@@ -387,6 +387,17 @@ const baseroutes: IListRoutes[] = [
     inmenu: false,
     infooter: false,
   },
+  {
+    active: true,
+    order: 130,
+    path: '/mypage/:idskill',
+    materialIcon: 'fas fa-user',
+    name: 'pages.profile2',
+    component: () => import('@/views/user/mypageskill/mypageskill.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
   /*{
     active: true,
     order: 6,

@@ -37,6 +37,26 @@ export default defineComponent({
       required: false,
       default: ''
     },
+    type: {
+      type: Number,
+      required: false,
+      default: 0
+    },
+    filter_table: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    filter_field: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    value_extra: {
+      type: [String, Number],
+      required: false,
+      default: ''
+    },
     optlab: [String, Function],
     optval: {
       type: String,
@@ -121,7 +141,7 @@ export default defineComponent({
         if (!props.multiselect_by_server) {
           valori.value = valoriload.value
         } else {
-          console.log('@@@ VALORI CHANGED (1)', valori.value)
+          // console.log('@@@ VALORI CHANGED (1)', valori.value)
         }
       },
     )
@@ -202,7 +222,7 @@ export default defineComponent({
     }
 
     function mounted() {
-      console.log(' #### mounted myselect', props.options, 'arrvalue', myarrvalue.value)
+      // console.log(' #### mounted myselect', props.options, 'arrvalue', myarrvalue.value)
       let rec: any
       if (props.options) {
         if (!props.multiselect_by_server) {
@@ -254,7 +274,7 @@ export default defineComponent({
         }
         // }
       }
-      console.log('@@@ VALORI CHANGED (4)', valori.value)
+      // console.log('@@@ VALORI CHANGED (4)', valori.value)
       if (!props.multiselect_by_server) {
         valori.value = valoriload.value
       } else {
@@ -269,7 +289,45 @@ export default defineComponent({
           console.log('Filter val', val, val.length)
           let myarr: any = []
 
-          if (val.length <= 1) {
+           if (!fieldsTable.tableRemotePickup.includes(props.tablesel)) {
+             myarr = props.options
+
+             let needle: any = props.value_extra
+
+             // console.log('needle', needle)
+             if (props.filter_table) {
+               // console.log('  FILTERTABLE', props.filter_field, myarr)
+               if (props.multiple) {
+                 myarr = myarr.filter((rec: any) => rec[props.filter_field] === needle)
+               } else {
+                 myarr = myarr.filter((rec: any) => rec[props.filter_field].includes(needle))
+               }
+               // console.log('  RISSSSSSSSS: ', myarr)
+             }
+             if (props.addall) {
+               let myobj: any = {}
+               if (typeof props.optlab === 'string') {
+                 myobj[props.optlab] = '(Tutti)'
+                 myobj[props.optval] = costanti.FILTER_TUTTI
+               }
+
+               if (myarr)
+                myarr = [myobj, ...myarr]
+               // console.log('     myarr: ', myarr)
+             }
+
+             if (myarr && myarr.length > 0) {
+               valori.value = myarr
+             } else {
+               if (props.filter_table) {
+                 valori.value = []
+               }
+             }
+
+             return
+           }
+
+           if (val.length <= 1) {
             console.log('@@@ LENGTH <= 1')
             abort()
             return
@@ -296,8 +354,6 @@ export default defineComponent({
             }
             // const needle = val.toLocaleLowerCase()
             // optFiltered.value = optFiltered.value.filter((v: any) => v.toLocaleLowerCase().indexOf(needle) > -1)
-          } else {
-            myarr = props.options
           }
 
           if (props.addall) {
@@ -313,7 +369,7 @@ export default defineComponent({
           if (myarr && myarr.length > 0) {
             valori.value = myarr
             if (props.multiselect_by_server) {
-              console.log('@@@ VALORI CHANGED (3)', valori.value)
+              // console.log('@@@ VALORI CHANGED (3)', valori.value)
             }
           }
 

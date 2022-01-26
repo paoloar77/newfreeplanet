@@ -1,7 +1,6 @@
 <template>
   <!--<div class="q-pa-md items-start " style="display: inline-flex; width: 800px;"> -->
   <div v-if="!edit">
-
     <div class="q-pa-md q-gutter-md">
       <q-card :class="getclass()" @click="apri">
         <div v-for="(mygallery, index) in getlistimages()" :key="index">

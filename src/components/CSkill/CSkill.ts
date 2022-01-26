@@ -25,6 +25,11 @@ export default defineComponent({
         return []
       }
     },
+    visuinpage: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     username: {
       type: String,
       required: false,
@@ -95,8 +100,12 @@ export default defineComponent({
           lk_as,
           af_objId_tab,
           lk_proj: {
+            recSkill: 1,
+            sector: 1,
             idSkill: 1,
             idSubSkill: 1,
+            idStatusSkill: 1,
+            idContribType: 1,
             idCity: 1,
             numLevel: 1,
             photos: 1,
@@ -104,11 +113,12 @@ export default defineComponent({
             subTitle: 1,
             date_created: 1,
             date_updated: 1,
-            comune: 1,
             userId: 1,
             username: 1,
             name: 1,
             surname: 1,
+            comune: 1,
+            mycities: 1,
             'profile.img': 1,
             'profile.qualifica': 1,
           }
@@ -120,8 +130,12 @@ export default defineComponent({
           lk_as: 'comune',
           af_objId_tab: '',
           lk_proj: {
+            recSkill: 1,
+            sector: 1,
             idSkill: 1,
             idSubSkill: 1,
+            idStatusSkill: 1,
+            idContribType: 1,
             idCity: 1,
             numLevel: 1,
             photos: 1,

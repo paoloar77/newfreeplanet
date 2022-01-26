@@ -495,6 +495,7 @@ export interface IColGridTable {
   askaction?: string
   foredit?: boolean
   fieldtype?: number
+  noshowlabel?: boolean
   tipovisu?: number
   link?: string
   jointable?: string
@@ -506,6 +507,9 @@ export interface IColGridTable {
   notShowInNewRec?: boolean
   tablesel?: string
   notsave?: boolean
+  showOnlyNewRec?: boolean
+  visuinpage?: boolean
+  noShowView?: boolean
   maxlength?: number
   filter_table?: string
   filter_field?: string

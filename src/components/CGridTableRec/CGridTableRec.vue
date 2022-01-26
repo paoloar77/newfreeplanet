@@ -65,7 +65,7 @@
             :props="props"
             class="text-italic text-weight-bold"
           >
-            <span v-if="col && colVisib.includes(col.field + col.subfield)">
+            <span v-if="col && showColCheck(col, false)">
               {{ col.label }}
             </span>
 
@@ -167,7 +167,7 @@
               <template
                 v-if="item.arrvalue.length >= 1"
                 v-slot:selected-item="scope">
-                <div v-if="scope.opt[fieldsTable.getLabelByTable(item.table)]">
+                <div v-if="scope.opt[fieldsTable.getLabelByTable(item.table)] || (scope.opt && checkIfShowRec(scope.opt)) ">
                   <q-chip
                     removable
                     dense
@@ -178,7 +178,7 @@
                     class="q-my-none q-ml-xs q-mr-none"
                   >
                     <q-avatar color="primary" text-color="white" :icon="item.icon" size="12px"/>
-                    {{ scope.opt[fieldsTable.getLabelByTable(item.table)] }}
+                    {{ scope.opt[fieldsTable.getLabelByTable(item.table)] || (scope.opt) }}
                   </q-chip>
                 </div>
               </template>
@@ -252,7 +252,7 @@
           <q-td
             v-for="col in mycolumns" :key="col.name" :props="props">
             <div
-              v-if="colVisib.includes(col.field + col.subfield)" class="tdclass">
+              v-if="showColCheck(col, false)" class="tdclass">
               <div :class="getclrow(props.row)">
                 <CMyPopupEdit
                   :table="mytable"
@@ -307,8 +307,8 @@
           :style="props.selected ? 'transform: scale(0.95);' : ''"
         >
           <q-card :class="props.selected ? 'bg-grey-2' : ''" style="min-width: 200px;">
-            <q-bar dense class="bg-primary text-white">
-              <span class="ellipsis"> {{ props.row[col_title] }} </span>
+            <q-bar v-if="!visuinpage" dense class="bg-primary text-white full-height">
+              <span class=""> {{ props.row[col_title] }} </span>
               <q-space/>
               <q-btn
                 v-if="canModifyThisRec(props.row)"
@@ -328,9 +328,14 @@
               <q-list dense>
                 <div v-for="col in mycolumns" :key="col.name">
 
-                  <q-item v-if="colVisib.includes(col.field + col.subfield) &&
-                          (!col.noshowifnone || (col.noshowifnone && tools.getValue(props.row,col.field, col.subfield)))"
+                  <q-item v-if="showColCheck(col, false) &&
+                          (!col.noshowifnone || (col.noshowifnone && tools.getValue(props.row,col.field, col.subfield))
+                          )"
                           :class="clByCol(col)" class="riduci_pad">
+
+                    <q-item-section avatar v-if="col.icon">
+                      <q-item-label class="q-table__col"><q-icon :name="col.icon"></q-icon></q-item-label>
+                    </q-item-section>
 
                     <q-item-section avatar v-if="visuIntestazCol(col)">
                       <q-item-label class="q-table__col">{{ col.label }}</q-item-label>
@@ -373,7 +378,7 @@
       <div
         class="q-ma-xs q-pa-xs text-center rounded-borders q-list--bordered"
         v-for="mycol in mycolumns" :key="mycol.name">
-        <div v-if="colVisib.includes(mycol.field + mycol.subfield)">
+        <div v-if="showColCheck(mycol, false)">
           <div class="row items-center justify-center q-gutter-md q-ma-xs">
             <div class="q-ma-xs">
               <q-field rounded outlined bg-color="orange-3" dense>
@@ -386,6 +391,7 @@
               class="q-ma-sm q-pa-sm colmodif col-grow rounded-borders " style="border: 1px solid #bbb"
               @click="colclicksel = mycol">
 
+              mycol : {{mycol}}
               <CMyPopupEdit
                 :table="mytable"
                 :canEdit="true"
@@ -395,7 +401,7 @@
                 :mycol="mycol"
                 :showall="true"
                 :row="rowclicksel"
-                :tablesel="col.tablesel"
+                :tablesel="mycol.tablesel"
                 :field="mycol.field"
                 :subfield="mycol.subfield"
                 @save="SaveValdb"
@@ -420,7 +426,7 @@
           <div
             v-for="col in mycolumns" :key="col.name" class="newrec_fields">
             <div
-              v-if="colVisib.includes(col.field + col.subfield) && col.foredit">
+              v-if="showColCheck(col, true) && col.foredit">
               <div class="">
                 <CMyPopupEdit
                   :table="mytable"
@@ -431,6 +437,7 @@
                   :field="col.field"
                   :subfield="col.subfield"
                   :tablesel="col.tablesel"
+                  :value_extra="getValueExtra(col, newRecord)"
                   :isInModif="true"
                   minuteinterval="1"
                   :visulabel="true"
@@ -452,7 +459,7 @@
     </q-dialog>
     <q-dialog v-model="editRecordBool">
       <q-card class="dialog_card">
-        <q-bar dense class="bg-primary text-white">
+        <q-bar dense class="bg-primary text-white full-height">
           <span v-if="mytitle">{{ mytitle }}</span>
           <span v-else>{{ recModif[col_title] }}</span>
           <q-space/>
@@ -462,7 +469,7 @@
           <div
             v-for="col in mycolumns" :key="col.name">
             <div
-              v-if="colVisib.includes(col.field + col.subfield) && col.foredit">
+              v-if="showColCheck(col, false) && col.foredit">
               <div>
                 <CMyPopupEdit
                   :table="mytable"
@@ -474,6 +481,7 @@
                   v-model:row="recModif"
                   :field="col.field"
                   :subfield="col.subfield"
+                  :value_extra="getValueExtra(col, recModif)"
                   minuteinterval="1"
                   @save="SaveValue"
                   @show="selItem(recModif, col, true)"

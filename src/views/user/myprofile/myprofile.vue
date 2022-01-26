@@ -54,9 +54,9 @@
         to="/editprofile">
       </q-btn>
 
-      <div class="row justify-evenly q-pa-sm q-ma-sm">
+      <div class="myrow justify-evenly items-center q-pa-sm q-ma-sm">
 
-        <div class="col-md-6 q-mx-sm">
+        <div class="col-6 q-ma-xs">
           <q-btn
             v-if="getLinkUserTelegram()" icon="fab fa-telegram"
             color="blue" type="a"
@@ -67,7 +67,7 @@
           </q-btn>
 
         </div>
-        <div class="col-md-6 q-mx-sm">
+        <div class="col-6 q-ma-xs">
           <q-btn
             v-if="getLinkWebSite()" icon="fas fa-globe"
             color="blue" type="a"

@@ -1470,11 +1470,15 @@ export const tools = {
     const myimage = dir + file
     // console.log('includes = ', static_data.preLoadImages.map((a) => a.imgname).includes(myimage), myimage)
     let ris = ''
-    // @ts-ignore
-    if (this.isMobile() && (preloadedimages().map((a) => a.imgname).includes(myimage))) {
-      ris = `${dir}mobile/${file}`
-    } else {
-      ris = myimage
+    try {
+      // @ts-ignore
+      if (this.isMobile() && (preloadedimages().map((a) => a.imgname).includes(myimage))) {
+        ris = `${dir}mobile/${file}`
+      } else {
+        ris = myimage
+      }
+    }catch (e) {
+      return myimage
     }
 
     // console.log('getimgbysize', ris)
@@ -3280,7 +3284,7 @@ export const tools = {
   },
   getCookie(mytok: any, def?: any) {
     const ris = Cookies.get(mytok)
-    console.log('getCookie', mytok, ris)
+    // console.log('getCookie', mytok, ris)
     if (!!ris) {
       return ris
     } else {
@@ -3289,7 +3293,7 @@ export const tools = {
   },
 
   setCookie(mytok: any, value: string) {
-    console.log('setCookie', mytok, value)
+    // console.log('setCookie', mytok, value)
     return Cookies.set(mytok, value)
   },
 

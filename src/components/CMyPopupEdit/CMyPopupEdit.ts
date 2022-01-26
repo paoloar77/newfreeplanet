@@ -120,6 +120,16 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    field_extra: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    value_extra: {
+      type: [String, Number],
+      required: false,
+      default: '',
+    },
     table: {
       type: String,
       required: false,
@@ -511,7 +521,7 @@ export default defineComponent({
     }
 
     function visInNewRec(col: any) {
-      return !col.notShowInNewRec
+      return (!col.notShowInNewRec || (col.showOnlyNewRec && props.insertMode)) && (!col.noShowView || (col.noShowView && props.isInModif))
     }
 
     function getclassCol(col: any) {
@@ -637,6 +647,7 @@ export default defineComponent({
       fieldsTable,
       onInput,
       globalStore,
+      userStore,
       getTitleGall,
       getDirectoryGall,
       removephoto,

@@ -1,6 +1,6 @@
 <template>
   <div :class="getclassCol(col)">
-    <div v-if="(visInNewRec(col) && visulabel) || !visulabel " style="flex-grow: 1;">
+    <div v-if="(visInNewRec(col) && visulabel) || (!visulabel && !col.showOnlyNewRec && !col.noShowView) " style="flex-grow: 1;">
       <div
         :class="{ flex: !isInModif, 'justify-center': true }">
         <div>
@@ -50,16 +50,19 @@
             </div>
             <div v-else>
 
-              <q-btn v-if="col.tipovisu === costanti.TipoVisu.LINK && myvalue" type="a" rounded dense size="sm"
-                     color="white" text-color="blue" icon="person" :to="col.link.replace(col.name, myvalue)">
-                <span :class="{disabled: disable }">{{ myvalue }}</span>
+              <q-btn v-if="col.tipovisu === costanti.TipoVisu.LINK && myvalue"
+                     type="a" rounded size="md"
+                     :class="{disabled: disable }"
+                     color="white" text-color="blue" :icon="`img:`+userStore.getImgByUsername(myvalue)" :to="col.link.replace(col.name, myvalue)"
+                     :label="myvalue"
+              >
               </q-btn>
               <q-avatar v-else-if="col.tipovisu === costanti.TipoVisu.LINKIMG && myvalue" size="60px">
 
                 <q-img :src="getImgUser(contact)" :alt="myvalue" img-class="imgprofile" height="60px"/>
               </q-avatar>
-              <q-btn v-else-if="col.tipovisu === costanti.TipoVisu.BUTTON && myvalue" rounded dense size="sm"
-                     color="primary" icon="person" :to="col.link.replace(col.name, myvalue)">{{ myvalue }}
+              <q-btn v-else-if="col.tipovisu === costanti.TipoVisu.BUTTON && myvalue" rounded size="sm"
+                     color="primary" icon="person" :to="col.link.replace(col.name, myvalue)" :label="myvalue">
               </q-btn>
               <span v-else :class="{disabled: disable }" v-html="visuValByType(myvalue, col, row)"></span>
             </div>
@@ -108,8 +111,8 @@
               :title="getTitleGall()"
               :directory="getDirectoryGall()"
               :imgGall="myvalue"
-              :edit="isviewfield()"
-              :canModify="canModify"
+              :edit="isviewfield() && isInModif"
+              :canModify="canModify && isInModif"
               @showandsave="Savedb">
             </CGallery>
           </div>
@@ -250,6 +253,9 @@
                 :multiple="true"
                 :withToggle="true"
                 :label="col.label"
+                :filter_table="col.filter_table"
+                :filter_field="col.filter_field"
+                :value_extra="value_extra"
                 v-model:arrvalue="myvalue"
                 @update:arrvalue="changevalRec"
                 :addall="false"
@@ -313,6 +319,9 @@
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
                 :tablesel="col.type === costanti.FieldType.select_by_server ? tablesel : ''"
                 @update:value="changevalRec"
+                :filter_table="col.filter_table"
+                :filter_field="col.filter_field"
+                :value_extra="value_extra"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
@@ -340,6 +349,9 @@
               :addall="false"
               :tablesel="col.tablesel"
               :pickup="true"
+              :filter_table="col.filter_table"
+              :filter_field="col.filter_field"
+              :value_extra="value_extra"
               label-color="primary"
               class="combowidth"
               color="primary"
@@ -356,6 +368,9 @@
                 :label="col.label"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
+                :filter_table="col.filter_table"
+                :filter_field="col.filter_field"
+                :value_extra="value_extra"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
@@ -385,7 +400,7 @@
               </p>
               <div v-if="!isFieldDb()">
                 <CMyEditor
-                  v-model:value="myvalue" :title="getTitleEditor(col, row)" @keyup.enter.stop
+                  v-model:value="myvalue" :title="getTitleEditor(col, row) && !isInModif" @keyup.enter.stop
                   :showButtons="false"
                   :canModify="canModify"
                   @update:value="changevalRec"
@@ -394,18 +409,29 @@
               </div>
             </div>
             <div v-else>
-              <q-btn
-                v-if="myvalue"
-                :label="$t('cal.details')" color="primary" text-color="white"
-                @click="visuhtml = true">
-              </q-btn>
+              <div class="row justify-evenly">
+                <q-btn
+                  v-if="myvalue"
+                  class="q-mx-md"
+                  icon="fas fa-info" color="primary" text-color="white"
+                  round
+                  @click="visuhtml = true">
+                </q-btn>
+
+                <q-btn
+                  v-if="myvalue && col.field_extra1"
+                  icon="far fa-file-alt" :label="col.titlepopupedit" color="primary" text-color="white"
+                  :to="`/mypage/`+row['_id']"
+                >
+                </q-btn>
+              </div>
               <!--<div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true"></div>-->
 
               <div v-if="!isFieldDb()">
                 <q-dialog v-model="visuhtml" full-height full-width>
                   <q-card>
                     <q-bar dense class="bg-primary text-white">
-                      <span class="ellipsis"> {{ getTitleEditor(col, row) }} </span>
+                      <span> {{ getTitleEditor(col, row) }} </span>
                       <q-space/>
                       <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
                     </q-bar>
@@ -528,6 +554,9 @@
                 v-model:value="scope.value"
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
                 :tablesel="col.type === costanti.FieldType.select_by_server ? tablesel : ''"
+                :filter_table="col.filter_table"
+                :filter_field="col.filter_field"
+                :value_extra="value_extra"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
@@ -542,6 +571,9 @@
                 @update:arrvalue="changevalRec"
                 :addall="false"
                 :tablesel="tablesel"
+                :filter_table="col.filter_table"
+                :filter_field="col.filter_field"
+                :value_extra="value_extra"
                 :pickup="true"
                 label-color="primary"
                 class="combowidth"
@@ -589,6 +621,9 @@
                   v-model:value="scope.value"
                   @update:value="changevalRec"
                   :tablesel="tablesel"
+                  :filter_table="col.filter_table"
+                  :filter_field="col.filter_field"
+                  :value_extra="value_extra"
                   :pickup="pickup"
                   :optval="fieldsTable.getKeyByTable(tablesel)"
                   :optlab="fieldsTable.getLabelByTable(tablesel)"
