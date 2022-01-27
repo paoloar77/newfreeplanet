@@ -470,6 +470,48 @@ export const useGlobalStore = defineStore('GlobalStore', {
       }
     },
 
+    UpdateValuesInMemoryByTable(mydata: any, table: string): void {
+
+      try {
+        const mylist = this.getListByTable(table)
+        const mykey = fieldsTable.getKeyByTable(table)
+        const id = mydata[mykey]
+
+        console.log('mylist', mylist)
+        console.log('mykey', mykey)
+        console.log('id', id)
+
+        if (mylist) {
+          const myrec = mylist.find((event: any) => event[mykey] === id)
+          // console.log('myrec', myrec)
+          if (myrec) {
+            // console.log('key', value, myrec[key])
+            for (const [key, value] of Object.entries(mydata)) {
+              myrec[key] = value
+            }
+          }
+
+        console.log('update: ', myrec)
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    },
+
+    newValueInMemoryByTable(mydata: any, table: string): void {
+
+      try {
+        const mylist = this.getListByTable(table)
+
+        if (mylist) {
+          mylist.push(mydata)
+
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    },
+
     createPushSubscription() {
 
       // If Already subscribed, don't send to the Server DB
@@ -797,6 +839,27 @@ export const useGlobalStore = defineStore('GlobalStore', {
           userStore.setErrorCatch(error)
           return null
         })
+    },
+
+    async saveNewRecord(mytable: string, myrec: any) {
+      const userStore = useUserStore()
+      console.log('saveNewRecord', mytable, myrec)
+
+      const mydata: any = {
+        table: mytable,
+        data: myrec
+      }
+
+      mydata.data.userId = userStore.my._id
+
+      const ris = await this.saveTable(mydata)
+
+      if (ris) {
+        this.newValueInMemoryByTable(ris, mytable);
+      }
+
+      console.log('saveNewRecord', ris)
+      return ris
     },
 
     async saveFieldValue(mydata: IDataToSet) {

@@ -91,7 +91,7 @@
           <div v-if="edit" class="q-gutter-sm " style="max-height: 200px; width: 208px;">
             <q-uploader
               label="Aggiungi Immagine"
-              accept=".jpg, image/*, .pdf"
+              accept="image/jpeg, image/jpg, image/png, .pdf"
               :url="getUrl()"
               :headers="tools.getheaders()"
               :max-file-size="3000000"
@@ -206,7 +206,7 @@
             <div class="q-gutter-sm " style="max-height: 200px; width: 208px;">
               <q-uploader
                 label="Aggiungi Immagine"
-                accept=".jpg, image/*, .pdf"
+                accept="image/jpeg, image/jpg, image/png, .pdf"
                 :url="getUrl()"
                 :headers="tools.getheaders()"
                 :max-file-size="2000000"

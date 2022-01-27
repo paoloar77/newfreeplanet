@@ -1,5 +1,6 @@
 import { translation } from '@store/Modules/translation'
 import {
+  IColGridTable,
   IColl,
   ICollaborations, IDataToSet,
   IEvents, IFriends,
@@ -60,6 +61,11 @@ export const tools = {
 
   TYPECONF_ZOOM: 'zoom',
   TYPECONF_JITSI: 'jitsi',
+
+  TIPOVIS_NEW_RECORD: 1,
+  TIPOVIS_EDIT_RECORD: 2,
+  TIPOVIS_SHOW_RECORD: 4,
+  TIPOVIS_SHOW_INPAGE: 8,
 
   APORTADOR_SOLIDARIO: 'apsol',
 
@@ -1477,7 +1483,7 @@ export const tools = {
       } else {
         ris = myimage
       }
-    }catch (e) {
+    } catch (e) {
       return myimage
     }
 
@@ -4582,6 +4588,30 @@ export const tools = {
     return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0')
   },
 
+  checkIfShowField(col: IColGridTable, tipovis: number, visulabel: boolean, valuePresent: any = '') {
+
+    let check = (col.visible)
+
+    if (tipovis === tools.TIPOVIS_NEW_RECORD) {
+      check = check && tools.isBitActive(col.showWhen, costanti.showWhen.NewRec)
+    } else if (tipovis === tools.TIPOVIS_EDIT_RECORD) {
+      check = check && tools.isBitActive(col.showWhen, costanti.showWhen.InEdit)
+    } else if (tipovis === tools.TIPOVIS_SHOW_RECORD) {
+      if (tools.isBitActive(col.showWhen, costanti.showWhen.InView_OnlyifExist)) {
+        check = check && valuePresent
+      } else {
+        check = check && tools.isBitActive(col.showWhen, costanti.showWhen.InView)
+      }
+    } else if (tipovis === tools.TIPOVIS_SHOW_INPAGE) {
+      check = check && tools.isBitActive(col.showWhen, costanti.showWhen.InPage)
+    }
+
+    return check
+
+
+    //  (!col.noShowView || (col.noShowView && isInModif)) ||
+    //   (!visulabel && !col.showOnlyNewRec && !col.noShowView)
+  },
 
 // getLocale() {
   //   if (navigator.languages && navigator.languages.length > 0) {

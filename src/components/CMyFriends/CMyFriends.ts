@@ -139,7 +139,7 @@ export default defineComponent({
       // Carica il profilo di quest'utente
       if (username.value) {
         userStore.loadFriends(username.value).then((ris) => {
-          console.log('ris', ris)
+          // console.log('ris', ris)
           if (ris) {
             userStore.my.profile.friends = ris.listFriends ? ris.listFriends : []
             userStore.my.profile.req_friends = ris.listRequestFriends ? ris.listRequestFriends : []

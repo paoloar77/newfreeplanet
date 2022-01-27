@@ -251,6 +251,27 @@ export default defineComponent({
       }
     }
 
+    async function addNewValue(value: any) {
+      console.log('addNewValue', value, col.value)
+
+      if (col.value.allowNewValue && col.value.jointable) {
+        let myrec: any = {}
+
+        let mylabel = fieldsTable.getLabelByTable(col.value.jointable)
+        myrec[mylabel] = value
+
+        if (col.value.filter_field && props.value_extra) {
+          myrec[col.value.filter_field] = props.value_extra
+        }
+
+        // console.log('value_extra', props.value_extra)
+        if (props.table) {
+          return await globalStore.saveNewRecord(col.value.jointable, myrec)
+        }
+      }
+      return null
+    }
+
     function changevalRec(newval: any) {
       console.log('popypedit: changevalRec', newval)
       // console.log('row', props.row, 'col', props.mycol, 'newval', newval)
@@ -280,25 +301,29 @@ export default defineComponent({
 
     function mounted() {
 
-      // console.log('mounted', 'isFieldDb()', isFieldDb())
-      if (isFieldDb()) {
+      try {
+        // console.log('mounted', 'isFieldDb()', isFieldDb())
+        if (isFieldDb()) {
 
-      } else {
-        if (props.subfield !== '') {
-          if (props.row[props.field] === undefined) {
-            myrow.value[props.field] = {}
-            myvalue.value = ''
-          } else {
-            myvalue.value = myrow.value[props.field][props.subfield]
-          }
         } else {
-          if (props.field !== '')
-            myvalue.value = myrow.value[props.field]
-          else {
-            // @ts-ignore
-            myvalue.value = myrow.value
+          if (props.subfield !== '') {
+            if (props.row[props.field] === undefined) {
+              myrow.value[props.field] = {}
+              myvalue.value = ''
+            } else {
+              myvalue.value = myrow.value[props.field][props.subfield]
+            }
+          } else {
+            if (props.field !== '')
+              myvalue.value = myrow.value[props.field]
+            else {
+              // @ts-ignore
+              myvalue.value = myrow.value
+            }
           }
         }
+      } catch (e) {
+
       }
 
       // console.log('popupedit: myvalue.value', myvalue.value)
@@ -520,10 +545,6 @@ export default defineComponent({
       }
     }
 
-    function visInNewRec(col: any) {
-      return (!col.notShowInNewRec || (col.showOnlyNewRec && props.insertMode)) && (!col.noShowView || (col.noShowView && props.isInModif))
-    }
-
     function getclassCol(col: any) {
       if (col) {
         let mycl = (col.disable || isviewfield()) ? '' : 'colmodif'
@@ -631,6 +652,7 @@ export default defineComponent({
       isviewfield,
       changeval,
       changevalRec,
+      addNewValue,
       changevalRecHours,
       updatedata,
       OpenEdit,
@@ -638,7 +660,6 @@ export default defineComponent({
       annulla,
       Savedb,
       visuValByType,
-      visInNewRec,
       getclassCol,
       selectcountry,
       intcode_change,

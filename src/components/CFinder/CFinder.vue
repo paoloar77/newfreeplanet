@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-sm bi-border-all">
-    <div class="q-ma-sm q-gutter-sm q-pa-xs bg-green">
+  <div class="bi-border-all">
+    <div class="q-ma-xs q-gutter-xs q-pa-xs bg-green">
       <CGridTableRec
         v-if="searchList.length > 0"
         prop_mytable="myskills"
@@ -9,7 +9,7 @@
         prop_colkey="idSkill"
         col_title="subTitle"
         :vertical="true"
-        nodataLabel="Nessuna Competenza trovata"
+        :nodataLabel="idSector > 0 ? 'Nessuna Competenza trovata': 'Selezionare un Settore'"
         :prop_search="true"
         :finder="true"
         :choose_visutype="true"

@@ -1,4 +1,4 @@
-import { computed, defineComponent, onMounted, ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, PropType, ref, toRef, watch } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
@@ -6,6 +6,8 @@ import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
 import { fieldsTable } from '@store/Modules/fieldsTable'
 import { shared_consts } from '@/common/shared_vuejs'
+import { IColGridTable, IOperators } from 'model'
+import { tools } from '@store/Modules/tools'
 
 export default defineComponent({
   name: 'CMySelect',
@@ -41,6 +43,13 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 0
+    },
+    col: {
+      type: Object as PropType<IColGridTable>,
+      required: false,
+      default: () => {
+        return { name: '' }
+      },
     },
     filter_table: {
       type: String,
@@ -122,19 +131,10 @@ export default defineComponent({
     const myarrvalue = ref(<any[]>[])
     const arrtempOpt = ref(<any[]>[])
 
+    const optionsreal: any = []
+
     const valoriload = computed(() => {
-      let myarr = props.options
-      if (props.addall) {
-        let myobj: any = {}
-        if (typeof props.optlab === 'string') {
-          myobj[props.optlab] = '(Tutti)'
-          myobj[props.optval] = costanti.FILTER_TUTTI
-        }
-
-        myarr = [myobj, ...myarr]
-      }
-
-      return myarr
+      return updateArrOptions()
     })
 
     watch(() => props.options, (value: any, oldval: any) => {
@@ -146,13 +146,13 @@ export default defineComponent({
       },
     )
     watch(() => props.value, (value: any, oldval: any) => {
-        mounted()
+        update()
       },
     )
 
     watch(() => props.arrvalue, (value: any, oldval: any) => {
         console.log(' MODIF props.arrvalue', props.arrvalue)
-        mounted()
+        update()
       },
     )
 
@@ -222,16 +222,22 @@ export default defineComponent({
     }
 
     function mounted() {
+      optionsreal.value = props.options
+      update()
+    }
+
+    function update() {
+      // console.log('update')
       // console.log(' #### mounted myselect', props.options, 'arrvalue', myarrvalue.value)
       let rec: any
-      if (props.options) {
+      if (optionsreal.value) {
         if (!props.multiselect_by_server) {
-          rec = props.options.find((myrec: any) => myrec[`${props.optval}`] === props.value)
+          rec = optionsreal.value.find((myrec: any) => myrec[`${props.optval}`] === props.value)
         }
       }
       if (props.multiselect_by_server) {
         const num = parseInt(localStorage.getItem(props.tablesel + 'NUM')!)
-        console.log('num LOADED ', num)
+        // console.log('num LOADED ', num)
         arrtempOpt.value = []
         if (props.addall) {
           let myobj: any = {}
@@ -262,72 +268,109 @@ export default defineComponent({
           }
         }
       }
-      if (rec) {
-        if (props.funcgetvaluebyid)
-          myvalue.value = props.funcgetvaluebyid(rec[`${props.optval}`])
-        else
-          myvalue.value = rec[`${props.optlab}`]
-      } else {
-        // if (!props.useinput) {
-        if (props.value) {
-          myvalue.value = props.value
+
+      if (props.multiple) {
+        let arrrec = []
+        for (const val of props.arrvalue) {
+          rec = optionsreal.value.find((myrec: any) => val === (myrec[`${props.optval}`]))
+          if (rec) {
+            arrrec.push(rec[`${props.optval}`])
+          }
         }
-        // }
-      }
-      // console.log('@@@ VALORI CHANGED (4)', valori.value)
-      if (!props.multiselect_by_server) {
-        valori.value = valoriload.value
+        if (arrrec) {
+          if (props.funcgetvaluebyid)
+            myarrvalue.value = props.funcgetvaluebyid(arrrec)
+          else
+            myarrvalue.value = arrrec
+        } else {
+          if (props.arrvalue) {
+            myarrvalue.value = props.arrvalue
+          }
+        }
       } else {
+        if (rec) {
+          if (props.funcgetvaluebyid)
+            myvalue.value = props.funcgetvaluebyid(rec[`${props.optval}`])
+          else
+            myvalue.value = rec[`${props.optlab}`]
+        } else {
+          // if (!props.useinput) {
+          if (props.value) {
+            myvalue.value = props.value
+          }
+          // }
+        }
+        // console.log('myvalue', props.tablesel, myvalue.value)
+        // console.log('props.value', props.value)
+      }
+
+      if (props.multiselect_by_server) {
         valori.value = arrtempOpt.value
+      } else {
+        valori.value = valoriload.value
       }
       // console.log('cmyselect: myvalue.value', myvalue.value)
     }
 
+    function updateArrOptions() {
+      let myarr: any = []
+
+      if (props.col.jointable) {
+        optionsreal.value = globalStore.getTableJoinByName(props.col.jointable, props.col.addall, props.col.filter)
+      }
+
+      myarr = optionsreal.value
+      if (!fieldsTable.tableRemotePickup.includes(props.tablesel)) {
+
+        let needle: any = props.value_extra
+
+        // console.log('needle', needle, 'props.multiple', props.multiple)
+        if (props.filter_table) {
+          // console.log('  FILTERTABLE', props.filter_field, myarr)
+          if (props.multiple) {
+            myarr = myarr.filter((rec: any) => rec[props.filter_field] === needle)
+          } else {
+            myarr = myarr.filter((rec: any) => rec[props.filter_field].includes(needle))
+          }
+          // console.log('  RISSSSSSSSS: ', myarr)
+        }
+      }
+
+      if (props.addall) {
+        let myobj: any = {}
+        if (typeof props.optlab === 'string') {
+          myobj[props.optlab] = '(Tutti)'
+          myobj[props.optval] = costanti.FILTER_TUTTI
+        }
+
+        if (myarr)
+          myarr = [myobj, ...myarr]
+        // console.log('     myarr: ', myarr)
+      }
+
+      return myarr
+    }
+
     function filterFn(val: any, update: any, abort: any) {
       update(
-         async () => {
+        async () => {
           console.log('Filter val', val, val.length)
+
           let myarr: any = []
 
-           if (!fieldsTable.tableRemotePickup.includes(props.tablesel)) {
-             myarr = props.options
+          myarr = updateArrOptions()
+          if (!fieldsTable.tableRemotePickup.includes(props.tablesel)) {
+            if (myarr && myarr.length > 0) {
+              valori.value = myarr
+            } else {
+              if (props.filter_table) {
+                valori.value = []
+              }
+            }
+            return
+          }
 
-             let needle: any = props.value_extra
-
-             // console.log('needle', needle)
-             if (props.filter_table) {
-               // console.log('  FILTERTABLE', props.filter_field, myarr)
-               if (props.multiple) {
-                 myarr = myarr.filter((rec: any) => rec[props.filter_field] === needle)
-               } else {
-                 myarr = myarr.filter((rec: any) => rec[props.filter_field].includes(needle))
-               }
-               // console.log('  RISSSSSSSSS: ', myarr)
-             }
-             if (props.addall) {
-               let myobj: any = {}
-               if (typeof props.optlab === 'string') {
-                 myobj[props.optlab] = '(Tutti)'
-                 myobj[props.optval] = costanti.FILTER_TUTTI
-               }
-
-               if (myarr)
-                myarr = [myobj, ...myarr]
-               // console.log('     myarr: ', myarr)
-             }
-
-             if (myarr && myarr.length > 0) {
-               valori.value = myarr
-             } else {
-               if (props.filter_table) {
-                 valori.value = []
-               }
-             }
-
-             return
-           }
-
-           if (val.length <= 1) {
+          if (val.length <= 1) {
             console.log('@@@ LENGTH <= 1')
             abort()
             return
@@ -339,7 +382,7 @@ export default defineComponent({
 
           if (fieldsTable.tableRemotePickup.includes(props.tablesel)) {
             try {
-              myarr = props.options
+              myarr = optionsreal.value
               if (mystr !== '')
                 // myarr = [{_id:1, prov: 'RN', descr: 'Rimini'}]
                 myarr = await globalStore.loadPickup({ table: props.tablesel, search: mystr.trim() })
@@ -354,16 +397,15 @@ export default defineComponent({
             }
             // const needle = val.toLocaleLowerCase()
             // optFiltered.value = optFiltered.value.filter((v: any) => v.toLocaleLowerCase().indexOf(needle) > -1)
-          }
+            if (props.addall) {
+              let myobj: any = {}
+              if (typeof props.optlab === 'string') {
+                myobj[props.optlab] = '(Tutti)'
+                myobj[props.optval] = costanti.FILTER_TUTTI
+              }
 
-          if (props.addall) {
-            let myobj: any = {}
-            if (typeof props.optlab === 'string') {
-              myobj[props.optlab] = '(Tutti)'
-              myobj[props.optval] = costanti.FILTER_TUTTI
+              myarr = [myobj, ...myarr]
             }
-
-            myarr = [myobj, ...myarr]
           }
 
           if (myarr && myarr.length > 0) {
@@ -377,10 +419,12 @@ export default defineComponent({
         },
         // "ref" is the Vue reference to the QSelect
         (ref: any) => {
-           // console.log('ref.options', ref.options)
-          if (val !== '' && ref.options.length > 0) {
-            ref.setOptionIndex(-1) // reset optionIndex in case there is something selected
-            ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
+          if (!props.useinput) {
+            // console.log('ref.options', ref.options)
+            if (val !== '' && ref.options.length > 0) {
+              ref.setOptionIndex(-1) // reset optionIndex in case there is something selected
+              ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
+            }
           }
         }
       )
@@ -392,6 +436,62 @@ export default defineComponent({
 
     function checkIfShowRec(rec: any) {
       return (rec._id > 0 && typeof rec._id === 'number') || rec._id !== 'number'
+    }
+
+    async function newvaluefuncfirst(value: any, done: any) {
+      if (props.newvaluefunc && props.col) {
+        const fieldval = fieldsTable.getLabelByTable(props.col.jointable!)
+        // console.log('fieldval', fieldval, 'optionsreal.value', optionsreal.value)
+        // Se esiste già, non crearlo
+        const esiste = optionsreal.value.find((rec: any) => {
+          // console.log('rec[fieldval]',rec[fieldval], value.toLowerCase())
+          return rec[fieldval].toLowerCase() === value.toLowerCase() && (rec[props.filter_field] === props.value_extra)
+        })
+        console.log('esiste', esiste)
+        if (!esiste || (esiste && esiste.length === 0)) {
+          // console.log('non esiste, lo creo ! ', value)
+          const newrec = await props.newvaluefunc(tools.CapitalizeAllWords(value))
+          if (newrec) {
+            if (props.col && props.col.jointable) {
+              // Reload
+              // console.log('  A1', optionsreal.value)
+              // valori.value = valoriload.value
+              // optionsreal.value = valori.value
+              console.log('DOPO', optionsreal.value)
+            }
+            console.log('newrec', newrec)
+            const myid = fieldsTable.getKeyByTable(props.col.jointable!)
+            const recfound = valori.value.find((rec: any) => rec[myid] === newrec[myid])
+            if (!recfound) {
+              done(newrec, 'add-unique')
+            }
+
+            // console.log('myid', myid, optionsreal.value)
+            // console.log('recfound',recfound)
+            // console.log('newrec[myid]',newrec[myid])
+            /*if (recfound) {
+              const arrout = [...myarrvalue.value]
+              if (!arrout.includes(recfound[myid])) {
+                arrout.push(recfound[myid])
+              }
+              console.log('  arrout (1)', arrout)
+              if (props.multiple || props.multiselect_by_server) {
+                if (myid) {
+                  done(newrec, 'add-unique')
+                }
+              } else {
+                done(recfound[myid], 'add-unique')
+              }
+
+              /* if (props.multiple || props.multiselect_by_server) {
+                console.log('arrout (2)', arrout)
+                changeval(arrout)
+
+              }
+            }*/
+          }
+        }
+      }
     }
 
     onMounted(mounted)
@@ -406,6 +506,7 @@ export default defineComponent({
       fieldsTable,
       checkIfShowRec,
       abortFilterFn,
+      newvaluefuncfirst,
     }
   }
 })

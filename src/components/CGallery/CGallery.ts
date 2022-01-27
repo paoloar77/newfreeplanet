@@ -275,14 +275,14 @@ export default defineComponent({
 
         // Delete File on server:
         const ris = await globalStore.DeleteFile({ filename })
-        console.log('ris', ris)
+        // console.log('ris', ris)
         if (ris)
           deleted(rec)
       })
     }
 
     function save() {
-      console.log('CGallery save')
+      console.log('CGallery save', gallerylist.value)
       if (gallerylist.value.length > 0) {
         if (!props.single) {
           emit('showandsave', gallerylist.value)
@@ -290,7 +290,7 @@ export default defineComponent({
           emit('showandsave', gallerylist.value[0].imagefile)
         }
       } else {
-        emit('showandsave', '')
+        emit('showandsave', !props.single ? [] : '')
       }
     }
 

@@ -65,7 +65,7 @@
             :props="props"
             class="text-italic text-weight-bold"
           >
-            <span v-if="col && showColCheck(col, false)">
+            <span v-if="col && showColCheck(col, tools.TIPOVIS_SHOW_RECORD, true)">
               {{ col.label }}
             </span>
 
@@ -102,7 +102,7 @@
       <template v-slot:top-left>
 
         <div v-if="searchList"
-             :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue`">
+             :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue `">
           <span v-for="(item, index) in searchList" :key="index">
             <CMySelect
               v-if="(item.type === costanti.FieldType.select) || (item.type === costanti.FieldType.select_by_server)"
@@ -252,7 +252,7 @@
           <q-td
             v-for="col in mycolumns" :key="col.name" :props="props">
             <div
-              v-if="showColCheck(col, false)" class="tdclass">
+              v-if="showColCheck(col, tools.TIPOVIS_SHOW_RECORD, true, 1)" class="tdclass">
               <div :class="getclrow(props.row)">
                 <CMyPopupEdit
                   :table="mytable"
@@ -306,7 +306,7 @@
           class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
           :style="props.selected ? 'transform: scale(0.95);' : ''"
         >
-          <q-card :class="props.selected ? 'bg-grey-2' : ''" style="min-width: 200px;">
+          <q-card :class="props.selected ? 'bg-grey-2 my-card' : 'my-card'">
             <q-bar v-if="!visuinpage" dense class="bg-primary text-white full-height">
               <span class=""> {{ props.row[col_title] }} </span>
               <q-space/>
@@ -328,9 +328,7 @@
               <q-list dense>
                 <div v-for="col in mycolumns" :key="col.name">
 
-                  <q-item v-if="showColCheck(col, false) &&
-                          (!col.noshowifnone || (col.noshowifnone && tools.getValue(props.row,col.field, col.subfield))
-                          )"
+                  <q-item v-if="showColCheck(col, tools.TIPOVIS_SHOW_RECORD, false, tools.getValue(props.row,col.field, col.subfield))"
                           :class="clByCol(col)" class="riduci_pad">
 
                     <q-item-section avatar v-if="col.icon">
@@ -378,7 +376,7 @@
       <div
         class="q-ma-xs q-pa-xs text-center rounded-borders q-list--bordered"
         v-for="mycol in mycolumns" :key="mycol.name">
-        <div v-if="showColCheck(mycol, false)">
+        <div v-if="showColCheck(mycol, tools.TIPOVIS_SHOW_RECORD, false)">
           <div class="row items-center justify-center q-gutter-md q-ma-xs">
             <div class="q-ma-xs">
               <q-field rounded outlined bg-color="orange-3" dense>
@@ -426,7 +424,7 @@
           <div
             v-for="col in mycolumns" :key="col.name" class="newrec_fields">
             <div
-              v-if="showColCheck(col, true) && col.foredit">
+              v-if="showColCheck(col, tools.TIPOVIS_NEW_RECORD, true) && col.foredit">
               <div class="">
                 <CMyPopupEdit
                   :table="mytable"
@@ -469,7 +467,7 @@
           <div
             v-for="col in mycolumns" :key="col.name">
             <div
-              v-if="showColCheck(col, false) && col.foredit">
+              v-if="showColCheck(col, tools.TIPOVIS_EDIT_RECORD, false) && col.foredit">
               <div>
                 <CMyPopupEdit
                   :table="mytable"

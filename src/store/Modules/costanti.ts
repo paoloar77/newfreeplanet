@@ -28,6 +28,14 @@ export const costanti = {
 
   DRAGULA: false,
 
+  showWhen: {
+    NewRec: 1,
+    InPage: 2,
+    InEdit: 4,
+    InView: 8,
+    InView_OnlyifExist: 16,
+  },
+
   TABEVENTS: 'myevents',
 
   NOFIELD: 'nofield',

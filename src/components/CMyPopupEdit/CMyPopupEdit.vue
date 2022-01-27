@@ -1,6 +1,6 @@
 <template>
   <div :class="getclassCol(col)">
-    <div v-if="(visInNewRec(col) && visulabel) || (!visulabel && !col.showOnlyNewRec && !col.noShowView) " style="flex-grow: 1;">
+    <div v-if="tools.checkIfShowField(col, (isInModif ? tools.TIPOVIS_EDIT_RECORD : 0) + (insertMode ? tools.TIPOVIS_NEW_RECORD : 0), visulabel, myvalue)" style="flex-grow: 1;">
       <div
         :class="{ flex: !isInModif, 'justify-center': true }">
         <div>
@@ -91,6 +91,7 @@
                 @update:value="changevalRec"
                 optval="_id" optlab="label"
                 :useinput="false"
+                :col="col"
                 :options="tools.SelectHours">
               </CMySelect>
             </div>
@@ -158,6 +159,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.nationality">
             <div v-if="isInModif" class="justify-center q-gutter-sm clgutter q-mt-sm">
               <CMySelect
+                :col="col"
                 :label="col.label"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
@@ -176,6 +178,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
             <div v-if="isInModif" class="justify-center q-gutter-sm clgutter q-mt-sm">
               <CMySelect
+                :col="col"
                 :label="col.label"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
@@ -250,6 +253,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
             <div v-if="isInModif">
               <CMySelect
+                :col="col"
                 :multiple="true"
                 :withToggle="true"
                 :label="col.label"
@@ -266,7 +270,8 @@
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :sola_lettura="!isInModif"
-                :useinput="false">
+                :useinput="col.allowNewValue"
+                :newvaluefunc="addNewValue">
               </CMySelect>
 
               <!--<q-select
@@ -314,18 +319,20 @@
             v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
             <div v-if="isInModif">
               <CMySelect
+                :col="col"
                 :label="col.label"
                 v-model:value="myvalue"
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
                 :tablesel="col.type === costanti.FieldType.select_by_server ? tablesel : ''"
                 @update:value="changevalRec"
+                :newvaluefunc="addNewValue"
                 :filter_table="col.filter_table"
                 :filter_field="col.filter_field"
                 :value_extra="value_extra"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
-                :useinput="false">
+                :useinput="col.allowNewValue">
               </CMySelect>
             </div>
             <div v-else>
@@ -342,6 +349,7 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
             <CMySelect
+              :col="col"
               :multiselect_by_server="true"
               :label="col.label"
               v-model:arrvalue="myvalue"
@@ -365,6 +373,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.star5">
             <div v-if="isInModif">
               <CMySelect
+                :col="col"
                 :label="col.label"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
@@ -400,7 +409,7 @@
               </p>
               <div v-if="!isFieldDb()">
                 <CMyEditor
-                  v-model:value="myvalue" :title="getTitleEditor(col, row) && !isInModif" @keyup.enter.stop
+                  v-model:value="myvalue" :title="!isInModif ? getTitleEditor(col, row) : ''" @keyup.enter.stop
                   :showButtons="false"
                   :canModify="canModify"
                   @update:value="changevalRec"
@@ -529,6 +538,7 @@
               </div>
               <div v-if="isFieldDb()">
                 <CMySelect
+                  :col="col"
                   label="Ore" v-model:value="myvalue"
                   optval="value" optlab="label"
                   :dense="false"
@@ -550,6 +560,7 @@
             <div
               v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
               <CMySelect
+                :col="col"
                 :label="col.label"
                 v-model:value="scope.value"
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
@@ -557,14 +568,16 @@
                 :filter_table="col.filter_table"
                 :filter_field="col.filter_field"
                 :value_extra="value_extra"
+                :newvaluefunc="addNewValue"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
-                :useinput="false">
+                :useinput="col.allowNewValue">
               </CMySelect>
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
               <CMySelect
+                :col="col"
                 :multiselect_by_server="true"
                 :label="col.label"
                 v-model:arrvalue="scope.value"
@@ -597,6 +610,8 @@
                 map-options
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 class="combowidth"
+                :useinput="col.allowNewValue"
+                :newvaluefunc="addNewValue"
                 :option-value="fieldsTable.getKeyByTable(col.jointable)"
                 @update:model-value="changeval">
 
@@ -617,6 +632,7 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.nationality">
               <div class="justify-center q-gutter-sm clgutter q-mt-sm">
                 <CMySelect
+                  :col="col"
                   :label="col.label"
                   v-model:value="scope.value"
                   @update:value="changevalRec"
@@ -635,6 +651,7 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
               <div class="justify-center q-gutter-sm clgutter q-mt-sm">
                 <CMySelect
+                  :col="col"
                   :label="col.label"
                   v-model:value="scope.value"
                   @update:value="changevalRec"
@@ -659,6 +676,7 @@
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.star5">
               <CMySelect
+                :col="col"
                 :label="col.label"
                 v-model:value="scope.value"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"

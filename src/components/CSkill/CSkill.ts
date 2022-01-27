@@ -68,6 +68,7 @@ export default defineComponent({
     function getdefaultnewrec(): IMySkill {
       return {
         _id: 0,
+        idSector: 0,
         idSkill: 0,
         idSubSkill: [],
         idStatusSkill: [],
@@ -102,6 +103,7 @@ export default defineComponent({
           lk_proj: {
             recSkill: 1,
             sector: 1,
+            idSector: 1,
             idSkill: 1,
             idSubSkill: 1,
             idStatusSkill: 1,
@@ -132,6 +134,7 @@ export default defineComponent({
           lk_proj: {
             recSkill: 1,
             sector: 1,
+            idSector: 1,
             idSkill: 1,
             idSubSkill: 1,
             idStatusSkill: 1,

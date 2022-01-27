@@ -119,8 +119,7 @@
         :input-class="myclass"
         :use-input="useinput"
         input-debounce="0"
-        @new-value="newvaluefunc"
-        new-value-mode="add-unique"
+        @new-value="newvaluefuncfirst"
         map-options
         emit-value
         stack-label
@@ -176,12 +175,13 @@
         @update:model-value="changeval"
         @filter="filterFn"
         :label="label"
+        :use-input="useinput"
+        @new-value="newvaluefuncfirst"
         emit-value
         options-selected-class="text-deep-orange"
         map-options
         v-bind="$attrs"
-        class="combowidth"
-      >
+        class="combowidth">
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
             <q-item-section avatar>

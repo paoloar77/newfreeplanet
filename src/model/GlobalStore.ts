@@ -502,19 +502,15 @@ export interface IColGridTable {
   addall?: boolean
   filter?: any
   resultjoin?: string[]
-  visuonlyEditVal?: boolean
-  noshowifnone?: boolean
-  notShowInNewRec?: boolean
   tablesel?: string
   notsave?: boolean
-  showOnlyNewRec?: boolean
-  visuinpage?: boolean
-  noShowView?: boolean
+  showWhen?: number
   maxlength?: number
   filter_table?: string
   filter_field?: string
   field_extra1?: string
   subfield_extra1?: string
+  allowNewValue?: boolean
 }
 
 export interface ITableRec {
@@ -650,6 +646,7 @@ export interface ICity {
 
 export interface IMySkill {
   _id: number
+  idSector: number
   idSkill: number
   idSubSkill: number[]
   idStatusSkill: number[]

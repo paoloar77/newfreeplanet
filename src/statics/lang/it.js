@@ -598,6 +598,7 @@ const msg_it = {
       newproj: 'Titolo Progetto',
       newsubproj: 'Titolo Sotto-Progetto',
       insertbottom: 'Inserisci Nuovo Project',
+      shortdescr: 'Breve Descrizione',
       longdescr: 'Descrizione',
       note: 'Note',
       hoursplanned: 'Ore Preventivate',
@@ -809,7 +810,7 @@ const msg_it = {
       photos: 'Foto',
       note: 'Note',
       short_node: 'Breve Nota',
-      subskill: 'Specializz.',
+      subskill: 'Specializzazione',
     },
     level: {
       name: 'Livello',

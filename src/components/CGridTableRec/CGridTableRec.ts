@@ -802,6 +802,7 @@ export default defineComponent({
 
     }
 
+
     async function createNewRecord() {
 
       await createNewRecordDialog()
@@ -947,12 +948,9 @@ export default defineComponent({
     }
 
     function visCol(col: IColGridTable) {
-      if (col.visuonlyEditVal) {
-        if (canEdit.value) {
-          return col.visuonlyEditVal
-        } else {
-          return false
-        }
+      if ((!tools.isBitActive(col.showWhen, costanti.showWhen.NewRec)) && !tools.isBitActive(col.showWhen, costanti.showWhen.InView)
+        && !tools.isBitActive(col.showWhen, costanti.showWhen.InView_OnlyifExist) && tools.isBitActive(col.showWhen, costanti.showWhen.InEdit)) {
+        return (canEdit.value)
       } else {
         return true
       }
@@ -1129,9 +1127,8 @@ export default defineComponent({
 
       mycolumns.value.forEach((col: IColGridTable) => {
         if (col.required) {
-          console.log('newRecord.value', newRecord.value, newRecord.value[col.name])
+          // console.log('newRecord.value', newRecord.value, newRecord.value[col.name])
           if (!newRecord.value[col.name]) {
-
             ok = false
           }
         }
@@ -1202,8 +1199,8 @@ export default defineComponent({
 
       const data = await globalStore.saveTable(mydata)
         .then((ris) => {
+          // console.log('ris', ris)
           if (ris) {
-            // console.log('ris', ris)
             editRecordBool.value = false
             const indrec = serverData.value.findIndex((rec: IMySkill) => rec._id === ris._id)
             console.log('indrec', indrec, serverData.value[indrec])
@@ -1234,11 +1231,12 @@ export default defineComponent({
       return ((rec._id > 0 && typeof rec._id === 'number') || rec._id !== 'number') && rec !== -100
     }
 
-    function showColCheck(col: IColGridTable, newrec: boolean){
-      return (colVisib.value.includes(col.field! + col.subfield) || colVisib.value.includes(col.field + '.' + col.subfield)) &&
-        (!col.showOnlyNewRec || (col.showOnlyNewRec && newrec)) &&
-        (col.visible) &&
-        (!props.visuinpage || (col.visuinpage && props.visuinpage))
+    function showColCheck(col: IColGridTable, tipovis: number, visulabel:boolean, value: any = ''){
+      const check = tools.checkIfShowField(col, tipovis, visulabel, value)
+
+      const valuePresent = (colVisib.value.includes(col.field! + col.subfield) || colVisib.value.includes(col.field + '.' + col.subfield))
+
+      return check && valuePresent
     }
 
     function getValueExtra(col: IColGridTable, record: any) {

@@ -1,4 +1,5 @@
 import {
+  computed,
   defineComponent, onBeforeMount, onBeforeUnmount, onMounted, ref, toRef, toRefs, watch,
 } from 'vue'
 
@@ -31,6 +32,19 @@ export default defineComponent({
     const arrfilterand: any = ref([])
     const filtercustom: any = ref([])
     const searchList = ref(<ISearchList[]>[])
+
+    const idSector = computed(() => {
+      let myval = 0
+      searchList.value.forEach((rec) => {
+        console.log('  rec', rec)
+        if (rec.table === 'sectors') {
+          console.log('trovato')
+          myval = rec.value
+        }
+      })
+      console.log('IDSECTOR = ' + myval)
+      return myval
+    })
 
     function mounted() {
       /*arrfilterand.value = [
@@ -98,7 +112,7 @@ export default defineComponent({
           useinput: true,
         },
         {
-          label: 'Specializz.',
+          label: 'Specializzazione',
           table: 'subskills',
           key: 'idSubSkill',
           value: 0,
@@ -205,6 +219,7 @@ export default defineComponent({
     function getdefaultnewrec(): IMySkill {
       return {
         _id: 0,
+        idSector: 0,
         idSkill: 0,
         idSubSkill: [],
         idStatusSkill: [],
@@ -236,6 +251,7 @@ export default defineComponent({
           lk_proj: {
             recSkill: 1,
             sector: 1,
+            idSector: 1,
             idSkill: 1,
             idSubSkill: 1,
             idStatusSkill: 1,
@@ -292,6 +308,7 @@ export default defineComponent({
       arrfilterand,
       filtercustom,
       searchList,
+      idSector,
     }
   },
 })
