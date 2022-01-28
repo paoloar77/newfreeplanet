@@ -55,6 +55,8 @@ export const tools = {
 
   COOK_SEARCH: 'SEARCH_',
 
+  FRIENDS_SEARCH: 'FR_SE',
+
   getprefCountries: ['it', 'es', 'us'],
 
   APORTADOR_NONE: '------',

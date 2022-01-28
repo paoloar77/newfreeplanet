@@ -1,7 +1,6 @@
 <template>
   <div class="q-gutter-sm q-pa-sm q-pb-md">
-
-    <div v-if="myuser.profile" class="fit column no-wrap justify-evenly items-center content-start">
+    <div v-if="myuser.date_reg" class="fit column no-wrap justify-evenly items-center content-start">
 
       <div class="">
         <q-avatar size="140px">
@@ -18,8 +17,8 @@
         {{ myuser.username }}
       </div>
       <div class="col-12 text-h7">
-        <span v-if="myuser.profile.born_city">{{ myuser.profile.born_city }}</span> <span
-        v-if="myuser.profile.nationality && myuser.profile.nationality !== 'Italia'">({{
+        <span v-if="myuser.profile && myuser.profile.born_city">{{ myuser.profile.born_city }}</span> <span
+        v-if="myuser.profile && myuser.profile.nationality && myuser.profile.nationality !== 'Italia'">({{
           myuser.profile.nationality
         }})</span>
       </div>
@@ -39,11 +38,13 @@
         />
       </div>
 
-      <div class="col-12 text-h8 q-mt-sm">
-        <em><span class="qualifica">{{ myuser.profile.qualifica }}</span></em>
-      </div>
-      <div class="col-12 text-h8 q-mt-sm">
-        {{ myuser.profile.biografia }}
+      <div v-if="myuser.name">
+        <div class="col-12 text-h8 q-mt-sm">
+          <em><span class="qualifica">{{ myuser.profile.qualifica }}</span></em>
+        </div>
+        <div class="col-12 text-h8 q-mt-sm">
+          {{ myuser.profile.biografia }}
+        </div>
       </div>
 
       <q-btn
@@ -54,7 +55,7 @@
         to="/editprofile">
       </q-btn>
 
-      <div class="myrow justify-evenly items-center q-pa-sm q-ma-sm">
+      <div v-if="myuser.name" class="myrow justify-evenly items-center q-pa-sm q-ma-sm">
 
         <div class="col-6 q-ma-xs">
           <q-btn
@@ -62,7 +63,7 @@
             color="blue" type="a"
             size="md"
             rounded
-            :label="$t('msgs.message')"
+            :label="$t('msgs.telegrammsg')"
             :href="getLinkUserTelegram()" target="__blank">
           </q-btn>
 
@@ -101,25 +102,27 @@
       </q-card>
     </div>
 
-    <CTitleBanner
-      class="" :title="$t('dashboard.info')" bgcolor="bg-primary" clcolor="text-white"
-      myclass="myshad" :canopen="true">
+    <div v-if="myuser.name">
+      <CTitleBanner
+        class="" :title="$t('dashboard.info')" bgcolor="bg-primary" clcolor="text-white"
+        myclass="myshad" :canopen="true">
 
-      <div v-if="myuser.profile" class="fit column no-wrap justify-evenly content-start">
+        <div v-if="myuser.profile" class="fit column no-wrap justify-evenly content-start">
 
-        <div class="col-6 text-h6">
-          <CDateTime
-            v-if="checkifShow('profile.dateofbirth') && !!myuser.profile.dateofbirth"
-            v-model:value="myuser.profile.dateofbirth"
-            :label="$t('reg.dateofbirth')"
-            :canEdit="false">
-          </CDateTime>
+          <div class="col-6 text-h6">
+            <CDateTime
+              v-if="checkifShow('profile.dateofbirth') && !!myuser.profile.dateofbirth"
+              v-model:value="myuser.profile.dateofbirth"
+              :label="$t('reg.dateofbirth')"
+              :canEdit="false">
+            </CDateTime>
+
+          </div>
 
         </div>
 
-      </div>
-
-    </CTitleBanner>
+      </CTitleBanner>
+    </div>
 
     <CTitleBanner
       class="" title="Competenze e Talenti" bgcolor="bg-positive" clcolor="text-white"

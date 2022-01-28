@@ -1,6 +1,6 @@
 <template>
   <div :class="getclassCol(col)">
-    <div v-if="tools.checkIfShowField(col, (isInModif ? tools.TIPOVIS_EDIT_RECORD : 0) + (insertMode ? tools.TIPOVIS_NEW_RECORD : 0), visulabel, myvalue)" style="flex-grow: 1;">
+    <div v-if="tools.checkIfShowField(col, insertMode ? tools.TIPOVIS_NEW_RECORD : (isInModif ? tools.TIPOVIS_EDIT_RECORD : tools.TIPOVIS_SHOW_RECORD), visulabel, myvalue)" style="flex-grow: 1;">
       <div
         :class="{ flex: !isInModif, 'justify-center': true }">
         <div>
@@ -32,7 +32,6 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.string">
             <div v-if="visulabel || isInModif" :class="{ flex: !isInModif}">
-
               <q-input
                 v-bind="$attrs"
                 v-model="myvalue"
@@ -196,7 +195,6 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.date">
             <CDateTime
-              v-if="myvalue"
               :label="col.label"
               class="cursor-pointer"
               v-model:value="myvalue"

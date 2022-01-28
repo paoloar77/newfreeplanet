@@ -105,6 +105,7 @@
              :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue `">
           <span v-for="(item, index) in searchList" :key="index">
             <CMySelect
+              :col="fieldsTable.getColByTable('myskills', item.key)"
               v-if="(item.type === costanti.FieldType.select) || (item.type === costanti.FieldType.select_by_server)"
               :label="labelcombo(item)"
               v-model:value="item.value"
@@ -115,6 +116,7 @@
               label-color="primary"
               class="combowidth"
               color="primary"
+              :icon_alternative="item.icon"
               :optval="fieldsTable.getKeyByTable(item.table)"
               :optlab="fieldsTable.getLabelByTable(item.table)"
               :options="valoriopt(item, false)"
@@ -127,6 +129,7 @@
 
             <CMySelect
               v-if="item.type === costanti.FieldType.multiselect_by_server"
+              :col="fieldsTable.getColByTable('myskills', item.key)"
               :multiselect_by_server="true"
               :label="labelcombo(item)"
               v-model:arrvalue="item.arrvalue"
@@ -138,6 +141,7 @@
               label-color="primary"
               class="combowidth"
               color="primary"
+              :icon_alternative="item.icon"
               :optval="fieldsTable.getKeyByTable(item.table)"
               :optlab="fieldsTable.getLabelByTable(item.table)"
               :options="valoriopt(item, false)"
@@ -164,6 +168,9 @@
               :option-value="fieldsTable.getKeyByTable(item.table)"
             >
 
+              <template v-if="item.icon" v-slot:prepend>
+                <q-icon :name="item.icon" />
+              </template>
               <template
                 v-if="item.arrvalue.length >= 1"
                 v-slot:selected-item="scope">
@@ -389,7 +396,6 @@
               class="q-ma-sm q-pa-sm colmodif col-grow rounded-borders " style="border: 1px solid #bbb"
               @click="colclicksel = mycol">
 
-              mycol : {{mycol}}
               <CMyPopupEdit
                 :table="mytable"
                 :canEdit="true"

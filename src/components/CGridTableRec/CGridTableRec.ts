@@ -279,7 +279,17 @@ export default defineComponent({
           if (item.table === 'skills') {
             // console.log('---PRIMA ', item.value)
             const valsaved = tools.getCookie(tools.COOK_SEARCH + 'skills' + '_' + newval, costanti.FILTER_TUTTI)
-            if (valsaved)
+            // check if exist
+            const recSkill = searchList.value.find((rec) => rec.table === 'skills')
+            let trovato = false
+            if (recSkill) {
+              console.log('recSkill.value', recSkill)
+              const arrvalues = valoriopt.value(recSkill.value, false)
+              console.log('arrvalues', arrvalues)
+              if (arrvalues)
+                trovato = arrvalues.find((rec: any) => rec[recSkill.key] === valsaved)
+            }
+            if (valsaved && trovato)
               item.value = valsaved
             else
               item.value = costanti.FILTER_TUTTI
@@ -438,7 +448,7 @@ export default defineComponent({
         }
       }
 
-      console.log('filtersearch', filtersearch)
+      // console.log('filtersearch', filtersearch)
 
       if (props.prop_search) {
         let nosearch = false
@@ -450,7 +460,6 @@ export default defineComponent({
           if (props.keyMain) {
             nosearch = true
             filtersearch.forEach((rec: any) => {
-              console.log('rec', rec)
               if (!!rec[props.keyMain]) {
                 nosearch = false
               }
@@ -464,7 +473,7 @@ export default defineComponent({
         }
       }
 
-      console.log('filtercustom', props.filtercustom)
+      // console.log('filtercustom', props.filtercustom)
 
 
       let params: IParamsQuery = {
@@ -843,7 +852,7 @@ export default defineComponent({
     function mounted() {
       // console.log('GridTable mounted', tablesel.value)
 
-      console.log('props.filtercustom', props.filtercustom)
+      // console.log('props.filtercustom', props.filtercustom)
 
 
       if (!!props.tablesList) {

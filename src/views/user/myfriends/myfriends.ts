@@ -30,7 +30,14 @@ export default defineComponent({
       searchList.value = []
       filtercustom.value = []
       arrfilterand.value = []
+
+      const filt_loaded = tools.getCookie(tools.COOK_SEARCH + tools.FRIENDS_SEARCH)
+      filter.value = filt_loaded ? filt_loaded : costanti.FIND_PEOPLE
     }
+    watch(() => filter.value, (newval: any, oldval) => {
+      tools.setCookie(tools.COOK_SEARCH + tools.FRIENDS_SEARCH, newval)
+
+    })
 
     function extraparams() {
       let lk_tab = 'users'

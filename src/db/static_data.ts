@@ -424,7 +424,7 @@ const baseroutes: IListRoutes[] = [
   },
   {
     active: true,
-    order: 130,
+    order: 135,
     path: '/my/:username',
     materialIcon: 'fas fa-user',
     name: 'pages.profile2',
@@ -438,7 +438,7 @@ const baseroutes: IListRoutes[] = [
     order: 130,
     path: '/mypage/:idSkill',
     materialIcon: 'fas fa-user',
-    name: 'pages.profile2',
+    name: 'pages.mypage2',
     component: () => import('@/views/user/mypageskill/mypageskill.vue'),
     meta: { requiresAuth: true },
     inmenu: false,

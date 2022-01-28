@@ -34,16 +34,15 @@ export default defineComponent({
     const searchList = ref(<ISearchList[]>[])
 
     const idSector = computed(() => {
-      let myval = 0
-      searchList.value.forEach((rec) => {
-        console.log('  rec', rec)
-        if (rec.table === 'sectors') {
-          console.log('trovato')
-          myval = rec.value
-        }
-      })
-      console.log('IDSECTOR = ' + myval)
-      return myval
+      let myval: any = null
+      myval = searchList.value.find((rec) => (rec.table === 'sectors'))
+      if (myval) {
+        const ris = myval.value || 0
+        // console.log('idSector=', ris)
+        return ris
+      } else {
+        return 0
+      }
     })
 
     function mounted() {
@@ -109,7 +108,7 @@ export default defineComponent({
           addall: true,
           filter: getFilterSkills,
           showcount: true,
-          useinput: true,
+          useinput: false,
         },
         {
           label: 'Specializzazione',
@@ -122,6 +121,7 @@ export default defineComponent({
           filter: getFilterSubSkills,
           showcount: true,
           useinput: false,
+          icon: 'far fa-id-card',
         },
         /*{
           label: 'Regione',
@@ -143,6 +143,7 @@ export default defineComponent({
           arrvalue: tools.getCookie(tools.COOK_SEARCH + 'provinces', [costanti.FILTER_TUTTI]),
           filter: null,
           useinput: true,
+          icon: 'flag',
         },
         {
           label: 'Città',
@@ -177,6 +178,7 @@ export default defineComponent({
           type: costanti.FieldType.multiselect,
           filter: null,
           useinput: false,
+          icon: 'mood',
         },
         {
           label: 'Contributo',
@@ -187,6 +189,8 @@ export default defineComponent({
           type: costanti.FieldType.multiselect,
           filter: null,
           useinput: false,
+          icon: 'currency_exchange',
+          //icon: 'swap_horizontal_circle',
         },
 
       ]

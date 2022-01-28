@@ -177,7 +177,7 @@ export default defineComponent({
 
     const myImgGall = ref(<IImgGallery[]>[{}])
 
-    const col = ref(<IColGridTable> { name: 'test', fieldtype: 0 })
+    const col = ref(<IColGridTable> { name: 'test', fieldtype: 0, showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView, visible: true, maxlength: props.mycol ? props.mycol.maxlength : 0 })
 
     const myrow = toRef(props, 'row')
 

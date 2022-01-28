@@ -539,6 +539,7 @@ export interface ISearchList {
   addall?: boolean
   showcount?: boolean
   tablesel?: string
+  icon?: string
 }
 
 export interface IFilter {

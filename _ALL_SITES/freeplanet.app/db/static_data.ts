@@ -105,6 +105,19 @@ const routes_admin: IListRoutes[] = [
     inmenu: true,
     submenu: true,
     onlyAdmin: true
+  },
+  {
+    active: true,
+    order: 1040,
+    path: '/admin/importfile',
+    materialIcon: 'event_seat',
+    name: 'otherpages.manage.importfile',
+    component: () => import('@/rootgen/admin/importdata/importdata.vue'),
+    level_parent: 0.0,
+    level_child: 0.5,
+    inmenu: true,
+    submenu: true,
+    onlyAdmin: true
   }
 ]
 
@@ -389,7 +402,29 @@ const baseroutes: IListRoutes[] = [
   },
   {
     active: true,
+    order: 120,
+    path: '/editprofile',
+    materialIcon: 'fas fa-user',
+    name: 'pages.profile3',
+    component: () => import('@/views/user/editprofile/editprofile.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
     order: 130,
+    path: '/friends',
+    materialIcon: 'fas fa-users',
+    name: 'mypages.friends',
+    component: () => import('@/views/user/myfriends/myfriends.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
+    order: 135,
     path: '/my/:username',
     materialIcon: 'fas fa-user',
     name: 'pages.profile2',
@@ -400,48 +435,15 @@ const baseroutes: IListRoutes[] = [
   },
   {
     active: true,
-    order: 120,
-    path: '/test',
+    order: 130,
+    path: '/mypage/:idSkill',
     materialIcon: 'fas fa-user',
-    name: 'pages.test',
-    component: () => import('@/views/user/test/test.vue'),
+    name: 'pages.mypage2',
+    component: () => import('@/views/user/mypageskill/mypageskill.vue'),
     meta: { requiresAuth: true },
-    inmenu: true,
-    infooter: true,
+    inmenu: false,
+    infooter: false,
   },
-  /*{
-    active: true,
-    order: 6,
-    path: '/b',
-    faIcon: 'fa fa-list-alt',
-    materialIcon: 'format_list_numbered',
-    name: 'pages.Todo',
-    routes2: routes_todo,
-    level_parent: 0,
-    level_child: 0.5,
-    inmenu: true,
-    solotitle: true,
-    infooter: true,
-  },
-
-   */
-
-  /*
-  <{
-    active: true,
-    order: 7,
-    path: '/c',
-    faIcon: 'fa fa-list-alt',
-    materialIcon: 'next_week',
-    name: 'pages.projects',
-    // routes2: routes_projects,
-    level_parent: 0,
-    level_child: 0.5,
-    inmenu: true,
-    solotitle: true,
-    infooter: true,
-  },
-  */
   {
     active: true,
     order: 2000,

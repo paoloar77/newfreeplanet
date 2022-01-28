@@ -683,6 +683,7 @@ const msg_it = {
       showlastschedule: 'Vedi tutto il Calendario',
     },
     msgs: {
+      telegrammsg: 'Msg Telegram',
       message: 'Messaggio',
       messages: 'Messaggi',
       nomessage: 'Nessun Messaggio',

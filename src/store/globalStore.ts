@@ -752,7 +752,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     },
 
     async loadTable(params: IParamsQuery) {
-      console.log('loadTable', params)
+      // console.log('loadTable', params)
       const userStore = useUserStore()
 
       return Api.SendReq('/gettable', 'POST', params)

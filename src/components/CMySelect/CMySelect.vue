@@ -25,6 +25,9 @@
         :option-value="optval"
         class="combowidth"
       >
+        <template v-if="getIcon() && !sola_lettura" v-slot:prepend>
+          <q-icon :name="getIcon()" />
+        </template>
 
         <template v-slot:no-option>
           <q-item>
@@ -89,6 +92,9 @@
         v-bind="$attrs"
         style="width: 250px"
       >
+        <template v-if="getIcon()" v-slot:prepend>
+          <q-icon :name="getIcon()" />
+        </template>
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey">
@@ -128,6 +134,9 @@
         :option-label="optlab"
         :dense="dense">
 
+        <template v-if="getIcon()" v-slot:prepend>
+          <q-icon :name="getIcon()" />
+        </template>
         <template
           v-slot:selected-item="scope">
           <div v-if="scope.opt[optlab]">
@@ -137,7 +146,6 @@
               @remove="scope.removeAtIndex(scope.index)"
               v-if="checkIfShowRec(scope.opt)"
               color="white"
-              text-color="mycol"
               class="q-my-none q-ml-xs q-mr-none"
             >
               <q-avatar color="primary" text-color="white" :icon="scope.opt.icon ? scope.opt.icon : ''" size="12px"/>
@@ -182,6 +190,9 @@
         map-options
         v-bind="$attrs"
         class="combowidth">
+        <template v-if="getIcon()" v-slot:prepend>
+          <q-icon :name="getIcon()" />
+        </template>
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
             <q-item-section avatar>

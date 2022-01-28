@@ -31,6 +31,11 @@ export default defineComponent({
       required: false,
       default: -1,
     },
+    maxlength: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
     mysubsubkey: {
       type: String,
       required: false,
@@ -97,7 +102,7 @@ export default defineComponent({
     const { t } = useI18n()
     const globalStore = useGlobalStore()
 
-    const col = ref(<IColGridTable> { name: 'test' })
+    const col = ref(<IColGridTable> { name: 'test', fieldtype: 0, showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView, visible: true, maxlength: props.maxlength })
     const row = ref({})
 
     const { setValDb, getValDb } = MixinBase()

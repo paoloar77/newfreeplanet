@@ -12,6 +12,7 @@ import { CVerifyTelegram } from '@src/components/CVerifyTelegram'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 import { static_data } from '@/db/static_data'
+import MixinBase from '@/mixins/mixin-base'
 
 
 export default defineComponent({
@@ -20,6 +21,7 @@ export default defineComponent({
   setup() {
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
+    const { getValDb } = MixinBase()
 
     function isEmailVerified() {
       return userStore.my.verified_email
@@ -44,6 +46,10 @@ export default defineComponent({
       return userStore.isUserOk()
     }
 
+    function getLinkBotTelegram(): string {
+      return getValDb('TELEG_BOT_LINK', false)
+    }
+
     return {
       tools,
       static_data,
@@ -53,6 +59,7 @@ export default defineComponent({
       isLogged,
       openrighttoolbar,
       isUserOk,
+      getLinkBotTelegram,
     }
   },
 })

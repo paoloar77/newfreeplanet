@@ -10,7 +10,7 @@
         <q-item-section @click="naviga(`/my/` + contact.username)">
           <q-item-label><strong>{{ contact.name }} {{ contact.surname }}</strong> ({{ contact.username }})
           </q-item-label>
-          <q-item-label caption lines="1"><em>{{ contact.profile.qualifica }}</em></q-item-label>
+          <q-item-label v-if="contact.profile" caption lines="1"><em>{{ contact.profile.qualifica }}</em></q-item-label>
         </q-item-section>
 
         <q-item-section side v-if="visu === costanti.FRIENDS">

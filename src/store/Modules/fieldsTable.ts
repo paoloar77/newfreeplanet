@@ -441,6 +441,7 @@ export const colmySkills = [
     jointable: 'sectors',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
     visible: true,
+    icon: 'category',
   }),
   AddCol({
     name: 'idSkill',
@@ -451,7 +452,7 @@ export const colmySkills = [
     filter_table: 'sectors',
     filter_field: 'idSector',
     noshowlabel: true,
-    icon: 'far fa-id-card',
+    icon: 'engineering',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
     allowNewValue: true,
   }),
@@ -464,7 +465,7 @@ export const colmySkills = [
     filter_table: 'skills',
     filter_field: 'idSkill',
     noshowlabel: true,
-    icon: 'fas fa-scroll',
+    icon: 'far fa-id-card',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
     allowNewValue: true,
   }),
@@ -476,7 +477,7 @@ export const colmySkills = [
     jointable: 'levels',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     noshowlabel: true,
-    icon: 'fas fa-layer-group',
+    icon: 'grading',
   }),
   AddCol({
     name: 'idStatusSkill',
@@ -484,6 +485,8 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.multiselect,
     jointable: 'statusSkills',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    noshowlabel: true,
+    icon: 'mood',
   }),
   AddCol({
     name: 'idContribType',
@@ -492,7 +495,8 @@ export const colmySkills = [
     jointable: 'contribtypes',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     noshowlabel: true,
-    icon: 'fas fa-hands-helping',
+    icon: 'currency_exchange',
+    //icon: 'fas fa-hands-helping',
   }),
   AddCol({
     name: 'idCity',
@@ -915,6 +919,16 @@ export const fields = {
 export const fieldsTable = {
   getrecTableList(mytable: string) {
     return this.tablesList.find((rec) => rec.value === mytable)
+  },
+  getColByTable(mytable: string, namecol: string) {
+    const tablerec: any = this.tablesList.find((rec) => rec.value === mytable)
+    if (tablerec) {
+      // console.log('tablerec', tablerec.columns)
+      const mycol = tablerec.columns.find((col: any) => col.name === namecol)
+      // console.log('mycol = ', mycol)
+      return mycol
+    } else
+      return null
   },
   getKeyByTable(mytable: string): string {
     const myrec = this.getrecTableList(mytable)
@@ -1388,7 +1402,7 @@ export const fieldsTable = {
     AddCol({
       name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
     }),
-    AddCol({ name: 'profile.dateofbirth', label_trans: 'reg.dateofbirth', fieldtype: costanti.FieldType.onlydate }),
+    AddCol({ name: 'profile.dateofbirth', label_trans: 'reg.dateofbirth', fieldtype: costanti.FieldType.date }),
     AddCol({ name: 'profile.born_city', label_trans: 'reg.born_city', fieldtype: costanti.FieldType.string }),
     AddCol({ name: 'profile.born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
     AddCol({ name: 'profile.born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),

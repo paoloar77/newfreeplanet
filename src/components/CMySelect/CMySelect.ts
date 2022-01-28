@@ -115,6 +115,11 @@ export default defineComponent({
     withToggle: {
       type: Boolean,
       default: false,
+    },
+    icon_alternative: {
+      type: String,
+      required: false,
+      default: '',
     }
   },
   components: {},
@@ -317,6 +322,9 @@ export default defineComponent({
 
       if (props.col.jointable) {
         optionsreal.value = globalStore.getTableJoinByName(props.col.jointable, props.col.addall, props.col.filter)
+        // console.log('optionsreal.value', optionsreal.value)
+      } else {
+        optionsreal.value = props.options
       }
 
       myarr = optionsreal.value
@@ -326,7 +334,7 @@ export default defineComponent({
 
         // console.log('needle', needle, 'props.multiple', props.multiple)
         if (props.filter_table) {
-          // console.log('  FILTERTABLE', props.filter_field, myarr)
+          console.log('  FILTERTABLE', props.filter_field, myarr)
           if (props.multiple) {
             myarr = myarr.filter((rec: any) => rec[props.filter_field] === needle)
           } else {
@@ -348,6 +356,7 @@ export default defineComponent({
         // console.log('     myarr: ', myarr)
       }
 
+      // console.log('     myarr: ', myarr)
       return myarr
     }
 
@@ -494,6 +503,15 @@ export default defineComponent({
       }
     }
 
+    function getIcon() {
+      if (props.icon_alternative)
+        return props.icon_alternative
+      if (props.col && props.col['icon']) {
+        return props.col['icon']
+      }
+      return ''
+    }
+
     onMounted(mounted)
 
 
@@ -507,6 +525,7 @@ export default defineComponent({
       checkIfShowRec,
       abortFilterFn,
       newvaluefuncfirst,
+      getIcon,
     }
   }
 })

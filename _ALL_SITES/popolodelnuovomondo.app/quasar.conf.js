@@ -148,6 +148,7 @@ module.exports = configure((ctx) => ({
     https: false,
     port: 8083,
     open: false, // opens browser window automatically
+    liveReload: false,
   },
 
   // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -217,7 +218,6 @@ module.exports = configure((ctx) => ({
       'QCarouselSlide',
       'QPageScroller',
       'QAvatar',
-      'QSkeleton',
       'QImg',
       'QSplitter',
       'QRating',
