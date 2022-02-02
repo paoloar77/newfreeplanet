@@ -58,6 +58,8 @@ export const func_tools = {
 
 export const toolsext = {
   TABUSER: 'users',
+  TABFRIENDS: 'friends',
+  TABMYGROUPS: 'mygroups',
   TABNAVI: 'navi',
   TABLISTAINGRESSO: 'listaingressos',
   TABGRADUATORIA: 'graduatorias',
@@ -65,10 +67,10 @@ export const toolsext = {
   TABNEWSLETTER: 'newstosent',
   TABGALLERY: 'gallery',
   TABMAILINGLIST: 'mailinglist',
+  TABGROUPS: 'groups',
   TABMYPAGE: 'mypage',
   TABMYBOT: 'mybots',
   TABCALZOOM: 'calzoom',
-  TABGROUPS: 'groups',
   TABTEMPLEMAIL: 'templemail',
   TABOPZEMAIL: 'opzemail',
   TABSHAREWITHUS: 'sharewithus',

@@ -146,9 +146,8 @@ module.exports = configure((ctx) => ({
   },
   devServer: {
     https: false,
-    port: 8083,
+    port: 8082,
     open: false, // opens browser window automatically
-    liveReload: false,
   },
 
   // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -285,21 +284,31 @@ module.exports = configure((ctx) => ({
     },
 
     manifest: {
-      name: 'PopoloDelNuovoMondo',
-      short_name: 'PdNM',
-      description: 'Popolo del Nuovo Mondo',
+      name: 'InsiemeSiPuo',
+      short_name: 'InsiemeSiPuo',
+      description: 'Insieme Si Può',
       display: 'standalone',
       orientation: 'portrait',
       background_color: '#ffffff',
       theme_color: '#027be3',
       icons: [
         {
-          src: 'images/android-chrome-192x192.png',
-          sizes: '384x384',
+          src: 'images/isp-android-icon-96x96.png',
+          sizes: '96x96',
           type: 'image/png',
         },
         {
-          src: 'images/android-chrome-512x512.png',
+          src: 'images/isp-android-icon-144x144.png',
+          sizes: '144x144',
+          type: 'image/png',
+        },
+        {
+          src: 'images/isp-android-icon-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: 'images/isp-android-icon-512x512.png',
           sizes: '512x512',
           type: 'image/png',
         },
@@ -337,7 +346,7 @@ module.exports = configure((ctx) => ({
     builder: {
       // https://www.electron.build/configuration/configuration
 
-      appId: 'firstproj',
+      appId: 'InsiemeSiPuo',
     },
 
     // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

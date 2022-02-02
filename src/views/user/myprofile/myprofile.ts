@@ -17,7 +17,7 @@ import { shared_consts } from '@/common/shared_vuejs'
 
 
 export default defineComponent({
-  name: 'myuser',
+  name: 'myprofile',
   components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime },
   props: {},
   setup() {

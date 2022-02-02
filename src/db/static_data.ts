@@ -373,7 +373,7 @@ const baseroutes: IListRoutes[] = [
     path: '/',
     materialIcon: 'home',
     name: 'pages.home',
-    component: () => import('@src/root/home_pdnm/home_pdnm.vue'),
+    component: () => import('@src/root/home_insiemesipuo/home_insiemesipuo.vue'),
     reqauth: false,
     inmenu: true,
     infooter: true,
@@ -424,11 +424,33 @@ const baseroutes: IListRoutes[] = [
   },
   {
     active: true,
+    order: 132,
+    path: '/groups',
+    materialIcon: 'fas fa-users',
+    name: 'mypages.groups',
+    component: () => import('@/views/user/mygroups/mygroups.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
     order: 135,
     path: '/my/:username',
     materialIcon: 'fas fa-user',
     name: 'pages.profile2',
     component: () => import('@/views/user/myprofile/myprofile.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
+    order: 136,
+    path: '/grp/:groupname',
+    materialIcon: 'fas fa-user',
+    name: 'proj.group2',
+    component: () => import('@/views/user/mygroup/mygroup.vue'),
     meta: { requiresAuth: true },
     inmenu: false,
     infooter: false,
@@ -559,7 +581,7 @@ const baseroutes: IListRoutes[] = [
     isseparator: true,
     inmenu: true,
   },
-  /*{
+  {
     active: true,
     order: 80,
     path: '/calendario-eventi',
@@ -569,7 +591,7 @@ const baseroutes: IListRoutes[] = [
     extraclass: 'isCalendar',
     inmenu: true,
     infooter: true
-  },*/
+  },
   {
     active: true,
     order: 1000,

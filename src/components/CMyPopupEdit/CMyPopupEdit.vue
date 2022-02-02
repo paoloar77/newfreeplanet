@@ -399,9 +399,6 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.html">
             <div v-if="isInModif">
-              <div v-if="insertMode">
-
-              </div>
               <p v-if="isInModif" class="text-center">
                 {{ $t('event.testo_di_spiegazione') }}:
               </p>
@@ -692,7 +689,17 @@
 
               </q-input>
             </div>
-          </q-popup-edit>
+            <div v-else-if="col.fieldtype === costanti.FieldType.html">
+              <div v-if="!isFieldDb()">
+                <CMyEditor
+                  v-model:value="myvalue" :title="!isInModif ? getTitleEditor(col, row) : ''" @keyup.enter.stop
+                  :showButtons="false"
+                  :canModify="canModify"
+                  @update:value="changevalRec"
+                  @showandsave="Savedb">
+                </CMyEditor>
+              </div>
+            </div>          </q-popup-edit>
         </div>
       </div>
     </div>

@@ -461,7 +461,7 @@ const msg_enUs = {
       titlegranted: 'Notification Permission Granted!',
       statusnot: 'status Notification',
       titledenied: 'Notification Permission Denied!',
-      title_subscribed: 'Subscribed to FreePlanet.app!',
+      title_subscribed: 'Subscribed to the App!',
       subscribed: 'You can now receive Notification and Messages.',
       newVersionAvailable: 'Upgrade',
     },

@@ -114,6 +114,11 @@ export default defineComponent({
       return (arr) ? arr.length : 0
     })
 
+    const numAskSentGroups = computed(() => {
+      const arr = userStore.my.profile.asked_groups
+      return (arr) ? arr.length : 0
+    })
+
     const numAskTrust = computed(() => {
       if (!listTrusted.value)
         return 0

@@ -219,6 +219,12 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return calendarStore.bookedevent
       else if (table === 'users')
         return userStore.usersList
+      else if (table === 'friends')
+        return userStore.my.profile.friends
+      else if (table === 'friendsandme')
+        return [{username: userStore.my.username }, ...userStore.my.profile.friends]
+      else if (table === 'mygroups')
+        return userStore.groups
       else if (table === 'sendmsgs')
         return messageStore.last_msgs
       else if (table === 'settings')
@@ -1356,11 +1362,21 @@ export const useGlobalStore = defineStore('GlobalStore', {
       if (table === 'metodo_pagamento') return tools.SelectMetodiPagamento
       if (table === 'bottype') return shared_consts.BotType
       if (table === 'visibility') return shared_consts.Visibility
+      if (table === 'visibilGroup') return shared_consts.VisibilGroup
       if (table === 'lang') return shared_consts.Lang
       if (table === 'regions') return shared_consts.Regions
       if (table === 'provinces') return shared_consts.Provinces
 
       let myarr = this.getListByTable(table)
+
+      if (costanti.TABLES_ARRAY.includes(table)) {
+        const newarr = []
+        for (const value of myarr) {
+          newarr.push({value, label:value})
+        }
+
+        myarr = newarr
+      }
 
       if (addall)
          myarr = [costanti.FILTER_TUTTI, ...myarr]

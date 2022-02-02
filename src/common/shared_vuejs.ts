@@ -54,6 +54,17 @@ export const shared_consts = {
     FIND_PEOPLE: 166,
   },
 
+  GROUPSCMD: {
+    SETTRUST: 1121,
+    REQGROUP: 1125,
+    SETGROUP: 1132,
+    REMOVE_FROM_MYGROUP: 1144,
+    REFUSE_REQ_GROUP: 1145,
+    CANCEL_REQ_GROUP: 1146,
+    BLOCK_GROUP: 1155,
+    FIND_GROUP: 1166,
+  },
+
   REPORT_FILT_RESP: 1,
   REPORT_FILT_ATTIVITA: 2,
 
@@ -670,6 +681,21 @@ export const shared_consts = {
     {
       value: 4,
       label: 'Admin',
+    },
+  ],
+
+  VisibilGroup: [
+    {
+      value: 1,
+      label: 'Pubblico',
+    },
+    {
+      value: 2,
+      label: 'Privato',
+    },
+    {
+      value: 4,
+      label: 'Nascosto',
     },
   ],
 

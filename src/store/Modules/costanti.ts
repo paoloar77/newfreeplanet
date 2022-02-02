@@ -9,6 +9,10 @@ export const costanti = {
   CONFIG_ID_SHOW_TYPE_TODOS: '3',
 
   SHOW_USERINFO: 1,
+  SHOW_GROUPINFO: 5,
+
+  VISUTABLE_SCHEDA_USER: -1,
+  VISUTABLE_SCHEDA_GROUP: -3,
 
   DIR_UPLOAD: 'upload/', // upload/
 
@@ -20,7 +24,17 @@ export const costanti = {
   ASK_SENT_FRIENDS: 6,
   FIND_PEOPLE: 10,
 
+  GROUPS: 11,
+  GRP_REJECTED: 14,
+  REQ_GROUP: 15,
+  ASK_SENT_GROUP: 16,
+  FIND_GROUP: 20,
+  MY_GROUPS: 21,
+  CREATE_GROUP: 30,
+
   FILTER_TUTTI: -100,
+  TABLES_ARRAY: ['mygroups'],
+  TABLES_USERNAME_DATE: ['friends', 'friendsandme'],
 
   FuncDialog: {
     CANCEL_BOOKING: 1,

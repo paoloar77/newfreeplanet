@@ -23,6 +23,7 @@ import { Router } from 'vue-router'
 import { useProjectStore } from '@store/Projects'
 import { shared_consts } from '@/common/shared_vuejs'
 import { costanti } from '@costanti'
+import { IMyGroup } from '@model/UserStore'
 
 export const DefaultUser: IUserFields = {
   _id: '',
@@ -49,7 +50,9 @@ export const DefaultUser: IUserFields = {
     myshares: [],
     friends: [],
     req_friends: [],
+    groups: [],
     asked_friends: [],
+    asked_groups: [],
   },
   cart: {
     userId: '',
@@ -91,12 +94,15 @@ export const DefaultProfile: IUserProfile = {
   myshares: [],
   friends: [],
   req_friends: [],
+  groups: [],
   asked_friends: [],
+  asked_groups: [],
 }
 
 export const useUserStore = defineStore('UserStore', {
   state: () => ({
     my: { ...DefaultUser },
+    groups: [],
     lang: process.env.LANG_DEFAULT ? process.env.LANG_DEFAULT : 'it',
     repeatPassword: '',
     categorySel: 'personal',
@@ -170,9 +176,23 @@ export const useUserStore = defineStore('UserStore', {
         return false
     },
 
+    IsMyGroupByGroupname(groupname: string): boolean {
+      if (this.my.profile.friends)
+        return this.my.profile.groups.findIndex((rec) => rec.groupname === groupname) >= 0
+      else
+        return false
+    },
+
     IsAskedFriendByUsername(username: string): boolean {
       if (this.my.profile.asked_friends)
         return this.my.profile.asked_friends.findIndex((rec) => rec.username === username) >= 0
+      else
+        return false
+    },
+
+    IsAskedGroupByGroupname(groupname: string): boolean {
+      if (this.my.profile.asked_groups)
+        return this.my.profile.asked_groups.findIndex((rec: IMyGroup) => rec.groupname === groupname) >= 0
       else
         return false
     },
@@ -205,6 +225,16 @@ export const useUserStore = defineStore('UserStore', {
         if (userparam.profile && userparam.profile.img) {
           return costanti.DIR_UPLOAD + 'profile/' + userparam.username + '/' + userparam.profile.img
         }
+      } catch (e) {
+      }
+      return 'images/noimg.png'
+    },
+
+    getImgByGroup(group: IMyGroup): string {
+
+      try {
+        //++Todo: Sistemare!
+        return costanti.DIR_UPLOAD + 'groups/' + group.groupname + '/' + group.photos[0].directory
       } catch (e) {
       }
       return 'images/noimg.png'
@@ -446,6 +476,7 @@ export const useUserStore = defineStore('UserStore', {
 
           // Memory
           this.my.profile.asked_friends = []
+          this.my.profile.asked_groups = []
         }
 
         this.isAdmin = tools.isBitActive(this.my.perm, shared_consts.Permissions.Admin.value)
@@ -825,7 +856,7 @@ export const useUserStore = defineStore('UserStore', {
               verified_by_aportador,
               made_gift,
               perm,
-              profile: { img, teleg_id, myshares: [], friends: [], req_friends: [], asked_friends: [] },
+              profile: { img, teleg_id, myshares: [], friends: [], req_friends: [], asked_friends: [], groups: [], asked_groups: [] },
             })
 
             isLogged = true
@@ -849,6 +880,20 @@ export const useUserStore = defineStore('UserStore', {
       }
 
       return Api.SendReq('/users/profile', 'POST', data)
+        .then((res) => {
+          return res.data
+        }).catch((error) => {
+          return {}
+        })
+
+    },
+
+    async loadGroup(groupname: string) {
+      const data = {
+        groupname
+      }
+
+      return Api.SendReq('/mygroup/load', 'POST', data)
         .then((res) => {
           return res.data
         }).catch((error) => {
@@ -881,8 +926,29 @@ export const useUserStore = defineStore('UserStore', {
 
     },
 
+    async loadGroups(username: string) {
+      return Api.SendReq('/users/groups', 'POST', null)
+        .then((res) => {
+          return res.data
+        }).catch((error) => {
+          return {}
+        })
+
+    },
+
     async setFriendsCmd($q: any, t: any, usernameOrig: string, usernameDest: string, cmd: number, value: any) {
       return Api.SendReq('/users/friends/cmd', 'POST', { usernameOrig, usernameDest, cmd, value })
+        .then((res) => {
+          return res.data
+        }).catch((error) => {
+          tools.showNegativeNotif($q, t('db.recfailed'))
+          return {}
+        })
+
+    },
+
+    async setGroupsCmd($q: any, t: any, usernameOrig: string, groupnameDest: string, cmd: number, value: any) {
+      return Api.SendReq('/users/groups/cmd', 'POST', { usernameOrig, groupnameDest, cmd, value })
         .then((res) => {
           return res.data
         }).catch((error) => {

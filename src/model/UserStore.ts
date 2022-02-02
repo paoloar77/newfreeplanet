@@ -1,5 +1,6 @@
 import { IToken } from '@model/other'
 import { ICart, IOrderCart, IShareWithUs } from '@src/model/Products'
+import { IGallery } from '@model/GlobalStore'
 
 const enum ESexType {
   None = 0,
@@ -8,8 +9,24 @@ const enum ESexType {
 }
 
 export interface IFriends {
-  username?: string
+  username: string
   date?: Date
+}
+
+export interface IMyGroup {
+  groupname: string
+  title?: string
+  descr?: string
+  photos: IGallery[]
+  visibility?: number
+  date_created?: Date
+  admins?: IFriends[]
+  req_users?: IFriends[]
+  blocked?: boolean
+  website?: string
+  link_telegram?: string
+  username_who_block?: string
+  date_blocked?: Date
 }
 
 export interface IUserProfile {
@@ -52,9 +69,11 @@ export interface IUserProfile {
   myshares: IShareWithUs[]
   friends: IFriends[]
   req_friends: IFriends[]
+  groups: IMyGroup[]
 
   // in memory
   asked_friends: any[]
+  asked_groups: any[]
 }
 
 export interface IPaymentType {

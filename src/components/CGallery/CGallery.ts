@@ -68,7 +68,7 @@ export default defineComponent({
         // @ts-ignore
         let myarr: any = props.imgGall
         gallerylist.value = []
-        if (myarr) {
+        if (Array.isArray(myarr)) {
           myarr.forEach((pic: any) => {
             if (pic.imagefile) {
               gallerylist.value.push(pic)

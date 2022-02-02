@@ -368,6 +368,18 @@ export const colTablePhones = [
   AddCol({ name: 'flag', label_trans: 'city.flag' }),
 ]
 
+export const colTableUsersGeneric = [
+  AddCol({ name: 'username', label_trans: 'reg.username_short' }),
+  AddCol({ name: 'date', label_trans: 'reg.date', fieldtype: costanti.FieldType.onlydate,
+    showWhen: costanti.showWhen.InPage + costanti.showWhen.InView_OnlyifExist }),
+]
+
+export const colTableMyGroup = [
+  AddCol({ name: 'groupname', label_trans: 'reg.groupname' }),
+  AddCol({ name: 'date', label_trans: 'reg.date', fieldtype: costanti.FieldType.onlydate,
+    showWhen: costanti.showWhen.InPage + costanti.showWhen.InView_OnlyifExist }),
+]
+
 export const colSkills = [
   // AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'descr', label_trans: 'store.description' }),
@@ -408,9 +420,52 @@ export const colmyUserPeople = [
   AddCol({ name: 'name', label_trans: 'reg.name' }),
   AddCol({
     name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
   }),
   // AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
   // AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
+]
+
+export const colmyUserGroup = [
+  // AddCol({ name: '_id', label_trans: 'reg.id' }),
+  AddCol({ name: 'groupname', label_trans: 'reg.groupname', required: true }),
+  AddCol({ name: 'title', label_trans: 'reg.name', required: true }),
+  AddCol({
+    name: 'idSector',
+    label_trans: 'sectors.name',
+    fieldtype: costanti.FieldType.select,
+    required: true,
+    jointable: 'sectors',
+    visible: true,
+    icon: 'category',
+  }),
+  AddCol({ name: 'descr', label_trans: 'proj.longdescr', required: true }),
+  AddCol({ name: 'visibility', label_trans: 'bot.visibility', fieldtype: costanti.FieldType.select, jointable: 'visibilGroup', required: true }),
+  AddCol({
+    name: 'admins',
+    label_trans: 'groups.admins',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'friendsandme',
+  }),
+  AddCol({
+    name: 'photos',
+    label_trans: 'skill.photos',
+    fieldtype: costanti.FieldType.listimages,
+    jointable: '',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+  }),
+  AddCol({
+    name: 'idCity',
+    label_trans: 'skill.city',
+    fieldtype: costanti.FieldType.multiselect_by_server,
+    jointable: 'cities',
+    tablesel: 'cities',
+    noshowlabel: true,
+    icon: 'fas fa-map-marker-alt',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+  }),
+  AddCol({ name: 'date_created', label_trans: 'reg.date_created', fieldtype: costanti.FieldType.onlydate,
+    showWhen: costanti.showWhen.InPage + costanti.showWhen.InView_OnlyifExist }),
 ]
 
 
@@ -805,6 +860,11 @@ const colTablePermission = [
   AddCol({ name: 'label', label_trans: 'proj.longdescr' }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
+]
+
+const colTableGeneric = [
+  AddCol({ name: 'value', label_trans: 'others.value' }),
+  AddCol({ name: 'label', label_trans: 'proj.longdescr' }),
 ]
 
 const colTableOperator = [
@@ -1502,6 +1562,7 @@ export const fieldsTable = {
     }),
     AddCol({
       name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
+      showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     }),
     AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
     AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
@@ -1765,11 +1826,19 @@ export const fieldsTable = {
     },
     {
       value: 'visibility',
-      label: 'Visibilità',
+      label: 'Visibilità Permessi',
       columns: colTablePermission,
       colkey: 'value',
       collabel: 'label',
       colicon: 'icon',
+      noshow: true,
+    },
+    {
+      value: 'visibilGroup',
+      label: 'Visibilità',
+      columns: colTableGeneric,
+      colkey: 'value',
+      collabel: 'label',
       noshow: true,
     },
     {
@@ -1892,6 +1961,27 @@ export const fieldsTable = {
       colkey: 'id',
       collabel: 'value',
       remote: true,
+    },
+    {
+      value: 'friends',
+      label: 'Amici',
+      columns: colTableUsersGeneric,
+      colkey: 'username',
+      collabel: 'username',
+    },
+    {
+      value: 'friendsandme',
+      label: 'Amici',
+      columns: colTableUsersGeneric,
+      colkey: 'username',
+      collabel: 'username',
+    },
+    {
+      value: 'mygroups',
+      label: 'Gruppi',
+      columns: colTableMyGroup,
+      colkey: 'groupname',
+      collabel: 'groupname',
     },
   ],
 }

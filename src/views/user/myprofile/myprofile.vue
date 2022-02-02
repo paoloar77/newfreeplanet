@@ -102,6 +102,21 @@
       </q-card>
     </div>
 
+    <CTitleBanner
+      class="" title="Competenze e Talenti" bgcolor="bg-positive" clcolor="text-white"
+      myclass="myshad" :canopen="true">
+
+      <CSkill
+        :filtercustom="filtroutente"
+        :butt_modif_new="false"
+
+      >
+
+      </CSkill>
+
+
+    </CTitleBanner>
+
     <div v-if="myuser.name">
       <CTitleBanner
         class="" :title="$t('dashboard.info')" bgcolor="bg-primary" clcolor="text-white"
@@ -124,20 +139,6 @@
       </CTitleBanner>
     </div>
 
-    <CTitleBanner
-      class="" title="Competenze e Talenti" bgcolor="bg-positive" clcolor="text-white"
-      myclass="myshad" :canopen="true">
-
-      <CSkill
-        :filtercustom="filtroutente"
-        :butt_modif_new="false"
-
-      >
-
-      </CSkill>
-
-
-    </CTitleBanner>
 
   </div>
   <q-dialog

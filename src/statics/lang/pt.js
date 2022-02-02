@@ -474,7 +474,7 @@ const msg_pt = {
       titlegranted: 'Permesso Notifiche Abilitato!',
       statusnot: 'Stato Notifiche',
       titledenied: 'Permesso Notifiche Disabilitato!',
-      title_subscribed: 'Sottoscrizione a FreePlanet.app!',
+      title_subscribed: 'Sottoscrizione alla App!',
       subscribed: 'Ora potrai ricevere i messaggi e le notifiche.',
       newVersionAvailable: 'Aggiorna',
     },

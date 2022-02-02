@@ -3,7 +3,7 @@ import {
   IColGridTable,
   IColl,
   ICollaborations, IDataToSet,
-  IEvents, IFriends,
+  IEvents, IFriends, IMyGroup,
   IListRoutes,
   IParamDialog,
   IPathFile,
@@ -56,6 +56,7 @@ export const tools = {
   COOK_SEARCH: 'SEARCH_',
 
   FRIENDS_SEARCH: 'FR_SE',
+  GROUP_SEARCH: 'GR_SE',
 
   getprefCountries: ['it', 'es', 'us'],
 
@@ -4422,6 +4423,26 @@ export const tools = {
         })
     })
   },
+
+  addToMyGroups($q: any, username: string, groupnameDest: string) {
+
+    const userStore = useUserStore()
+    $q.dialog({
+      message: t('db.domanda_addtogroup', { username, groupname: groupnameDest }),
+      ok: { label: t('dialog.yes'), push: true },
+      cancel: { label: t('dialog.cancel') },
+      title: t('db.domanda')
+    }).onOk(() => {
+
+      userStore.setGroupsCmd($q, t, username, groupnameDest, shared_consts.GROUPSCMD.SETGROUP, null)
+        .then((res: any) => {
+          if (res) {
+            userStore.my.profile.groups = [...userStore.my.profile.groups, res]
+            tools.showPositiveNotif($q, t('db.addedgroup'))
+          }
+        })
+    })
+  },
   setRequestFriendship($q: any, username: string, usernameDest: string, value: boolean) {
 
     const userStore = useUserStore()
@@ -4464,6 +4485,48 @@ export const tools = {
         })
     })
   },
+  setRequestGroup($q: any, username: string, groupnameDest: string, value: boolean) {
+
+    const userStore = useUserStore()
+
+    let msg = ''
+    if (value) {
+      msg = t('db.domanda_ask_group', { groupname: groupnameDest })
+    } else {
+      msg = t('db.domanda_revoke_group', { groupname: groupnameDest })
+    }
+
+    $q.dialog({
+      message: msg,
+      ok: {
+        label: t('dialog.yes'),
+        push: true
+      },
+      cancel: {
+        label: t('dialog.cancel')
+      },
+      title: t('db.domanda')
+    }).onOk(() => {
+
+      userStore.setGroupsCmd($q, t, username, groupnameDest, shared_consts.GROUPSCMD.REQGROUP, value)
+        .then((res: any) => {
+          if (res) {
+            if (value) {
+              // ADD to req Friends
+              userStore.my.profile.asked_groups.push(res)
+              tools.showPositiveNotif($q, t('db.askedtogroup', { groupname: groupnameDest }))
+            } else {
+              // REMOVE to req Friends
+              userStore.my.profile.asked_groups = userStore.my.profile.asked_groups.filter((rec: IMyGroup) => rec.groupname !== groupnameDest)
+              tools.showPositiveNotif($q, t('db.revoketogroup', { groupname: groupnameDest }))
+            }
+
+          } else {
+            tools.showNegativeNotif($q, t('db.recfailed'))
+          }
+        })
+    })
+  },
   cancelReqFriends($q: any, username: string, usernameDest: string) {
     const userStore = useUserStore()
     $q.dialog({
@@ -4477,6 +4540,23 @@ export const tools = {
         if (res) {
           userStore.my.profile.asked_friends = userStore.my.profile.asked_friends.filter((rec: IUserFields) => rec.username !== usernameDest)
           tools.showPositiveNotif($q, t('db.cancel_req_friend'))
+        }
+      })
+    })
+  },
+   cancelReqGroups($q: any, username: string, groupnameDest: string) {
+    const userStore = useUserStore()
+    $q.dialog({
+      message: t('db.domanda_cancel_req_group', { groupname: groupnameDest }),
+      ok: { label: t('dialog.yes'), push: true },
+      cancel: { label: t('dialog.cancel') },
+      title: t('db.domanda')
+    }).onOk(() => {
+
+      userStore.setGroupsCmd($q, t, username, groupnameDest, shared_consts.GROUPSCMD.CANCEL_REQ_GROUP, null).then((res) => {
+        if (res) {
+          userStore.my.profile.asked_groups = userStore.my.profile.asked_groups.filter((rec: IMyGroup) => rec.groupname !== groupnameDest)
+          tools.showPositiveNotif($q, t('db.cancel_req_group'))
         }
       })
     })

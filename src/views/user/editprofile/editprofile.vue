@@ -70,6 +70,19 @@
 
     </CTitleBanner>
 
+
+    <CTitleBanner
+      class="q-pa-xs" title="Competenze e Talenti" bgcolor="bg-primary" clcolor="text-white"
+      myclass="myshad" :canopen="true">
+
+      <CSkill
+        :filtercustom="filtroutente">
+
+      </CSkill>
+
+
+    </CTitleBanner>
+
     <CTitleBanner
       class="q-pa-xs" title="Informazioni su di te" bgcolor="bg-primary" clcolor="text-white"
       myclass="myshad" :canopen="true">
@@ -159,76 +172,64 @@
 
     </CTitleBanner>
 
-    <CTitleBanner
-      class="q-pa-xs" title="Competenze e Talenti" bgcolor="bg-primary" clcolor="text-white"
-      myclass="myshad" :canopen="true">
-
-      <CSkill
-        :filtercustom="filtroutente">
-
-      </CSkill>
-
-
-    </CTitleBanner>
-
-      <!--
-      <div class="column">
-        <div class="myrow">
-          <CMyFieldDb
-            title="Motivazioni"
-            table="users"
-            mykey="profile"
-            mysubkey="motivazioni"
-            :type="costanti.FieldType.string">
-          </CMyFieldDb>
-        </div>
-        <div class="myrow">
-          <CMyFieldDb
-            title="Competenze e Professionalità"
-            table="users"
-            mykey="profile"
-            mysubkey="competenze_professionalita"
-            :type="costanti.FieldType.string">
-          </CMyFieldDb>
-        </div>
-        <div class="myrow">
-          <CMyFieldDb
-            title="Cosa potrei offrire?"
-            table="users"
-            mykey="profile"
-            mysubkey="cosa_offrire"
-            :type="costanti.FieldType.string">
-          </CMyFieldDb>
-        </div>
-        <div class="myrow">
-          <CMyFieldDb
-            title="Cosa vorrei ricevere?"
-            table="users"
-            mykey="profile"
-            mysubkey="cosa_ricevere"
-            :type="costanti.FieldType.string">
-          </CMyFieldDb>
-        </div>
-        <div class="myrow">
-          <CMyFieldDb
-            title="Altre Comunicazioni"
-            table="users"
-            mykey="profile"
-            mysubkey="altre_comunicazioni"
-            :type="costanti.FieldType.string">
-          </CMyFieldDb>
-        </div>
-        <div class="myrow">
-          <CMyFieldDb
-            title="Come ci hai conosciuto?"
-            table="users"
-            mykey="profile"
-            mysubkey="come_ci_hai_conosciuto"
-            :type="costanti.FieldType.string">
-          </CMyFieldDb>
-        </div>
+    <!--
+    <div class="column">
+      <div class="myrow">
+        <CMyFieldDb
+          title="Motivazioni"
+          table="users"
+          mykey="profile"
+          mysubkey="motivazioni"
+          :type="costanti.FieldType.string">
+        </CMyFieldDb>
       </div>
-      -->
+      <div class="myrow">
+        <CMyFieldDb
+          title="Competenze e Professionalità"
+          table="users"
+          mykey="profile"
+          mysubkey="competenze_professionalita"
+          :type="costanti.FieldType.string">
+        </CMyFieldDb>
+      </div>
+      <div class="myrow">
+        <CMyFieldDb
+          title="Cosa potrei offrire?"
+          table="users"
+          mykey="profile"
+          mysubkey="cosa_offrire"
+          :type="costanti.FieldType.string">
+        </CMyFieldDb>
+      </div>
+      <div class="myrow">
+        <CMyFieldDb
+          title="Cosa vorrei ricevere?"
+          table="users"
+          mykey="profile"
+          mysubkey="cosa_ricevere"
+          :type="costanti.FieldType.string">
+        </CMyFieldDb>
+      </div>
+      <div class="myrow">
+        <CMyFieldDb
+          title="Altre Comunicazioni"
+          table="users"
+          mykey="profile"
+          mysubkey="altre_comunicazioni"
+          :type="costanti.FieldType.string">
+        </CMyFieldDb>
+      </div>
+      <div class="myrow">
+        <CMyFieldDb
+          title="Come ci hai conosciuto?"
+          table="users"
+          mykey="profile"
+          mysubkey="come_ci_hai_conosciuto"
+          :type="costanti.FieldType.string">
+        </CMyFieldDb>
+      </div>
+    </div>
+    -->
 
     <!--
     <CTitleBanner class="q-pa-xs" :title="$t('pages.payment')" bgcolor="bg-primary" clcolor="text-white"

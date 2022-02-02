@@ -18,6 +18,7 @@ import { lists } from '@store/Modules/lists'
 import { IParamsQuery } from 'model'
 import { CMyPopupEdit } from '../CMyPopupEdit'
 import { CMyFriends } from '../CMyFriends'
+import { CMyGroups } from '../CMyGroups'
 import { CMyFieldDb } from '../CMyFieldDb'
 import { CMySelect } from '../CMySelect'
 import { CTitleBanner } from '../CTitleBanner'
@@ -27,6 +28,7 @@ import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
 import translate from '@/globalroutines/util'
+import { toolsext } from '@store/Modules/toolsext'
 
 export default defineComponent({
   name: 'CGridTableRec',
@@ -179,7 +181,7 @@ export default defineComponent({
       default: false
     }
   },
-  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends },
+  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends, CMyGroups },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -234,6 +236,7 @@ export default defineComponent({
     const selected: any = ref([])
 
     const filter = ref(0)
+    const filtergrp = ref(costanti.MY_GROUPS)
 
     const mycodeid = toRef(props, 'prop_codeId')
 
@@ -1320,6 +1323,7 @@ export default defineComponent({
       myfilterand,
       tools,
       costanti,
+      toolsext,
       fieldsTable,
       globalStore,
       searchList,
@@ -1329,6 +1333,7 @@ export default defineComponent({
       valoriopt,
       labelcombo,
       filter,
+      filtergrp,
       myvertical,
       showColCheck,
       getValueExtra,

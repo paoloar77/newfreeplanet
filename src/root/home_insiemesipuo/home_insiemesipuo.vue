@@ -23,6 +23,12 @@
 
       <div v-if="isUserOk()">
         <div v-if="isUserOk()">
+
+          <CFinder>
+
+          </CFinder>
+
+
           <q-banner rounded class="bg-primary text-white">
             <div class="text-h6 text-center">
               Ora Accedi al Bot Telegram <br>

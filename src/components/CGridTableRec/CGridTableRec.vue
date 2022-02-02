@@ -35,7 +35,7 @@
       <q-spinner-tail size="2em" color="primary"/>
     </q-inner-loading>
     <q-table
-      :grid="myvertical === -1 || myvertical === 2"
+      :grid="myvertical === costanti.VISUTABLE_SCHEDA_USER || myvertical === 2 || myvertical === costanti.VISUTABLE_SCHEDA_GROUP"
       flat
       bordered
       class="my-sticky-header-table"
@@ -89,11 +89,11 @@
 
         <div class="row">
           <q-toggle
-            v-for="(filter, index) of arrfilters"
+            v-for="(filt, index) of arrfilters"
             :key="index"
-            v-model="myfilterand" :disable="filter.hide"
-            :val="filter.value"
-            :label="filter.label">
+            v-model="myfilterand" :disable="filt.hide"
+            :val="filt.value"
+            :label="filt.label">
 
           </q-toggle>
         </div>
@@ -244,7 +244,9 @@
         <div v-if="choose_visutype" class="">
           <q-radio v-model="myvertical" :val="2" label="Lista"
                    @update:model-value="tools.setCookie('myv', myvertical) "/>
-          <q-radio v-model="myvertical" :val="-1" label="Scheda"
+          <q-radio v-if="mytable === toolsext.TABMYGROUPS" v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_GROUP" label="Scheda"
+                   @update:model-value="tools.setCookie('myv', myvertical) "/>
+          <q-radio v-else v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_USER" label="Scheda"
                    @update:model-value="tools.setCookie('myv', myvertical) "/>
           <q-radio v-model="myvertical" :val="0" label="Tabella"
                    @update:model-value="tools.setCookie('myv', myvertical) "/>
@@ -297,13 +299,25 @@
 
 
       <template v-slot:item="props">
-        <div v-if="(showType === costanti.SHOW_USERINFO) || (myvertical === 2)" class="fill-all-width">
+        <div v-if="((showType === costanti.SHOW_USERINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_USER) || ((myvertical === 2) && (tablesel === 'users' || tablesel === 'myskills'))" class="fill-all-width">
           <div>
             <CMyFriends
               v-model="filter"
               :finder="false"
               :mycontact="props.row"
               :visu="costanti.FIND_PEOPLE"
+            />
+          </div>
+
+        </div>
+        <div v-else-if="((showType === costanti.SHOW_GROUPINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_GROUP) || ((myvertical === 2) && (tablesel === 'mygroups'))" class="fill-all-width">
+          <div>
+
+            <CMyGroups
+              v-model="filtergrp"
+              :finder="false"
+              :mygrp="props.row"
+              :visu="costanti.FIND_GROUP"
             />
           </div>
 
