@@ -91,6 +91,7 @@
                 optval="_id" optlab="label"
                 :useinput="false"
                 :col="col"
+                :row="row"
                 :options="tools.SelectHours">
               </CMySelect>
             </div>
@@ -159,6 +160,7 @@
             <div v-if="isInModif" class="justify-center q-gutter-sm clgutter q-mt-sm">
               <CMySelect
                 :col="col"
+                :row="row"
                 :label="col.label"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
@@ -178,6 +180,7 @@
             <div v-if="isInModif" class="justify-center q-gutter-sm clgutter q-mt-sm">
               <CMySelect
                 :col="col"
+                :row="row"
                 :label="col.label"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
@@ -252,6 +255,7 @@
             <div v-if="isInModif">
               <CMySelect
                 :col="col"
+                :row="row"
                 :multiple="true"
                 :withToggle="true"
                 :label="col.label"
@@ -318,6 +322,7 @@
             <div v-if="isInModif">
               <CMySelect
                 :col="col"
+                :row="row"
                 :label="col.label"
                 v-model:value="myvalue"
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
@@ -348,6 +353,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
             <CMySelect
               :col="col"
+              :row="row"
               :multiselect_by_server="true"
               :label="col.label"
               v-model:arrvalue="myvalue"
@@ -372,6 +378,7 @@
             <div v-if="isInModif">
               <CMySelect
                 :col="col"
+                :row="row"
                 :label="col.label"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
@@ -534,6 +541,7 @@
               <div v-if="isFieldDb()">
                 <CMySelect
                   :col="col"
+                  :row="row"
                   label="Ore" v-model:value="myvalue"
                   optval="value" optlab="label"
                   :dense="false"
@@ -556,6 +564,7 @@
               v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
               <CMySelect
                 :col="col"
+                :row="row"
                 :label="col.label"
                 v-model:value="scope.value"
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
@@ -573,6 +582,7 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
               <CMySelect
                 :col="col"
+                :row="row"
                 :multiselect_by_server="true"
                 :label="col.label"
                 v-model:arrvalue="scope.value"
@@ -628,6 +638,7 @@
               <div class="justify-center q-gutter-sm clgutter q-mt-sm">
                 <CMySelect
                   :col="col"
+                  :row="row"
                   :label="col.label"
                   v-model:value="scope.value"
                   @update:value="changevalRec"
@@ -647,6 +658,7 @@
               <div class="justify-center q-gutter-sm clgutter q-mt-sm">
                 <CMySelect
                   :col="col"
+                  :row="row"
                   :label="col.label"
                   v-model:value="scope.value"
                   @update:value="changevalRec"
@@ -672,6 +684,7 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.star5">
               <CMySelect
                 :col="col"
+                :row="row"
                 :label="col.label"
                 v-model:value="scope.value"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"

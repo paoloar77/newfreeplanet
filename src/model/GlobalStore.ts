@@ -508,6 +508,9 @@ export interface IColGridTable {
   maxlength?: number
   filter_table?: string
   filter_field?: string
+  remote_table?: string
+  remote_key?: string
+  remote_field?: string
   field_extra1?: string
   subfield_extra1?: string
   allowNewValue?: boolean

@@ -44,6 +44,13 @@ export default defineComponent({
       required: false,
       default: 0
     },
+    row: {
+      type: Object,
+      required: false,
+      default: () => {
+        return {}
+      },
+    },
     col: {
       type: Object as PropType<IColGridTable>,
       required: false,
@@ -262,6 +269,28 @@ export default defineComponent({
             obj[`${props.optlab}`] = itemlab
             if (!arrtempOpt.value.find((rec) => rec._id === itemId))
               arrtempOpt.value.push(obj)
+          }
+        }
+
+        // Check if exist other array:
+        if (props.col) {
+          if (props.col.remote_table && props.col.remote_key && props.col.remote_field) {
+
+            try {
+              const myarrremote = props.row[props.col.remote_table]
+
+              for (const myrec of myarrremote) {
+                let myidkey = myrec[props.col.remote_key]
+                if (!arrtempOpt.value.includes(myidkey)){
+                  let myobj: any = {}
+                  myobj[props.col.remote_key] = myidkey
+                  myobj[props.col.remote_field] = myrec[props.col.remote_field]
+                  arrtempOpt.value.push(myobj)
+                }
+              }
+
+            }catch (e){}
+
           }
         }
 
