@@ -39,10 +39,9 @@ export default defineComponent({
       required: false,
       default: ''
     },
-    type: {
+    type_out: {
       type: Number,
       required: false,
-      default: 0
     },
     row: {
       type: Object,
@@ -210,7 +209,24 @@ export default defineComponent({
       console.log(' ½½½½½½½ changeval', newval)
       if (props.multiple || props.multiselect_by_server) {
         // localStorage.setItem(props.tablesel + '_' + newval, valori.value[newval])
-        myarrvalue.value = newval && newval['arrvalue'] ? newval['arrvalue'] : newval
+
+        if (props.type_out === costanti.FieldType.object) {
+          // debugger;
+          const arrout = []
+          for (const val of newval) {
+            let obj: any = {}
+            if (typeof val !== 'object') {
+              obj[props.optval] = val
+              arrout.push(obj)
+            } else {
+              arrout.push(val)
+            }
+          }
+          myarrvalue.value = arrout
+        } else {
+          myarrvalue.value = newval && newval['arrvalue'] ? newval['arrvalue'] : newval
+        }
+
         saveOptInCookie(newval)
 
         // console.log(' ----- Myselect changeval Arrvalue', myarrvalue.value)
@@ -303,15 +319,22 @@ export default defineComponent({
         }
       }
 
+      if (props.tablesel === 'friendsandme') {
+        debugger;
+      }
+
       if (props.multiple) {
+
         let arrrec = []
-        for (const val of props.arrvalue) {
-          rec = optionsreal.value.find((myrec: any) => val === (myrec[`${props.optval}`]))
-          if (rec) {
-            arrrec.push(rec[`${props.optval}`])
+        if (props.arrvalue) {
+          for (const val of props.arrvalue) {
+            rec = optionsreal.value.find((myrec: any) => val === (myrec[`${props.optval}`]))
+            if (rec) {
+              arrrec.push(rec[`${props.optval}`])
+            }
           }
         }
-        if (arrrec) {
+        if (arrrec.length > 0) {
           if (props.funcgetvaluebyid)
             myarrvalue.value = props.funcgetvaluebyid(arrrec)
           else

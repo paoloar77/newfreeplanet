@@ -1912,8 +1912,8 @@ export const tools = {
     this.showNotif(q, msg, { color: 'negative', icon: 'notifications' }, 10000)
   },
 
-  showNeutralNotif(q: any, msg: string) {
-    this.showNotif(q, msg, { color: 'info', icon: 'notifications' }, 10000)
+  showNeutralNotif(q: any, msg: string, time = 10000) {
+    this.showNotif(q, msg, { color: 'info', icon: 'notifications' }, time)
   },
 
   showNotif(q: any, msg: string, data ?: INotify | null, time?: number) {
@@ -4437,7 +4437,7 @@ export const tools = {
       userStore.setGroupsCmd($q, t, username, groupnameDest, shared_consts.GROUPSCMD.SETGROUP, null)
         .then((res: any) => {
           if (res) {
-            userStore.my.profile.groups = [...userStore.my.profile.groups, res]
+            userStore.my.profile.mygroups = [...userStore.my.profile.mygroups, res]
             tools.showPositiveNotif($q, t('db.addedgroup'))
           }
         })

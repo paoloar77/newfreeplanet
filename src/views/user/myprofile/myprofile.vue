@@ -39,7 +39,7 @@
       </div>
 
       <div v-if="myuser.name">
-        <div class="col-12 text-h8 q-mt-sm">
+        <div class="col-12 text-h8 q-mt-sm" v-if="myuser.profile.qualifica">
           <em><span class="qualifica">{{ myuser.profile.qualifica }}</span></em>
         </div>
         <div class="col-12 text-h8 q-mt-sm">

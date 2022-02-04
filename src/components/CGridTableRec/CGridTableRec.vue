@@ -13,7 +13,7 @@
       <q-space></q-space>
       <div v-if="butt_modif_new">
         <q-btn
-          v-if="mytable && mytable !== 'myskills'" rounded dense size="sm" flat
+          v-if="mytable && !shared_consts.TABLES_FINDER.includes(mytable)" rounded dense size="sm" flat
           :color="canEdit ? 'positive' : 'light-gray'"
           :disable="disabilita()"
           :val="lists.MenuAction.CAN_EDIT_TABLE"
@@ -105,7 +105,7 @@
              :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue `">
           <span v-for="(item, index) in searchList" :key="index">
             <CMySelect
-              :col="fieldsTable.getColByTable('myskills', item.key)"
+              :col="fieldsTable.getColByTable(mytable, item.key)"
               v-if="(item.type === costanti.FieldType.select) || (item.type === costanti.FieldType.select_by_server)"
               :label="labelcombo(item)"
               v-model:value="item.value"
@@ -129,7 +129,7 @@
 
             <CMySelect
               v-if="item.type === costanti.FieldType.multiselect_by_server"
-              :col="fieldsTable.getColByTable('myskills', item.key)"
+              :col="fieldsTable.getColByTable(mytable, item.key)"
               :multiselect_by_server="true"
               :label="labelcombo(item)"
               v-model:arrvalue="item.arrvalue"
@@ -261,7 +261,7 @@
           <q-td
             v-for="col in mycolumns" :key="col.name" :props="props">
             <div
-              v-if="showColCheck(col, tools.TIPOVIS_SHOW_RECORD, true, 1)" class="tdclass">
+              v-if="showColCheck(col, tools.TIPOVIS_SHOW_RECORD, true, 1, props.row)" class="tdclass">
               <div :class="getclrow(props.row)">
                 <CMyPopupEdit
                   :table="mytable"
@@ -331,6 +331,7 @@
             <q-bar v-if="!visuinpage" dense class="bg-primary text-white full-height">
               <span class=""> {{ props.row[col_title] }} </span>
               <q-space/>
+
               <q-btn
                 v-if="canModifyThisRec(props.row)"
                 flat round color="white" icon="fas fa-pencil-alt" size="sm"
@@ -444,7 +445,7 @@
           <div
             v-for="col in mycolumns" :key="col.name" class="newrec_fields">
             <div
-              v-if="showColCheck(col, tools.TIPOVIS_NEW_RECORD, true) && col.foredit">
+              v-if="showColCheck(col, tools.TIPOVIS_NEW_RECORD, true, 0, newRecord) && col.foredit">
               <div class="">
                 <CMyPopupEdit
                   :table="mytable"

@@ -159,6 +159,7 @@
           <q-item v-bind="itemProps">
             <q-item-section>
               <q-item-label>{{ opt[optlab] }}</q-item-label>
+              <q-item-label v-if="'hint' in opt" class="hint">{{ opt['hint'] }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-toggle :model-value="selected" @update:value="toggleOption(opt)"/>
@@ -200,6 +201,7 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ scope.opt[optlab] }}</q-item-label>
+              <q-item-label v-if="'hint' in scope.opt" class="hint">{{ scope.opt['hint'] }}</q-item-label>
             </q-item-section>
           </q-item>
         </template>

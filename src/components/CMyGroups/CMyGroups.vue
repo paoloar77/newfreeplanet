@@ -15,7 +15,6 @@
     />
   </div>
   <div v-if="finder" class="">
-
     <div v-if="modelValue === costanti.FIND_GROUP">
       <slot></slot>
     </div>

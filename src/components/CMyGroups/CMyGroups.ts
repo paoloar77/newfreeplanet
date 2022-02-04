@@ -52,9 +52,9 @@ export default defineComponent({
       let arr: any[] = []
       try {
         if (props.modelValue === costanti.GROUPS) {
-          arr = userStore.my.profile.groups
+          arr = userStore.my.profile.mygroups
         } else if (props.modelValue === costanti.MY_GROUPS) {
-          arr = userStore.my.profile.groups
+          arr = userStore.my.profile.mygroups
         // } else if (props.modelValue === costanti.REQ_GROUP) {
           //   arr = userStore.my.profile.req_groups
         } else if (props.modelValue === costanti.ASK_SENT_GROUP) {
@@ -82,7 +82,7 @@ export default defineComponent({
     })
 
     const numGroups = computed(() => {
-      const arr = userStore.my.profile.groups
+      const arr = userStore.my.profile.mygroups
       return (arr) ? arr.length : 0
     })
 
@@ -97,7 +97,7 @@ export default defineComponent({
         userStore.loadGroups(username.value).then((ris) => {
           // console.log('ris', ris)
           if (ris) {
-            userStore.my.profile.groups = ris.listUsersGroup ? ris.listUsersGroup : []
+            userStore.my.profile.mygroups = ris.listUsersGroup ? ris.listUsersGroup : []
             userStore.groups = ris.listgroups ? ris.listgroups : []
             userStore.my.profile.asked_groups = ris.listSentRequestGroups ? ris.listSentRequestGroups : []
             filtroutente.value = [{ userId: userStore.my._id }]
@@ -117,7 +117,7 @@ export default defineComponent({
 
         userStore.setGroupsCmd($q, t, username.value, groupnameDest, shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP, null).then((res) => {
           if (res) {
-            userStore.my.profile.groups = userStore.my.profile.groups.filter((rec: IMyGroup) => rec.groupname !== groupnameDest)
+            userStore.my.profile.mygroups = userStore.my.profile.mygroups.filter((rec: IMyGroup) => rec.groupname !== groupnameDest)
             tools.showPositiveNotif($q, t('db.removedgroup'))
           }
         })
@@ -133,7 +133,7 @@ export default defineComponent({
       }).onOk(() => {
         userStore.setGroupsCmd($q, t, username.value, usernameDest, shared_consts.GROUPSCMD.BLOCK_GROUP, null).then((res) => {
           if (res) {
-            userStore.my.profile.groups = userStore.my.profile.groups.filter((rec: IMyGroup) => rec.groupname !== usernameDest)
+            userStore.my.profile.mygroups = userStore.my.profile.mygroups.filter((rec: IMyGroup) => rec.groupname !== usernameDest)
             tools.showPositiveNotif($q, t('db.blockedgroup'))
           }
         })

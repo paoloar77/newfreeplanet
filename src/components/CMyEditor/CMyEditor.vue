@@ -23,6 +23,7 @@
               </q-popup-proxy>
             </q-icon>
           </q-btn>
+
           <q-editor
             ref="editor"
             content-class="wrap_anywhere"

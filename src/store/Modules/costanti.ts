@@ -11,6 +11,11 @@ export const costanti = {
   SHOW_USERINFO: 1,
   SHOW_GROUPINFO: 5,
 
+  BINARY_CHECK: 1,
+
+  RISERVATO_PASSWORD: 1,
+  NASCOSTO_CERCA: 2,
+
   VISUTABLE_SCHEDA_USER: -1,
   VISUTABLE_SCHEDA_GROUP: -3,
 
@@ -41,6 +46,8 @@ export const costanti = {
   },
 
   DRAGULA: false,
+
+  ALLOWCHAR_CODE: 1,
 
   showWhen: {
     NewRec: 1,
@@ -84,6 +91,7 @@ export const costanti = {
     onlydate: 7000,
     hours: 8000,
     crypted: 9000,
+    object: 10000,
   },
 
   FieldTypeArr: [

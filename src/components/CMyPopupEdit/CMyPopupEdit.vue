@@ -30,17 +30,18 @@
                 @update:model-value="Savedb"></q-toggle>
             </div>
           </div>
-          <div v-else-if="col.fieldtype === costanti.FieldType.string">
+          <div v-else-if="col.fieldtype === costanti.FieldType.string || col.fieldtype === costanti.FieldType.crypted">
             <div v-if="visulabel || isInModif" :class="{ flex: !isInModif}">
               <q-input
                 v-bind="$attrs"
                 v-model="myvalue"
-                autogrow
+                :autogrow="col.fieldtype !== costanti.FieldType.crypted"
                 :style="$q.screen.lt.sm ? 'min-width: 300px' : ''"
                 counter
                 :maxlength="col.maxlength ? col.maxlength : undefined"
                 :disable="disable"
                 :readonly="disable"
+                :type="col.fieldtype === costanti.FieldType.crypted ? `password` : `text`"
                 @keyup.enter.stop
                 @update:model-value="changevalRec"
                 autofocus
@@ -85,6 +86,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.hours">
             <div v-if="isFieldDb()">
               <CMySelect
+                :type_out="col.field_outtype"
                 label="Ore"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
@@ -159,6 +161,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.nationality">
             <div v-if="isInModif" class="justify-center q-gutter-sm clgutter q-mt-sm">
               <CMySelect
+                :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
                 :label="col.label"
@@ -179,6 +182,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
             <div v-if="isInModif" class="justify-center q-gutter-sm clgutter q-mt-sm">
               <CMySelect
+                :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
                 :label="col.label"
@@ -254,6 +258,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.multiselect">
             <div v-if="isInModif">
               <CMySelect
+                :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
                 :multiple="true"
@@ -309,6 +314,7 @@
             <div v-else>
               <CMyChipList
                 :type="col.fieldtype"
+                :type_out="col.field_outtype"
                 @update:value="changevalRec"
                 :value="myvalue"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
@@ -321,6 +327,7 @@
             v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
             <div v-if="isInModif">
               <CMySelect
+                :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
                 :label="col.label"
@@ -342,6 +349,7 @@
               <CMyChipList
                 myclass="text-center"
                 :type="col.fieldtype"
+                :type_out="col.field_outtype"
                 @update:value="changevalRec"
                 v-model:value="myvalue"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
@@ -352,6 +360,7 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
             <CMySelect
+              :type_out="col.field_outtype"
               :col="col"
               :row="row"
               :multiselect_by_server="true"
@@ -377,6 +386,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.star5">
             <div v-if="isInModif">
               <CMySelect
+                :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
                 :label="col.label"
@@ -432,7 +442,7 @@
                 <q-btn
                   v-if="myvalue && col.field_extra1"
                   icon="far fa-file-alt" :label="col.titlepopupedit" color="primary" text-color="white"
-                  :to="`/mypage/`+row['_id']"
+                  :to="getToByCol(col)"
                 >
                 </q-btn>
               </div>
@@ -503,13 +513,14 @@
               </q-checkbox>
               <span v-html="visuValByType(myvalue, col, row)"></span>
             </div>
-            <div v-else-if="col.fieldtype === costanti.FieldType.string">
+            <div v-else-if="col.fieldtype === costanti.FieldType.string || col.fieldtype === costanti.FieldType.crypted">
               <q-input
                 v-bind="$attrs"
                 counter
+                :type="col.fieldtype === costanti.FieldType.crypted ? 'password' : 'text'"
                 :maxlength="col.maxlength ? col.maxlength : undefined"
                 v-model="scope.value"
-                autogrow
+                :autogrow="col.fieldtype !== costanti.FieldType.crypted"
                 @keyup.enter.stop
                 autofocus>
 
@@ -540,6 +551,7 @@
               </div>
               <div v-if="isFieldDb()">
                 <CMySelect
+                  :type_out="col.field_outtype"
                   :col="col"
                   :row="row"
                   label="Ore" v-model:value="myvalue"
@@ -563,6 +575,7 @@
             <div
               v-else-if="(col.fieldtype === costanti.FieldType.select) || (col.fieldtype === costanti.FieldType.select_by_server)">
               <CMySelect
+                :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
                 :label="col.label"
@@ -581,6 +594,7 @@
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
               <CMySelect
+                :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
                 :multiselect_by_server="true"
@@ -637,6 +651,7 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.nationality">
               <div class="justify-center q-gutter-sm clgutter q-mt-sm">
                 <CMySelect
+                  :type_out="col.field_outtype"
                   :col="col"
                   :row="row"
                   :label="col.label"
@@ -657,6 +672,7 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.intcode">
               <div class="justify-center q-gutter-sm clgutter q-mt-sm">
                 <CMySelect
+                  :type_out="col.field_outtype"
                   :col="col"
                   :row="row"
                   :label="col.label"
@@ -683,6 +699,7 @@
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.star5">
               <CMySelect
+                :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
                 :label="col.label"

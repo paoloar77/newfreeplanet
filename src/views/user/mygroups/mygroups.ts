@@ -31,6 +31,46 @@ export default defineComponent({
       filtercustom.value = []
       arrfilterand.value = []
 
+      searchList.value = [
+        {
+          label: 'Categorie',
+          table: 'catgrps',
+          key: 'idCatGrp',
+          value: tools.getCookie(tools.COOK_SEARCH + 'catgrps', costanti.FILTER_TUTTI),
+          arrvalue: [],
+          type: costanti.FieldType.select,
+          filter: null,
+          addall: true,
+          useinput: false,
+        },
+        {
+          label: 'Provincia',
+          table: 'provinces',
+          key: 'idProvince',
+          type: costanti.FieldType.multiselect,
+          value: 0,
+          addall: true,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'provinces', [costanti.FILTER_TUTTI]),
+          filter: null,
+          useinput: true,
+          icon: 'flag',
+        },
+        {
+          label: 'Città',
+          table: 'cities',
+          key: 'idCity',
+          type: costanti.FieldType.multiselect_by_server,
+          value: 0,
+          addall: true,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'cities', [costanti.FILTER_TUTTI]),
+          useinput: true,
+          filter: null,
+          // filter: getFilterCitiesByProvince,
+          // param1: shared_consts.PARAM_SHOW_PROVINCE,
+          tablesel: 'cities',
+        },
+      ]
+
       const filt_loaded = tools.getCookie(tools.COOK_SEARCH + tools.GROUP_SEARCH)
       filter.value = filt_loaded ? filt_loaded : costanti.FIND_GROUP
     }
@@ -61,10 +101,13 @@ export default defineComponent({
             img: 1,
             visibility: 1,
             admins: 1,
-            idSector: 1,
+            idCatGrp: 1,
             photos: 1,
             idCity: 1,
+            note: 1,
             comune: 1,
+            mycities: 1,
+            sector: 1,
           }
         },
         lookup2: {
@@ -77,14 +120,17 @@ export default defineComponent({
             title: 1,
             descr: 1,
             img: 1,
-            idSector: 1,
+            idCatGrp: 1,
             visibility: 1,
             admins: 1,
             photos: 1,
             idCity: 1,
+            note: 1,
             comune: 1,
+            mycities: 1,
           }
-        }
+        },
+
       }
     }
 

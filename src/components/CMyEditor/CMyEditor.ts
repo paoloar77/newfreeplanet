@@ -2,7 +2,7 @@
 import { tools } from '@store/Modules/tools'
 import { CTitleBanner } from '../CTitleBanner'
 
-import { defineComponent, ref,  toRef } from 'vue'
+import { defineComponent, onMounted, ref, toRef } from 'vue'
 import { useQuasar } from 'quasar'
 
 export default defineComponent({
@@ -38,7 +38,8 @@ export default defineComponent({
     const $q = useQuasar()
 
     const editor = ref(null)
-    const myvalue = toRef(props, 'value')
+    //const myvalue = toRef(props, 'value')
+    const myvalue = ref('')
     const mycolor = ref('')
 
     const showeditor= ref(true)
@@ -162,6 +163,15 @@ export default defineComponent({
       //   onPasteStripFormattingIEPaste = false
       // }
     }
+
+    function mounted() {
+      if (props.value === undefined)
+        myvalue.value = ''
+      else
+        myvalue.value = props.value
+    }
+
+    onMounted(mounted)
 
     return {
       myfonts,

@@ -1,7 +1,7 @@
 <template>
   <CMyPage
     :title='myskill.subTitle' imgbackground="images/calendario_eventi.jpg"
-    sizes="max-height: 100px" styleadd="bottom: -16px !important;">
+    sizes="max-height: 120px" styleadd="bottom: -20px !important;">
 
     <div class="q-ma-sm q-gutter-sm q-pa-xs">
       <div v-if="!!myskill.note" v-html="myskill.note"></div>
@@ -22,6 +22,7 @@
         </CSkill>
       </div>
 
+      <!--
       <div class="row justify-evenly q-mt-md">
         <q-btn
           type="a" rounded size="md"
@@ -32,6 +33,7 @@
         </q-btn>
 
       </div>
+      -->
 
     </div>
 

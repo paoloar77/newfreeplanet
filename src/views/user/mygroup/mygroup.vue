@@ -4,7 +4,7 @@
 
       <div class="">
         <q-avatar size="140px">
-          <q-img :src="getImgGrp()" :alt="username" img-class="imgprofile" height="140px" @click="showPic = true"/>
+          <q-img :src="getImgGrp()" :alt="mygrpname()" img-class="imgprofile" height="140px" @click="showPic = true"/>
         </q-avatar>
       </div>
 
@@ -36,6 +36,10 @@
 
       <div v-if="mygrp.title">
         <br>
+        <div class="q-ma-sm q-gutter-sm q-pa-xs">
+          <div v-if="mygrp.note" v-html="mygrp.note">
+          </div>
+        </div>
       </div>
 
       <q-btn

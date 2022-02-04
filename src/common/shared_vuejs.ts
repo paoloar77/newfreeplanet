@@ -81,9 +81,10 @@ export const shared_consts = {
 
   PARAM_SHOW_PROVINCE: 1,
 
-  TABLES_ID_NUMBER: ['permissions', 'levels', 'statusSkills', 'sectors', 'skills', 'subskills', 'cities', 'provinces', 'myskills'],
+  TABLES_ID_NUMBER: ['permissions', 'levels', 'statusSkills', 'sectors', 'catgrps', 'skills', 'subskills', 'cities', 'provinces', 'myskills', 'mygroups'],
   TABLES_USER_ID: ['myskills'],
   TABLES_UPDATE_LASTMODIFIED: ['myskills', 'mybots'],
+  TABLES_FINDER: ['myskills', 'mygroups'],
 
   TABLES_PERM_CHANGE_FOR_USERS: ['myskills'],
 
@@ -687,15 +688,13 @@ export const shared_consts = {
   VisibilGroup: [
     {
       value: 1,
-      label: 'Pubblico',
+      label: 'Riservato',
+      hint: 'Per accedere al gruppo, verrà richiesto la password'
     },
     {
       value: 2,
-      label: 'Privato',
-    },
-    {
-      value: 4,
       label: 'Nascosto',
+      hint: 'il Gruppo non sarà visibile nella ricerca'
     },
   ],
 

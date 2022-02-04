@@ -1,6 +1,6 @@
 import { IToken } from '@model/other'
 import { ICart, IOrderCart, IShareWithUs } from '@src/model/Products'
-import { IGallery } from '@model/GlobalStore'
+import { IGallery, IImgGallery } from '@model/GlobalStore'
 
 const enum ESexType {
   None = 0,
@@ -17,7 +17,7 @@ export interface IMyGroup {
   groupname: string
   title?: string
   descr?: string
-  photos: IGallery[]
+  photos: IImgGallery[]
   visibility?: number
   date_created?: Date
   admins?: IFriends[]
@@ -69,7 +69,7 @@ export interface IUserProfile {
   myshares: IShareWithUs[]
   friends: IFriends[]
   req_friends: IFriends[]
-  groups: IMyGroup[]
+  mygroups: IMyGroup[]
 
   // in memory
   asked_friends: any[]

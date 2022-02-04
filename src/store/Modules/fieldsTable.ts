@@ -48,6 +48,9 @@ function AddCol(params: IColGridTable) {
     required: (params.required === undefined) ? false : params.required,
     label: (params.label === undefined) ? '' : params.label,
     label_trans: (params.label_trans === undefined) ? '' : params.label_trans,
+    visibleif: (params.visibleif === undefined) ? 0 : params.visibleif,
+    visib_field: (params.visib_field === undefined) ? '' : params.visib_field,
+    visib_value: (params.visib_value === undefined) ? '' : params.visib_value,
     align: (params.align === undefined) ? 'left' : params.align,
     field: (params.field === undefined) ? params.name : params.field,
     subfield: (params.subfield === undefined) ? '' : params.subfield,
@@ -62,6 +65,7 @@ function AddCol(params: IColGridTable) {
     action: (params.action === undefined) ? '' : params.action,
     foredit: (params.foredit === undefined) ? true : params.foredit,
     fieldtype: (params.fieldtype === undefined) ? costanti.FieldType.string : params.fieldtype,
+    field_outtype: (params.field_outtype === undefined) ? costanti.FieldType.string : params.field_outtype,
     tipovisu: (params.tipovisu === undefined) ? costanti.TipoVisu.TESTO : params.tipovisu,
     link: (params.link === undefined) ? '' : params.link,
     askaction: (params.askaction === undefined) ? '' : params.askaction,
@@ -69,6 +73,7 @@ function AddCol(params: IColGridTable) {
     jointable: (params.jointable === undefined) ? '' : params.jointable,
     addall: (params.addall === undefined) ? false : params.addall,
     filter: (params.filter === undefined) ? null : params.filter,
+    allowchar: (params.allowchar === undefined) ? null : params.allowchar,
     showWhen: (params.showWhen === undefined) ? costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView : params.showWhen,
     noshowlabel: (params.noshowlabel === undefined) ? false : params.noshowlabel,
     notsave: (params.notsave === undefined) ? false : params.notsave,
@@ -328,6 +333,24 @@ export const colSectors = [
   AddCol(DuplicateRec),
 ]
 
+export const colCatGrps = [
+  AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({
+    name: 'idCatGrp',
+    label_trans: 'sectors.name',
+    fieldtype: costanti.FieldType.select,
+    jointable: 'catgrps',
+  }),
+  AddCol({ name: 'main', label_trans: 'store.main', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'color', label_trans: 'products.color' }),
+  AddCol({ name: 'theme', label_trans: 'products.theme' }),
+  AddCol({ name: 'img', label_trans: 'store.img' }),
+  AddCol({ name: 'icon', label_trans: 'store.icon' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
 
 export const colLevels = [
   AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
@@ -431,24 +454,36 @@ export const colmyUserPeople = [
 
 export const colmyUserGroup = [
   // AddCol({ name: '_id', label_trans: 'reg.id' }),
-  AddCol({ name: 'groupname', label_trans: 'reg.groupname', required: true }),
-  AddCol({ name: 'title', label_trans: 'reg.name', required: true }),
+  AddCol({ name: 'groupname', label_trans: 'reg.groupname', required: true,
+    maxlength: 30,
+    allowchar: costanti.ALLOWCHAR_CODE,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
+  }),
+  AddCol({ name: 'title', label_trans: 'reg.name', required: true, noshowlabel: true, }),
   AddCol({
-    name: 'idSector',
-    label_trans: 'sectors.name',
+    name: 'idCatGrp',
+    label_trans: 'catgrps.name',
     fieldtype: costanti.FieldType.select,
     required: true,
-    jointable: 'sectors',
+    jointable: 'catgrps',
     visible: true,
     icon: 'category',
+    noshowlabel: true,
   }),
-  AddCol({ name: 'descr', label_trans: 'proj.longdescr', required: true }),
-  AddCol({ name: 'visibility', label_trans: 'bot.visibility', fieldtype: costanti.FieldType.select, jointable: 'visibilGroup', required: true }),
+  AddCol({ name: 'descr', label_trans: 'proj.longdescr', required: true, noshowlabel: true, }),
+  AddCol({ name: 'visibility', label_trans: 'bot.visibility', fieldtype: costanti.FieldType.multiselect, jointable: 'visibilGroup',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+  }),
+  AddCol({ name: 'pwd', label_trans: 'groups.pwd', fieldtype: costanti.FieldType.crypted,
+    visibleif: costanti.BINARY_CHECK, visib_field: 'visibility', visib_value: costanti.RISERVATO_PASSWORD,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
+  }),
   AddCol({
     name: 'admins',
     label_trans: 'groups.admins',
     fieldtype: costanti.FieldType.multiselect,
     jointable: 'friendsandme',
+    field_outtype: costanti.FieldType.object,
   }),
   AddCol({
     name: 'photos',
@@ -472,6 +507,10 @@ export const colmyUserGroup = [
   }),
   AddCol({ name: 'date_created', label_trans: 'reg.date_created', fieldtype: costanti.FieldType.onlydate,
     showWhen: costanti.showWhen.InPage + costanti.showWhen.InView_OnlyifExist }),
+  AddCol({ name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
+    titlepopupedit: 'Dettagli', field_extra1: 'groupname', subfield_extra1: '' }),
+  AddCol(ModifRec),
+  AddCol(DeleteRec),
 ]
 
 
@@ -1925,6 +1964,13 @@ export const fieldsTable = {
       value: 'sectors',
       label: 'Settori',
       columns: colSectors,
+      colkey: '_id',
+      collabel: 'descr',
+    },
+    {
+      value: 'catgrps',
+      label: 'Categorie',
+      columns: colCatGrps,
       colkey: '_id',
       collabel: 'descr',
     },

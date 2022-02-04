@@ -8,9 +8,9 @@
         </q-item-section>
 
         <q-item-section @click="naviga(`/grp/` + grp.groupname)">
-          <q-item-label><strong>{{ grp.name }} {{ grp.surname }}</strong> ({{ grp.groupname }})
+          <q-item-label><strong>{{ grp.title }}</strong> ({{ grp.groupname }})
           </q-item-label>
-          <q-item-label v-if="grp.profile" caption lines="1"><em>{{ grp.profile.qualifica }}</em></q-item-label>
+          <q-item-label v-if="grp.descr" caption lines="1"><em>{{ grp.descr }}</em></q-item-label>
         </q-item-section>
 
         <q-item-section side v-if="visu === costanti.MY_GROUPS">

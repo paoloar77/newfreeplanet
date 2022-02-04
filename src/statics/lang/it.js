@@ -502,6 +502,7 @@ const msg_it = {
       photo: 'Foto',
       images: 'Immagini',
       image: 'Immagine',
+      date_created: 'Creato il',
       err: {
         required: 'è richiesto',
         email: 'inserire una email valida',
@@ -841,6 +842,9 @@ const msg_it = {
     sectors: {
       name: 'Settore',
     },
+    catgrps: {
+      name: 'Categoria',
+    },
     contribtype: {
       name: 'Contributo'
     },
@@ -890,6 +894,7 @@ const msg_it = {
       block_group: 'Blocca Gruppo',
       cancel_ask_group: 'Annulla la richiesta',
       cancel_ask_group_short: 'Annulla richiesta',
+      pwd: 'Password per accedere',
     }
   },
 

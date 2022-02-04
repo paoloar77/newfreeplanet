@@ -121,6 +121,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     subSkills: [],
     statusSkills: [],
     sectors: [],
+    catgrps: [],
     cities: [],
   }),
 
@@ -239,6 +240,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return state.statusSkills
       else if (table === 'sectors')
         return state.sectors
+      else if (table === 'catgrps')
+        return state.catgrps
       else {
         return ris
       }
@@ -1223,6 +1226,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.statusSkills = (res.data.statusSkills) ? [...res.data.statusSkills] : []
             this.sectors = (res.data.sectors) ? [...res.data.sectors] : []
             this.cities = (res.data.cities) ? [...res.data.cities] : []
+            this.catgrps = (res.data.catgrps) ? [...res.data.catgrps] : []
 
             // console.log('res.data.cart', res.data.cart)
 
@@ -1389,6 +1393,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
       if (filter) {
         myarr = myarr.filter(filter)
       }
+
+      // console.log('myarr', table, myarr)
 
       return myarr
     },

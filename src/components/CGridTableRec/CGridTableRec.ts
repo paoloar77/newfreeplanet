@@ -5,6 +5,8 @@ import { tools } from '../../store/Modules/tools'
 
 import { fieldsTable } from '@store/Modules/fieldsTable'
 
+import { shared_consts } from '@/common/shared_vuejs'
+
 import {
   IColGridTable,
   IFilter,
@@ -313,6 +315,15 @@ export default defineComponent({
 
     function canModifyThisRec(rec: any) {
       // console.log('rec', rec)
+
+      if (tablesel.value === 'mygroups') {
+        // is Admin ?
+        const trovato = rec.admins.find((myuser: any) => myuser.username === userStore.my.username)
+        if (trovato) {
+          return !!trovato
+        }
+      }
+
       if (rec.hasOwnProperty('userId')) {
         let userId = rec.userId
         if (userId === userStore.my._id) {
@@ -819,6 +830,8 @@ export default defineComponent({
 
       await createNewRecordDialog()
 
+      console.log('newRecord.value', newRecord.value)
+
       serverData.value.push(newRecord.value)
       pagination.value.rowsNumber++
 
@@ -881,6 +894,7 @@ export default defineComponent({
     }
 
     function exec_func_table(table: string, func: number, par: IParamDialog) {
+
 
       if (func === lists.MenuAction.DELETE_RECTABLE) {
         globalStore.DeleteRec({ table, id: par.param1 }).then((ris) => {
@@ -1149,10 +1163,29 @@ export default defineComponent({
       return ok
     }
 
+    function getColMissing() {
+
+      let col: IColGridTable
+
+      for (col of mycolumns.value) {
+        if (col.required) {
+          // console.log('newRecord.value', newRecord.value, newRecord.value[col.name])
+          if (!newRecord.value[col.name]) {
+            // console.log('col.name', col.name)
+            return translate(col.label_trans)
+          }
+        }
+      }
+
+      return ''
+    }
+
     async function saveNewRecord() {
       // check if the field are setted
 
       if (!enableSaveNewRec()) {
+        tools.showNeutralNotif($q, 'Si prega di compilare il campo \'' + getColMissing() + '\'', 5000)
+
         return false
       }
 
@@ -1243,10 +1276,21 @@ export default defineComponent({
       return ((rec._id > 0 && typeof rec._id === 'number') || rec._id !== 'number') && rec !== -100
     }
 
-    function showColCheck(col: IColGridTable, tipovis: number, visulabel:boolean, value: any = ''){
+    function showColCheck(col: IColGridTable, tipovis: number, visulabel:boolean, value: any = '', record: any = null){
       const check = tools.checkIfShowField(col, tipovis, visulabel, value)
 
-      const valuePresent = (colVisib.value.includes(col.field! + col.subfield) || colVisib.value.includes(col.field + '.' + col.subfield))
+      let valuePresent = (colVisib.value.includes(col.field! + col.subfield) || colVisib.value.includes(col.field + '.' + col.subfield))
+
+      if (valuePresent && col.visibleif! > 0 && record) {
+        if (col.visib_field) {
+          if (col.visibleif === costanti.BINARY_CHECK) {
+            if (!tools.isBitActive(record[col.visib_field], col.visib_value))
+              valuePresent = false
+          }
+
+        }
+
+      }
 
       return check && valuePresent
     }
@@ -1337,6 +1381,7 @@ export default defineComponent({
       myvertical,
       showColCheck,
       getValueExtra,
+      shared_consts,
     }
   }
 })

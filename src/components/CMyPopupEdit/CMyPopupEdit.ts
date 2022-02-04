@@ -273,6 +273,9 @@ export default defineComponent({
     }
 
     function changevalRec(newval: any) {
+      if (col.value && col.value.allowchar === costanti.ALLOWCHAR_CODE) {
+        myvalue.value = tools.removespaces(newval)
+      }
       console.log('popypedit: changevalRec', newval)
       // console.log('row', props.row, 'col', props.mycol, 'newval', newval)
       // console.log('row[col.value.name]', props.row[col.value.name])
@@ -280,6 +283,7 @@ export default defineComponent({
         // console.log('image', newval)
       }
       myrow.value[col.value.name] = newval
+
       // console.log('changevalRec update:row', newval)
       emit('update:row', props.row)
       if (props.isInModif)
@@ -590,13 +594,13 @@ export default defineComponent({
     function getDirectoryGall() {
       let ris = ''
       if (fieldsTable.tableForUsers.includes(props.table)) {
-        console.log('1')
         ris = 'profile/' + myrow.value['username'] + '/' + props.table
       }else if (props.table === 'users') {
-        console.log('2')
         ris = 'profile/' + userStore.my.username
+      }else if (props.table === 'mygroups') {
+        if (myrow.value.hasOwnProperty('groupname'))
+          ris = 'mygroups/' + myrow.value['groupname']
       } else {
-        console.log('3')
         ris = props.table
       }
       return ris
@@ -639,6 +643,16 @@ export default defineComponent({
 
     }
 
+    function getToByCol(col: IColGridTable){
+      if (props.table === 'myskills') {
+        return '/mypage/'+ props.row['_id']
+      } else if (props.table === 'mygroups') {
+        return '/grp/' + props.row['groupname']
+      }
+
+      return ''
+    }
+
     onBeforeMount(mounted)
 
     crea()
@@ -677,6 +691,7 @@ export default defineComponent({
       myImgGall,
       noPopupeditByCol,
       getTitleEditor,
+      getToByCol,
     }
   }
 })

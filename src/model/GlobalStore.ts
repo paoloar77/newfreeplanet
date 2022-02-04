@@ -1,5 +1,5 @@
 import { IAction } from '@src/model/Projects'
-import { IPaymentType } from '@src/model/UserStore'
+import { IMyGroup, IPaymentType } from '@src/model/UserStore'
 import {
   IDepartment, IProducer, IShareWithUs, IStorehouse,
 } from '@src/model/Products'
@@ -261,6 +261,7 @@ export interface IGlobalState {
   subSkills: ISubSkill[],
   statusSkills: IStatusSkill[],
   sectors: ISector[],
+  catgrps: ICatGrp[],
   cities: ICity[],
 }
 
@@ -484,6 +485,9 @@ export interface IColGridTable {
   required?: boolean
   label?: string
   label_trans?: string
+  visibleif?: number
+  visib_field?: string
+  visib_value?: any
   align?: string
   field?: string
   sortable?: boolean
@@ -495,6 +499,7 @@ export interface IColGridTable {
   askaction?: string
   foredit?: boolean
   fieldtype?: number
+  field_outtype?: number
   noshowlabel?: boolean
   tipovisu?: number
   link?: string
@@ -506,6 +511,7 @@ export interface IColGridTable {
   notsave?: boolean
   showWhen?: number
   maxlength?: number
+  allowchar?: number
   filter_table?: string
   filter_field?: string
   remote_table?: string
@@ -627,6 +633,16 @@ export interface ISector {
   _id: number
   descr: string
   idSector?: number
+  icon?: string
+  img?: string
+  color: string
+  theme: string
+}
+
+export interface ICatGrp {
+  _id: number
+  descr: string
+  idCatGrp?: number
   icon?: string
   img?: string
   color: string

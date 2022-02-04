@@ -16,6 +16,10 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    type_out: {
+      type: Number,
+      required: false,
+    },
     optlab: {
       type: String,
       required: true,
@@ -66,9 +70,20 @@ export default defineComponent({
               console.log('optlab', props.optlab)
               console.log('myval.value', myval.value)
               console.log('rec[props.optval]', rec[props.optval])
+
                */
-              // @ts-ignore
-              if (myval.value.includes(rec[props.optval])) {
+
+              let trovato = false
+
+              if (props.type_out === costanti.FieldType.object) {
+                // @ts-ignore
+                trovato = myval.value.find((recout) => recout[props.optval] === rec[props.optval])
+              } else {
+                // @ts-ignore
+                trovato = myval.value.includes(rec[props.optval])
+              }
+
+              if (trovato) {
                 const mydata: any = {
                   label: null,
                   value: rec[props.optval],
