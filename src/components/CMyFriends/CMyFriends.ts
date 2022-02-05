@@ -38,6 +38,11 @@ export default defineComponent({
       required: false,
       default: 0,
     },
+    groupname: {
+      type: String,
+      required: false,
+      default: '',
+    }
   },
   setup(props, { emit }) {
     const userStore = useUserStore()
@@ -218,7 +223,7 @@ export default defineComponent({
 
     function refuseReqFriends(usernameDest: string) {
       $q.dialog({
-        message: t('db.domanda_removefriend', { username: usernameDest }),
+        message: t('db.domanda_revoke_friend', { username: usernameDest }),
         ok: { label: t('dialog.yes'), push: true },
         cancel: { label: t('dialog.cancel') },
         title: t('db.domanda')

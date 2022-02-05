@@ -51,6 +51,7 @@ export const DefaultUser: IUserFields = {
     friends: [],
     req_friends: [],
     mygroups: [],
+    manage_mygroups: [],
     asked_friends: [],
     asked_groups: [],
   },
@@ -95,6 +96,7 @@ export const DefaultProfile: IUserProfile = {
   friends: [],
   req_friends: [],
   mygroups: [],
+  manage_mygroups: [],
   asked_friends: [],
   asked_groups: [],
 }
@@ -177,7 +179,7 @@ export const useUserStore = defineStore('UserStore', {
     },
 
     IsMyGroupByGroupname(groupname: string): boolean {
-      if (this.my.profile.friends)
+      if (this.my.profile.mygroups)
         return this.my.profile.mygroups.findIndex((rec) => rec.groupname === groupname) >= 0
       else
         return false
@@ -475,6 +477,7 @@ export const useUserStore = defineStore('UserStore', {
           this.my.profile = DefaultProfile
 
           // Memory
+          this.my.profile.manage_mygroups = []
           this.my.profile.asked_friends = []
           this.my.profile.asked_groups = []
         }
@@ -856,7 +859,7 @@ export const useUserStore = defineStore('UserStore', {
               verified_by_aportador,
               made_gift,
               perm,
-              profile: { img, teleg_id, myshares: [], friends: [], req_friends: [], asked_friends: [], mygroups: [], asked_groups: [] },
+              profile: { img, teleg_id, myshares: [], friends: [], req_friends: [], asked_friends: [], mygroups: [], asked_groups: [], manage_mygroups: [] },
             })
 
             isLogged = true

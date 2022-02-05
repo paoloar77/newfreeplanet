@@ -8,7 +8,7 @@
         :prop_mycolumns="colmySkills"
         prop_colkey="idSkill"
         col_title="subTitle"
-        :vertical="true"
+        :vertical="-1"
         :choose_visutype="!visuinpage"
         :butt_modif_new="!visuinpage"
         nodataLabel="Nessuna Competenza inserita"

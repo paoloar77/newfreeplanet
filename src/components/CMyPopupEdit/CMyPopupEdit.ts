@@ -36,6 +36,11 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    isrec: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     mycol: {
       type: Object as PropType<IColGridTable>,
       required: true,
@@ -191,35 +196,42 @@ export default defineComponent({
     function crea() {
       // console.log('crea', isFieldDb())
 
-      if (isFieldDb()) {
-        // mykey -> field
-        // mysubkey -> subfield
-        // table -> table
-        // serv -> serv
-        // id -> id
-        // idmain -> idmain
+      if (props.isrec) {
+        col.value = props.mycol
 
-        // console.table(props)
-
-        myvalue.value = getValDb(props.field, props.serv, '', props.table, props.subfield, props.id, props.idmain)
-        // console.log('myvalue.value', myvalue.value)
-        col.value.jointable = props.jointable
-        col.value.fieldtype = props.type
-        col.value.label = props.title
-
-        if (props.type === costanti.FieldType.image) {
-          myImgGall.value = [{
-            _id: '',
-            imagefile: myvalue.value,
-            // order: 1,
-            alt: 'img',
-          }]
-        }
-
-        // console.log('col', col.value);
       } else {
-        col.value = {...props.mycol}
+        if (isFieldDb()) {
+          // mykey -> field
+          // mysubkey -> subfield
+          // table -> table
+          // serv -> serv
+          // id -> id
+          // idmain -> idmain
+
+          // console.table(props)
+
+          myvalue.value = getValDb(props.field, props.serv, '', props.table, props.subfield, props.id, props.idmain)
+          // console.log('myvalue.value', myvalue.value)
+          col.value.jointable = props.jointable
+          col.value.fieldtype = props.type
+          col.value.label = props.title
+
+          if (props.type === costanti.FieldType.image) {
+            myImgGall.value = [{
+              _id: '',
+              imagefile: myvalue.value,
+              // order: 1,
+              alt: 'img',
+            }]
+          }
+
+          // console.log('col', col.value);
+        } else {
+          col.value = { ...props.mycol }
+        }
       }
+
+      console.log('col.value', col.value)
 
       // console.log('CMyFieldDb crea', myvalue)
     }
@@ -307,7 +319,7 @@ export default defineComponent({
 
       try {
         // console.log('mounted', 'isFieldDb()', isFieldDb())
-        if (isFieldDb()) {
+        if (isFieldDb() && !props.isrec) {
 
         } else {
           if (props.subfield !== '') {

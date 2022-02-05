@@ -51,6 +51,50 @@
             </q-btn>
           </q-item-label>
         </q-item-section>
+        <q-item-section side v-if="visu === costanti.REQ_ADD_USER_TO_GROUP">
+          <q-item-label>
+            <q-btn rounded icon="fas fa-ellipsis-h">
+              <q-menu>
+                <q-list v-if="true" style="min-width: 150px">
+
+                  <q-item clickable v-close-popup @click="tools.addToMyGroups($q, contact.username, groupname)">
+                    <q-item-section avatar>
+                      <q-icon color="positive" name="fas fa-user-plus" />
+                    </q-item-section>
+                    <q-item-section>
+                      {{ $t('groups.accept_group') }}</q-item-section>
+                  </q-item>
+                </q-list>
+                <q-list style="min-width: 200px">
+                  <q-item clickable v-close-popup
+                          @click="tools.cancelReqGroups($q, contact.username, groupname)">
+                    <q-item-section avatar>
+                      <q-icon color="negative" name="fas fa-user-minus" />
+                    </q-item-section>
+
+                    <q-item-section>{{ $t('groups.refuse_ask_group_short') }}</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </q-item-label>
+        </q-item-section>
+        <q-item-section side v-if="visu === costanti.REQ_REMOVE_USER_TO_GROUP">
+          <q-item-label>
+            <q-btn rounded icon="fas fa-ellipsis-h">
+              <q-menu>
+                <q-list v-if="true" style="min-width: 150px">
+                  <q-item clickable v-close-popup @click="tools.removeFromMyGroups($q, contact.username, groupname)">
+                    <q-item-section avatar>
+                      <q-icon color="negative" name="fas fa-user-minus" />
+                    </q-item-section>
+                    <q-item-section>{{ $t('groups.remove_from_mygroups') }}</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </q-item-label>
+        </q-item-section>
         <q-item-section side v-if="visu === costanti.ASK_SENT_FRIENDS">
           <q-item-label>
             <q-btn rounded icon="fas fa-ellipsis-h">

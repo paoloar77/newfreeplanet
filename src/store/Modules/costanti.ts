@@ -16,6 +16,7 @@ export const costanti = {
   RISERVATO_PASSWORD: 1,
   NASCOSTO_CERCA: 2,
 
+  VISUTABLE_LISTA: 2,
   VISUTABLE_SCHEDA_USER: -1,
   VISUTABLE_SCHEDA_GROUP: -3,
 
@@ -36,10 +37,15 @@ export const costanti = {
   FIND_GROUP: 20,
   MY_GROUPS: 21,
   CREATE_GROUP: 30,
+  MANAGE_GROUPS: 31,
+
+  REQ_ADD_USER_TO_GROUP: 40,
+  REQ_REMOVE_USER_TO_GROUP: 41,
 
   FILTER_TUTTI: -100,
   TABLES_ARRAY: ['mygroups'],
   TABLES_USERNAME_DATE: ['friends', 'friendsandme'],
+  TABLES_IMG_USERNAME: ['friends', 'friendsandme'],
 
   FuncDialog: {
     CANCEL_BOOKING: 1,

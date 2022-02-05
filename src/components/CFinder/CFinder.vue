@@ -8,7 +8,7 @@
         :prop_mycolumns="colmySkills"
         prop_colkey="idSkill"
         col_title="subTitle"
-        :vertical="true"
+        :vertical="-1"
         :nodataLabel="idSector > 0 ? 'Nessuna Competenza trovata': 'Selezionare un Settore'"
         :prop_search="true"
         :finder="true"

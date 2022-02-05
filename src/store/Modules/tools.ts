@@ -12,7 +12,7 @@ import {
   ITodo,
   IUserFields,
   Privacy,
-  TipoVisu,
+  TipoVisu, IGroup,
 } from '@model'
 
 import { lists } from '@store/Modules/lists'
@@ -4437,12 +4437,37 @@ export const tools = {
       userStore.setGroupsCmd($q, t, username, groupnameDest, shared_consts.GROUPSCMD.SETGROUP, null)
         .then((res: any) => {
           if (res) {
-            userStore.my.profile.mygroups = [...userStore.my.profile.mygroups, res]
+            if (userStore.my.profile.mygroups)
+              userStore.my.profile.mygroups = [...userStore.my.profile.mygroups, res]
+            else
+              userStore.my.profile.mygroups = [res]
             tools.showPositiveNotif($q, t('db.addedgroup'))
           }
         })
     })
   },
+
+  removeFromMyGroups($q: any, username: string, groupnameDest: string) {
+    const userStore = useUserStore()
+
+    $q.dialog({
+      message: t('db.domanda_removegroup', { username }),
+      ok: { label: t('dialog.yes'), push: true },
+      cancel: { label: t('dialog.cancel') },
+      title: t('db.domanda')
+    }).onOk(() => {
+
+      userStore.setGroupsCmd($q, t, username, groupnameDest, shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP, null).then((res) => {
+        if (res) {
+          if (userStore.my.profile.mygroups) {
+            userStore.my.profile.mygroups = userStore.my.profile.mygroups.filter((rec: IMyGroup) => rec.groupname !== groupnameDest)
+            tools.showPositiveNotif($q, t('db.removedgroup'))
+          }
+        }
+      })
+    })
+  },
+
   setRequestFriendship($q: any, username: string, usernameDest: string, value: boolean) {
 
     const userStore = useUserStore()
@@ -4544,10 +4569,10 @@ export const tools = {
       })
     })
   },
-   cancelReqGroups($q: any, username: string, groupnameDest: string) {
+  cancelReqGroups($q: any, username: string, groupnameDest: string) {
     const userStore = useUserStore()
     $q.dialog({
-      message: t('db.domanda_cancel_req_group', { groupname: groupnameDest }),
+      message: t('db.domanda_cancel_req_group', { username, groupname: groupnameDest }),
       ok: { label: t('dialog.yes'), push: true },
       cancel: { label: t('dialog.cancel') },
       title: t('db.domanda')
@@ -4693,6 +4718,29 @@ export const tools = {
 
     //  (!col.noShowView || (col.noShowView && isInModif)) ||
     //   (!visulabel && !col.showOnlyNewRec && !col.noShowView)
+  },
+
+  iAmAdminGroup(groupname: string) {
+    const userStore = useUserStore()
+
+    let risultato = false
+
+    if (userStore.my.profile.manage_mygroups) {
+      const ris = userStore.my.profile.manage_mygroups.find((grp: IMyGroup) => {
+        if (grp.groupname === groupname) {
+          return true
+        }
+      })
+      // console.log('ris', ris)
+      if (ris && ris.admins) {
+        const isadmin = ris.admins.find((user: IFriends) => user.username === userStore.my.username)
+        risultato = !!isadmin
+      }
+
+    }
+
+    return risultato
+
   },
 
 // getLocale() {

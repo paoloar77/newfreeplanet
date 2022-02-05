@@ -297,7 +297,6 @@
         <br>
       </template>
 
-
       <template v-slot:item="props">
         <div v-if="((showType === costanti.SHOW_USERINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_USER) || ((myvertical === 2) && (tablesel === 'users' || tablesel === 'myskills'))" class="fill-all-width">
           <div>
@@ -305,7 +304,8 @@
               v-model="filter"
               :finder="false"
               :mycontact="props.row"
-              :visu="costanti.FIND_PEOPLE"
+              :visu="visufind"
+              :groupname="extrafield"
             />
           </div>
 

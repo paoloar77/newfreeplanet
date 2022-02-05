@@ -36,11 +36,6 @@
           <q-item-label>
             <q-btn rounded icon="fas fa-ellipsis-h">
               <q-menu>
-                <q-list v-if="true" style="min-width: 150px">
-                  <q-item clickable v-close-popup @click="setCmd(shared_consts.GROUPSCMD.SETGROUP, grp.groupname)">
-                    <q-item-section>{{ $t('groups.accept_group') }}</q-item-section>
-                  </q-item>
-                </q-list>
                 <q-list style="min-width: 150px">
                   <q-item clickable icon="fas fa-user-minus" v-close-popup
                           @click="setCmd(shared_consts.GROUPSCMD.REQGROUP, grp.groupname, false)">
@@ -67,37 +62,14 @@
         </q-item-section>
         <q-item-section side v-if="visu === costanti.FIND_GROUP">
           <q-item-label>
-            <q-btn v-if="grp.admins && grp.admins.includes(userStore.my.username)" rounded :icon="userStore.IsMyGroupByGroupname(grp.groupname) ? `fas fa-ellipsis-h` : `fas fa-user`">
+            <q-btn rounded :icon="userStore.IsMyGroupByGroupname(grp.groupname) ? `fas fa-ellipsis-h` : `fas fa-user`">
               <q-menu>
                 <q-list v-if="(!userStore.IsMyGroupByGroupname(grp.groupname) && !userStore.IsAskedGroupByGroupname(grp.groupname))" style="min-width: 200px">
                   <q-item clickable v-close-popup @click="setCmd(shared_consts.GROUPSCMD.REQGROUP, grp.groupname, true)">
                     <q-item-section>{{ $t('groups.ask_group') }}</q-item-section>
                   </q-item>
                 </q-list>
-                <q-list v-else-if="(!userStore.IsMyGroupByGroupname(grp.groupname) && userStore.IsAskedGroupByUsername(grp.groupname))" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd(shared_consts.GROUPSCMD.REQGROUP, grp.groupname, false)">
-                    <q-item-section>{{ $t('groups.cancel_ask_group') }}</q-item-section>
-                  </q-item>
-                </q-list>
-                <q-list v-else-if="userStore.IsMyGroupByGroupname(grp.groupname)" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd(shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUPS, grp.groupname)">
-                    <q-item-section>{{ $t('groups.remove_from_mygroups') }}</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
-          </q-item-label>
-        </q-item-section>
-        <q-item-section side v-if="visu === costanti.FIND_GROUP">
-          <q-item-label>
-            <q-btn v-if="grp.admins && grp.admins.includes(userStore.my.username)" rounded :icon="userStore.IsMyGroupByGroupname(grp.groupname) ? `fas fa-ellipsis-h` : `fas fa-user`">
-              <q-menu>
-                <q-list v-if="(!userStore.IsMyGroupByGroupname(grp.groupname) && !userStore.IsAskedGroupByGroupname(grp.groupname))" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd(shared_consts.GROUPSCMD.REQGROUP, grp.groupname, true)">
-                    <q-item-section>{{ $t('groups.ask_group') }}</q-item-section>
-                  </q-item>
-                </q-list>
-                <q-list v-else-if="(!userStore.IsMyGroupByGroupname(grp.groupname) && userStore.IsAskedGroupByUsername(grp.groupname))" style="min-width: 200px">
+                <q-list v-else-if="(!userStore.IsMyGroupByGroupname(grp.groupname) && userStore.IsAskedGroupByGroupname(grp.groupname))" style="min-width: 200px">
                   <q-item clickable v-close-popup @click="setCmd(shared_consts.GROUPSCMD.REQGROUP, grp.groupname, false)">
                     <q-item-section>{{ $t('groups.cancel_ask_group') }}</q-item-section>
                   </q-item>

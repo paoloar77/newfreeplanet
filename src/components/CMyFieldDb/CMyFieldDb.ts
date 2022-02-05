@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, onMounted, PropType, ref, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { useI18n } from '@/boot/i18n'
 import { useGlobalStore } from '@store/globalStore'
@@ -75,6 +75,18 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    rec: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    mycol: {
+      type: Object as PropType<IColGridTable>,
+      required: false,
+      default: () => {
+        return { name: '' }
+      },
+    },
     id: {
       type: String,
       required: false,
@@ -117,6 +129,17 @@ export default defineComponent({
     function withBorder() {
       return col.value.fieldtype !== costanti.FieldType.onlydate && col.value.fieldtype !== costanti.FieldType.date
     }
+
+    function mounted() {
+      if (props.rec) {
+        row.value = props.rec
+      }
+      if (props.mycol.name !== '') {
+        col.value = props.mycol
+      }
+    }
+
+    onMounted(mounted)
 
     return {
       tools,

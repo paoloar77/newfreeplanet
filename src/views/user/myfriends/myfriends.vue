@@ -10,7 +10,7 @@
         :prop_mycolumns="colmyUserPeople"
         prop_colkey="_id"
         col_title="username"
-        :vertical="true"
+        :vertical="-1"
         nodataLabel=" "
         :prop_search="true"
         hint="Username da trovare"

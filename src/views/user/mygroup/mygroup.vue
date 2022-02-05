@@ -1,4 +1,5 @@
 <template>
+
   <div class="q-gutter-sm q-pa-sm q-pb-md">
     <div v-if="mygrp.descr" class="fit column no-wrap justify-evenly items-center content-start">
 
@@ -14,11 +15,21 @@
       <div class="col-12 text-h7 text-blue text-shadow-2">
         {{ mygrp.groupname }}
       </div>
+      <div>
+        <CMyFieldRec
+          title="Visibilità"
+          table="mygroups"
+          :columns="colmyUserGroup"
+          :rec="mygrp"
+          field="visibility"
+          :canModify="false">
+        </CMyFieldRec>
+      </div>
       <div class="col-12 text-h7">
         <span v-if="checkifShow('descr')">{{ mygrp.descr }}</span>
       </div>
 
-      <div v-if="mygrp.admins && !mygrp.admins.includes(userStore.my.username)">
+      <div>
         <q-btn
           v-if="!userStore.IsMyGroupByGroupname(mygrp.groupname) && !userStore.IsAskedGroupByGroupname(mygrp.groupname)"
           icon="fas fa-user-plus"
@@ -73,7 +84,80 @@
             :href="getLinkWebSite()" target="__blank">
           </q-btn>
         </div>
+
       </div>
+      <div v-if="tools.iAmAdminGroup(groupname)">
+        <q-tabs v-model="tab" class="text-blue">
+          <q-tab label="Membri" name="membri" icon="fas fa-users"></q-tab>
+          <q-tab label="Richieste" name="rich" icon="fas fa-user-plus"></q-tab>
+        </q-tabs>
+
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="membri">
+            <CGridTableRec
+              ref="tabMembri"
+              prop_mytable="users"
+              prop_mytitle=""
+              :prop_mycolumns="colmyUserPeople"
+              prop_colkey="_id"
+              col_title="username"
+              :vertical="costanti.VISUTABLE_LISTA"
+              nodataLabel="Nessun Membro"
+              :prop_search="true"
+              hint="Username da trovare"
+              :finder="false"
+              :choose_visutype="true"
+              :finder_noNull="false"
+              :options="shared_consts.OPTIONS_SEARCH_USER_ONLY_FULL_WORDS"
+              :butt_modif_new="false"
+              noresultLabel="Username non trovato"
+              :arrfilters="arrfilterand"
+              :filtercustom="filtercustom"
+              :prop_searchList="searchList"
+              :showType="costanti.SHOW_USERINFO"
+              keyMain=""
+              :showCol="false"
+              :extrafield="groupname"
+              :extraparams="extraparams()"
+              :visufind="costanti.REQ_REMOVE_USER_TO_GROUP"
+            >
+
+            </CGridTableRec>
+          </q-tab-panel>
+          <q-tab-panel name="rich">
+            <CGridTableRec
+              prop_mytable="mygroups"
+              prop_mytitle=""
+              :prop_mycolumns="colmyUserPeople"
+              prop_colkey="_id"
+              col_title="username"
+              :vertical="costanti.VISUTABLE_LISTA"
+              nodataLabel=" "
+              :prop_search="false"
+              hint="Username da trovare"
+              :finder="false"
+              :choose_visutype="false"
+              :finder_noNull="false"
+              :options="shared_consts.OPTIONS_SEARCH_USER_ONLY_FULL_WORDS"
+              :butt_modif_new="false"
+              noresultLabel="Username non trovato"
+              :arrfilters="arrfilterand"
+              :filtercustom="filtercustom_rich"
+              :prop_searchList="searchList"
+              :showType="costanti.SHOW_USERINFO"
+              keyMain=""
+              :showCol="false"
+              :extraparams="extraparams()"
+              :extrafield="groupname"
+              :visufind="costanti.REQ_ADD_USER_TO_GROUP"
+            >
+
+            </CGridTableRec>
+          </q-tab-panel>
+        </q-tab-panels>
+
+      </div>
+
     </div>
     <div v-else class="fit column no-wrap justify-evenly items-center content-start">
       <q-skeleton type="QAvatar" size="140px" height="140px" animation="fade"/>

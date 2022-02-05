@@ -90,9 +90,9 @@ export default defineComponent({
       default: false,
     },
     vertical: {
-      type: Boolean,
+      type: Number,
       required: false,
-      default: false,
+      default: 0,
     },
     prop_codeId: {
       type: String,
@@ -181,7 +181,17 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
-    }
+    },
+    visufind: {
+      type: Number,
+      required: false,
+      default: costanti.FIND_PEOPLE,
+    },
+    extrafield: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends, CMyGroups },
   setup(props, { emit }) {
@@ -242,7 +252,7 @@ export default defineComponent({
 
     const mycodeid = toRef(props, 'prop_codeId')
 
-    const myvertical = ref(0)
+    const myvertical = ref(props.vertical)
 
     const valoriopt = computed(() => (item: any, addall: boolean) => {
       // console.log('valoriopt', item.table)
@@ -318,9 +328,11 @@ export default defineComponent({
 
       if (tablesel.value === 'mygroups') {
         // is Admin ?
-        const trovato = rec.admins.find((myuser: any) => myuser.username === userStore.my.username)
-        if (trovato) {
-          return !!trovato
+        if (rec.admins) {
+          const trovato = rec.admins.find((myuser: any) => myuser.username === userStore.my.username)
+          if (trovato) {
+            return !!trovato
+          }
         }
       }
 
@@ -859,7 +871,7 @@ export default defineComponent({
       colkey.value = props.prop_colkey
       pagination.value = props.prop_pagination
 
-      myvertical.value = props.vertical ? -1 : 0
+      myvertical.value = props.vertical
       if (props.finder) {
         myvertical.value = tools.getCookie('myv', 0)
       }

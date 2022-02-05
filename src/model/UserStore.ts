@@ -70,6 +70,7 @@ export interface IUserProfile {
   friends: IFriends[]
   req_friends: IFriends[]
   mygroups: IMyGroup[]
+  manage_mygroups: IMyGroup[]
 
   // in memory
   asked_friends: any[]

@@ -25,6 +25,11 @@ export default defineComponent({
     visu: {
       type: Number,
       required: true,
+    },
+    groupname: {
+      type: String,
+      required: false,
+      default: '',
     }
   },
 
@@ -82,6 +87,7 @@ export default defineComponent({
       setCmd,
       shared_consts,
       userStore,
+      tools,
     }
   },
 })

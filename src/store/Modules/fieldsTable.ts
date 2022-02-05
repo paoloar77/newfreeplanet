@@ -446,7 +446,7 @@ export const colmyUserPeople = [
   AddCol({ name: 'name', label_trans: 'reg.name' }),
   AddCol({
     name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
   }),
   // AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
   // AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),

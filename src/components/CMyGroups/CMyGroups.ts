@@ -55,8 +55,8 @@ export default defineComponent({
           arr = userStore.my.profile.mygroups
         } else if (props.modelValue === costanti.MY_GROUPS) {
           arr = userStore.my.profile.mygroups
-        // } else if (props.modelValue === costanti.REQ_GROUP) {
-          //   arr = userStore.my.profile.req_groups
+        } else if (props.modelValue === costanti.MANAGE_GROUPS) {
+          arr = userStore.my.profile.manage_mygroups
         } else if (props.modelValue === costanti.ASK_SENT_GROUP) {
           arr = userStore.my.profile.asked_groups
         }
@@ -70,7 +70,8 @@ export default defineComponent({
     const myoptions = computed(() => {
       const mybutt = []
       mybutt.push({ label: t('mypages.find_group'), value: costanti.FIND_GROUP })
-      mybutt.push({ label: t('mypages.my_groups') + ' (' + numGroups.value + ')', value: costanti.MY_GROUPS })
+      mybutt.push({ label: t('mypages.manage_my_groups') + ' (' + numManageGroups.value + ')', value: costanti.MANAGE_GROUPS })
+      mybutt.push({ label: t('mypages.follow_groups') + ' (' + numMyGroups.value + ')', value: costanti.MY_GROUPS })
 
       if (numAskSentGroups.value > 0 || props.modelValue === costanti.ASK_SENT_GROUP)
         mybutt.push({
@@ -81,7 +82,12 @@ export default defineComponent({
       return mybutt
     })
 
-    const numGroups = computed(() => {
+    const numManageGroups = computed(() => {
+      const arr = userStore.my.profile.manage_mygroups
+      return (arr) ? arr.length : 0
+    })
+
+    const numMyGroups = computed(() => {
       const arr = userStore.my.profile.mygroups
       return (arr) ? arr.length : 0
     })
@@ -107,23 +113,6 @@ export default defineComponent({
       }
     }
 
-    function removeFromMyGroups(groupnameDest: string) {
-      $q.dialog({
-        message: t('db.domanda_removegroup', { username: groupnameDest }),
-        ok: { label: t('dialog.yes'), push: true },
-        cancel: { label: t('dialog.cancel') },
-        title: t('db.domanda')
-      }).onOk(() => {
-
-        userStore.setGroupsCmd($q, t, username.value, groupnameDest, shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP, null).then((res) => {
-          if (res) {
-            userStore.my.profile.mygroups = userStore.my.profile.mygroups.filter((rec: IMyGroup) => rec.groupname !== groupnameDest)
-            tools.showPositiveNotif($q, t('db.removedgroup'))
-          }
-        })
-      })
-    }
-
     function blockGroup(usernameDest: string) {
       $q.dialog({
         message: t('db.domanda_blockgroup', { groupname: usernameDest }),
@@ -142,7 +131,7 @@ export default defineComponent({
 
     function setCmd(cmd: number, groupnameDest: string, value: any = '') {
       if (cmd === shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP) {
-        removeFromMyGroups(groupnameDest)
+        tools.removeFromMyGroups($q, username.value, groupnameDest)
       } else if (cmd === shared_consts.GROUPSCMD.BLOCK_GROUP) {
         blockGroup(groupnameDest)
       } else if (cmd === shared_consts.GROUPSCMD.SETGROUP) {

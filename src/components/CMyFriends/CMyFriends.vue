@@ -37,7 +37,8 @@
       <CMyUser
         :mycontact="mycontact"
         @setCmd="setCmd"
-        :visu="visu">
+        :visu="visu"
+        :groupname="groupname">
       </CMyUser>
       </span>
     </q-list>
