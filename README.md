@@ -1,4 +1,4 @@
-# First Proj (firstproj)
+# NewFreePlanet
 
 A Quasar Framework app
 
@@ -7,19 +7,20 @@ A Quasar Framework app
 yarn
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Start the app in development mode (PWA)
 ```bash
-quasar dev
+npm run pwa
 ```
 
-### Lint the files
+### Build the app for test Server
 ```bash
-yarn run lint
+./deploy_on_test_server.sh
 ```
+
 
 ### Build the app for production
 ```bash
-quasar build
+./deploy_on_production.sh
 ```
 
 ### Customize the configuration
