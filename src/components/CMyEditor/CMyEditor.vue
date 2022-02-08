@@ -25,7 +25,7 @@
           </q-btn>
 
           <q-editor
-            ref="editor"
+            ref="editorRef"
             content-class="wrap_anywhere"
             toolbar-text-color="white"
             toolbar-toggle-color="yellow-8"
@@ -33,7 +33,7 @@
             :toolbar="toolbarcomp"
             :fonts="myfonts"
             @update:model-value="changeval"
-            @paste="evt => pasteCapture(evt)"
+            @paste="onPaste"
             @keyup.enter.stop
             v-model="myvalue">
           </q-editor>

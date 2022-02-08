@@ -13,7 +13,7 @@
       </q-item-section>
 
       <q-item-section>
-        <q-item-label>{{ user.name }} {{ user.surname }} {{ getindorder(user) }}<br>
+        <q-item-label><span v-if="user.name">{{ user.name }} {{ user.surname }}</span> {{ getindorder(user) }}<br>
           <span class="text-grey">({{ getusername(user) }}) <strong>{{ getquanti(user)}}</strong></span>
           <br><!--<span v-if="isextralist(user)" class="notreg">{{ $t('dashboard.notreg') }}</span>-->
         </q-item-label>

@@ -444,6 +444,8 @@ export interface IFunctionality {
   ENABLE_REG_AYNI?: boolean
   ENABLE_REG_CNM?: boolean
   ENABLE_REG_ISP?: boolean
+  SHOW_NAMESURNAME?: boolean
+  ENABLE_GROUPS?: boolean
 }
 
 export interface IParLookup {

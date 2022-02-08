@@ -14,6 +14,7 @@ import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
 import { IUserFields } from 'model'
 import { shared_consts } from '@/common/shared_vuejs'
+import { static_data } from '@/db/static_data'
 
 
 export default defineComponent({
@@ -106,6 +107,7 @@ export default defineComponent({
       myusername,
       userStore,
       t,
+      static_data,
       animation,
     }
   }

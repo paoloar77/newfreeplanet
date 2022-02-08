@@ -22,6 +22,7 @@ import { complexity, registereduser, aportadorexist } from '../../validation'
 
 // import 'vue3-tel-input/dist/vue3-tel-input.css'
 import { useRoute, useRouter } from 'vue-router'
+import { static_data } from '@/db/static_data'
 
 // import {Loading, QSpinnerFacebook, QSpinnerGears} from 'quasar'
 
@@ -49,6 +50,11 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    show_namesurname: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   setup(props, { emit }) {
     const $q = useQuasar()
@@ -65,8 +71,8 @@ export default defineComponent({
     const signup = reactive(<ISignupOptions>{
       email: process.env.TEST_EMAIL || '',
       username: process.env.TEST_USERNAME || '',
-      name: process.env.TEST_NAME || '',
-      surname: process.env.TEST_SURNAME || '',
+      name: static_data.functionality.SHOW_NAMESURNAME ? (process.env.TEST_NAME || '') : '',
+      surname: static_data.functionality.SHOW_NAMESURNAME ? (process.env.TEST_SURNAME || '') : '',
       password: process.env.TEST_PASSWORD || '',
       repeatPassword: process.env.TEST_PASSWORD || '',
       terms: !process.env.PROD,
@@ -75,7 +81,7 @@ export default defineComponent({
     })
 
     const validations: any = computed(() => {
-      return {
+      let valid: any = {
         repeatPassword: {
           required,
           repeatPassword: sameAs(signup.password),
@@ -90,12 +96,6 @@ export default defineComponent({
           minLength: minLength(6),
           registereduser,
         },
-        name: {
-          required,
-        },
-        surname: {
-          required,
-        },
         terms: {
           required,
         },
@@ -104,6 +104,17 @@ export default defineComponent({
           required
         }
       }
+
+      if (props.show_namesurname) {
+        valid.name = {
+          required,
+        }
+        valid.surname = {
+          required,
+        }
+      }
+
+      return valid
     })
 
     // @ts-ignore
@@ -176,8 +187,10 @@ export default defineComponent({
         return
       } */
 
-      signup.name = tools.CapitalizeAllWords(signup.name)
-      signup.surname = tools.CapitalizeAllWords(signup.surname)
+      if (signup.name) {
+        signup.name = tools.CapitalizeAllWords(signup.name)
+        signup.surname = tools.CapitalizeAllWords(signup.surname)
+      }
 
       $q.loading.show({ message: t('reg.incorso') })
 

@@ -1,8 +1,8 @@
 {
-  "name": "insiemesipuo",
-  "version": "0.1.0",
-  "description": "Insieme Si Puo",
-  "productName": "Insieme Si Puo",
+  "name": "freeplanet",
+  "version": "0.0.7",
+  "description": "FreePlanet",
+  "productName": "FreePlanet",
   "author": "Paolo Arena",
   "private": true,
   "keywords": [

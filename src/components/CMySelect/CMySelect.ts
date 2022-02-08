@@ -126,6 +126,10 @@ export default defineComponent({
       type: String,
       required: false,
       default: '',
+    },
+    filter: {
+      type: Function,
+      required: false,
     }
   },
   components: {},
@@ -194,7 +198,7 @@ export default defineComponent({
               // console.log('-----------  arrtempOpt.value', arrtempOpt.value)
 
               localStorage.setItem(props.tablesel + num + props.optval, id)
-              localStorage.setItem(props.tablesel + num + props.optlab, rec[`${props.optlab}`])
+              localStorage.setItem(props.tablesel + num + props.optlab, tools.getValueByFunzOrVal(rec, props.optlab))
 
               num += 1
               localStorage.setItem(props.tablesel + 'NUM', num.toString())
@@ -320,7 +324,7 @@ export default defineComponent({
       }
 
       if (props.tablesel === 'friendsandme') {
-        debugger;
+        // debugger;
       }
 
       if (props.multiple) {
@@ -349,7 +353,7 @@ export default defineComponent({
           if (props.funcgetvaluebyid)
             myvalue.value = props.funcgetvaluebyid(rec[`${props.optval}`])
           else
-            myvalue.value = rec[`${props.optlab}`]
+            myvalue.value = tools.getValueByFunzOrVal(rec, props.optlab)
         } else {
           // if (!props.useinput) {
           if (props.value) {
@@ -372,12 +376,15 @@ export default defineComponent({
     function updateArrOptions() {
       let myarr: any = []
 
+      // console.log(props.col.jointable, props.filter)
       if (props.col.jointable) {
-        optionsreal.value = globalStore.getTableJoinByName(props.col.jointable, props.col.addall, props.col.filter)
+        optionsreal.value = globalStore.getTableJoinByName(props.col.jointable, props.col.addall, props.filter)
         // console.log('optionsreal.value', optionsreal.value)
       } else {
         optionsreal.value = props.options
       }
+
+      // console.log('optionsreal.value', optionsreal.value)
 
       myarr = optionsreal.value
       if (!fieldsTable.tableRemotePickup.includes(props.tablesel)) {
@@ -386,7 +393,7 @@ export default defineComponent({
 
         // console.log('needle', needle, 'props.multiple', props.multiple)
         if (props.filter_table) {
-          console.log('  FILTERTABLE', props.filter_field, myarr)
+          // console.log('  FILTERTABLE', props.filter_field, myarr)
           if (props.multiple) {
             myarr = myarr.filter((rec: any) => rec[props.filter_field] === needle)
           } else {
@@ -578,6 +585,7 @@ export default defineComponent({
       abortFilterFn,
       newvaluefuncfirst,
       getIcon,
+      tools,
     }
   }
 })

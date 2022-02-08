@@ -105,7 +105,7 @@
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
             <q-item-section>
-              <q-item-label> {{ scope.opt[optlab] }}</q-item-label>
+              <q-item-label> {{ tools.getValueByFunzOrVal(scope.opt,optlab) }}</q-item-label>
             </q-item-section>
           </q-item>
         </template>
@@ -139,7 +139,7 @@
         </template>
         <template
           v-slot:selected-item="scope">
-          <div v-if="scope.opt[optlab]">
+          <div v-if="tools.getValueByFunzOrVal(scope.opt,optlab)">
             <q-chip
               removable
               dense
@@ -149,7 +149,7 @@
               class="q-my-none q-ml-xs q-mr-none"
             >
               <q-avatar color="primary" text-color="white" :icon="scope.opt.icon ? scope.opt.icon : ''" size="12px"/>
-              {{ scope.opt[optlab] }}
+              {{ tools.getValueByFunzOrVal(scope.opt, optlab) }}
             </q-chip>
           </div>
         </template>
@@ -158,7 +158,7 @@
           v-slot:option="{ itemProps, opt, selected, toggleOption }">
           <q-item v-bind="itemProps">
             <q-item-section>
-              <q-item-label>{{ opt[optlab] }}</q-item-label>
+              <q-item-label>{{ tools.getValueByFunzOrVal(opt,optlab) }}</q-item-label>
               <q-item-label v-if="'hint' in opt" class="hint">{{ opt['hint'] }}</q-item-label>
             </q-item-section>
             <q-item-section side>
@@ -200,7 +200,7 @@
               <q-icon :name="scope.opt.icon ? scope.opt.icon : ''"/>
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ scope.opt[optlab] }}</q-item-label>
+              <q-item-label>{{ tools.getValueByFunzOrVal(scope.opt,optlab) }}</q-item-label>
               <q-item-label v-if="'hint' in scope.opt" class="hint">{{ scope.opt['hint'] }}</q-item-label>
             </q-item-section>
           </q-item>

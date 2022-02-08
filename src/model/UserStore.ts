@@ -14,6 +14,7 @@ export interface IFriends {
 }
 
 export interface IMyGroup {
+  _id: string
   groupname: string
   title?: string
   descr?: string
@@ -75,6 +76,7 @@ export interface IUserProfile {
   // in memory
   asked_friends: any[]
   asked_groups: any[]
+  list_usersgroup?: IFriends[]
 }
 
 export interface IPaymentType {

@@ -284,31 +284,21 @@ module.exports = configure((ctx) => ({
     },
 
     manifest: {
-      name: 'InsiemeSiPuo',
-      short_name: 'InsiemeSiPuo',
-      description: 'Insieme Si Può',
+      name: 'FreePlanet',
+      short_name: 'FreePlanet',
+      description: 'New Free Social',
       display: 'standalone',
       orientation: 'portrait',
       background_color: '#ffffff',
       theme_color: '#027be3',
       icons: [
         {
-          src: 'images/isp-android-icon-96x96.png',
-          sizes: '96x96',
+          src: 'images/android-chrome-192x192.png',
+          sizes: '384x384',
           type: 'image/png',
         },
         {
-          src: 'images/isp-android-icon-144x144.png',
-          sizes: '144x144',
-          type: 'image/png',
-        },
-        {
-          src: 'images/isp-android-icon-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
-        },
-        {
-          src: 'images/isp-android-icon-512x512.png',
+          src: 'images/android-chrome-512x512.png',
           sizes: '512x512',
           type: 'image/png',
         },
@@ -346,7 +336,7 @@ module.exports = configure((ctx) => ({
     builder: {
       // https://www.electron.build/configuration/configuration
 
-      appId: 'InsiemeSiPuo',
+      appId: 'firstproj',
     },
 
     // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

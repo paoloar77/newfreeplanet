@@ -1,5 +1,6 @@
 import { CGridTableRec } from '@/components/CGridTableRec'
 import { CMyFriends } from '@/components/CMyFriends'
+import { CMyUser } from '@/components/CMyUser'
 import { CTitleBanner } from '@/components/CTitleBanner'
 import { CProfile } from '@/components/CProfile'
 import { CMyFieldRec } from '@/components/CMyFieldRec'
@@ -21,7 +22,7 @@ import { colmyUserPeople, colmyUserGroup } from '@store/Modules/fieldsTable'
 
 export default defineComponent({
   name: 'mygroup',
-  components: { CProfile, CTitleBanner, CMyFieldRec, CSkill, CDateTime, CMyFriends, CGridTableRec },
+  components: { CProfile, CTitleBanner, CMyFieldRec, CSkill, CDateTime, CMyFriends, CGridTableRec, CMyUser },
   props: {},
   setup() {
     const userStore = useUserStore()
@@ -39,6 +40,7 @@ export default defineComponent({
     const mygrp = ref(<IMyGroup|null>{})
     const users_in_group = ref(<IFriends[]>[])
 
+    const tabgrp = ref('info')
     const tab = ref('membri')
 
     const arrfilterand: any = ref([])
@@ -54,10 +56,10 @@ export default defineComponent({
       return userStore.my.username
     }
 
-    function loadGroup() {
+    async function loadGroup() {
       // Carica il profilo di quest'utente
       if (groupname.value) {
-        userStore.loadGroup(groupname.value).then((ris) => {
+        await userStore.loadGroup(groupname.value).then((ris) => {
           if (ris) {
             mygrp.value = ris.mygroup
             users_in_group.value = ris.users_in_group
@@ -75,13 +77,14 @@ export default defineComponent({
       loadGroup()
     })
 
-    function mounted() {
-      loadGroup()
+    async function mounted() {
+      await loadGroup()
 
       searchList.value = []
       filtercustom.value = [{ 'profile.mygroups': { $elemMatch: {groupname: {$eq: groupname.value }} } } ]
-      filtercustom_rich.value = [{ req_users: { $elemMatch: {username: {$eq: userStore.my.username }} } } ]
+
       arrfilterand.value = []
+      filtercustom_rich.value = []
       //++TODO: sistemare la filtercustom ... richieste...
     }
 
@@ -124,11 +127,11 @@ export default defineComponent({
     }
 
     function extraparams() {
-      let lk_tab = 'users'
-      let lk_LF = 'userId'
-      let lk_FF = '_id'
-      let lk_as = 'user'
-      let af_objId_tab = 'myId'
+      let lk_tab = ''
+      let lk_LF = ''
+      let lk_FF = ''
+      let lk_as = ''
+      let af_objId_tab = ''
 
       return {
         lookup1: {
@@ -138,13 +141,29 @@ export default defineComponent({
           lk_as,
           af_objId_tab,
           lk_proj: {
-            username: 1,
-            name: 1,
+            'username': 1,
             'profile.img': 1,
             'profile.qualifica': 1,
           }
-        }
+        },
       }
+    }
+
+    function extraparams_rich() {
+      return {
+        querytype: shared_consts.QUERYTYPE_MYGROUP,
+        myid: mygrp.value ? mygrp.value._id : '',
+      }
+    }
+
+    function numUsers() {
+      return users_in_group.value ? users_in_group.value.length : 0
+    }
+    function numAdmins() {
+      return (mygrp.value && mygrp.value.admins) ? mygrp.value.admins.length : 0
+    }
+    function listaAdmins() {
+      return (mygrp.value && mygrp.value.admins) ? mygrp.value.admins.map((rec) => rec.username).join(', ') : ''
     }
 
 
@@ -174,7 +193,12 @@ export default defineComponent({
       colmyUserPeople,
       colmyUserGroup,
       extraparams,
+      extraparams_rich,
       tab,
+      tabgrp,
+      numUsers,
+      numAdmins,
+      listaAdmins,
       users_in_group,
     }
   }

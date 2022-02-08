@@ -73,8 +73,8 @@ export default defineComponent({
       $router.push(path)
     }
 
-    function setCmd(cmd: number, myusername: string, value: any = '') {
-      emit('setCmd', cmd, myusername, value)
+    function setCmd($q: any, cmd: number, myusername: string, value: any, groupname: string) {
+      emit('setCmd', $q, cmd, myusername, value, groupname)
     }
 
     onMounted(mounted)

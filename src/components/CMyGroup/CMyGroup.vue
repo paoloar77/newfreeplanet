@@ -19,12 +19,12 @@
               <q-menu>
                 <q-list style="min-width: 150px">
                   <q-item clickable icon="fas fa-user-minus" v-close-popup
-                          @click="setCmd(shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP, grp.groupname)">
+                          @click="tools.setCmd($q, shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP, myusername(), '', grp.groupname)">
                     <q-item-section>{{ $t('groups.remove_from_mygroups') }}</q-item-section>
                   </q-item>
                 </q-list>
                 <q-list style="min-width: 150px">
-                  <q-item clickable icon="fas fa-ban" v-close-popup @click="setCmd(shared_consts.GROUPSCMD.BLOCK_GROUP, grp.groupname)">
+                  <q-item clickable icon="fas fa-ban" v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.BLOCK_GROUP, myusername(), '', grp.groupname)">
                     <q-item-section>{{ $t('groups.block_group') }}</q-item-section>
                   </q-item>
                 </q-list>
@@ -38,7 +38,7 @@
               <q-menu>
                 <q-list style="min-width: 150px">
                   <q-item clickable icon="fas fa-user-minus" v-close-popup
-                          @click="setCmd(shared_consts.GROUPSCMD.REQGROUP, grp.groupname, false)">
+                          @click="tools.setCmd($q, shared_consts.GROUPSCMD.REQGROUP, myusername(), false, grp.groupname)">
                     <q-item-section>{{ $t('groups.reject_ask_group') }}</q-item-section>
                   </q-item>
                 </q-list>
@@ -52,7 +52,7 @@
               <q-menu>
                 <q-list style="min-width: 150px">
                   <q-item clickable icon="fas fa-user-minus" v-close-popup
-                          @click="setCmd(shared_consts.GROUPSCMD.CANCEL_REQ_GROUP, grp.groupname)">
+                          @click="tools.setCmd($q, shared_consts.GROUPSCMD.CANCEL_REQ_GROUP, myusername(), '', grp.groupname)">
                     <q-item-section>{{ $t('groups.cancel_ask_group') }}</q-item-section>
                   </q-item>
                 </q-list>
@@ -65,17 +65,17 @@
             <q-btn rounded :icon="userStore.IsMyGroupByGroupname(grp.groupname) ? `fas fa-ellipsis-h` : `fas fa-user`">
               <q-menu>
                 <q-list v-if="(!userStore.IsMyGroupByGroupname(grp.groupname) && !userStore.IsAskedGroupByGroupname(grp.groupname))" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd(shared_consts.GROUPSCMD.REQGROUP, grp.groupname, true)">
+                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.REQGROUP, myusername(), true, grp.groupname)">
                     <q-item-section>{{ $t('groups.ask_group') }}</q-item-section>
                   </q-item>
                 </q-list>
                 <q-list v-else-if="(!userStore.IsMyGroupByGroupname(grp.groupname) && userStore.IsAskedGroupByGroupname(grp.groupname))" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd(shared_consts.GROUPSCMD.REQGROUP, grp.groupname, false)">
+                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.REQGROUP, myusername(), false, grp.groupname)">
                     <q-item-section>{{ $t('groups.cancel_ask_group') }}</q-item-section>
                   </q-item>
                 </q-list>
                 <q-list v-else-if="userStore.IsMyGroupByGroupname(grp.groupname)" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd(shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUPS, grp.groupname)">
+                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUPS, myusername(), '', grp.groupname)">
                     <q-item-section>{{ $t('groups.remove_from_mygroups') }}</q-item-section>
                   </q-item>
                 </q-list>

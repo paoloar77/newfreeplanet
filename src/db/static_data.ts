@@ -20,6 +20,7 @@ const functionality: IFunctionality = {
   BOOKING_EVENTS: true,
   ENABLE_ECOMMERCE: false,
   ENABLE_REG_ISP: true,
+  SHOW_NAMESURNAME: false,
 }
 
 // const SHOW_PROJINTHEMENU = false
@@ -373,12 +374,12 @@ const baseroutes: IListRoutes[] = [
     path: '/',
     materialIcon: 'home',
     name: 'pages.home',
-    component: () => import('@src/root/home_insiemesipuo/home_insiemesipuo.vue'),
+    component: () => import('@src/root/home_freeplanet/home_freeplanet.vue'),
     reqauth: false,
     inmenu: true,
     infooter: true,
   },
-  /*{
+  {
     active: true,
     order: 100,
     path: '/presentazione',
@@ -388,7 +389,7 @@ const baseroutes: IListRoutes[] = [
     reqauth: false,
     inmenu: true,
     infooter: true,
-  },*/
+  },
   {
     active: true,
     order: 120,
@@ -446,7 +447,7 @@ const baseroutes: IListRoutes[] = [
   },
   {
     active: true,
-    order: 136,
+    order: 135,
     path: '/grp/:groupname',
     materialIcon: 'fas fa-user',
     name: 'proj.group2',

@@ -2,7 +2,8 @@
   <div>
     <div class="text-center">
       <p>
-        <logo></logo><CTitleBanner :title="$t('pages.SignUp')"></CTitleBanner>
+        <logo></logo>
+        <CTitleBanner :title="$t('pages.SignUp')"></CTitleBanner>
       </p>
     </div>
 
@@ -53,7 +54,7 @@
         debounce="3000"
         :rules="[ myRuleEmail ]"
         lazy-rules
-        :label="$t('reg.email')">
+        :label="$t('reg.email_reg')">
 
         <template v-slot:prepend>
           <q-icon name="email"/>
@@ -69,9 +70,10 @@
         :error="v$.username.$error"
         @keydown.space="(event) => event.preventDefault()"
         maxlength="20"
+        :hint="$t('reg.username_hint')"
         debounce="1000"
         :error-message="tools.errorMsg( 'username', v$.username)"
-        :label="$t('reg.username')">
+        :label="$t('reg.username_reg')">
 
         <template v-slot:prepend>
           <q-icon name="person"/>
@@ -79,37 +81,40 @@
 
       </q-input>
 
-      <q-input
-        v-model="signup.name"
-        rounded outlined
-        @blur="v$.name.$touch"
-        :error="v$.name.$error"
-        maxlength="30"
-        debounce="1000"
-        :error-message="tools.errorMsg( 'name', v$.name)"
-        :label="$t('reg.name')">
+      <div v-if="show_namesurname">
+        <q-input
+          v-model="signup.name"
+          rounded outlined
+          @blur="v$.name.$touch"
+          :error="v$.name.$error"
+          maxlength="30"
+          debounce="1000"
+          :error-message="tools.errorMsg( 'name', v$.name)"
+          :label="$t('reg.name')">
 
-        <template v-slot:prepend>
-          <q-icon name="person"/>
-        </template>
+          <template v-slot:prepend>
+            <q-icon name="person"/>
+          </template>
 
-      </q-input>
+        </q-input>
 
-      <q-input
-        v-model="signup.surname"
-        rounded outlined
-        :error="v$.surname.$error"
-        @blur="v$.surname.$touch"
-        maxlength="30"
-        debounce="1000"
-        :error-message="tools.errorMsg( 'surname', v$.surname)"
-        :label="$t('reg.surname')">
+        <q-input
+          v-model="signup.surname"
+          rounded outlined
+          :error="v$.surname.$error"
+          @blur="v$.surname.$touch"
+          maxlength="30"
+          debounce="1000"
+          :error-message="tools.errorMsg( 'surname', v$.surname)"
+          :label="$t('reg.surname')">
 
-        <template v-slot:prepend>
-          <q-icon name="person"/>
-        </template>
+          <template v-slot:prepend>
+            <q-icon name="person"/>
+          </template>
 
-      </q-input>
+        </q-input>
+
+      </div>
 
       <q-input
         v-model="signup.password"
@@ -120,7 +125,7 @@
         :error-message="`${tools.errorMsg( 'password', v$.password)}`"
         maxlength="30"
         debounce="1000"
-        :label="$t('reg.password')">
+        :label="$t('reg.password_reg')">
 
         <template v-slot:prepend>
           <q-icon name="vpn_key"/>
@@ -203,10 +208,11 @@
       </div>
 
       <div class="wrapper">
-        <q-btn rounded size="lg" color="positive" @click="submitOk" :disabled='!allowSubmit()' :label="$t('reg.submit')">
+        <q-btn rounded size="lg" color="positive" @click="submitOk" :disabled='!allowSubmit()'
+               :label="$t('reg.submit')">
         </q-btn>
       </div>
-      <br /><br /><br />
+      <br/><br/><br/>
     </div>
 
   </div>
@@ -215,5 +221,5 @@
 <script lang="ts" src="./CSignUp.ts">
 </script>
 <style lang="scss" scoped>
-  @import './CSignUp.scss';
+@import './CSignUp.scss';
 </style>

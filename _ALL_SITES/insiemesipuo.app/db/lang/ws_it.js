@@ -1,8 +1,8 @@
 const msg_website_it = {
   ws: {
-    sitename: 'FreePlanet',
-    siteshortname: 'FreePlanet',
-    botname: 'il Bot di FreePlanet',
+    sitename: 'InsiemeSuPuò',
+    siteshortname: 'InsiemeSuPuò',
+    botname: 'il Bot di InsiemeSuPuò',
   },
   products: {
     quantity: 'Quantità',
@@ -128,8 +128,8 @@ const msg_website_it = {
     color: 'Colore',
   },
   msg: {
-    myAppName: 'FreePlanet',
-    myAppDescription: 'Il primo Vero Social Libero, Equo e Solidale, dove Vive Consapevolezza e Aiuto Comunitario. Gratuito e senza Pubblicità',
+    myAppName: 'InsiemeSiPuò',
+    myAppDescription: 'Il primo Vero Social Libero, Equo e Solidale, dove Vive Consapevolezza e Aiuto Comunitario. Gratuito',
     underconstruction: 'App in costruzione...',
     myDescriz: '',
     sottoTitoloApp: 'Il primo Vero Social',

@@ -8,10 +8,12 @@
         </q-avatar>
       </div>
 
-      <div class="text-h6">
-        <span v-if="checkifShow('name')"> {{ myuser.name }}</span> <span v-if="checkifShow('surname')">{{
-          myuser.surname
-        }}</span>
+      <div v-if="static_data.functionality.SHOW_NAMESURNAME">
+        <div class="text-h6">
+          <span v-if="checkifShow('name')"> {{ myuser.name }}</span> <span v-if="checkifShow('surname')">{{
+            myuser.surname
+          }}</span>
+        </div>
       </div>
       <div class="col-12 text-h7 text-blue text-shadow-2">
         {{ myuser.username }}
@@ -38,7 +40,7 @@
         />
       </div>
 
-      <div v-if="myuser.name">
+      <div v-if="myuser._id">
         <div class="col-12 text-h8 q-mt-sm" v-if="myuser.profile.qualifica">
           <em><span class="qualifica">{{ myuser.profile.qualifica }}</span></em>
         </div>
@@ -55,7 +57,7 @@
         to="/editprofile">
       </q-btn>
 
-      <div v-if="myuser.name" class="myrow justify-evenly items-center q-pa-sm q-ma-sm">
+      <div v-if="myuser._id" class="myrow justify-evenly items-center q-pa-sm q-ma-sm">
 
         <div class="col-6 q-ma-xs">
           <q-btn
@@ -117,7 +119,7 @@
 
     </CTitleBanner>
 
-    <div v-if="myuser.name">
+    <div v-if="myuser._id">
       <CTitleBanner
         class="" :title="$t('dashboard.info')" bgcolor="bg-primary" clcolor="text-white"
         myclass="myshad" :canopen="true">

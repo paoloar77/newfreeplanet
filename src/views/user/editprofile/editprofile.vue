@@ -7,18 +7,20 @@
 
       <div class="column">
         <div class="myrow">
-          <CMyFieldDb
-            :title="$t('reg.name')"
-            table="users"
-            mykey="name"
-            :type="costanti.FieldType.string">
-          </CMyFieldDb>
-          <CMyFieldDb
-            :title="$t('reg.surname')"
-            table="users"
-            mykey="surname"
-            :type="costanti.FieldType.string">
-          </CMyFieldDb>
+          <div v-if="static_data.functionality.SHOW_NAMESURNAME">
+            <CMyFieldDb
+              :title="$t('reg.name')"
+              table="users"
+              mykey="name"
+              :type="costanti.FieldType.string">
+            </CMyFieldDb>
+            <CMyFieldDb
+              :title="$t('reg.surname')"
+              table="users"
+              mykey="surname"
+              :type="costanti.FieldType.string">
+            </CMyFieldDb>
+          </div>
         </div>
         <div class="myrow">
           <CMyFieldDb

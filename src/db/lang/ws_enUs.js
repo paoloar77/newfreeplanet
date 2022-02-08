@@ -1,8 +1,8 @@
 const msg_website_enUs = {
   ws: {
-    sitename: 'InsiemeSuPuò',
-    siteshortname: 'InsiemeSuPuò',
-    botname: 'InsiemeSuPuò BOT',
+    sitename: 'Comunità Nuovo Mondo',
+    siteshortname: 'CNM',
+    botname: 'CNM BOT',
   },
   pages: {
     home: 'Home',

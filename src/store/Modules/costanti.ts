@@ -39,6 +39,8 @@ export const costanti = {
   CREATE_GROUP: 30,
   MANAGE_GROUPS: 31,
 
+  SHOW_ALL: 50,
+
   REQ_ADD_USER_TO_GROUP: 40,
   REQ_REMOVE_USER_TO_GROUP: 41,
 

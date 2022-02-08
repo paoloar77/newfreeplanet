@@ -38,7 +38,7 @@ export default defineComponent({
       myval = searchList.value.find((rec) => (rec.table === 'sectors'))
       if (myval) {
         const ris = myval.value || 0
-        // console.log('idSector=', ris)
+        console.log('idSector=', ris)
         return ris
       } else {
         return 0

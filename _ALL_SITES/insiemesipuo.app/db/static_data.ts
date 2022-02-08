@@ -20,6 +20,7 @@ const functionality: IFunctionality = {
   BOOKING_EVENTS: true,
   ENABLE_ECOMMERCE: false,
   ENABLE_REG_ISP: true,
+  ENABLE_GROUPS: true,
 }
 
 // const SHOW_PROJINTHEMENU = false
@@ -423,12 +424,34 @@ const baseroutes: IListRoutes[] = [
     infooter: true,
   },
   {
+    active: functionality.ENABLE_GROUPS,
+    order: 132,
+    path: '/groups',
+    materialIcon: 'fas fa-users',
+    name: 'mypages.groups',
+    component: () => import('@/views/user/mygroups/mygroups.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
     active: true,
     order: 135,
     path: '/my/:username',
     materialIcon: 'fas fa-user',
     name: 'pages.profile2',
     component: () => import('@/views/user/myprofile/myprofile.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
+    order: 136,
+    path: '/grp/:groupname',
+    materialIcon: 'fas fa-user',
+    name: 'proj.group2',
+    component: () => import('@/views/user/mygroup/mygroup.vue'),
     meta: { requiresAuth: true },
     inmenu: false,
     infooter: false,

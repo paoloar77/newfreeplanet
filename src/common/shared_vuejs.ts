@@ -16,6 +16,8 @@ export const shared_consts = {
     },
   },
 
+  QUERYTYPE_MYGROUP: 1,
+
   ALL_SAW_AND_ACCEPTED: 3,
 
   FILTER_EXTRALIST_NOT_REGISTERED: 1,

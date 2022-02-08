@@ -11,6 +11,7 @@ import { useI18n } from '@/boot/i18n'
 import { toolsext } from '@store/Modules/toolsext'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
+import { static_data } from '@/db/static_data'
 
 
 export default defineComponent({
@@ -87,6 +88,7 @@ export default defineComponent({
       getpayment,
       tools,
       costanti,
+      static_data,
       filtroutente,
     }
   }

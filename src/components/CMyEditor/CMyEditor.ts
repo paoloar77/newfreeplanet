@@ -37,7 +37,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const $q = useQuasar()
 
-    const editor = ref(null)
+    const editorRef = ref(<any>null)
+    const editor = ref('')
+
     //const myvalue = toRef(props, 'value')
     const myvalue = ref('')
     const mycolor = ref('')
@@ -58,7 +60,8 @@ export default defineComponent({
     const toolbarcomp = ref([
       ['left', 'center', 'right', 'justify'],
       ['bold', 'italic', 'underline', 'strike'],
-      [
+      ['token', 'hr', 'link', 'custom_btn'],
+      ['print', 'fullscreen'],      [
         {
           label: $q.lang.editor.formatting,
           icon: $q.iconSet.editor.formatting,
@@ -112,7 +115,7 @@ export default defineComponent({
     ])
 
     function changeval(newval: any) {
-      console.log('myEditor: changeval', newval)
+      // console.log('myEditor: changeval', newval)
       emit('update:value', newval)
     }
 
@@ -171,6 +174,29 @@ export default defineComponent({
         myvalue.value = props.value
     }
 
+    function onPaste (evt: any) {
+      // Let inputs do their thing, so we don't break pasting of links.
+      if (evt.target.nodeName === 'INPUT') return
+      let text, onPasteStripFormattingIEPaste
+      evt.preventDefault()
+      evt.stopPropagation()
+      if (evt.originalEvent && evt.originalEvent.clipboardData.getData) {
+        text = evt.originalEvent.clipboardData.getData('text/plain')
+        editorRef.value.runCmd('insertText', text)
+      }
+      else if (evt.clipboardData && evt.clipboardData.getData) {
+        text = evt.clipboardData.getData('text/plain')
+        editorRef.value.runCmd('insertText', text)
+      }
+      /*else if (ClipboardEvent.clipboardData && ClipboardEvent.clipboardData.getData) {
+        if (!onPasteStripFormattingIEPaste) {
+          onPasteStripFormattingIEPaste = true
+          editorRef.value.runCmd('ms-pasteTextOnly', text)
+        }
+        onPasteStripFormattingIEPaste = false
+      }*/
+    }
+
     onMounted(mounted)
 
     return {
@@ -185,6 +211,8 @@ export default defineComponent({
       setcolor,
       pasteCapture,
       tools,
+      onPaste,
+      editorRef,
     }
   }
 })

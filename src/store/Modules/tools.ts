@@ -1539,6 +1539,10 @@ export const tools = {
     return Object(anything) === anything
   },
 
+  isFunc(anything: any) {
+    return (typeof anything === 'function')
+  },
+
   isDebug() {
     return process.env.DEV
   },
@@ -4424,6 +4428,62 @@ export const tools = {
     })
   },
 
+  removeFromMyFriends($q: any, username: string, usernameDest: string) {
+    const userStore = useUserStore()
+
+    $q.dialog({
+      message: t('db.domanda_removefriend', { username: usernameDest }),
+      ok: { label: t('dialog.yes'), push: true },
+      cancel: { label: t('dialog.cancel') },
+      title: t('db.domanda')
+    }).onOk(() => {
+
+      userStore.setFriendsCmd($q, t, username, usernameDest, shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS, null).then((res) => {
+        if (res) {
+          userStore.my.profile.friends = userStore.my.profile.friends.filter((rec: IFriends) => rec.username !== usernameDest)
+          tools.showPositiveNotif($q, t('db.removedfriend'))
+        }
+      })
+    })
+  },
+
+  blockUser($q: any, username: string, usernameDest: string) {
+    const userStore = useUserStore()
+    $q.dialog({
+      message: t('db.domanda_blockuser', { username: usernameDest }),
+      ok: { label: t('dialog.yes'), push: true },
+      cancel: { label: t('dialog.cancel') },
+      title: t('db.domanda')
+    }).onOk(() => {
+      userStore.setFriendsCmd($q, t, username, usernameDest, shared_consts.FRIENDSCMD.BLOCK_USER, null).then((res: any) => {
+        if (res) {
+          userStore.my.profile.friends = userStore.my.profile.friends.filter((rec: IFriends) => rec.username !== usernameDest)
+          tools.showPositiveNotif($q, t('db.blockedfriend'))
+        }
+      })
+    })
+  },
+
+  refuseReqFriends($q: any, username: string, usernameDest: string) {
+
+    const userStore = useUserStore()
+    $q.dialog({
+      message: t('db.domanda_revoke_friend', { username: usernameDest }),
+      ok: { label: t('dialog.yes'), push: true },
+      cancel: { label: t('dialog.cancel') },
+      title: t('db.domanda')
+    }).onOk(() => {
+
+      userStore.setFriendsCmd($q, t, username, usernameDest, shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS, null).then((res) => {
+        if (res) {
+          userStore.my.profile.req_friends = userStore.my.profile.req_friends.filter((user: IFriends) => user.username !== usernameDest)
+          tools.showPositiveNotif($q, t('db.removedfriend'))
+        }
+      })
+    })
+  },
+
+
   addToMyGroups($q: any, username: string, groupnameDest: string) {
 
     const userStore = useUserStore()
@@ -4444,6 +4504,24 @@ export const tools = {
             tools.showPositiveNotif($q, t('db.addedgroup'))
           }
         })
+    })
+  },
+
+  blockGroup($q: any, username: string, usernameDest: string) {
+    const userStore = useUserStore()
+
+    $q.dialog({
+      message: t('db.domanda_blockgroup', { groupname: usernameDest }),
+      ok: { label: t('dialog.yes'), push: true },
+      cancel: { label: t('dialog.cancel') },
+      title: t('db.domanda')
+    }).onOk(() => {
+      userStore.setGroupsCmd($q, t, username, usernameDest, shared_consts.GROUPSCMD.BLOCK_GROUP, null).then((res) => {
+        if (res) {
+          userStore.my.profile.mygroups = userStore.my.profile.mygroups.filter((rec: IMyGroup) => rec.groupname !== usernameDest)
+          tools.showPositiveNotif($q, t('db.blockedgroup'))
+        }
+      })
     })
   },
 
@@ -4742,6 +4820,44 @@ export const tools = {
     return risultato
 
   },
+
+  setCmd($q: any, cmd: number, username: string, value: any, dest: string) {
+    if (cmd === shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP) {
+      tools.removeFromMyGroups($q, username, dest)
+    } else if (cmd === shared_consts.GROUPSCMD.BLOCK_GROUP) {
+      tools.blockGroup($q, username, dest)
+    } else if (cmd === shared_consts.GROUPSCMD.SETGROUP) {
+      tools.addToMyGroups($q, username, dest)
+    } else if (cmd === shared_consts.GROUPSCMD.REQGROUP) {
+      tools.setRequestGroup($q, username, dest, value)
+    } else if (cmd === shared_consts.GROUPSCMD.CANCEL_REQ_GROUP) {
+      tools.cancelReqGroups($q, username, dest)
+    } else if (cmd === shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS) {
+      tools.removeFromMyFriends($q, username, value)
+    } else if (cmd === shared_consts.FRIENDSCMD.BLOCK_USER) {
+      tools.blockUser($q, username, dest)
+    } else if (cmd === shared_consts.FRIENDSCMD.SETFRIEND) {
+      tools.addToMyFriends($q, username, dest)
+    } else if (cmd === shared_consts.FRIENDSCMD.REQFRIEND) {
+      tools.setRequestFriendship($q, username, dest, value)
+    } else if (cmd === shared_consts.FRIENDSCMD.REFUSE_REQ_FRIEND) {
+      tools.refuseReqFriends($q, username, dest)
+    } else if (cmd === shared_consts.FRIENDSCMD.CANCEL_REQ_FRIEND) {
+      tools.cancelReqFriends($q, username, dest)
+    }
+  },
+  isCallable(anything: any) {
+    return typeof anything === 'function'
+  },
+
+  getValueByFunzOrVal(value: any, keyfunz: any) {
+    if (typeof keyfunz === 'function') {
+      return keyfunz(value)
+    } else {
+      return value[keyfunz]
+    }
+  }
+
 
 // getLocale() {
   //   if (navigator.languages && navigator.languages.length > 0) {

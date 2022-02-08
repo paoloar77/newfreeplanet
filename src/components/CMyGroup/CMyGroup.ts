@@ -81,6 +81,7 @@ export default defineComponent({
       setCmd,
       shared_consts,
       userStore,
+      $q,
     }
   },
 })

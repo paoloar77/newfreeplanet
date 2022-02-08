@@ -98,7 +98,6 @@
         </div>-->
 
         <!-- BUTTON USER BAR -->
-
         <q-btn
           class="q-mx-xs" v-if="static_data.functionality.SHOW_USER_MENU && !isLogged()" dense flat round
           icon="menu"

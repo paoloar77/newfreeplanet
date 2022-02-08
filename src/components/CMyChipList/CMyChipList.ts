@@ -21,7 +21,7 @@ export default defineComponent({
       required: false,
     },
     optlab: {
-      type: String,
+      type: [String, Function],
       required: true,
     },
     optval: {
@@ -111,7 +111,7 @@ export default defineComponent({
                   if (mydata.label)
                     mydata.label = mydata.label[0]
                 } else {
-                  mydata.label = rec[props.optlab]
+                  mydata.label = tools.getValueByFunzOrVal(rec, props.optlab)
                 }
 
                 // console.log('mydata.label', mydata.label)
@@ -141,7 +141,7 @@ export default defineComponent({
                 if (mydata.label)
                   mydata.label = mydata.label[0]
               } else {
-                mydata.label = rec[props.optlab]
+                mydata.label = tools.getValueByFunzOrVal(rec, props.optlab)
               }
 
               if (props.opticon)
@@ -155,7 +155,7 @@ export default defineComponent({
           } else {
             if (tools.isBitActive(myval.value, rec[props.optval])) {
               const mydata = {
-                label: t(rec[props.optlab]),
+                label: t(tools.getValueByFunzOrVal(rec, props.optlab)),
                 value: rec[props.optval],
                 valbool: tools.isBitActive(myval.value, rec[props.optval]),
                 icon: '',

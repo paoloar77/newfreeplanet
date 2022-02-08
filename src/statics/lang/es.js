@@ -630,6 +630,7 @@ const msg_es = {
     mypages: {
       find_people: 'Busca Personas',
       friends: 'Amigos',
+      groups: 'Grupos',
       request_friends: 'Rich. Amicizia',
       request_sent_friends: 'Rich. Inviate',
       request_trust: 'Rich. Fiducia',

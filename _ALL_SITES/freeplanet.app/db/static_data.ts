@@ -20,6 +20,7 @@ const functionality: IFunctionality = {
   BOOKING_EVENTS: true,
   ENABLE_ECOMMERCE: false,
   ENABLE_REG_ISP: true,
+  SHOW_NAMESURNAME: false,
 }
 
 // const SHOW_PROJINTHEMENU = false

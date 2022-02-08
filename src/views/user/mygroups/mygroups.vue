@@ -11,7 +11,7 @@
         prop_colkey="_id"
         col_title="groupname"
         :vertical="costanti.VISUTABLE_LISTA"
-        nodataLabel="Nessuna Richiesta in sospeso"
+        nodataLabel=" Nessun Gruppo"
         :prop_search="true"
         hint="nome del gruppo da trovare"
         :finder="true"

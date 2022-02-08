@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <div v-if="visuElem()"  class="row items-center justify-center q-gutter-md q-ma-xs">
+    <div v-if="visuElem()"  class="row items-center justify-center q-ma-xs">
 
       <div class="q-ma-xs">
         <q-field rounded outlined bg-color="blue-1" dense style="min-width:110px;">
@@ -36,6 +36,8 @@
           :myimg="myimg"
           :canModify="canModify"
           :canEdit="canEdit"
+          :id="id"
+          :idmain="idmain"
           :visulabel="true"
           :mycol="col"
           :tablesel="tablesel"
@@ -47,6 +49,7 @@
 
         </CMyPopupEdit>
       </div>
+      <slot></slot>
     </div>
   </div>
 </template>

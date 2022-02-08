@@ -231,8 +231,6 @@ export default defineComponent({
         }
       }
 
-      console.log('col.value', col.value)
-
       // console.log('CMyFieldDb crea', myvalue)
     }
 
@@ -251,9 +249,12 @@ export default defineComponent({
 
     function changeval(newval: any) {
       console.log('changeval update:row', newval)
-      emit('update:row', props.row)
+      if (!props.isrec) {
+        emit('update:row', props.row)
+      }
       if (props.isInModif)
         OpenEdit()
+
 
     }
 

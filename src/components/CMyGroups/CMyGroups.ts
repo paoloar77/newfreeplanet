@@ -103,43 +103,14 @@ export default defineComponent({
         userStore.loadGroups(username.value).then((ris) => {
           // console.log('ris', ris)
           if (ris) {
-            userStore.my.profile.mygroups = ris.listUsersGroup ? ris.listUsersGroup : []
+            userStore.my.profile.mygroups = ris.mygroups ? ris.mygroups : []
+            userStore.my.profile.list_usersgroup = ris.listUsersGroup ? ris.listUsersGroup : []
             userStore.groups = ris.listgroups ? ris.listgroups : []
             userStore.my.profile.asked_groups = ris.listSentRequestGroups ? ris.listSentRequestGroups : []
             filtroutente.value = [{ userId: userStore.my._id }]
           }
         })
 
-      }
-    }
-
-    function blockGroup(usernameDest: string) {
-      $q.dialog({
-        message: t('db.domanda_blockgroup', { groupname: usernameDest }),
-        ok: { label: t('dialog.yes'), push: true },
-        cancel: { label: t('dialog.cancel') },
-        title: t('db.domanda')
-      }).onOk(() => {
-        userStore.setGroupsCmd($q, t, username.value, usernameDest, shared_consts.GROUPSCMD.BLOCK_GROUP, null).then((res) => {
-          if (res) {
-            userStore.my.profile.mygroups = userStore.my.profile.mygroups.filter((rec: IMyGroup) => rec.groupname !== usernameDest)
-            tools.showPositiveNotif($q, t('db.blockedgroup'))
-          }
-        })
-      })
-    }
-
-    function setCmd(cmd: number, groupnameDest: string, value: any = '') {
-      if (cmd === shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP) {
-        tools.removeFromMyGroups($q, username.value, groupnameDest)
-      } else if (cmd === shared_consts.GROUPSCMD.BLOCK_GROUP) {
-        blockGroup(groupnameDest)
-      } else if (cmd === shared_consts.GROUPSCMD.SETGROUP) {
-        tools.addToMyGroups($q, username.value, groupnameDest)
-      } else if (cmd === shared_consts.GROUPSCMD.REQGROUP) {
-        tools.setRequestGroup($q, username.value, groupnameDest, value)
-      } else if (cmd === shared_consts.GROUPSCMD.CANCEL_REQ_GROUP) {
-        tools.cancelReqGroups($q, username.value, groupnameDest)
       }
     }
 
@@ -161,7 +132,6 @@ export default defineComponent({
       shared_consts,
       filtroutente,
       listgroupsfiltered,
-      setCmd,
       updateValue,
       myoptions,
     }

@@ -23,7 +23,6 @@
         <span v-for="(grp, index) in listgroupsfiltered" :key="index" class="q-my-sm" clickable>
           <CMyGroup
             :mygrp="grp"
-            @setCmd="setCmd"
             :visu="modelValue">
           </CMyGroup>
         </span>
@@ -35,7 +34,6 @@
       <span class="q-my-sm" clickable>
       <CMyGroup
         :mygrp="mygrp"
-        @setCmd="setCmd"
         :visu="visu">
       </CMyGroup>
       </span>

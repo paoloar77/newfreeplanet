@@ -18,5 +18,6 @@ else
   cp -R _ALL_SITES/$site/.env.development .
   cp -R _ALL_SITES/$site/.env.production .
   cp -R _ALL_SITES/$site/.env.test .
+  cp -R _ALL_SITES/$site/images/ ./public/images/
 
 fi

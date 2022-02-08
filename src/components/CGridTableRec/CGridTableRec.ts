@@ -208,6 +208,7 @@ export default defineComponent({
     const newRecordBool = ref(false)
     const editRecordBool = ref(false)
     const newRecord: any = ref({})
+    const recSaved: any = ref({})
     const recModif: any = ref({})
 
     const mytable = ref('')
@@ -945,6 +946,7 @@ export default defineComponent({
           console.log('Edit', item)
           selItem(item, col)
           recModif.value = item
+          recSaved.value = {...item}
           editRecordBool.value = true
         } else {
 
@@ -1243,6 +1245,16 @@ export default defineComponent({
         })
     }
 
+    function cancelrecModif() {
+      recModif.value = {...recSaved.value}
+      if (recModif.value._id) {
+        const indrec = serverData.value.findIndex((rec: any) => rec._id === recModif.value._id)
+        if (indrec >= 0)
+          serverData.value[indrec] = recModif.value
+        editRecordBool.value = false
+      }
+    }
+
     async function saverecModif() {
       console.log('saverecModif')
       const mydata = {
@@ -1259,7 +1271,7 @@ export default defineComponent({
           // console.log('ris', ris)
           if (ris) {
             editRecordBool.value = false
-            const indrec = serverData.value.findIndex((rec: IMySkill) => rec._id === ris._id)
+            const indrec = serverData.value.findIndex((rec: any) => rec._id === ris._id)
             console.log('indrec', indrec, serverData.value[indrec])
             mycolumns.value.forEach((col: IColGridTable) => {
               if (!col.foredit) {
@@ -1347,6 +1359,7 @@ export default defineComponent({
       getusernamesel,
       saveNewRecord,
       saverecModif,
+      cancelrecModif,
       hidewindow,
       isfinishLoading,
       getlabelAddRow,
@@ -1372,6 +1385,7 @@ export default defineComponent({
       editRecordBool,
       newRecord,
       recModif,
+      recSaved,
       lists,
       refresh,
       spinner_visible,

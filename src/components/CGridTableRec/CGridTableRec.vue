@@ -120,6 +120,7 @@
               :optval="fieldsTable.getKeyByTable(item.table)"
               :optlab="fieldsTable.getLabelByTable(item.table)"
               :options="valoriopt(item, false)"
+              :filter="item.filter"
               :useinput="item.useinput && item.type !== costanti.FieldType.select_by_server">
             </CMySelect>
 
@@ -144,6 +145,7 @@
               :icon_alternative="item.icon"
               :optval="fieldsTable.getKeyByTable(item.table)"
               :optlab="fieldsTable.getLabelByTable(item.table)"
+              :filter="item.filter"
               :options="valoriopt(item, false)"
               :useinput="true">
             </CMySelect>
@@ -164,6 +166,7 @@
               stack-label
               :useinput="item.useinput"
               :options="valoriopt(item, item.addall)"
+              :filter="item.filter"
               class="combowidth"
               :option-value="fieldsTable.getKeyByTable(item.table)"
             >
@@ -513,7 +516,7 @@
         </q-card-section>
         <q-card-actions align="center">
           <q-btn flat :label="$t('dialog.ok')" color="primary" @click="saverecModif"></q-btn>
-          <q-btn flat :label="$t('dialog.cancel')" color="primary" v-close-popup></q-btn>
+          <q-btn flat :label="$t('dialog.cancel')" color="primary" @click="cancelrecModif"></q-btn>
         </q-card-actions>
       </q-card>
     </q-dialog>

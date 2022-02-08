@@ -65,7 +65,7 @@ export default function () {
   function getMyImg() {
     const userStore = useUserStore()
     const ris = userStore.getImgByUsername(userStore.my.username)
-    const out = (ris !== '') ? `${ris}` : ''
+    const out = (ris !== '') ? `${ris}` : 'images/noimg-user.svg'
     // console.log('getMyImg = ', out)
     return out
   }
