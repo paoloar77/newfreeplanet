@@ -47,7 +47,11 @@ export default defineComponent({
     }
 
     function getLinkBotTelegram(): string {
-      return getValDb('TELEG_BOT_LINK', false)
+      if ( tools.isTest() && !process.env.DEV) {
+        return getValDb('TELEG_BOT_LINK_TEST', false)
+      } else{
+        return getValDb('TELEG_BOT_LINK', false)
+      }
     }
 
     return {

@@ -24,6 +24,14 @@
           myuser.profile.nationality
         }})</span>
       </div>
+      <div v-if="myuser._id" class="col-12 text-h8 q-mt-sm">
+        <span v-if="myuser.profile.qualifica">
+          <em><span class="qualifica">{{ myuser.profile.qualifica }}</span></em>
+        </span>
+      </div>
+      <div v-if="myuser._id" class="col-12 text-h8 q-mt-sm">
+        {{ myuser.profile.biografia }}
+      </div>
 
       <div v-if="myuser.username !== userStore.my.username">
         <q-btn
@@ -38,16 +46,9 @@
           flat :label="$t('friends.cancel_ask_friend_short')"
           @click="tools.cancelReqFriends($q, userStore.my.username, myuser.username)"
         />
+
       </div>
 
-      <div v-if="myuser._id">
-        <div class="col-12 text-h8 q-mt-sm" v-if="myuser.profile.qualifica">
-          <em><span class="qualifica">{{ myuser.profile.qualifica }}</span></em>
-        </div>
-        <div class="col-12 text-h8 q-mt-sm">
-          {{ myuser.profile.biografia }}
-        </div>
-      </div>
 
       <q-btn
         v-if="myuser.username === myusername()" icon="fas fa-pencil-alt"

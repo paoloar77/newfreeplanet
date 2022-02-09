@@ -386,7 +386,7 @@ const msg_fr = {
         duplicate_email: 'L\'email a déjà été enregistré',
         user_already_exist: 'L\'enregistrement avec ces données (nom, prénom et téléphone portable) a déjà été effectué. Pour accéder au site, cliquez sur le bouton CONNEXION de la page d\'accueil.',
         user_extralist_not_found: 'Utilisateur dans les archives introuvable, insérez le nom, le prénom et le numéro de téléphone portable envoyés précédemment',
-        user_not_this_aportador: 'Stai utilizzando un link di una persona diversa dal tuo invitato originale.',
+        user_aportador_not_valid: 'Il link di registrazione non sembra risultare valido.',
         duplicate_username: 'Le nom d\'utilisateur a déjà été utilisé',
         username_not_valid: 'Username not valid',
         aportador_not_exist: 'Le nom d\'utilisateur de la personne qui vous a invité n\'est pas présent. Contactez-nous.',

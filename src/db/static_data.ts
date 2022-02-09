@@ -628,8 +628,8 @@ const baseroutes: IListRoutes[] = [
 
 const arrLangUsed = [
   'it',
-  'enUs',
-  'es',
+  // 'enUs',
+  // 'es',
 ]
 
 const lang_available: ILang[] = [

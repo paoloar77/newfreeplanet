@@ -3110,9 +3110,9 @@ export const tools = {
     } else if (riscode === serv_constants.RIS_CODE_USER_EXTRALIST_NOTFOUND) {
 
       this.showNegativeNotif(mythisq, t('reg.err.user_extralist_not_found') + ' ' + msg)
-    } else if (riscode === serv_constants.RIS_CODE_USER_NOT_THIS_APORTADOR) {
+    } else if (riscode === serv_constants.RIS_CODE_USER_APORTADOR_NOT_VALID) {
 
-      this.showNegativeNotif(mythisq, t('reg.err.user_not_this_aportador') + ' ' + msg)
+      this.showNegativeNotif(mythisq, t('reg.err.user_aportador_not_valid') + ' ' + msg)
 
     } else if (riscode === serv_constants.RIS_CODE_USERNAME_NOT_VALID) {
       this.showNotif(mythisq, t('reg.err.username_not_valid'))

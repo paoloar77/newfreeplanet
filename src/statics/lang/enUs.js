@@ -385,7 +385,7 @@ const msg_enUs = {
         duplicate_email: 'Email was already registered',
         user_already_exist: 'Registration with these data (name, surname and mobile phone) has already been created. To access the site, click on the LOGIN button from the HomePage.',
         user_extralist_not_found: 'User in archive not found, insert the Name, Surname and mobile phone sent previously',
-        user_not_this_aportador: 'Stai utilizzando un link di una persona diversa dal tuo invitato originale.',
+        user_aportador_not_valid: 'Il link di registrazione non sembra risultare valido.',
         duplicate_username: 'Username is already taken',
         username_not_valid: 'Username not valid',
         aportador_not_exist: 'The username of the person who invited you is not present. Contact us.',

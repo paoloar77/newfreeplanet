@@ -522,7 +522,7 @@ const msg_it = {
         invalid_email: 'l\'Email non è valida',
         user_already_exist: 'La registrazione con questi dati (nome, cognome e cellulare) è stata già effettuata. Per accedere al sito, cliccare sul bottone LOGIN dalla HomePage.',
         user_extralist_not_found: 'Utente in archivio non trovato, inserire il Nome, Cognome e numero di cellulare comunicato nella lista nel 2019. Se questa è una nuova registrazione, dovete registrarvi tramite il LINK di chi vi sta invitando.',
-        user_not_this_aportador: 'Stai utilizzando un link di una persona diversa dal tuo invitato originale.',
+        user_aportador_not_valid: 'Il link di registrazione non sembra risultare valido.',
         duplicate_username: 'L\'Username è stato già utilizzato',
         username_not_valid: 'L\'Username non é valido',
         aportador_not_exist: 'L\'Username di chi ti ha invitato non è presente. Contattaci.',

@@ -400,7 +400,7 @@ const msg_si = {
         duplicate_email: 'E-naslov je že bila registrirana',
         user_already_exist: 'Registracija s temi podatki (ime,priimek, telefonska)je že uporabljena.Za vstop na spletno stran, klikni na gumb LOGIN na Začetni Strani.',
         user_extralist_not_found: 'Uporabnik ni najden v arhivu, vpiši Ime,Priimek in telefonsko, ki si jo posredoval v listi leta 2019. Če je to nova registracija, se moraš prijaviti potom LINKA osebe, ki te vabi.',
-        user_not_this_aportador: 'Uporabljaš link druge osebe, različen od tvojega originalnega povabljenca.',
+        user_aportador_not_valid: 'Il link di registrazione non sembra risultare valido.',
         duplicate_username: 'To Uporabniško ime je že uporabljeno',
         username_not_valid: 'Username not valid',
         aportador_not_exist: 'To Uporabniško ime, ki te je povabilo, ni več prisotno.Kontaktiraj nas.',

@@ -208,7 +208,7 @@ const msg_website_it = {
       descr: '<ul class="mylist" style="padding-left: 20px;">'
         + '<li><strong>Condividendolo</strong> a tutti coloro che vogliono far parte insieme della crescita e sviluppo di una Nuova Era</li>'
         + '<li>Rispondendo ai <strong>Sondaggi Popolari</strong> e lasciando <strong>Feedback</strong></li>'
-        + '<li>Tramite una <strong>donazione</strong> (<strong>anche 1€</strong> ) per le spese.<br>'
+        + '<li>Tramite una piccola <strong>donazione</strong> per le spese dei Server.<br>'
         + '</ul>'
         + 'Vedo un <strong>futuro</strong> dove non si utilizzerà più denaro. Dove le persone si <strong>aiuteranno</strong> a vicenda e non avranno bisogno di "possedere" cose, ma le <strong>condivideranno</strong> con gli altri.<br>',
     },

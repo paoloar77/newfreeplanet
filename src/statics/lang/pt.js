@@ -398,7 +398,7 @@ const msg_pt = {
         duplicate_email: 'o e-mail já foi registrado',
         user_already_exist: 'O registo com estes dados (nome, apelido e telemóvel) já foi feito. Para acessar o site, clique no botão LOGIN da HomePage.',
         user_extralist_not_found: 'Utilizador no arquivo não encontrado, introduza o Nome, Apelido e número de telemóvel comunicado na lista em 2019. Se este for um novo registo, deve registar-se através do LINK de quem o está a convidar.',
-        user_not_this_aportador: 'Estás a usar um link de alguém que não o teu convidado original',
+        user_aportador_not_valid: 'Il link di registrazione non sembra risultare valido.',
         duplicate_username: 'O nome de usuário já foi usado',
         username_not_valid: 'Username not valid',
         aportador_not_exist: 'O nome de usuário da pessoa que o convidou não está presente. Por favor, contacte-nos.',

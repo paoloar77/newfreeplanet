@@ -388,7 +388,7 @@ const msg_es = {
         duplicate_email: 'La email ya ha sido registrada',
         user_already_exist: 'El registro con estos datos (nombre, apellido y teléfono móvil) ya se ha llevado a cabo. Para acceder al sitio, haga clic en el botón INICIAR SESIÓN desde la Página de inicio.',
         user_extralist_not_found: 'Usuario en el archivo no encontrado, inserte el nombre, apellido y número de teléfono enviado previamente',
-        user_not_this_aportador: 'Stai utilizzando un link di una persona diversa dal tuo invitato originale.',
+        user_aportador_not_valid: 'Il link di registrazione non sembra risultare valido.',
         duplicate_username: 'El nombre de usuario ya ha sido utilizado',
         username_not_valid: 'Username not valid',
         aportador_not_exist: 'El nombre de usuario de la persona que lo invitó no está presente. Contactanos.',

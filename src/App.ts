@@ -44,7 +44,7 @@ export default {
           console.info('SESSIONE IN SVILUPPO ! (DEV)')
           // console.info(process.env)
         }
-        if (tools.isTest()) {
+        if ( tools.isTest() && !process.env.DEV) {
           console.info('SESSIONE IN TEST ! (TEST)')
         } else {
           if (process.env.PROD) {

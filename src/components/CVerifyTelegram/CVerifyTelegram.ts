@@ -5,6 +5,7 @@ import { CCopyBtn } from '../CCopyBtn'
 import { useUserStore } from '@store/UserStore'
 import { useQuasar } from 'quasar'
 import { useI18n } from '@/boot/i18n'
+import { tools } from '@store/Modules/tools'
 
 export default defineComponent({
   name: 'CVerifyTelegram',
@@ -31,7 +32,11 @@ export default defineComponent({
     }
 
     function getLinkBotTelegram(): string {
-      return getValDb('TELEG_BOT_LINK', false)
+      if (tools.isTest() && !process.env.DEV) {
+        return getValDb('TELEG_BOT_LINK_TEST', false)
+      } else{
+        return getValDb('TELEG_BOT_LINK', false)
+      }
     }
     function getBotNameTelegram() {
       return t('ws.botname');
