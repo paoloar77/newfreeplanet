@@ -178,11 +178,13 @@ export default defineComponent({
           strskills += '}, \n'
         }
 
-        // subskills
-        strsubskills += '{ \n'
-        strsubskills += '   idSkill: ' + idSkill + ','
-        strsubskills += '   descr:\'' + sotto_cat + '\','
-        strsubskills += '}, \n'
+        if (sotto_cat !== '') {
+          // subskills
+          strsubskills += '{ \n'
+          strsubskills += '   idSkill: ' + idSkill + ','
+          strsubskills += '   descr:\'' + sotto_cat + '\','
+          strsubskills += '}, \n'
+        }
 
         indrecsub++
       }

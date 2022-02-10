@@ -459,15 +459,19 @@ export default defineComponent({
             } else {
               if ((item.table === 'skills') && item.value === costanti.FILTER_TUTTI) {
                 let obj2: any = {}
-                // idSector
-                obj2['sector._id'] = idSector
-                filtersearch2.push(obj2)
+                if (idSector > 0) {
+                  // idSector
+                  obj2['sector._id'] = idSector
+                  filtersearch2.push(obj2)
+                }
               }
               if ((item.table === 'subskills') && item.value === costanti.FILTER_TUTTI) {
                 let obj2: any = {}
                 // idSector
-                obj2['myskill._id'] = idSkill
-                filtersearch2.push(obj2)
+                if (idSkill > 0) {
+                  obj2['myskill._id'] = idSkill
+                  filtersearch2.push(obj2)
+                }
               }
             }
 
@@ -493,7 +497,8 @@ export default defineComponent({
             })
           }
         }
-        if ((false && nosearch && props.finder) || (props.finder_noNull && nosearch)) {
+        // if ((false && nosearch && props.finder) || (props.finder_noNull && nosearch)) {
+        if (props.finder_noNull && nosearch) {
           returnedData.value = []
           returnedCount = 0
           return true

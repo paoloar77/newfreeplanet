@@ -213,6 +213,12 @@
         @click="EseguiFunz('setVerifiedByAportadorToALL')"></q-btn>
       <br>
     </div>
+    <div class="row">
+      <q-btn
+        label="emptyDbSkill" color="negative"
+        @click="EseguiFunz('emptyDbSkill')"></q-btn>
+      <br>
+    </div>
 
 
     <q-field

@@ -98,7 +98,7 @@ export default defineComponent({
           arrvalue: [],
           type: costanti.FieldType.select,
           filter: null,
-          addall: false,
+          addall: true,
           notinsearch: true,
           useinput: false,
         },
