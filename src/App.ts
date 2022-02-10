@@ -5,6 +5,7 @@ import { useI18n } from '@src/boot/i18n'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 import { Header } from '@/components/Header'
+import { MyFooter } from '@/components/MyFooter'
 import { computed } from 'vue'
 import { CProvaPao } from '@/components/CProvaPao'
 import { tools } from '@store/Modules/tools'
@@ -12,6 +13,7 @@ import { tools } from '@store/Modules/tools'
 export default {
   components: {
     appHeader: Header,
+    appFooter: MyFooter,
     CProvaPao,
     BannerCookies, /* , CPreloadImages */
   },

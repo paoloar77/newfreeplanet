@@ -42,6 +42,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: '',
+    },
+    labelextra: {
+      type: String,
+      required: false,
+      default: '',
     }
   },
   setup(props, { emit }) {
@@ -206,7 +211,7 @@ export default defineComponent({
 
 
     function setCmd($q: any, cmd: number, usernameDest: string, value: any, groupname: string) {
-      tools.setCmd($q, cmd, usernameDest, value, username.value)
+      tools.setCmd($q, cmd, username.value, value, usernameDest)
 
       if (cmd === shared_consts.FRIENDSCMD.SETTRUST) {
         setRequestTrust(usernameDest, value)

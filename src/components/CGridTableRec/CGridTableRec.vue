@@ -110,7 +110,7 @@
               :label="labelcombo(item)"
               v-model:value="item.value"
               @update:value="searchval(item.value, item.table)"
-              :addall="true"
+              :addall="item.addall"
               :tablesel="item.type === costanti.FieldType.select_by_server ? item.tablesel : ''"
               :pickup="item.type === costanti.FieldType.select_by_server"
               label-color="primary"
@@ -135,7 +135,7 @@
               :label="labelcombo(item)"
               v-model:arrvalue="item.arrvalue"
               @update:arrvalue="searchval(item.arrvalue, item.table)"
-              :addall="true"
+              :addall="item.addall"
               :tablesel="item.tablesel"
               :pickup="true"
               :param1="item.param1"
@@ -309,6 +309,7 @@
               :mycontact="props.row"
               :visu="visufind"
               :groupname="extrafield"
+              :labelextra="props.row[col_title]"
             />
           </div>
 

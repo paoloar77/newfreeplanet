@@ -583,7 +583,7 @@ const baseroutes: IListRoutes[] = [
     inmenu: true,
   },
   {
-    active: true,
+    active: false,
     order: 80,
     path: '/calendario-eventi',
     materialIcon: 'event',

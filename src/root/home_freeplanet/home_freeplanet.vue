@@ -27,15 +27,6 @@
 
         </CFinder>
 
-        <q-banner rounded class="bg-primary text-white">
-          <div class="text-h6 text-center">
-            Ora Accedi al Bot Telegram <br>
-            per vedere tutti i Menu e le chat !
-          </div>
-          <template v-slot:action>
-            <q-btn icon="fab fa-telegram" flat color="white" label="Accedi al Bot Telegram" type="a" target="__blank" :href="getLinkBotTelegram()"/>
-          </template>
-        </q-banner>
       </div>
 
     </div>

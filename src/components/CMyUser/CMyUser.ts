@@ -30,6 +30,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: '',
+    },
+    labelextra: {
+      type: String,
+      required: false,
+      default: '',
     }
   },
 

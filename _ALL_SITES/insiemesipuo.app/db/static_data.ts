@@ -416,7 +416,7 @@ const baseroutes: IListRoutes[] = [
     active: true,
     order: 130,
     path: '/friends',
-    materialIcon: 'fas fa-users',
+    materialIcon: 'eva-people-outline',
     name: 'mypages.friends',
     component: () => import('@/views/user/myfriends/myfriends.vue'),
     meta: { requiresAuth: true },
@@ -583,7 +583,7 @@ const baseroutes: IListRoutes[] = [
     inmenu: true,
   },
   {
-    active: true,
+    active: false,
     order: 80,
     path: '/calendario-eventi',
     materialIcon: 'event',

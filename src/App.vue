@@ -1,11 +1,13 @@
 <template>
   <div>
-    <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
+    <q-layout view="lHh Lpr lFf" class="shadow-2 rounded-borders">
       <app-header></app-header>
       <q-ajax-bar></q-ajax-bar>
 
       <!--<CPreloadImages :arrimg="static_data.preLoadImages">
       </CPreloadImages>-->
+
+      <app-footer></app-footer>
 
       <q-page-container id="mypage">
         <div v-if="finishLoading">

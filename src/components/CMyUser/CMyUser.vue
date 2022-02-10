@@ -8,7 +8,8 @@
         </q-item-section>
 
         <q-item-section @click="naviga(`/my/` + contact.username)">
-          <q-item-label><strong>{{ contact.username }}</strong> <span v-if="contact.name">({{ contact.name }} {{ contact.surname }})</span>
+          <q-item-label v-if="labelextra"><strong>{{ labelextra }}</strong></q-item-label>
+          <q-item-label>{{ contact.username }} <span v-if="contact.name">({{ contact.name }} {{ contact.surname }})</span>
           </q-item-label>
           <q-item-label v-if="contact.profile" caption lines="1"><em>{{ contact.profile.qualifica }}</em></q-item-label>
         </q-item-section>

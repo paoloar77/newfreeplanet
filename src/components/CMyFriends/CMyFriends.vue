@@ -38,7 +38,8 @@
         :mycontact="mycontact"
         @setCmd="setCmd"
         :visu="visu"
-        :groupname="groupname">
+        :groupname="groupname"
+        :labelextra="labelextra">
       </CMyUser>
       </span>
     </q-list>

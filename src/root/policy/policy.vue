@@ -2,13 +2,13 @@
     <q-page class="">
         <div class="landing">
             <PagePolicy
-                    owneremail="info@associazioneshen.it"
-                    SiteName="Associazione Shen"
-                    ownerDataName="Associazione Shen"
-                    managerData="Cristina Barattoni"
+                    owneremail=""
+                    SiteName=""
+                    ownerDataName=""
+                    managerData=""
                     includeData="dati anagrafici (ragione sociale, nome, cognome), recapiti (telefono, indirizzo email)"
-                    url="www.associazioneshen.it"
-                    lastdataupdate="11 luglio 2019"
+                    url=""
+                    lastdataupdate=""
                     country="Italia"
             >
 

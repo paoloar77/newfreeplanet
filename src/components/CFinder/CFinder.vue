@@ -1,6 +1,6 @@
 <template>
   <div class="bi-border-all">
-    <div class="q-ma-xs q-gutter-xs q-pa-xs bg-green">
+    <div class="q-ma-xs q-gutter-xs q-pa-xs">
       <CGridTableRec
         v-if="searchList.length > 0"
         prop_mytable="myskills"

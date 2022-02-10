@@ -4833,7 +4833,7 @@ export const tools = {
     } else if (cmd === shared_consts.GROUPSCMD.CANCEL_REQ_GROUP) {
       tools.cancelReqGroups($q, username, dest)
     } else if (cmd === shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS) {
-      tools.removeFromMyFriends($q, username, value)
+      tools.removeFromMyFriends($q, username, dest)
     } else if (cmd === shared_consts.FRIENDSCMD.BLOCK_USER) {
       tools.blockUser($q, username, dest)
     } else if (cmd === shared_consts.FRIENDSCMD.SETFRIEND) {

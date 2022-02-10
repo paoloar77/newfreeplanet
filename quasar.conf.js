@@ -49,7 +49,7 @@ module.exports = configure((ctx) => ({
   extras: [
     // 'ionicons-v4',
     // 'mdi-v5',
-    // 'eva-icons',
+    'eva-icons',
     // 'themify',
     // 'line-awesome',
     'ionicons-v4',
