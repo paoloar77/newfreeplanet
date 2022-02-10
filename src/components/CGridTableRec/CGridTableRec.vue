@@ -65,6 +65,7 @@
             :props="props"
             class="text-italic text-weight-bold"
           >
+
             <span v-if="col && showColCheck(col, tools.TIPOVIS_SHOW_RECORD, true)">
               {{ col.label }}
             </span>
@@ -266,6 +267,7 @@
             <div
               v-if="showColCheck(col, tools.TIPOVIS_SHOW_RECORD, true, 1, props.row)" class="tdclass">
               <div :class="getclrow(props.row)">
+
                 <CMyPopupEdit
                   :table="mytable"
                   :canEdit="canEdit"
@@ -353,7 +355,6 @@
             <q-card-section class="inset-shadow">
               <q-list dense>
                 <div v-for="col in mycolumns" :key="col.name">
-
                   <q-item v-if="showColCheck(col, tools.TIPOVIS_SHOW_RECORD, false, tools.getValue(props.row,col.field, col.subfield))"
                           :class="clByCol(col)" class="riduci_pad">
 
@@ -414,7 +415,6 @@
             <div
               class="q-ma-sm q-pa-sm colmodif col-grow rounded-borders " style="border: 1px solid #bbb"
               @click="colclicksel = mycol">
-
               <CMyPopupEdit
                 :table="mytable"
                 :canEdit="true"

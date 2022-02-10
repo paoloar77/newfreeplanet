@@ -107,13 +107,12 @@
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.listimages" style="text-align: center;">
-            <p v-if="isInModif">
-              {{ $t('reg.image') }}:
-            </p>
             <CGallery
+              :imagebak="col.showpicprofile_ifnotset ? userStore.getImgByProfile(row) : ''"
               :title="getTitleGall()"
               :directory="getDirectoryGall()"
               :imgGall="myvalue"
+              :isInModif="isInModif"
               :edit="isviewfield() && isInModif"
               :canModify="canModify && isInModif"
               @showandsave="Savedb">
@@ -123,11 +122,13 @@
             <div v-if="canEdit">
               {{ $t('reg.photo') }}
               <CGallery
+                :imagebak="col.showpicprofile_ifnotset ? userStore.getImgByProfile(row['profile']) : ''"
                 :title="getTitleGall()"
                 :directory="getDirectoryGall()"
                 :imgGall="[{ imagefile: myvalue }]"
                 :edit="isviewfield()"
                 :canModify="canModify"
+                :isInModif="isInModif"
                 :single="isFieldDb()"
                 @update:imgGall="changevalRec"
                 @showandsave="Savedb">

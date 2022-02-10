@@ -115,6 +115,7 @@
         mykey="profile"
         mysubkey="biografia"
         maxlength="300"
+        hint="Scrivi chi sei e quale percorso formativo hai fatto"
         :showall="true"
         :type="costanti.FieldType.string">
       </CMyFieldDb>

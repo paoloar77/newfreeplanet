@@ -155,35 +155,39 @@ export default defineComponent({
         if (sector)
           sector = sector.replace('\'', '\\\'')
 
-        idSector = findidSector(sector)
-        if (!idSector) {
-          idSector = createSector(sector)
+        if (sector) {
+          idSector = findidSector(sector)
+          if (!idSector) {
+            idSector = createSector(sector)
 
-          // sectors
-          strsectors += '{ \n'
-          strsectors += '   _id:' + idSector + ','
-          strsectors += '   descr:\'' + sector + '\','
-          strsectors += '}, \n'
-        }
+            // sectors
+            strsectors += '{ \n'
+            strsectors += '   _id:' + idSector + ','
+            strsectors += '   descr:\'' + sector + '\','
+            strsectors += '}, \n'
+          }
 
-        idSkill = findidSkill(skill)
-        if (!idSkill) {
-          idSkill = createSkill(skill)
+          if (skill !== '') {
+            idSkill = findidSkill(skill)
+            if (!idSkill) {
+              idSkill = createSkill(skill)
 
-          // skills
-          strskills += '{ \n'
-          strsectors += '   _id:' + idSkill + ','
-          strskills += '   idSector: [' + idSector + '],'
-          strskills += '   descr:\'' + skill + '\','
-          strskills += '}, \n'
-        }
+              // skills
+              strskills += '{ \n'
+              strsectors += '   _id:' + idSkill + ','
+              strskills += '   idSector: [' + idSector + '],'
+              strskills += '   descr:\'' + skill + '\','
+              strskills += '}, \n'
+            }
+          }
 
-        if (sotto_cat !== '') {
-          // subskills
-          strsubskills += '{ \n'
-          strsubskills += '   idSkill: ' + idSkill + ','
-          strsubskills += '   descr:\'' + sotto_cat + '\','
-          strsubskills += '}, \n'
+          if (sotto_cat !== '') {
+            // subskills
+            strsubskills += '{ \n'
+            strsubskills += '   idSkill: ' + idSkill + ','
+            strsubskills += '   descr:\'' + sotto_cat + '\','
+            strsubskills += '}, \n'
+          }
         }
 
         indrecsub++

@@ -522,6 +522,7 @@ export interface IColGridTable {
   field_extra1?: string
   subfield_extra1?: string
   allowNewValue?: boolean
+  showpicprofile_ifnotset?: boolean
 }
 
 export interface ITableRec {

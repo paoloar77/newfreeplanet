@@ -60,6 +60,7 @@ function AddCol(params: IColGridTable) {
     field_extra1: (params.field_extra1 === undefined) ? '' : params.field_extra1,
     subfield_extra1: (params.subfield_extra1 === undefined) ? '' : params.subfield_extra1,
     allowNewValue: (params.allowNewValue === undefined) ? false : params.allowNewValue,
+    showpicprofile_ifnotset: (params.showpicprofile_ifnotset === undefined) ? false : params.showpicprofile_ifnotset,
     visible: (params.visible === undefined) ? true : params.visible,
     icon: (params.icon === undefined) ? '' : params.icon,
     action: (params.action === undefined) ? '' : params.action,
@@ -531,7 +532,9 @@ export const colmySkills = [
     label_trans: 'skill.photos',
     fieldtype: costanti.FieldType.listimages,
     jointable: '',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    showpicprofile_ifnotset: true,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+    visible: true,
   }),
   AddCol({
     name: 'idSector',

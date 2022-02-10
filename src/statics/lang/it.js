@@ -21,6 +21,7 @@ const msg_it = {
       title: 'Titolo',
       directory: 'Directory',
       list: 'Lista',
+      select_image: 'Scegli un\'Immagine',
     },
     profile: {
       chisei: 'Chi Sei? Raccontaci di te:',

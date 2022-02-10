@@ -1,8 +1,9 @@
 <template>
   <!--<div class="q-pa-md items-start " style="display: inline-flex; width: 800px;"> -->
+
   <div v-if="!edit">
-    <div class="q-pa-md q-gutter-md">
-      <q-card :class="getclass()" @click="apri">
+    <div class="q-pa-xs q-gutter-md">
+      <q-card v-if="getlistimages().length > 0" :class="getclass()" @click="apri">
         <div v-for="(mygallery, index) in getlistimages()" :key="index">
           <div v-if="index === 0">
             <q-img
@@ -16,6 +17,20 @@
           </div>
         </div>
       </q-card>
+      <div v-if="!isInModif && getlistimages().length <= 0 && imagebak">
+
+        <q-card :class="getclass()" @click="ImgFullScreen(mygallery)">
+          <q-img
+            :src="imagebak" :class="getclimg()">
+          </q-img>
+        </q-card>
+
+      </div>
+      <q-btn
+        v-if="isInModif"
+        color="primary" @click="apri"
+        :label="$t('gallery.select_image')">
+      </q-btn>
     </div>
   </div>
   <div v-else>
@@ -53,8 +68,8 @@
                 </div>
               </q-img>
 
-
               <q-field
+                v-if="canModify"
                 stack-label
                 dense
                 label="Nome File">
@@ -65,6 +80,7 @@
               </q-field>
 
               <q-input
+                v-if="canModify"
                 v-model="mygallery.description"
                 dense
                 :label="$t('proj.longdescr')"
@@ -156,7 +172,8 @@
                   Foto {{ index + 1 }}
                 </div>
                 <q-space></q-space>
-                <q-btn v-if="canModify" flat round color="red" icon="fas fa-trash-alt" @click="deleteFile(mygallery)"></q-btn>
+                <q-btn v-if="canModify" flat round color="red" icon="fas fa-trash-alt"
+                       @click="deleteFile(mygallery)"></q-btn>
               </q-bar>
 
               <q-card
@@ -178,6 +195,7 @@
                 </q-img>
                 <q-card-section>
                   <q-field
+                    v-if="canModify"
                     stack-label
                     dense
                     label="Nome File">
@@ -187,6 +205,7 @@
 
                   </q-field>
                   <q-input
+                    v-if="canModify"
                     v-model="mygallery.description"
                     dense
                     :label="$t('proj.longdescr')"
@@ -219,6 +238,15 @@
                 style="width: 208px"
               ></q-uploader>
             </div>
+          </div>
+          <div v-if="!isInModif && getlistimages().length <= 0 && imagebak">
+
+            <q-card :class="getclass()" @click="ImgFullScreen(mygallery)">
+              <q-img
+                :src="imagebak" :class="getclimg()">
+              </q-img>
+            </q-card>
+
           </div>
         </div>
 

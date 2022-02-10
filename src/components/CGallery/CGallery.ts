@@ -19,6 +19,11 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    isInModif: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     single: {
       type: Boolean,
       required: false,
@@ -28,6 +33,11 @@ export default defineComponent({
     directory: {
       type: String,
       required: true,
+    },
+    imagebak: {
+      type: String,
+      required: false,
+      default: '',
     },
     imgGall: {
       type: Object as PropType<IImgGallery[] | string | undefined | null>,
@@ -184,7 +194,7 @@ export default defineComponent({
     }
 
     function getclass() {
-      return (props.edit || displayGall.value) ? 'my-card-gallery' : 'my-card-gallery-view' + ' text-center'
+      return (props.edit || displayGall.value) ? (props.isInModif ? 'my-card-gallery' : 'my-card-gallery-noModif') : 'my-card-gallery-view' + ' text-center'
     }
 
     function getclimg() {
@@ -247,7 +257,12 @@ export default defineComponent({
     }
 
     function getfullname(rec: any) {
-      return costanti.DIR_UPLOAD + props.directory + '/' + rec.imagefile
+      if (rec) {
+        return costanti.DIR_UPLOAD + props.directory + '/' + rec.imagefile
+      } else {
+        return props.imagebak
+      }
+
     }
 
     function copytoclipboard(rec: any) {
