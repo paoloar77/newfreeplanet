@@ -17,6 +17,10 @@
       label="Esegui"
       @click="eseguiCmd"></q-btn>
       {{risultato}}
+
+      <br><br><br><br><br>
+      VERSIONE HTML:
+      <div v-html="risultato"></div>
       <br>
       <br>
     </div>

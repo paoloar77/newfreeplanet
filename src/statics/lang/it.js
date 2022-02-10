@@ -906,7 +906,10 @@ const msg_it = {
       cancel_ask_group_short: 'Annulla richiesta',
       refuse_ask_group_short: 'Rifiuta la richiesta',
       pwd: 'Password per accedere',
-    }
+    },
+    finder: {
+      search_skill: 'Cerca una specializzazione'
+    },
   },
 
 };

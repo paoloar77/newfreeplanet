@@ -12,6 +12,7 @@ import { colmySkills } from '@store/Modules/fieldsTable'
 import { CGridTableRec } from '@/components/CGridTableRec'
 import { IMySkill, ISearchList, ISkill } from 'model'
 import { shared_consts } from '@/common/shared_vuejs'
+import { useI18n } from '@/boot/i18n'
 
 export default defineComponent({
   name: 'CFinder',
@@ -26,12 +27,15 @@ export default defineComponent({
   },
   setup(props, { attrs, slots, emit }) {
     const mytable = 'users'
+    const { t } = useI18n();
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
 
     const arrfilterand: any = ref([])
     const filtercustom: any = ref([])
     const searchList = ref(<ISearchList[]>[])
+
+    const search = ref('')
 
     const idSector = computed(() => {
       let myval: any = null
@@ -114,9 +118,9 @@ export default defineComponent({
           label: 'Specializzazione',
           table: 'subskills',
           key: 'idSubSkill',
-          value: 0,
-          type: costanti.FieldType.multiselect,
-          arrvalue: [costanti.FILTER_TUTTI],
+          value: tools.getCookie(tools.COOK_SEARCH + 'subskills' + '_' + tools.getCookie(tools.COOK_SEARCH + 'skills', costanti.FILTER_TUTTI), costanti.FILTER_TUTTI),
+          type: costanti.FieldType.select,
+          arrvalue: [],
           addall: true,
           filter: getFilterSubSkills,
           showcount: true,
@@ -302,9 +306,14 @@ export default defineComponent({
       }
     }
 
+    function doSearch() {
+      //
+    }
+
     onMounted(mounted)
 
     return {
+      t,
       tools,
       costanti,
       colmySkills,
@@ -314,6 +323,8 @@ export default defineComponent({
       filtercustom,
       searchList,
       idSector,
+      search,
+      doSearch,
     }
   },
 })

@@ -1,6 +1,17 @@
 <template>
   <div class="bi-border-all">
     <div class="q-ma-xs q-gutter-xs q-pa-xs">
+
+      <div v-if="true" class="q-mr-sm">
+        <q-input
+          v-model="search" filled dense type="search" debounce="500" :hint="t('finder.search_skill')"
+          v-on:keyup.enter="doSearch">
+          <template v-slot:after>
+            <q-btn dense label="" color="primary" @click="doSearch" icon="search"></q-btn>
+          </template>
+        </q-input>
+      </div>
+
       <CGridTableRec
         v-if="searchList.length > 0"
         prop_mytable="myskills"

@@ -111,6 +111,8 @@ export const shared_consts = {
     PROVINCE: 1,
     COMUNI: 2,
     CITIES_SERVER: 3,
+    CAT_TXT: 4,
+    CAT_NO_SPAZI: 5,
   },
 
   BotType: [
