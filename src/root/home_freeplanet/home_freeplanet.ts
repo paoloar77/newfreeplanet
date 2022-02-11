@@ -5,6 +5,7 @@ import {
 import { tools } from '@src/store/Modules/tools'
 import { CSkill } from '@/components/CSkill'
 import { CFinder } from '@/components/CFinder'
+import { CDashboard } from '@/components/CDashboard'
 import { CChartMap } from '@src/components/CChartMap'
 import { CMapsEsempio } from '@src/components/CMapsEsempio'
 import { CVerifyEmail } from '@src/components/CVerifyEmail'
@@ -17,7 +18,7 @@ import MixinBase from '@/mixins/mixin-base'
 
 export default defineComponent({
   name: 'Home',
-  components: { CSkill, CChartMap, CMapsEsempio, CFinder, CVerifyEmail, CVerifyTelegram },
+  components: { CSkill, CChartMap, CMapsEsempio, CFinder, CVerifyEmail, CVerifyTelegram, CDashboard },
   setup() {
     const globalStore = useGlobalStore()
     const userStore = useUserStore()

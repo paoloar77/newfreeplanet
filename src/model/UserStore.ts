@@ -30,6 +30,12 @@ export interface IMyGroup {
   date_blocked?: Date
 }
 
+export interface ICalcStat {
+  numUsersReg: number
+  numMySkills: number
+  numGroups: number
+}
+
 export interface IUserProfile {
   img?: string
   nationality?: string
@@ -110,6 +116,7 @@ export interface IUserFields {
   numinvitatiattivi?: number
   cart?: ICart
   ordercart?: IOrderCart
+  calcstat?: ICalcStat|null
 }
 
 /*

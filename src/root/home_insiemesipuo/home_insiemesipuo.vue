@@ -28,6 +28,8 @@
 
           </CFinder>
 
+          <CDashboard></CDashboard>
+
         </div>
       </div>
 

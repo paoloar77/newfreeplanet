@@ -27,6 +27,8 @@
 
         </CFinder>
 
+        <CDashboard></CDashboard>
+
         <q-banner rounded class="bg-primary text-white">
           <div class="text-h6 text-center">
             Accedi al Bot Telegram <br>
