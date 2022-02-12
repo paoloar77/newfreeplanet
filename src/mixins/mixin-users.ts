@@ -193,5 +193,6 @@ export default function () {
     TelegVerificato,
     isVerified,
     paotest,
+    getRefLink,
   }
 }

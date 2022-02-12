@@ -252,6 +252,7 @@ export default defineComponent({
     let returnedData: any = ref([])
     let returnedCount = 0
     const colVisib: any = ref([])
+    const colNotVisib: any = ref([])
     const colExtra: any = ref([])
 
     const rowclicksel = ref(<any>null)
@@ -816,6 +817,7 @@ export default defineComponent({
       // console.log('updatedcol')
       if (mycolumns.value) {
         colVisib.value = []
+        colNotVisib.value = []
         colExtra.value = []
         mycolumns.value.forEach((elem: IColGridTable) => {
 
@@ -824,6 +826,8 @@ export default defineComponent({
             if (elem.field !== costanti.NOFIELD) {
               if (checkIfColShow(elem.field)) {
                 colVisib.value.push(elem.field + mysub)
+              } else {
+                colNotVisib.value.push(elem.field + mysub)
               }
             }
 
@@ -1041,7 +1045,23 @@ export default defineComponent({
     function changeCol(newval: any) {
       // console.log('changecol', mytable.value)
       if (!!mytable.value) {
-        tools.setCookie(mytable.value, colVisib.value.join('|'))
+        let arrcol = []
+        let col: IColGridTable = {name: ''}
+        for (col of mycolumns.value) {
+          if (col.field !== costanti.NOFIELD) {
+            let obj = {
+              n: col.field + (col.subfield ? col.subfield : ''),
+              v: 0
+            }
+            obj.v = colVisib.value.includes(obj.n) ? 1 : 0
+            if (obj.v === 0) {
+              // scrive solo quelli da nascondere !
+              arrcol.push(obj.n + ',' + obj.v)
+            }
+          }
+        }
+
+        tools.setCookie(mytable.value + '_', arrcol.join('|'))
       }
     }
 
@@ -1100,17 +1120,46 @@ export default defineComponent({
       updatedcol()
 
       if (!!mytable.value) {
-        const myselcol = tools.getCookie(mytable.value, '')
+        // Leggi la lista delle colonne visibili:
+        const myselcol = tools.getCookie(mytable.value + '_', '')
+
+        colVisib.value = []
+
+        let elem: IColGridTable
+        for (elem of mycolumns.value) {
+          if (elem.field !== costanti.NOFIELD) {
+            if (checkIfColShow(elem.field)) {
+              colVisib.value.push(elem.field! + elem.subfield!)
+            }
+          }
+        }
+
+
         if (!!myselcol && myselcol.length > 0) {
-          colVisib.value = myselcol.split('|')
-        } else {
-          mycolumns.value.forEach((elem: any) => {
-            if (elem.field !== costanti.NOFIELD) {
-              if (checkIfColShow(elem.field)) {
-                colVisib.value.push(elem.field + elem.subfield)
+          const arrselcol = myselcol.split('|')
+
+          for (const col of arrselcol) {
+            const arrv = col.split(',')
+            if (arrv.length > 1) {
+              let field = arrv[0]
+              let visib = arrv[1]
+              const rec = mycolumns.value.find((rec: any) => (rec.field + rec.subfield) === field)
+
+
+              if (rec) {
+                if (field) {
+                  if (visib === '1') {
+                    if (!colVisib.value.includes(field))
+                      colVisib.value.push(field)  // se non incluso allora lo aggiungi
+                  } else if (visib === '0') {
+                    // Se da togliere, lo togli
+                    if (colVisib.value.includes(field))
+                      colVisib.value = colVisib.value.filter((rec: any) => rec !== field)
+                  }
+                }
               }
             }
-          })
+          }
         }
       }
 

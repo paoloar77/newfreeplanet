@@ -349,7 +349,10 @@
           <q-card :class="props.selected ? 'bg-grey-2 my-card-withshadow no-padding' : 'my-card-withshadow no-padding'"
                   style="background: radial-gradient(circle, #ffffff 0%, #bbddff 100%)">
             <q-bar v-if="!visuinpage && canModifyThisRec(props.row)" dense class="bg-primary text-white full-height">
-              <span v-if="props.row['username']">{{props.row['username']}}</span>
+              <q-badge v-if="props.row['adType']" :color="props.row['adType'] === 1 ? 'green' : 'red'">
+                {{ fieldsTable.getValByTabAndId(tablesel, 'adType', props.row['adType']) }}<q-icon :name="props.row['adType'] === 1 ? 'fas fa-street-view' : 'fas fa-search'" color="white" class="q-ml-xs" />
+              </q-badge>
+
               <q-space/>
 
               <q-btn
@@ -464,7 +467,7 @@
           <div
             v-for="col in mycolumns" :key="col.name" class="newrec_fields">
             <div
-              v-if="showColCheck(col, tools.TIPOVIS_NEW_RECORD, true, 0, newRecord) && col.foredit">
+              v-if="showColCheck(col, tools.TIPOVIS_NEW_RECORD, true, 0, newRecord) && col.foredit ">
               <div class="">
                 <CMyPopupEdit
                   :table="mytable"
@@ -490,7 +493,7 @@
           </div>
         </q-card-section>
         <q-card-actions align="center">
-          <q-btn flat :label="$t('dialog.ok')" color="primary" @click="saveNewRecord"></q-btn>
+          <q-btn :label="$t('dialog.ok')" color="primary" @click="saveNewRecord"></q-btn>
           <q-btn flat :label="$t('dialog.cancel')" color="primary" v-close-popup @click="annulla"></q-btn>
         </q-card-actions>
       </q-card>
@@ -530,7 +533,7 @@
           </div>
         </q-card-section>
         <q-card-actions align="center">
-          <q-btn flat :label="$t('dialog.ok')" color="primary" @click="saverecModif"></q-btn>
+          <q-btn :label="$t('dialog.ok')" color="primary" @click="saverecModif"></q-btn>
           <q-btn flat :label="$t('dialog.cancel')" color="primary" @click="cancelrecModif"></q-btn>
         </q-card-actions>
       </q-card>

@@ -1,6 +1,7 @@
 import { CMyFieldDb } from '@/components/CMyFieldDb'
 import { CTitleBanner } from '@/components/CTitleBanner'
 import { CProfile } from '@/components/CProfile'
+import { CCopyBtn } from '@/components/CCopyBtn'
 import { CSkill } from '@/components/CSkill'
 import { CDateTime } from '@/components/CDateTime'
 import { tools } from '@store/Modules/tools'
@@ -15,17 +16,20 @@ import { costanti } from '@costanti'
 import { IUserFields } from 'model'
 import { shared_consts } from '@/common/shared_vuejs'
 import { static_data } from '@/db/static_data'
+import MixinUsers from '@/mixins/mixin-users'
 
 
 export default defineComponent({
   name: 'myprofile',
-  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime },
+  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CCopyBtn },
   props: {},
   setup() {
     const userStore = useUserStore()
     const $route = useRoute()
     const $q = useQuasar()
     const { t } = useI18n()
+
+    const { getRefLink } = MixinUsers()
 
     const animation = ref('fade')
 
@@ -114,6 +118,7 @@ export default defineComponent({
       static_data,
       animation,
       isMyRecord,
+      getRefLink,
     }
   }
 })

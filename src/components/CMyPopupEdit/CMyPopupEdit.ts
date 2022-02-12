@@ -705,6 +705,7 @@ export default defineComponent({
       noPopupeditByCol,
       getTitleEditor,
       getToByCol,
+      t,
     }
   }
 })

@@ -431,6 +431,7 @@ const msg_it = {
       teleg_id_old: 'OLD Tel ID',
       teleg_auth: 'Codice Autorizzazione',
       click_per_copiare: 'Cliccaci sopra per copiarlo sugli appunti',
+      link_reg: 'Clicca per copiare il link da condividere agli Amici',
       copia_messaggio: 'Copia Messaggio',
       teleg_torna_sul_bot: '1) Copia il codice cliccando sul bottone qui sopra<br>2) torna su {botname} cliccando qui sotto 👇 ed incolla (o scrivi) il codice',
       teleg_checkcode: 'Codice Telegram',
@@ -874,6 +875,7 @@ const msg_it = {
       follow_groups: 'Gruppi che Seguo',
       create_group: 'Crea Gruppo',
       friends: 'Amici',
+      work: 'Lavoro',
       groups: 'Gruppi',
       request_friends: 'Rich. Amicizia',
       request_sent_friends: 'Rich. Inviate',
@@ -911,6 +913,9 @@ const msg_it = {
     finder: {
       search_skill: 'Cerca una specializzazione'
     },
+    adTypes: {
+      name: 'Tipo',
+    }
   },
 
 };

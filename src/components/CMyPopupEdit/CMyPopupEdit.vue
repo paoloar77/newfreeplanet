@@ -417,9 +417,10 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.html">
             <div v-if="isInModif">
-              <p v-if="isInModif" class="text-center">
-                {{ $t('event.testo_di_spiegazione') }}:
-              </p>
+              <q-bar v-if="isInModif" dense class="bg-primary text-white">
+                <span v-if="col.label_trans">{{t(col.label_trans)}}</span><span v-else> {{ $t('event.testo_di_spiegazione') }}: </span>
+                <q-space/>
+              </q-bar>
               <div v-if="!isFieldDb()">
                 <CMyEditor
                   v-model:value="myvalue" :title="!isInModif ? getTitleEditor(col, row) : ''" @keyup.enter.stop

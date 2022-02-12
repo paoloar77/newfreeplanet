@@ -1332,8 +1332,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
         }
 
         if (key === 'username') {
-          console.log('key=', key, 'collab', collab, 'val', val)
-          console.log('myris', risultato)
+          // console.log('key=', key, 'collab', collab, 'val', val)
+          // console.log('myris', risultato)
         }
 
         return risultato

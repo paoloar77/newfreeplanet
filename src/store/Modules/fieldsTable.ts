@@ -2,6 +2,7 @@ import { IColGridTable } from '@model'
 import { useUserStore } from '@store/UserStore'
 import { lists } from './lists'
 import { costanti } from './costanti'
+import { useGlobalStore } from '@store/globalStore'
 
 const DeleteRec = {
   name: 'deleterec',
@@ -531,14 +532,14 @@ export const colmySkills = [
   // AddCol({ name: 'subTitle', label_trans: 'event.title', fieldtype: costanti.FieldType.string,
   //   showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit , maxlength: 70, noshowlabel: true }),
   AddCol({
-    name: 'adTypes',
+    name: 'adType',
     label_trans: 'adTypes.name',
     fieldtype: costanti.FieldType.select,
     required: true,
     jointable: 'adtypes',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
+    icon: 'fas fa-bullhorn',
     noshowlabel: true,
-    icon: 'grading',
   }),
   AddCol({ name: 'descr', label_trans: 'proj.shortdescr', fieldtype: costanti.FieldType.string,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist, noshowlabel: true, maxlength: 200 }),
@@ -1067,6 +1068,15 @@ export const fieldsTable = {
       return ((myrec.collabel) ? myrec.collabel : 'label')
     }
     return 'label'
+  },
+  getValByTabAndId(table: string, field: string, idvalue: any) {
+    const globalStore = useGlobalStore()
+
+    const col = fieldsTable.getColByTable(table, field)
+    if (col) {
+      return globalStore.getValueByTable(col, idvalue)
+    }
+    return ''
   },
   getTitleByTable(mytable: string): string {
     const myrec = this.getrecTableList(mytable)

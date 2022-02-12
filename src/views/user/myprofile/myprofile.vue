@@ -81,6 +81,11 @@
             :href="getLinkWebSite()" target="__blank">
           </q-btn>
         </div>
+
+        <CCopyBtn :title="$t('reg.link_reg')" :texttocopy="getRefLink(username)">
+
+        </CCopyBtn>
+
       </div>
     </div>
     <div v-else class="fit column no-wrap justify-evenly items-center content-start">

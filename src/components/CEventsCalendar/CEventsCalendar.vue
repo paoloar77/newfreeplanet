@@ -343,7 +343,7 @@
             </q-form>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn flat :label="$t('dialog.ok')" color="primary" @click="saveEvent"></q-btn>
+            <q-btn :label="$t('dialog.ok')" color="primary" @click="saveEvent"></q-btn>
             <q-btn flat :label="$t('dialog.cancel')" color="primary" v-close-popup></q-btn>
           </q-card-actions>
         </q-card>
