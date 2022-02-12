@@ -8,7 +8,7 @@
         label="Scuola" to="/school" icon="fas fa-book-reader" color="orange" disable>
       </CBigBtn>
       <CBigBtn
-        label="Luoghi" to="/places" icon="fas fa-map-marker-alt" color="blue-grey" disable>
+        label="Luoghi" to="/places" icon="fas fa-map-marker-alt" color="cyan" disable>
       </CBigBtn>
       <CBigBtn
         label="Mobilità" to="/mobility" icon="fas fa-car-side" color="red" disable>

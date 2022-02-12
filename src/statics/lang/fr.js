@@ -172,6 +172,7 @@ const msg_fr = {
           go_login: 'Retour à la connexion',
           incorrect_input: 'Entrée correcte.',
           link_sent: 'Maintenant, lisez votre email et confirmez votre inscription',
+          reg_ok: 'Registrazione Avvenuta. Esegui il Login inserendo le tue credenziali',
           se_non_ricevo: 'Si vous ne recevez pas le courriel, essayez de vérifier dans le spam, ou contactez nous',
           title_unsubscribe: 'Se désabonner de la newsletter',
           title_unsubscribe_done: 'Abonnement terminé avec succès',

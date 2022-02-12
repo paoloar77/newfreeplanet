@@ -182,6 +182,7 @@ const msg_pt = {
           go_login: 'Back to Login',
           incorrect_input: 'Incorrect_input.',
           link_sent: 'Abra a sua caixa de entrada, encontre o e-mail "Confirmar Registo para {sitename}" e clique em "Verificar Registo"',
+          reg_ok: 'Registrazione Avvenuta. Esegui il Login inserendo le tue credenziali',
           se_non_ricevo: 'Se você não receber o e-mail, tente checar spam, ou entre em contato conosco',
           title_unsubscribe: 'Subscribe to the newsletter',
           title_unsubscribe_done: 'Desregisto completado corretamente',

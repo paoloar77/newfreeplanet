@@ -110,6 +110,7 @@ export const costanti = {
     { label: 'Html', value: 16 },
     { label: 'Select', value: 32 },
     { label: 'Number', value: 64 },
+    { label: 'crypted', value: 9000 },
   ],
 
   TipoVisu: {

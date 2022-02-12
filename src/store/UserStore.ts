@@ -257,7 +257,8 @@ export const useUserStore = defineStore('UserStore', {
     },
 
     isUserOk(): boolean {
-      return this.my.verified_email! && this.my.profile.teleg_id! > 0 && this.my.verified_by_aportador!
+      return this.my.profile.teleg_id! > 0 && this.my.verified_by_aportador!
+      // return this.my.verified_email! && this.my.profile.teleg_id! > 0 && this.my.verified_by_aportador!
     },
 
     getNameSurnameByUserId(userId: string): string {

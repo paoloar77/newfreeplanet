@@ -1,8 +1,8 @@
 const msg_website_es = {
   ws: {
-    sitename: 'AYNI',
-    siteshortname: 'Ayni',
-    botname: 'AYNI BOT',
+    sitename: 'InsiemeSuPuò',
+    siteshortname: 'InsiemeSuPuò',
+    botname: 'InsiemeSuPuò BOT',
   },
   pages: {
     home: 'Home',
@@ -19,6 +19,7 @@ const msg_website_es = {
     status: 'Estadísticas',
     nextzoom: 'Conferencias',
     requestresetpwd: 'Solicitud de restablecimiento de contraseña',
+    calendarioeventi: 'Calendario Eventos',
     vreg: 'Verifica Reg',
     dashboard: 'Tablero',
     statoattuale: 'Estado Actual',
@@ -27,10 +28,6 @@ const msg_website_es = {
     nave: 'Nave',
     testimonial: 'Opiniones',
     Test: 'Test',
-    chisiamo: 'Chi Siamo',
-    linkamici: 'Link Amici',
-    dovesiamo: 'Dove Siamo',
-    calendarioeventi: 'Calendario Eventi',
     Category: 'Categorie',
     Admin: 'Admin',
     Test1: 'Test1',

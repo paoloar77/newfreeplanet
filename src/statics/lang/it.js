@@ -231,6 +231,7 @@ const msg_it = {
           go_login: 'Torna al Login',
           incorrect_input: 'Inserimento incorretto.',
           link_sent: 'Apri la tua casella di posta, trova la email "Confermare la Registrazione: {sitename}" e clicca su "Verifica Registrazione"',
+          reg_ok: 'Registrazione Avvenuta. Esegui il Login inserendo le tue credenziali',
           se_non_ricevo: 'Se non ricevi la email, prova a controllare nella spam, oppure contattaci',
           title_unsubscribe: 'Disiscrizione alla newsletter',
           title_unsubscribe_done: 'Disiscrizione completata correttamente',

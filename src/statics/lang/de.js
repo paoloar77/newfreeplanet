@@ -97,6 +97,7 @@ const msg_de = {
           go_login: 'Back to Login',
           incorrect_input: 'Incorrect input.',
           link_sent: 'Now read your email and confirm registration',
+          reg_ok: 'Registrazione Avvenuta. Esegui il Login inserendo le tue credenziali',
           se_non_ricevo: 'If you do not receive the email, try checking in the spam, or contact us',
           title_unsubscribe: 'Disiscrizione alla newsletter',
           title_unsubscribe_done: 'Disiscrizione completata correttamente',

@@ -3124,8 +3124,12 @@ export const tools = {
       const msg2 = t('fetch.errore_generico') + userStore.getMsgError(riscode)
       this.showNotif(mythisq, msg2)
     } else if (riscode === this.OK) {
-      $router.push('/')
-      this.showNotif(mythisq, t('components.authentication.email_verification.link_sent', { botname: t('ws.botname') }), {
+      $router.push('/signin')
+      /*this.showNotif(mythisq, t('components.authentication.email_verification.link_sent', { botname: t('ws.botname') }), {
+        color: 'green',
+        textColor: 'black',
+      }) */
+      this.showNotif(mythisq, t('components.authentication.email_verification.reg_ok', { botname: t('ws.botname') }), {
         color: 'green',
         textColor: 'black',
       })

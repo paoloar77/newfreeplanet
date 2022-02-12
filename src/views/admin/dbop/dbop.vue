@@ -219,6 +219,12 @@
         @click="EseguiFunz('emptyDbSkill')"></q-btn>
       <br>
     </div>
+    <div class="row">
+      <q-btn
+        label="copyFrom1To13" color="negative"
+        @click="EseguiFunz('copyFrom1To13')"></q-btn>
+      <br>
+    </div>
 
     <div class="row">
       <q-btn
