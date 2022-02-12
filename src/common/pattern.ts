@@ -16,5 +16,5 @@ export class Patterns {
    *
    *  8 to 20 characters string with at least one digit, one upper case letter, one lower case letter and one special symbol
    */
-  public static Password = /^((?=.*[A-Z])(?=.*\d)(?=.*[@#*=])(?!.* ).{8,30})/i
+  public static Password = /^((?=.*[A-Z])(?=.*\d)(?!.* ).{8,30})/i
 }

@@ -80,6 +80,7 @@ export default defineComponent({
       getNumMsg,
       getNumMsgUnread,
       getMsgText,
+      isVerified,
       paotest } = MixinUsers();
 
     function isonline() {
@@ -382,10 +383,6 @@ export default defineComponent({
       return userStore.isLogged
     }
 
-    function isEmailVerified() {
-      return userStore.my.verified_email
-    }
-
     function clickregister() {
       rightDrawerOpen.value = false
 
@@ -445,7 +442,6 @@ export default defineComponent({
       lang,
       langshort,
       isLogged,
-      isEmailVerified,
       getnumOrdersCart,
       t,
       isonline,
@@ -485,6 +481,7 @@ export default defineComponent({
       paotest,
       logoutHandler,
       isUserNotAuth,
+      isVerified,
     }
   },
 

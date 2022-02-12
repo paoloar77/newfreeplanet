@@ -221,7 +221,12 @@ export const useUserStore = defineStore('UserStore', {
       return ''
     },
 
-    getImgByProfile(userparam: IUserFields): string {
+    getImgUserByUsername(username: string): string {
+      let img = this.getImgByUsername(username)
+      return img ? img : 'images/noimg-user.svg'
+    },
+
+    getImgByProfile(userparam: IUserFields, reale: any = false): string {
 
       try {
         if (userparam.profile && userparam.profile.img) {
@@ -229,7 +234,10 @@ export const useUserStore = defineStore('UserStore', {
         }
       } catch (e) {
       }
-      return 'images/noimg.png'
+      if (!reale)
+        return 'images/noimg.png'
+      else
+        return ''
     },
 
     getImgByGroup(group: IMyGroup): string {

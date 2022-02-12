@@ -84,12 +84,14 @@ export const shared_consts = {
 
   PARAM_SHOW_PROVINCE: 1,
 
-  TABLES_ID_NUMBER: ['permissions', 'levels', 'statusSkills', 'sectors', 'catgrps', 'skills', 'subskills', 'cities', 'provinces', 'myskills', 'mygroups'],
+  TABLES_ID_NUMBER: ['permissions', 'levels', 'adtypes', 'statusSkills', 'sectors', 'catgrps', 'skills', 'subskills', 'cities', 'provinces', 'myskills', 'mygroups'],
   TABLES_USER_ID: ['myskills'],
   TABLES_UPDATE_LASTMODIFIED: ['myskills', 'mybots'],
   TABLES_FINDER: ['myskills', 'mygroups'],
 
   TABLES_PERM_CHANGE_FOR_USERS: ['myskills'],
+  TABLES_VISU_LISTA_USER: ['myskills', 'users'],
+  TABLES_NOT_SHOW_IF_USERNAME: ['myskills'],
 
   VISIB_ALL: 0,
   VISIB_ONLYIF_VERIFIED: 1,
@@ -458,6 +460,10 @@ export const shared_consts = {
     {
       label: 'Reggio Emilia',
       value: 'RE',
+    },
+    {
+      label: 'Repubblica di San Marino',
+      value: 'RSM',
     },
     {
       label: 'Rieti',

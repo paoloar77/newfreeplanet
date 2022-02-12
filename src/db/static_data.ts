@@ -20,7 +20,7 @@ const functionality: IFunctionality = {
   BOOKING_EVENTS: true,
   ENABLE_ECOMMERCE: false,
   ENABLE_REG_ISP: true,
-  SHOW_NAMESURNAME: false,
+  ENABLE_GROUPS: false,
 }
 
 // const SHOW_PROJINTHEMENU = false
@@ -374,12 +374,12 @@ const baseroutes: IListRoutes[] = [
     path: '/',
     materialIcon: 'home',
     name: 'pages.home',
-    component: () => import('@src/root/home_freeplanet/home_freeplanet.vue'),
+    component: () => import('@src/root/home_pdnm/home_pdnm.vue'),
     reqauth: false,
     inmenu: true,
     infooter: true,
   },
-  {
+  /*{
     active: true,
     order: 100,
     path: '/presentazione',
@@ -389,7 +389,7 @@ const baseroutes: IListRoutes[] = [
     reqauth: false,
     inmenu: true,
     infooter: true,
-  },
+  },*/
   {
     active: true,
     order: 120,
@@ -424,7 +424,7 @@ const baseroutes: IListRoutes[] = [
     infooter: true,
   },
   {
-    active: true,
+    active: functionality.ENABLE_GROUPS,
     order: 132,
     path: '/groups',
     materialIcon: 'fas fa-users',
@@ -447,7 +447,7 @@ const baseroutes: IListRoutes[] = [
   },
   {
     active: true,
-    order: 135,
+    order: 136,
     path: '/grp/:groupname',
     materialIcon: 'fas fa-user',
     name: 'proj.group2',
@@ -628,8 +628,8 @@ const baseroutes: IListRoutes[] = [
 
 const arrLangUsed = [
   'it',
-  // 'enUs',
-  // 'es',
+  'enUs',
+  'es',
 ]
 
 const lang_available: ILang[] = [

@@ -89,6 +89,10 @@ export default defineComponent({
       return site
     }
 
+    function isMyRecord(username: string){
+      return username === userStore.my.username
+    }
+
     onMounted(mounted)
 
     return {
@@ -109,6 +113,7 @@ export default defineComponent({
       t,
       static_data,
       animation,
+      isMyRecord,
     }
   }
 })

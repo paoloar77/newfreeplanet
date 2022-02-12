@@ -49,7 +49,7 @@ module.exports = configure((ctx) => ({
   extras: [
     // 'ionicons-v4',
     // 'mdi-v5',
-    'eva-icons',
+    // 'eva-icons',
     // 'themify',
     // 'line-awesome',
     'ionicons-v4',
@@ -57,7 +57,7 @@ module.exports = configure((ctx) => ({
     'fontawesome-v5',
     'roboto-font', // optional, you are not bound to it
     'material-icons', // optional, you are not bound to it
-    'material-icons-outlined'
+    'material-icons-outlined',
   ],
 
   aliases: {
@@ -147,14 +147,16 @@ module.exports = configure((ctx) => ({
   },
   devServer: {
     https: false,
-    port: 8082,
+    port: 8083,
     open: false, // opens browser window automatically
+    liveReload: false,
   },
 
   // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
   framework: {
     config: {},
 
+    // iconSet: 'material-icons', // Quasar icon set
     // lang: 'en-US', // Quasar language pack
 
     // For special cases outside of where the auto-import strategy can have an impact
@@ -284,21 +286,31 @@ module.exports = configure((ctx) => ({
     },
 
     manifest: {
-      name: 'FreePlanet',
-      short_name: 'FreePlanet',
-      description: 'New Free Social',
+      name: 'PopoloDelNuovoMondo',
+      short_name: 'PdNM',
+      description: 'Popolo del Nuovo Mondo',
       display: 'standalone',
       orientation: 'portrait',
       background_color: '#ffffff',
       theme_color: '#027be3',
       icons: [
         {
-          src: 'images/android-chrome-192x192.png',
-          sizes: '384x384',
+          src: 'images/pdnm-android-icon-96x96.png',
+          sizes: '96x96',
           type: 'image/png',
         },
         {
-          src: 'images/android-chrome-512x512.png',
+          src: 'images/pdnm-android-icon-144x144.png',
+          sizes: '144x144',
+          type: 'image/png',
+        },
+        {
+          src: 'images/pdnm-android-icon-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: 'images/pdnm-android-icon-512x512.png',
           sizes: '512x512',
           type: 'image/png',
         },

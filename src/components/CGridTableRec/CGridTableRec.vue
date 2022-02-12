@@ -247,13 +247,13 @@
 
         <div v-if="choose_visutype" class="">
           <q-radio v-model="myvertical" :val="2" label="Lista"
-                   @update:model-value="tools.setCookie('myv', myvertical) "/>
+                   @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
           <q-radio v-if="mytable === toolsext.TABMYGROUPS" v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_GROUP" label="Scheda"
-                   @update:model-value="tools.setCookie('myv', myvertical) "/>
+                   @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
           <q-radio v-else v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_USER" label="Scheda"
-                   @update:model-value="tools.setCookie('myv', myvertical) "/>
-          <q-radio v-model="myvertical" :val="0" label="Tabella"
-                   @update:model-value="tools.setCookie('myv', myvertical) "/>
+                   @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
+          <q-radio v-if="$q.screen.gt.xs" v-model="myvertical" :val="0" label="Tabella"
+                   @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
         </div>
       </template>
 
@@ -303,8 +303,18 @@
       </template>
 
       <template v-slot:item="props">
-        <div v-if="((showType === costanti.SHOW_USERINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_USER) || ((myvertical === 2) && (tablesel === 'users' || tablesel === 'myskills'))" class="fill-all-width">
+        <div v-if="((showType === costanti.SHOW_USERINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_USER) || ((myvertical === 2) && (shared_consts.TABLES_VISU_LISTA_USER.includes(tablesel)))" class="fill-all-width">
           <div>
+            <CMyUser
+              :mycontact="props.row"
+              :visu="visufind"
+              :groupname="extrafield"
+              :labelextra="col_title ? props.row[col_title] : ''"
+              :labelFooter="col_footer ? getLabelFooterByRow(props.row) : ''"
+            >
+            </CMyUser>
+
+            <!--
             <CMyFriends
               v-model="filter"
               :finder="false"
@@ -313,6 +323,8 @@
               :groupname="extrafield"
               :labelextra="props.row[col_title]"
             />
+            -->
+            <q-separator></q-separator>
           </div>
 
         </div>
@@ -330,12 +342,14 @@
         </div>
         <div
           v-else
-          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 "
           :style="props.selected ? 'transform: scale(0.95);' : ''"
         >
-          <q-card :class="props.selected ? 'bg-grey-2 my-card' : 'my-card'">
-            <q-bar v-if="!visuinpage" dense class="bg-primary text-white full-height">
-              <span class=""> {{ props.row[col_title] }} </span>
+
+          <q-card :class="props.selected ? 'bg-grey-2 my-card-withshadow no-padding' : 'my-card-withshadow no-padding'"
+                  style="background: radial-gradient(circle, #ffffff 0%, #bbddff 100%)">
+            <q-bar v-if="!visuinpage && canModifyThisRec(props.row)" dense class="bg-primary text-white full-height">
+              <span v-if="props.row['username']">{{props.row['username']}}</span>
               <q-space/>
 
               <q-btn
@@ -352,7 +366,8 @@
                 {{ props.row[col_title] }}
               </q-toolbar-title>
             </q-toolbar>-->
-            <q-card-section class="inset-shadow">
+
+            <q-card-section class="">
               <q-list dense>
                 <div v-for="col in mycolumns" :key="col.name">
                   <q-item v-if="showColCheck(col, tools.TIPOVIS_SHOW_RECORD, false, tools.getValue(props.row,col.field, col.subfield))"
@@ -438,7 +453,7 @@
         </div>
       </div>
     </div>
-    <q-dialog v-model="newRecordBool" @hide="hidewindow">
+    <q-dialog v-model="newRecordBool" @hide="hidewindow" :maximized="true">
       <q-card class="dialog_card">
         <q-bar dense class="bg-primary text-white">
           Nuovo:
@@ -483,8 +498,7 @@
     <q-dialog v-model="editRecordBool">
       <q-card class="dialog_card">
         <q-bar dense class="bg-primary text-white full-height">
-          <span v-if="mytitle">{{ mytitle }}</span>
-          <span v-else>{{ recModif[col_title] }}</span>
+          <span class="ellipsis">{{ recModif[col_title] }}</span>
           <q-space/>
           <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
         </q-bar>

@@ -20,6 +20,7 @@ import { lists } from '@store/Modules/lists'
 import { IParamsQuery } from 'model'
 import { CMyPopupEdit } from '../CMyPopupEdit'
 import { CMyFriends } from '../CMyFriends'
+import { CMyUser } from '../CMyUser'
 import { CMyGroups } from '../CMyGroups'
 import { CMyFieldDb } from '../CMyFieldDb'
 import { CMySelect } from '../CMySelect'
@@ -172,6 +173,16 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    col_footer: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    col_tabfooter: {
+      type: String,
+      required: false,
+      default: '',
+    },
     showCol: {
       type: Boolean,
       required: false,
@@ -193,7 +204,7 @@ export default defineComponent({
       default: '',
     },
   },
-  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends, CMyGroups },
+  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends, CMyGroups, CMyUser },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -342,6 +353,8 @@ export default defineComponent({
         if (userId === userStore.my._id) {
           // E' il mio, quindi modificalo
           return true
+        } else {
+          return false
         }
       } else {
         return false
@@ -878,9 +891,7 @@ export default defineComponent({
       pagination.value = props.prop_pagination
 
       myvertical.value = props.vertical
-      if (props.finder) {
-        myvertical.value = tools.getCookie('myv', 0)
-      }
+      myvertical.value = tools.getCookie('myv_' + props.prop_mytable, props.vertical)
     }
 
     function mounted() {
@@ -1019,7 +1030,7 @@ export default defineComponent({
 
     function checkIfColShow(field: string | undefined) {
       let vis = true
-      if (props.prop_mytable === 'myskills' && !props.prop_search) {
+      if (shared_consts.TABLES_NOT_SHOW_IF_USERNAME.includes(props.prop_mytable) && !props.prop_search) {
         if (field === 'username') {
           vis = false
         }
@@ -1333,6 +1344,17 @@ export default defineComponent({
       return ''
     }
 
+    function getLabelFooterByRow(row: any) {
+      if (props.col_footer) {
+
+        let mycol = fieldsTable.getColByTable(tablesel.value, props.col_footer)
+        if (mycol) {
+          return tools.getValueByRemoteField(mycol, row, row[props.col_footer], props.col_tabfooter)
+        }
+      }
+      return ''
+    }
+
     // onMounted(mounted)
 
     created()
@@ -1413,6 +1435,7 @@ export default defineComponent({
       showColCheck,
       getValueExtra,
       shared_consts,
+      getLabelFooterByRow,
     }
   }
 })

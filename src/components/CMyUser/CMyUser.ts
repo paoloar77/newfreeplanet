@@ -35,6 +35,16 @@ export default defineComponent({
       type: String,
       required: false,
       default: '',
+    },
+    labelFooter: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    notsetcmd: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
 
@@ -79,7 +89,11 @@ export default defineComponent({
     }
 
     function setCmd($q: any, cmd: number, myusername: string, value: any, groupname: string) {
-      emit('setCmd', $q, cmd, myusername, value, groupname)
+      if (props.notsetcmd) {
+        tools.setCmd($q, cmd, myusername, value, groupname)
+      }else {
+        emit('setCmd', $q, cmd, myusername, value, groupname)
+      }
     }
 
     onMounted(mounted)

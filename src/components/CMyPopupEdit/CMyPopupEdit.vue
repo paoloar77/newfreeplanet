@@ -53,7 +53,7 @@
               <q-btn v-if="col.tipovisu === costanti.TipoVisu.LINK && myvalue"
                      type="a" rounded size="md"
                      :class="{disabled: disable }"
-                     color="white" text-color="blue" :icon="`img:`+userStore.getImgByUsername(myvalue)" :to="col.link.replace(col.name, myvalue)"
+                     color="white" text-color="blue" :icon="`img:`+userStore.getImgUserByUsername(myvalue)" :to="col.link.replace(col.name, myvalue)"
                      :label="myvalue"
               >
               </q-btn>
@@ -108,7 +108,7 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.listimages" style="text-align: center;">
             <CGallery
-              :imagebak="col.showpicprofile_ifnotset ? userStore.getImgByProfile(row) : ''"
+              :imagebak="col.showpicprofile_ifnotset ? userStore.getImgByProfile(row, true) : ''"
               :title="getTitleGall()"
               :directory="getDirectoryGall()"
               :imgGall="myvalue"
@@ -122,7 +122,7 @@
             <div v-if="canEdit">
               {{ $t('reg.photo') }}
               <CGallery
-                :imagebak="col.showpicprofile_ifnotset ? userStore.getImgByProfile(row['profile']) : ''"
+                :imagebak="col.showpicprofile_ifnotset ? userStore.getImgByProfile(row['profile'], true) : ''"
                 :title="getTitleGall()"
                 :directory="getDirectoryGall()"
                 :imgGall="[{ imagefile: myvalue }]"

@@ -57,6 +57,7 @@ module.exports = configure((ctx) => ({
     'fontawesome-v5',
     'roboto-font', // optional, you are not bound to it
     'material-icons', // optional, you are not bound to it
+    'material-icons-outlined',
   ],
 
   aliases: {

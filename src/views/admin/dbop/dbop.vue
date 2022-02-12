@@ -220,6 +220,40 @@
       <br>
     </div>
 
+    <div class="row">
+      <q-btn
+        label="Populate Tables" color="negative"
+        @click="EseguiFunz('PopulateTables')"></q-btn>
+      <br>
+    </div>
+
+    <div class="row">
+      <q-btn
+        label="Rewrite Cities Table" color="negative"
+        @click="EseguiFunz('RewriteCitiesTable')"></q-btn>
+      <br>
+    </div>
+
+    <div class="row">
+      <q-btn
+        label="Rewrite Levels Table" color="negative"
+        @click="EseguiFunz('RewriteLevelsTable')"></q-btn>
+      <br>
+    </div>
+
+    <div class="row">
+      <q-btn
+        label="Rewrite Provinces Table" color="negative"
+        @click="EseguiFunz('RewriteProvincesTable')"></q-btn>
+      <br>
+    </div>
+    <div class="row">
+      <q-btn
+        label="Rewrite ContribType" color="negative"
+        @click="EseguiFunz('RewriteContribType')"></q-btn>
+      <br>
+    </div>
+
 
     <q-field
       stack-label

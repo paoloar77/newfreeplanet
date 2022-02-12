@@ -129,11 +129,18 @@
           <q-img :src="getMyImgforIcon()" :alt="Username()" img-class=""/>
         </q-avatar>-->
 
-        <q-avatar v-if="static_data.functionality.SHOW_USER_MENU && isLogged()"
+
+        <q-avatar v-if="static_data.functionality.SHOW_USER_MENU && isLogged() && getMyImg()"
                   size="36px" class="center_img cursor-pointer"
                   @click="rightDrawerOpen = !rightDrawerOpen">
-          <q-img ratio="1" fit="conver" :src="getMyImg()" :alt="Username()" img-class="imgprofile_small" stretch="false" />
+          <q-img ratio="1" fit="conver" :src="getMyImg()" :alt="Username()" img-class="imgprofile_small" stretch="false"
+                 placeholder-src="https://placeimg.com/36/36/nature"/>
         </q-avatar>
+        <q-btn
+          v-else
+          class="q-mx-xs iconprofile_small" round dense flat
+          @click="rightDrawerOpen = !rightDrawerOpen" :icon="getMyImgforIcon()" :color="getcolormenu()">
+        </q-btn>
 
         <!--<q-btn
           class="q-mx-xs iconprofile_small" v-if="static_data.functionality.SHOW_USER_MENU && isLogged()" round dense flat
@@ -188,7 +195,7 @@
             dense flat round icon="close" @click="rightDrawerOpen = !rightDrawerOpen">
           </q-btn>
 
-          <div v-if="isLogged()" class="text-weight-bold text-user">{{ Username() }} - {{ myName() }}
+          <div v-if="isLogged()" class="text-weight-bold text-user">{{ Username() }}<span v-if="myName()"> - {{ myName() }}</span>
           </div>
           <div class="row justify-evenly q-pa-xs-sm">
             <div v-if="isLogged() && isAdmin()" class="text-weight-bold text-user bg-red q-px-xs">Admin</div>
@@ -203,7 +210,7 @@
             {{ t('user.loggati') }}
           </div>
 
-          <div v-if="isLogged() && !isEmailVerified()" class="text-verified">{{
+          <div v-if="isLogged() && !isVerified()" class="text-verified">{{
               t('components.authentication.email_verification.verify_email')
             }}
           </div>

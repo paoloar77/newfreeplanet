@@ -12,14 +12,12 @@
     <!--<CMapsEsempio></CMapsEsempio>-->
 
     <div v-if="isLogged()">
-      <CVerifyEmail v-if="!isEmailVerified()">
-
-      </CVerifyEmail>
-
       <CVerifyTelegram v-if="TelegCode() || !TelegVerificato()">
 
       </CVerifyTelegram>
+      <CVerifyEmail v-if="!isEmailVerified() && !TelegVerificato()">
 
+      </CVerifyEmail>
 
 
       <div v-if="isUserOk()">
@@ -38,6 +36,9 @@
             <q-btn icon="fab fa-telegram" flat color="white" label="Accedi al Bot Telegram" type="a" target="__blank" :href="getLinkBotTelegram()"/>
           </template>
         </q-banner>
+      </div>
+      <div v-else>
+        <CUserNonVerif></CUserNonVerif>
       </div>
 
     </div>

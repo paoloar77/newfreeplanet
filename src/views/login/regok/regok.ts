@@ -2,6 +2,7 @@ import { defineComponent } from 'vue'
 
 import { Footer } from '@/components/Footer'
 import { useUserStore } from '@store/UserStore'
+import MixinUsers from '@/mixins/mixin-users'
 
 export default defineComponent({
   name: 'Regok',
@@ -9,13 +10,7 @@ export default defineComponent({
   props: {},
   setup() {
     const userStore = useUserStore()
-
-    function isEmailVerified() {
-      if (userStore.my)
-        return userStore.my.verified_email
-      else
-        return false
-    }
+    const { isEmailVerified } = MixinUsers()
 
     return {
       isEmailVerified,

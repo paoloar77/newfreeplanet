@@ -416,7 +416,7 @@ const baseroutes: IListRoutes[] = [
     active: true,
     order: 130,
     path: '/friends',
-    materialIcon: 'fas fa-users',
+    materialIcon: 'fas fa-user-friends',
     name: 'mypages.friends',
     component: () => import('@/views/user/myfriends/myfriends.vue'),
     meta: { requiresAuth: true },
@@ -583,7 +583,7 @@ const baseroutes: IListRoutes[] = [
     inmenu: true,
   },
   {
-    active: true,
+    active: false,
     order: 80,
     path: '/calendario-eventi',
     materialIcon: 'event',
@@ -628,8 +628,8 @@ const baseroutes: IListRoutes[] = [
 
 const arrLangUsed = [
   'it',
-  'enUs',
-  'es',
+  // 'enUs',
+  // 'es',
 ]
 
 const lang_available: ILang[] = [

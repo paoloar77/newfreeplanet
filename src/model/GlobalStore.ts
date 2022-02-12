@@ -257,6 +257,7 @@ export interface IGlobalState {
   URL_RITORNA: string
   URL_RESTORE: string
   levels: ILevel[],
+  adtypes: IAdType[],
   skills: ISkill[],
   subSkills: ISubSkill[],
   statusSkills: IStatusSkill[],
@@ -660,6 +661,11 @@ export interface ILevel {
   years_of_exp: number
 }
 
+export interface IAdType {
+  _id: number
+  descr: string
+}
+
 export interface ICity {
   _id: number
   istat: string
@@ -677,8 +683,9 @@ export interface IMySkill {
   idCity: number[]
   photos: IGallery[]
   NumLevel: number
+  adType: number
   note: string
-  subTitle: string
+  descr: string
   date_created?: Date,
   date_updated?: Date,
 }

@@ -60,8 +60,8 @@ export default defineComponent({
     const toolbarcomp = ref([
       ['left', 'center', 'right', 'justify'],
       ['bold', 'italic', 'underline', 'strike'],
-      ['token', 'hr', 'link', 'custom_btn'],
-      ['print', 'fullscreen'],      [
+      ['token', 'hr', 'link', 'custom_btn', 'print', 'fullscreen'],
+      [
         {
           label: $q.lang.editor.formatting,
           icon: $q.iconSet.editor.formatting,

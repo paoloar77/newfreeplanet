@@ -74,7 +74,7 @@
 
 
     <CTitleBanner
-      class="q-pa-xs" title="Competenze e Talenti" bgcolor="bg-primary" clcolor="text-white"
+      class="q-pa-xs" title="Competenze Personali (Offerte)" bgcolor="bg-primary" clcolor="text-white"
       myclass="myshad" :canopen="true">
 
       <CSkill

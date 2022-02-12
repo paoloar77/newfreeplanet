@@ -3124,7 +3124,7 @@ export const tools = {
       const msg2 = t('fetch.errore_generico') + userStore.getMsgError(riscode)
       this.showNotif(mythisq, msg2)
     } else if (riscode === this.OK) {
-      $router.push('/regok')
+      $router.push('/')
       this.showNotif(mythisq, t('components.authentication.email_verification.link_sent', { botname: t('ws.botname') }), {
         color: 'green',
         textColor: 'black',
@@ -4856,6 +4856,27 @@ export const tools = {
     } else {
       return value[keyfunz]
     }
+  },
+
+  getValueByRemoteField(col: IColGridTable, row: any, value: any, col_tabfooter: string) {
+    if (col) {
+      if (col.remote_table && col.remote_key && col.remote_field && col_tabfooter) {
+
+        const myarrremote = row[col.remote_table]
+
+        let myarr: any = []
+
+        for (const myrec of myarrremote) {
+          let myval = myrec[col.remote_field]
+          myarr.push(myval)
+        }
+
+        return myarr ? myarr.join(' - ') : ''
+
+      }
+    }
+    return ''
+
   }
 
 

@@ -113,7 +113,7 @@ export default function () {
 
   function Verificato() {
     const userStore = useUserStore()
-    return userStore.my.verified_email && userStore.my.verified_by_aportador
+    return isVerified() && userStore.my.verified_by_aportador
   }
 
   function paotest() {
@@ -155,6 +155,20 @@ export default function () {
     return ris
   }
 
+  function isEmailVerified() {
+    const userStore = useUserStore()
+    return userStore.my.verified_email
+  }
+
+  function TelegVerificato(): boolean {
+    const userStore = useUserStore()
+    return userStore.my.profile ? userStore.my.profile.teleg_id! > 0 : false
+  }
+
+  function isVerified() {
+    return TelegVerificato()
+  }
+
   return {
     getUsernameChatByMsg,
     getMyUsername,
@@ -175,6 +189,9 @@ export default function () {
     getNumMsg,
     getNumMsgUnread,
     getMsgText,
+    isEmailVerified,
+    TelegVerificato,
+    isVerified,
     paotest,
   }
 }

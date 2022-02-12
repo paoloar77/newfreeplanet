@@ -416,7 +416,7 @@ const baseroutes: IListRoutes[] = [
     active: true,
     order: 130,
     path: '/friends',
-    materialIcon: 'eva-people-outline',
+    materialIcon: 'fas fa-user-friends',
     name: 'mypages.friends',
     component: () => import('@/views/user/myfriends/myfriends.vue'),
     meta: { requiresAuth: true },

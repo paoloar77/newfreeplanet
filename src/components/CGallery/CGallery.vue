@@ -18,7 +18,6 @@
         </div>
       </q-card>
       <div v-if="!isInModif && getlistimages().length <= 0 && imagebak">
-
         <q-card :class="getclass()" @click="ImgFullScreen(mygallery)">
           <q-img
             :src="imagebak" :class="getclimg()">

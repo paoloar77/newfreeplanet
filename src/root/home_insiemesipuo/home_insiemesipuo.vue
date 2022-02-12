@@ -13,13 +13,13 @@
 
 
     <div v-if="isLogged()">
-      <CVerifyEmail v-if="!isEmailVerified()">
-
-      </CVerifyEmail>
-
       <CVerifyTelegram v-if="TelegCode() || !TelegVerificato()">
 
       </CVerifyTelegram>
+
+      <CVerifyEmail v-if="!isEmailVerified() && !TelegVerificato()">
+
+      </CVerifyEmail>
 
       <div v-if="isUserOk()">
         <div v-if="isUserOk()">
@@ -31,6 +31,9 @@
           <CDashboard></CDashboard>
 
         </div>
+      </div>
+      <div v-else>
+        <CUserNonVerif></CUserNonVerif>
       </div>
 
     </div>

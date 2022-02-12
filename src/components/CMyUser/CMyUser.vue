@@ -12,6 +12,8 @@
           <q-item-label>{{ contact.username }} <span v-if="contact.name">({{ contact.name }} {{ contact.surname }})</span>
           </q-item-label>
           <q-item-label v-if="contact.profile" caption lines="1"><em>{{ contact.profile.qualifica }}</em></q-item-label>
+          <q-item-label caption lines="1"></q-item-label>
+          <q-item-label v-if="labelFooter" lines="1"><em>{{ labelFooter }}</em></q-item-label>
         </q-item-section>
 
         <q-item-section side v-if="visu === costanti.FRIENDS">

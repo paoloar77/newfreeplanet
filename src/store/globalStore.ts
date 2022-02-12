@@ -117,6 +117,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     URL_RITORNA: '',
     URL_RESTORE: '',
     levels: [],
+    adtypes: [],
     skills: [],
     subSkills: [],
     statusSkills: [],
@@ -232,6 +233,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return state.settings
       else if (table === 'levels')
         return state.levels
+      else if (table === 'adtypes')
+        return state.adtypes
       else if (table === 'skills')
         return state.skills
       else if (table === 'subskills')
@@ -1227,6 +1230,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.sectors = (res.data.sectors) ? [...res.data.sectors] : []
             this.cities = (res.data.cities) ? [...res.data.cities] : []
             this.catgrps = (res.data.catgrps) ? [...res.data.catgrps] : []
+            this.adtypes = (res.data.adtypes) ? [...res.data.adtypes] : []
 
             // console.log('res.data.cart', res.data.cart)
 

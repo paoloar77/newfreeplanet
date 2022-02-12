@@ -91,6 +91,17 @@ export default defineComponent({
 
       searchList.value = [
         {
+          label: 'Offro/Cerco',
+          table: 'adtypes',
+          key: 'adType',
+          value: tools.getCookie(tools.COOK_SEARCH + 'adtypes', costanti.FILTER_TUTTI),
+          arrvalue: [],
+          addall: true,
+          type: costanti.FieldType.select,
+          filter: null,
+          useinput: false,
+        },
+        {
           label: 'Settore',
           table: 'sectors',
           key: 'idSector',
@@ -204,27 +215,6 @@ export default defineComponent({
     }
 
 
-    async function createNewRecordInUserTable() {
-      console.log('createNewRecordInUserTable')
-
-      let mydata = {
-        table: mytable,
-        data: {
-          userId: userStore.my._id,
-          data: {},
-          field: 'myskills'
-        }
-      };
-
-      if (props.defaultnewrec) {
-
-        mydata.data.data = props.defaultnewrec
-      }
-
-      console.log('mydata', mydata)
-      const data = await globalStore.saveSubRec(mydata)
-    }
-
     function getdefaultnewrec(): IMySkill {
       return {
         _id: 0,
@@ -235,9 +225,10 @@ export default defineComponent({
         idContribType: [],
         idCity: [],
         NumLevel: 0,
+        adType: 0,
         photos: [],
         note: '',
-        subTitle: '',
+        descr: '',
       }
     }
 
@@ -263,13 +254,15 @@ export default defineComponent({
             idSector: 1,
             idSkill: 1,
             idSubSkill: 1,
+            myskill: 1,
             idStatusSkill: 1,
             idContribType: 1,
             idCity: 1,
             numLevel: 1,
+            adType: 1,
             photos: 1,
             note: 1,
-            subTitle: 1,
+            descr: 1,
             date_created: 1,
             date_updated: 1,
             userId: 1,

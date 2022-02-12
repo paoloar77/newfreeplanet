@@ -31,7 +31,7 @@ const msg_it = {
     otherpages: {
       product: 'Prodotto',
       sito_offline: 'Sito in Aggiornamento',
-      modifprof: 'Modifica Profilo',
+      modifprof: 'Modifica',
       modifgrp: 'Modifica Gruppo',
       biografia: 'Biografia',
       qualifica: 'Qualifica (in breve)',
