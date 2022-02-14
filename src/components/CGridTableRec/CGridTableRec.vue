@@ -1,6 +1,6 @@
 <template>
   <div :class="$q.screen.lt.sm ? `` : `q-pa-xs`" v-if="isfinishLoading">
-    <div class="centermydiv q-ma-sm" style="text-align: center">
+    <div class="centermydiv q-my-sm" style="text-align: center">
       <q-btn
         v-if="mytable && visButtRow()" rounded dense color="primary"
         size="lg"
@@ -35,7 +35,8 @@
       <q-spinner-tail size="2em" color="primary"/>
     </q-inner-loading>
     <q-table
-      :grid="myvertical === costanti.VISUTABLE_SCHEDA_USER || myvertical === 2 || myvertical === costanti.VISUTABLE_SCHEDA_GROUP"
+      :grid="(myvertical === costanti.VISUTABLE_SCHEDA_USER || myvertical === 2 || myvertical === costanti.VISUTABLE_SCHEDA_GROUP)"
+      :grid-header="false"
       flat
       bordered
       class="my-sticky-header-table"
@@ -258,9 +259,9 @@
         <div v-if="choose_visutype" class="">
           <q-radio v-model="myvertical" :val="2" label="Lista"
                    @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
-          <q-radio v-if="mytable === toolsext.TABMYGROUPS" v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_GROUP" label="Scheda"
+          <q-radio v-if="mytable === toolsext.TAB" v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_GROUP" label="Scheda"
                    @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
-          <q-radio v-else v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_USER" label="Scheda"
+          <q-radio v-else-if="mytable !== toolsext.TABMYGROUPS && !finder" v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_USER" label="Scheda"
                    @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
           <q-radio v-if="$q.screen.gt.xs" v-model="myvertical" :val="0" label="Tabella"
                    @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
@@ -313,7 +314,15 @@
       </template>
 
       <template v-slot:item="props">
-        <div v-if="((showType === costanti.SHOW_USERINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_USER) || ((myvertical === 2) && (shared_consts.TABLES_VISU_LISTA_USER.includes(tablesel)))" class="fill-all-width">
+        <div v-if="showType === costanti.SHOW_MYSKILL">
+          <CMySkill
+            :prop_myskill="props.row"
+            :visu="visufind"
+          >
+          </CMySkill>
+
+        </div>
+        <div v-else-if="((showType === costanti.SHOW_USERINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_USER) || ((myvertical === 2) && (shared_consts.TABLES_VISU_LISTA_USER.includes(tablesel)))" class="fill-all-width">
           <div>
             <CMyUser
               :mycontact="props.row"

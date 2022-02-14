@@ -9,7 +9,7 @@ const msg_website = {
       Category: 'Categorie',
       Todo: 'Todo',
       personal: 'Personale',
-      work: 'Lavoro',
+      bacheca: 'Bacheca',
       shopping: 'Spesa',
       Admin: 'Admin',
       Test1: 'Test1',

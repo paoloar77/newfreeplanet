@@ -32,6 +32,7 @@ import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
 import translate from '@/globalroutines/util'
 import { toolsext } from '@store/Modules/toolsext'
+import { CMySkill } from '@/components/CMySkill'
 
 export default defineComponent({
   name: 'CGridTableRec',
@@ -204,7 +205,7 @@ export default defineComponent({
       default: '',
     },
   },
-  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends, CMyGroups, CMyUser },
+  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends, CMyGroups, CMyUser, CMySkill },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -900,7 +901,7 @@ export default defineComponent({
       pagination.value = props.prop_pagination
 
       myvertical.value = props.vertical
-      myvertical.value = tools.getCookie('myv_' + props.prop_mytable, props.vertical)
+      // myvertical.value = tools.getCookie('myv_' + props.prop_mytable, props.vertical)
 
       showfilteradv.value = tools.getCookie('s_adv', false)
     }

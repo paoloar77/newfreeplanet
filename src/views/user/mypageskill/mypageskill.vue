@@ -1,6 +1,7 @@
 <template>
+
   <CMyPage
-    :title='myskill.subTitle' imgbackground="images/calendario_eventi.jpg"
+    :title='myskill.username' imgbackground="images/calendario_eventi.jpg"
     sizes="max-height: 120px" styleadd="bottom: -20px !important;">
 
     <div class="q-ma-sm q-gutter-sm q-pa-xs">

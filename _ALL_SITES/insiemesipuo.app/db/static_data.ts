@@ -384,7 +384,7 @@ const baseroutes: IListRoutes[] = [
     order: 100,
     path: '/bacheca',
     materialIcon: 'fas fa-bullhorn',
-    name: 'mypages.work',
+    name: 'mypages.bacheca',
     component: () => import('@/root/bacheca/bacheca.vue'),
     meta: { requiresAuth: true },
     inmenu: true,

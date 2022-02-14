@@ -876,7 +876,7 @@ const msg_it = {
       follow_groups: 'Gruppi che Seguo',
       create_group: 'Crea Gruppo',
       friends: 'Amici',
-      work: 'Lavoro',
+      bacheca: 'Bacheca',
       groups: 'Gruppi',
       request_friends: 'Rich. Amicizia',
       request_sent_friends: 'Rich. Inviate',

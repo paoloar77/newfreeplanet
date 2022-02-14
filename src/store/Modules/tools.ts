@@ -102,7 +102,6 @@ export const tools = {
     'lime',
     'orange',
     'deeporange',
-    'grey',
     'blue-gray',
     'yellow',
   ],

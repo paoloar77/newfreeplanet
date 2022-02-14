@@ -10,6 +10,7 @@ export const costanti = {
 
   SHOW_USERINFO: 1,
   SHOW_GROUPINFO: 5,
+  SHOW_MYSKILL: 10,
 
   BINARY_CHECK: 1,
 

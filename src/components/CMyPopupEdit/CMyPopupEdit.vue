@@ -432,6 +432,7 @@
               </div>
             </div>
             <div v-else>
+              <!--
               <div class="row justify-evenly">
                 <q-btn
                   v-if="myvalue"
@@ -448,6 +449,7 @@
                 >
                 </q-btn>
               </div>
+              -->
               <!--<div v-html="visuValByType(myvalue, col, row)" @click="visueditor = true"></div>-->
 
               <div v-if="!isFieldDb()">
