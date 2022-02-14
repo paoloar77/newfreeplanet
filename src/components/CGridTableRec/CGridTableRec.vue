@@ -105,9 +105,15 @@
         <div v-if="searchList"
              :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue `">
           <span v-for="(item, index) in searchList" :key="index">
+            <div class="text-center" v-if="(item.type === costanti.FieldType.separator)">
+              <q-btn rounded size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Filtri Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
+              <q-separator class="q-my-sm"></q-separator>
+            </div>
+
             <CMySelect
               :col="fieldsTable.getColByTable(mytable, item.key)"
               v-if="(item.type === costanti.FieldType.select) || (item.type === costanti.FieldType.select_by_server)"
+              v-show="(item.filteradv && showfilteradv) || !item.filteradv"
               :label="labelcombo(item)"
               v-model:value="item.value"
               @update:value="searchval(item.value, item.table)"
@@ -131,6 +137,7 @@
 
             <CMySelect
               v-if="item.type === costanti.FieldType.multiselect_by_server"
+              v-show="(item.filteradv && showfilteradv) || !item.filteradv"
               :col="fieldsTable.getColByTable(mytable, item.key)"
               :multiselect_by_server="true"
               :label="labelcombo(item)"
@@ -153,6 +160,7 @@
 
             <q-select
               v-if="(item.type === costanti.FieldType.multiselect)"
+              v-show="(item.filteradv && showfilteradv) || !item.filteradv"
               v-model="item.arrvalue"
               label-color="primary"
               :label="labelcombo(item)"
@@ -212,10 +220,12 @@
         <div v-if="(prop_search || canEdit)"
              class="row justify-center vertical-middle">
 
-          <div v-if="prop_search" class="q-mr-sm">
+          <div v-if="prop_search" class="q-mr-sm full-width">
             <q-input
               v-model="search" filled dense type="search" debounce="500" :hint="hint"
-              v-on:keyup.enter="doSearch">
+
+              v-on:keyup.enter="doSearch"
+            >
               <template v-slot:after>
                 <q-btn v-if="mytable" dense label="" color="primary" @click="refresh" icon="search"></q-btn>
               </template>

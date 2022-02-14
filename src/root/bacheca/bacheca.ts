@@ -19,7 +19,7 @@ import MixinUsers from '@/mixins/mixin-users'
 
 
 export default defineComponent({
-  name: 'work',
+  name: 'bacheca',
   components: { CSkill, CChartMap, CMapsEsempio, CFinder, CVerifyEmail, CVerifyTelegram, CDashboard, CUserNonVerif },
   setup() {
     const globalStore = useGlobalStore()

@@ -426,6 +426,8 @@ export default defineComponent({
 
           let myarr: any = []
 
+          let mystr = val.toLocaleLowerCase()
+
           myarr = updateArrOptions()
           if (!fieldsTable.tableRemotePickup.includes(props.tablesel)) {
             if (myarr && myarr.length > 0) {
@@ -435,6 +437,16 @@ export default defineComponent({
                 valori.value = []
               }
             }
+
+            if (!props.multiple && !props.multiselect_by_server) {
+
+              if (val === '') {
+                valori.value = myarr
+              } else {
+                valori.value = myarr.filter((v: any) => v[`${props.optlab}`].toLowerCase().indexOf(mystr) > -1)
+              }
+            }
+
             return
           }
 
@@ -443,8 +455,6 @@ export default defineComponent({
             abort()
             return
           }
-
-          let mystr = val.toLocaleLowerCase()
 
           // console.log('props.tablesel', props.tablesel)
 

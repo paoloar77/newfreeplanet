@@ -553,6 +553,7 @@ export interface ISearchList {
   showcount?: boolean
   tablesel?: string
   icon?: string
+  filteradv?: boolean
 }
 
 export interface IFilter {

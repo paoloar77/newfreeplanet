@@ -21,8 +21,8 @@
   </q-page>
 
 </template>
-<script lang="ts" src="./work.ts">
+<script lang="ts" src="./bacheca.ts">
 </script>
 <style lang="scss" scoped>
-@import './work.scss';
+@import './bacheca.scss';
 </style>

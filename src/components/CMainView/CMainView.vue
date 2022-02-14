@@ -2,7 +2,7 @@
   <div>
     <div class="row q-ma-sm shadow" style="border-radius: 4px;border: 1px solid rgba(0, 0, 0, 0.12);">
       <CBigBtn
-        label="Lavoro" to="/work" icon="fas fa-bullhorn" color="blue">
+        label="Bacheca" to="/bacheca" icon="fas fa-bullhorn" color="blue">
       </CBigBtn>
       <CBigBtn
         label="Scuola" to="/school" icon="fas fa-book-reader" color="orange" disable>

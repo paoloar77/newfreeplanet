@@ -100,6 +100,7 @@ export const costanti = {
     hours: 8000,
     crypted: 9000,
     object: 10000,
+    separator: 11000,
   },
 
   FieldTypeArr: [

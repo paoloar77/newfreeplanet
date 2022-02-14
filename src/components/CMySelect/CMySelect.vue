@@ -2,13 +2,13 @@
   <div class="text-center">
     <div v-if="multiselect_by_server">
       <q-select
-        v-bind="$attrs"
         :model-value="myarrvalue"
+        @update:model-value="changeval"
+        v-bind="$attrs"
         label-color="primary"
         :label="label"
         @filter="filterFn"
         @filter-abort="abortFilterFn"
-        @update:model-value="changeval"
         input-debounce="600"
         rounded
         outlined
@@ -24,6 +24,7 @@
         :options="valori"
         :option-value="optval"
         class="combowidth"
+        style="min-width: 250px"
       >
         <template v-if="getIcon() && !sola_lettura" v-slot:prepend>
           <q-icon :name="getIcon()" />
@@ -72,12 +73,13 @@
     <div v-else-if="pickup">
       <q-select
         v-if="pickup"
-        filled
         :model-value="myvalue"
+        @update:model-value="changeval"
         clearable
+        rounded
+        outlined
+        options-dense
         use-input
-        hide-selected
-        fill-input
         input-debounce="300"
         :dense="dense"
         :input-class="myclass"
@@ -86,11 +88,10 @@
         :option-label="optlab"
         map-options
         @filter="filterFn"
-        @update:model-value="changeval"
         :label="label"
-        options-selected-class="text-deep-orange"
+        options-selected-class="text-deep-blue"
         v-bind="$attrs"
-        style="width: 250px"
+        class="combowidth"
       >
         <template v-if="getIcon()" v-slot:prepend>
           <q-icon :name="getIcon()" />
@@ -187,6 +188,7 @@
         :use-input="useinput"
         @new-value="newvaluefuncfirst"
         emit-value
+        input-debounce="0"
         options-selected-class="text-deep-orange"
         map-options
         v-bind="$attrs"

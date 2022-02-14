@@ -259,6 +259,7 @@ export default defineComponent({
     const colclicksel = ref(null)
 
     const selected: any = ref([])
+    const showfilteradv = ref(false)  // filtri avanzati
 
     const filter = ref(0)
     const filtergrp = ref(costanti.MY_GROUPS)
@@ -282,6 +283,10 @@ export default defineComponent({
     watch(() => searchList.value, (to: any, from: any) => {
       console.log('watch searchlist', to)
       refresh()
+    })
+
+    watch(() => showfilteradv.value, (newval: any, from: any) => {
+      tools.setCookie('s_adv', newval)
     })
 
     watch(() => props.filtercustom, (to: any, from: any) => {
@@ -896,6 +901,8 @@ export default defineComponent({
 
       myvertical.value = props.vertical
       myvertical.value = tools.getCookie('myv_' + props.prop_mytable, props.vertical)
+
+      showfilteradv.value = tools.getCookie('s_adv', false)
     }
 
     function mounted() {
@@ -1485,6 +1492,7 @@ export default defineComponent({
       getValueExtra,
       shared_consts,
       getLabelFooterByRow,
+      showfilteradv,
     }
   }
 })
