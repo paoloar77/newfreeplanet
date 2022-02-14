@@ -1,4 +1,5 @@
 <template>
+  <div v-if="tools.isUserOk()">
     <div v-if="grp">
       <q-item class="q-my-sm" clickable>
         <q-item-section avatar @click="naviga(`/grp/` + grp.groupname)">
@@ -85,6 +86,10 @@
         </q-item-section>
       </q-item>
     </div>
+  </div>
+  <div v-else>
+    <CUserNonVerif></CUserNonVerif>
+  </div>
 </template>
 
 <script lang="ts" src="./CMyGroup.ts">

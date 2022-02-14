@@ -4,6 +4,7 @@ import { CProfile } from '@/components/CProfile'
 import { CCopyBtn } from '@/components/CCopyBtn'
 import { CSkill } from '@/components/CSkill'
 import { CDateTime } from '@/components/CDateTime'
+import { CUserNonVerif } from '@/components/CUserNonVerif'
 import { tools } from '@store/Modules/tools'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useUserStore } from '@store/UserStore'
@@ -21,7 +22,7 @@ import MixinUsers from '@/mixins/mixin-users'
 
 export default defineComponent({
   name: 'myprofile',
-  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CCopyBtn },
+  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CCopyBtn, CUserNonVerif },
   props: {},
   setup() {
     const userStore = useUserStore()

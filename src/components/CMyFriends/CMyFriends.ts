@@ -1,4 +1,5 @@
 import { CMyUser } from '@/components/CMyUser'
+import { CUserNonVerif } from '@/components/CUserNonVerif'
 import { computed, defineComponent, onMounted, PropType, ref, toRef } from 'vue'
 import { useUserStore } from '@store/UserStore'
 import { useI18n } from '@/boot/i18n'
@@ -11,7 +12,7 @@ import { tools } from '@store/Modules/tools'
 
 export default defineComponent({
   name: 'CMyFriends',
-  components: { CMyUser },
+  components: { CMyUser, CUserNonVerif },
   emits: ['update:modelValue'],
   props: {
     modelValue: {
@@ -156,9 +157,6 @@ export default defineComponent({
         userStore.loadFriends(username.value).then((ris) => {
           // console.log('ris', ris)
           if (ris) {
-            userStore.my.profile.friends = ris.listFriends ? ris.listFriends : []
-            userStore.my.profile.req_friends = ris.listRequestFriends ? ris.listRequestFriends : []
-            userStore.my.profile.asked_friends = ris.listSentRequestFriends ? ris.listSentRequestFriends : []
             listTrusted.value = ris.listTrusted ? ris.listTrusted : []
             filtroutente.value = [{ userId: userStore.my._id }]
           }

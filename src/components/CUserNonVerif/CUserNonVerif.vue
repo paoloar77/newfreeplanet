@@ -1,8 +1,12 @@
 <template>
   <div class="q-ma-md">
-    <CTitleBanner title="Verifica">
-      La verifica è in corso. Ti arriverà un messaggio dal Bot quando sarai abilitato.
-    </CTitleBanner>
+    <q-banner inline-actions rounded class="bg-orange text-white">
+      <template v-slot:avatar>
+        <q-icon name="info" color="primary" />
+      </template>
+      <strong>La verifica è in corso. Ti arriverà un messaggio sul Bot Telegram quando verrai abilitato dal tuo invitante.</strong>
+
+    </q-banner>
   </div>
 </template>
 

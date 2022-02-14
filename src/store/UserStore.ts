@@ -192,6 +192,13 @@ export const useUserStore = defineStore('UserStore', {
         return false
     },
 
+    IsReqFriendByUsername(username: string): boolean {
+      if (this.my.profile.req_friends)
+        return this.my.profile.req_friends.findIndex((rec) => rec.username === username) >= 0
+      else
+        return false
+    },
+
     IsAskedGroupByGroupname(groupname: string): boolean {
       if (this.my.profile.asked_groups)
         return this.my.profile.asked_groups.findIndex((rec: IMyGroup) => rec.groupname === groupname) >= 0
@@ -892,8 +899,12 @@ export const useUserStore = defineStore('UserStore', {
       }
 
       return Api.SendReq('/users/profile', 'POST', data)
-        .then((res) => {
-          return res.data
+        .then((ris) => {
+          this.my.profile.friends = ris.data.friends.listFriends ? ris.data.friends.listFriends : []
+          this.my.profile.req_friends = ris.data.friends.listRequestFriends ? ris.data.friends.listRequestFriends : []
+          this.my.profile.asked_friends = ris.data.friends.listSentRequestFriends ? ris.data.friends.listSentRequestFriends : []
+
+          return ris.data.user
         }).catch((error) => {
           return {}
         })
@@ -930,8 +941,11 @@ export const useUserStore = defineStore('UserStore', {
 
     async loadFriends(username: string) {
       return Api.SendReq('/users/friends', 'POST', null)
-        .then((res) => {
-          return res.data
+        .then((ris) => {
+          this.my.profile.friends = ris.data.listFriends ? ris.data.listFriends : []
+          this.my.profile.req_friends = ris.data.listRequestFriends ? ris.data.listRequestFriends : []
+          this.my.profile.asked_friends = ris.data.listSentRequestFriends ? ris.data.listSentRequestFriends : []
+          return ris.data
         }).catch((error) => {
           return {}
         })

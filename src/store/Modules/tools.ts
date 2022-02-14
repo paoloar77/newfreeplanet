@@ -4881,7 +4881,12 @@ export const tools = {
     }
     return ''
 
-  }
+  },
+
+  isUserOk(){
+    const userStore = useUserStore()
+    return userStore.isUserOk()
+  },
 
 
 // getLocale() {

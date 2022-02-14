@@ -7,11 +7,12 @@ import { costanti } from '@costanti'
 import { IMyGroup, ISearchList, IUserFields } from 'model'
 import { shared_consts } from '@/common/shared_vuejs'
 import { tools } from '@store/Modules/tools'
+import { CUserNonVerif } from '@/components/CUserNonVerif'
 
 
 export default defineComponent({
   name: 'CMyGroups',
-  components: { CMyGroup },
+  components: { CMyGroup, CUserNonVerif },
   emits: ['update:modelValue'],
   props: {
     modelValue: {

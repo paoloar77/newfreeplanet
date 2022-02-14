@@ -13,11 +13,11 @@
 
 
     <div v-if="isLogged()">
-      <CVerifyTelegram v-if="TelegCode() || !TelegVerificato()">
+      <CVerifyTelegram v-if="!TelegVerificato()">
 
       </CVerifyTelegram>
 
-      <CVerifyEmail v-if="!isEmailVerified()">
+      <CVerifyEmail v-if="!isEmailVerified() && !TelegVerificato()">
 
       </CVerifyEmail>
 
@@ -30,6 +30,8 @@
         <CCopyBtn v-if="userStore.my.username" :title="$t('reg.link_reg')" :texttocopy="getRefLink(userStore.my.username)">
 
         </CCopyBtn>
+
+        <div>Versione: {{tools.getvers()}}</div>
 
       </div>
       <div v-else>

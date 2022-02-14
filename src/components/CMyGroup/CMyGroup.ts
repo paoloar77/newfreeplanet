@@ -7,10 +7,12 @@ import { tools } from '@store/Modules/tools'
 import { useQuasar } from 'quasar'
 import { useI18n } from '@/boot/i18n'
 import { useRoute, useRouter } from 'vue-router'
+import { CUserNonVerif } from '@/components/CUserNonVerif'
 
 export default defineComponent({
   name: 'CMyGroup',
   emits: ['setCmd'],
+  components: {CUserNonVerif},
   props: {
     mygrp: {
       type: Object as PropType<IMyGroup | null>,
@@ -81,6 +83,7 @@ export default defineComponent({
       setCmd,
       shared_consts,
       userStore,
+      tools,
       $q,
     }
   },
