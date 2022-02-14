@@ -1094,6 +1094,24 @@ export const fieldsTable = {
     return ''
   },
 
+  getColByAdType(adType: number) {
+    if (adType === 1)
+      return 'green'
+    else if (adType === 2)
+      return 'red'
+    else if (adType === 3)
+      return 'blue'
+  },
+
+  getIconByAdType(adType: number) {
+    if (adType === 1)
+      return 'fas fa-street-view'
+    else if (adType === 2)
+      return 'fas fa-search'
+    else if (adType === 3)
+      return 'fas fa-calendar-plus'
+  },
+
   colTableCalZoom: [
     // AddCol({ name: '_id', label_trans: 'reg.id' }),
     AddCol({ name: 'title', label_trans: 'event.title' }),

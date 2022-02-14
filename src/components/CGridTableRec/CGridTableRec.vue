@@ -368,8 +368,8 @@
           <q-card :class="props.selected ? 'bg-grey-2 my-card-withshadow no-padding' : 'my-card-withshadow no-padding'"
                   style="background: radial-gradient(circle, #ffffff 0%, #bbddff 100%)">
             <q-bar v-if="!visuinpage && canModifyThisRec(props.row)" dense class="bg-primary text-white full-height">
-              <q-badge v-if="props.row['adType']" :color="props.row['adType'] === 1 ? 'green' : 'red'">
-                {{ fieldsTable.getValByTabAndId(tablesel, 'adType', props.row['adType']) }}<q-icon :name="props.row['adType'] === 1 ? 'fas fa-street-view' : 'fas fa-search'" color="white" class="q-ml-xs" />
+              <q-badge v-if="props.row['adType']" :color="fieldsTable.getColByAdType(props.row['adType'])">
+                {{ fieldsTable.getValByTabAndId(tablesel, 'adType', props.row['adType']) }}<q-icon :name="fieldsTable.getIconByAdType(props.row['adType'])" color="white" class="q-ml-xs" />
               </q-badge>
 
               <q-space/>

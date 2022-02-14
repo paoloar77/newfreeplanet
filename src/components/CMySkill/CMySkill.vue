@@ -1,10 +1,10 @@
 <template>
   <div class="q-py-xs centermydiv" :style="`min-width: `+ (tools.getwidth($q) - 20) +`px;`">
-    <q-item v-if="myskill" clickable v-ripple>
+    <q-item v-if="myskill" clickable v-ripple class="shadow-2 q-btn--rounded bg-teal-1">
       <q-item-section avatar @click="naviga(`/my/` + myskill.username)">
-        <q-badge class="q-my-xs self-center" :color="myskill.adType === 1 ? 'green' : 'red'">
+        <q-badge class="q-my-xs self-center" :color="fieldsTable.getColByAdType(myskill.adType)">
           {{ fieldsTable.getValByTabAndId('myskills', 'adType', myskill.adType) }}
-          <q-icon :name="myskill.adType === 1 ? 'fas fa-street-view' : 'fas fa-search'" color="white"
+          <q-icon :name="fieldsTable.getIconByAdType(myskill.adType)" color="white"
                   class="q-ml-xs"/>
         </q-badge>
         <q-avatar size="60px">
