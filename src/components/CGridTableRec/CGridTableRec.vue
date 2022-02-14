@@ -314,7 +314,7 @@
       </template>
 
       <template v-slot:item="props">
-        <div v-if="showType === costanti.SHOW_MYSKILL">
+        <div v-if="showType === costanti.SHOW_MYSKILL || (myvertical === costanti.VISUTABLE_LISTA && tablesel === 'myskills') ">
           <CMySkill
             :prop_myskill="props.row"
             :visu="visufind"

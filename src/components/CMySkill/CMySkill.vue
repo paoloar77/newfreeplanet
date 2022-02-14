@@ -27,7 +27,7 @@
         </q-item-label>
         <q-item-label overline lines="1" style="text-align: right">
           <span class="text-weight-bold">{{ myskill.username }}</span> -
-          <span v-for="(rec, ind) of myskill.mycities" :key="ind">{{ rec.comune }}</span>
+          <span v-for="(rec, ind) of myskill.mycities" :key="ind"><span v-if="ind > 0">, </span>{{ rec.comune }}</span>
         </q-item-label>
       </q-item-section>
 

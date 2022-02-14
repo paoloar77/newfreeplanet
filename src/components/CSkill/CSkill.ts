@@ -140,6 +140,54 @@ export default defineComponent({
             'profile.qualifica': 1,
           }
         },
+        lookup3: {
+          lk_tab: 'skills',
+          lk_LF: 'idSkill',
+          lk_FF: '_id',
+          lk_as: 'recSkill',
+          af_objId_tab: '',
+          lk_proj: {
+            recSkill: 1,
+            sector: 1,
+            idSector: 1,
+            idSkill: 1,
+            idSubSkill: 1,
+            myskill: 1,
+            idStatusSkill: 1,
+            idContribType: 1,
+            idCity: 1,
+            numLevel: 1,
+            adType: 1,
+            photos: 1,
+            note: 1,
+            descr: 1,
+            date_created: 1,
+            date_updated: 1,
+            userId: 1,
+            username: 1,
+            name: 1,
+            surname: 1,
+            comune: 1,
+            mycities: 1,
+            'profile.img': 1,
+            'profile.qualifica': 1,
+          }
+        },
+        lookup4: {
+          lk_tab: 'subskills',
+          lk_LF: 'idSubSkill',
+          lk_FF: '_id',
+          lk_as: 'myskill',
+          af_objId_tab: '',
+        },
+        lookup5: {
+          lk_tab: 'cities',
+          lk_LF: 'idCity',
+          lk_FF: '_id',
+          lk_as: 'mycities',
+          af_objId_tab: '',
+        },
+
       }
     }
 
