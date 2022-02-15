@@ -14,7 +14,11 @@ export class Patterns {
    *
    *         public static Password: RegExp = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!\-]).{6,20})/i
    *
-   *  8 to 20 characters string with at least one digit, one upper case letter, one lower case letter and one special symbol
+
+   *  6 to 30 characters string with at least one digit, one upper case letter, one lower case letter and one special symbol
    */
+  public static Username = /^[a-zA-Z0-9]+([_@.-]?[a-zA-Z0-9])*$/i
+
+  // *  8 to 20 characters string with at least one digit, one upper case letter, one lower case letter
   public static Password = /^((?=.*[A-Z])(?=.*\d)(?!.* ).{8,30})/i
 }

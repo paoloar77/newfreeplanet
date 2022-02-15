@@ -192,6 +192,7 @@ const msg_de = {
         errore_generico: 'Please review fields again',
         atleast: 'must be at least',
         complexity: 'must contains at least 1 lowercase letter, 1 uppercase letter, 1 digit',
+        complexityUser: 'caratteri consentiti: tratteggio (_), meno (-) e il punto (.)',
         notmore: 'must not be more than',
         char: 'characters long',
         terms: 'You need to agree with the terms & conditions.',

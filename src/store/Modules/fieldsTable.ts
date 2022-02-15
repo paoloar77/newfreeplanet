@@ -591,7 +591,7 @@ export const colmySkills = [
   AddCol({
     name: 'numLevel',
     label_trans: 'level.name',
-    fieldtype: costanti.FieldType.star5,
+    fieldtype: costanti.FieldType.star3,
     required: false,
     jointable: 'levels',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
@@ -604,7 +604,7 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.multiselect,
     jointable: 'statusSkills',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    noshowlabel: false,
+    noshowlabel: true,
     icon: 'mood',
   }),
   AddCol({
@@ -613,7 +613,7 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.multiselect,
     jointable: 'contribtypes',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    noshowlabel: false,
+    noshowlabel: true,
     icon: 'currency_exchange',
     //icon: 'fas fa-hands-helping',
   }),

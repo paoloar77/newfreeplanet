@@ -4315,6 +4315,11 @@ export const tools = {
           return t('reg.err.complexity')
         }
       }
+      if (item.complexityUser !== undefined) {
+        if (item.complexityUser.$invalid) {
+          return t('reg.err.complexityUser')
+        }
+      }
       // if (!item.maxLength) { return t('reg.err.notmore') + ` ${item.$params.maxLength.max} ` + t('reg.err.char') }
 
       if (item.required !== undefined) {

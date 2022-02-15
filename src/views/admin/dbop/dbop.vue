@@ -215,21 +215,21 @@
     </div>
     <div class="row">
       <q-btn
-        label="emptyDbSkill" color="negative"
+        label="1. Cancella e Ricrea tutte le Tabelle (Sector, Skill, SubSkill, City, Province, Contribtype, AdType)" color="negative"
         @click="EseguiFunz('emptyDbSkill')"></q-btn>
       <br>
     </div>
     <div class="row">
       <q-btn
-        label="copyFrom1To13" color="negative"
-        @click="EseguiFunz('copyFrom1To13')"></q-btn>
+        label="2. Popola Tutte le Tabelle vuote (o incomplete)" color="negative"
+        @click="EseguiFunz('PopulateTables')"></q-btn>
       <br>
     </div>
 
     <div class="row">
       <q-btn
-        label="Populate Tables" color="negative"
-        @click="EseguiFunz('PopulateTables')"></q-btn>
+        label="copyFrom1To13" color="negative"
+        @click="EseguiFunz('copyFrom1To13')"></q-btn>
       <br>
     </div>
 

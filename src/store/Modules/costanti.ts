@@ -84,6 +84,7 @@ export const costanti = {
     binary: 8,
     html: 16,
     select: 32,
+    star3: 35,
     star5: 40,
     number: 64,
     typeinrec: 128,

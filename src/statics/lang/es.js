@@ -382,6 +382,7 @@ const msg_es = {
         errore_generico: 'Por favor, rellene los campos correctamente',
         atleast: 'debe ser al menos largo',
         complexity: 'debe contener al menos 1 minúscula, 1 mayúscula, 1 dígito',
+        complexityUser: 'caratteri consentiti: tratteggio (_), meno (-) e il punto (.)',
         notmore: 'no tiene que ser más largo que',
         char: 'caracteres',
         terms: 'Debes aceptar las condiciones, para continuar..',

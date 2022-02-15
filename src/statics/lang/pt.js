@@ -392,6 +392,7 @@ const msg_pt = {
         errore_generico: 'Por favor preencha os campos corretamente',
         atleast: 'deve ser pelo menos',
         complexity: 'deve conter pelo menos 1 letra minúscula, 1 capital, 1 dígito',
+        complexityUser: 'caratteri consentiti: tratteggio (_), meno (-) e il punto (.)',
         notmore: 'não deve ser maior do que',
         char: 'caracteres',
         terms: 'Você deve aceitar as condições, para continuar',

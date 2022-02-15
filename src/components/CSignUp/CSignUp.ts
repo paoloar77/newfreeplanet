@@ -18,7 +18,7 @@ import useVuelidate from '@vuelidate/core'
 import { minLength, required, sameAs } from '@vuelidate/validators'
 
 // import { ValidationRuleset } from 'vuelidate'
-import { complexity, registereduser, aportadorexist } from '../../validation'
+import { complexity, complexityUser, registereduser, aportadorexist } from '../../validation'
 
 // import 'vue3-tel-input/dist/vue3-tel-input.css'
 import { useRoute, useRouter } from 'vue-router'
@@ -94,6 +94,7 @@ export default defineComponent({
         username: {
           required,
           minLength: minLength(6),
+          complexityUser,
           registereduser,
         },
         terms: {

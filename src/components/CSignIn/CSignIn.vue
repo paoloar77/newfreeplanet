@@ -40,7 +40,7 @@
           :label="$t('reg.password')"
           :rules="[
             val => !!val || $t('reg.err.required'),
-            val => val.length > 6 || $t('reg.err.atleast') + ' 6 ' + $t('reg.err.char'),
+            val => val.length > 8 || $t('reg.err.atleast') + ' 8 ' + $t('reg.err.char'),
           ]">
 
           <template v-slot:prepend>

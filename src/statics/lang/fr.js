@@ -380,6 +380,7 @@ const msg_fr = {
         errore_generico: 'S\'il vous plaît remplir les champs correctement',
         atleast: 'ça doit être au moins long',
         complexity: 'doit contenir au moins 1 minuscule, 1 majuscule, 1 chiffre',
+        complexityUser: 'caratteri consentiti: tratteggio (_), meno (-) e il punto (.)',
         notmore: 'il ne doit pas être plus long que',
         char: 'caractères',
         terms: 'Vous devez accepter les conditions, pour continuer..',

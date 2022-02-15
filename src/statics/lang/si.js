@@ -393,6 +393,7 @@ const msg_si = {
         errore_generico: 'Prosimo, da pravilno izpolnete vsa polja',
         atleast: 'mora biti dolgo vsaj',
         complexity: 'ora vsebobati vsaj 1 malo črko, 1 veliko črko, 1 številko',
+        complexityUser: 'caratteri consentiti: tratteggio (_), meno (-) e il punto (.)',
         notmore: 'ne sme biti dolgo več kot',
         char: 'karakterji',
         terms: 'Za nadaljevanje, moraš sprejeti pogoje poslovanja.',

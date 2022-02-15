@@ -384,7 +384,7 @@
               :useinput="isInModif">
             </CMySelect>
           </div>
-          <div v-else-if="col.fieldtype === costanti.FieldType.star5">
+          <div v-else-if="(col.fieldtype === costanti.FieldType.star5 || col.fieldtype === costanti.FieldType.star3)">
             <div v-if="isInModif">
               <CMySelect
                 :type_out="col.field_outtype"
@@ -410,7 +410,7 @@
                 :color="tools.getColByLevel(myvalue)"
                 icon="star_border"
                 icon-selected="star"
-                :max="5"
+                :max="costanti.FieldType.star5 ? 5 : 3"
                 :readonly="true"
               />
             </div>
@@ -701,7 +701,7 @@
                 :optlab="fieldsTable.getLabelByTable(col.jointable)">
               </CMyToggleList>
             </div>
-            <div v-else-if="col.fieldtype === costanti.FieldType.star5">
+            <div v-else-if="(col.fieldtype === costanti.FieldType.star5 || col.fieldtype === costanti.FieldType.star3)">
               <CMySelect
                 :type_out="col.field_outtype"
                 :col="col"
