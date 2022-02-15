@@ -40,12 +40,12 @@ export default defineComponent({
     function SendMsg(params: any) {
       $q.dialog({
         message: t('dialog.continue') + ' ' + params.content + ' ?',
-        cancel: {
-          label: t('dialog.cancel')
-        },
         ok: {
           label: t('dialog.yes'),
           push: true
+        },
+        cancel: {
+          label: t('dialog.cancel')
         },
         title: params.title
       }).onOk(async () => {

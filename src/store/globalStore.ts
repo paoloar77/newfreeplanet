@@ -1328,7 +1328,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
           risultato = mylist.filter((myrec: any) => myrec.username === val).map(collab)
         } else {
           const myris = mylist.find((myrec: any) => myrec[key] === val)
-          risultato = myris[collab]
+          if (myris)
+            risultato = myris[collab]
         }
 
         if (key === 'username') {

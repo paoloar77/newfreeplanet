@@ -39,7 +39,7 @@
         :prop_search="true"
         :finder="true"
         :choose_visutype="$q.screen.gt.xs"
-        :butt_modif_new="false"
+        :butt_modif_new="true"
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato"
         :arrfilters="arrfilterand"
         :filtercustom="filtercustom"

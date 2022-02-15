@@ -23,13 +23,34 @@
 
           <!--<span> - {{ myskill.profile.qualifica }}</span>-->
         </q-item-label>
-        <q-item-label lines="3">{{ myskill.descr }}<br>
+        <q-item-label lines="3" v-if="myskill.descr">{{ myskill.descr }}<br>
         </q-item-label>
         <q-item-label overline lines="1" style="text-align: right">
           <span class="text-weight-bold">{{ myskill.username }}</span> -
           <span v-for="(rec, ind) of myskill.mycities" :key="ind"><span v-if="ind > 0">, </span>{{ rec.comune }}</span>
         </q-item-label>
+
       </q-item-section>
+      <q-item-section side v-if="myskill.userId === userStore.my._id">
+        <q-item-label>
+          <q-btn rounded icon="fas fa-ellipsis-h">
+            <q-menu>
+              <q-list style="min-width: 150px">
+                <q-item clickable icon="fas fa-pencil-alt" v-close-popup
+                        @click="cmdExt(costanti.CMD_MODIFY, myskill._id)">
+                  <q-item-section>{{ $t('reg.edit') }}</q-item-section>
+                </q-item>
+              </q-list>
+              <q-list style="min-width: 150px">
+                <q-item clickable icon="fas fa-trash-alt" v-close-popup @click="cmdExt(costanti.CMD_DELETE, myskill._id)">
+                  <q-item-section>{{ $t('reg.elimina') }}</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </q-item-label>
+      </q-item-section>
+
 
     </q-item>
     <q-separator inset="item"/>

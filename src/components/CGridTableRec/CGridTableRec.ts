@@ -436,13 +436,21 @@ export default defineComponent({
           if (!item.notinsearch) {
             let objitem: any = {}
             // console.log('        item ', item)
+            let obj: any = {}
 
             if (item.table === 'provinces') {
-              let obj: any = {}
 
               obj['mycities.prov'] = item.value
-              if (item.value !== '') {
+              if (item.value !== '' && item.value !== costanti.FILTER_TUTTI) {
                 filtersearch3or.push(obj)
+              }
+            } else if (item.table === 'cities') {
+
+              if (item.value && item.value.hasOwnProperty('_id')) {
+                obj['idCity'] = item.value._id
+                if (item.value && item.value !== '' && item.value._id !== costanti.FILTER_TUTTI) {
+                  filtersearch3or.push(obj)
+                }
               }
             } else if (item.value > 0) {
               objitem[item.key] = item.value
@@ -754,6 +762,7 @@ export default defineComponent({
 
     function annulla(val: any) {
       console.log('annulla')
+      /*
       if (newRecord.value) {
         globalStore.DeleteRec({ table: mytable.value, id: newRecord.value._id })
           .then((ris) => {
@@ -763,6 +772,9 @@ export default defineComponent({
             return true
           })
       }
+
+       */
+      newRecord.value = null
     }
 
     function SaveValue(newVal: any, valinitial: any) {
@@ -846,27 +858,31 @@ export default defineComponent({
       return pagination.value.rowsNumber
     }
 
-    async function createNewRecordDialog() {
+    function createNewRecordDialog() {
 
       const mydata: any = {
         table: mytable.value,
         data: {}
       }
 
-      if (props.defaultnewrec)
-        mydata.data = props.defaultnewrec()
+      // if (props.defaultnewrec)
+      //   mydata.data = props.defaultnewrec()
 
       // console.log('DATA=', mydata.data)
 
-      newRecord.value = await globalStore.saveTable(mydata)
+      // @ts-ignore
+      newRecord.value = props.defaultnewrec()
+      newRecord.value['userId'] = userStore.my._id
+      newRecord.value['idapp'] = process.env.APP_ID
+      globalStore.saveTable(mydata).then(ris => console.log('RISULT', ris))
       newRecordBool.value = true
 
     }
 
 
-    async function createNewRecord() {
+    function createNewRecord() {
 
-      await createNewRecordDialog()
+      createNewRecordDialog()
 
       console.log('newRecord.value', newRecord.value)
 
@@ -964,13 +980,13 @@ export default defineComponent({
         const funccancel = 0
         const par = {
           param1: item._id,
-          param2: item,
+          param2: {...item},
         }
 
         if (col.action === lists.MenuAction.CAN_EDIT_TABLE) {
           console.log('Edit', item)
           selItem(item, col)
-          recModif.value = item
+          recModif.value = {...item}
           recSaved.value = {...item}
           editRecordBool.value = true
         } else {
@@ -1317,12 +1333,16 @@ export default defineComponent({
 
     function cancelrecModif() {
       recModif.value = {...recSaved.value}
-      if (recModif.value._id) {
+
+      editRecordBool.value = false
+      /*if (recModif.value._id) {
         const indrec = serverData.value.findIndex((rec: any) => rec._id === recModif.value._id)
         if (indrec >= 0)
           serverData.value[indrec] = recModif.value
         editRecordBool.value = false
       }
+
+       */
     }
 
     async function saverecModif() {
@@ -1409,6 +1429,26 @@ export default defineComponent({
       return ''
     }
 
+    function cmdExt(cmd: any, id: any, val2: any) {
+      console.log('cmd', cmd)
+
+      let action = 0
+      if (cmd === costanti.CMD_DELETE) {
+        action = lists.MenuAction.DELETE_RECTABLE
+      } else if (cmd === costanti.CMD_MODIFY) {
+        action = lists.MenuAction.CAN_EDIT_TABLE
+      }
+
+      if (action > 0) {
+        const col = props.prop_mycolumns.find((rec: any) => rec.action === action)
+        if (col) {
+          const myarr = serverData.value.find((rec: any) => rec._id === id)
+          if (myarr)
+            clickFunz(myarr, col)
+        }
+      }
+    }
+
     // onMounted(mounted)
 
     created()
@@ -1491,6 +1531,7 @@ export default defineComponent({
       shared_consts,
       getLabelFooterByRow,
       showfilteradv,
+      cmdExt,
     }
   }
 })

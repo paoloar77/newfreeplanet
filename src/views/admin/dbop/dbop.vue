@@ -215,8 +215,14 @@
     </div>
     <div class="row">
       <q-btn
-        label="1. Cancella e Ricrea tutte le Tabelle (Sector, Skill, SubSkill, City, Province, Contribtype, AdType)" color="negative"
+        label="1. Cancella e Ricrea tutte le Tabelle (Sector, Skill, SubSkill, Contribtype, AdType)" color="negative"
         @click="EseguiFunz('emptyDbSkill')"></q-btn>
+      <br>
+    </div>
+    <div class="row">
+      <q-btn
+        label="1. Cancella e Ricrea le Tabelle (City, Province)" color="negative"
+        @click="EseguiFunz('ricreaTabCitiesProvinces')"></q-btn>
       <br>
     </div>
     <div class="row">

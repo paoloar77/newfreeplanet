@@ -32,12 +32,12 @@ export default defineComponent({
 
       $q.dialog({
         message: t('dialog.continue') + ' ' + miafunz + ' ?',
-        cancel: {
-          label: t('dialog.cancel'),
-        },
         ok: {
           label: t('dialog.yes'),
           push: true,
+        },
+        cancel: {
+          label: t('dialog.cancel'),
         },
         title: 'Funzione:',
       }).onOk(async () => {

@@ -38,23 +38,23 @@ export default defineComponent({
 
       $q.dialog({
         message: t('reg.cancellami', { sitename: t('ws.sitename') }),
-        cancel: {
-          label: t('dialog.cancel')
-        },
         ok: {
           label: t('dialog.yes'),
           push: true
+        },
+        cancel: {
+          label: t('dialog.cancel')
         },
         title: t('pages.profile')
       }).onOk(() => {
         $q.dialog({
           message: t('reg.cancellami_2', { sitename: t('ws.sitename') }),
-          cancel: {
-            label: t('dialog.cancel')
-          },
           ok: {
             label: t('dialog.yes'),
             push: true
+          },
+          cancel: {
+            label: t('dialog.cancel')
           },
           title: t('pages.profile')
         })

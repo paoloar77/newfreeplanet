@@ -11,7 +11,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'CMySkill',
-  emits: ['setCmd'],
+  emits: ['setCmd', 'cmdext'],
   props: {
     prop_myskill: {
       type: Object as PropType<IMySkill | null>,
@@ -55,6 +55,10 @@ export default defineComponent({
       emit('setCmd', $q, cmd, myusername, value, groupname)
     }
 
+    function cmdExt(cmd: any, val1: any, val2: any) {
+      emit('cmdext', cmd, val1, val2)
+    }
+
     onMounted(mounted)
 
     return {
@@ -67,6 +71,7 @@ export default defineComponent({
       userStore,
       tools,
       fieldsTable,
+      cmdExt,
     }
   },
 })
