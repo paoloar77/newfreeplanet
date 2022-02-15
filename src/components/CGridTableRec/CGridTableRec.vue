@@ -106,9 +106,8 @@
         <div v-if="searchList"
              :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue `">
           <span v-for="(item, index) in searchList" :key="index">
-            <div class="text-center" v-if="(item.type === costanti.FieldType.separator)">
-              <q-btn rounded size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Filtri Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
-              <q-separator class="q-my-sm"></q-separator>
+            <div class="text-center q-my-xs" v-if="(item.type === costanti.FieldType.separator)">
+              <q-btn rounded flat size="sm" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Filtri Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
             </div>
 
             <CMySelect
@@ -235,7 +234,7 @@
 
           <q-space></q-space>
           <q-select
-            v-if="mytable && pagination.rowsNumber > 0 && (prop_search || canEdit) && showCol"
+            v-if="mytable && pagination.rowsNumber > 0 && (prop_search || canEdit) && showCol && myvertical === 0"
             v-model="colVisib"
             rounded
             outlined

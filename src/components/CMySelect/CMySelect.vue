@@ -23,6 +23,7 @@
         :input-class="myclass"
         :options="valori"
         :option-value="optval"
+        options-selected-class="text-deep-blue"
         class="combowidth"
         style="min-width: 250px"
       >
@@ -131,6 +132,7 @@
         emit-value
         stack-label
         :options="valori"
+        options-selected-class="text-deep-blue"
         :option-value="optval"
         :option-label="optlab"
         :dense="dense">
@@ -189,7 +191,7 @@
         @new-value="newvaluefuncfirst"
         emit-value
         input-debounce="0"
-        options-selected-class="text-deep-orange"
+        options-selected-class="text-deep-blue"
         map-options
         v-bind="$attrs"
         class="combowidth">

@@ -431,13 +431,23 @@ export default defineComponent({
 
       if (searchList.value) {
         for (const item of searchList.value) {
+
           //searchList.value.forEach((item: ISearchList) => {
           if (!item.notinsearch) {
             let objitem: any = {}
             // console.log('        item ', item)
-            if (item.value > 0) {
+
+            if (item.table === 'provinces') {
+              let obj: any = {}
+
+              obj['mycities.prov'] = item.value
+              if (item.value !== '') {
+                filtersearch3or.push(obj)
+              }
+            } else if (item.value > 0) {
               objitem[item.key] = item.value
-              filtersearch.push(objitem)
+                filtersearch.push(objitem)
+
             } else if (item.arrvalue.length > 0) {
               const myarr = item.arrvalue.filter((value: any) => {
                 if (typeof value === 'number') {
@@ -448,20 +458,7 @@ export default defineComponent({
 
               let arr2: any = []
 
-              if (item.table === 'provinces') {
-                arr2 = []
-                myarr.forEach((myval: any) => {
-                  let objitem3: any = {}
-                  objitem3['mycities.prov'] = myval
-                  arr2.push(objitem3)
-                })
-                let obj2: any = {
-                  $or: arr2
-                }
-                if (arr2.length > 0) {
-                  filtersearch3or = arr2
-                }
-              } else {
+              if (item.table !== 'provinces') {
                 myarr.forEach((myval: any) => {
                   let objitem2: any = {}
                   objitem2[item.key] = myval

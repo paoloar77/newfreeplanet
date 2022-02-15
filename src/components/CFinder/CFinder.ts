@@ -27,7 +27,7 @@ export default defineComponent({
   },
   setup(props, { attrs, slots, emit }) {
     const mytable = 'users'
-    const { t } = useI18n();
+    const { t } = useI18n()
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
 
@@ -36,6 +36,7 @@ export default defineComponent({
     const searchList = ref(<ISearchList[]>[])
 
     const search = ref('')
+    const myrecfiltertoggle = ref(tools.FILTER_ALL)
 
     const idSector = computed(() => {
       let myval: any = null
@@ -49,6 +50,16 @@ export default defineComponent({
       }
     })
 
+    watch(() => myrecfiltertoggle.value, (value: any, oldval: any) => {
+        if (value === tools.FILTER_MYREC) {
+          filtercustom.value = [{ userId: userStore.my._id }]
+        } else {
+          filtercustom.value = []
+        }
+      },
+    )
+
+
     function mounted() {
       /*arrfilterand.value = [
         {
@@ -59,7 +70,7 @@ export default defineComponent({
       ]*/
 
       function getFilterSkills(recSkill: any, index: number, arr: any) {
-        const recsectors:any = searchList.value.find((rec) => rec.table === 'sectors')
+        const recsectors: any = searchList.value.find((rec) => rec.table === 'sectors')
         // console.log('getFilterSkills', recSkill.idSector, recsectors.value)
         if (recsectors) {
           return recSkill.idSector.includes(recsectors.value)
@@ -69,7 +80,7 @@ export default defineComponent({
       }
 
       function getFilterSubSkills(recSubSkill: any, index: number, arr: any) {
-        const recskills:any = searchList.value.find((rec) => rec.table === 'skills')
+        const recskills: any = searchList.value.find((rec) => rec.table === 'skills')
         // console.log('recSubSkill', recSubSkill, 'recskills', recskills)
         if (recskills) {
           return recSubSkill.idSkill === recskills.value
@@ -79,7 +90,7 @@ export default defineComponent({
       }
 
       function getFilterCitiesByProvince(recSubSkill: any, index: number, arr: any) {
-        const recprov:any = searchList.value.find((rec) => rec.table === 'provinces')
+        const recprov: any = searchList.value.find((rec) => rec.table === 'provinces')
         // console.log('recSubSkill', recSubSkill, 'recskills', recskills)
         if (recprov) {
           return recSubSkill.idSkill === recprov.value
@@ -164,20 +175,6 @@ export default defineComponent({
           useinput: false,
           icon: 'far fa-id-card',
         },
-        {
-          label: '',
-          table: '',
-          key: '',
-          value: 0,
-          type: costanti.FieldType.separator,
-          arrvalue: [],
-          addall: true,
-          filter: null,
-          showcount: true,
-          useinput: false,
-          notinsearch: true,
-          icon: '',
-        },
         /*{
           label: 'Regione',
           table: 'regions',
@@ -224,6 +221,20 @@ export default defineComponent({
           icon: 'currency_exchange',
           filteradv: true,
           //icon: 'swap_horizontal_circle',
+        },
+        {
+          label: '',
+          table: '',
+          key: '',
+          value: 0,
+          type: costanti.FieldType.separator,
+          arrvalue: [],
+          addall: true,
+          filter: null,
+          showcount: true,
+          useinput: false,
+          notinsearch: true,
+          icon: '',
         },
 
       ]
@@ -335,6 +346,7 @@ export default defineComponent({
       idSector,
       search,
       doSearch,
+      myrecfiltertoggle,
     }
   },
 })

@@ -53,6 +53,9 @@ export const tools = {
   TABBED_HOME: 't-home',
   TABBED_NAVE: 't-nave',
 
+  FILTER_ALL: 0,
+  FILTER_MYREC: 1,
+
   COOK_SEARCH: 'SEARCH_',
 
   FRIENDS_SEARCH: 'FR_SE',

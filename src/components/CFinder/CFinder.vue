@@ -2,6 +2,18 @@
   <div class="bi-border-all">
     <div class="q-ma-xs q-gutter-xs q-pa-xs">
 
+      <div class="text-center">
+        <q-btn-toggle
+          v-model="myrecfiltertoggle"
+          push
+          glossy
+          toggle-color="primary"
+          :options="[
+          {label: 'Tutti', value: tools.FILTER_ALL},
+          {label: 'Personali', value: tools.FILTER_MYREC},
+        ]"
+        />
+      </div>
       <div v-if="false" class="q-mr-sm">
         <q-input
           v-model="search" filled dense type="search" debounce="500" :hint="t('finder.search_skill')"
@@ -26,7 +38,7 @@
         :nodataLabel="idSector > 0 ? 'Nessuna Competenza trovata': 'Selezionare un Settore'"
         :prop_search="true"
         :finder="true"
-        :choose_visutype="true"
+        :choose_visutype="$q.screen.gt.xs"
         :butt_modif_new="false"
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato"
         :arrfilters="arrfilterand"
