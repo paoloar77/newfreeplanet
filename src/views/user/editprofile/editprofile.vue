@@ -73,6 +73,7 @@
     </CTitleBanner>
 
 
+    <!--
     <CTitleBanner
       class="q-pa-xs" title="Competenze Personali (Offerte)" bgcolor="bg-primary" clcolor="text-white"
       myclass="myshad" :canopen="true">
@@ -84,6 +85,7 @@
 
 
     </CTitleBanner>
+    -->
 
     <CTitleBanner
       class="q-pa-xs" title="Informazioni su di te" bgcolor="bg-primary" clcolor="text-white"

@@ -1,4 +1,4 @@
-import { defineComponent, ref, PropType, watch, onMounted } from 'vue'
+import { defineComponent, ref, PropType, watch, onMounted, computed } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useQuasar } from 'quasar'
@@ -64,6 +64,15 @@ export default defineComponent({
     function isValid(myobj: any): boolean {
       return (myobj && typeof myobj !== 'string' && typeof myobj !== 'undefined')
     }
+
+    const isListImgValid = computed(() => {
+      const arr = getlistimages()
+      if (arr && tools.isArray(arr)) {
+        return arr.length > 0
+      } else {
+        return !!arr
+      }
+    })
 
     watch(() => props.imgGall, (newval, oldval) => {
       if (isValid(props.imgGall)) {
@@ -379,6 +388,7 @@ export default defineComponent({
       fullscreen,
       fullscreensrc,
       onRejected,
+      isListImgValid,
     }
   }
 })

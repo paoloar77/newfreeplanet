@@ -138,6 +138,7 @@
         </q-card>
       </div>
 
+      <!--
       <CTitleBanner
         class="" title="Competenze e Talenti" bgcolor="bg-positive" clcolor="text-white"
         myclass="myshad" :canopen="true">
@@ -152,6 +153,7 @@
 
 
       </CTitleBanner>
+      -->
 
       <div v-if="myuser._id">
         <CTitleBanner

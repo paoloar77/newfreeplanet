@@ -3,9 +3,10 @@
 
   <div v-if="!edit">
     <div class="q-pa-xs q-gutter-md">
-      <q-card v-if="getlistimages().length > 0" :class="getclass()" @click="apri">
+      <q-card v-if="isListImgValid" :class="getclass()" @click="apri">
         <div v-for="(mygallery, index) in getlistimages()" :key="index">
           <div v-if="index === 0">
+            AA
             <q-img
               :src="getsrcimg(mygallery)" :class="getclimg()"
               :alt="mygallery.alt">
@@ -17,13 +18,21 @@
           </div>
         </div>
       </q-card>
-      <div v-if="!isInModif && getlistimages().length <= 0 && imagebak">
+      <div v-else-if="!isInModif && !isListImgValid && imagebak">
         <q-card :class="getclass()" @click="ImgFullScreen(mygallery)">
           <q-img
             :src="imagebak" :class="getclimg()">
           </q-img>
         </q-card>
 
+      </div>
+      <div v-else>
+        <q-card :class="getclass()" @click="apri">
+          <q-img
+            src="images/noimg.png" :class="getclimg()"
+            alt="no image">
+          </q-img>
+        </q-card>
       </div>
       <q-btn
         v-if="isInModif"
@@ -33,7 +42,7 @@
     </div>
   </div>
   <div v-else>
-    <div v-if="getnumimages() <= 0">
+    <div v-if="!isListImgValid">
       <q-btn
         flat round color="blue" icon="fas fa-tools" size="md"
         @click="apri"></q-btn>
@@ -227,7 +236,7 @@
                 accept="image/jpeg, image/jpg, image/png, .pdf"
                 :url="getUrl()"
                 :headers="tools.getheaders()"
-                :max-file-size="2000000"
+                :max-file-size="40000000"
                 multiple
                 auto-upload
                 hide-upload-btn
@@ -238,7 +247,7 @@
               ></q-uploader>
             </div>
           </div>
-          <div v-if="!isInModif && getlistimages().length <= 0 && imagebak">
+          <div v-if="!isInModif && !isListImgValid && imagebak">
 
             <q-card :class="getclass()" @click="ImgFullScreen(mygallery)">
               <q-img

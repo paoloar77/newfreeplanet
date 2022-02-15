@@ -4890,6 +4890,10 @@ export const tools = {
 
   },
 
+  isArray(val: any) {
+    return Array.isArray(val)
+  },
+
   isUserOk(){
     const userStore = useUserStore()
     return userStore.isUserOk()
