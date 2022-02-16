@@ -8,18 +8,20 @@ import { CMyFieldDb } from '@/components/CMyFieldDb'
 import { costanti } from '@costanti'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
-import { colmySkills } from '@store/Modules/fieldsTable'
+
 import { CGridTableRec } from '@/components/CGridTableRec'
-import { IMySkill, ISearchList, ISkill } from 'model'
+import { IColGridTable, IMyBacheca, IMySkill, ISearchList, ISkill } from 'model'
 import { shared_consts } from '@/common/shared_vuejs'
 import { useI18n } from '@/boot/i18n'
+import { toolsext } from '@store/Modules/toolsext'
+import { fieldsTable } from '@store/Modules/fieldsTable'
 
 export default defineComponent({
   name: 'CFinder',
   props: {
-    defaultnewrec: {
-      type: Function,
-      required: false,
+    table: {
+      type: String,
+      required: true,
     },
   },
   components: {
@@ -38,12 +40,19 @@ export default defineComponent({
     const search = ref('')
     const myrecfiltertoggle = ref(tools.FILTER_ALL)
 
+    const prop_colkey = ref('idSkill')
+    const col_title = ref('descr')
+    const col_footer = ref('idCity')
+    const col_tabfooter = ref('mycities')
+
+    const col = ref(<IColGridTable>{})
+
     const idSector = computed(() => {
       let myval: any = null
       myval = searchList.value.find((rec) => (rec.table === 'sectors'))
       if (myval) {
         const ris = myval.value || 0
-        console.log('idSector=', ris)
+        // console.log('idSector=', ris)
         return ris
       } else {
         return 0
@@ -61,13 +70,16 @@ export default defineComponent({
 
 
     function mounted() {
-      /*arrfilterand.value = [
-        {
-          label: 'Competenze',
-          value: shared_consts.FILTER_MYSKILL_SKILL
-        },
 
-      ]*/
+      let obj = tools.getParamsByTable(props.table)
+
+      col.value = fieldsTable.getArrColsByTable(props.table)
+
+      prop_colkey.value = obj.prop_colkey
+      col_title.value = obj.col_title
+      col_footer.value = obj.col_footer
+      col_tabfooter.value = obj.col_tabfooter
+
 
       function getFilterSkills(recSkill: any, index: number, arr: any) {
         const recsectors: any = searchList.value.find((rec) => rec.table === 'sectors')
@@ -98,6 +110,8 @@ export default defineComponent({
           return true
         }
       }
+
+
 
 
       searchList.value = [
@@ -243,22 +257,6 @@ export default defineComponent({
     }
 
 
-    function getdefaultnewrec(): IMySkill {
-      return {
-        _id: 0,
-        idSector: 0,
-        idSkill: 0,
-        idSubSkill: [],
-        idStatusSkill: [],
-        idContribType: [],
-        idCity: [],
-        NumLevel: 0,
-        adType: 0,
-        photos: [],
-        note: '',
-        descr: '',
-      }
-    }
 
 
     function extraparams() {
@@ -314,7 +312,7 @@ export default defineComponent({
           lk_tab: 'subskills',
           lk_LF: 'idSubSkill',
           lk_FF: '_id',
-          lk_as: 'myskill',
+          lk_as: 'myrec',
           af_objId_tab: '',
         },
         lookup5: {
@@ -327,6 +325,16 @@ export default defineComponent({
       }
     }
 
+    function getdefaultnewrec(): any {
+      if (props.table === toolsext.TABMYSKILLS) {
+        return tools.getdefaultnewrec_MySkill()
+      } else if (props.table === toolsext.TABMYBACHECAS) {
+        return tools.getdefaultnewrec_MyBacheca()
+      }
+      return null
+    }
+
+
     function doSearch() {
       //
     }
@@ -337,8 +345,6 @@ export default defineComponent({
       t,
       tools,
       costanti,
-      colmySkills,
-      getdefaultnewrec,
       extraparams,
       arrfilterand,
       filtercustom,
@@ -347,6 +353,13 @@ export default defineComponent({
       search,
       doSearch,
       myrecfiltertoggle,
+      prop_colkey,
+      col_title,
+      col_footer,
+      col_tabfooter,
+      col,
+      toolsext,
+      getdefaultnewrec,
     }
   },
 })

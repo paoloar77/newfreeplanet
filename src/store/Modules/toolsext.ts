@@ -61,6 +61,7 @@ export const toolsext = {
   TABFRIENDS: 'friends',
   TABMYGROUPS: 'mygroups',
   TABMYSKILLS: 'myskills',
+  TABMYBACHECAS: 'mybachecas',
   TABNAVI: 'navi',
   TABLISTAINGRESSO: 'listaingressos',
   TABGRADUATORIA: 'graduatorias',

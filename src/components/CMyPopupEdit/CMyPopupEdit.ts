@@ -22,6 +22,8 @@ import { costanti } from '@costanti'
 import { fieldsTable } from '@store/Modules/fieldsTable'
 import MixinBase from '@/mixins/mixin-base'
 import MixinUsers from '@/mixins/mixin-users'
+import { toolsext } from '@store/Modules/toolsext'
+import { shared_consts } from '@/common/shared_vuejs'
 
 export default defineComponent({
   name: 'CMyPopupEdit',
@@ -657,8 +659,8 @@ export default defineComponent({
     }
 
     function getToByCol(col: IColGridTable){
-      if (props.table === 'myskills') {
-        return '/mypage/'+ props.row['_id']
+      if (shared_consts.TABLES_REC_ID.includes(props.table)) {
+        return '/' + tools.getDirectoryByTable(props.table) + '/' + props.row['_id']
       } else if (props.table === 'mygroups') {
         return '/grp/' + props.row['groupname']
       }

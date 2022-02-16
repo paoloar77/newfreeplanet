@@ -98,11 +98,6 @@
         </div>-->
 
         <!-- BUTTON USER BAR -->
-        <q-btn
-          class="q-mx-xs" v-if="static_data.functionality.SHOW_USER_MENU && !isLogged()" dense flat round
-          icon="menu"
-          @click="rightDrawerOpen = !rightDrawerOpen">
-        </q-btn>
 
         <q-btn
           class="q-mx-xs" v-if="static_data.functionality.ENABLE_ECOMMERCE && isLogged()" round dense flat
@@ -114,7 +109,7 @@
         </q-btn>
 
         <q-btn
-          class="q-mx-xs" v-if="static_data.functionality.ENABLE_ECOMMERCE && isLogged && getnumOrdersCart() > 0"
+          class="q-mx-xs" v-if="static_data.functionality.ENABLE_ECOMMERCE && isLogged() && getnumOrdersCart() > 0"
           round dense flat
           to="/orderinfo" icon="fas fa-list-ol">
 
@@ -123,18 +118,16 @@
           </q-badge>
         </q-btn>
 
-        <!--<q-avatar v-if="static_data.functionality.SHOW_USER_MENU && isLogged()"
-                  size="30px"
-                  @click="rightDrawerOpen = !rightDrawerOpen" :color="getcolormenu()">
-          <q-img :src="getMyImgforIcon()" :alt="Username()" img-class=""/>
-        </q-avatar>-->
-
-
-        <q-avatar v-if="static_data.functionality.SHOW_USER_MENU && isLogged() && getMyImg()"
+        <q-btn
+          class="q-mx-xs" v-if="static_data.functionality.SHOW_USER_MENU && !isLogged()" dense flat round
+          icon="menu"
+          @click="rightDrawerOpen = !rightDrawerOpen">
+        </q-btn>
+        <q-avatar v-else-if="static_data.functionality.SHOW_USER_MENU && isLogged() && getMyImg()"
                   size="36px" class="center_img cursor-pointer"
                   @click="rightDrawerOpen = !rightDrawerOpen">
           <q-img ratio="1" fit="conver" :src="getMyImg()" :alt="Username()" img-class="imgprofile_small" stretch="false"
-                 placeholder-src="https://placeimg.com/36/36/nature"/>
+                 />
         </q-avatar>
         <q-btn
           v-else

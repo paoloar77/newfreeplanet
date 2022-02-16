@@ -33,6 +33,7 @@ export interface IMyGroup {
 export interface ICalcStat {
   numUsersReg: number
   numMySkills: number
+  numMyBachecas: number
   numGroups: number
 }
 

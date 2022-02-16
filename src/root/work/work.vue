@@ -6,9 +6,8 @@
       <div v-if="isUserOk()">
 
         <CFinder
-          :table="toolsext.TABMYBACHECAS">
-
-        </CFinder>
+          :table="toolsext.TABMYSKILLS"
+        />
 
         <CDashboard></CDashboard>
 
@@ -22,8 +21,8 @@
   </q-page>
 
 </template>
-<script lang="ts" src="./bacheca.ts">
+<script lang="ts" src="./work.ts">
 </script>
 <style lang="scss" scoped>
-@import './bacheca.scss';
+@import './work.scss';
 </style>

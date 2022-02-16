@@ -313,13 +313,14 @@
       </template>
 
       <template v-slot:item="props">
-        <div v-if="showType === costanti.SHOW_MYSKILL || (myvertical === costanti.VISUTABLE_LISTA && tablesel === 'myskills') ">
-          <CMySkill
-            :prop_myskill="props.row"
+        <div v-if="showType === costanti.SHOW_MYCARD || (myvertical === costanti.VISUTABLE_LISTA && shared_consts.TABLES_VISU_CMYSRECCARD.includes(tablesel)) ">
+          <CMyRecCard
+            :table="tablesel"
+            :prop_myrec="props.row"
             @cmdext="cmdExt"
             :visu="visufind"
           >
-          </CMySkill>
+          </CMyRecCard>
 
         </div>
         <div v-else-if="((showType === costanti.SHOW_USERINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_USER) || ((myvertical === 2) && (shared_consts.TABLES_VISU_LISTA_USER.includes(tablesel)))" class="fill-all-width">
@@ -394,7 +395,6 @@
                 <div v-for="col in mycolumns" :key="col.name">
                   <q-item v-if="showColCheck(col, tools.TIPOVIS_SHOW_RECORD, false, tools.getValue(props.row,col.field, col.subfield))"
                           :class="clByCol(col)" class="riduci_pad">
-
                     <q-item-section avatar v-if="col.icon">
                       <q-item-label class="q-table__col"><q-icon :name="col.icon"></q-icon></q-item-label>
                     </q-item-section>
@@ -405,6 +405,7 @@
                     <q-item-section>
                       <div class="tdclass">
                         <div :class="getclrow(props.row)">
+
 
                           <CMyPopupEdit
                             :table="mytable"
@@ -433,6 +434,14 @@
       </template>
     </q-table>
 
+    <q-dialog v-model="visupagedialog" @hide="hidewindow" :maximized="$q.screen.lt.sm">
+      <CMyCardPopup
+        :table="mytable"
+        :prop_myrec="myrecdialog">
+
+      </CMyCardPopup>
+    </q-dialog>
+
     <div v-if="rowclicksel">
 
       <CTitleBanner title="Record:"></CTitleBanner>
@@ -450,7 +459,7 @@
               </q-field>
             </div>
             <div
-              class="q-ma-sm q-pa-sm colmodif col-grow rounded-borders " style="border: 1px solid #bbb"
+              class="q-ma-sm q-pa-sm colmodif col-grow popupedit"
               @click="colclicksel = mycol">
               <CMyPopupEdit
                 :table="mytable"
@@ -475,7 +484,7 @@
         </div>
       </div>
     </div>
-    <q-dialog v-model="newRecordBool" @hide="hidewindow" :maximized="true">
+    <q-dialog v-model="newRecordBool" @hide="hidewindow" :maximized="$q.screen.lt.sm">
       <q-card class="dialog_card">
         <q-bar dense class="bg-primary text-white">
           Nuovo:
@@ -517,9 +526,9 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="editRecordBool">
+    <q-dialog v-model="editRecordBool" @hide="hidewindow" :maximized="$q.screen.lt.sm">
       <q-card class="dialog_card">
-        <q-bar dense class="bg-primary text-white full-height">
+        <q-bar dense class="bg-primary text-white">
           <span class="ellipsis">{{ recModif[col_title] }}</span>
           <q-space/>
           <q-btn flat round color="white" icon="close" v-close-popup></q-btn>

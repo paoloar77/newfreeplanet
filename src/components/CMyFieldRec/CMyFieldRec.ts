@@ -46,18 +46,13 @@ export default defineComponent({
       required: false,
       default: false,
     },
-    columns: {
-      type: Object,
-      required: false,
-      default: null,
-    },
     disable: {
       type: Boolean,
       required: false,
       default: false,
     },
     id: {
-      type: String,
+      type: [String, Number],
       required: false,
       default: '',
     },
@@ -99,8 +94,9 @@ export default defineComponent({
       keytab.value = fieldsTable.getKeyByTable(props.table)
       optlab.value = fieldsTable.getLabelByTable(props.table)
       // recordCol.value = fieldsTable.getrecTableList(props.table)
-      if (props.columns) {
-        col.value = props.columns.find((col: any) => col.name === props.field)
+      let columns = fieldsTable.getArrColsByTable(props.table)
+      if (columns) {
+        col.value = columns.find((col: any) => col.field === props.field)
       } else {
         col.value = fieldsTable.getColByTable(props.table, props.field)
       }

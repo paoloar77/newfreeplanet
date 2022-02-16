@@ -9,11 +9,17 @@ import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 import { colmySkills } from '@store/Modules/fieldsTable'
 import { CGridTableRec } from '@/components/CGridTableRec'
-import { IMySkill, ISkill } from 'model'
+import { IColGridTable, IMySkill, ISkill } from 'model'
+import { toolsext } from '@store/Modules/toolsext'
+import { fieldsTable } from '@store/Modules/fieldsTable'
 
 export default defineComponent({
   name: 'CSkill',
   props: {
+    table: {
+      type: String,
+      required: true,
+    },
     defaultnewrec: {
       type: Function,
       required: false,
@@ -40,28 +46,30 @@ export default defineComponent({
     CMyFieldDb, CGridTableRec,
   },
   setup(props, { attrs, slots, emit }) {
-    const mytable = 'users'
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
 
+    const table = ref(toolsext.TABMYSKILLS)
 
-    function getdefaultnewrec(): IMySkill {
-      return {
-        _id: 0,
-        idSector: 0,
-        idSkill: 0,
-        idSubSkill: [],
-        idStatusSkill: [],
-        idContribType: [],
-        idCity: [],
-        NumLevel: 0,
-        adType: 0,
-        photos: [],
-        note: '',
-        descr: '',
-      }
+    const col = ref(<IColGridTable>{})
+
+    const prop_colkey = ref('')
+    const col_title = ref('')
+    const col_footer = ref('')
+    const col_tabfooter = ref('')
+
+    function mounted() {
+
+      let obj = tools.getParamsByTable(props.table)
+
+      col.value = fieldsTable.getArrColsByTable(props.table)
+
+      prop_colkey.value = obj.prop_colkey
+      col_title.value = obj.col_title
+      col_footer.value = obj.col_footer
+      col_tabfooter.value = obj.col_tabfooter
+
     }
-
 
     function extraparams() {
       let lk_tab = 'users'
@@ -178,7 +186,7 @@ export default defineComponent({
           lk_tab: 'subskills',
           lk_LF: 'idSubSkill',
           lk_FF: '_id',
-          lk_as: 'myskill',
+          lk_as: 'myrec',
           af_objId_tab: '',
         },
         lookup5: {
@@ -192,12 +200,29 @@ export default defineComponent({
       }
     }
 
+    function getdefaultnewrec(): any {
+      if (props.table === toolsext.TABMYSKILLS) {
+        return tools.getdefaultnewrec_MySkill()
+      } else if (props.table === toolsext.TABMYBACHECAS) {
+        return tools.getdefaultnewrec_MyBacheca()
+      }
+      return null
+    }
+
+    onMounted(mounted)
+
     return {
       tools,
       costanti,
       colmySkills,
-      getdefaultnewrec,
       extraparams,
+      fieldsTable,
+      col,
+      prop_colkey,
+      col_title,
+      col_footer,
+      col_tabfooter,
+      getdefaultnewrec,
     }
   },
 })

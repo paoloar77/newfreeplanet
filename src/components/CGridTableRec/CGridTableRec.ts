@@ -23,6 +23,7 @@ import { CMyFriends } from '../CMyFriends'
 import { CMyUser } from '../CMyUser'
 import { CMyGroups } from '../CMyGroups'
 import { CMyFieldDb } from '../CMyFieldDb'
+import { CMyRecCard } from '../CMyRecCard'
 import { CMySelect } from '../CMySelect'
 import { CTitleBanner } from '../CTitleBanner'
 
@@ -32,7 +33,7 @@ import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
 import translate from '@/globalroutines/util'
 import { toolsext } from '@store/Modules/toolsext'
-import { CMySkill } from '@/components/CMySkill'
+import { CMyCardPopup } from '@/components/CMyCardPopup'
 
 export default defineComponent({
   name: 'CGridTableRec',
@@ -205,7 +206,7 @@ export default defineComponent({
       default: '',
     },
   },
-  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends, CMyGroups, CMyUser, CMySkill },
+  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends, CMyGroups, CMyUser, CMyRecCard, CMyCardPopup },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -232,6 +233,9 @@ export default defineComponent({
     const tablesel = ref('')
 
     const loading = ref(false)
+
+    const visupagedialog = ref(false)
+    const myrecdialog = ref(null)
 
     const startsearch = ref(false)
 
@@ -282,7 +286,7 @@ export default defineComponent({
     })
 
     watch(() => searchList.value, (to: any, from: any) => {
-      console.log('watch searchlist', to)
+      // console.log('watch searchlist', to)
       refresh()
     })
 
@@ -291,12 +295,12 @@ export default defineComponent({
     })
 
     watch(() => props.filtercustom, (to: any, from: any) => {
-      console.log('filtercustom', to)
+      // console.log('filtercustom', to)
       refresh()
     })
 
     function searchval(newval: any, table: any) {
-      console.log('searchval', newval, table)
+      // console.log('searchval', newval, table)
       tools.setCookie(tools.COOK_SEARCH + table, newval)
 
       if (table === 'skills') {
@@ -317,9 +321,9 @@ export default defineComponent({
             const recSkill = searchList.value.find((rec) => rec.table === 'skills')
             let trovato = false
             if (recSkill) {
-              console.log('recSkill.value', recSkill)
+              // console.log('recSkill.value', recSkill)
               const arrvalues = valoriopt.value(recSkill.value, false)
-              console.log('arrvalues', arrvalues)
+              // console.log('arrvalues', arrvalues)
               if (arrvalues)
                 trovato = arrvalues.find((rec: any) => rec[recSkill.key] === valsaved)
             }
@@ -579,8 +583,8 @@ export default defineComponent({
       emit('savefilter', myfilterand)
     }
 
-    function onRequest(props: any) {
-      const { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination
+    function onRequest(myprops: any) {
+      const { page, rowsPerPage, rowsNumber, sortBy, descending } = myprops.pagination
       const myfilternow = myfilter.value
       const myfilterandnow = myfilterand.value
 
@@ -1055,11 +1059,11 @@ export default defineComponent({
 
     function checkIfColShow(field: string | undefined) {
       let vis = true
-      if (shared_consts.TABLES_NOT_SHOW_IF_USERNAME.includes(props.prop_mytable) && !props.prop_search) {
+      /*if (shared_consts.TABLES_NOT_SHOW_IF_USERNAME.includes(props.prop_mytable) && !props.prop_search) {
         if (field === 'username') {
           vis = false
         }
-      }
+      }*/
       return vis
     }
 
@@ -1087,7 +1091,7 @@ export default defineComponent({
     }
 
     function changeTable(mysel: any) {
-      console.log('changeTable', tablesel.value)
+      // console.log('changeTable', tablesel.value)
       if (tablesel.value === undefined || tablesel.value === '')
         return
 
@@ -1432,6 +1436,12 @@ export default defineComponent({
     function cmdExt(cmd: any, id: any, val2: any) {
       console.log('cmd', cmd)
 
+      if (cmd === costanti.CMD_SHOW_PAGE) {
+        visupagedialog.value = true
+        myrecdialog.value = id
+        return true
+      }
+
       let action = 0
       if (cmd === costanti.CMD_DELETE) {
         action = lists.MenuAction.DELETE_RECTABLE
@@ -1532,6 +1542,8 @@ export default defineComponent({
       getLabelFooterByRow,
       showfilteradv,
       cmdExt,
+      visupagedialog,
+      myrecdialog,
     }
   }
 })

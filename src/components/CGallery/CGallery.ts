@@ -389,6 +389,7 @@ export default defineComponent({
       fullscreensrc,
       onRejected,
       isListImgValid,
+      costanti,
     }
   }
 })

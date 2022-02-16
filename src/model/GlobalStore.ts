@@ -691,3 +691,20 @@ export interface IMySkill {
   date_updated?: Date,
 }
 
+export interface IMyBacheca {
+  _id: number
+  idSector: number
+  idSkill: number
+  idSubSkill: number[]
+  idStatusSkill: number[]
+  idContribType: string[]
+  idCity: number[]
+  photos: IGallery[]
+  NumLevel: number
+  adType: number
+  note: string
+  descr: string
+  date_created?: Date,
+  date_updated?: Date,
+}
+

@@ -878,6 +878,8 @@ const msg_it = {
       create_group: 'Crea Gruppo',
       friends: 'Amici',
       bacheca: 'Bacheca',
+      work: 'Lavoro',
+      test: 'Test',
       groups: 'Gruppi',
       request_friends: 'Rich. Amicizia',
       request_sent_friends: 'Rich. Inviate',

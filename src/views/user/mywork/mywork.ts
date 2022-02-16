@@ -21,7 +21,7 @@ import { colCitys } from '@store/Modules/fieldsTable'
 
 
 export default defineComponent({
-  name: 'myuser',
+  name: 'mywork',
   components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CMyPage },
   props: {},
   setup() {
@@ -32,6 +32,8 @@ export default defineComponent({
     const { t } = useI18n()
 
     const animation = ref('fade')
+
+    const table = ref(toolsext.TABMYSKILLS)
 
     const idSkill = computed(() => $route.params.idSkill ? $route.params.idSkill.toString() : 0)
 
@@ -94,6 +96,7 @@ export default defineComponent({
       animation,
       fieldsTable,
       colCitys,
+      table,
     }
   }
 })

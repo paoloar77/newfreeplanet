@@ -20,7 +20,7 @@
         </q-field>
       </div>
 
-      <div :class="` q-ma-sm q-pa-sm col-grow rounded-borders `" :style="withBorder() ? `border: 1px solid #bbb` : ``">
+      <div :class="` q-ma-sm q-pa-sm col-grow popupedit `" :style="withBorder() ? `` : ``">
         <CMyPopupEdit
           v-bind="$attrs"
           :title="title"

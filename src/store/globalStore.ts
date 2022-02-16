@@ -827,6 +827,21 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
+    async loadPageTest() {
+
+      console.log('loadPageTest')
+
+      let obj = { test: 'OK! Versione Client: ' + tools.getvers() }
+
+      return Api.SendReq('/testServer', 'POST', obj)
+        .then((res) => {
+          return res
+        })
+        .catch((error) => {
+          return error
+        })
+    },
+
     async saveTable(mydata: any) {
       // console.log('saveTable', mydata)
       const userStore = useUserStore()

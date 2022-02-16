@@ -234,7 +234,6 @@ export const useUserStore = defineStore('UserStore', {
     },
 
     getImgByProfile(userparam: IUserFields, reale: any = false): string {
-
       try {
         if (userparam.profile && userparam.profile.img) {
           return costanti.DIR_UPLOAD + 'profile/' + userparam.username + '/' + userparam.profile.img
@@ -931,6 +930,21 @@ export const useUserStore = defineStore('UserStore', {
       }
 
       return Api.SendReq('/myskills/page', 'POST', data)
+        .then((res) => {
+          return res.data
+        }).catch((error) => {
+          return {}
+        })
+
+    },
+
+    async loadGeneric(table: string, id: number) {
+      const data = {
+        table,
+        id
+      }
+
+      return Api.SendReq('/mygen/page', 'POST', data)
         .then((res) => {
           return res.data
         }).catch((error) => {

@@ -18,7 +18,7 @@ import { static_data } from '@/db/static_data'
 import MixinBase from '@/mixins/mixin-base'
 import MixinUsers from '@/mixins/mixin-users'
 
-import { colmyBachecas } from '@store/Modules/fieldsTable'
+import { colmySkills } from '@store/Modules/fieldsTable'
 
 export default defineComponent({
   name: 'bacheca',
@@ -28,6 +28,8 @@ export default defineComponent({
     const userStore = useUserStore()
     const { getValDb } = MixinBase()
     const { isEmailVerified, TelegVerificato } = MixinUsers()
+
+
 
     function TelegCode() {
       return userStore.my.profile.teleg_checkcode
@@ -53,7 +55,6 @@ export default defineComponent({
     }
 
     return {
-      colmyBachecas,
       tools,
       toolsext,
       static_data,
@@ -64,6 +65,7 @@ export default defineComponent({
       openrighttoolbar,
       isUserOk,
       getLinkBotTelegram,
+      colmySkills,
     }
   },
 })

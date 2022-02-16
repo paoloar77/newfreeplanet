@@ -16,6 +16,7 @@
 
       <div class="row justify-evenly">
         <CSkill
+          :table="table"
           :filtercustom="filtroutente"
           :visuinpage="true"
         >
@@ -46,10 +47,10 @@
   </CMyPage>
 </template>
 
-<script lang="ts" src="./mypageskill.ts">
+<script lang="ts" src="./mywork.ts">
 </script>
 
 <style lang="scss" scoped>
-@import './mypageskill.scss';
+@import './mywork.scss';
 </style>
 

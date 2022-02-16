@@ -2,7 +2,7 @@
   <div class="text-center">
     <div v-if="visuElem()"  class="row items-center justify-center q-ma-xs">
 
-      <div class="q-ma-xs">
+      <div v-if="mytitle" class="q-ma-xs">
         <q-field rounded outlined bg-color="blue-1" dense style="min-width:110px;">
           <template v-slot:control>
             <div class="centermydiv">
@@ -20,7 +20,7 @@
         </q-field>
       </div>
 
-      <div :class="` q-ma-sm q-pa-sm col-grow rounded-borders `" :style="withBorder() ? `border: 1px solid #bbb` : ``">
+      <div :class="` col-grow popupedit `" :style="withBorder() ? `` : ``">
         <CMyPopupEdit
           v-bind="$attrs"
           :isrec="true"
@@ -38,7 +38,7 @@
           :canEdit="canEdit"
           :id="id"
           :idmain="idmain"
-          :visulabel="true"
+          :visulabel="!!mytitle"
           :mycol="col"
           :tablesel="tablesel"
           :pickup="pickup"

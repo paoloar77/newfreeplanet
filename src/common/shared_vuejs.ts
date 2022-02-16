@@ -84,14 +84,23 @@ export const shared_consts = {
 
   PARAM_SHOW_PROVINCE: 1,
 
-  TABLES_ID_NUMBER: ['permissions', 'levels', 'adtypes', 'statusSkills', 'sectors', 'catgrps', 'skills', 'subskills', 'cities', 'provinces', 'myskills', 'mygroups'],
-  TABLES_USER_ID: ['myskills'],
-  TABLES_UPDATE_LASTMODIFIED: ['myskills', 'mybots'],
-  TABLES_FINDER: ['myskills', 'mygroups'],
+  TABLES_MYSKILLS: 'myskills',
+  TABLES_MYBACHECAS: 'mybachecas',
 
-  TABLES_PERM_CHANGE_FOR_USERS: ['myskills'],
-  TABLES_VISU_LISTA_USER: ['myskills', 'users'],
-  TABLES_NOT_SHOW_IF_USERNAME: ['myskills'],
+  TABLES_USER_INCLUDE_MY: ['mygroups'],
+  TABLES_GETCOMPLETEREC: ['myskills'],
+  TABLES_PERM_NEWREC: ['skills', 'subskills', 'mygroups'],
+  TABLES_REC_ID: ['skills', 'subskills'],
+
+  TABLES_ID_NUMBER: ['permissions', 'levels', 'adtypes', 'statusSkills', 'sectors', 'catgrps', 'skills', 'subskills', 'cities', 'provinces', 'myskills', 'mybachecas', 'mygroups'],
+  TABLES_USER_ID: ['myskills', 'mybachecas'],
+  TABLES_UPDATE_LASTMODIFIED: ['myskills', 'mybots'],
+  TABLES_FINDER: ['myskills', 'mybachecas', 'mygroups'],
+  TABLES_VISU_CMYSRECCARD: ['myskills', 'mybachecas'],
+
+  TABLES_PERM_CHANGE_FOR_USERS: ['myskills', 'mybachecas'],
+  TABLES_VISU_LISTA_USER: ['myskills', 'mybachecas', 'users'],
+  TABLES_NOT_SHOW_IF_USERNAME: ['myskills', 'mybachecas'],
 
   VISIB_ALL: 0,
   VISIB_ONLYIF_VERIFIED: 1,

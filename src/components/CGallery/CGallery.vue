@@ -2,11 +2,10 @@
   <!--<div class="q-pa-md items-start " style="display: inline-flex; width: 800px;"> -->
 
   <div v-if="!edit">
-    <div class="q-pa-xs q-gutter-md">
+    <div class="q-pa-xs">
       <q-card v-if="isListImgValid" :class="getclass()" @click="apri">
         <div v-for="(mygallery, index) in getlistimages()" :key="index">
           <div v-if="index === 0">
-            AA
             <q-img
               :src="getsrcimg(mygallery)" :class="getclimg()"
               :alt="mygallery.alt">
@@ -19,7 +18,8 @@
         </div>
       </q-card>
       <div v-else-if="!isInModif && !isListImgValid && imagebak">
-        <q-card :class="getclass()" @click="ImgFullScreen(mygallery)">
+
+        <q-card v-if="imagebak !== costanti.NESSUN_IMMAGINE" :class="getclass()" @click="ImgFullScreen(mygallery)">
           <q-img
             :src="imagebak" :class="getclimg()">
           </q-img>

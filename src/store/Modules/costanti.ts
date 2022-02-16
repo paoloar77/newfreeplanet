@@ -10,7 +10,7 @@ export const costanti = {
 
   SHOW_USERINFO: 1,
   SHOW_GROUPINFO: 5,
-  SHOW_MYSKILL: 10,
+  SHOW_MYCARD: 10,
 
   BINARY_CHECK: 1,
 
@@ -42,6 +42,7 @@ export const costanti = {
 
   CMD_DELETE: 1,
   CMD_MODIFY: 2,
+  CMD_SHOW_PAGE: 3,
 
   SHOW_ALL: 50,
 
@@ -60,6 +61,8 @@ export const costanti = {
   DRAGULA: false,
 
   ALLOWCHAR_CODE: 1,
+
+  NESSUN_IMMAGINE: 'none',
 
   showWhen: {
     NewRec: 1,
@@ -106,6 +109,7 @@ export const costanti = {
     crypted: 9000,
     object: 10000,
     separator: 11000,
+    username_chip: 12000,
   },
 
   FieldTypeArr: [

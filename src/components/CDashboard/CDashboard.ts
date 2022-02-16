@@ -19,7 +19,7 @@ export default defineComponent({
     const globalStore = useGlobalStore()
     const { t } = useI18n();
 
-    const calcstat = computed(() => userStore.my.calcstat ? userStore.my.calcstat : {numUsersReg: 0, numMySkills: 0} )
+    const calcstat = computed(() => userStore.my.calcstat ? userStore.my.calcstat : {numUsersReg: 0, numMySkills: 0, numMyBachecas: 0} )
 
     return {
       userStore,

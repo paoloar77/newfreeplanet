@@ -12,7 +12,7 @@ import {
   ITodo,
   IUserFields,
   Privacy,
-  TipoVisu, IGroup,
+  TipoVisu, IGroup, IMySkill, IMyBacheca,
 } from '@model'
 
 import { lists } from '@store/Modules/lists'
@@ -105,7 +105,6 @@ export const tools = {
     'lime',
     'orange',
     'deeporange',
-    'blue-gray',
     'yellow',
   ],
 
@@ -4894,11 +4893,81 @@ export const tools = {
     return Array.isArray(val)
   },
 
-  isUserOk(){
+  isUserOk() {
     const userStore = useUserStore()
     return userStore.isUserOk()
   },
 
+  getParamsByTable(table: string) {
+
+    let obj = {
+      prop_colkey: '',
+      col_title: '',
+      col_footer: '',
+      col_tabfooter: '',
+    }
+    if (table === toolsext.TABMYSKILLS) {
+      obj.prop_colkey = 'idSkill'
+      obj.col_title = 'descr'
+      obj.col_footer = 'idCity'
+      obj.col_tabfooter = 'mycities'
+    } else if (table === toolsext.TABMYBACHECAS) {
+      obj.prop_colkey = 'idSkill'
+      obj.col_title = 'descr'
+      obj.col_footer = 'idCity'
+      obj.col_tabfooter = 'mycities'
+    }
+
+    return obj
+
+  },
+
+  getdefaultnewrec_MySkill(): any {
+    return {
+      _id: 0,
+      idSector: 0,
+      idSkill: 0,
+      idSubSkill: [],
+      idStatusSkill: [],
+      idContribType: [],
+      idCity: [],
+      NumLevel: 0,
+      adType: 0,
+      photos: [],
+      note: '',
+      descr: '',
+    }
+  },
+
+  getdefaultnewrec_MyBacheca(): any {
+    return {
+      _id: 0,
+      idSector: 0,
+      idSkill: 0,
+      idSubSkill: [],
+      idStatusSkill: [],
+      idContribType: [],
+      idCity: [],
+      NumLevel: 0,
+      adType: 0,
+      photos: [],
+      note: '',
+      descr: '',
+
+    }
+  },
+
+  getDirectoryByTable(table: string) {
+    if (table === toolsext.TABMYSKILLS) {
+      return 'mywork'
+    } else if (table === toolsext.TABMYBACHECAS) {
+      return 'mypage'
+    } else if (table === 'mygroups') {
+      return 'grp'
+    }
+
+    return ''
+  },
 
 // getLocale() {
   //   if (navigator.languages && navigator.languages.length > 0) {

@@ -5,6 +5,9 @@
         label="Bacheca" to="/bacheca" icon="fas fa-bullhorn" color="blue">
       </CBigBtn>
       <CBigBtn
+        label="Lavoro" to="/work" icon="fas fa-briefcase" color="blue">
+      </CBigBtn>
+      <CBigBtn
         label="Scuola" to="/school" icon="fas fa-book-reader" color="orange" disable>
       </CBigBtn>
       <CBigBtn

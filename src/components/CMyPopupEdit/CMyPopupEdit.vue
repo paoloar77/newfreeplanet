@@ -1,6 +1,8 @@
 <template>
   <div :class="getclassCol(col)">
-    <div v-if="tools.checkIfShowField(col, insertMode ? tools.TIPOVIS_NEW_RECORD : (isInModif ? tools.TIPOVIS_EDIT_RECORD : tools.TIPOVIS_SHOW_RECORD), visulabel, myvalue)" style="flex-grow: 1;">
+    <div
+      v-if="tools.checkIfShowField(col, insertMode ? tools.TIPOVIS_NEW_RECORD : (isInModif ? tools.TIPOVIS_EDIT_RECORD : tools.TIPOVIS_SHOW_RECORD), visulabel, myvalue)"
+      style="flex-grow: 1;">
       <div
         :class="{ flex: !isInModif, 'justify-center': true }">
         <div>
@@ -30,6 +32,25 @@
                 @update:model-value="Savedb"></q-toggle>
             </div>
           </div>
+          <div v-else-if="col.fieldtype === costanti.FieldType.username_chip">
+            <div class="q-ma-xs">
+              <q-btn v-if="col.tipovisu === costanti.TipoVisu.LINK && myvalue"
+                     type="a" rounded size="md"
+                     :class="{disabled: disable }"
+                     color="white" text-color="blue" :icon="`img:`+userStore.getImgUserByUsername(myvalue)"
+                     :to="col.link.replace(col.name, myvalue)"
+                     :label="myvalue"
+              >
+              </q-btn>
+              <q-avatar v-else-if="col.tipovisu === costanti.TipoVisu.LINKIMG && myvalue" size="60px">
+
+                <q-img :src="getImgUser(contact)" :alt="myvalue" img-class="imgprofile" height="60px"/>
+              </q-avatar>
+              <q-btn v-else-if="col.tipovisu === costanti.TipoVisu.BUTTON && myvalue" rounded size="sm"
+                     color="primary" icon="person" :to="col.link.replace(col.name, myvalue)" :label="myvalue">
+              </q-btn>
+            </div>
+          </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.string || col.fieldtype === costanti.FieldType.crypted">
             <div v-if="visulabel || isInModif" :class="{ flex: !isInModif}">
               <q-input
@@ -53,7 +74,8 @@
               <q-btn v-if="col.tipovisu === costanti.TipoVisu.LINK && myvalue"
                      type="a" rounded size="md"
                      :class="{disabled: disable }"
-                     color="white" text-color="blue" :icon="`img:`+userStore.getImgUserByUsername(myvalue)" :to="col.link.replace(col.name, myvalue)"
+                     color="white" text-color="blue" :icon="`img:`+userStore.getImgUserByUsername(myvalue)"
+                     :to="col.link.replace(col.name, myvalue)"
                      :label="myvalue"
               >
               </q-btn>
@@ -108,7 +130,7 @@
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.listimages" style="text-align: center;">
             <CGallery
-              :imagebak="col.showpicprofile_ifnotset ? userStore.getImgByProfile(row, true) : ''"
+              :imagebak="col.showpicprofile_ifnotset ? ((userStore.getImgByProfile(row, true) === '') ? costanti.NESSUN_IMMAGINE : userStore.getImgByProfile(row, true)) : ''"
               :title="getTitleGall()"
               :directory="getDirectoryGall()"
               :imgGall="myvalue"
@@ -145,7 +167,7 @@
               </div>
               <div v-else class="text-center">
                 <q-img
-                  src="images/noimg-user.svg"
+                  :src="col.showpicprofile_ifnotset ? userStore.getImgByProfile(row['profile'], true) : 'images/noimg-user.svg'"
                   class="text-center"
                   style="height: 100px; width: 100px;"
                   alt="nessuna immagine">
@@ -418,7 +440,9 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.html">
             <div v-if="isInModif">
               <q-bar v-if="isInModif" dense class="bg-primary text-white">
-                <span v-if="col.label_trans">{{t(col.label_trans)}}</span><span v-else> {{ $t('event.testo_di_spiegazione') }}: </span>
+                <span v-if="col.label_trans">{{ t(col.label_trans) }}</span><span v-else> {{
+                  $t('event.testo_di_spiegazione')
+                }}: </span>
                 <q-space/>
               </q-bar>
               <div v-if="!isFieldDb()">
@@ -517,7 +541,8 @@
               </q-checkbox>
               <span v-html="visuValByType(myvalue, col, row)"></span>
             </div>
-            <div v-else-if="col.fieldtype === costanti.FieldType.string || col.fieldtype === costanti.FieldType.crypted">
+            <div
+              v-else-if="col.fieldtype === costanti.FieldType.string || col.fieldtype === costanti.FieldType.crypted">
               <q-input
                 v-bind="$attrs"
                 counter
@@ -733,7 +758,8 @@
                   @showandsave="Savedb">
                 </CMyEditor>
               </div>
-            </div>          </q-popup-edit>
+            </div>
+          </q-popup-edit>
         </div>
       </div>
     </div>

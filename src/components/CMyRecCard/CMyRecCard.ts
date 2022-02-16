@@ -1,20 +1,26 @@
 import { defineComponent, onMounted, PropType, ref, watch } from 'vue'
 import { useUserStore } from '@store/UserStore'
-import { IImgGallery, IMySkill, IUserFields, IUserProfile } from 'model'
+import { IImgGallery, IUserFields, IUserProfile } from 'model'
 import { costanti } from '@costanti'
 import { shared_consts } from '@/common/shared_vuejs'
 import { fieldsTable } from '@store/Modules/fieldsTable'
 import { tools } from '@store/Modules/tools'
 import { useQuasar } from 'quasar'
 import { useI18n } from '@/boot/i18n'
-import { useRoute, useRouter } from 'vue-router'
+import { CMyCardPopup } from '@/components/CMyCardPopup'
+// import { useRouter } from 'vue-router'
 
 export default defineComponent({
-  name: 'CMySkill',
+  name: 'CMyRecCard',
+  components: { CMyCardPopup },
   emits: ['setCmd', 'cmdext'],
   props: {
-    prop_myskill: {
-      type: Object as PropType<IMySkill | null>,
+    table: {
+      type: String,
+      required: true,
+    },
+    prop_myrec: {
+      type: Object as PropType<any | null>,
       required: false,
       default: null,
     },
@@ -23,23 +29,22 @@ export default defineComponent({
   setup(props, { emit }) {
 
     const userStore = useUserStore()
-    const $q = useQuasar()
+    // const $q = useQuasar()
     const { t } = useI18n()
-    const $router = useRouter()
-    const $route = useRoute()
+    // const $router = useRouter()
 
-    const username = ref('')
+    const myrec = ref(<any | null>null)
 
-    const myskill = ref(<IMySkill | null>null)
+    const visupage = ref(false)
 
-    watch(() => props.prop_myskill, (newval, oldval) => {
-      console.log('watch: myskill')
+    watch(() => props.prop_myrec, (newval, oldval) => {
+
       mounted()
     })
 
     function mounted() {
-      if (props.prop_myskill) {
-        myskill.value = props.prop_myskill
+      if (props.prop_myrec) {
+        myrec.value = props.prop_myrec
       }
     }
 
@@ -47,9 +52,9 @@ export default defineComponent({
       return userStore.getImgByProfile(profile)
     }
 
-    function naviga(path: string) {
+    /*function naviga(path: string) {
       $router.push(path)
-    }
+    }*/
 
     function setCmd($q: any, cmd: number, myusername: string, value: any, groupname: string) {
       emit('setCmd', $q, cmd, myusername, value, groupname)
@@ -62,16 +67,18 @@ export default defineComponent({
     onMounted(mounted)
 
     return {
-      myskill,
+      t,
+      myrec,
       costanti,
       getImgUser,
-      naviga,
+      // naviga,
       setCmd,
       shared_consts,
       userStore,
       tools,
       fieldsTable,
       cmdExt,
+      visupage,
     }
   },
 })
