@@ -45,6 +45,8 @@ export default defineComponent({
     const col_footer = ref('idCity')
     const col_tabfooter = ref('mycities')
 
+    const mypagination = ref({ sortBy: 'date_created', descending: true, page: 1, rowsNumber: 10, rowsPerPage: 10 })
+
     const col = ref(<IColGridTable>{})
 
     const idSector = computed(() => {
@@ -288,6 +290,8 @@ export default defineComponent({
             adType: 1,
             photos: 1,
             note: 1,
+            website: 1,
+            //**ADDFIELD_MYSKILL
             descr: 1,
             date_created: 1,
             date_updated: 1,
@@ -360,6 +364,7 @@ export default defineComponent({
       col,
       toolsext,
       getdefaultnewrec,
+      mypagination,
     }
   },
 })

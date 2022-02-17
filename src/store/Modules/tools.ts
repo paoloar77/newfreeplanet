@@ -1751,6 +1751,7 @@ export const tools = {
       // console.log('param1', par.param1)
       globalStore.DeleteRec({ table, id: par.param1 }).then((ris) => {
         if (ris) {
+          debugger
           mythis.ActionAfterYes(func, par.param2, null)
           this.showPositiveNotif(mythisq, t('db.deletedrecord'))
         } else {
@@ -4935,9 +4936,13 @@ export const tools = {
       adType: 0,
       photos: [],
       note: '',
+      //**ADDFIELD_MYSKILL
+      website: '',
       descr: '',
     }
   },
+
+
 
   getdefaultnewrec_MyBacheca(): any {
     return {
@@ -4952,6 +4957,8 @@ export const tools = {
       adType: 0,
       photos: [],
       note: '',
+      //**ADDFIELD_MYBACHECAS
+      website: '',
       descr: '',
 
     }

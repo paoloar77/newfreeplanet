@@ -148,7 +148,7 @@ export default defineComponent({
       default: '',
     },
     id: {
-      type: String,
+      type: [String, Number],
       required: false,
       default: '',
     },

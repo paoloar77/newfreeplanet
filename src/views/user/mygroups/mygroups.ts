@@ -105,6 +105,7 @@ export default defineComponent({
             photos: 1,
             idCity: 1,
             note: 1,
+            website: 1,
             comune: 1,
             mycities: 1,
             sector: 1,
@@ -126,6 +127,8 @@ export default defineComponent({
             photos: 1,
             idCity: 1,
             note: 1,
+            //**ADDFIELD_MYGROUPS
+            website: 1,
             comune: 1,
             mycities: 1,
           }

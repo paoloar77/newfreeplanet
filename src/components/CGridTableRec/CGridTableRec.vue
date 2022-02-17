@@ -107,7 +107,7 @@
              :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue `">
           <span v-for="(item, index) in searchList" :key="index">
             <div class="text-center q-my-xs" v-if="(item.type === costanti.FieldType.separator)">
-              <q-btn rounded flat size="sm" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Filtri Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
+              <q-btn size="sm" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Filtri Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
             </div>
 
             <CMySelect
@@ -461,6 +461,7 @@
             <div
               class="q-ma-sm q-pa-sm colmodif col-grow popupedit"
               @click="colclicksel = mycol">
+
               <CMyPopupEdit
                 :table="mytable"
                 :canEdit="true"
@@ -494,6 +495,10 @@
         <q-card-section class="inset-shadow">
           <div
             v-for="col in mycolumns" :key="col.name" class="newrec_fields">
+
+            <div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
+              <q-btn size="sm" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
+            </div>
             <div
               v-if="showColCheck(col, tools.TIPOVIS_NEW_RECORD, true, 0, newRecord) && col.foredit ">
               <div class="">
@@ -536,8 +541,11 @@
         <q-card-section class="inset-shadow">
           <div
             v-for="col in mycolumns" :key="col.name">
+            <div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
+              <q-btn size="sm" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
+            </div>
             <div
-              v-if="showColCheck(col, tools.TIPOVIS_EDIT_RECORD, false) && col.foredit">
+              v-else-if="showColCheck(col, tools.TIPOVIS_EDIT_RECORD, false) && col.foredit">
               <div>
                 <CMyPopupEdit
                   :table="mytable"

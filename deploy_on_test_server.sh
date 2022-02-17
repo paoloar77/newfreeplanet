@@ -19,7 +19,7 @@ sleep 1
 npm run buildpwa
 
 echo "Sincronizzazione $SERVERDIR_WEBSITE in remoto..."
-sshpass -p $SERVERPW_WEBSITE rsync -e 'ssh -p 8822' -a dist/pwa/ ftpadmin@servereng:/var/www/$SERVERDIR_WEBSITE/
+sshpass -p $SERVERPW_WEBSITE rsync -e 'ssh -p 8855' -a dist/pwa/ ftpadmin@servereng:/var/www/$SERVERDIR_WEBSITE/
 
 cp .env.prod.bak .env.production
 

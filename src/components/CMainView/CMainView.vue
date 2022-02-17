@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="row q-ma-sm shadow" style="border-radius: 4px;border: 1px solid rgba(0, 0, 0, 0.12);">
+    <div class="row q-ma-sm shadow justify-center" style="border-radius: 4px;border: 1px solid rgba(0, 0, 0, 0.12);">
       <CBigBtn
-        label="Bacheca" to="/bacheca" icon="fas fa-bullhorn" color="blue">
+        label="Bacheca" to="/bacheca" icon="fas fa-bullhorn" color="indigo">
       </CBigBtn>
       <CBigBtn
         label="Lavoro" to="/work" icon="fas fa-briefcase" color="blue">
@@ -24,8 +24,8 @@
       </CBigBtn>
 
     </div>
-    <div class="text-center">P.S: Attualmente è attivo solo il bottone <b>Lavoro</b>.<br>
-      Gli altri verranno attivati nei prossimi giorni.</div>
+    <div class="text-center">P.S: Attualmente sono attivi il bottone <b>Bacheca e Lavoro</b>.<br>
+      Gli altri verranno attivati prossimamente .</div>
   </div>
 </template>
 

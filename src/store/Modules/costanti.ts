@@ -110,6 +110,7 @@ export const costanti = {
     object: 10000,
     separator: 11000,
     username_chip: 12000,
+    link: 12500,
   },
 
   FieldTypeArr: [

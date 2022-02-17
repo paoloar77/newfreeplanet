@@ -24,6 +24,7 @@
         </q-input>
       </div>
 
+
       <CGridTableRec
         v-if="searchList.length > 0"
         :prop_mytable="table"
@@ -34,6 +35,7 @@
         :col_footer="col_footer"
         :col_tabfooter="col_tabfooter"
         :vertical="costanti.VISUTABLE_LISTA"
+        :prop_pagination="mypagination"
         :showType="costanti.SHOW_MYCARD"
         :nodataLabel="'Nessuna Competenza trovata'"
         :prop_search="true"

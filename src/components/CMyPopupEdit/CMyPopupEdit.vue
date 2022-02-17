@@ -32,6 +32,35 @@
                 @update:model-value="Savedb"></q-toggle>
             </div>
           </div>
+          <div v-else-if="col.fieldtype === costanti.FieldType.link">
+            <div v-if="isInModif">
+              <q-input
+                v-bind="$attrs"
+                v-model="myvalue"
+                :style="$q.screen.lt.sm ? 'min-width: 300px' : ''"
+                :disable="disable"
+                :readonly="disable"
+                :type="`text`"
+                @keyup.enter.stop
+                @update:model-value="changevalRec"
+                autofocus
+                :label="col.label">
+              </q-input>
+            </div>
+            <div v-else>
+              <div class="q-ma-xs">
+                <q-btn v-if="myvalue"
+                       type="a" rounded size="md"
+                       :class="{disabled: disable }"
+                       color="white" text-color="blue" icon="fas fa-globe"
+                       :href="tools.getlinkstd(myvalue)"
+                       :label="myvalue"
+                       target="_blank"
+                >
+                </q-btn>
+              </div>
+            </div>
+          </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.username_chip">
             <div class="q-ma-xs">
               <q-btn v-if="col.tipovisu === costanti.TipoVisu.LINK && myvalue"
@@ -326,7 +355,7 @@
                       <q-item-label>{{ opt[fieldsTable.getLabelByTable(col.jointable)] }}</q-item-label>
                     </q-item-section>
                     <q-item-section side>
-                      <q-toggle :model-value="selected" @update:value="toggleOption(opt)"/>
+                      <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)"/>
                     </q-item-section>
                   </q-item>
                 </template>

@@ -37,7 +37,8 @@
       <q-btn
         v-if="isInModif"
         color="primary" @click="apri"
-        :label="$t('gallery.select_image')">
+        icon="fas fa-file-upload"
+        :label="$t('gallery.load_image')">
       </q-btn>
     </div>
   </div>

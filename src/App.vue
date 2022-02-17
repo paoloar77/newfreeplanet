@@ -11,6 +11,7 @@
 
       <q-page-container id="mypage">
         <div v-if="finishLoading">
+          <CFirstPageApp></CFirstPageApp>
           <router-view/>
         </div>
         <q-inner-loading id="spinner" :showing="!finishLoading">

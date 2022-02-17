@@ -878,7 +878,7 @@ export default defineComponent({
       newRecord.value = props.defaultnewrec()
       newRecord.value['userId'] = userStore.my._id
       newRecord.value['idapp'] = process.env.APP_ID
-      globalStore.saveTable(mydata).then(ris => console.log('RISULT', ris))
+      // globalStore.saveTable(mydata).then(ris => console.log('RISULT', ris))
       newRecordBool.value = true
 
     }
@@ -890,7 +890,7 @@ export default defineComponent({
 
       console.log('newRecord.value', newRecord.value)
 
-      serverData.value.push(newRecord.value)
+      // serverData.value.push(newRecord.value)
       pagination.value.rowsNumber++
 
       loading.value = false
@@ -1020,9 +1020,14 @@ export default defineComponent({
     }
 
     function ActionAfterYes(action: number, item: any, data?: any) {
+
       if (action === lists.MenuAction.DELETE_RECTABLE) {
         if ((serverData.value.length > 0) && item) {
-          serverData.value.splice(serverData.value.indexOf(item), 1)
+          console.log('item', item)
+          let indelim = serverData.value.findIndex((rec: any) => rec._id === item._id)
+          console.log('indexof', indelim)
+          if (indelim >= 0)
+            serverData.value.splice(indelim, 1)
           refresh_arr()
         }
       } else if (action === lists.MenuAction.DUPLICATE_RECTABLE) {
@@ -1327,7 +1332,7 @@ export default defineComponent({
             if (indrec >= 0)
               serverData.value[indrec] = ris
             else
-              serverData.value.push(ris)
+              serverData.value = [ris, ...serverData.value]
 
             newRecord.value = null
             // refresh()
@@ -1395,6 +1400,10 @@ export default defineComponent({
     }
 
     function showColCheck(col: IColGridTable, tipovis: number, visulabel:boolean, value: any = '', record: any = null){
+
+      if (col.isadvanced_field && !showfilteradv.value)
+        return false
+
       const check = tools.checkIfShowField(col, tipovis, visulabel, value)
 
       let valuePresent = (colVisib.value.includes(col.field! + col.subfield) || colVisib.value.includes(col.field + '.' + col.subfield))

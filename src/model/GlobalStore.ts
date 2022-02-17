@@ -512,6 +512,7 @@ export interface IColGridTable {
   resultjoin?: string[]
   tablesel?: string
   notsave?: boolean
+  isadvanced_field?: boolean
   showWhen?: number
   maxlength?: number
   allowchar?: number
@@ -686,6 +687,8 @@ export interface IMySkill {
   NumLevel: number
   adType: number
   note: string
+  //**ADDFIELD_MYSKILL
+  website: string
   descr: string
   date_created?: Date,
   date_updated?: Date,
@@ -703,6 +706,8 @@ export interface IMyBacheca {
   NumLevel: number
   adType: number
   note: string
+  //**ADDFIELD_MYBACHECAS
+  website: string
   descr: string
   date_created?: Date,
   date_updated?: Date,

@@ -103,6 +103,8 @@ export default defineComponent({
             adType: 1,
             photos: 1,
             note: 1,
+            //**ADDFIELD_MYSKILL
+            website: 1,
             descr: 1,
             date_created: 1,
             date_updated: 1,
@@ -136,6 +138,8 @@ export default defineComponent({
             adType: 1,
             photos: 1,
             note: 1,
+            //**ADDFIELD_MYSKILL
+            website: 1,
             descr: 1,
             date_created: 1,
             date_updated: 1,
@@ -169,6 +173,8 @@ export default defineComponent({
             adType: 1,
             photos: 1,
             note: 1,
+            //**ADDFIELD_MYSKILL
+            website: 1,
             descr: 1,
             date_created: 1,
             date_updated: 1,

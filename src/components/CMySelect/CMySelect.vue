@@ -165,7 +165,7 @@
               <q-item-label v-if="'hint' in opt" class="hint">{{ opt['hint'] }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle :model-value="selected" @update:value="toggleOption(opt)"/>
+              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)"/>
             </q-item-section>
           </q-item>
         </template>

@@ -6,6 +6,7 @@ import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 import { Header } from '@/components/Header'
 import { MyFooter } from '@/components/MyFooter'
+import { CFirstPageApp } from '@/components/CFirstPageApp'
 import { computed } from 'vue'
 import { CProvaPao } from '@/components/CProvaPao'
 import { tools } from '@store/Modules/tools'
@@ -14,6 +15,7 @@ export default {
   components: {
     appHeader: Header,
     appFooter: MyFooter,
+    CFirstPageApp,
     CProvaPao,
     BannerCookies, /* , CPreloadImages */
   },
