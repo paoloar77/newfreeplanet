@@ -258,10 +258,13 @@ export interface IGlobalState {
   URL_RESTORE: string
   levels: ILevel[],
   adtypes: IAdType[],
+  adtypegoods: IAdType[],
   skills: ISkill[],
-  subSkills: ISubSkill[],
+  goods: IGood[],
+  // subSkills: ISubSkill[],
   statusSkills: IStatusSkill[],
   sectors: ISector[],
+  sectorgoods: ISectorGood[],
   catgrps: ICatGrp[],
   cities: ICity[],
 }
@@ -619,7 +622,15 @@ export interface ISkill {
   icon?: string
   img?: string
 }
+export interface IGood {
+  _id: number
+  descr: string
+  idSectorGood: number[]
+  icon?: string
+  img?: string
+}
 
+/*
 export interface ISubSkill {
   _id: number
   descr: string
@@ -628,17 +639,32 @@ export interface ISubSkill {
   img?: string
 }
 
+ */
+
+
 export interface IStatusSkill {
   _id: number
   descr: string
   color: string
+  icon: string
   theme: string
 }
+
 
 export interface ISector {
   _id: number
   descr: string
   idSector?: number
+  icon?: string
+  img?: string
+  color: string
+  theme: string
+}
+
+export interface ISectorGood {
+  _id: number
+  descr: string
+  idSectorGood?: number
   icon?: string
   img?: string
   color: string
@@ -679,7 +705,26 @@ export interface IMySkill {
   _id: number
   idSector: number
   idSkill: number
-  idSubSkill: number[]
+  // idSubSkill: number[]
+  idStatusSkill: number[]
+  idContribType: string[]
+  idCity: number[]
+  photos: IGallery[]
+  NumLevel: number
+  adType: number
+  note: string
+  //**ADDFIELD_MYSKILL
+  website: string
+  descr: string
+  date_created?: Date,
+  date_updated?: Date,
+}
+
+export interface IMyGoods {
+  _id: number
+  idSector: number
+  idSkill: number
+  idShipping: number[]
   idStatusSkill: number[]
   idContribType: string[]
   idCity: number[]
@@ -698,7 +743,7 @@ export interface IMyBacheca {
   _id: number
   idSector: number
   idSkill: number
-  idSubSkill: number[]
+  // idSubSkill: number[]
   idStatusSkill: number[]
   idContribType: string[]
   idCity: number[]

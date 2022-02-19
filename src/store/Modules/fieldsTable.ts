@@ -4,6 +4,7 @@ import { lists } from './lists'
 import { costanti } from './costanti'
 import { useGlobalStore } from '@store/globalStore'
 import { toolsext } from '@store/Modules/toolsext'
+import { static_data } from '@/db/static_data'
 
 const DeleteRec = {
   name: 'deleterec',
@@ -351,6 +352,24 @@ export const colSectors = [
   AddCol(DuplicateRec),
 ]
 
+export const colSectorGoods = [
+  AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({
+    name: 'idSectorGood',
+    label_trans: 'sectors.name',
+    fieldtype: costanti.FieldType.select,
+    jointable: 'sectorgoods',
+  }),
+  AddCol({ name: 'main', label_trans: 'store.main', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'color', label_trans: 'products.color' }),
+  AddCol({ name: 'theme', label_trans: 'products.theme' }),
+  AddCol({ name: 'img', label_trans: 'store.img' }),
+  AddCol({ name: 'icon', label_trans: 'store.icon' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
 export const colCatGrps = [
   AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'descr', label_trans: 'store.description' }),
@@ -444,7 +463,24 @@ export const colSkills = [
   AddCol(DuplicateRec),
   AddCol(DeleteRec),
 ]
+export const colGoods = [
+  // AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({ name: 'img', label_trans: 'store.img' }),
+  AddCol({ name: 'icon', label_trans: 'store.icon' }),
+  AddCol({
+    name: 'idSectorGood',
+    label_trans: 'sectors.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'sectorgoods',
+  }),
+  AddCol({ name: 'color', label_trans: 'products.color' }),
+  AddCol({ name: 'theme', label_trans: 'products.theme' }),
+  AddCol(DuplicateRec),
+  AddCol(DeleteRec),
+]
 
+/*
 export const colSubSkills = [
   // AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'descr', label_trans: 'store.description' }),
@@ -461,6 +497,8 @@ export const colSubSkills = [
   AddCol(DuplicateRec),
   AddCol(DeleteRec),
 ]
+
+ */
 
 export const colmyUserPeople = [
   // AddCol({ name: '_id', label_trans: 'reg.id' }),
@@ -493,7 +531,13 @@ export const colmyUserGroup = [
     icon: 'category',
     noshowlabel: true,
   }),
-  AddCol({ name: 'descr', label_trans: 'proj.longdescr', required: true, noshowlabel: true, }),
+  AddCol(
+    {
+      name: 'descr', label_trans: 'proj.longdescr', required: true,
+      noshowlabel: true,
+      maxlength: 40
+    }
+  ),
   AddCol({
     name: 'visibility',
     label_trans: 'bot.visibility',
@@ -546,7 +590,155 @@ export const colmyUserGroup = [
 ]
 
 
+export const colmyGoods = [
+  AddCol({
+    name: 'username',
+    label_trans: 'reg.username',
+    foredit: false,
+    tipovisu: costanti.TipoVisu.LINK,
+    fieldtype: costanti.FieldType.username_chip,
+    link: '/my/username',
+    noshowlabel: true,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+  }),
+  AddCol({
+    name: 'idCity',
+    label_trans: 'skill.city',
+    fieldtype: costanti.FieldType.multiselect_by_server,
+    jointable: 'cities',
+    tablesel: 'cities',
+    noshowlabel: true,
+    icon: 'fas fa-map-marker-alt',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    remote_table: 'mycities',
+    remote_key: '_id',
+    remote_field: 'comune',
+  }),
+  AddCol({
+    name: 'adTypeGood',
+    label_trans: 'adTypes.name',
+    fieldtype: costanti.FieldType.select,
+    required: true,
+    jointable: 'adtypegoods',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
+    icon: 'fas fa-bullhorn',
+    noshowlabel: true,
+  }),
+  AddCol({
+    name: 'descr',
+    label_trans: 'proj.shortdescr',
+    fieldtype: costanti.FieldType.string,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    noshowlabel: true,
+    maxlength: 200,
+    required: true,
+  }),
+  AddCol({
+    name: 'idSectorGood',
+    label_trans: 'sectors.name',
+    fieldtype: costanti.FieldType.select,
+    required: true,
+    jointable: 'sectorgoods',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
+    visible: true,
+    icon: 'category',
+  }),
+  AddCol({
+    name: 'idGood',
+    label_trans: 'skill.name',
+    fieldtype: costanti.FieldType.select,
+    required: true,
+    jointable: 'goods',
+    filter_table: 'sectorgoods',
+    filter_field: 'idSectorGood',
+    noshowlabel: true,
+    icon: 'engineering',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+    allowNewValue: true,
+  }),
+  AddCol({
+    name: 'idShipping',
+    label_trans: 'shipping.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'shippings',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    noshowlabel: true,
+    icon: 'fas fa-shipping-fast',
+    //icon: 'fas fa-hands-helping',
+    // isadvanced_field: true,
+  }),
+  AddCol({
+    name: 'idContribType',
+    label_trans: 'contribtype.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'contribtypes',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    noshowlabel: true,
+    icon: 'fas fa-hand-holding',
+    //icon: 'fas fa-hands-helping',
+    // isadvanced_field: true,
+  }),
+  AddCol({
+    name: '',
+    fieldtype: costanti.FieldType.separator,
+    required: false,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
+    visible: false,
+  }),
+  /*AddCol({
+    name: 'idSubSkill',
+    label_trans: 'skill.subskill',
+    fieldtype: costanti.FieldType.multiselect,
+    required: false,
+    jointable: 'subskills',
+    filter_table: 'skills',
+    filter_field: 'idSkill',
+    noshowlabel: true,
+    icon: 'far fa-id-card',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    allowNewValue: true,
+    isadvanced_field: true,
+  }),
+
+   */
+
+  AddCol({
+    name: 'photos',
+    label_trans: 'skill.photos',
+    fieldtype: costanti.FieldType.listimages,
+    jointable: '',
+    showpicprofile_ifnotset: true,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+    isadvanced_field: true,
+  }),
+  AddCol({
+    name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '',
+    isadvanced_field: true,
+  }),
+  //**ADDFIELD_MYSKILL
+  AddCol({
+    name: 'website', label_trans: 'reg.website', isadvanced_field: true, fieldtype: costanti.FieldType.link,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist
+  }),
+  AddCol(DuplicateRec),
+  AddCol(ModifRec),
+  AddCol(DeleteRec),
+]
+
 export const colmySkills = [
+  AddCol({
+    name: 'idStatusSkill',
+    label_trans: 'statusSkill.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'statusSkills',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    noshowlabel: true,
+    icon: 'mood',
+    required: true,
+  }),
+
   AddCol({
     name: 'username',
     label_trans: 'reg.username',
@@ -586,7 +778,8 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.string,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     noshowlabel: true,
-    maxlength: 200
+    maxlength: 200,
+    required: true,
   }),
   AddCol({
     name: 'idSector',
@@ -602,7 +795,6 @@ export const colmySkills = [
     name: 'idSkill',
     label_trans: 'skill.name',
     fieldtype: costanti.FieldType.select,
-    required: true,
     jointable: 'skills',
     filter_table: 'sectors',
     filter_field: 'idSector',
@@ -610,6 +802,18 @@ export const colmySkills = [
     icon: 'engineering',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
     allowNewValue: true,
+    required: false,
+  }),
+  AddCol({
+    name: 'idContribType',
+    label_trans: 'contribtype.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'contribtypes',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    noshowlabel: true,
+    icon: 'fas fa-hand-holding',
+    //icon: 'fas fa-hands-helping',
+    // isadvanced_field: true,
   }),
   AddCol({
     name: '',
@@ -618,7 +822,7 @@ export const colmySkills = [
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
     visible: false,
   }),
-  AddCol({
+  /*AddCol({
     name: 'idSubSkill',
     label_trans: 'skill.subskill',
     fieldtype: costanti.FieldType.multiselect,
@@ -633,6 +837,8 @@ export const colmySkills = [
     isadvanced_field: true,
   }),
 
+   */
+
   AddCol({
     name: 'numLevel',
     label_trans: 'level.name',
@@ -642,27 +848,6 @@ export const colmySkills = [
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     noshowlabel: false,
     icon: 'grading',
-    isadvanced_field: true,
-  }),
-  AddCol({
-    name: 'idStatusSkill',
-    label_trans: 'statusSkill.name',
-    fieldtype: costanti.FieldType.multiselect,
-    jointable: 'statusSkills',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    noshowlabel: true,
-    icon: 'mood',
-    isadvanced_field: true,
-  }),
-  AddCol({
-    name: 'idContribType',
-    label_trans: 'contribtype.name',
-    fieldtype: costanti.FieldType.multiselect,
-    jointable: 'contribtypes',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    noshowlabel: true,
-    icon: 'currency_exchange',
-    //icon: 'fas fa-hands-helping',
     isadvanced_field: true,
   }),
   AddCol({
@@ -681,14 +866,27 @@ export const colmySkills = [
     isadvanced_field: true,
   }),
   //**ADDFIELD_MYSKILL
-  AddCol({ name: 'website', label_trans: 'reg.website', isadvanced_field: true, fieldtype: costanti.FieldType.link,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist }),
+  AddCol({
+    name: 'website', label_trans: 'reg.website', isadvanced_field: true, fieldtype: costanti.FieldType.link,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist
+  }),
   AddCol(DuplicateRec),
   AddCol(ModifRec),
   AddCol(DeleteRec),
 ]
 
 export const colmyBachecas = [
+  AddCol({
+    name: 'idStatusSkill',
+    label_trans: 'statusSkill.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'statusSkills',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    noshowlabel: true,
+    icon: 'mood',
+    isadvanced_field: true,
+  }),
+
   AddCol({
     name: 'username',
     label_trans: 'reg.username',
@@ -728,7 +926,8 @@ export const colmyBachecas = [
     fieldtype: costanti.FieldType.string,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     noshowlabel: true,
-    maxlength: 200
+    maxlength: 200,
+    required: true,
   }),
   AddCol({
     name: 'idSector',
@@ -744,7 +943,6 @@ export const colmyBachecas = [
     name: 'idSkill',
     label_trans: 'skill.name',
     fieldtype: costanti.FieldType.select,
-    required: true,
     jointable: 'skills',
     filter_table: 'sectors',
     filter_field: 'idSector',
@@ -752,6 +950,7 @@ export const colmyBachecas = [
     icon: 'engineering',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
     allowNewValue: true,
+    required: false,
   }),
   AddCol({
     name: '',
@@ -787,23 +986,13 @@ export const colmyBachecas = [
     isadvanced_field: true,
   }),
   AddCol({
-    name: 'idStatusSkill',
-    label_trans: 'statusSkill.name',
-    fieldtype: costanti.FieldType.multiselect,
-    jointable: 'statusSkills',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    noshowlabel: true,
-    icon: 'mood',
-    isadvanced_field: true,
-  }),
-  AddCol({
     name: 'idContribType',
     label_trans: 'contribtype.name',
     fieldtype: costanti.FieldType.multiselect,
     jointable: 'contribtypes',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     noshowlabel: true,
-    icon: 'currency_exchange',
+    icon: 'fas fa-hand-holding',
     //icon: 'fas fa-hands-helping',
     isadvanced_field: true,
   }),
@@ -823,8 +1012,10 @@ export const colmyBachecas = [
     isadvanced_field: true,
   }),
   //**ADDFIELD_MYBACHECAS
-  AddCol({ name: 'website', label_trans: 'reg.website', isadvanced_field: true, fieldtype: costanti.FieldType.link,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist }),
+  AddCol({
+    name: 'website', label_trans: 'reg.website', isadvanced_field: true, fieldtype: costanti.FieldType.link,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist
+  }),
   AddCol(DuplicateRec),
   AddCol(ModifRec),
   AddCol(DeleteRec),
@@ -835,6 +1026,7 @@ export const colStatusSkills = [
   AddCol({ name: 'descr', label_trans: 'store.description' }),
   AddCol({ name: 'color', label_trans: 'products.color' }),
   AddCol({ name: 'theme', label_trans: 'products.theme' }),
+  AddCol({ name: 'icon', label_trans: 'pages.icon' }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
 ]
@@ -1239,6 +1431,19 @@ export const fields = {
 }
 
 export const fieldsTable = {
+  userlist() {
+
+    if (static_data.functionality.ENABLE_REG_AYNI) {
+      return fieldsTable.colTableUsers
+    } else if (static_data.functionality.ENABLE_REG_CNM) {
+      return fieldsTable.colTableUsersCNM
+    } else if (static_data.functionality.ENABLE_REG_ISP) {
+      return fieldsTable.colTableUsersISP
+    } else {
+      return fieldsTable.colTableUsersBase
+    }
+  },
+
   getrecTableList(mytable: string) {
     return this.tablesList.find((rec) => rec.value === mytable)
   },
@@ -1771,7 +1976,10 @@ export const fieldsTable = {
       name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
     }),
     AddCol({ name: 'profile.dateofbirth', label_trans: 'reg.dateofbirth', fieldtype: costanti.FieldType.date }),
-    AddCol({ name: 'profile.born_city', label_trans: 'reg.born_city', fieldtype: costanti.FieldType.string }),
+    AddCol({
+      name: 'born_city_id', label_trans: 'reg.born_city', fieldtype: costanti.FieldType.select,
+      jointable: 'cities',
+    }),
     AddCol({ name: 'profile.born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
     AddCol({ name: 'profile.born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),
     AddCol({
@@ -1941,6 +2149,7 @@ export const fieldsTable = {
 
   tableForUsers: [
     'myskills',
+    'mygoods',
     'mybachecas',
   ],
 
@@ -1952,6 +2161,7 @@ export const fieldsTable = {
 
   tableWithUsername: [
     'myskills',
+    'mygoods',
     'mybachecas',
   ],
 
@@ -2216,6 +2426,13 @@ export const fieldsTable = {
       collabel: (rec: any) => `${rec.descr}`,
     },
     {
+      value: toolsext.TABMYGOODS,
+      label: 'Beni',
+      columns: colmyGoods,
+      colkey: '_id',
+      collabel: (rec: any) => `${rec.descr}`,
+    },
+    {
       value: 'skills',
       label: 'Competenze',
       columns: colSkills,
@@ -2223,15 +2440,24 @@ export const fieldsTable = {
       collabel: 'descr',
     },
     {
+      value: 'goods',
+      label: 'Beni',
+      columns: colGoods,
+      colkey: '_id',
+      collabel: 'descr',
+    },
+    /*{
       value: 'subskills',
       label: 'Specializzazione',
       columns: colSubSkills,
       colkey: '_id',
       collabel: 'descr',
     },
+
+*/
     {
       value: 'statusSkills',
-      label: 'Stato Attuale',
+      label: 'Di Persona / OnLine',
       columns: colStatusSkills,
       colkey: '_id',
       collabel: 'descr',
@@ -2240,6 +2466,13 @@ export const fieldsTable = {
       value: 'sectors',
       label: 'Settori',
       columns: colSectors,
+      colkey: '_id',
+      collabel: 'descr',
+    },
+    {
+      value: 'sectorgoods',
+      label: 'Settori Beni',
+      columns: colSectorGoods,
       colkey: '_id',
       collabel: 'descr',
     },
@@ -2260,6 +2493,13 @@ export const fieldsTable = {
     {
       value: 'adtypes',
       label: 'Tipo Annuncio',
+      columns: colAdType,
+      colkey: '_id',
+      collabel: 'descr',
+    },
+    {
+      value: 'adtypegoods',
+      label: 'Offro / Cerco',
       columns: colAdType,
       colkey: '_id',
       collabel: 'descr',
@@ -2314,9 +2554,16 @@ export const fieldsTable = {
     {
       value: 'mygroups',
       label: 'Gruppi',
-      columns: colTableMyGroup,
+      columns: colmyUserGroup,
       colkey: 'groupname',
       collabel: 'groupname',
+    },
+    {
+      value: 'shippings',
+      label: 'Spedizione',
+      columns: colTableGeneric,
+      colkey: 'value',
+      collabel: 'label',
     },
   ],
 }

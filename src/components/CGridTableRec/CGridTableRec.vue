@@ -106,9 +106,10 @@
         <div v-if="searchList"
              :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue `">
           <span v-for="(item, index) in searchList" :key="index">
-            <div class="text-center q-my-xs" v-if="(item.type === costanti.FieldType.separator)">
+
+            <!--<div class="text-center q-my-xs" v-if="(item.type === costanti.FieldType.separator)">
               <q-btn size="sm" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Filtri Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
-            </div>
+            </div>-->
 
             <CMySelect
               :col="fieldsTable.getColByTable(mytable, item.key)"
@@ -223,6 +224,7 @@
           <div v-if="prop_search" class="q-mr-sm full-width">
             <q-input
               v-model="search" filled dense type="search" debounce="500" :hint="hint"
+              label="Cerca"
 
               v-on:keyup.enter="doSearch"
             >
@@ -497,7 +499,7 @@
             v-for="col in mycolumns" :key="col.name" class="newrec_fields">
 
             <div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
-              <q-btn size="sm" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
+              <q-btn color="primary" size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
             </div>
             <div
               v-if="showColCheck(col, tools.TIPOVIS_NEW_RECORD, true, 0, newRecord) && col.foredit ">
@@ -542,7 +544,7 @@
           <div
             v-for="col in mycolumns" :key="col.name">
             <div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
-              <q-btn size="sm" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
+              <q-btn color="primary" size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
             </div>
             <div
               v-else-if="showColCheck(col, tools.TIPOVIS_EDIT_RECORD, false) && col.foredit">

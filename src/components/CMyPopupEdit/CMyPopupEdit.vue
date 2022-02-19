@@ -253,17 +253,26 @@
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.date">
-            <CDateTime
-              :label="col.label"
-              class="cursor-pointer"
-              v-model:value="myvalue"
-              :readonly="false"
-              :minuteinterval="minuteinterval"
-              :dense="true"
-              :canEdit="canEdit"
-              @savetoclose="SaveValueInt"
-              @show="OpenEdit">
-            </CDateTime>
+            <div v-if="myvalue">
+              <CDateTime
+                :label="col.label"
+                class="cursor-pointer"
+                v-model:value="myvalue"
+                :readonly="false"
+                :minuteinterval="minuteinterval"
+                :dense="true"
+                :canEdit="canEdit"
+                @savetoclose="SaveValueInt"
+                @show="OpenEdit">
+              </CDateTime>
+            </div>
+            <div v-else-if="canEdit">
+              <q-btn
+                dense
+                color="primary" @click="OpenEdit"
+                icon="fas fa-calendar-day"
+                />
+            </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.onlydate">
             <CDateTime
@@ -461,7 +470,7 @@
                 :color="tools.getColByLevel(myvalue)"
                 icon="star_border"
                 icon-selected="star"
-                :max="costanti.FieldType.star5 ? 5 : 3"
+                :max="col.fieldtype === costanti.FieldType.star5 ? 5 : 3"
                 :readonly="true"
               />
             </div>
@@ -744,6 +753,34 @@
                   :useinput="false">
                 </CMySelect>
               </div>
+            </div>
+            <div v-else-if="col.fieldtype === costanti.FieldType.date">
+              <CDateTime
+                :label="col.label"
+                class="cursor-pointer"
+                v-model:value="myvalue"
+                :readonly="false"
+                :minuteinterval="minuteinterval"
+                :dense="true"
+                :canEdit="canEdit"
+                @savetoclose="SaveValueInt"
+                @show="OpenEdit">
+              </CDateTime>
+            </div>
+            <div v-else-if="col.fieldtype === costanti.FieldType.onlydate">
+              <CDateTime
+                :label="col.label"
+                class="cursor-pointer"
+                :valueDate="myvalue"
+                v-model:value="myvalue"
+                :readonly="false"
+                :minuteinterval="minuteinterval"
+                :dense="true"
+                :canEdit="canEdit"
+                @savetoclose="SaveValueInt"
+                @show="OpenEdit"
+                view="date">
+              </CDateTime>
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.binary">
 

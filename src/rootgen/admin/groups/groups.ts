@@ -7,13 +7,20 @@ import { CTitleBanner } from '@/components/CTitleBanner'
 import { CGridTableRec } from '@/components/CGridTableRec'
 
 import { colTablegroups } from '@src/store/Modules/fieldsTable'
+import { tools } from '@store/Modules/tools'
 
 export default defineComponent({
   name: 'GroupPage',
   components: { CImgText, CCard, CMyPage, CTitleBanner, CGridTableRec },
   setup() {
+
+    function getdefaultnewrec(): any {
+      return tools.getdefaultnewrec_MyGroup()
+    }
+
     return {
-      colTablegroups
+      colTablegroups,
+      getdefaultnewrec
     }
   }
 })

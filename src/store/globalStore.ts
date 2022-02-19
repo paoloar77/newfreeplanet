@@ -118,10 +118,13 @@ export const useGlobalStore = defineStore('GlobalStore', {
     URL_RESTORE: '',
     levels: [],
     adtypes: [],
+    adtypegoods: [],
     skills: [],
-    subSkills: [],
+    goods: [],
+    // subSkills: [],
     statusSkills: [],
     sectors: [],
+    sectorgoods: [],
     catgrps: [],
     cities: [],
   }),
@@ -235,14 +238,20 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return state.levels
       else if (table === 'adtypes')
         return state.adtypes
+      else if (table === 'adtypegoods')
+        return state.adtypegoods
       else if (table === 'skills')
         return state.skills
-      else if (table === 'subskills')
-        return state.subSkills
+      else if (table === 'goods')
+        return state.goods
+      // else if (table === 'subskills')
+      //   return state.subSkills
       else if (table === 'statusSkills')
         return state.statusSkills
       else if (table === 'sectors')
         return state.sectors
+      else if (table === 'sectorgoods')
+        return state.sectorgoods
       else if (table === 'catgrps')
         return state.catgrps
       else {
@@ -1240,12 +1249,15 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.departments = (res.data.departments) ? [...res.data.departments] : []
             this.levels = (res.data.levels) ? [...res.data.levels] : []
             this.skills = (res.data.skills) ? [...res.data.skills] : []
-            this.subSkills = (res.data.subSkills) ? [...res.data.subSkills] : []
+            this.goods = (res.data.goods) ? [...res.data.goods] : []
+            // this.subSkills = (res.data.subSkills) ? [...res.data.subSkills] : []
             this.statusSkills = (res.data.statusSkills) ? [...res.data.statusSkills] : []
             this.sectors = (res.data.sectors) ? [...res.data.sectors] : []
+            this.sectorgoods = (res.data.sectorgoods) ? [...res.data.sectorgoods] : []
             this.cities = (res.data.cities) ? [...res.data.cities] : []
             this.catgrps = (res.data.catgrps) ? [...res.data.catgrps] : []
             this.adtypes = (res.data.adtypes) ? [...res.data.adtypes] : []
+            this.adtypegoods = (res.data.adtypegoods) ? [...res.data.adtypegoods] : []
 
             // console.log('res.data.cart', res.data.cart)
 
@@ -1390,6 +1402,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       if (table === 'lang') return shared_consts.Lang
       if (table === 'regions') return shared_consts.Regions
       if (table === 'provinces') return shared_consts.Provinces
+      if (table === 'shippings') return shared_consts.Shippings
 
       let myarr = this.getListByTable(table)
 

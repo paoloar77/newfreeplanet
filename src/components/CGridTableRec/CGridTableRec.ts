@@ -299,49 +299,39 @@ export default defineComponent({
       refresh()
     })
 
+    function setCategBySector(tablecat: string, tabsector: string, newval: any) {
+      const recSector = searchList.value.find((rec) => rec.table === tabsector)
+      if (recSector)
+        tools.setCookie(tools.COOK_SEARCH + tablecat + '_' + recSector.value, newval)
+
+      for (const item of searchList.value) {
+        if (item.table === tablecat) {
+          const valsaved = tools.getCookie(tools.COOK_SEARCH + tablecat + '_' + newval, costanti.FILTER_TUTTI)
+          const rec = searchList.value.find((rec) => rec.table === tablecat) // check if exist
+          let trovato = false
+          if (rec) {
+            const arrvalues = valoriopt.value(rec.value, false)
+            if (arrvalues)
+              trovato = arrvalues.find((rec: any) => rec[rec.key] === valsaved)
+          }
+          if (valsaved && trovato)
+            item.value = valsaved
+          else
+            item.value = costanti.FILTER_TUTTI
+        }
+      }
+
+    }
+
     function searchval(newval: any, table: any) {
       // console.log('searchval', newval, table)
       tools.setCookie(tools.COOK_SEARCH + table, newval)
 
       if (table === 'skills') {
-        const recSector = searchList.value.find((rec) => rec.table === 'sectors')
-        if (recSector)
-          tools.setCookie(tools.COOK_SEARCH + table + '_' + recSector.value, newval)
+        setCategBySector(table, 'sectors', newval)
+      }else if (table === 'goods') {
+        setCategBySector(table, 'sectorgoods', newval)
       }
-
-      if (table === 'sectors') {
-        for (const item of searchList.value) {
-          if ((item.table === 'subskills')) {
-            // item.arrvalue = [costanti.FILTER_TUTTI]
-          }
-          if (item.table === 'skills') {
-            // console.log('---PRIMA ', item.value)
-            const valsaved = tools.getCookie(tools.COOK_SEARCH + 'skills' + '_' + newval, costanti.FILTER_TUTTI)
-            // check if exist
-            const recSkill = searchList.value.find((rec) => rec.table === 'skills')
-            let trovato = false
-            if (recSkill) {
-              // console.log('recSkill.value', recSkill)
-              const arrvalues = valoriopt.value(recSkill.value, false)
-              // console.log('arrvalues', arrvalues)
-              if (arrvalues)
-                trovato = arrvalues.find((rec: any) => rec[recSkill.key] === valsaved)
-            }
-            if (valsaved && trovato)
-              item.value = valsaved
-            else
-              item.value = costanti.FILTER_TUTTI
-            // console.log('---DOPO ', item.value)
-          }
-        }
-      }
-      /*if (table === 'skills') {
-        for (const item of searchList.value) {
-          if (item.table === 'subskills') {
-            item.arrvalue = [costanti.FILTER_TUTTI]
-          }
-        }
-      } */
 
       refresh()
     }
@@ -412,14 +402,20 @@ export default defineComponent({
       let filtersearch3or: any[] = []
 
       let recSector = null
+      let recSectorGood = null
       let recProvince = null
       let recSkill = null
       let idSector = 0
+      let idSectorGood = 0
       let idProvince = 0
       let idSkill = 0
       if (searchList.value) {
         recSector = searchList.value.find((item: ISearchList) => item.table === 'sectors')
         idSector = recSector ? recSector.value : 0
+      }
+      if (searchList.value) {
+        recSectorGood = searchList.value.find((item: ISearchList) => item.table === 'sectorgoods')
+        idSectorGood = recSectorGood ? recSectorGood.value : 0
       }
       if (searchList.value) {
         recProvince = searchList.value.find((item: ISearchList) => item.table === 'provinces')
@@ -491,6 +487,14 @@ export default defineComponent({
                 if (idSector > 0) {
                   // idSector
                   obj2['sector._id'] = idSector
+                  filtersearch2.push(obj2)
+                }
+              }
+              if ((item.table === 'goods') && item.value === costanti.FILTER_TUTTI) {
+                let obj2: any = {}
+                if (idSectorGood > 0) {
+                  // idSectorGood
+                  obj2['sectorgood._id'] = idSectorGood
                   filtersearch2.push(obj2)
                 }
               }

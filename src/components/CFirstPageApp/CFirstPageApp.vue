@@ -1,6 +1,6 @@
 <template>
   <div v-if="tools.isTest()">
-    <q-banner
+    <!--<q-banner
       rounded
       dense
       class="bg-primary text-white"
@@ -10,7 +10,7 @@
         <q-icon name="fas fa-exclamation-triangle" color="yellow" size="xs" />
       </template>
       <span class="mybanner">Ambiente di Test</span>
-    </q-banner>
+    </q-banner>-->
   </div>
 </template>
 

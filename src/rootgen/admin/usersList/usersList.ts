@@ -78,24 +78,11 @@ export default defineComponent({
       return fieldsTable
     }
 
-    function userlist() {
-
-      if (static_data.functionality.ENABLE_REG_AYNI) {
-        return db_fieldsTable().colTableUsers
-      } else if (static_data.functionality.ENABLE_REG_CNM) {
-        return db_fieldsTable().colTableUsersCNM
-      } else if (static_data.functionality.ENABLE_REG_ISP) {
-        return db_fieldsTable().colTableUsersISP
-      } else {
-        return db_fieldsTable().colTableUsersBase
-      }
-    }
-
     onMounted(mounted)
 
     return {
       arrfilterand,
-      userlist,
+      fieldsTable,
     }
   }
 })

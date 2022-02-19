@@ -12,7 +12,7 @@ import {
   ITodo,
   IUserFields,
   Privacy,
-  TipoVisu, IGroup, IMySkill, IMyBacheca,
+  TipoVisu, IGroup, IMySkill, IMyBacheca, IImgGallery,
 } from '@model'
 
 import { lists } from '@store/Modules/lists'
@@ -1751,7 +1751,6 @@ export const tools = {
       // console.log('param1', par.param1)
       globalStore.DeleteRec({ table, id: par.param1 }).then((ris) => {
         if (ris) {
-          debugger
           mythis.ActionAfterYes(func, par.param2, null)
           this.showPositiveNotif(mythisq, t('db.deletedrecord'))
         } else {
@@ -4928,7 +4927,7 @@ export const tools = {
       _id: 0,
       idSector: 0,
       idSkill: 0,
-      idSubSkill: [],
+      // idSubSkill: [],
       idStatusSkill: [],
       idContribType: [],
       idCity: [],
@@ -4942,6 +4941,38 @@ export const tools = {
     }
   },
 
+  getdefaultnewrec_MyGoods(): any {
+    return {
+      _id: 0,
+      idSectorGood: 0,
+      idGood: 0,
+      idShipping: [],
+      idStatusSkill: [],
+      idContribType: [],
+      idCity: [],
+      NumLevel: 0,
+      adType: 0,
+      photos: [],
+      note: '',
+      //**ADDFIELD_MYSKILL
+      website: '',
+      descr: '',
+    }
+  },
+
+  getdefaultnewrec_MyGroup(): any {
+    return {
+      _id: 0,
+      groupname: '',
+      photos: [],
+      visibility: 0,
+      admins: [],
+      req_users: [],
+      blocked: false,
+      website: '',
+      link_telegram: '',
+    }
+  },
 
 
   getdefaultnewrec_MyBacheca(): any {
@@ -4949,7 +4980,7 @@ export const tools = {
       _id: 0,
       idSector: 0,
       idSkill: 0,
-      idSubSkill: [],
+      // idSubSkill: [],
       idStatusSkill: [],
       idContribType: [],
       idCity: [],

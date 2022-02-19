@@ -1,5 +1,6 @@
 <template>
   <q-page class="">
+    <CTitlePage :ind="1" />
 
     <div v-if="isLogged()">
 
@@ -21,8 +22,8 @@
   </q-page>
 
 </template>
-<script lang="ts" src="./work.ts">
+<script lang="ts" src="./services.ts">
 </script>
 <style lang="scss" scoped>
-@import './work.scss';
+@import './services.scss';
 </style>

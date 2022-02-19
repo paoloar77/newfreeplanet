@@ -215,6 +215,12 @@
     </div>
     <div class="row">
       <q-btn
+        label="1. Cancella Tabelle (Sectors, SectorGoods, Skills, Goods)" color="negative"
+        @click="EseguiFunz('emptyTabCatServiziBeni')"></q-btn>
+      <br>
+    </div>
+    <div class="row">
+      <q-btn
         label="1. Cancella e Ricrea tutte le Tabelle (Sector, Skill, SubSkill, Contribtype, AdType)" color="negative"
         @click="EseguiFunz('emptyDbSkill')"></q-btn>
       <br>
@@ -232,12 +238,12 @@
       <br>
     </div>
 
-    <div class="row">
+    <!--<div class="row">
       <q-btn
         label="copyFrom1To13" color="negative"
         @click="EseguiFunz('copyFrom1To13')"></q-btn>
       <br>
-    </div>
+    </div>-->
 
     <div class="row">
       <q-btn

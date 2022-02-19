@@ -33,6 +33,33 @@ export default defineComponent({
 
       searchList.value = [
         {
+          label: 'Provincia',
+          table: 'provinces',
+          key: 'idProvince',
+          type: costanti.FieldType.select,
+          value: tools.getCookie(tools.COOK_SEARCH + 'provinces', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          filter: null,
+          useinput: true,
+          icon: 'flag',
+        },
+        {
+          label: 'Comune',
+          table: 'cities',
+          key: 'idCity',
+          type: costanti.FieldType.select_by_server,
+          value: 0,
+          addall: true,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'cities', costanti.FILTER_TUTTI),
+          useinput: true,
+          filter: null,
+          // filter: getFilterCitiesByProvince,
+          // param1: shared_consts.PARAM_SHOW_PROVINCE,
+          tablesel: 'cities',
+          icon: 'fas fa-map-marker-alt',
+        },
+        {
           label: 'Categorie',
           table: 'catgrps',
           key: 'idCatGrp',
@@ -42,32 +69,7 @@ export default defineComponent({
           filter: null,
           addall: true,
           useinput: false,
-        },
-        {
-          label: 'Provincia',
-          table: 'provinces',
-          key: 'idProvince',
-          type: costanti.FieldType.multiselect,
-          value: 0,
-          addall: true,
-          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'provinces', [costanti.FILTER_TUTTI]),
-          filter: null,
-          useinput: true,
-          icon: 'flag',
-        },
-        {
-          label: 'Città',
-          table: 'cities',
-          key: 'idCity',
-          type: costanti.FieldType.multiselect_by_server,
-          value: 0,
-          addall: true,
-          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'cities', [costanti.FILTER_TUTTI]),
-          useinput: true,
-          filter: null,
-          // filter: getFilterCitiesByProvince,
-          // param1: shared_consts.PARAM_SHOW_PROVINCE,
-          tablesel: 'cities',
+          icon: 'engineering',
         },
       ]
 
@@ -79,6 +81,10 @@ export default defineComponent({
       tools.setCookie(tools.COOK_SEARCH + tools.GROUP_SEARCH, newval)
 
     })
+
+    function getdefaultnewrec(): any {
+      return tools.getdefaultnewrec_MyGroup()
+    }
 
     function extraparams() {
       let lk_tab = 'mygroups'
@@ -149,6 +155,7 @@ export default defineComponent({
       searchList,
       colmyUserGroup,
       extraparams,
+      getdefaultnewrec,
     }
   }
 })

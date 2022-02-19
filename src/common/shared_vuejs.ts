@@ -41,10 +41,9 @@ export const shared_consts = {
   FILTER_TO_MAKE_MEMBERSHIP_CARD: 524288,
   FILTER_MEMBERSHIP_CARD_OK: 1048576,
 
-  FILTER_MYSKILL_SKILL: 1,
-
   OPTIONS_SEARCH_ONLY_FULL_WORDS: 1,
   OPTIONS_SEARCH_USER_ONLY_FULL_WORDS: 2,
+  OPTIONS_SEARCH_USER_ALL_WORDS: 4,
 
   FRIENDSCMD: {
     SETTRUST: 121,
@@ -86,21 +85,24 @@ export const shared_consts = {
 
   TABLES_MYSKILLS: 'myskills',
   TABLES_MYBACHECAS: 'mybachecas',
+  TABLES_MYGOODS: 'mygoods',
+
+  TABLES_ENABLE_GETREC_BYID: ['mybachecas'],
 
   TABLES_USER_INCLUDE_MY: ['mygroups'],
-  TABLES_GETCOMPLETEREC: ['myskills'],
-  TABLES_PERM_NEWREC: ['skills', 'subskills', 'mygroups'],
-  TABLES_REC_ID: ['skills', 'subskills'],
+  TABLES_GETCOMPLETEREC: ['myskills', 'mybachecas', 'mygoods'],
+  TABLES_PERM_NEWREC: ['skills', 'goods', 'subskills', 'mygroups'],
+  TABLES_REC_ID: ['skills', 'goods', 'subskills'],
 
-  TABLES_ID_NUMBER: ['permissions', 'levels', 'adtypes', 'statusSkills', 'sectors', 'catgrps', 'skills', 'subskills', 'cities', 'provinces', 'myskills', 'mybachecas', 'mygroups'],
-  TABLES_USER_ID: ['myskills', 'mybachecas'],
-  TABLES_UPDATE_LASTMODIFIED: ['myskills', 'mybots'],
-  TABLES_FINDER: ['myskills', 'mybachecas', 'mygroups'],
-  TABLES_VISU_CMYSRECCARD: ['myskills', 'mybachecas'],
+  TABLES_ID_NUMBER: ['permissions', 'levels', 'adtypes', 'adtypegoods', 'statusSkills', 'sectors', 'sectorgoods', 'catgrps', 'skills', 'subskills', 'cities', 'provinces',
+    'myskills', 'mybachecas', 'mygoods', 'mygroups'],
+  TABLES_USER_ID: ['myskills', 'mybachecas', 'mygoods'],
+  TABLES_UPDATE_LASTIFIED: ['myskills', 'mybachecas', 'mygoods', 'mybots'],
+  TABLES_FINDER: ['myskills', 'mybachecas', 'mygoods', 'mygroups'],
+  TABLES_VISU_CMYSRECCARD: ['myskills', 'mybachecas', 'mygoods'],
 
-  TABLES_PERM_CHANGE_FOR_USERS: ['myskills', 'mybachecas'],
-  TABLES_VISU_LISTA_USER: ['myskills', 'mybachecas', 'users'],
-  TABLES_NOT_SHOW_IF_USERNAME: ['myskills', 'mybachecas'],
+  TABLES_PERM_CHANGE_FOR_USERS: ['myskills', 'mybachecas', 'mygoods'],
+  TABLES_VISU_LISTA_USER: ['myskills', 'mybachecas', 'mygoods', 'users'],
 
   VISIB_ALL: 0,
   VISIB_ONLYIF_VERIFIED: 1,
@@ -122,8 +124,9 @@ export const shared_consts = {
     PROVINCE: 1,
     COMUNI: 2,
     CITIES_SERVER: 3,
-    CAT_TXT: 4,
+    CAT_SKILL_TXT: 4,
     CAT_NO_SPAZI: 5,
+    CAT_GOODS_TXT: 10,
   },
 
   BotType: [
@@ -142,6 +145,21 @@ export const shared_consts = {
     {
       value: 3,
       label: 'Testo',
+    },
+  ],
+
+  Shippings: [
+    {
+      label: 'Di Persona',
+      value: 1,
+    },
+    {
+      label: 'Tramite Corriere',
+      value: 2,
+    },
+    {
+      label: 'Tramite Posta',
+      value: 3,
     },
   ],
 

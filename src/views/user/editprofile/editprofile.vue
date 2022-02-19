@@ -140,9 +140,10 @@
           tablesel="cities"
           mykey="profile"
           :useinput="false"
-          mysubkey="born_city"
+          mysubkey="born_city_id"
+          jointable="cities"
           :pickup="true"
-          :type="costanti.FieldType.string">
+          :type="costanti.FieldType.select_by_server">
         </CMyFieldDb>
 
         <CMyFieldDb

@@ -7,9 +7,8 @@
         <CTitlePage :ind="0" />
 
         <CFinder
-          :table="toolsext.TABMYBACHECAS">
-
-        </CFinder>
+          :table="toolsext.TABMYGOODS"
+        />
 
         <CDashboard></CDashboard>
 
@@ -23,8 +22,8 @@
   </q-page>
 
 </template>
-<script lang="ts" src="./bacheca.ts">
+<script lang="ts" src="./goods.ts">
 </script>
 <style lang="scss" scoped>
-@import './bacheca.scss';
+@import './goods.scss';
 </style>

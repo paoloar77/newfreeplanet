@@ -29,6 +29,16 @@ export default defineComponent({
       required: false,
       default: 'grey'
     },
+    small: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    numcol: {
+      type: Number,
+      required: false,
+      default: 3
+    },
   },
   setup(props, { emit }) {
 

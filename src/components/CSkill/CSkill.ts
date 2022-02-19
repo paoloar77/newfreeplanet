@@ -1,5 +1,5 @@
 import {
-  defineComponent, onBeforeMount, onBeforeUnmount, onMounted, ref, toRef, toRefs, watch,
+  defineComponent, onBeforeMount, onBeforeUnmount, onMounted, ref, toRef, toRefs, watch, computed,
 } from 'vue'
 
 import { tools } from '@store/Modules/tools'
@@ -7,7 +7,6 @@ import { CMyFieldDb } from '@/components/CMyFieldDb'
 import { costanti } from '@costanti'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
-import { colmySkills } from '@store/Modules/fieldsTable'
 import { CGridTableRec } from '@/components/CGridTableRec'
 import { IColGridTable, IMySkill, ISkill } from 'model'
 import { toolsext } from '@store/Modules/toolsext'
@@ -58,6 +57,13 @@ export default defineComponent({
     const col_footer = ref('')
     const col_tabfooter = ref('')
 
+    const extraparams = computed(() =>{
+      if (props.table === 'goods')
+        return extraparams_Goods()
+      else
+        return extraparams_Servizi()
+    })
+
     function mounted() {
 
       let obj = tools.getParamsByTable(props.table)
@@ -71,7 +77,8 @@ export default defineComponent({
 
     }
 
-    function extraparams() {
+
+    function extraparams_Servizi() {
       let lk_tab = 'users'
       let lk_LF = 'userId'
       let lk_FF = '_id'
@@ -94,7 +101,6 @@ export default defineComponent({
             sector: 1,
             idSector: 1,
             idSkill: 1,
-            idSubSkill: 1,
             myskill: 1,
             idStatusSkill: 1,
             idContribType: 1,
@@ -129,7 +135,6 @@ export default defineComponent({
             sector: 1,
             idSector: 1,
             idSkill: 1,
-            idSubSkill: 1,
             myskill: 1,
             idStatusSkill: 1,
             idContribType: 1,
@@ -164,7 +169,6 @@ export default defineComponent({
             sector: 1,
             idSector: 1,
             idSkill: 1,
-            idSubSkill: 1,
             myskill: 1,
             idStatusSkill: 1,
             idContribType: 1,
@@ -189,13 +193,134 @@ export default defineComponent({
           }
         },
         lookup4: {
-          lk_tab: 'subskills',
-          lk_LF: 'idSubSkill',
+          lk_tab: 'cities',
+          lk_LF: 'idCity',
           lk_FF: '_id',
-          lk_as: 'myrec',
+          lk_as: 'mycities',
           af_objId_tab: '',
         },
-        lookup5: {
+
+      }
+    }
+
+    function extraparams_Goods() {
+      let lk_tab = 'users'
+      let lk_LF = 'userId'
+      let lk_FF = '_id'
+      let lk_as = 'user'
+      let af_objId_tab = 'myId'
+
+      if (props.username) {
+        // lk_LF = 'username'
+      }
+
+      return {
+        lookup1: {
+          lk_tab,
+          lk_LF,
+          lk_FF,
+          lk_as,
+          af_objId_tab,
+          lk_proj: {
+            recSkill: 1,
+            sector: 1,
+            idSector: 1,
+            idSkill: 1,
+            idShipping: 1,
+            myskill: 1,
+            idStatusSkill: 1,
+            idContribType: 1,
+            idCity: 1,
+            numLevel: 1,
+            adType: 1,
+            photos: 1,
+            note: 1,
+            //**ADDFIELD_MYSKILL
+            website: 1,
+            descr: 1,
+            date_created: 1,
+            date_updated: 1,
+            userId: 1,
+            username: 1,
+            name: 1,
+            surname: 1,
+            comune: 1,
+            mycities: 1,
+            'profile.img': 1,
+            'profile.qualifica': 1,
+          }
+        },
+        lookup2: {
+          lk_tab: 'cities',
+          lk_LF: 'idCity',
+          lk_FF: '_id',
+          lk_as: 'comune',
+          af_objId_tab: '',
+          lk_proj: {
+            recSkill: 1,
+            sector: 1,
+            idSector: 1,
+            idSkill: 1,
+            idShipping: 1,
+            myskill: 1,
+            idStatusSkill: 1,
+            idContribType: 1,
+            idCity: 1,
+            numLevel: 1,
+            adType: 1,
+            photos: 1,
+            note: 1,
+            //**ADDFIELD_MYSKILL
+            website: 1,
+            descr: 1,
+            date_created: 1,
+            date_updated: 1,
+            comune: 1,
+            userId: 1,
+            username: 1,
+            name: 1,
+            surname: 1,
+            mycities: 1,
+            'profile.img': 1,
+            'profile.qualifica': 1,
+          }
+        },
+        lookup3: {
+          lk_tab: 'skills',
+          lk_LF: 'idSkill',
+          lk_FF: '_id',
+          lk_as: 'recSkill',
+          af_objId_tab: '',
+          lk_proj: {
+            recSkill: 1,
+            sector: 1,
+            idSector: 1,
+            idSkill: 1,
+            idShipping: 1,
+            myskill: 1,
+            idStatusSkill: 1,
+            idContribType: 1,
+            idCity: 1,
+            numLevel: 1,
+            adType: 1,
+            photos: 1,
+            note: 1,
+            //**ADDFIELD_MYSKILL
+            website: 1,
+            descr: 1,
+            date_created: 1,
+            date_updated: 1,
+            userId: 1,
+            username: 1,
+            name: 1,
+            surname: 1,
+            comune: 1,
+            mycities: 1,
+            'profile.img': 1,
+            'profile.qualifica': 1,
+          }
+        },
+        lookup4: {
           lk_tab: 'cities',
           lk_LF: 'idCity',
           lk_FF: '_id',
@@ -211,6 +336,8 @@ export default defineComponent({
         return tools.getdefaultnewrec_MySkill()
       } else if (props.table === toolsext.TABMYBACHECAS) {
         return tools.getdefaultnewrec_MyBacheca()
+      } else if (props.table === toolsext.TABMYGOODS) {
+        return tools.getdefaultnewrec_MyGoods()
       }
       return null
     }
@@ -220,7 +347,6 @@ export default defineComponent({
     return {
       tools,
       costanti,
-      colmySkills,
       extraparams,
       fieldsTable,
       col,

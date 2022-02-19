@@ -345,13 +345,18 @@ export default defineComponent({
     }
 
     function getappname() {
-      let mystr = tools.getsuffisso() + tools.getappname(tools.isMobile())
-      if (!tools.isMobile()) {
-        //if (!tools.isMobile()) {
-        mystr += ' ' + getAppVersion()
-        //}
+      let mystr = ''
+      if (tools.isTest()){
+        mystr = 'Ambiente di TEST'
       } else {
-        mystr = ''
+        let mystr = tools.getsuffisso() + tools.getappname(tools.isMobile())
+        if (!tools.isMobile()) {
+          //if (!tools.isMobile()) {
+          mystr += ' ' + getAppVersion()
+          //}
+        } else {
+          mystr = ''
+        }
       }
 
       return mystr
@@ -420,9 +425,9 @@ export default defineComponent({
     }
 
     function getClassColorHeader() {
-      if (tools.isTest()) return 'bg-warning'
+      if (tools.isTest()) return 'bg-light-blue'
       if (tools.isDebug()) return 'bg-info'
-      return 'bg-primary'
+      return 'bg-light-blue'
     }
 
     function changecmd(value: any) {

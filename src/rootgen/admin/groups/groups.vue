@@ -15,6 +15,7 @@
         prop_mytable="groups"
         prop_mytitle="Gruppi"
         :prop_mycolumns="colTablegroups"
+        :defaultnewrec="getdefaultnewrec"
         prop_colkey="descr"
         nodataLabel="Nessun Gruppo"
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato">

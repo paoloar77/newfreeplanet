@@ -1,6 +1,9 @@
 <template>
   <CMyPage img="" title="Import Data" keywords="" description="">
     <div class="q-ma-sm">
+
+      <q-toggle v-model="caricaDatiToggle" @click="caricadati()"
+      label="Carica Dati"></q-toggle>
       <br>
       <q-select rounded outlined v-model="cosafare"
                 :options="ListaCmd"
@@ -16,10 +19,10 @@
       <q-btn
       label="Esegui"
       @click="eseguiCmd"></q-btn>
-      {{risultato}}
 
-      <br><br><br><br><br>
-      VERSIONE HTML:
+      <br><br>
+
+
       <div v-html="risultato"></div>
       <br>
       <br>

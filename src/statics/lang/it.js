@@ -23,6 +23,7 @@ const msg_it = {
       list: 'Lista',
       select_image: 'Scegli un\'Immagine',
       load_image: 'Carica un\'Immagine',
+      data_choose: 'Scegli la Data',
     },
     profile: {
       chisei: 'Chi Sei? Raccontaci di te:',
@@ -483,7 +484,7 @@ const msg_it = {
       numTesseraInterna: 'Tess',
       codiceConacreis: 'Conacreis',
       residency_address: 'Indirizzo di Residenza',
-      residency_city: 'Città di Residenza',
+      residency_city: 'Comune di Residenza',
       residency_province: 'Provincia',
       residency_zipcode: 'CAP',
       residency_country: 'Paese',
@@ -492,7 +493,7 @@ const msg_it = {
       dateofreg: 'Registrato',
       dateofapproved: 'Approvato',
       dateofbirth: 'Data di Nascita',
-      born_city: 'Città di Nascita',
+      born_city: 'Comune di Nascita',
       born_province: 'Provincia di Nascita',
       nationality_born: 'Paese di Nascita',
       iscrizione_compilata: 'Iscritto',
@@ -830,8 +831,8 @@ const msg_it = {
       ask_to_verify_reg: 'Chiedi Verif. Reg',
     },
     skill: {
-      name: 'Competenza',
-      city: 'Città',
+      name: 'Categoria',
+      city: 'Comune',
       photos: 'Foto',
       note: 'Note',
       short_node: 'Breve Nota',
@@ -841,7 +842,7 @@ const msg_it = {
       name: 'Livello',
     },
     statusSkill: {
-      name: 'Stato',
+      name: 'Di Persona / On Line',
     },
     store: {
       description: 'Descrizione',
@@ -856,7 +857,7 @@ const msg_it = {
       name: 'Categoria',
     },
     contribtype: {
-      name: 'Contributo'
+      name: 'In Cambio di'
     },
     bot: {
       page: 'Pagina',
@@ -879,7 +880,8 @@ const msg_it = {
       create_group: 'Crea Gruppo',
       friends: 'Amici',
       bacheca: 'Bacheca',
-      work: 'Lavoro',
+      services: 'Servizi',
+      goods: 'Beni',
       test: 'Test',
       groups: 'Gruppi',
       request_friends: 'Rich. Amicizia',

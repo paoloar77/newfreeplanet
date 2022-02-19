@@ -17,6 +17,7 @@ import { costanti } from '@costanti'
 import { IUserFields } from 'model'
 import { shared_consts } from '@/common/shared_vuejs'
 import { static_data } from '@/db/static_data'
+import { fieldsTable } from '@store/Modules/fieldsTable'
 import MixinUsers from '@/mixins/mixin-users'
 
 
@@ -120,6 +121,7 @@ export default defineComponent({
       animation,
       isMyRecord,
       getRefLink,
+      fieldsTable,
     }
   }
 })

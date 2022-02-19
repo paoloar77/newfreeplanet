@@ -1,5 +1,12 @@
 <template>
   <q-card class="dialog_card" v-if="mybacheca">
+    <q-footer
+      class="bg-white small-screen-only text-center"
+      bordered
+    >
+      <q-btn push rounded color="primary" icon="close" label="Chiudi" v-close-popup></q-btn>
+
+    </q-footer>
     <q-bar dense class="bg-primary text-white">
       {{ mybacheca.username }}
       <q-space/>

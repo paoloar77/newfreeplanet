@@ -20,7 +20,20 @@
           {{ myuser.username }}
         </div>
         <div class="col-12 text-h7">
-          <span v-if="myuser.profile && myuser.profile.born_city">{{ myuser.profile.born_city }}</span> <span
+          <span v-if="myuser.profile && myuser.profile.born_city_id">
+              <CMyFieldRec
+                title="Comune"
+                table="users"
+                :id="myuser._id"
+                :columns="fieldsTable.userlist()"
+                :rec="mygrp"
+                field="profile.born_city_id"
+                :canEdit="false"
+                :canModify="false">
+              </CMyFieldRec>
+
+
+            {{ myuser.profile.born_city_str }}</span> <span
           v-if="myuser.profile && myuser.profile.nationality && myuser.profile.nationality !== 'Italia'">({{
             myuser.profile.nationality
           }})</span>

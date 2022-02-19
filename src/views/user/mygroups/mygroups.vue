@@ -17,7 +17,7 @@
         :finder="true"
         :choose_visutype="true"
         :finder_noNull="false"
-        :options="shared_consts.OPTIONS_SEARCH_ONLY_FULL_WORDS"
+        :options="shared_consts.OPTIONS_SEARCH_USER_ALL_WORDS"
         :butt_modif_new="true"
         noresultLabel="nome del gruppo non trovato"
         :arrfilters="arrfilterand"
@@ -26,6 +26,7 @@
         :showType="costanti.SHOW_GROUPINFO"
         keyMain=""
         :showCol="false"
+        :defaultnewrec="getdefaultnewrec"
         :extraparams="extraparams()">
 
       </CGridTableRec>

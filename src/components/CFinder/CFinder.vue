@@ -37,7 +37,7 @@
         :vertical="costanti.VISUTABLE_LISTA"
         :prop_pagination="mypagination"
         :showType="costanti.SHOW_MYCARD"
-        :nodataLabel="'Nessuna Competenza trovata'"
+        :nodataLabel="'Nessun annuncio trovato con i filtri selezionati'"
         :prop_search="true"
         :finder="true"
         :choose_visutype="$q.screen.gt.xs"

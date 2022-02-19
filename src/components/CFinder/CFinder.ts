@@ -28,14 +28,14 @@ export default defineComponent({
     CMyFieldDb, CGridTableRec,
   },
   setup(props, { attrs, slots, emit }) {
-    const mytable = 'users'
     const { t } = useI18n()
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
 
     const arrfilterand: any = ref([])
     const filtercustom: any = ref([])
-    const searchList = ref(<ISearchList[]>[])
+    const searchList_Servizi = ref(<ISearchList[]>[])
+    const searchList_Beni = ref(<ISearchList[]>[])
 
     const search = ref('')
     const myrecfiltertoggle = ref(tools.FILTER_ALL)
@@ -45,21 +45,24 @@ export default defineComponent({
     const col_footer = ref('idCity')
     const col_tabfooter = ref('mycities')
 
-    const mypagination = ref({ sortBy: 'date_created', descending: true, page: 1, rowsNumber: 10, rowsPerPage: 10 })
+    const mypagination = ref({ sortBy: 'date_created', descending: true, page: 1, rowsNumber: 20, rowsPerPage: 20 })
 
     const col = ref(<IColGridTable>{})
 
-    const idSector = computed(() => {
+    /*
+    const idSectorServizi = computed(() => {
       let myval: any = null
-      myval = searchList.value.find((rec) => (rec.table === 'sectors'))
+      myval = searchList_Servizi.value.find((rec) => (rec.table === 'sectors'))
       if (myval) {
         const ris = myval.value || 0
-        // console.log('idSector=', ris)
+        // console.log('idSectorServizi=', ris)
         return ris
       } else {
         return 0
       }
     })
+
+     */
 
     watch(() => myrecfiltertoggle.value, (value: any, oldval: any) => {
         if (value === tools.FILTER_MYREC) {
@@ -69,6 +72,15 @@ export default defineComponent({
         }
       },
     )
+
+    const searchList = computed(() => {
+      if (props.table === 'mygoods')
+        return searchList_Beni.value
+      else if (props.table === 'myskills')
+        return searchList_Servizi.value
+
+      return searchList_Servizi.value
+    })
 
 
     function mounted() {
@@ -88,6 +100,16 @@ export default defineComponent({
         // console.log('getFilterSkills', recSkill.idSector, recsectors.value)
         if (recsectors) {
           return recSkill.idSector.includes(recsectors.value)
+        } else {
+          return true
+        }
+      }
+
+      function getFilterGoods(recGood: any, index: number, arr: any) {
+        const recsectorGoods: any = searchList.value.find((rec) => rec.table === 'sectorgoods')
+        // console.log('getFilterSkills', recSkill.idSector, recsectors.value)
+        if (recsectorGoods) {
+          return recGood.idSectorGood.includes(recsectorGoods.value)
         } else {
           return true
         }
@@ -114,9 +136,30 @@ export default defineComponent({
       }
 
 
-
-
-      searchList.value = [
+      searchList_Servizi.value = [
+        {
+          label: 'Stato',
+          table: 'statusSkills',
+          key: 'idStatusSkill',
+          value: 0,
+          // arrvalue: tools.getCookie(tools.COOK_SEARCH + 'statusSkills', []),
+          arrvalue: [],
+          type: costanti.FieldType.multiselect,
+          filter: null,
+          useinput: false,
+          icon: 'mood',
+          filteradv: true,
+        },
+        /*{
+          label: 'Regione',
+          table: 'regions',
+          key: 'idReg',
+          value: 0,
+          type: costanti.FieldType.select,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'regions', [costanti.FILTER_TUTTI]),
+          filter: null,
+          useinput: true,
+        },*/
         {
           label: 'Provincia',
           table: 'provinces',
@@ -130,7 +173,7 @@ export default defineComponent({
           icon: 'flag',
         },
         {
-          label: 'Città',
+          label: 'Comune',
           table: 'cities',
           key: 'idCity',
           type: costanti.FieldType.select_by_server,
@@ -167,7 +210,7 @@ export default defineComponent({
           useinput: false,
         },
         {
-          label: 'Competenza',
+          label: 'Categoria',
           table: 'skills',
           key: 'idSkill',
           value: tools.getCookie(tools.COOK_SEARCH + 'skills' + '_' + tools.getCookie(tools.COOK_SEARCH + 'sectors', costanti.FILTER_TUTTI), costanti.FILTER_TUTTI),
@@ -178,7 +221,7 @@ export default defineComponent({
           showcount: true,
           useinput: false,
         },
-        {
+        /*{
           label: 'Specializzazione',
           table: 'subskills',
           key: 'idSubSkill',
@@ -191,16 +234,11 @@ export default defineComponent({
           useinput: false,
           icon: 'far fa-id-card',
         },
-        /*{
-          label: 'Regione',
-          table: 'regions',
-          key: 'idReg',
-          value: 0,
-          type: costanti.FieldType.select,
-          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'regions', [costanti.FILTER_TUTTI]),
-          filter: null,
-          useinput: true,
-        },*/
+        */
+
+
+
+        /*
         {
           label: 'Livello',
           table: 'levels',
@@ -213,20 +251,160 @@ export default defineComponent({
           useinput: false,
           filteradv: true,
         },
+
+
+         */
         {
-          label: 'Stato',
-          table: 'statusSkills',
-          key: 'idStatusSkill',
+          label: 'In cambio di',
+          table: 'contribtypes',
+          key: 'idContribType',
           value: 0,
-          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'statusSkills', []),
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'contribtypes', []),
           type: costanti.FieldType.multiselect,
           filter: null,
           useinput: false,
-          icon: 'mood',
+          icon: 'fas fa-hand-holding',
           filteradv: true,
+          //icon: 'swap_horizontal_circle',
+        },
+        /*
+        {
+          label: '',
+          table: '',
+          key: '',
+          value: 0,
+          type: costanti.FieldType.separator,
+          arrvalue: [],
+          addall: true,
+          filter: null,
+          showcount: true,
+          useinput: false,
+          notinsearch: true,
+          icon: '',
+        },
+
+         */
+
+      ]
+
+      searchList_Beni.value = [
+        /*{
+          label: 'Regione',
+          table: 'regions',
+          key: 'idReg',
+          value: 0,
+          type: costanti.FieldType.select,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'regions', [costanti.FILTER_TUTTI]),
+          filter: null,
+          useinput: true,
+        },*/
+        {
+          label: 'Provincia',
+          table: 'provinces',
+          key: 'idProvince',
+          type: costanti.FieldType.select,
+          value: tools.getCookie(tools.COOK_SEARCH + 'provinces', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          filter: null,
+          useinput: true,
+          icon: 'flag',
         },
         {
-          label: 'Contributo',
+          label: 'Comune',
+          table: 'cities',
+          key: 'idCity',
+          type: costanti.FieldType.select_by_server,
+          value: tools.getCookie(tools.COOK_SEARCH + 'cities', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          useinput: true,
+          filter: null,
+          // filter: getFilterCitiesByProvince,
+          // param1: shared_consts.PARAM_SHOW_PROVINCE,
+          tablesel: 'cities',
+        },
+        {
+          label: 'Offro/Cerco',
+          table: 'adtypegoods',
+          key: 'adType',
+          value: tools.getCookie(tools.COOK_SEARCH + 'adtypegoods', costanti.FILTER_TUTTI),
+          arrvalue: [],
+          addall: true,
+          type: costanti.FieldType.select,
+          filter: null,
+          useinput: false,
+        },
+        {
+          label: 'Settore',
+          table: 'sectorgoods',
+          key: 'idSectorGood',
+          value: tools.getCookie(tools.COOK_SEARCH + 'sectorgoods', 0),
+          arrvalue: [],
+          type: costanti.FieldType.select,
+          filter: null,
+          addall: true,
+          notinsearch: true,
+          useinput: false,
+        },
+        {
+          label: 'Categoria',
+          table: 'goods',
+          key: 'idGood',
+          value: tools.getCookie(tools.COOK_SEARCH + 'goods' + '_' + tools.getCookie(tools.COOK_SEARCH + 'sectorgoods', costanti.FILTER_TUTTI), costanti.FILTER_TUTTI),
+          arrvalue: [],
+          type: costanti.FieldType.select,
+          addall: true,
+          filter: getFilterGoods,
+          showcount: true,
+          useinput: false,
+        },
+        {
+          label: 'Spedizione',
+          table: 'shippings',
+          key: 'idShipping',
+          value: tools.getCookie(tools.COOK_SEARCH + 'shippings', costanti.FILTER_TUTTI),
+          arrvalue: [],
+          type: costanti.FieldType.select,
+          addall: true,
+          filter: null,
+          useinput: false,
+        },
+        /*{
+          label: 'Specializzazione',
+          table: 'subskills',
+          key: 'idSubSkill',
+          value: tools.getCookie(tools.COOK_SEARCH + 'subskills' + '_' + tools.getCookie(tools.COOK_SEARCH + 'skills', costanti.FILTER_TUTTI), costanti.FILTER_TUTTI),
+          type: costanti.FieldType.select,
+          arrvalue: [],
+          addall: true,
+          filter: getFilterSubSkills,
+          showcount: true,
+          useinput: false,
+          icon: 'far fa-id-card',
+        },
+        */
+
+
+
+        /*
+        {
+          label: 'Livello',
+          table: 'levels',
+          key: 'numLevel',
+          value: tools.getCookie(tools.COOK_SEARCH + 'levels', costanti.FILTER_TUTTI),
+          arrvalue: [],
+          addall: true,
+          type: costanti.FieldType.select,
+          filter: null,
+          useinput: false,
+          filteradv: true,
+        },
+
+
+         */
+        {
+          label: 'In cambio di',
           table: 'contribtypes',
           key: 'idContribType',
           value: 0,
@@ -259,73 +437,124 @@ export default defineComponent({
     }
 
 
-
-
     function extraparams() {
-      return {
-        lookup1: {
-          lk_tab: 'users',
-          lk_LF: 'userId',
-          lk_FF: '_id',
-          lk_as: 'user',
-          af_objId_tab: 'myId',
-        },
-        lookup2: {
-          lk_tab: 'skills',
-          lk_LF: 'idSkill',
-          lk_FF: '_id',
-          lk_as: 'recSkill',
-          af_objId_tab: '',
-          lk_proj: {
-            recSkill: 1,
-            sector: 1,
-            idSector: 1,
-            idSkill: 1,
-            idSubSkill: 1,
-            myskill: 1,
-            idStatusSkill: 1,
-            idContribType: 1,
-            idCity: 1,
-            numLevel: 1,
-            adType: 1,
-            photos: 1,
-            note: 1,
-            website: 1,
-            //**ADDFIELD_MYSKILL
-            descr: 1,
-            date_created: 1,
-            date_updated: 1,
-            userId: 1,
-            username: 1,
-            name: 1,
-            surname: 1,
-            comune: 1,
-            mycities: 1,
-            'profile.img': 1,
-            'profile.qualifica': 1,
-          }
-        },
-        lookup3: {
-          lk_tab: 'sectors',
-          lk_LF: 'recSkill.idSector',
-          lk_FF: '_id',
-          lk_as: 'sector',
-          af_objId_tab: '',
-        },
-        lookup4: {
-          lk_tab: 'subskills',
-          lk_LF: 'idSubSkill',
-          lk_FF: '_id',
-          lk_as: 'myrec',
-          af_objId_tab: '',
-        },
-        lookup5: {
-          lk_tab: 'cities',
-          lk_LF: 'idCity',
-          lk_FF: '_id',
-          lk_as: 'mycities',
-          af_objId_tab: '',
-        },
+      if (props.table === 'myskills') {
+        return {
+          lookup1: {
+            lk_tab: 'users',
+            lk_LF: 'userId',
+            lk_FF: '_id',
+            lk_as: 'user',
+            af_objId_tab: 'myId',
+          },
+          lookup2: {
+            lk_tab: 'skills',
+            lk_LF: 'idSkill',
+            lk_FF: '_id',
+            lk_as: 'recSkill',
+            af_objId_tab: '',
+            lk_proj: {
+              recSkill: 1,
+              sector: 1,
+              idSector: 1,
+              idSkill: 1,
+              // idSubSkill: 1,
+              myskill: 1,
+              idStatusSkill: 1,
+              idContribType: 1,
+              idCity: 1,
+              numLevel: 1,
+              adType: 1,
+              photos: 1,
+              note: 1,
+              website: 1,
+              //**ADDFIELD_MYSKILL
+              descr: 1,
+              date_created: 1,
+              date_updated: 1,
+              userId: 1,
+              username: 1,
+              name: 1,
+              surname: 1,
+              comune: 1,
+              mycities: 1,
+              'profile.img': 1,
+              'profile.qualifica': 1,
+            }
+          },
+          lookup3: {
+            lk_tab: 'sectors',
+            lk_LF: 'recSkill.idSector',
+            lk_FF: '_id',
+            lk_as: 'sector',
+            af_objId_tab: '',
+          },
+          lookup5: {
+            lk_tab: 'cities',
+            lk_LF: 'idCity',
+            lk_FF: '_id',
+            lk_as: 'mycities',
+            af_objId_tab: '',
+          },
+        }
+      } else if (props.table === 'myskills') {
+        return {
+          lookup1: {
+            lk_tab: 'users',
+            lk_LF: 'userId',
+            lk_FF: '_id',
+            lk_as: 'user',
+            af_objId_tab: 'myId',
+          },
+          lookup2: {
+            lk_tab: 'goods',
+            lk_LF: 'idGood',
+            lk_FF: '_id',
+            lk_as: 'recGood',
+            af_objId_tab: '',
+            lk_proj: {
+              recGood: 1,
+              sectorGood: 1,
+              idSectorGood: 1,
+              idGood: 1,
+              mygood: 1,
+              idStatusSkill: 1,
+              idContribType: 1,
+              idCity: 1,
+              numLevel: 1,
+              adType: 1,
+              photos: 1,
+              note: 1,
+              website: 1,
+              //**ADDFIELD_MYSKILL
+              descr: 1,
+              date_created: 1,
+              date_updated: 1,
+              userId: 1,
+              username: 1,
+              name: 1,
+              surname: 1,
+              comune: 1,
+              mycities: 1,
+              'profile.img': 1,
+              'profile.qualifica': 1,
+            }
+          },
+          lookup3: {
+            lk_tab: 'sectorgoods',
+            lk_LF: 'recGood.idSectorGood',
+            lk_FF: '_id',
+            lk_as: 'sectorgood',
+            af_objId_tab: '',
+          },
+          lookup5: {
+            lk_tab: 'cities',
+            lk_LF: 'idCity',
+            lk_FF: '_id',
+            lk_as: 'mycities',
+            af_objId_tab: '',
+          },
+        }
       }
     }
 
@@ -334,6 +563,8 @@ export default defineComponent({
         return tools.getdefaultnewrec_MySkill()
       } else if (props.table === toolsext.TABMYBACHECAS) {
         return tools.getdefaultnewrec_MyBacheca()
+      } else if (props.table === toolsext.TABMYGOODS) {
+        return tools.getdefaultnewrec_MyGoods()
       }
       return null
     }
@@ -353,7 +584,6 @@ export default defineComponent({
       arrfilterand,
       filtercustom,
       searchList,
-      idSector,
       search,
       doSearch,
       myrecfiltertoggle,

@@ -3,7 +3,7 @@
     <CGridTableRec
       prop_mytable="users"
       prop_mytitle="Lista Utenti"
-      :prop_mycolumns="userlist()"
+      :prop_mycolumns="fieldsTable.userlist()"
       prop_colkey="_id"
       nodataLabel="Nessun Utente"
       noresultLabel="Il filtro selezionato non ha trovato nessun risultato"

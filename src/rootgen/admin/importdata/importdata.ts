@@ -20,7 +20,9 @@ export default defineComponent({
     const globalStore = useGlobalStore()
 
     const arrSector = ref(<any[]>[])
+    const arrSectorGood = ref(<any[]>[])
     const arrSkill = ref(<any[]>[])
+    const arrGood = ref(<any[]>[])
 
 
     const incaricamento = ref(false)
@@ -29,6 +31,8 @@ export default defineComponent({
 
     const inputfile = ref('')
     const risultato = ref('')
+
+    const caricaDatiToggle = ref(false)
 
     const ListaCmd = ref(
       [
@@ -45,8 +49,12 @@ export default defineComponent({
           value: shared_consts.Cmd.CITIES_SERVER
         },
         {
-          label: 'Importa Categorie da TXT',
-          value: shared_consts.Cmd.CAT_TXT
+          label: 'Importa Categorie Servizi da TXT',
+          value: shared_consts.Cmd.CAT_SKILL_TXT
+        },
+        {
+          label: 'Importa Categorie Beni (Goods) da TXT',
+          value: shared_consts.Cmd.CAT_GOODS_TXT
         },
         {
           label: 'converti da TXT seperato senza spazi',
@@ -55,8 +63,16 @@ export default defineComponent({
       ]
     )
 
-    function created() {
-      inputfile.value = ''
+    function caricadati() {
+
+      if (!caricaDatiToggle.value) {
+        arrSector.value = []
+        arrSectorGood.value = []
+        arrSkill.value = []
+        arrGood.value = []
+
+        return
+      }
 
       const sortBy = 'descr'
       const descending = 1
@@ -67,7 +83,7 @@ export default defineComponent({
         myobj[sortBy] = 1
 
       const params: IParamsQuery = {
-        table: 'sectors',
+        table: '',
         startRow: 0,
         endRow: 10000,
         filter: '',
@@ -80,42 +96,89 @@ export default defineComponent({
         userId: ''
       }
 
-      globalStore.loadTable(params).then((data) => {
-        arrSector.value = data.rows
-      })
+      if (true) {
+        params.table = 'sectors'
+        globalStore.loadTable(params).then((data) => {
+          arrSector.value = data.rows
+        })
 
+        params.table = 'sectorgoods'
+        globalStore.loadTable(params).then((data) => {
+          arrSectorGood.value = data.rows
+        })
 
-      params.table = 'skills'
-      globalStore.loadTable(params).then((data) => {
-        arrSkill.value = data.rows
-      })
+        params.table = 'skills'
+        globalStore.loadTable(params).then((data) => {
+          arrSkill.value = data.rows
+        })
+
+        params.table = 'goods'
+        globalStore.loadTable(params).then((data) => {
+          arrGood.value = data.rows
+        })
+      }
 
     }
 
-    function createSector(cat: string) {
-      const myid = arrSector.value.length + 1
-      arrSector.value.push({_id: myid, descr: cat})
+    function created() {
+      inputfile.value = ''
+
+      if (caricaDatiToggle.value) {
+        caricadati()
+      }
+    }
+
+    function createSector(cat: string, cmd: number) {
+      let arr = []
+      if (cmd === shared_consts.Cmd.CAT_GOODS_TXT) {
+        arr = arrSectorGood.value
+      } else {
+        arr = arrSector.value
+      }
+
+      const myid = arr.length + 1
+      arr.push({_id: myid, descr: cat})
       return myid
     }
 
-    function findidSector(cat: string) {
-      const rec = arrSector.value.find((rec) => rec.descr === cat)
+    function findidSector(cat: string, cmd: number) {
+      let arr = []
+      if (cmd === shared_consts.Cmd.CAT_GOODS_TXT) {
+        arr = arrSectorGood.value
+      } else {
+        arr = arrSector.value
+      }
+
+      const rec = arr.find((rec) => rec.descr === cat)
       if (rec) {
         return rec._id
       }
       return 0;
     }
-    function findidSkill(cat: string) {
-      const rec = arrSkill.value.find((rec) => rec.descr === cat)
+    function findidSkill(cat: string, cmd: number) {
+      let arr = []
+      if (cmd === shared_consts.Cmd.CAT_GOODS_TXT) {
+        arr = arrGood.value
+      } else {
+        arr = arrSkill.value
+      }
+
+      const rec = arr.find((rec) => rec.descr === cat)
       if (rec) {
         return rec._id
       }
       return 0;
     }
 
-    function createSkill(cat: string) {
-      const myid = arrSkill.value.length + 1
-      arrSkill.value.push({_id: myid, descr: cat})
+    function createSkill(cat: string, cmd: number) {
+      let arr = []
+      if (cmd === shared_consts.Cmd.CAT_GOODS_TXT) {
+        arr = arrGood.value
+      } else {
+        arr = arrSkill.value
+      }
+      const myid = arr.length + 1
+      arr.push({_id: myid, descr: cat})
       return myid
     }
 
@@ -147,7 +210,7 @@ export default defineComponent({
         arrstr = myarr[i].split(',')
         sector = arrstr[0]
         skill = arrstr[1]
-        sotto_cat = arrstr[2]
+        // sotto_cat = arrstr[2]
         // sotto_cat = myarr[i].replace('\'', '\\\'')
         // sector = myarr[i+2]
         if (skill)
@@ -156,9 +219,9 @@ export default defineComponent({
           sector = sector.replace('\'', '\\\'')
 
         if (sector) {
-          idSector = findidSector(sector)
+          idSector = findidSector(sector, cmd)
           if (!idSector) {
-            idSector = createSector(sector)
+            idSector = createSector(sector, cmd)
 
             // sectors
             strsectors += '{ \n'
@@ -168,19 +231,25 @@ export default defineComponent({
           }
 
           if (skill !== '') {
-            idSkill = findidSkill(skill)
+            idSkill = findidSkill(skill, cmd)
             if (!idSkill) {
-              idSkill = createSkill(skill)
+              idSkill = createSkill(skill, cmd)
 
               // skills
               strskills += '{ \n'
-              strsectors += '   _id:' + idSkill + ','
-              strskills += '   idSector: [' + idSector + '],'
+              strskills += '   _id:' + idSkill + ','
+              if (cmd === shared_consts.Cmd.CAT_GOODS_TXT) {
+                strskills += '   idSectorGood: [' + idSector + '],'
+              }else if (cmd === shared_consts.Cmd.CAT_SKILL_TXT) {
+                strskills += '   idSector: [' + idSector + '],'
+              }
+
               strskills += '   descr:\'' + skill + '\','
               strskills += '}, \n'
             }
           }
 
+          /*
           if (sotto_cat !== '') {
             // subskills
             strsubskills += '{ \n'
@@ -188,6 +257,8 @@ export default defineComponent({
             strsubskills += '   descr:\'' + sotto_cat + '\','
             strsubskills += '}, \n'
           }
+
+           */
         }
 
         indrecsub++
@@ -199,8 +270,10 @@ export default defineComponent({
       ris += 'module.exports = {\n' +
         '  list: [' + strskills + ']'
       ris += '<br><br><br><br>'
-      ris += 'module.exports = {\n' +
+      /*ris += 'module.exports = {\n' +
         '  list: [' + strsubskills + ']'
+
+       */
 
       return ris
 
@@ -241,7 +314,9 @@ export default defineComponent({
         delim = ','
       } else if ((cmd === shared_consts.Cmd.COMUNI) || (cmd === shared_consts.Cmd.CITIES_SERVER)) {
         delim = ';'
-      } else if (cmd === shared_consts.Cmd.CAT_TXT) {
+      } else if (cmd === shared_consts.Cmd.CAT_SKILL_TXT) {
+        return importCmdTxt(cmd, testo);
+      } else if (cmd === shared_consts.Cmd.CAT_GOODS_TXT) {
         return importCmdTxt(cmd, testo);
       } else if (cmd === shared_consts.Cmd.CAT_NO_SPAZI) {
         return importNoSpazi(cmd, testo);
@@ -326,6 +401,8 @@ export default defineComponent({
       cosafare,
       ListaCmd,
       eseguiCmd,
+      caricaDatiToggle,
+      caricadati,
     }
   }
 })

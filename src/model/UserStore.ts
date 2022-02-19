@@ -59,7 +59,8 @@ export interface IUserProfile {
   resplist?: any
   workerslist?: any
   dateofbirth?: Date|null
-  born_city?: string
+  born_city_id?: number
+  born_city_str?: string
   born_province?: string
   born_country?: string
   my_dream?: string
