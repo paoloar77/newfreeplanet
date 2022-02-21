@@ -157,6 +157,7 @@
           :id="myuser._id"
           :rec="myuser"
           field="profile.born_city_id"
+          :sameclassasfielddb="true"
           :canEdit="true"
           :canModify="true">
         </CMyFieldRec>

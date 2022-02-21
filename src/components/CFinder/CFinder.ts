@@ -360,7 +360,7 @@ export default defineComponent({
           useinput: false,
         },
         {
-          label: 'Spedizione',
+          label: 'Consegna',
           table: 'shippings',
           key: 'idShipping',
           value: tools.getCookie(tools.COOK_SEARCH + 'shippings', costanti.FILTER_TUTTI),

@@ -1,5 +1,5 @@
 <template>
-  <q-card class="dialog_card" v-if="mybacheca">
+  <q-card class="dialog_card q-mb-lg" v-if="myrec">
     <q-footer
       class="bg-white small-screen-only text-center"
       bordered
@@ -8,17 +8,24 @@
 
     </q-footer>
     <q-bar dense class="bg-primary text-white">
-      {{ mybacheca.username }}
+      {{ myrec.username }}
       <q-space/>
       <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
     </q-bar>
     <q-card-section class="inset-shadow">
+      <!-- Per ora visualizzo solo la Prima Immagine -->
+      <div class="text-center">
+
+        <q-img
+          v-if="tools.getValue(myrec, 'photos', '')"
+        :src="getFullFileName(tools.getValue(myrec, 'photos', ''), myrec.username)" class="img" alt="immagine bene"></q-img>
+      </div>
 
       <div class="text-center">
-        <q-chip :icon="fieldsTable.getIconByAdType(mybacheca.adType)"
-                :color="fieldsTable.getColByAdType(mybacheca.adType)"
+        <q-chip :icon="fieldsTable.getIconByAdType(myrec.adType)"
+                :color="fieldsTable.getColByAdType(myrec.adType)"
                 text-color="white">{{
-            fieldsTable.getValByTabAndId(table, 'adType', mybacheca.adType)
+            fieldsTable.getValByTabAndId(table, 'adType', myrec.adType)
           }}
         </q-chip>
       </div>
@@ -27,23 +34,23 @@
 
       <div v-for="(mycol, index) of col" :key="index">
         <div
-          v-if="(mycol.visible && (tools.checkIfShowField(mycol, tools.TIPOVIS_SHOW_RECORD, false, tools.getValue(mybacheca, mycol.field, mycol.subfield))))">
+          v-if="(mycol.visible && (tools.checkIfShowField(mycol, tools.TIPOVIS_SHOW_RECORD, false, tools.getValue(myrec, mycol.field, mycol.subfield))))">
           <div v-if="mycol.fieldtype === costanti.FieldType.html">
             <div class="note-bacheca"
-                 v-html="tools.getValue(mybacheca, mycol.field, mycol.subfield)">
+                 v-html="tools.getValue(myrec, mycol.field, mycol.subfield)">
 
             </div>
           </div>
           <div v-else-if="mycol.name === 'descr'">
             <div class="text-bacheca">
-              {{ tools.getValue(mybacheca, mycol.field, mycol.subfield) }}
+              {{ tools.getValue(myrec, mycol.field, mycol.subfield) }}
             </div>
           </div>
           <CMyFieldRec
             v-else
             :table="table"
-            :id="mybacheca._id"
-            :rec="mybacheca"
+            :id="myrec._id"
+            :rec="myrec"
             :field="mycol.field"
             :canEdit="false"
             :canModify="false">
@@ -51,7 +58,7 @@
         </div>
       </div>
 
-
+      <br><br>
     </q-card-section>
 
   </q-card>

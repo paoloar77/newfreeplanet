@@ -34,7 +34,7 @@
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey">
-              No results
+              Digita il testo da cercare
             </q-item-section>
           </q-item>
         </template>
@@ -100,7 +100,7 @@
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey">
-              No results
+              Digita il testo da cercare
             </q-item-section>
           </q-item>
         </template>

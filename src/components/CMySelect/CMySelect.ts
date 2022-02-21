@@ -68,9 +68,9 @@ export default defineComponent({
       default: ''
     },
     filter_extra: {
-      type: String,
+      type: [Object, String],
       required: false,
-      default: ''
+      default: null
     },
     value_extra: {
       type: [String, Number],
@@ -466,10 +466,25 @@ export default defineComponent({
 
           if (fieldsTable.tableRemotePickup.includes(props.tablesel)) {
             try {
-              myarr = optionsreal.value
+              // myarr = optionsreal.value
+              myarr = []
               if (mystr !== '' || props.filter_extra)
                 // myarr = [{_id:1, prov: 'RN', descr: 'Rimini'}]
-                myarr = await globalStore.loadPickup({ table: props.tablesel, search: mystr.trim(), filter: props.filter_extra })
+                /*
+                if (val === '1') {
+                  myarr.push({ _id: 1, comune: 'PROVA 1', prov: 'AL' })
+                  myarr.push({ _id: 2, comune: 'PROVA 1b', prov: 'AL' })
+                }else if (val === '2') {
+                  myarr.push({ _id: 1, comune: 'PROVA 2', prov: 'AL' })
+                  myarr.push({ _id: 2, comune: 'PROVA 2B', prov: 'AL' })
+
+                }*/
+
+                { // @ts-ignore
+                  myarr = await globalStore.loadPickup({ table: props.tablesel, search: mystr.trim(), filter: props.filter_extra })
+                }
+
+
 
               if (myarr === null) {
                 console.log('@@@ VALORI VALUE XXX', valori.value)

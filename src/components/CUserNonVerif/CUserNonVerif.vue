@@ -1,12 +1,14 @@
 <template>
   <div class="q-ma-md">
-    <q-banner inline-actions rounded class="bg-orange text-white">
-      <template v-slot:avatar>
-        <q-icon name="info" color="primary" />
-      </template>
-      <strong>La verifica è in corso. Ti arriverà un messaggio sul Bot Telegram quando verrai abilitato dal tuo invitante.</strong>
+    <div v-if="tools.isTelegOk()">
+      <q-banner inline-actions rounded class="bg-orange text-black">
+        <template v-slot:avatar>
+          <q-icon name="info" color="primary"/>
+        </template>
+        <strong>A breve sarai abilitato, altrimenti avvisa il tuo invitante che ti sei Registrato.<br>Ti arriverà un messaggio su Telegram quando verrai abilitato dal tuo invitante.</strong>
 
-    </q-banner>
+      </q-banner>
+    </div>
   </div>
 </template>
 

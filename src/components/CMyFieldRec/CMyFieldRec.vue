@@ -20,7 +20,7 @@
         </q-field>
       </div>
 
-      <div :class="` col-grow clpopupVisuCard `" :style="withBorder() ? `` : ``">
+      <div :class="` col-grow clpopupVisuCard ` + getclass()" :style="withBorder() ? `` : ``">
         <CMyPopupEdit
           v-bind="$attrs"
           :isrec="true"

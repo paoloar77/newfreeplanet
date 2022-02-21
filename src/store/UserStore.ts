@@ -267,6 +267,11 @@ export const useUserStore = defineStore('UserStore', {
       // return this.my.verified_email! && this.my.profile.teleg_id! > 0 && this.my.verified_by_aportador!
     },
 
+    isTelegOk(): boolean {
+      return this.my.profile.teleg_id! > 0
+      // return this.my.verified_email! && this.my.profile.teleg_id! > 0 && this.my.verified_by_aportador!
+    },
+
     getNameSurnameByUserId(userId: string): string {
 
       const user = this.getUserByUserId(userId)

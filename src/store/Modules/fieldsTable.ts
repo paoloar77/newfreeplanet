@@ -615,7 +615,7 @@ export const colmyGoods = [
     remote_field: 'comune',
   }),
   AddCol({
-    name: 'adTypeGood',
+    name: 'adType',
     label_trans: 'adTypes.name',
     fieldtype: costanti.FieldType.select,
     required: true,
@@ -647,14 +647,25 @@ export const colmyGoods = [
     name: 'idGood',
     label_trans: 'skill.name',
     fieldtype: costanti.FieldType.select,
-    required: true,
+    required: false,
     jointable: 'goods',
     filter_table: 'sectorgoods',
     filter_field: 'idSectorGood',
     noshowlabel: true,
     icon: 'engineering',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
-    allowNewValue: true,
+    allowNewValue: false,
+  }),
+  AddCol({
+    name: 'idContribType',
+    label_trans: 'contribtype.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'contribtypes',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    noshowlabel: true,
+    icon: 'fas fa-hand-holding',
+    //icon: 'fas fa-hands-helping',
+    // isadvanced_field: true,
   }),
   AddCol({
     name: 'idShipping',
@@ -668,15 +679,13 @@ export const colmyGoods = [
     // isadvanced_field: true,
   }),
   AddCol({
-    name: 'idContribType',
-    label_trans: 'contribtype.name',
-    fieldtype: costanti.FieldType.multiselect,
-    jointable: 'contribtypes',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    noshowlabel: true,
-    icon: 'fas fa-hand-holding',
-    //icon: 'fas fa-hands-helping',
-    // isadvanced_field: true,
+    name: 'photos',
+    label_trans: 'skill.photos',
+    fieldtype: costanti.FieldType.listimages,
+    jointable: '',
+    showpicprofile_ifnotset: true,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
+    isadvanced_field: false,
   }),
   AddCol({
     name: '',
@@ -702,15 +711,6 @@ export const colmyGoods = [
 
    */
 
-  AddCol({
-    name: 'photos',
-    label_trans: 'skill.photos',
-    fieldtype: costanti.FieldType.listimages,
-    jointable: '',
-    showpicprofile_ifnotset: true,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
-    isadvanced_field: true,
-  }),
   AddCol({
     name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
@@ -801,7 +801,7 @@ export const colmySkills = [
     noshowlabel: true,
     icon: 'engineering',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
-    allowNewValue: true,
+    allowNewValue: false,
     required: false,
   }),
   AddCol({
@@ -949,41 +949,8 @@ export const colmyBachecas = [
     noshowlabel: true,
     icon: 'engineering',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
-    allowNewValue: true,
+    allowNewValue: false,
     required: false,
-  }),
-  AddCol({
-    name: '',
-    fieldtype: costanti.FieldType.separator,
-    required: false,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
-    visible: false,
-  }),
-  AddCol({
-    name: 'idSubSkill',
-    label_trans: 'skill.subskill',
-    fieldtype: costanti.FieldType.multiselect,
-    required: false,
-    jointable: 'subskills',
-    filter_table: 'skills',
-    filter_field: 'idSkill',
-    noshowlabel: true,
-    icon: 'far fa-id-card',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    allowNewValue: true,
-    isadvanced_field: true,
-  }),
-
-  AddCol({
-    name: 'numLevel',
-    label_trans: 'level.name',
-    fieldtype: costanti.FieldType.star3,
-    required: false,
-    jointable: 'levels',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    noshowlabel: false,
-    icon: 'grading',
-    isadvanced_field: true,
   }),
   AddCol({
     name: 'idContribType',
@@ -994,8 +961,16 @@ export const colmyBachecas = [
     noshowlabel: true,
     icon: 'fas fa-hand-holding',
     //icon: 'fas fa-hands-helping',
-    isadvanced_field: true,
+    isadvanced_field: false,
   }),
+  AddCol({
+    name: '',
+    fieldtype: costanti.FieldType.separator,
+    required: false,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
+    visible: false,
+  }),
+
   AddCol({
     name: 'photos',
     label_trans: 'skill.photos',
@@ -1461,7 +1436,7 @@ export const colTableUsersBase = [
     name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
   }),
   AddCol({
-    name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
+    name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell', maxlength: 12
   }),
   AddCol({
     name: 'perm', label_trans: 'reg.perm', fieldtype: costanti.FieldType.binary, jointable: 'permissions',
@@ -1899,7 +1874,7 @@ export const colTableUsersISP = [
   AddCol({ name: 'profile.born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'profile.born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),
   AddCol({
-    name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
+    name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell', maxlength: 12
   }),
   AddCol({
     name: 'profile.email_paypal',

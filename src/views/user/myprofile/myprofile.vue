@@ -20,7 +20,6 @@
           {{ myuser.username }}
         </div>
 
-        ID: {{myuser.profile.born_city_id}}
         <div class="col-12 text-h7">
           <span v-if="myuser.profile && myuser.profile.born_city_id">
               <CMyFieldRec

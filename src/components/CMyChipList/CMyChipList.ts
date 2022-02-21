@@ -43,6 +43,11 @@ export default defineComponent({
       required: false,
       default: ''
     },
+    labelifblank: {
+      type: String,
+      required: false,
+      default: ''
+    },
     rec: {
       type: Object,
       required: false,
@@ -186,6 +191,11 @@ export default defineComponent({
             valbool: true,
             icon: '',
             color: tools.getColorByIndexBest(0)
+          }
+
+          if (!mydata.label && props.labelifblank) {
+            mydata.label = props.labelifblank
+            mydata.color = 'grey'
           }
 
           myarrvalues.value.push(mydata)

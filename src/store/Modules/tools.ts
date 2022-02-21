@@ -4898,6 +4898,11 @@ export const tools = {
     return userStore.isUserOk()
   },
 
+  isTelegOk() {
+    const userStore = useUserStore()
+    return userStore.isTelegOk()
+  },
+
   getParamsByTable(table: string) {
 
     let obj = {

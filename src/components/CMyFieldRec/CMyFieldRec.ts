@@ -81,6 +81,11 @@ export default defineComponent({
       required: false,
       default: ''
     },
+    sameclassasfielddb: {
+      tupe: Boolean,
+      required: false,
+      default: false,
+    }
   },
   components: { CMyPopupEdit },
   setup(props, { emit }) {
@@ -165,6 +170,12 @@ export default defineComponent({
       return myvalue
     }
 
+    function getclass() {
+      if (props.sameclassasfielddb) {
+        return 'q-ma-sm q-pa-sm col-grow popupedit'
+      }
+    }
+
     function visuElem() {
       if (col.value) {
         return !!col.value.name && (props.canEdit || (!props.canEdit && getValue()))
@@ -193,6 +204,7 @@ export default defineComponent({
       mysubkey,
       mysubsubkey,
       visuElem,
+      getclass,
     }
   },
 })

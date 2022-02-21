@@ -1,6 +1,5 @@
 <template>
   <div :class="getclassCol(col)">
-
     <div
       v-if="tools.checkIfShowField(col, insertMode ? tools.TIPOVIS_NEW_RECORD : (isInModif ? tools.TIPOVIS_EDIT_RECORD : tools.TIPOVIS_SHOW_RECORD), visulabel, myvalue)"
       style="flex-grow: 1;">
@@ -38,6 +37,7 @@
               <q-input
                 v-bind="$attrs"
                 v-model="myvalue"
+                :maxlength="col.maxlength ? col.maxlength : undefined"
                 :style="$q.screen.lt.sm ? 'min-width: 300px' : ''"
                 :disable="disable"
                 :readonly="disable"
@@ -124,6 +124,7 @@
               <q-input
                 v-bind="$attrs"
                 v-model="myvalue"
+                :maxlength="col.maxlength ? col.maxlength : undefined"
                 @update:model-value="Savedb"
                 :label="visulabel ? col.label : ''"
                 type="number"
@@ -152,6 +153,7 @@
             <div v-else>
               <q-input
                 v-model="myvalue" type="number"
+                :maxlength="col.maxlength ? col.maxlength : undefined"
                 @update:value="changevalRec"
                 autofocus>
 
@@ -410,6 +412,7 @@
               </CMySelect>
             </div>
             <div v-else>
+
               <!--
               rec: {{rec}}
               row: {{row}}
@@ -425,6 +428,7 @@
                 :type_out="col.field_outtype"
                 @update:value="changevalRec"
                 v-model:value="myvalue"
+                :labelifblank="canEdit ? 'Selezionare' : '' "
                 :filter_table="col.filter_table"
                 :filter_field="col.filter_field"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
@@ -564,6 +568,7 @@
               <q-input
                 v-model="myvalue"
                 @update:model-value="changevalRec"
+                :maxlength="col.maxlength ? col.maxlength : undefined"
                 type="password"
                 @keyup.enter="scope.set"
                 autofocus>
@@ -612,6 +617,7 @@
               <div v-if="visulabel">
                 <q-input
                   v-model="scope.value" type="number"
+                  :maxlength="col.maxlength ? col.maxlength : undefined"
                   autofocus
                   :label="visulabel ? col.label : ''">
 
@@ -625,6 +631,7 @@
               <div v-if="visulabel">
                 <q-input
                   v-model="myvalue" type="number"
+                  :maxlength="col.maxlength ? col.maxlength : undefined"
                   autofocus
                   @update:model-value="changevalRec"
                   style="max-width: 100px;"
@@ -649,6 +656,7 @@
               <div v-else>
                 <q-input
                   v-model="scope.value" type="number"
+                  :maxlength="col.maxlength ? col.maxlength : undefined"
                   autofocus>
 
                 </q-input>
@@ -823,6 +831,7 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.password">
               <q-input
                 v-model="scope.value"
+                :maxlength="col.maxlength ? col.maxlength : undefined"
                 type="password"
                 @keyup.enter="scope.set"
                 autofocus>

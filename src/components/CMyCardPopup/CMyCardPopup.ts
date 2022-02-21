@@ -13,7 +13,7 @@ import { useI18n } from '@/boot/i18n'
 import { toolsext } from '@store/Modules/toolsext'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
-import { IColGridTable, IMyBacheca, IUserFields } from 'model'
+import { IColGridTable, IImgGallery, IUserFields } from 'model'
 import { shared_consts } from '@/common/shared_vuejs'
 import { colCitys, fieldsTable } from '@store/Modules/fieldsTable'
 
@@ -45,7 +45,7 @@ export default defineComponent({
 
     const showPic = ref(false)
 
-    const mybacheca = ref(<IMyBacheca>{})
+    const myrec = ref({})
     const col = ref(<IColGridTable>{})
 
     function profile() {
@@ -56,11 +56,11 @@ export default defineComponent({
       // Carica il profilo di quest'utente
       if (props.idRec > 0) {
         userStore.loadGeneric(props.table, props.idRec).then((ris) => {
-          mybacheca.value = ris
+          myrec.value = ris
         })
 
       } else {
-        mybacheca.value = props.prop_myrec
+        myrec.value = props.prop_myrec
       }
 
       col.value = fieldsTable.getArrColsByTable(props.table)
@@ -74,13 +74,21 @@ export default defineComponent({
       load()
     }
 
+    function getFullFileName(arrimage: IImgGallery[], username: string){
+      if (arrimage && arrimage.length > 0) {
+        return 'upload/profile/' + username + '/' + props.table + '/' + arrimage[0].imagefile
+      } else {
+        return ''
+      }
+    }
+
     onMounted(mounted)
 
     return {
       profile,
       tools,
       costanti,
-      mybacheca,
+      myrec,
       shared_consts,
       globalStore,
       showPic,
@@ -90,6 +98,7 @@ export default defineComponent({
       colCitys,
       toolsext,
       col,
+      getFullFileName,
     }
   }
 })

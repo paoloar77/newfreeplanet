@@ -922,6 +922,9 @@ const msg_it = {
     },
     adTypes: {
       name: 'Tipo',
+    },
+    shipping: {
+      name: 'Consegna'
     }
   },
 

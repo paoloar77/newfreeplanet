@@ -1,6 +1,7 @@
 <template>
   <div>
-    <q-layout view="lHh Lpr lFf" class="shadow-2 rounded-borders">
+    <!--<q-layout view="lHh Lpr lFf" class="shadow-2 rounded-borders">--->
+    <q-layout view="hHh lpR fFf" class="shadow-2 rounded-borders">
       <app-header></app-header>
       <q-ajax-bar></q-ajax-bar>
 
