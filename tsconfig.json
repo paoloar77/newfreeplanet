@@ -11,6 +11,7 @@
       "**/*.config.js" // for *.config.js files
   ],
   "compilerOptions": {
+    "moduleResolution": "node",
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
