@@ -1,7 +1,13 @@
 <template>
   <div class="q-py-xs centermydiv" :style="`min-width: `+ (tools.getwidth($q) - 20) +`px;`">
+
     <q-item v-if="myrec" clickable v-ripple class="shadow-2 q-btn--rounded bg-teal-1">
-      <q-item-section avatar @click="naviga(`/my/` + myrec.username)">
+      <q-item-section v-if="(table === toolsext.TABMYGOODS) && (myrec.photos.length > 0)" avatar @click="cmdExt(costanti.CMD_SHOW_PAGE, myrec)">
+        <q-avatar size="60px">
+          <q-img :src="tools.getFullFileName(myrec.photos, table, myrec.username)" :alt="myrec.descr" img-class="imgprofile" height="60px"/>
+        </q-avatar>
+      </q-item-section>
+      <q-item-section v-else avatar @click="naviga(`/my/` + myrec.username)">
         <q-badge class="q-my-xs self-center" :color="fieldsTable.getColByAdType(myrec.adType)">
           {{ fieldsTable.getValByTabAndId(table, 'adType', myrec.adType) }}
           <q-icon :name="fieldsTable.getIconByAdType(myrec.adType)" color="white"

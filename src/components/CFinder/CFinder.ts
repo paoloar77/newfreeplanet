@@ -326,9 +326,9 @@ export default defineComponent({
         },
         {
           label: 'Offro/Cerco',
-          table: 'adtypegoods',
+          table: 'adtypes',
           key: 'adType',
-          value: tools.getCookie(tools.COOK_SEARCH + 'adtypegoods', costanti.FILTER_TUTTI),
+          value: tools.getCookie(tools.COOK_SEARCH + 'adtypes', costanti.FILTER_TUTTI),
           arrvalue: [],
           addall: true,
           type: costanti.FieldType.select,

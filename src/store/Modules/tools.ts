@@ -5012,6 +5012,15 @@ export const tools = {
     return ''
   },
 
+  getFullFileName(arrimage: IImgGallery[], table: string, username: string) {
+    if (arrimage && arrimage.length > 0) {
+      return 'upload/profile/' + username + '/' + table + '/' + arrimage[0].imagefile
+    } else {
+      return ''
+    }
+  },
+
+
 // getLocale() {
   //   if (navigator.languages && navigator.languages.length > 0) {
   //     return navigator.languages[0]

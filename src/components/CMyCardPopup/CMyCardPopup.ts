@@ -74,14 +74,6 @@ export default defineComponent({
       load()
     }
 
-    function getFullFileName(arrimage: IImgGallery[], username: string){
-      if (arrimage && arrimage.length > 0) {
-        return 'upload/profile/' + username + '/' + props.table + '/' + arrimage[0].imagefile
-      } else {
-        return ''
-      }
-    }
-
     onMounted(mounted)
 
     return {
@@ -98,7 +90,6 @@ export default defineComponent({
       colCitys,
       toolsext,
       col,
-      getFullFileName,
     }
   }
 })

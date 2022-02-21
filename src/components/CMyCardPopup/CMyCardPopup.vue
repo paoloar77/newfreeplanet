@@ -18,7 +18,7 @@
 
         <q-img
           v-if="tools.getValue(myrec, 'photos', '')"
-        :src="getFullFileName(tools.getValue(myrec, 'photos', ''), myrec.username)" class="img" alt="immagine bene"></q-img>
+        :src="tools.getFullFileName(tools.getValue(myrec, 'photos', ''), table, myrec.username)" class="img" alt="immagine bene"></q-img>
       </div>
 
       <div class="text-center">

@@ -5,6 +5,7 @@ import { costanti } from '@costanti'
 import { shared_consts } from '@/common/shared_vuejs'
 import { fieldsTable } from '@store/Modules/fieldsTable'
 import { tools } from '@store/Modules/tools'
+import { toolsext } from '@store/Modules/toolsext'
 import { useQuasar } from 'quasar'
 import { useI18n } from '@/boot/i18n'
 import { CMyCardPopup } from '@/components/CMyCardPopup'
@@ -76,6 +77,7 @@ export default defineComponent({
       shared_consts,
       userStore,
       tools,
+      toolsext,
       fieldsTable,
       cmdExt,
       visupage,

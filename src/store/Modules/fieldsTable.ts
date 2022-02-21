@@ -619,7 +619,7 @@ export const colmyGoods = [
     label_trans: 'adTypes.name',
     fieldtype: costanti.FieldType.select,
     required: true,
-    jointable: 'adtypegoods',
+    jointable: 'adtypes',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
     icon: 'fas fa-bullhorn',
     noshowlabel: true,
