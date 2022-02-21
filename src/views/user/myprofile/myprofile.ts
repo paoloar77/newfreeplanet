@@ -1,4 +1,5 @@
 import { CMyFieldDb } from '@/components/CMyFieldDb'
+import { CMyFieldRec } from '@/components/CMyFieldRec'
 import { CTitleBanner } from '@/components/CTitleBanner'
 import { CProfile } from '@/components/CProfile'
 import { CCopyBtn } from '@/components/CCopyBtn'
@@ -23,7 +24,7 @@ import MixinUsers from '@/mixins/mixin-users'
 
 export default defineComponent({
   name: 'myprofile',
-  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CCopyBtn, CUserNonVerif },
+  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CCopyBtn, CUserNonVerif, CMyFieldRec },
   props: {},
   setup() {
     const userStore = useUserStore()

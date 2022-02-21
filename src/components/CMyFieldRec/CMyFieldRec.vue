@@ -21,7 +21,6 @@
       </div>
 
       <div :class="` col-grow clpopupVisuCard `" :style="withBorder() ? `` : ``">
-
         <CMyPopupEdit
           v-bind="$attrs"
           :isrec="true"

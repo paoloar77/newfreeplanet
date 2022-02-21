@@ -129,6 +129,7 @@
               :optlab="fieldsTable.getLabelByTable(item.table)"
               :options="valoriopt(item, false)"
               :filter="item.filter"
+              :filter_extra="item.filter_extra"
               :useinput="item.useinput && item.type !== costanti.FieldType.select_by_server">
             </CMySelect>
 
@@ -155,6 +156,7 @@
               :optval="fieldsTable.getKeyByTable(item.table)"
               :optlab="fieldsTable.getLabelByTable(item.table)"
               :filter="item.filter"
+              :filter_extra="item.filter_extra"
               :options="valoriopt(item, false)"
               :useinput="true">
             </CMySelect>

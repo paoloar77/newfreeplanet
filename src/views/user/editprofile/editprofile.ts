@@ -1,4 +1,5 @@
 import { CMyFieldDb } from '@/components/CMyFieldDb'
+import { CMyFieldRec } from '@/components/CMyFieldRec'
 import { CTitleBanner } from '@/components/CTitleBanner'
 import { CProfile } from '@/components/CProfile'
 import { CSkill } from '@/components/CSkill'
@@ -12,11 +13,12 @@ import { toolsext } from '@store/Modules/toolsext'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
 import { static_data } from '@/db/static_data'
+import { IUserFields } from 'model'
 
 
 export default defineComponent({
   name: 'EditProfile',
-  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill },
+  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CMyFieldRec },
   props: {},
   setup() {
     const userStore = useUserStore()
@@ -24,6 +26,8 @@ export default defineComponent({
     const globalStore = useGlobalStore()
     const $q = useQuasar()
     const { t } = useI18n();
+
+    const myuser = ref({})
 
     const filtroutente = ref(<any[]>[])
 
@@ -74,10 +78,19 @@ export default defineComponent({
       })
     }
 
+    function loadProfile() {
+      // Carica il profilo di quest'utente
+      userStore.loadUserProfile(userStore.my.username).then((ris) => {
+        myuser.value = ris
+      })
+    }
+
+
     function mounted() {
       filtroutente.value = [
         { userId: userStore.my._id}
       ]
+      loadProfile()
     }
 
     onMounted(mounted)
@@ -90,6 +103,8 @@ export default defineComponent({
       costanti,
       static_data,
       filtroutente,
+      myuser,
+      t,
     }
   }
 })

@@ -403,6 +403,7 @@ export default defineComponent({
 
       let recSector = null
       let recSectorGood = null
+      let recCities = null
       let recProvince = null
       let recSkill = null
       let idSector = 0
@@ -420,6 +421,9 @@ export default defineComponent({
       if (searchList.value) {
         recProvince = searchList.value.find((item: ISearchList) => item.table === 'provinces')
         idProvince = recProvince ? recProvince.value : 0
+      }
+      if (searchList.value) {
+        recCities = searchList.value.find((item: ISearchList) => item.table === 'cities')
       }
 
       if (searchList.value) {
@@ -444,6 +448,11 @@ export default defineComponent({
               if (item.value !== '' && item.value !== costanti.FILTER_TUTTI) {
                 filtersearch3or.push(obj)
               }
+
+              if (item.value && recCities && idProvince !== costanti.FILTER_TUTTI) {
+                recCities.filter_extra = {prov: idProvince}
+              }
+
             } else if (item.table === 'cities') {
 
               if (item.value && item.value.hasOwnProperty('_id')) {

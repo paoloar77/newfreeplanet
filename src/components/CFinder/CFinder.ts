@@ -125,11 +125,11 @@ export default defineComponent({
         }
       }
 
-      function getFilterCitiesByProvince(recSubSkill: any, index: number, arr: any) {
+      function getFilterCitiesByProvince(recCities: any, index: number, arr: any) {
         const recprov: any = searchList.value.find((rec) => rec.table === 'provinces')
         // console.log('recSubSkill', recSubSkill, 'recskills', recskills)
         if (recprov) {
-          return recSubSkill.idSkill === recprov.value
+          return recCities.idProvince === recprov.value
         } else {
           return true
         }
@@ -320,7 +320,7 @@ export default defineComponent({
           arrvalue: [],
           useinput: true,
           filter: null,
-          // filter: getFilterCitiesByProvince,
+          //filter: getFilterCitiesByProvince,
           // param1: shared_consts.PARAM_SHOW_PROVINCE,
           tablesel: 'cities',
         },

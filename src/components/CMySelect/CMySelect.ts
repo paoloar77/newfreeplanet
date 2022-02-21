@@ -67,6 +67,11 @@ export default defineComponent({
       required: false,
       default: ''
     },
+    filter_extra: {
+      type: String,
+      required: false,
+      default: ''
+    },
     value_extra: {
       type: [String, Number],
       required: false,
@@ -450,7 +455,8 @@ export default defineComponent({
             return
           }
 
-          if (val.length <= 1) {
+
+          if (val.length <= 1 && !(fieldsTable.tableRemotePickup.includes(props.tablesel) && props.filter_extra )) {
             console.log('@@@ LENGTH <= 1')
             abort()
             return
@@ -461,9 +467,9 @@ export default defineComponent({
           if (fieldsTable.tableRemotePickup.includes(props.tablesel)) {
             try {
               myarr = optionsreal.value
-              if (mystr !== '')
+              if (mystr !== '' || props.filter_extra)
                 // myarr = [{_id:1, prov: 'RN', descr: 'Rimini'}]
-                myarr = await globalStore.loadPickup({ table: props.tablesel, search: mystr.trim() })
+                myarr = await globalStore.loadPickup({ table: props.tablesel, search: mystr.trim(), filter: props.filter_extra })
 
               if (myarr === null) {
                 console.log('@@@ VALORI VALUE XXX', valori.value)

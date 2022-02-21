@@ -17,6 +17,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    tablesel: {
+      type: String,
+      required: false,
+      default: '',
+    },
     title: {
       type: String,
       required: false,
@@ -66,6 +71,16 @@ export default defineComponent({
       required: false,
       default: -1,
     },
+    filter_table: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    filter_field: {
+      type: String,
+      required: false,
+      default: ''
+    },
   },
   components: { CMyPopupEdit },
   setup(props, { emit }) {
@@ -79,7 +94,6 @@ export default defineComponent({
     const optlab = ref('')
 
     const pickup = ref(false)
-    const tablesel = ref('')
     const jointable = ref('')
     const recordCol = ref(<any>{})
 
@@ -95,6 +109,7 @@ export default defineComponent({
       optlab.value = fieldsTable.getLabelByTable(props.table)
       // recordCol.value = fieldsTable.getrecTableList(props.table)
       let columns = fieldsTable.getArrColsByTable(props.table)
+
       if (columns) {
         col.value = columns.find((col: any) => col.field === props.field)
       } else {
@@ -151,7 +166,11 @@ export default defineComponent({
     }
 
     function visuElem() {
-      return !!col.value.name && (props.canEdit || (!props.canEdit && getValue()))
+      if (col.value) {
+        return !!col.value.name && (props.canEdit || (!props.canEdit && getValue()))
+      } else {
+        return false
+      }
     }
 
     onMounted(mounted)
@@ -168,7 +187,6 @@ export default defineComponent({
       optlab,
       recordCol,
       pickup,
-      tablesel,
       jointable,
       showandsel,
       mykey,

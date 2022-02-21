@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, onBeforeMount, PropType, ref, toRef, watch } from 'vue'
+import { defineComponent, onMounted, onBeforeMount, PropType, ref, toRef, watch, computed } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
@@ -37,6 +37,11 @@ export default defineComponent({
     row: {
       type: Object,
       required: true,
+    },
+    rec: {
+      type: Object,
+      required: false,
+      default: null,
     },
     isrec: {
       type: Boolean,
@@ -186,13 +191,18 @@ export default defineComponent({
 
     const col = ref(<IColGridTable> { name: 'test', fieldtype: 0, showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView, visible: true, maxlength: props.mycol ? props.mycol.maxlength : 0 })
 
-    const myrow = toRef(props, 'row')
-
     const { setValDb, getValDb } = MixinBase()
     const { getMyUsername } = MixinUsers()
 
+    const myrealrow = toRef(props, 'row')
+
     watch(() => props.row, (newval, oldval) => {
       refresh()
+    })
+
+
+    const myrow = computed(() => {
+        return props.rec && props.isrec ? props.rec : props.row
     })
 
     function crea() {
@@ -321,12 +331,13 @@ export default defineComponent({
     function mounted() {
 
       try {
+
         // console.log('mounted', 'isFieldDb()', isFieldDb())
         if (isFieldDb() && !props.isrec) {
 
         } else {
           if (props.subfield !== '') {
-            if (props.row[props.field] === undefined) {
+            if (myrow.value[props.field] === undefined) {
               myrow.value[props.field] = {}
               myvalue.value = ''
             } else {
@@ -408,8 +419,13 @@ export default defineComponent({
         } else {
           if (props.field !== '')
             myrow.value[props.field] = newVal
-          else
-            myrow.value = newVal
+          else {
+            if (!props.isrec) {
+              // @ts-ignore
+              myrealrow.value = newVal
+            }
+
+          }
         }
 
         emit('save', newVal, valinitial)

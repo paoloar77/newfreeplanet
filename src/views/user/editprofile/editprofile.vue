@@ -134,17 +134,34 @@
           :type="costanti.FieldType.nationality">
         </CMyFieldDb>
 
+        <!--
         <CMyFieldDb
+          v-if="myuser"
           :title="$t('reg.residency_city')"
           table="users"
           tablesel="cities"
           mykey="profile"
-          :useinput="false"
           mysubkey="born_city_id"
+          :useinput="false"
           jointable="cities"
           :pickup="true"
-          :type="costanti.FieldType.select_by_server">
-        </CMyFieldDb>
+          :type="costanti.FieldType.select_by_server"
+          :rec="myuser"
+        />
+        -->
+
+        <CMyFieldRec
+          :title="t('reg.residency_city')"
+          table="users"
+          tablesel="cities"
+          :id="myuser._id"
+          :rec="myuser"
+          field="profile.born_city_id"
+          :canEdit="true"
+          :canModify="true">
+        </CMyFieldRec>
+
+
 
         <CMyFieldDb
           :title="$t('reg.dateofbirth')"

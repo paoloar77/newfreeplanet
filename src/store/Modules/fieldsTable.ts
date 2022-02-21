@@ -1430,20 +1430,640 @@ export const fields = {
 
 }
 
+export const colTableCalZoom = [
+  // AddCol({ name: '_id', label_trans: 'reg.id' }),
+  AddCol({ name: 'title', label_trans: 'event.title' }),
+  AddCol({ name: 'lang', label_trans: 'pages.lang' }),
+  AddCol({ name: 'typeconf', label_trans: 'zoom.typeconf' }),
+  AddCol({ name: 'date_start', label_trans: 'event.dateTimeStart', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'date_end', label_trans: 'event.dateTimeEnd', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'benvenuto', label_trans: 'event.benvenuto', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'icon', label_trans: 'event.icon', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'color', label_trans: 'event.color', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'id_conf_zoom', label_trans: 'zoom.id_conf_zooom' }),
+  AddCol({ name: 'note', label_trans: 'zoom.note' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colTableUsersBase = [
+  AddCol({ name: 'index', label_trans: 'reg.index' }),
+  AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
+  AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'username', label_trans: 'reg.username_short' }),
+  AddCol({ name: 'name', label_trans: 'reg.name' }),
+  AddCol({ name: 'surname', label_trans: 'reg.surname' }),
+  AddCol({ name: 'email', label_trans: 'reg.email' }),
+  AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
+  AddCol({
+    name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
+  }),
+  AddCol({
+    name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
+  }),
+  AddCol({
+    name: 'perm', label_trans: 'reg.perm', fieldtype: costanti.FieldType.binary, jointable: 'permissions',
+  }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+  // IColGridTable
+export const colTableUsers = [
+  // AddCol({ name: '_id', label_trans: 'reg.id' }),
+  AddCol({ name: 'index', label_trans: 'reg.index', fieldtype: costanti.FieldType.number }),
+  // AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
+  AddCol({ name: 'old_order', label_trans: 'old_order' }),
+  AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'subaccount', label_trans: 'SubAccount', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'navinonpresenti', label_trans: 'Navi Non Presenti', fieldtype: costanti.FieldType.boolean }),
+  AddCol({
+    name: 'non_voglio_imbarcarmi',
+    label_trans: 'non_voglio_imbarcarmi',
+    fieldtype: costanti.FieldType.boolean
+  }),
+  AddCol({ name: 'username', label_trans: 'reg.username_short' }),
+  AddCol({ name: 'name', label_trans: 'reg.name' }),
+  AddCol({ name: 'surname', label_trans: 'reg.surname' }),
+  AddCol({ name: 'email', label_trans: 'reg.email' }),
+  AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'profile.dateofbirth', label_trans: 'reg.dateofbirth', fieldtype: costanti.FieldType.onlydate }),
+  AddCol({ name: 'profile.born_city', label_trans: 'reg.born_city', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'profile.born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'profile.born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),
+  AddCol({
+    name: 'profile.resplist',
+    field: 'profile',
+    subfield: 'resplist',
+    label_trans: 'reg.resplist',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.workerslist',
+    field: 'profile',
+    subfield: 'workerslist',
+    label_trans: 'reg.workerslist',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.teleg_id', field: 'profile', subfield: 'teleg_id', label_trans: 'reg.teleg_id',
+  }),
+  AddCol({
+    name: 'profile.saw_and_accepted',
+    field: 'profile',
+    subfield: 'saw_and_accepted',
+    label_trans: 'reg.saw_and_accepted',
+    fieldtype: costanti.FieldType.binary,
+    jointable: 'accepted',
+  }),
+  AddCol({
+    name: 'profile.saw_zoom_presentation',
+    field: 'profile',
+    subfield: 'saw_zoom_presentation',
+    label_trans: 'reg.saw_zoom_presentation',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.ask_zoom_partecipato',
+    field: 'profile',
+    subfield: 'ask_zoom_partecipato',
+    label_trans: 'reg.ask_zoom_partecipato',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.qualified',
+    field: 'profile',
+    subfield: 'qualified',
+    label_trans: 'reg.qualified',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.qualified_2invitati',
+    field: 'profile',
+    subfield: 'qualified_2invitati',
+    label_trans: '2_Inv',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.my_dream', field: 'profile', subfield: 'my_dream', label_trans: 'reg.my_dream',
+  }),
+  AddCol({
+    name: 'profile.email_paypal',
+    field: 'profile',
+    subfield: 'email_paypal',
+    label_trans: 'reg.email_paypal',
+  }),
+  AddCol({
+    name: 'profile.payeer_id',
+    field: 'profile',
+    subfield: 'payeer_id',
+    label_trans: 'reg.payeer_id',
+  }),
+  AddCol({
+    name: 'profile.advcash_id',
+    field: 'profile',
+    subfield: 'advcash_id',
+    label_trans: 'reg.advcash_id',
+  }),
+  AddCol({
+    name: 'profile.revolut',
+    field: 'profile',
+    subfield: 'revolut',
+    label_trans: 'revolut',
+  }),
+  AddCol({
+    name: 'profile.link_payment',
+    field: 'profile',
+    subfield: 'link_payment',
+    label_trans: 'reg.link_payment',
+  }),
+  AddCol({
+    name: 'profile.note_payment',
+    field: 'profile',
+    subfield: 'note_payment',
+    label_trans: 'reg.note_payment',
+  }),
+  AddCol({
+    name: 'profile.paymenttypes',
+    field: 'profile',
+    subfield: 'paymenttypes',
+    label_trans: 'reg.paymenttype',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'paymenttypes',
+  }),
+  // AddCol({ name: 'made_gift', label_trans: 'reg.made_gift', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'note', label_trans: 'reg.note' }),
+  // AddCol({ name: 'aportador_solidario_ind_order', label_trans: 'reg.aportador_solidario_ind_order' }),
+  // AddCol({ name: 'aportador_solidario_nome_completo', label_trans: 'reg.aportador_solidario_nome_completo' }),
+  AddCol({ name: 'aportador_solidario', label_trans: 'reg.aportador_solidario' }),
+  AddCol({
+    name: 'profile.special_req',
+    field: 'profile',
+    subfield: 'special_req',
+    label_trans: 'reg.special_req',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  // AddCol({ name: 'profile.vuole_ritessersi', field: 'profile', subfield: 'vuole_ritessersi', label_trans: 'reg.vuole_ritessersi', fieldtype: costanti.FieldType.boolean  }),
+  AddCol({ name: 'lang', field: 'lang', label_trans: 'reg.lang' }),
+  AddCol({
+    name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
+  }),
+  AddCol({
+    name: 'profile.intcode_cell',
+    field: 'profile',
+    subfield: 'intcode_cell',
+    label_trans: 'reg.intcode_cell',
+  }),
+  AddCol({
+    name: 'profile.iso2_cell', field: 'profile', subfield: 'iso2_cell', label_trans: 'reg.iso2_cell',
+  }),
+  AddCol({
+    name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
+  }),
+  AddCol({
+    name: 'profile.country_pay', field: 'profile', subfield: 'country_pay', label_trans: 'reg.country_pay',
+  }),
+  AddCol({
+    name: 'profile.teleg_id_old',
+    field: 'profile',
+    subfield: 'teleg_id_old',
+    label_trans: 'reg.teleg_id_old',
+  }),
+  AddCol({
+    name: 'profile.teleg_checkcode',
+    field: 'profile',
+    subfield: 'teleg_checkcode',
+    label_trans: 'reg.teleg_checkcode',
+  }),
+  AddCol({
+    name: 'profile.manage_telegram',
+    field: 'profile',
+    subfield: 'manage_telegram',
+    label_trans: 'reg.manage_telegram',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.myshares',
+    field: 'profile',
+    subfield: 'myshares',
+    label_trans: 'reg.myshares',
+  }),
+  AddCol({
+    name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
+  }),
+  AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
+  // AddCol({ name: 'idapp', label_trans: 'reg.idapp', fieldtype: costanti.FieldType.string }),
+  AddCol({
+    name: 'perm',
+    label_trans: 'reg.perm',
+    fieldtype: costanti.FieldType.binary,
+    jointable: 'permissions',
+    titlepopupedit: 'Permessi'
+  }),
+  AddCol({ name: 'ipaddr', label_trans: 'reg.ipaddr' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colTableUsersCNM = [
+  // AddCol({ name: '_id', label_trans: 'reg.id' }),
+  AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
+  // AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'username', label_trans: 'reg.username_short' }),
+  AddCol({ name: 'name', label_trans: 'reg.name' }),
+  AddCol({ name: 'surname', label_trans: 'reg.surname' }),
+  AddCol({ name: 'email', label_trans: 'reg.email' }),
+  AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
+  // AddCol({ name: 'made_gift', label_trans: 'reg.made_gift', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'note', label_trans: 'reg.note' }),
+  // AddCol({ name: 'aportador_solidario', label_trans: 'reg.aportador_solidario' }),
+  AddCol({
+    name: 'profile.resplist',
+    field: 'profile',
+    subfield: 'resplist',
+    label_trans: 'reg.resplist',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.workerslist',
+    field: 'profile',
+    subfield: 'workerslist',
+    label_trans: 'reg.workerslist',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.special_req',
+    field: 'profile',
+    subfield: 'special_req',
+    label_trans: 'reg.special_req',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.my_dream', field: 'profile', subfield: 'my_dream', label_trans: 'reg.my_dream',
+  }),
+  AddCol({ name: 'lang', field: 'lang', label_trans: 'reg.lang' }),
+  AddCol({
+    name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
+  }),
+  AddCol({
+    name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
+  }),
+  AddCol({
+    name: 'profile.email_paypal',
+    field: 'profile',
+    subfield: 'email_paypal',
+    label_trans: 'reg.email_paypal',
+  }),
+  /* AddCol({
+    name: 'profile.payeer_id',
+    field: 'profile',
+    subfield: 'payeer_id',
+    label_trans: 'reg.payeer_id'
+  }),
+  AddCol({
+    name: 'profile.advcash_id',
+    field: 'profile',
+    subfield: 'advcash_id',
+    label_trans: 'reg.advcash_id'
+  }),
+  AddCol({
+    name: 'profile.revolut',
+    field: 'profile',
+    subfield: 'revolut',
+    label_trans: 'revolut'
+  }), */
+  AddCol({
+    name: 'profile.teleg_id', field: 'profile', subfield: 'teleg_id', label_trans: 'reg.teleg_id',
+  }),
+
+  AddCol({
+    name: 'profile.teleg_checkcode',
+    field: 'profile',
+    subfield: 'teleg_checkcode',
+    label_trans: 'reg.teleg_checkcode',
+  }),
+  AddCol({
+    name: 'profile.manage_telegram',
+    field: 'profile',
+    subfield: 'manage_telegram',
+    label_trans: 'reg.manage_telegram',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.socio',
+    field: 'profile',
+    subfield: 'socio',
+    label_trans: 'reg.socio',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.socioresidente',
+    field: 'profile',
+    subfield: 'socioresidente',
+    label_trans: 'reg.socioresidente',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.consiglio',
+    field: 'profile',
+    subfield: 'consiglio',
+    label_trans: 'reg.consiglio',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({ name: 'profile.motivazioni', field: 'profile', subfield: 'motivazioni', label_trans: 'reg.motivazioni', }),
+  AddCol({ name: 'profile.biografia', field: 'profile', subfield: 'biografia', label_trans: 'reg.biografia', }),
+  AddCol({
+    name: 'profile.competenze_professionalita',
+    field: 'profile',
+    subfield: 'competenze_professionalita',
+    label_trans: 'reg.competenze_professionalita',
+  }),
+  AddCol({
+    name: 'profile.cosa_offrire',
+    field: 'profile',
+    subfield: 'cosa_offrire',
+    label_trans: 'reg.cosa_offrire',
+  }),
+  AddCol({
+    name: 'profile.cosa_ricevere',
+    field: 'profile',
+    subfield: 'cosa_ricevere',
+    label_trans: 'reg.cosa_ricevere',
+  }),
+  AddCol({
+    name: 'profile.altre_comunicazioni',
+    field: 'profile',
+    subfield: 'altre_comunicazioni',
+    label_trans: 'reg.altre_comunicazioni',
+  }),
+  AddCol({
+    name: 'profile.come_ci_hai_conosciuto',
+    field: 'profile',
+    subfield: 'come_ci_hai_conosciuto',
+    label_trans: 'reg.come_ci_hai_conosciuto',
+  }),
+  AddCol({
+    name: 'profile.come_aiutare',
+    field: 'profile',
+    subfield: 'come_aiutare',
+    label_trans: 'reg.come_aiutare',
+  }),
+  AddCol({
+    name: 'profile.paymenttypes',
+    field: 'profile',
+    subfield: 'paymenttypes',
+    label_trans: 'reg.paymenttype',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'paymenttypes',
+  }),
+  AddCol({
+    name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
+  }),
+  AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
+  // AddCol({ name: 'idapp', label_trans: 'reg.idapp', fieldtype: costanti.FieldType.string }),
+  AddCol({
+    name: 'perm',
+    label_trans: 'reg.perm',
+    fieldtype: costanti.FieldType.binary,
+    jointable: 'permissions',
+    titlepopupedit: 'Permessi'
+  }),
+  AddCol({ name: 'ipaddr', label_trans: 'reg.ipaddr' }),
+  AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colTableUsersISP = [
+  // AddCol({ name: '_id', label_trans: 'reg.id' }),
+  AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
+  // AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'username', label_trans: 'reg.username_short' }),
+  AddCol({ name: 'name', label_trans: 'reg.name' }),
+  AddCol({ name: 'surname', label_trans: 'reg.surname' }),
+  AddCol({ name: 'email', label_trans: 'reg.email' }),
+  AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'note', label_trans: 'reg.note' }),
+  AddCol({ name: 'aportador_solidario', label_trans: 'reg.aportador_solidario' }),
+  AddCol({
+    name: 'verified_by_aportador',
+    label_trans: 'reg.verified_by_aportador',
+    fieldtype: costanti.FieldType.boolean
+  }),
+  AddCol({ name: 'trust_modified', label_trans: 'reg.trust_modified', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'blocked', label_trans: 'reg.blocked', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'username_who_block', label_trans: 'reg.username_who_block' }),
+  AddCol({
+    name: 'profile.resplist',
+    field: 'profile',
+    subfield: 'resplist',
+    label_trans: 'reg.resplist',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.workerslist',
+    field: 'profile',
+    subfield: 'workerslist',
+    label_trans: 'reg.workerslist',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.special_req',
+    field: 'profile',
+    subfield: 'special_req',
+    label_trans: 'reg.special_req',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.my_dream', field: 'profile', subfield: 'my_dream', label_trans: 'reg.my_dream',
+  }),
+  AddCol({ name: 'lang', field: 'lang', label_trans: 'reg.lang' }),
+  AddCol({
+    name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
+  }),
+  AddCol({ name: 'profile.dateofbirth', label_trans: 'reg.dateofbirth', fieldtype: costanti.FieldType.date }),
+  AddCol({
+    name: 'profile.born_city_id', label_trans: 'reg.born_city', fieldtype: costanti.FieldType.select_by_server,
+    jointable: 'cities',
+    tablesel: 'cities',
+    remote_table: 'mycities',
+    remote_key: '_id',
+    remote_field: 'comune',
+    noshowlabel: true,
+  }),
+  AddCol({ name: 'profile.born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'profile.born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),
+  AddCol({
+    name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
+  }),
+  AddCol({
+    name: 'profile.email_paypal',
+    field: 'profile',
+    subfield: 'email_paypal',
+    label_trans: 'reg.email_paypal',
+  }),
+  /* AddCol({
+    name: 'profile.payeer_id',
+    field: 'profile',
+    subfield: 'payeer_id',
+    label_trans: 'reg.payeer_id'
+  }),
+  AddCol({
+    name: 'profile.advcash_id',
+    field: 'profile',
+    subfield: 'advcash_id',
+    label_trans: 'reg.advcash_id'
+  }),
+  AddCol({
+    name: 'profile.revolut',
+    field: 'profile',
+    subfield: 'revolut',
+    label_trans: 'revolut'
+  }), */
+  AddCol({
+    name: 'profile.teleg_id', field: 'profile', subfield: 'teleg_id', label_trans: 'reg.teleg_id',
+  }),
+
+  AddCol({
+    name: 'profile.teleg_checkcode',
+    field: 'profile',
+    subfield: 'teleg_checkcode',
+    label_trans: 'reg.teleg_checkcode',
+  }),
+  AddCol({
+    name: 'profile.manage_telegram',
+    field: 'profile',
+    subfield: 'manage_telegram',
+    label_trans: 'reg.manage_telegram',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.username_telegram',
+    field: 'profile',
+    subfield: 'username_telegram',
+    label_trans: 'reg.username_telegram',
+  }),
+  AddCol({
+    name: 'profile.firstname_telegram',
+    field: 'profile',
+    subfield: 'firstname_telegram',
+    label_trans: 'reg.firstname_telegram',
+  }),
+  AddCol({
+    name: 'profile.lastname_telegram',
+    field: 'profile',
+    subfield: 'lastname_telegram',
+    label_trans: 'reg.lastname_telegram',
+  }),
+  AddCol({
+    name: 'profile.socio',
+    field: 'profile',
+    subfield: 'socio',
+    label_trans: 'reg.socio',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.socioresidente',
+    field: 'profile',
+    subfield: 'socioresidente',
+    label_trans: 'reg.socioresidente',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({
+    name: 'profile.consiglio',
+    field: 'profile',
+    subfield: 'consiglio',
+    label_trans: 'reg.consiglio',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({ name: 'profile.motivazioni', field: 'profile', subfield: 'motivazioni', label_trans: 'reg.motivazioni', }),
+  AddCol({ name: 'profile.biografia', field: 'profile', subfield: 'biografia', label_trans: 'reg.biografia', }),
+  AddCol({ name: 'profile.qualifica', field: 'profile', subfield: 'qualifica', label_trans: 'reg.qualifica', }),
+  AddCol({
+    name: 'profile.paymenttypes',
+    field: 'profile',
+    subfield: 'paymenttypes',
+    label_trans: 'reg.paymenttype',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'paymenttypes',
+  }),
+  AddCol({
+    name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+  }),
+  AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
+  AddCol({
+    name: 'perm',
+    label_trans: 'reg.perm',
+    fieldtype: costanti.FieldType.binary,
+    jointable: 'permissions',
+    titlepopupedit: 'Permessi'
+  }),
+  AddCol({ name: 'ipaddr', label_trans: 'reg.ipaddr' }),
+  AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colTableExtraList = [
+  // AddCol({ name: '_id', label_trans: 'reg.id' }),
+  AddCol({ name: 'username', label_trans: 'reg.username_short' }),
+  AddCol({ name: 'registered', label_trans: 'reg.registered', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
+  AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'name_complete', label_trans: 'reg.name_complete' }),
+  AddCol({ name: 'name', label_trans: 'reg.name' }),
+  AddCol({ name: 'surname', label_trans: 'reg.surname' }),
+  AddCol({ name: 'note', label_trans: 'reg.note' }),
+  AddCol({ name: 'contacted', label_trans: 'reg.contacted', fieldtype: costanti.FieldType.boolean }),
+  AddCol({
+    name: 'saw_zoom_presentation',
+    label_trans: 'reg.saw_zoom_presentation',
+    fieldtype: costanti.FieldType.boolean,
+  }),
+  AddCol({ name: 'num_invitati', label_trans: 'reg.num_invitati', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'is_in_whatsapp', label_trans: 'reg.is_in_whatsapp', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'is_in_telegram', label_trans: 'reg.is_in_telegram', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'cell_complete', label_trans: 'reg.cell_complete' }),
+  AddCol({ name: 'nationality', label_trans: 'reg.nationality', fieldtype: costanti.FieldType.nationality }),
+  AddCol({ name: 'aportador_solidario_name_surname', label_trans: 'reg.aportador_solidario_nome_completo' }),
+  AddCol({ name: 'aportador_solidario_ind_order', label_trans: 'reg.aportador_solidario_ind_order' }),
+  AddCol({
+    name: 'aportador_solidario_originale_name_surname',
+    label_trans: 'reg.aportador_solidario_nome_completo_orig',
+  }),
+  AddCol({ name: 'col_b', label_trans: 'reg.col_b', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'col_h', label_trans: 'reg.col_h', fieldtype: costanti.FieldType.number }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+export const colTableCash = []
+
+export const colTableCashCategory = [
+  AddCol({ name: 'descr', label_trans: 'pages.description' }),
+  AddCol({ name: 'notes', label_trans: 'reg.note' }),
+]
+
+export const colTableSubCashCategory = [
+  AddCol({
+    name: 'idCashCategory',
+    label_trans: 'Category.idCashCategory',
+    fieldtype: costanti.FieldType.select,
+    jointable: 'cashcategory',
+  }),
+  AddCol({ name: 'descr', label_trans: 'pages.description' }),
+  AddCol({ name: 'notes', label_trans: 'reg.note' }),
+]
+
+
 export const fieldsTable = {
-  userlist() {
-
-    if (static_data.functionality.ENABLE_REG_AYNI) {
-      return fieldsTable.colTableUsers
-    } else if (static_data.functionality.ENABLE_REG_CNM) {
-      return fieldsTable.colTableUsersCNM
-    } else if (static_data.functionality.ENABLE_REG_ISP) {
-      return fieldsTable.colTableUsersISP
-    } else {
-      return fieldsTable.colTableUsersBase
-    }
-  },
-
   getrecTableList(mytable: string) {
     return this.tablesList.find((rec) => rec.value === mytable)
   },
@@ -1519,633 +2139,6 @@ export const fieldsTable = {
       return 'fas fa-calendar-plus'
   },
 
-  colTableCalZoom: [
-    // AddCol({ name: '_id', label_trans: 'reg.id' }),
-    AddCol({ name: 'title', label_trans: 'event.title' }),
-    AddCol({ name: 'lang', label_trans: 'pages.lang' }),
-    AddCol({ name: 'typeconf', label_trans: 'zoom.typeconf' }),
-    AddCol({ name: 'date_start', label_trans: 'event.dateTimeStart', fieldtype: costanti.FieldType.date }),
-    AddCol({ name: 'date_end', label_trans: 'event.dateTimeEnd', fieldtype: costanti.FieldType.date }),
-    AddCol({ name: 'benvenuto', label_trans: 'event.benvenuto', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'icon', label_trans: 'event.icon', fieldtype: costanti.FieldType.string }),
-    AddCol({ name: 'color', label_trans: 'event.color', fieldtype: costanti.FieldType.string }),
-    AddCol({ name: 'id_conf_zoom', label_trans: 'zoom.id_conf_zooom' }),
-    AddCol({ name: 'note', label_trans: 'zoom.note' }),
-    AddCol(DeleteRec),
-    AddCol(DuplicateRec),
-  ],
-
-  colTableUsersBase: [
-    AddCol({ name: 'index', label_trans: 'reg.index' }),
-    AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
-    AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
-    AddCol({ name: 'username', label_trans: 'reg.username_short' }),
-    AddCol({ name: 'name', label_trans: 'reg.name' }),
-    AddCol({ name: 'surname', label_trans: 'reg.surname' }),
-    AddCol({ name: 'email', label_trans: 'reg.email' }),
-    AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
-    AddCol({
-      name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
-    }),
-    AddCol({
-      name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
-    }),
-    AddCol({
-      name: 'perm', label_trans: 'reg.perm', fieldtype: costanti.FieldType.binary, jointable: 'permissions',
-    }),
-    AddCol(DeleteRec),
-    AddCol(DuplicateRec),
-  ],
-
-  // IColGridTable
-  colTableUsers: [
-    // AddCol({ name: '_id', label_trans: 'reg.id' }),
-    AddCol({ name: 'index', label_trans: 'reg.index', fieldtype: costanti.FieldType.number }),
-    // AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
-    AddCol({ name: 'old_order', label_trans: 'old_order' }),
-    AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'subaccount', label_trans: 'SubAccount', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'navinonpresenti', label_trans: 'Navi Non Presenti', fieldtype: costanti.FieldType.boolean }),
-    AddCol({
-      name: 'non_voglio_imbarcarmi',
-      label_trans: 'non_voglio_imbarcarmi',
-      fieldtype: costanti.FieldType.boolean
-    }),
-    AddCol({ name: 'username', label_trans: 'reg.username_short' }),
-    AddCol({ name: 'name', label_trans: 'reg.name' }),
-    AddCol({ name: 'surname', label_trans: 'reg.surname' }),
-    AddCol({ name: 'email', label_trans: 'reg.email' }),
-    AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'profile.dateofbirth', label_trans: 'reg.dateofbirth', fieldtype: costanti.FieldType.onlydate }),
-    AddCol({ name: 'profile.born_city', label_trans: 'reg.born_city', fieldtype: costanti.FieldType.string }),
-    AddCol({ name: 'profile.born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
-    AddCol({ name: 'profile.born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),
-    AddCol({
-      name: 'profile.resplist',
-      field: 'profile',
-      subfield: 'resplist',
-      label_trans: 'reg.resplist',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.workerslist',
-      field: 'profile',
-      subfield: 'workerslist',
-      label_trans: 'reg.workerslist',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.teleg_id', field: 'profile', subfield: 'teleg_id', label_trans: 'reg.teleg_id',
-    }),
-    AddCol({
-      name: 'profile.saw_and_accepted',
-      field: 'profile',
-      subfield: 'saw_and_accepted',
-      label_trans: 'reg.saw_and_accepted',
-      fieldtype: costanti.FieldType.binary,
-      jointable: 'accepted',
-    }),
-    AddCol({
-      name: 'profile.saw_zoom_presentation',
-      field: 'profile',
-      subfield: 'saw_zoom_presentation',
-      label_trans: 'reg.saw_zoom_presentation',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.ask_zoom_partecipato',
-      field: 'profile',
-      subfield: 'ask_zoom_partecipato',
-      label_trans: 'reg.ask_zoom_partecipato',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.qualified',
-      field: 'profile',
-      subfield: 'qualified',
-      label_trans: 'reg.qualified',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.qualified_2invitati',
-      field: 'profile',
-      subfield: 'qualified_2invitati',
-      label_trans: '2_Inv',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.my_dream', field: 'profile', subfield: 'my_dream', label_trans: 'reg.my_dream',
-    }),
-    AddCol({
-      name: 'profile.email_paypal',
-      field: 'profile',
-      subfield: 'email_paypal',
-      label_trans: 'reg.email_paypal',
-    }),
-    AddCol({
-      name: 'profile.payeer_id',
-      field: 'profile',
-      subfield: 'payeer_id',
-      label_trans: 'reg.payeer_id',
-    }),
-    AddCol({
-      name: 'profile.advcash_id',
-      field: 'profile',
-      subfield: 'advcash_id',
-      label_trans: 'reg.advcash_id',
-    }),
-    AddCol({
-      name: 'profile.revolut',
-      field: 'profile',
-      subfield: 'revolut',
-      label_trans: 'revolut',
-    }),
-    AddCol({
-      name: 'profile.link_payment',
-      field: 'profile',
-      subfield: 'link_payment',
-      label_trans: 'reg.link_payment',
-    }),
-    AddCol({
-      name: 'profile.note_payment',
-      field: 'profile',
-      subfield: 'note_payment',
-      label_trans: 'reg.note_payment',
-    }),
-    AddCol({
-      name: 'profile.paymenttypes',
-      field: 'profile',
-      subfield: 'paymenttypes',
-      label_trans: 'reg.paymenttype',
-      fieldtype: costanti.FieldType.multiselect,
-      jointable: 'paymenttypes',
-    }),
-    // AddCol({ name: 'made_gift', label_trans: 'reg.made_gift', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'note', label_trans: 'reg.note' }),
-    // AddCol({ name: 'aportador_solidario_ind_order', label_trans: 'reg.aportador_solidario_ind_order' }),
-    // AddCol({ name: 'aportador_solidario_nome_completo', label_trans: 'reg.aportador_solidario_nome_completo' }),
-    AddCol({ name: 'aportador_solidario', label_trans: 'reg.aportador_solidario' }),
-    AddCol({
-      name: 'profile.special_req',
-      field: 'profile',
-      subfield: 'special_req',
-      label_trans: 'reg.special_req',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    // AddCol({ name: 'profile.vuole_ritessersi', field: 'profile', subfield: 'vuole_ritessersi', label_trans: 'reg.vuole_ritessersi', fieldtype: costanti.FieldType.boolean  }),
-    AddCol({ name: 'lang', field: 'lang', label_trans: 'reg.lang' }),
-    AddCol({
-      name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
-    }),
-    AddCol({
-      name: 'profile.intcode_cell',
-      field: 'profile',
-      subfield: 'intcode_cell',
-      label_trans: 'reg.intcode_cell',
-    }),
-    AddCol({
-      name: 'profile.iso2_cell', field: 'profile', subfield: 'iso2_cell', label_trans: 'reg.iso2_cell',
-    }),
-    AddCol({
-      name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
-    }),
-    AddCol({
-      name: 'profile.country_pay', field: 'profile', subfield: 'country_pay', label_trans: 'reg.country_pay',
-    }),
-    AddCol({
-      name: 'profile.teleg_id_old',
-      field: 'profile',
-      subfield: 'teleg_id_old',
-      label_trans: 'reg.teleg_id_old',
-    }),
-    AddCol({
-      name: 'profile.teleg_checkcode',
-      field: 'profile',
-      subfield: 'teleg_checkcode',
-      label_trans: 'reg.teleg_checkcode',
-    }),
-    AddCol({
-      name: 'profile.manage_telegram',
-      field: 'profile',
-      subfield: 'manage_telegram',
-      label_trans: 'reg.manage_telegram',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.myshares',
-      field: 'profile',
-      subfield: 'myshares',
-      label_trans: 'reg.myshares',
-    }),
-    AddCol({
-      name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
-    }),
-    AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
-    AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
-    // AddCol({ name: 'idapp', label_trans: 'reg.idapp', fieldtype: costanti.FieldType.string }),
-    AddCol({
-      name: 'perm',
-      label_trans: 'reg.perm',
-      fieldtype: costanti.FieldType.binary,
-      jointable: 'permissions',
-      titlepopupedit: 'Permessi'
-    }),
-    AddCol({ name: 'ipaddr', label_trans: 'reg.ipaddr' }),
-    AddCol(DeleteRec),
-    AddCol(DuplicateRec),
-  ],
-
-  colTableUsersCNM: [
-    // AddCol({ name: '_id', label_trans: 'reg.id' }),
-    AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
-    // AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'username', label_trans: 'reg.username_short' }),
-    AddCol({ name: 'name', label_trans: 'reg.name' }),
-    AddCol({ name: 'surname', label_trans: 'reg.surname' }),
-    AddCol({ name: 'email', label_trans: 'reg.email' }),
-    AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
-    // AddCol({ name: 'made_gift', label_trans: 'reg.made_gift', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'note', label_trans: 'reg.note' }),
-    // AddCol({ name: 'aportador_solidario', label_trans: 'reg.aportador_solidario' }),
-    AddCol({
-      name: 'profile.resplist',
-      field: 'profile',
-      subfield: 'resplist',
-      label_trans: 'reg.resplist',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.workerslist',
-      field: 'profile',
-      subfield: 'workerslist',
-      label_trans: 'reg.workerslist',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.special_req',
-      field: 'profile',
-      subfield: 'special_req',
-      label_trans: 'reg.special_req',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.my_dream', field: 'profile', subfield: 'my_dream', label_trans: 'reg.my_dream',
-    }),
-    AddCol({ name: 'lang', field: 'lang', label_trans: 'reg.lang' }),
-    AddCol({
-      name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
-    }),
-    AddCol({
-      name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
-    }),
-    AddCol({
-      name: 'profile.email_paypal',
-      field: 'profile',
-      subfield: 'email_paypal',
-      label_trans: 'reg.email_paypal',
-    }),
-    /* AddCol({
-      name: 'profile.payeer_id',
-      field: 'profile',
-      subfield: 'payeer_id',
-      label_trans: 'reg.payeer_id'
-    }),
-    AddCol({
-      name: 'profile.advcash_id',
-      field: 'profile',
-      subfield: 'advcash_id',
-      label_trans: 'reg.advcash_id'
-    }),
-    AddCol({
-      name: 'profile.revolut',
-      field: 'profile',
-      subfield: 'revolut',
-      label_trans: 'revolut'
-    }), */
-    AddCol({
-      name: 'profile.teleg_id', field: 'profile', subfield: 'teleg_id', label_trans: 'reg.teleg_id',
-    }),
-
-    AddCol({
-      name: 'profile.teleg_checkcode',
-      field: 'profile',
-      subfield: 'teleg_checkcode',
-      label_trans: 'reg.teleg_checkcode',
-    }),
-    AddCol({
-      name: 'profile.manage_telegram',
-      field: 'profile',
-      subfield: 'manage_telegram',
-      label_trans: 'reg.manage_telegram',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.socio',
-      field: 'profile',
-      subfield: 'socio',
-      label_trans: 'reg.socio',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.socioresidente',
-      field: 'profile',
-      subfield: 'socioresidente',
-      label_trans: 'reg.socioresidente',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.consiglio',
-      field: 'profile',
-      subfield: 'consiglio',
-      label_trans: 'reg.consiglio',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({ name: 'profile.motivazioni', field: 'profile', subfield: 'motivazioni', label_trans: 'reg.motivazioni', }),
-    AddCol({ name: 'profile.biografia', field: 'profile', subfield: 'biografia', label_trans: 'reg.biografia', }),
-    AddCol({
-      name: 'profile.competenze_professionalita',
-      field: 'profile',
-      subfield: 'competenze_professionalita',
-      label_trans: 'reg.competenze_professionalita',
-    }),
-    AddCol({
-      name: 'profile.cosa_offrire',
-      field: 'profile',
-      subfield: 'cosa_offrire',
-      label_trans: 'reg.cosa_offrire',
-    }),
-    AddCol({
-      name: 'profile.cosa_ricevere',
-      field: 'profile',
-      subfield: 'cosa_ricevere',
-      label_trans: 'reg.cosa_ricevere',
-    }),
-    AddCol({
-      name: 'profile.altre_comunicazioni',
-      field: 'profile',
-      subfield: 'altre_comunicazioni',
-      label_trans: 'reg.altre_comunicazioni',
-    }),
-    AddCol({
-      name: 'profile.come_ci_hai_conosciuto',
-      field: 'profile',
-      subfield: 'come_ci_hai_conosciuto',
-      label_trans: 'reg.come_ci_hai_conosciuto',
-    }),
-    AddCol({
-      name: 'profile.come_aiutare',
-      field: 'profile',
-      subfield: 'come_aiutare',
-      label_trans: 'reg.come_aiutare',
-    }),
-    AddCol({
-      name: 'profile.paymenttypes',
-      field: 'profile',
-      subfield: 'paymenttypes',
-      label_trans: 'reg.paymenttype',
-      fieldtype: costanti.FieldType.multiselect,
-      jointable: 'paymenttypes',
-    }),
-    AddCol({
-      name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
-    }),
-    AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
-    AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
-    // AddCol({ name: 'idapp', label_trans: 'reg.idapp', fieldtype: costanti.FieldType.string }),
-    AddCol({
-      name: 'perm',
-      label_trans: 'reg.perm',
-      fieldtype: costanti.FieldType.binary,
-      jointable: 'permissions',
-      titlepopupedit: 'Permessi'
-    }),
-    AddCol({ name: 'ipaddr', label_trans: 'reg.ipaddr' }),
-    AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
-    AddCol(DeleteRec),
-    AddCol(DuplicateRec),
-  ],
-
-  colTableUsersISP: [
-    // AddCol({ name: '_id', label_trans: 'reg.id' }),
-    AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
-    // AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'username', label_trans: 'reg.username_short' }),
-    AddCol({ name: 'name', label_trans: 'reg.name' }),
-    AddCol({ name: 'surname', label_trans: 'reg.surname' }),
-    AddCol({ name: 'email', label_trans: 'reg.email' }),
-    AddCol({ name: 'verified_email', label_trans: 'reg.verified_email', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'note', label_trans: 'reg.note' }),
-    AddCol({ name: 'aportador_solidario', label_trans: 'reg.aportador_solidario' }),
-    AddCol({
-      name: 'verified_by_aportador',
-      label_trans: 'reg.verified_by_aportador',
-      fieldtype: costanti.FieldType.boolean
-    }),
-    AddCol({ name: 'trust_modified', label_trans: 'reg.trust_modified', fieldtype: costanti.FieldType.date }),
-    AddCol({ name: 'blocked', label_trans: 'reg.blocked', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'username_who_block', label_trans: 'reg.username_who_block' }),
-    AddCol({
-      name: 'profile.resplist',
-      field: 'profile',
-      subfield: 'resplist',
-      label_trans: 'reg.resplist',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.workerslist',
-      field: 'profile',
-      subfield: 'workerslist',
-      label_trans: 'reg.workerslist',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.special_req',
-      field: 'profile',
-      subfield: 'special_req',
-      label_trans: 'reg.special_req',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.my_dream', field: 'profile', subfield: 'my_dream', label_trans: 'reg.my_dream',
-    }),
-    AddCol({ name: 'lang', field: 'lang', label_trans: 'reg.lang' }),
-    AddCol({
-      name: 'profile.nationality', field: 'profile', subfield: 'nationality', label_trans: 'reg.nationality',
-    }),
-    AddCol({ name: 'profile.dateofbirth', label_trans: 'reg.dateofbirth', fieldtype: costanti.FieldType.date }),
-    AddCol({
-      name: 'born_city_id', label_trans: 'reg.born_city', fieldtype: costanti.FieldType.select,
-      jointable: 'cities',
-    }),
-    AddCol({ name: 'profile.born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
-    AddCol({ name: 'profile.born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),
-    AddCol({
-      name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell',
-    }),
-    AddCol({
-      name: 'profile.email_paypal',
-      field: 'profile',
-      subfield: 'email_paypal',
-      label_trans: 'reg.email_paypal',
-    }),
-    /* AddCol({
-      name: 'profile.payeer_id',
-      field: 'profile',
-      subfield: 'payeer_id',
-      label_trans: 'reg.payeer_id'
-    }),
-    AddCol({
-      name: 'profile.advcash_id',
-      field: 'profile',
-      subfield: 'advcash_id',
-      label_trans: 'reg.advcash_id'
-    }),
-    AddCol({
-      name: 'profile.revolut',
-      field: 'profile',
-      subfield: 'revolut',
-      label_trans: 'revolut'
-    }), */
-    AddCol({
-      name: 'profile.teleg_id', field: 'profile', subfield: 'teleg_id', label_trans: 'reg.teleg_id',
-    }),
-
-    AddCol({
-      name: 'profile.teleg_checkcode',
-      field: 'profile',
-      subfield: 'teleg_checkcode',
-      label_trans: 'reg.teleg_checkcode',
-    }),
-    AddCol({
-      name: 'profile.manage_telegram',
-      field: 'profile',
-      subfield: 'manage_telegram',
-      label_trans: 'reg.manage_telegram',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.username_telegram',
-      field: 'profile',
-      subfield: 'username_telegram',
-      label_trans: 'reg.username_telegram',
-    }),
-    AddCol({
-      name: 'profile.firstname_telegram',
-      field: 'profile',
-      subfield: 'firstname_telegram',
-      label_trans: 'reg.firstname_telegram',
-    }),
-    AddCol({
-      name: 'profile.lastname_telegram',
-      field: 'profile',
-      subfield: 'lastname_telegram',
-      label_trans: 'reg.lastname_telegram',
-    }),
-    AddCol({
-      name: 'profile.socio',
-      field: 'profile',
-      subfield: 'socio',
-      label_trans: 'reg.socio',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.socioresidente',
-      field: 'profile',
-      subfield: 'socioresidente',
-      label_trans: 'reg.socioresidente',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({
-      name: 'profile.consiglio',
-      field: 'profile',
-      subfield: 'consiglio',
-      label_trans: 'reg.consiglio',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({ name: 'profile.motivazioni', field: 'profile', subfield: 'motivazioni', label_trans: 'reg.motivazioni', }),
-    AddCol({ name: 'profile.biografia', field: 'profile', subfield: 'biografia', label_trans: 'reg.biografia', }),
-    AddCol({ name: 'profile.qualifica', field: 'profile', subfield: 'qualifica', label_trans: 'reg.qualifica', }),
-    AddCol({
-      name: 'profile.paymenttypes',
-      field: 'profile',
-      subfield: 'paymenttypes',
-      label_trans: 'reg.paymenttype',
-      fieldtype: costanti.FieldType.multiselect,
-      jointable: 'paymenttypes',
-    }),
-    AddCol({
-      name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
-      showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    }),
-    AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
-    AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
-    AddCol({
-      name: 'perm',
-      label_trans: 'reg.perm',
-      fieldtype: costanti.FieldType.binary,
-      jointable: 'permissions',
-      titlepopupedit: 'Permessi'
-    }),
-    AddCol({ name: 'ipaddr', label_trans: 'reg.ipaddr' }),
-    AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
-    AddCol(DeleteRec),
-    AddCol(DuplicateRec),
-  ],
-
-  colTableExtraList: [
-    // AddCol({ name: '_id', label_trans: 'reg.id' }),
-    AddCol({ name: 'username', label_trans: 'reg.username_short' }),
-    AddCol({ name: 'registered', label_trans: 'reg.registered', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'ind_order', label_trans: 'reg.ind_order' }),
-    AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
-    AddCol({ name: 'name_complete', label_trans: 'reg.name_complete' }),
-    AddCol({ name: 'name', label_trans: 'reg.name' }),
-    AddCol({ name: 'surname', label_trans: 'reg.surname' }),
-    AddCol({ name: 'note', label_trans: 'reg.note' }),
-    AddCol({ name: 'contacted', label_trans: 'reg.contacted', fieldtype: costanti.FieldType.boolean }),
-    AddCol({
-      name: 'saw_zoom_presentation',
-      label_trans: 'reg.saw_zoom_presentation',
-      fieldtype: costanti.FieldType.boolean,
-    }),
-    AddCol({ name: 'num_invitati', label_trans: 'reg.num_invitati', fieldtype: costanti.FieldType.number }),
-    AddCol({ name: 'is_in_whatsapp', label_trans: 'reg.is_in_whatsapp', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'is_in_telegram', label_trans: 'reg.is_in_telegram', fieldtype: costanti.FieldType.boolean }),
-    AddCol({ name: 'cell_complete', label_trans: 'reg.cell_complete' }),
-    AddCol({ name: 'nationality', label_trans: 'reg.nationality', fieldtype: costanti.FieldType.nationality }),
-    AddCol({ name: 'aportador_solidario_name_surname', label_trans: 'reg.aportador_solidario_nome_completo' }),
-    AddCol({ name: 'aportador_solidario_ind_order', label_trans: 'reg.aportador_solidario_ind_order' }),
-    AddCol({
-      name: 'aportador_solidario_originale_name_surname',
-      label_trans: 'reg.aportador_solidario_nome_completo_orig',
-    }),
-    AddCol({ name: 'col_b', label_trans: 'reg.col_b', fieldtype: costanti.FieldType.number }),
-    AddCol({ name: 'col_h', label_trans: 'reg.col_h', fieldtype: costanti.FieldType.number }),
-    AddCol(DeleteRec),
-    AddCol(DuplicateRec),
-  ],
-
-  colTableCash:
-    [],
-
-  colTableCashCategory: [
-    AddCol({ name: 'descr', label_trans: 'pages.description' }),
-    AddCol({ name: 'notes', label_trans: 'reg.note' }),
-  ],
-
-  colTableSubCashCategory: [
-    AddCol({
-      name: 'idCashCategory',
-      label_trans: 'Category.idCashCategory',
-      fieldtype: costanti.FieldType.select,
-      jointable: 'cashcategory',
-    }),
-    AddCol({ name: 'descr', label_trans: 'pages.description' }),
-    AddCol({ name: 'notes', label_trans: 'reg.note' }),
-  ],
 
   tableForUsers: [
     'myskills',
@@ -2164,6 +2157,18 @@ export const fieldsTable = {
     'mygoods',
     'mybachecas',
   ],
+
+  userlist() {
+    if (static_data.functionality.ENABLE_REG_AYNI) {
+      return colTableUsers
+    } else if (static_data.functionality.ENABLE_REG_CNM) {
+      return colTableUsersCNM
+    } else if (static_data.functionality.ENABLE_REG_ISP) {
+      return colTableUsersISP
+    } else {
+      return colTableUsersBase
+    }
+  },
 
   tablesList: [
     {
@@ -2346,6 +2351,14 @@ export const fieldsTable = {
       colkey: 'value',
       collabel: 'label',
       colicon: 'icon',
+      noshow: true,
+    },
+    {
+      value: 'users',
+      label: 'Utenti',
+      columns: colTableUsersISP,
+      colkey: '_id',
+      collabel: 'username',
       noshow: true,
     },
     {
@@ -2566,13 +2579,15 @@ export const fieldsTable = {
       collabel: 'label',
     },
   ],
+
 }
+
 
 export const func = {
   gettablesList() {
     const userStore = useUserStore()
     if (fieldsTable.tablesList) {
-      const mylist = fieldsTable.tablesList.filter((rec) => ((rec.onlyAdmin === userStore.isAdmin) || (!rec.onlyAdmin)) && (!rec.noshow))
+      const mylist = fieldsTable.tablesList.filter((rec: any) => ((rec.onlyAdmin === userStore.isAdmin) || (!rec.onlyAdmin)) && (!rec.noshow))
 
       return mylist
     }

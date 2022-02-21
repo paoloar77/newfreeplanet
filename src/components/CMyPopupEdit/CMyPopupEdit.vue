@@ -1,5 +1,6 @@
 <template>
   <div :class="getclassCol(col)">
+
     <div
       v-if="tools.checkIfShowField(col, insertMode ? tools.TIPOVIS_NEW_RECORD : (isInModif ? tools.TIPOVIS_EDIT_RECORD : tools.TIPOVIS_SHOW_RECORD), visulabel, myvalue)"
       style="flex-grow: 1;">
@@ -305,6 +306,7 @@
             </div>
             <div v-else>
               <CMyChipList
+                :rec="row"
                 :type="costanti.FieldType.binary"
                 :value="myvalue"
                 @update:value="changevalRec"
@@ -374,6 +376,7 @@
             </div>
             <div v-else>
               <CMyChipList
+                :rec="row"
                 :type="col.fieldtype"
                 :type_out="col.field_outtype"
                 @update:value="changevalRec"
@@ -394,7 +397,7 @@
                 :label="col.label"
                 v-model:value="myvalue"
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
-                :tablesel="col.type === costanti.FieldType.select_by_server ? tablesel : ''"
+                :tablesel="col.fieldtype === costanti.FieldType.select_by_server ? tablesel : ''"
                 @update:value="changevalRec"
                 :newvaluefunc="addNewValue"
                 :filter_table="col.filter_table"
@@ -407,12 +410,23 @@
               </CMySelect>
             </div>
             <div v-else>
+              <!--
+              rec: {{rec}}
+              row: {{row}}
+              col.jointable {{col.jointable}}
+              myvalue {{myvalue}}
+              opt: {{globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)}}
+              val:  {{fieldsTable.getKeyByTable(col.jointable)}}
+              lab: {{fieldsTable.getLabelByTable(col.jointable)}}-->
               <CMyChipList
+                :rec="row"
                 myclass="text-center"
                 :type="col.fieldtype"
                 :type_out="col.field_outtype"
                 @update:value="changevalRec"
                 v-model:value="myvalue"
+                :filter_table="col.filter_table"
+                :filter_field="col.filter_field"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
@@ -420,6 +434,7 @@
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.multiselect_by_server">
+
             <CMySelect
               :type_out="col.field_outtype"
               :col="col"
@@ -648,7 +663,7 @@
                 :label="col.label"
                 v-model:value="scope.value"
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
-                :tablesel="col.type === costanti.FieldType.select_by_server ? tablesel : ''"
+                :tablesel="col.fieldtype === costanti.FieldType.select_by_server ? tablesel : ''"
                 :filter_table="col.filter_table"
                 :filter_field="col.filter_field"
                 :value_extra="value_extra"

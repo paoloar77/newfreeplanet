@@ -43,6 +43,11 @@ export default defineComponent({
       required: false,
       default: ''
     },
+    rec: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   components: {},
   setup(props, { emit }) {
@@ -60,7 +65,7 @@ export default defineComponent({
       myarrvalues.value = []
 
       // console.log('options', props.options)
-      if (props.options) {
+      if (props.options.length > 0) {
         props.options.forEach((rec: any, index) => {
           if (props.type === costanti.FieldType.multiselect) {
             if (!!myval.value) {
@@ -171,6 +176,20 @@ export default defineComponent({
             }
           }
         })
+      } else {
+        if (props.type === costanti.FieldType.select_by_server) {
+
+          const mydata: any = {
+            // @ts-ignore
+            label: props.rec[props.optlab],
+            value: 0,
+            valbool: true,
+            icon: '',
+            color: tools.getColorByIndexBest(0)
+          }
+
+          myarrvalues.value.push(mydata)
+        }
       }
 
       if (myarrvalues.value.length === 0)

@@ -19,14 +19,16 @@
         <div class="col-12 text-h7 text-blue text-shadow-2">
           {{ myuser.username }}
         </div>
+
+        ID: {{myuser.profile.born_city_id}}
         <div class="col-12 text-h7">
           <span v-if="myuser.profile && myuser.profile.born_city_id">
               <CMyFieldRec
-                title="Comune"
+                title=""
                 table="users"
+                tablesel="cities"
                 :id="myuser._id"
-                :columns="fieldsTable.userlist()"
-                :rec="mygrp"
+                :rec="myuser"
                 field="profile.born_city_id"
                 :canEdit="false"
                 :canModify="false">

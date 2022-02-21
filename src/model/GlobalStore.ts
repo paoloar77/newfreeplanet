@@ -464,6 +464,7 @@ export interface IParLookup {
 export interface IParamsPickup {
   table: string
   search: string
+  filter: string
 }
 export interface IParamsQuery {
   table: string
@@ -558,6 +559,7 @@ export interface ISearchList {
   tablesel?: string
   icon?: string
   filteradv?: boolean
+  filter_extra?: object
 }
 
 export interface IFilter {
