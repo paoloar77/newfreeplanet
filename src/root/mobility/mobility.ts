@@ -32,10 +32,6 @@ export default defineComponent({
       return userStore.my.profile.teleg_checkcode
     }
 
-    function openrighttoolbar() {
-      globalStore.rightDrawerOpen = true
-    }
-
     function isLogged() {
       return userStore.isLogged
     }
@@ -58,7 +54,6 @@ export default defineComponent({
       TelegCode,
       TelegVerificato,
       isLogged,
-      openrighttoolbar,
       isUserOk,
       getLinkBotTelegram,
     }

@@ -63,7 +63,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     layoutNeeded: true,
     mobileMode: false,
     menuCollapse: true,
-    leftDrawerOpen: true,
+    leftDrawerOpen: false,
     rightDrawerOpen: false,
     rightCartOpen: false,
     stateConnection: stateConnDefault,

@@ -75,6 +75,9 @@ export default {
             .then((loadstorage: any) => {
               if (loadstorage) {
 
+                if ($q.screen.gt.xs) {
+                  globalStore.setleftDrawerOpen(true)
+                }
 
                 /*if (toolsext.getLocale() !== '') {
                   // console.log('SETLOCALE :', this.$i18n.locale)

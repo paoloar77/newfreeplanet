@@ -805,6 +805,7 @@ export const useUserStore = defineStore('UserStore', {
           globalStore.checkUpdates()
         }
 
+
         const isok = await globalStore.loadAfterLogin()
 
         this.isLogged = isok && isLogged

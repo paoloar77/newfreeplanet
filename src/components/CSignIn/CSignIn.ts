@@ -97,8 +97,14 @@ export default defineComponent({
 
       userStore.signin($router, signin.value)
         .then((riscode: number) => {
+          if ($q.screen.lt.sm) {
+            globalStore.setleftDrawerOpen(false)
+          }
           console.log('signin FINITO CALL: riscode=', riscode)
           if (riscode === tools.OK) {
+            if (userStore.isLogged) {
+              globalStore.rightDrawerOpen = false
+            }
             // router.push('/signin')
           }
           return riscode

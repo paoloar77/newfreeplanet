@@ -6,6 +6,7 @@ const msg_website = {
       SignIn: 'Login',
       vreg: 'Verifica Reg',
       Test: 'Test',
+      TestLocal: 'TestLocal',
       Category: 'Categorie',
       Todo: 'Todo',
       personal: 'Personale',
