@@ -2,7 +2,8 @@
   <div class="bi-border-all">
     <div class="q-ma-xs q-gutter-xs q-pa-xs">
 
-      <div class="text-center">
+      <div v-if="showFilterPersonal"
+           class="text-center">
         <q-btn-toggle
           v-model="myrecfiltertoggle"
           push
@@ -36,17 +37,17 @@
         :col_tabfooter="col_tabfooter"
         :vertical="costanti.VISUTABLE_LISTA"
         :prop_pagination="mypagination"
-        :showType="costanti.SHOW_MYCARD"
-        :nodataLabel="'Nessun annuncio trovato con i filtri selezionati'"
+        :showType="showType"
+        :hint="hint"
+        :nodataLabel="noMsgRecord"
         :prop_search="true"
         :finder="true"
-        :choose_visutype="$q.screen.gt.xs"
+        :choose_visutype="visuType"
         :butt_modif_new="true"
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato"
         :arrfilters="arrfilterand"
         :filtercustom="filtercustom"
         :prop_searchList="searchList"
-        keyMain="idSkill"
         :defaultnewrec="getdefaultnewrec"
         :extraparams="extraparams()">
 

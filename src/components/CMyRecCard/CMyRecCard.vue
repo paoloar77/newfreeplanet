@@ -8,7 +8,7 @@
         </q-avatar>
       </q-item-section>
       <q-item-section v-else avatar @click="naviga(`/my/` + myrec.username)">
-        <q-badge class="q-my-xs self-center" :color="fieldsTable.getColByAdType(myrec.adType)">
+        <q-badge v-if="showBadge" class="q-my-xs self-center" :color="fieldsTable.getColByAdType(myrec.adType)">
           {{ fieldsTable.getValByTabAndId(table, 'adType', myrec.adType) }}
           <q-icon :name="fieldsTable.getIconByAdType(myrec.adType)" color="white"
                   class="q-ml-xs"/>

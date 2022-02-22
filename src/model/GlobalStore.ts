@@ -221,6 +221,8 @@ export interface IGlobalState {
   rightCartOpen: boolean
   category: string
   stateConnection: string
+  serverError: boolean
+  serverMsgError: any
   networkDataReceived: boolean
   clickcmd?: string
   cfgServer: ICfgServer[]
@@ -256,6 +258,7 @@ export interface IGlobalState {
   TIMER_STATE: number
   URL_RITORNA: string
   URL_RESTORE: string
+  serverHost?: string
   levels: ILevel[],
   adtypes: IAdType[],
   adtypegoods: IAdType[],

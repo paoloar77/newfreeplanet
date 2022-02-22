@@ -347,7 +347,7 @@ export default defineComponent({
     function getappname() {
       let mystr = ''
       if (tools.isTest()){
-        mystr = 'Ambiente di TEST'
+        mystr = getAppVersion()
       } else {
         let mystr = tools.getsuffisso() + tools.getappname(tools.isMobile())
         if (!tools.isMobile()) {

@@ -10,6 +10,7 @@
         </span>
 
     <div class="q-ma-sm q-gutter-sm q-pa-xs">
+
       <CTitleBanner title="Gruppi"></CTitleBanner>
       <CGridTableRec
         prop_mytable="groups"
@@ -21,6 +22,7 @@
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato">
 
       </CGridTableRec>
+
     </div>
   </CMyPage>
 </template>

@@ -1,5 +1,6 @@
 <template>
   <q-footer
+    v-if="tools.isUserOk()"
     class="bg-white small-screen-only"
     bordered
   >

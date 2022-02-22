@@ -34,8 +34,8 @@
 
       <q-tabs v-model="tabgrp" class="text-blue">
         <q-tab label="Info" name="info" icon="fas fa-info"></q-tab>
-        <q-tab v-if="!!mygrp.note && userStore.IsMyGroupByGroupname(mygrp.groupname)" label="Pagina" name="page" icon="fas fa-file-word"></q-tab>
-        <q-tab v-if="userStore.IsMyGroupByGroupname(mygrp.groupname)" label="Iscritti" name="membri" icon="fas fa-users"></q-tab>
+        <q-tab v-if="!!mygrp.note && userStore.IsMyGroupByGroupname(mygrp.groupname) || tools.iAmAdminGroup(groupname)" label="Pagina" name="page" icon="fas fa-file-word"></q-tab>
+        <q-tab v-if="userStore.IsMyGroupByGroupname(mygrp.groupname) || tools.iAmAdminGroup(groupname)" label="Iscritti" name="membri" icon="fas fa-users"></q-tab>
         <q-tab v-if="tools.iAmAdminGroup(groupname)" label="Richieste" name="rich" icon="fas fa-user-plus"></q-tab>
       </q-tabs>
 
@@ -111,7 +111,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="page">
-          <div v-if="mygrp.title">
+          <div v-if="mygrp.note">
             <br>
             <div class="q-ma-sm q-gutter-sm q-pa-xs">
               <div v-if="mygrp.note" v-html="mygrp.note">
@@ -142,7 +142,6 @@
             :filtercustom="filtercustom"
             :prop_searchList="searchList"
             :showType="costanti.SHOW_USERINFO"
-            keyMain=""
             :showCol="false"
             :extrafield="groupname"
             :extraparams="extraparams()"

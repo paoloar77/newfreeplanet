@@ -102,11 +102,13 @@ export default defineComponent({
       required: false,
       default: '',
     },
-    keyMain: {
+/*    keyMain: {
       type: String,
       required: false,
       default: '',
     },
+
+ */
     nodataLabel: {
       type: String,
       required: false,
@@ -530,14 +532,14 @@ export default defineComponent({
           returnedData.value = []
           returnedCount = 0
         } else {
-          if (props.keyMain) {
+          /*if (props.keyMain) {
             nosearch = true
             filtersearch.forEach((rec: any) => {
               if (!!rec[props.keyMain]) {
                 nosearch = false
               }
             })
-          }
+          }*/
         }
         // if ((false && nosearch && props.finder) || (props.finder_noNull && nosearch)) {
         if (props.finder_noNull && nosearch) {

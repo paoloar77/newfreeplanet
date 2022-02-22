@@ -15,6 +15,7 @@ import { shared_consts } from '@/common/shared_vuejs'
 import { useI18n } from '@/boot/i18n'
 import { toolsext } from '@store/Modules/toolsext'
 import { fieldsTable } from '@store/Modules/fieldsTable'
+import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name: 'CFinder',
@@ -23,12 +24,18 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    showFilterPersonal: {
+      type: Boolean,
+      required: false,
+      default: true,
+    }
   },
   components: {
     CMyFieldDb, CGridTableRec,
   },
   setup(props, { attrs, slots, emit }) {
     const { t } = useI18n()
+    const $q = useQuasar()
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
 
@@ -36,6 +43,7 @@ export default defineComponent({
     const filtercustom: any = ref([])
     const searchList_Servizi = ref(<ISearchList[]>[])
     const searchList_Beni = ref(<ISearchList[]>[])
+    const searchList_MyGroups = ref(<ISearchList[]>[])
 
     const search = ref('')
     const myrecfiltertoggle = ref(tools.FILTER_ALL)
@@ -74,12 +82,58 @@ export default defineComponent({
     )
 
     const searchList = computed(() => {
-      if (props.table === 'mygoods')
+      if (props.table === toolsext.TABMYGOODS)
         return searchList_Beni.value
-      else if (props.table === 'myskills')
+      else if (props.table === toolsext.TABMYSKILLS)
         return searchList_Servizi.value
+      else if (props.table === toolsext.TABMYGROUPS)
+        return searchList_MyGroups.value
 
       return searchList_Servizi.value
+    })
+
+    const showType = computed(() => {
+      if (props.table === toolsext.TABMYGOODS)
+        return costanti.SHOW_MYCARD
+      else if (props.table === toolsext.TABMYSKILLS)
+        return costanti.SHOW_MYCARD
+      else if (props.table === toolsext.TABMYGROUPS)
+        return costanti.SHOW_MYCARD
+
+      return costanti.SHOW_MYCARD
+    })
+
+    const hint = computed(() => {
+      if (props.table === toolsext.TABMYGOODS)
+        return 'nome del Bene o settore da cercare'
+      else if (props.table === toolsext.TABMYSKILLS)
+        return 'nome del servizio o settore da cercare'
+      else if (props.table === toolsext.TABMYGROUPS)
+        return 'nome del gruppo da cercare'
+
+      return 'nome del gruppo da cercare'
+    })
+
+    const visuType = computed(() => {
+      if (props.table === toolsext.TABMYGOODS)
+        return $q.screen.gt.xs
+      else if (props.table === toolsext.TABMYSKILLS)
+        return $q.screen.gt.xs
+      else if (props.table === toolsext.TABMYGROUPS)
+        return $q.screen.gt.xs
+
+      return $q.screen.gt.xs
+    })
+
+    const noMsgRecord = computed(() => {
+      if (props.table === toolsext.TABMYGOODS)
+        return 'Nessun Bene trovato con i filtri selezionati'
+      else if (props.table === toolsext.TABMYSKILLS)
+        return 'Nessun Servizio trovato con i filtri selezionati'
+      else if (props.table === toolsext.TABMYGROUPS)
+        return 'Nessun Gruppo trovato con i filtri selezionati'
+
+      return 'Nessun dato trovato con i filtri selezionati'
     })
 
 
@@ -433,12 +487,169 @@ export default defineComponent({
 
       ]
 
+      searchList_MyGroups.value = [
+        {
+          label: 'Provincia',
+          table: 'provinces',
+          key: 'idProvince',
+          type: costanti.FieldType.select,
+          value: tools.getCookie(tools.COOK_SEARCH + 'provinces', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          filter: null,
+          useinput: true,
+          icon: 'flag',
+        },
+        {
+          label: 'Comune',
+          table: 'cities',
+          key: 'idCity',
+          type: costanti.FieldType.select_by_server,
+          value: 0,
+          addall: true,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'cities', costanti.FILTER_TUTTI),
+          useinput: true,
+          filter: null,
+          // filter: getFilterCitiesByProvince,
+          // param1: shared_consts.PARAM_SHOW_PROVINCE,
+          tablesel: 'cities',
+          icon: 'fas fa-map-marker-alt',
+        },
+        {
+          label: 'Categorie',
+          table: 'catgrps',
+          key: 'idCatGrp',
+          value: tools.getCookie(tools.COOK_SEARCH + 'catgrps', costanti.FILTER_TUTTI),
+          arrvalue: [],
+          type: costanti.FieldType.select,
+          filter: null,
+          addall: true,
+          useinput: false,
+          icon: 'engineering',
+        },
+      ]
+
       filtercustom.value = []
     }
 
 
     function extraparams() {
-      if (props.table === 'myskills') {
+      if (props.table === toolsext.TABMYGROUPS) {
+
+        let lk_tab = 'mygroups'
+        let lk_LF = 'userId'
+        let lk_FF = '_id'
+        let lk_as = 'group'
+        let af_objId_tab = 'myId'
+
+        return {
+          lookup1: {
+            lk_tab,
+            lk_LF,
+            lk_FF,
+            lk_as,
+            af_objId_tab,
+            lk_proj: {
+              groupname: 1,
+              title: 1,
+              descr: 1,
+              img: 1,
+              visibility: 1,
+              admins: 1,
+              idCatGrp: 1,
+              photos: 1,
+              idCity: 1,
+              note: 1,
+              website: 1,
+              comune: 1,
+              mycities: 1,
+              sector: 1,
+            }
+          },
+          lookup2: {
+            lk_tab: 'cities',
+            lk_LF: 'idCity',
+            lk_FF: '_id',
+            lk_as: 'comune',
+            lk_proj: {
+              groupname: 1,
+              title: 1,
+              descr: 1,
+              img: 1,
+              idCatGrp: 1,
+              visibility: 1,
+              admins: 1,
+              photos: 1,
+              idCity: 1,
+              note: 1,
+              //**ADDFIELD_MYGROUPS
+              website: 1,
+              comune: 1,
+              mycities: 1,
+            }
+          },
+
+        }
+
+      } else if (props.table === toolsext.TABMYGOODS) {
+        return {
+          lookup1: {
+            lk_tab: 'users',
+            lk_LF: 'userId',
+            lk_FF: '_id',
+            lk_as: 'user',
+            af_objId_tab: 'myId',
+          },
+          lookup2: {
+            lk_tab: 'goods',
+            lk_LF: 'idGood',
+            lk_FF: '_id',
+            lk_as: 'recGood',
+            af_objId_tab: '',
+            lk_proj: {
+              recGood: 1,
+              sectorGood: 1,
+              idSectorGood: 1,
+              idGood: 1,
+              mygood: 1,
+              idStatusSkill: 1,
+              idContribType: 1,
+              idCity: 1,
+              numLevel: 1,
+              adType: 1,
+              photos: 1,
+              note: 1,
+              website: 1,
+              //**ADDFIELD_MYSKILL
+              descr: 1,
+              date_created: 1,
+              date_updated: 1,
+              userId: 1,
+              username: 1,
+              name: 1,
+              surname: 1,
+              comune: 1,
+              mycities: 1,
+              'profile.img': 1,
+              'profile.qualifica': 1,
+            }
+          },
+          lookup3: {
+            lk_tab: 'sectorgoods',
+            lk_LF: 'recGood.idSectorGood',
+            lk_FF: '_id',
+            lk_as: 'sectorgood',
+            af_objId_tab: '',
+          },
+          lookup5: {
+            lk_tab: 'cities',
+            lk_LF: 'idCity',
+            lk_FF: '_id',
+            lk_as: 'mycities',
+            af_objId_tab: '',
+          },
+        }
+      } else {
         return {
           lookup1: {
             lk_tab: 'users',
@@ -497,64 +708,6 @@ export default defineComponent({
             af_objId_tab: '',
           },
         }
-      } else if (props.table === 'myskills') {
-        return {
-          lookup1: {
-            lk_tab: 'users',
-            lk_LF: 'userId',
-            lk_FF: '_id',
-            lk_as: 'user',
-            af_objId_tab: 'myId',
-          },
-          lookup2: {
-            lk_tab: 'goods',
-            lk_LF: 'idGood',
-            lk_FF: '_id',
-            lk_as: 'recGood',
-            af_objId_tab: '',
-            lk_proj: {
-              recGood: 1,
-              sectorGood: 1,
-              idSectorGood: 1,
-              idGood: 1,
-              mygood: 1,
-              idStatusSkill: 1,
-              idContribType: 1,
-              idCity: 1,
-              numLevel: 1,
-              adType: 1,
-              photos: 1,
-              note: 1,
-              website: 1,
-              //**ADDFIELD_MYSKILL
-              descr: 1,
-              date_created: 1,
-              date_updated: 1,
-              userId: 1,
-              username: 1,
-              name: 1,
-              surname: 1,
-              comune: 1,
-              mycities: 1,
-              'profile.img': 1,
-              'profile.qualifica': 1,
-            }
-          },
-          lookup3: {
-            lk_tab: 'sectorgoods',
-            lk_LF: 'recGood.idSectorGood',
-            lk_FF: '_id',
-            lk_as: 'sectorgood',
-            af_objId_tab: '',
-          },
-          lookup5: {
-            lk_tab: 'cities',
-            lk_LF: 'idCity',
-            lk_FF: '_id',
-            lk_as: 'mycities',
-            af_objId_tab: '',
-          },
-        }
       }
     }
 
@@ -565,6 +718,8 @@ export default defineComponent({
         return tools.getdefaultnewrec_MyBacheca()
       } else if (props.table === toolsext.TABMYGOODS) {
         return tools.getdefaultnewrec_MyGoods()
+      } else if (props.table === toolsext.TABMYGROUPS) {
+        return tools.getdefaultnewrec_MyGroup()
       }
       return null
     }
@@ -595,6 +750,10 @@ export default defineComponent({
       toolsext,
       getdefaultnewrec,
       mypagination,
+      noMsgRecord,
+      showType,
+      visuType,
+      hint,
     }
   },
 })

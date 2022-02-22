@@ -31,6 +31,10 @@ export default defineComponent({
       // mounted
     }
 
+    function reloadPage(){
+      $router.go(0)
+    }
+
     onMounted(mounted)
 
     return {
@@ -38,6 +42,7 @@ export default defineComponent({
       static_data,
       globalStore,
       t,
+      reloadPage,
     }
   },
 

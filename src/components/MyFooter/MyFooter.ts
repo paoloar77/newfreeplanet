@@ -41,6 +41,7 @@ export default defineComponent({
       t,
       getMyUsername,
       Username,
+      tools,
     }
   },
 

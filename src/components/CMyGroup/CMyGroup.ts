@@ -8,6 +8,7 @@ import { useQuasar } from 'quasar'
 import { useI18n } from '@/boot/i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { CUserNonVerif } from '@/components/CUserNonVerif'
+import { toolsext } from '@store/Modules/toolsext'
 
 export default defineComponent({
   name: 'CMyGroup',
@@ -42,6 +43,8 @@ export default defineComponent({
 
     const grp = ref(<IMyGroup | null>null)
 
+    const table = ref(toolsext.TABMYGROUPS)
+
     watch(() => props.mygrp, (newval, oldval) => {
       mounted()
     })
@@ -75,6 +78,10 @@ export default defineComponent({
 
     onMounted(mounted)
 
+    function getPathByGroup(grp: IMyGroup){
+      return '/' + tools.getDirectoryByTable(table.value) + '/' + grp.groupname
+    }
+
     return {
       grp,
       costanti,
@@ -85,6 +92,7 @@ export default defineComponent({
       userStore,
       tools,
       $q,
+      getPathByGroup,
     }
   },
 })

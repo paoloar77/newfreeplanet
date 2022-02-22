@@ -4,13 +4,20 @@
       v-model="filter"
       :finder="true"
     >
+
+      <CFinder
+        :table="toolsext.TABMYGROUPS"
+        :showFilterPersonal="false"
+      />
+
+      <!--
       <CGridTableRec
         prop_mytable="mygroups"
         prop_mytitle=""
         :prop_mycolumns="colmyUserGroup"
         prop_colkey="_id"
         col_title="groupname"
-        :vertical="costanti.VISUTABLE_LISTA"
+        :vertical="costanti.VISUTABLE_SCHEDA_GROUP"
         nodataLabel=" Nessun Gruppo"
         :prop_search="true"
         hint="nome del gruppo da trovare"
@@ -30,6 +37,7 @@
         :extraparams="extraparams()">
 
       </CGridTableRec>
+      -->
     </CMyGroups>
 
     <div v-if="filter === costanti.CREATE_GROUP">

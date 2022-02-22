@@ -1201,6 +1201,18 @@ export const tools = {
       ],
   },
 
+  getServerHost() {
+
+    const globalStore = useGlobalStore()
+
+    if (globalStore.serverHost) {
+      return globalStore.serverHost
+    } else {
+      return process.env.MONGODB_HOST
+    }
+
+  },
+
   getTitlePriority(priority: number): string {
     let cl = ''
 
@@ -3384,7 +3396,7 @@ export const tools = {
     }
   },
   geturlupload() {
-    return process.env.MONGODB_HOST + `/uploadnew/${this.getvers()}/`
+    return tools.getServerHost() + `/uploadnew/${this.getvers()}/`
   },
   escapeslash(mystr: string) {
     return mystr.replace(/\//g, '-')
@@ -4398,7 +4410,7 @@ export const tools = {
 
   async registeredemail(email: string) {
 
-    const VALIDATE_USER_URL = process.env.MONGODB_HOST + '/email/ck'
+    const VALIDATE_USER_URL = tools.getServerHost() + '/email/ck'
 
     let onSuccess = (res: AxiosResponse) => {
       return res.status !== PayloadMessageTypes.statusfound
@@ -5005,7 +5017,7 @@ export const tools = {
       return 'mywork'
     } else if (table === toolsext.TABMYBACHECAS) {
       return 'mypage'
-    } else if (table === 'mygroups') {
+    } else if (table === toolsext.TABMYGROUPS) {
       return 'grp'
     }
 

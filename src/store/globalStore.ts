@@ -67,6 +67,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
     rightDrawerOpen: false,
     rightCartOpen: false,
     stateConnection: stateConnDefault,
+    serverError: false,
+    serverMsgError: {},
     networkDataReceived: false,
     clickcmd: '',
     cfgServer: [],
@@ -778,10 +780,13 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       return Api.SendReq('/gettable', 'POST', params)
         .then((res) => {
+          this.serverError = false
           // console.table(res)
           return res.data
         })
         .catch((error) => {
+          this.serverError = true
+          this.serverMsgError = error
           console.log('error loadTable', error)
           userStore.setErrorCatch(error)
           return null
@@ -1228,7 +1233,9 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return Api.SendReq(`/loadsite/${myuserid}/${process.env.APP_ID}/${process.env.APP_VERSION}`, 'GET', null)
         .then((res) => {
           console.log('____________________________  res', res)
+          this.serverError = false
           if (res.status === 200) {
+
             calendarStore.bookedevent = (res.data.bookedevent) ? res.data.bookedevent : []
             calendarStore.eventlist = (res.data.eventlist) ? res.data.eventlist : []
             calendarStore.operators = (res.data.operators) ? res.data.operators : []
@@ -1304,6 +1311,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
         }).then((res) => res).catch((error) => {
           console.log('error dbLoad', error)
           // userStore.setErrorCatch(error)
+          this.serverError = true
+          this.serverMsgError = error
           return new Types.AxiosError(serv_constants.RIS_CODE_ERR, null, toolsext.ERR_GENERICO, error)
         })
     },
@@ -1431,6 +1440,36 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       return myarr
     },
+
+    getMsgServerError() {
+      if (this.serverError) {
+        if (this.serverMsgError) {
+          if (this.serverMsgError.status === 500) {
+            return 'Errore Interno del Server'
+          } else if (this.serverMsgError.msgerr === '') {
+            return 'Codice Errore ' + this.serverMsgError.status
+          }
+          try {
+            return this.serverMsgError.msgerr.message
+          }catch (e) {
+            return this.serverMsgError.msgerr
+          }
+        }
+      }
+
+      return ''
+    },
+
+    getServerHost() {
+
+      if (this.serverHost) {
+        return this.serverHost
+      } else {
+        return process.env.MONGODB_HOST
+      }
+
+    },
+
 
   },
 })

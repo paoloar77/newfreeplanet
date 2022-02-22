@@ -49,6 +49,14 @@ export default defineComponent({
       }
     }
 
+    function showBadge() {
+      if (shared_consts.TABLES_SHOW_ADTYPE.includes(props.table)) {
+        return true
+      }
+
+      return false
+    }
+
     function getImgUser(profile: IUserFields) {
       return userStore.getImgByProfile(profile)
     }
@@ -81,6 +89,7 @@ export default defineComponent({
       fieldsTable,
       cmdExt,
       visupage,
+      showBadge,
     }
   },
 })

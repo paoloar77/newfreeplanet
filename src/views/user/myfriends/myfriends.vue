@@ -24,7 +24,6 @@
         :filtercustom="filtercustom"
         :prop_searchList="searchList"
         :showType="costanti.SHOW_USERINFO"
-        keyMain=""
         :showCol="false"
         :extraparams="extraparams()">
 

@@ -96,10 +96,11 @@ export const shared_consts = {
 
   TABLES_ID_NUMBER: ['permissions', 'levels', 'adtypes', 'adtypegoods', 'statusSkills', 'sectors', 'sectorgoods', 'catgrps', 'skills', 'subskills', 'cities', 'provinces',
     'myskills', 'mybachecas', 'mygoods', 'mygroups'],
-  TABLES_USER_ID: ['myskills', 'mybachecas', 'mygoods'],
+  TABLES_USER_ID: ['mygroups', 'myskills', 'mybachecas', 'mygoods'],
   TABLES_UPDATE_LASTIFIED: ['myskills', 'mybachecas', 'mygoods', 'mybots'],
   TABLES_FINDER: ['myskills', 'mybachecas', 'mygoods', 'mygroups'],
-  TABLES_VISU_CMYSRECCARD: ['myskills', 'mybachecas', 'mygoods'],
+  TABLES_VISU_CMYSRECCARD: ['myskills', 'mybachecas', 'mygoods', 'mygroups'],
+  TABLES_SHOW_ADTYPE: ['myskills', 'mybachecas', 'mygoods'],
 
   TABLES_PERM_CHANGE_FOR_USERS: ['myskills', 'mybachecas', 'mygoods'],
   TABLES_VISU_LISTA_USER: ['myskills', 'mybachecas', 'mygoods', 'users'],

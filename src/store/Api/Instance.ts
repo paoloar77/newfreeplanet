@@ -1,13 +1,13 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
 // import LoginModule from '../Modules/Auth/LoginStore'
-import { tools } from '@src/store/Modules/tools'
 import { toolsext } from '@src/store/Modules/toolsext'
 import { serv_constants } from '@src/store/Modules/serv_constants'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
+import { tools } from '@src/store/Modules/tools'
 import * as Types from './ApiTypes'
 
-export const API_URL = process.env.MONGODB_HOST
+export let API_URL = process.env.MONGODB_HOST
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
@@ -48,6 +48,7 @@ export const removeAuthHeaders = () => {
 }
 
 async function Request(type: string, path: string, payload: any): Promise<Types.AxiosSuccess | Types.AxiosError | undefined> {
+
   let ricevuto = false
   const userStore = useUserStore()
   const globalStore = useGlobalStore()
@@ -56,6 +57,7 @@ async function Request(type: string, path: string, payload: any): Promise<Types.
     let response: AxiosResponse
     if (type === 'post' || type === 'put' || type === 'patch') {
       response = await axiosInstance[type](path, payload, {
+        baseURL: globalStore.getServerHost(),
         headers: {
           'Content-Type': 'application/json',
           'x-auth': userStore.x_auth_token,
@@ -103,6 +105,7 @@ async function Request(type: string, path: string, payload: any): Promise<Types.
     } if (type === 'get' || type === 'delete') {
       // @ts-ignore
       response = await axiosInstance[type](path, {
+        baseURL: globalStore.getServerHost(),
         params: payload,
         headers: {
           'Content-Type': 'application/json',
@@ -113,6 +116,7 @@ async function Request(type: string, path: string, payload: any): Promise<Types.
       return new Types.AxiosSuccess(response.data, response.status)
     } if (type === 'postFormData') {
       response = await axiosInstance.post(path, payload, {
+        baseURL: globalStore.getServerHost(),
         headers: {
           'Content-Type': 'multipart/form-data',
           'x-auth': userStore.x_auth_token,
