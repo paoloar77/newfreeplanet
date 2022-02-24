@@ -4,7 +4,7 @@ import { useUserStore } from '@store/UserStore'
 export * from './ApiTypes'
 import axios from 'axios'
 
-export { addAuthHeaders, removeAuthHeaders, API_URL } from './Instance'
+export { addAuthHeaders, API_URL } from './Instance'
 // import {AlgoliaSearch} from './AlgoliaController'
 import Paths from '@paths'
 import { tools } from '@src/store/Modules/tools'

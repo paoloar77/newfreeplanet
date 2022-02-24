@@ -22,7 +22,7 @@ import MixinUsers from '@/mixins/mixin-users'
 import { colmyBachecas } from '@store/Modules/fieldsTable'
 
 export default defineComponent({
-  name: 'bacheca',
+  name: 'eventi',
   components: { CSkill, CChartMap, CMapsEsempio, CFinder, CVerifyEmail, CVerifyTelegram, CDashboard, CUserNonVerif, CTitlePage },
   setup() {
     const globalStore = useGlobalStore()

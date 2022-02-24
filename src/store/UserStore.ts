@@ -799,7 +799,7 @@ export const useUserStore = defineStore('UserStore', {
         if (isLogged) {
           // console.log('this.isLogged', this.isLogged)
 
-          globalStore.setleftDrawerOpen(localStorage.getItem(toolsext.localStorage.leftDrawerOpen) === 'true')
+          // globalStore.setleftDrawerOpen(localStorage.getItem(toolsext.localStorage.leftDrawerOpen) === 'true')
           globalStore.setCategorySel(localStorage.getItem(toolsext.localStorage.categorySel))
 
           globalStore.checkUpdates()

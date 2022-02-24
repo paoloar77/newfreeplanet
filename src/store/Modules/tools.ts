@@ -15,6 +15,8 @@ import {
   TipoVisu, IGroup, IMySkill, IMyBacheca, IImgGallery,
 } from '@model'
 
+import { addToDate } from '@quasar/quasar-ui-qcalendar'
+
 import { lists } from '@store/Modules/lists'
 import { costanti } from '@store/Modules/costanti'
 import { copyToClipboard, date, Screen, useQuasar, colors, Cookies, scroll } from 'quasar'
@@ -2842,6 +2844,7 @@ export const tools = {
   },
 
   addDays(mydate: Date, days: number) {
+    //++ addToDate ?
     return date.addToDate(mydate, { days })
   },
 
@@ -4944,7 +4947,6 @@ export const tools = {
       _id: 0,
       idSector: 0,
       idSkill: 0,
-      // idSubSkill: [],
       idStatusSkill: [],
       idContribType: [],
       idCity: [],
@@ -4997,9 +4999,10 @@ export const tools = {
       _id: 0,
       idSector: 0,
       idSkill: 0,
-      // idSubSkill: [],
       idStatusSkill: [],
       idContribType: [],
+      dateTimeStart: new Date(),
+      dateTimeEnd: new Date(),
       idCity: [],
       NumLevel: 0,
       adType: 0,

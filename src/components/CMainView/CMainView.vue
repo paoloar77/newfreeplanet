@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row q-ma-xs shadow justify-center" style="border-radius: 4px;border: 1px solid rgba(0, 0, 0, 0.12);">
+    <div class="row q-ma-sm shadow justify-center" style="border-radius: 4px;border: 1px solid rgba(0, 0, 0, 0.12);">
         <CBigBtn
           v-for="(card, ind) of cardsbig" :key="ind"
           :label="card.title" :to="card.to" :icon="card.icon" :color="card.color" :text-color="!!card.textcolor ? card.textcolor : ''"

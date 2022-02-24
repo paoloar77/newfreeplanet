@@ -2,3 +2,25 @@
   display: flex;
   flex: 1;
 }
+
+.text_user_city{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 0.85rem;
+  color: grey;
+}
+
+
+.actualdate{
+
+}
+
+
+.cardrec{
+  @media (min-width: 500px) {
+    margin: 1px;
+    padding: 4px;
+  }
+
+}

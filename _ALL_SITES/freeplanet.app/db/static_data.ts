@@ -382,10 +382,10 @@ const baseroutes: IListRoutes[] = [
   {
     active: true,
     order: 10,
-    path: '/bacheca',
+    path: '/events',
     materialIcon: 'fas fa-bullhorn',
-    name: 'mypages.bacheca',
-    component: () => import('@/root/bacheca/bacheca.vue'),
+    name: 'mypages.events',
+    component: () => import('@/root/eventi/eventi.vue'),
     meta: { requiresAuth: true },
     inmenu: true,
     infooter: true,

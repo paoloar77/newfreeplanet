@@ -63,6 +63,8 @@ export const toolsext = {
   TABMYSKILLS: 'myskills',
   TABMYGOODS: 'mygoods',
   TABMYBACHECAS: 'mybachecas',
+  TABCALDATE: 'caldate',
+  TABCALALLDATE: 'calalldate',
   TABNAVI: 'navi',
   TABLISTAINGRESSO: 'listaingressos',
   TABGRADUATORIA: 'graduatorias',

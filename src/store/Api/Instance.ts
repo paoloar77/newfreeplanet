@@ -43,15 +43,17 @@ export const addAuthHeaders = () => {
   // axiosInstance.defaults.headers.Authorization = `Bearer ${LoginModule.userInfos.userToken}`
 }
 
-export const removeAuthHeaders = () => {
-  delete axiosInstance.defaults.headers.Authorization
-}
+//export const removeAuthHeaders = () => {
+//  delete axiosInstance.defaults.headers.Authorization
+//}
 
 async function Request(type: string, path: string, payload: any): Promise<Types.AxiosSuccess | Types.AxiosError | undefined> {
 
   let ricevuto = false
   const userStore = useUserStore()
   const globalStore = useGlobalStore()
+
+
   try {
     if (tools.isDebug()) console.log('Axios Request', path, type, tools.notshowPwd(payload))
     let response: AxiosResponse
@@ -102,7 +104,7 @@ async function Request(type: string, path: string, payload: any): Promise<Types.
       }
 
       return new Types.AxiosSuccess(response.data, response.status)
-    } if (type === 'get' || type === 'delete') {
+    } else if (type === 'get' || type === 'delete') {
       // @ts-ignore
       response = await axiosInstance[type](path, {
         baseURL: globalStore.getServerHost(),
@@ -114,7 +116,7 @@ async function Request(type: string, path: string, payload: any): Promise<Types.
       })
       ricevuto = true
       return new Types.AxiosSuccess(response.data, response.status)
-    } if (type === 'postFormData') {
+    } else if (type === 'postFormData') {
       response = await axiosInstance.post(path, payload, {
         baseURL: globalStore.getServerHost(),
         headers: {

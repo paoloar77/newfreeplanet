@@ -245,8 +245,10 @@ export default defineComponent({
     const spinner_visible = ref(false)
     const searchList = toRef(props, 'prop_searchList')
 
+    let actual = ''
+
     let idsel = ''
-    let colsel = ref(<IColGridTable | null>{ name: '', field: '' })
+    let colsel = ref(<IColGridTable | null>{ name: '', field: '', sortable: false })
     let valPrec = ''
 
     let separator: 'horizontal'
@@ -261,6 +263,7 @@ export default defineComponent({
     const colVisib: any = ref([])
     const colNotVisib: any = ref([])
     const colExtra: any = ref([])
+    const actualDate: any = ref(<any>null)
 
     const rowclicksel = ref(<any>null)
     const colclicksel = ref(null)
@@ -402,6 +405,7 @@ export default defineComponent({
       let filtersearch: any[] = []
       let filtersearch2: any[] = []
       let filtersearch3or: any[] = []
+      let filtercustom: any[] = [...props.filtercustom]
 
       let recSector = null
       let recSectorGood = null
@@ -461,6 +465,18 @@ export default defineComponent({
                 obj['idCity'] = item.value._id
                 if (item.value && item.value !== '' && item.value._id !== costanti.FILTER_TUTTI) {
                   filtersearch3or.push(obj)
+                }
+              }
+            } else if (shared_consts.TABLES_WITH_FILTER_FIELD.includes(item.table)) {
+
+              if (item.value) {
+                if (item.value && item.value !== '' && item.value._id !== costanti.FILTER_TUTTI) {
+                  const myr: any = globalStore.getRecordByTableSingle(item.table, item.value)
+
+                  if (myr) {
+                    filtercustom.push(myr.filter)
+                  }
+
                 }
               }
             } else if (item.value > 0) {
@@ -564,7 +580,7 @@ export default defineComponent({
         filtersearch2: filtersearch2,
         filtersearch3or: filtersearch3or,
         // @ts-ignore
-        filtercustom: props.filtercustom,
+        filtercustom: filtercustom,
         sortBy: myobj,
         descending,
         userId: userStore.my._id,
@@ -765,7 +781,7 @@ export default defineComponent({
       colsel.value = colclicksel.value
       // console.log('colsel', colsel)
       SaveValue(newVal, valinitial)
-      colsel.value = { name: '', field: '' }
+      colsel.value = { name: '', field: '', sortable: false }
     }
 
 
@@ -889,8 +905,12 @@ export default defineComponent({
 
       // console.log('DATA=', mydata.data)
 
+
       // @ts-ignore
-      newRecord.value = props.defaultnewrec()
+      if (props.defaultnewrec) {
+        // @ts-ignore
+        newRecord.value = props.defaultnewrec()
+      }
       newRecord.value['userId'] = userStore.my._id
       newRecord.value['idapp'] = process.env.APP_ID
       // globalStore.saveTable(mydata).then(ris => console.log('RISULT', ris))
@@ -913,6 +933,10 @@ export default defineComponent({
 
     function saveFieldValue(mydata: any) {
       // console.log('saveFieldValue', mydata)
+
+      if (newRecordBool.value){
+        return false
+      }
 
       // Save on Server
       globalStore.saveFieldValue(mydata).then((esito) => {
@@ -1091,7 +1115,7 @@ export default defineComponent({
       // console.log('changecol', mytable.value)
       if (!!mytable.value) {
         let arrcol = []
-        let col: IColGridTable = {name: ''}
+        let col: IColGridTable = {name: '', sortable: false}
         for (col of mycolumns.value) {
           if (col.field !== costanti.NOFIELD) {
             let obj = {
@@ -1483,6 +1507,18 @@ export default defineComponent({
       }
     }
 
+    function showDate(mydate: any) {
+      console.log('showDate', mydate)
+      const datestr = tools.getstrVeryShortDate(mydate)
+      if (actualDate.value !== datestr) {
+        return true
+      }
+      return false
+    }
+    function getActualDate(mydate: any) {
+      return actualDate.value
+    }
+
     // onMounted(mounted)
 
     created()
@@ -1568,6 +1604,10 @@ export default defineComponent({
       cmdExt,
       visupagedialog,
       myrecdialog,
+      showDate,
+      getActualDate,
+      actualDate,
+      actual,
     }
   }
 })

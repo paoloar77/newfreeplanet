@@ -91,6 +91,9 @@ export const shared_consts = {
 
   TABLES_USER_INCLUDE_MY: ['mygroups'],
   TABLES_GETCOMPLETEREC: ['myskills', 'mybachecas', 'mygoods'],
+  TABLES_WITH_FILTER_FIELD: ['caldate'],
+  TABLES_WITH_DATE: ['mybachecas'],
+  TABLES_WITH_SORTING: ['mybachecas'],
   TABLES_PERM_NEWREC: ['skills', 'goods', 'subskills', 'mygroups'],
   TABLES_REC_ID: ['skills', 'goods', 'subskills'],
 

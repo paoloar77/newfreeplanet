@@ -18,7 +18,8 @@
 
         <q-img
           v-if="tools.getValue(myrec, 'photos', '')"
-        :src="tools.getFullFileName(tools.getValue(myrec, 'photos', ''), table, myrec.username)" class="img" alt="immagine bene"></q-img>
+          :src="tools.getFullFileName(tools.getValue(myrec, 'photos', ''), table, myrec.username)" class="img"
+          alt="immagine bene"></q-img>
       </div>
 
       <div class="text-center">
@@ -46,6 +47,23 @@
               {{ tools.getValue(myrec, mycol.field, mycol.subfield) }}
             </div>
           </div>
+          <div v-else-if="mycol.name === 'dateTimeStart'" class="text-center cal">
+
+            <div v-if="myrec.dateTimeStart" class="cal__when">
+              <span class="cal__where-title">{{ $t('cal.when') }}:</span>
+              <span v-html="tools.getstrDateTimeEvent(t, myrec, true)"></span>
+            </div>
+            <!--
+            <span class="dateevent" v-if="myrec.dateTimeStart">dal <span class="datainizio">{{
+                tools.getstrVeryShortDate(myrec.dateTimeStart)
+              }}</span> al <span class="datafine">{{ tools.getstrVeryShortDate(myrec.dateTimeEnd) }}</span>
+            </span>--->
+          </div>
+          <div v-else-if="mycol.name === 'dateTimeEnd'">
+
+          </div>
+
+
           <CMyFieldRec
             v-else
             :table="table"

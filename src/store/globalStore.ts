@@ -1351,11 +1351,20 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return []
     },
 
-    getValueByTable(col: IColGridTable, val: any) {
-      if (col.jointable) {
-        const mylist = this.getTableJoinByName(col.jointable)
-        const key = fieldsTable.getKeyByTable(col.jointable)
-        const collab = fieldsTable.getLabelByTable(col.jointable)
+    getRecordByTableSingle(table: string, val: any) {
+      if (table) {
+        const mylist = this.getTableJoinByName(table)
+        const key = fieldsTable.getKeyByTable(table)
+
+        return mylist.find((myrec: any) => myrec[key] === val)
+      }
+    },
+
+    getValueByTableSingle(table: string, val: any) {
+      if (table) {
+        const mylist = this.getTableJoinByName(table)
+        const key = fieldsTable.getKeyByTable(table)
+        const collab = fieldsTable.getLabelByTable(table)
 
         // console.table(mylist)
         let risultato = ''
@@ -1376,6 +1385,11 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return risultato
       }
       return ''
+    },
+
+
+    getValueByTable(col: IColGridTable, val: any) {
+      return this.getValueByTableSingle(col.jointable!, val)
     },
 
     getMultiValueByTable(col: IColGridTable, arrval: any) {
@@ -1400,18 +1414,81 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return ''
     },
 
+    async getStatSite() {
+
+      const userStore = useUserStore()
+
+      const paramquery = {
+        locale: tools.getLocale(),
+        username: userStore.my.username
+      }
+
+      return Api.SendReq('/site/load', 'POST', paramquery)
+        .then((res) => {
+          console.log('res', res)
+          this.datastat = res.data.datastat
+          return this.datastat
+        }).catch((error) => {
+          return null
+        })
+
+    },
+
+    getItemDate(num: number, day: number, mystr: string) {
+      let mydate = tools.addDays(tools.getDateNow(),  day);
+      let mydateend = tools.addDays(mydate,  7);
+      mydate = tools.getstrYYMMDDDate(mydate)
+      mydateend = tools.getstrYYMMDDDate(mydateend)
+      let filter = { dateTimeStart: {$gte: mydate, $lte: mydateend } }
+      let obj = {_id: num, datestr: mystr, filter }
+
+      return obj
+    },
+
+    getArrDateEvent() {
+      const arr = []
+
+      let obj = {}
+
+      arr.push(this.getItemDate(1, -7, 'Settimana Scorsa'))
+      arr.push(this.getItemDate(2, 0, 'Da Oggi a 7 gg.'))
+      arr.push(this.getItemDate(3, 7, 'La settimana prossima'))
+
+      // console.log('Days', arr)
+
+      return arr
+    },
+
+    getArrAllDateEvent() {
+      const arr = []
+
+      let obj = {}
+
+      for (let i = 0; i < 120; i++) {
+        let mydate = tools.addDays(tools.getDateNow(), i - 30);
+        obj ={_id: mydate, datestr: tools.getstrVeryShortDate(mydate) }
+        arr.push(obj)
+      }
+
+      // console.log('Days', arr)
+
+      return arr
+    },
+
     getTableJoinByName(table: string, addall?: boolean, filter?: any) {
       if (table === 'permissions') return [shared_consts.Permissions.Admin, shared_consts.Permissions.Manager, shared_consts.Permissions.Teacher, shared_consts.Permissions.Tutor, shared_consts.Permissions.Editor, shared_consts.Permissions.Zoomeri, shared_consts.Permissions.Department]
-      if (table === 'accepted') return [shared_consts.Accepted.CHECK_READ_GUIDELINES, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI]
-      if (table === 'fieldstype') return costanti.FieldTypeArr
-      if (table === 'metodo_pagamento') return tools.SelectMetodiPagamento
-      if (table === 'bottype') return shared_consts.BotType
-      if (table === 'visibility') return shared_consts.Visibility
-      if (table === 'visibilGroup') return shared_consts.VisibilGroup
-      if (table === 'lang') return shared_consts.Lang
-      if (table === 'regions') return shared_consts.Regions
-      if (table === 'provinces') return shared_consts.Provinces
-      if (table === 'shippings') return shared_consts.Shippings
+      else if (table === 'accepted') return [shared_consts.Accepted.CHECK_READ_GUIDELINES, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI]
+      else if (table === 'fieldstype') return costanti.FieldTypeArr
+      else if (table === 'metodo_pagamento') return tools.SelectMetodiPagamento
+      else if (table === 'bottype') return shared_consts.BotType
+      else if (table === 'visibility') return shared_consts.Visibility
+      else if (table === 'visibilGroup') return shared_consts.VisibilGroup
+      else if (table === 'lang') return shared_consts.Lang
+      else if (table === 'regions') return shared_consts.Regions
+      else if (table === 'provinces') return shared_consts.Provinces
+      else if (table === 'shippings') return shared_consts.Shippings
+      else if (table === toolsext.TABCALDATE) return this.getArrDateEvent()
+      else if (table === toolsext.TABCALALLDATE) return this.getArrAllDateEvent()
 
       let myarr = this.getListByTable(table)
 

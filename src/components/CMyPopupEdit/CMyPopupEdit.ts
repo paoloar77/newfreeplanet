@@ -433,8 +433,10 @@ export default defineComponent({
     }
 
     function savefield(value: any, initialval: any, myq: any) {
-      myvalue.value = value
-      setValDb(myq, props.field, myvalue.value, props.type, props.serv, props.table, props.subfield, props.id, props.indrec, props.mysubsubkey)
+      if (!props.insertMode) {
+        myvalue.value = value
+        setValDb(myq, props.field, myvalue.value, props.type, props.serv, props.table, props.subfield, props.id, props.indrec, props.mysubsubkey)
+      }
     }
 
 

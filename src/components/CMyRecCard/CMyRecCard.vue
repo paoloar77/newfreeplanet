@@ -1,10 +1,13 @@
 <template>
-  <div class="q-py-xs centermydiv" :style="`min-width: `+ (tools.getwidth($q) - 20) +`px;`">
+  <div class="q-py-xs centermydiv cardrec" :style="`max-width: `+ (tools.getwidth($q) - 20) +`px; ` + ($q.screen.lt.sm ? (`min-width: `+ (tools.getwidth($q) - 20) +`px;`) : ``)">
 
     <q-item v-if="myrec" clickable v-ripple class="shadow-2 q-btn--rounded bg-teal-1">
-      <q-item-section v-if="(table === toolsext.TABMYGOODS) && (myrec.photos.length > 0)" avatar @click="cmdExt(costanti.CMD_SHOW_PAGE, myrec)">
+
+      <q-item-section v-if="(table === toolsext.TABMYGOODS) && (myrec.photos.length > 0)" avatar
+                      @click="cmdExt(costanti.CMD_SHOW_PAGE, myrec)">
         <q-avatar size="60px">
-          <q-img :src="tools.getFullFileName(myrec.photos, table, myrec.username)" :alt="myrec.descr" img-class="imgprofile" height="60px"/>
+          <q-img :src="tools.getFullFileName(myrec.photos, table, myrec.username)" :alt="myrec.descr"
+                 img-class="imgprofile" height="60px"/>
         </q-avatar>
       </q-item-section>
       <q-item-section v-else avatar @click="naviga(`/my/` + myrec.username)">
@@ -27,11 +30,12 @@
             dense
             class="text-center shadow-5 glossy bg-green chipmodif">{{ rec.descr }}</q-chip></span>
 
-          <!--<span> - {{ myrec.profile.qualifica }}</span>-->
+          <!--<span class="dateevent" v-if="myrec.dateTimeStart">dal <span class="datainizio">{{tools.getstrVeryShortDate(myrec.dateStart) }}</span> al <span class="datafine">{{ tools.getstrVeryShortDate(myrec.dateEnd) }}</span>
+          </span>-->
         </q-item-label>
         <q-item-label lines="3" v-if="myrec.descr">{{ myrec.descr }}<br>
         </q-item-label>
-        <q-item-label overline lines="1" style="text-align: right">
+        <q-item-label lines="1" style="text-align: right" class="text_user_city">
           <span class="text-weight-bold">{{ myrec.username }}</span> -
           <span v-for="(rec, ind) of myrec.mycities" :key="ind"><span v-if="ind > 0">, </span>{{ rec.comune }}</span>
         </q-item-label>
@@ -39,16 +43,22 @@
       </q-item-section>
       <q-item-section side v-if="myrec.userId === userStore.my._id">
         <q-item-label>
-          <q-btn rounded icon="fas fa-ellipsis-h">
+          <q-btn rounded icon="fas fa-pencil-alt">
             <q-menu>
               <q-list style="min-width: 150px">
-                <q-item clickable icon="fas fa-pencil-alt" v-close-popup
+                <q-item clickable v-close-popup
                         @click="cmdExt(costanti.CMD_MODIFY, myrec._id)">
+                  <q-item-section side>
+                    <q-icon name="fas fa-pencil-alt"/>
+                  </q-item-section>
                   <q-item-section>{{ $t('reg.edit') }}</q-item-section>
                 </q-item>
               </q-list>
               <q-list style="min-width: 150px">
-                <q-item clickable icon="fas fa-trash-alt" v-close-popup @click="cmdExt(costanti.CMD_DELETE, myrec._id)">
+                <q-item clickable v-close-popup @click="cmdExt(costanti.CMD_DELETE, myrec._id)">
+                  <q-item-section side>
+                    <q-icon name="fas fa-trash-alt"/>
+                  </q-item-section>
                   <q-item-section>{{ $t('reg.elimina') }}</q-item-section>
                 </q-item>
               </q-list>

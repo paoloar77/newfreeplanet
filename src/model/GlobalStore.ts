@@ -4,9 +4,39 @@ import {
   IDepartment, IProducer, IShareWithUs, IStorehouse,
 } from '@src/model/Products'
 
+import { IUserFields, IUserProfile } from '@src/model/UserStore'
+
 export interface IPost {
   title: string
 }
+
+export interface ICheckUser {
+  verified_email?: boolean
+  teleg_id?: number
+  profile?: IUserProfile
+}
+
+
+export interface INotData {
+  num_reg?: number
+  num_passeggeri?: number
+  num_imbarcati?: number
+  email_non_verif?: number
+  num_teleg_attivo?: number
+  num_teleg_pending?: number
+  num_part_zoom?: number
+  num_part_accepted?: number
+  num_modalita_pagamento?: number
+  arr_nations?: string
+  lastsreg?: IUserFields[]
+  checkuser?: ICheckUser | any
+  numreg_untilday?: number
+  reg_daily?: string
+  imbarcati_daily?: string
+  imbarcati_weekly?: string
+  reg_weekly?: string
+}
+
 
 export interface IConnData {
   downloading_server: number
@@ -270,6 +300,7 @@ export interface IGlobalState {
   sectorgoods: ISectorGood[],
   catgrps: ICatGrp[],
   cities: ICity[],
+  datastat?: INotData
 }
 
 export interface IMenuList {
@@ -509,6 +540,7 @@ export interface IColGridTable {
   askaction?: string
   foredit?: boolean
   fieldtype?: number
+  fieldtype_real?: number
   field_outtype?: number
   noshowlabel?: boolean
   tipovisu?: number
@@ -751,6 +783,8 @@ export interface IMyBacheca {
   // idSubSkill: number[]
   idStatusSkill: number[]
   idContribType: string[]
+  dateTimeStart: Date
+  dateTimeEnd: Date
   idCity: number[]
   photos: IGallery[]
   NumLevel: number
@@ -762,4 +796,5 @@ export interface IMyBacheca {
   date_created?: Date,
   date_updated?: Date,
 }
+
 

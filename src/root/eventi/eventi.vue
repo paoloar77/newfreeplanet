@@ -4,7 +4,7 @@
     <div v-if="isLogged()">
 
       <div v-if="isUserOk()">
-        <CTitlePage :ind="0" />
+        <CTitlePage :ind="4" />
 
         <CFinder
           :table="toolsext.TABMYBACHECAS">
@@ -23,8 +23,8 @@
   </q-page>
 
 </template>
-<script lang="ts" src="./bacheca.ts">
+<script lang="ts" src="./eventi.ts">
 </script>
 <style lang="scss" scoped>
-@import './bacheca.scss';
+@import './eventi.scss';
 </style>

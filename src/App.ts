@@ -75,7 +75,7 @@ export default {
             .then((loadstorage: any) => {
               if (loadstorage) {
 
-                if ($q.screen.gt.xs) {
+                if ($q.screen.gt.sm) {
                   globalStore.setleftDrawerOpen(true)
                 }
 

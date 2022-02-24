@@ -953,3 +953,19 @@ $heightBtn: 100%;
   border: 1px solid #bbb;
   border-radius: $generic-border-radius
 }
+.dateevent{
+  border-radius: 16px;
+  border: red solid 2px;
+  padding: 3px;
+  text-align: right;
+  font-style: italic;
+  margin-left: 5px;
+  font-size: 0.85rem;
+  color: darkblue;
+
+}
+
+.datainizio, .datafine{
+  font-weight: bold;
+}
+

@@ -5,32 +5,33 @@
   "productName": "Insieme Si Puo",
   "author": "Paolo Arena",
   "private": true,
-  "keywords": [
-  ],
+  "keywords": [],
   "license": "MIT",
   "scripts": {
     "dev": "quasar dev",
     "build": "quasar build",
     "buildpwa": "quasar build -m pwa",
+    "buildspa": "quasar build -m spa",
     "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore ./",
     "lintfile": "eslint --ext .js,.ts,.vue --ignore-path .gitignore ./ > file.out.txt",
     "lintfileNoJS": "eslint --ext .ts,.vue --ignore-path .gitignore ./ > file.out.txt",
     "fix": "eslint --ext .ts,.vue --ignore-path .gitignore ./ --fix > file.out.txt",
     "pwa": "NODE_ENV=development NODE_OPTIONS=--max_old_space_size=4096 DEBUG=v8:* quasar dev -m pwa",
+    "spa": "NODE_ENV=development NODE_OPTIONS=--max_old_space_size=4096 DEBUG=v8:* quasar dev -m spa",
     "test": "echo \"No test specified\" && exit 0",
     "generate-sw": "workbox generateSW workbox-config.js"
   },
   "dependencies": {
-    "axios": "0.21.4",
-    "@vue/eslint-config-standard": "5.1.2",
     "@quasar/extras": "^1.12.5",
-    "@quasar/quasar-ui-qcalendar": "^4.0.0-beta.11",
+    "@quasar/quasar-ui-qcalendar": "^4.0.0-beta.13",
     "@vue/compat": "^3.2.31",
     "@vue/compiler-sfc": "^3.2.31",
+    "@vue/eslint-config-standard": "5.1.2",
     "@vuelidate/core": "^2.0.0-alpha.34",
     "@vuelidate/validators": "^2.0.0-alpha.26",
     "acorn": "^8.7.0",
     "autoprefixer": "^10.4.2",
+    "axios": "^0.26.0",
     "bcryptjs": "^2.4.3",
     "core-js": "^3.21.0",
     "crypto": "^1.0.1",
@@ -71,10 +72,7 @@
     "vuex-router-sync": "^6.0.0-rc.1"
   },
   "devDependencies": {
-    "node-sass": "6.0.1",
-    "webpack": "^5.0.0",
-    "@quasar/app": "^3.2.5",
-    "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.11",
+    "@quasar/app": "^3.3.3",
     "@types/bcryptjs": "^2.4.2",
     "@types/dotenv": "^8.2.0",
     "@types/googlemaps": "^3.43.3",
@@ -97,6 +95,7 @@
     "http-proxy-middleware": "^2.0.3",
     "jest": "^27.5.1",
     "json-loader": "^0.5.7",
+    "node-sass": "6.0.1",
     "npm-check-updates": "^12.4.0",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss": "^8.4.6",
@@ -111,24 +110,25 @@
     "typescript": "^4.5.4",
     "vue-cli-plugin-element-ui": "^1.1.4",
     "vueify": "^9.4.1",
+    "webpack": "^5.0.0",
     "workbox-webpack-plugin": "^6.4.2"
   },
   "browser": {
     "crypto": false
   },
   "browserslist": [
-    "last 10 Chrome versions",
-    "last 10 Firefox versions",
+    "last 13 Chrome versions",
+    "last 13 Firefox versions",
     "last 4 Edge versions",
-    "last 7 Safari versions",
-    "last 8 Android versions",
-    "last 8 ChromeAndroid versions",
-    "last 8 FirefoxAndroid versions",
+    "last 13 Safari versions",
+    "last 14 Android versions",
+    "last 14 ChromeAndroid versions",
+    "last 14 FirefoxAndroid versions",
     "last 10 iOS versions",
     "last 5 Opera versions"
   ],
   "engines": {
-    "node": ">= 14.17.0",
+    "node": ">= 16.14.0",
     "npm": ">= 6.14.8",
     "yarn": ">= 1.21.1"
   }

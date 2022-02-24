@@ -52,6 +52,8 @@ export default defineComponent({
 
     function mounted() {
       ricarica()
+
+      globalStore.getStatSite()
     }
 
     async function ricarica() {

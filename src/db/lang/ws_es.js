@@ -1,7 +1,7 @@
 const msg_website_es = {
   ws: {
     sitename: 'InsiemeSiPuò',
-    siteshortname: 'InsiemeSiPuò',
+    siteshortname: 'ISP',
     botname: 'InsiemeSiPuò BOT',
   },
   pages: {

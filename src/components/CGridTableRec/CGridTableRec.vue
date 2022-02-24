@@ -36,7 +36,7 @@
     </q-inner-loading>
     <q-table
       :grid="(myvertical === costanti.VISUTABLE_SCHEDA_USER || myvertical === 2 || myvertical === costanti.VISUTABLE_SCHEDA_GROUP)"
-      :grid-header="false"
+      :grid-header="(myvertical === costanti.VISUTABLE_SCHEDA_USER || myvertical === 2 || myvertical === costanti.VISUTABLE_SCHEDA_GROUP) && shared_consts.TABLES_WITH_SORTING.includes(mytable)"
       flat
       bordered
       class="my-sticky-header-table"
@@ -57,7 +57,9 @@
       v-model:selected="selected">
 
 
-      <template v-slot:header="props">
+      <template
+        v-if="!(myvertical === costanti.VISUTABLE_SCHEDA_USER || myvertical === 2 || myvertical === costanti.VISUTABLE_SCHEDA_GROUP)"
+        v-slot:header="props">
         <q-tr :props="props">
           <q-th>
           </q-th>
@@ -74,8 +76,31 @@
           </q-th>
         </q-tr>
       </template>
+      <template v-else
+                v-slot:header="props">
+        <q-tr :props="props">
+          <q-th>
+          </q-th>
+
+          <span v-for="col in props.cols" :key="col.name">
+            <q-th
+              v-if="col.sortable"
+              :key="col.name"
+              :props="props"
+              class="text-italic text-weight-bold"
+            >
+              <span>
+                {{ col.label }}
+              </span>
+
+            </q-th>
+          </span>
+        </q-tr>
+      </template>
 
       <template v-slot:top-right v-if="tablesList || arrfilters">
+        <span style="display: none">{{actual = null}}</span>
+
         <q-select
           v-if="tablesList"
           v-model="tablesel"
@@ -99,6 +124,14 @@
 
           </q-toggle>
         </div>
+
+
+        <!--<q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>-->
+
       </template>
 
       <template v-slot:top-left>
@@ -184,12 +217,13 @@
             >
 
               <template v-if="item.icon" v-slot:prepend>
-                <q-icon :name="item.icon" />
+                <q-icon :name="item.icon"/>
               </template>
               <template
                 v-if="item.arrvalue.length >= 1"
                 v-slot:selected-item="scope">
-                <div v-if="scope.opt[fieldsTable.getLabelByTable(item.table)] || (scope.opt && checkIfShowRec(scope.opt)) ">
+                <div
+                  v-if="scope.opt[fieldsTable.getLabelByTable(item.table)] || (scope.opt && checkIfShowRec(scope.opt)) ">
                   <q-chip
                     removable
                     dense
@@ -262,9 +296,11 @@
         <div v-if="choose_visutype" class="">
           <q-radio v-model="myvertical" :val="2" label="Lista"
                    @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
-          <q-radio v-if="mytable === toolsext.TAB" v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_GROUP" label="Scheda"
+          <q-radio v-if="mytable === toolsext.TAB" v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_GROUP"
+                   label="Scheda"
                    @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
-          <q-radio v-else-if="mytable !== toolsext.TABMYGROUPS && !finder" v-model="myvertical" :val="costanti.VISUTABLE_SCHEDA_USER" label="Scheda"
+          <q-radio v-else-if="mytable !== toolsext.TABMYGROUPS && !finder" v-model="myvertical"
+                   :val="costanti.VISUTABLE_SCHEDA_USER" label="Scheda"
                    @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
           <q-radio v-if="$q.screen.gt.xs" v-model="myvertical" :val="0" label="Tabella"
                    @update:model-value="tools.setCookie('myv_' + prop_mytable, myvertical) "/>
@@ -317,17 +353,28 @@
       </template>
 
       <template v-slot:item="props">
-        <div v-if="showType === costanti.SHOW_MYCARD || (myvertical === costanti.VISUTABLE_LISTA && shared_consts.TABLES_VISU_CMYSRECCARD.includes(tablesel)) ">
+        <div
+          v-if="showType === costanti.SHOW_MYCARD || (myvertical === costanti.VISUTABLE_LISTA && shared_consts.TABLES_VISU_CMYSRECCARD.includes(tablesel)) ">
+
+          <div v-if="props.row && shared_consts.TABLES_WITH_DATE.includes(tablesel)">
+
+            <div v-if="props.row.dateTimeStart && (tools.getstrVeryShortDate(props.row.dateTimeStart) !== actual)" class="actualdate">
+              <span style="display: none">{{actual = tools.getstrVeryShortDate(props.row.dateTimeStart)}}</span>
+              <q-chip class="text-center shadow-5 glossy bg-orange" icon="fas fa-calendar-day">{{tools.getstrDateLong(props.row.dateTimeStart) }}</q-chip>
+            </div>
+          </div>
+
           <CMyRecCard
             :table="tablesel"
             :prop_myrec="props.row"
             @cmdext="cmdExt"
-            :visu="visufind"
           >
           </CMyRecCard>
 
         </div>
-        <div v-else-if="((showType === costanti.SHOW_USERINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_USER) || ((myvertical === 2) && (shared_consts.TABLES_VISU_LISTA_USER.includes(tablesel)))" class="fill-all-width">
+        <div
+          v-else-if="((showType === costanti.SHOW_USERINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_USER) || ((myvertical === 2) && (shared_consts.TABLES_VISU_LISTA_USER.includes(tablesel)))"
+          class="fill-all-width">
           <div>
             <CMyUser
               :mycontact="props.row"
@@ -352,7 +399,9 @@
           </div>
 
         </div>
-        <div v-else-if="((showType === costanti.SHOW_GROUPINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_GROUP) || ((myvertical === 2) && (tablesel === 'mygroups'))" class="fill-all-width">
+        <div
+          v-else-if="((showType === costanti.SHOW_GROUPINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_GROUP) || ((myvertical === 2) && (tablesel === 'mygroups'))"
+          class="fill-all-width">
           <div>
 
             <CMyGroups
@@ -374,7 +423,8 @@
                   style="background: radial-gradient(circle, #ffffff 0%, #bbddff 100%)">
             <q-bar v-if="!visuinpage && canModifyThisRec(props.row)" dense class="bg-primary text-white full-height">
               <q-badge v-if="props.row['adType']" :color="fieldsTable.getColByAdType(props.row['adType'])">
-                {{ fieldsTable.getValByTabAndId(tablesel, 'adType', props.row['adType']) }}<q-icon :name="fieldsTable.getIconByAdType(props.row['adType'])" color="white" class="q-ml-xs" />
+                {{ fieldsTable.getValByTabAndId(tablesel, 'adType', props.row['adType']) }}
+                <q-icon :name="fieldsTable.getIconByAdType(props.row['adType'])" color="white" class="q-ml-xs"/>
               </q-badge>
 
               <q-space/>
@@ -397,10 +447,13 @@
             <q-card-section class="">
               <q-list dense>
                 <div v-for="col in mycolumns" :key="col.name">
-                  <q-item v-if="showColCheck(col, tools.TIPOVIS_SHOW_RECORD, false, tools.getValue(props.row,col.field, col.subfield))"
-                          :class="clByCol(col)" class="riduci_pad">
+                  <q-item
+                    v-if="showColCheck(col, tools.TIPOVIS_SHOW_RECORD, false, tools.getValue(props.row,col.field, col.subfield))"
+                    :class="clByCol(col)" class="riduci_pad">
                     <q-item-section avatar v-if="col.icon">
-                      <q-item-label class="q-table__col"><q-icon :name="col.icon"></q-icon></q-item-label>
+                      <q-item-label class="q-table__col">
+                        <q-icon :name="col.icon"></q-icon>
+                      </q-item-label>
                     </q-item-section>
 
                     <q-item-section avatar v-if="visuIntestazCol(col)">
@@ -501,7 +554,8 @@
             v-for="col in mycolumns" :key="col.name" class="newrec_fields">
 
             <div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
-              <q-btn color="primary" size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
+              <q-btn color="primary" size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'"
+                     label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
             </div>
             <div
               v-if="showColCheck(col, tools.TIPOVIS_NEW_RECORD, true, 0, newRecord) && col.foredit ">
@@ -546,7 +600,8 @@
           <div
             v-for="col in mycolumns" :key="col.name">
             <div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
-              <q-btn color="primary" size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'" label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
+              <q-btn color="primary" size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'"
+                     label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
             </div>
             <div
               v-else-if="showColCheck(col, tools.TIPOVIS_EDIT_RECORD, false) && col.foredit">

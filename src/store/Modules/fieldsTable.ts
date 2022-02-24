@@ -69,6 +69,7 @@ function AddCol(params: IColGridTable) {
     action: (params.action === undefined) ? '' : params.action,
     foredit: (params.foredit === undefined) ? true : params.foredit,
     fieldtype: (params.fieldtype === undefined) ? costanti.FieldType.string : params.fieldtype,
+    fieldtype_real: (params.fieldtype_real === undefined) ? ((params.fieldtype === undefined) ? costanti.FieldType.string : params.fieldtype) : params.fieldtype_real,
     field_outtype: (params.field_outtype === undefined) ? costanti.FieldType.string : params.field_outtype,
     tipovisu: (params.tipovisu === undefined) ? costanti.TipoVisu.TESTO : params.tipovisu,
     link: (params.link === undefined) ? '' : params.link,
@@ -557,6 +558,11 @@ export const colmyUserGroup = [
     jointable: 'friendsandme',
     field_outtype: costanti.FieldType.object,
   }),
+  AddCol({ name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
+    required: false,
+    visible: false,
+    sortable: true,
+    showWhen: 0}),
   AddCol({
     name: 'photos',
     label_trans: 'skill.photos',
@@ -579,7 +585,9 @@ export const colmyUserGroup = [
   }),
   AddCol({
     name: 'date_created', label_trans: 'reg.date_created', fieldtype: costanti.FieldType.onlydate,
-    showWhen: costanti.showWhen.InPage + costanti.showWhen.InView_OnlyifExist
+    showWhen: costanti.showWhen.InPage + costanti.showWhen.InView_OnlyifExist,
+    visible: false,
+    required: false,
   }),
   AddCol({
     name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
@@ -630,8 +638,9 @@ export const colmyGoods = [
     fieldtype: costanti.FieldType.string,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     noshowlabel: true,
-    maxlength: 200,
+    maxlength: 90,
     required: true,
+    sortable: false,
   }),
   AddCol({
     name: 'idSectorGood',
@@ -678,6 +687,11 @@ export const colmyGoods = [
     //icon: 'fas fa-hands-helping',
     // isadvanced_field: true,
   }),
+  AddCol({ name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
+    required: false,
+    visible: false,
+    sortable: true,
+    showWhen: 0}),
   AddCol({
     name: 'photos',
     label_trans: 'skill.photos',
@@ -778,8 +792,9 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.string,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     noshowlabel: true,
-    maxlength: 200,
+    maxlength: 90,
     required: true,
+    sortable: false,
   }),
   AddCol({
     name: 'idSector',
@@ -822,6 +837,8 @@ export const colmySkills = [
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
     visible: false,
   }),
+
+
   /*AddCol({
     name: 'idSubSkill',
     label_trans: 'skill.subskill',
@@ -850,6 +867,11 @@ export const colmySkills = [
     icon: 'grading',
     isadvanced_field: true,
   }),
+  AddCol({ name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
+    required: false,
+    visible: false,
+    sortable: true,
+    showWhen: 0}),
   AddCol({
     name: 'photos',
     label_trans: 'skill.photos',
@@ -885,6 +907,7 @@ export const colmyBachecas = [
     noshowlabel: true,
     icon: 'mood',
     isadvanced_field: true,
+    sortable: false,
   }),
 
   AddCol({
@@ -896,6 +919,7 @@ export const colmyBachecas = [
     link: '/my/username',
     noshowlabel: true,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+    sortable: false,
   }),
   AddCol({
     name: 'idCity',
@@ -909,6 +933,7 @@ export const colmyBachecas = [
     remote_table: 'mycities',
     remote_key: '_id',
     remote_field: 'comune',
+    sortable: false,
   }),
   AddCol({
     name: 'adType',
@@ -919,15 +944,39 @@ export const colmyBachecas = [
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
     icon: 'fas fa-bullhorn',
     noshowlabel: true,
+    sortable: false,
   }),
+  AddCol(
+    {
+      name: 'dateTimeStart',
+      label_trans: 'event.dateTimeStart',
+      // jointable: toolsext.TABCALALLDATE,
+      fieldtype: costanti.FieldType.date,
+      // fieldtype: costanti.FieldType.select,
+      // fieldtype_real: costanti.FieldType.onlydate,
+      // fieldtype: costanti.FieldType.onlydate,
+      icon: 'fas fa-calendar-day',
+    }),
+  AddCol(
+    {
+      name: 'dateTimeEnd',
+      label_trans: 'event.dateTimeEnd',
+      fieldtype: costanti.FieldType.date,
+      // jointable: toolsext.TABCALALLDATE,
+      // fieldtype: costanti.FieldType.select,
+      // fieldtype_real: costanti.FieldType.onlydate,
+      icon: 'fas fa-calendar-day',
+      sortable: false,
+    }),
   AddCol({
     name: 'descr',
     label_trans: 'proj.shortdescr',
     fieldtype: costanti.FieldType.string,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     noshowlabel: true,
-    maxlength: 200,
+    maxlength: 90,
     required: true,
+    sortable: false,
   }),
   AddCol({
     name: 'idSector',
@@ -938,6 +987,7 @@ export const colmyBachecas = [
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
     visible: true,
     icon: 'category',
+    sortable: false,
   }),
   AddCol({
     name: 'idSkill',
@@ -951,6 +1001,7 @@ export const colmyBachecas = [
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
     allowNewValue: false,
     required: false,
+    sortable: false,
   }),
   AddCol({
     name: 'idContribType',
@@ -962,15 +1013,21 @@ export const colmyBachecas = [
     icon: 'fas fa-hand-holding',
     //icon: 'fas fa-hands-helping',
     isadvanced_field: false,
+    sortable: false,
   }),
-  AddCol({
+  /*AddCol({
     name: '',
     fieldtype: costanti.FieldType.separator,
     required: false,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
     visible: false,
-  }),
-
+    sortable: false,
+  }),*/
+  AddCol({ name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
+    required: false,
+    visible: false,
+    sortable: true,
+    showWhen: 0}),
   AddCol({
     name: 'photos',
     label_trans: 'skill.photos',
@@ -979,17 +1036,20 @@ export const colmyBachecas = [
     showpicprofile_ifnotset: true,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
     isadvanced_field: true,
+    sortable: false,
   }),
   AddCol({
     name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '',
     isadvanced_field: true,
+    sortable: false,
   }),
   //**ADDFIELD_MYBACHECAS
   AddCol({
     name: 'website', label_trans: 'reg.website', isadvanced_field: true, fieldtype: costanti.FieldType.link,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    sortable: false,
   }),
   AddCol(DuplicateRec),
   AddCol(ModifRec),
@@ -1291,6 +1351,12 @@ const colTablePermission = [
   AddCol(DuplicateRec),
 ]
 
+const colCalDate = [
+  AddCol({ name: '_id', label_trans: 'rec.date', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'datestr', label_trans: 'reg.date', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'filter', label_trans: 'reg.filter', fieldtype: costanti.FieldType.object }),
+]
+
 const colTableGeneric = [
   AddCol({ name: 'value', label_trans: 'others.value' }),
   AddCol({ name: 'label', label_trans: 'proj.longdescr' }),
@@ -1445,7 +1511,7 @@ export const colTableUsersBase = [
   AddCol(DuplicateRec),
 ]
 
-  // IColGridTable
+// IColGridTable
 export const colTableUsers = [
   // AddCol({ name: '_id', label_trans: 'reg.id' }),
   AddCol({ name: 'index', label_trans: 'reg.index', fieldtype: costanti.FieldType.number }),
@@ -1973,6 +2039,7 @@ export const colTableUsersISP = [
   }),
   AddCol({ name: 'date_reg', label_trans: 'reg.date_reg', fieldtype: costanti.FieldType.date }),
   AddCol({ name: 'lasttimeonline', label_trans: 'reg.lasttimeonline', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'useragent', label_trans: 'reg.useragent', fieldtype: costanti.FieldType.string }),
   AddCol({
     name: 'perm',
     label_trans: 'reg.perm',
@@ -2433,6 +2500,22 @@ export const fieldsTable = {
       columns: colGoods,
       colkey: '_id',
       collabel: 'descr',
+    },
+    {
+      value: toolsext.TABCALDATE,
+      label: 'Date',
+      columns: colCalDate,
+      colkey: '_id',
+      collabel: 'datestr',
+      noshow: true,
+    },
+    {
+      value: toolsext.TABCALALLDATE,
+      label: 'Date',
+      columns: colCalDate,
+      colkey: '_id',
+      collabel: 'datestr',
+      noshow: true,
     },
     /*{
       value: 'subskills',
