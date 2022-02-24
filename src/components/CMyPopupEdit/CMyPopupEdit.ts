@@ -7,6 +7,7 @@ import { IColGridTable, IImgGallery } from 'model'
 import { CMyChipList } from '../CMyChipList'
 import { CDate } from '../CDate'
 import { CDateTime } from '../CDateTime'
+import { CLabel } from '../CLabel'
 import { CMyToggleList } from '../CMyToggleList'
 import { CMySelect } from '../CMySelect'
 import { CMyEditor } from '../CMyEditor'
@@ -173,7 +174,7 @@ export default defineComponent({
       default: false,
     },
   },
-  components: { CMyChipList, CDateTime, CDate, CMyToggleList, CMySelect, CMyEditor, CGallery },
+  components: { CMyChipList, CDateTime, CDate, CMyToggleList, CMySelect, CMyEditor, CGallery, CLabel },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()

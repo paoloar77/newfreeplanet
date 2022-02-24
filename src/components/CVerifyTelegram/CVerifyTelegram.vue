@@ -23,8 +23,8 @@
       </div>
       <strong>{{ $t('components.authentication.telegram.ifclose', {botname: getBotNameTelegram() })}}</strong>
       <div class="q-my-sm">
-        <q-img src="statics/images/ayni_bot.jpg" class="" :alt="$t('ws.sitename')" style="height: 100px; width: 250px;">
-        </q-img>
+        <!--<q-img src="images/ayni_bot.jpg" class="" :alt="$t('ws.sitename')" style="height: 100px; width: 250px;">
+        </q-img>-->
       </div>
     </div>
 

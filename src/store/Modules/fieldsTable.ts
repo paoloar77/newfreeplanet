@@ -621,6 +621,7 @@ export const colmyGoods = [
     remote_table: 'mycities',
     remote_key: '_id',
     remote_field: 'comune',
+    required: true,
   }),
   AddCol({
     name: 'adType',

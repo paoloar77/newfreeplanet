@@ -64,7 +64,7 @@
             />
           </div>
 
-          <q-btn v-if="userStore.IsMyFriendByUsername(myuser.username)" rounded icon="fas fa-ellipsis-h" >
+          <q-btn v-if="userStore.IsMyFriendByUsername(myuser.username)" rounded icon="fas fa-ellipsis-h">
             <q-menu>
               <q-list v-if="true" style="min-width: 150px">
                 <q-item clickable
@@ -99,7 +99,7 @@
           to="/editprofile">
         </q-btn>
 
-        <div v-if="myuser._id" class="myrow justify-evenly items-center q-pa-sm q-ma-sm">
+        <div class="myrow justify-evenly items-center q-pa-sm q-ma-sm">
 
           <div class="col-md-6 col-sm-6 q-ma-xs col-xs-12">
             <q-btn
@@ -112,7 +112,7 @@
             </q-btn>
 
           </div>
-          <div class="col-md-6 col-sm-6 q-ma-xs col-xs-12">
+          <div v-if="myuser._id" class="col-md-6 col-sm-6 q-ma-xs col-xs-12">
             <q-btn
               v-if="getLinkWebSite()" icon="fas fa-globe"
               color="blue" type="a"
@@ -176,13 +176,33 @@
 
           <div v-if="myuser.profile" class="fit column no-wrap justify-evenly content-start">
 
-            <div class="col-6 text-h6">
+            <div class="col-md-6 col-sm-6 q-ma-xs col-xs-12">
+
               <CDateTime
                 v-if="checkifShow('profile.dateofbirth') && !!myuser.profile.dateofbirth"
                 v-model:value="myuser.profile.dateofbirth"
                 :label="$t('reg.dateofbirth')"
                 :canEdit="false">
               </CDateTime>
+              <CLabel
+                v-bind="$attrs"
+                :value="myuser.profile.intcode_cell + myuser.profile.cell"
+                label="Cellulare"
+              />
+
+              <!--
+              <CMyFieldRec
+                table="users"
+                :id="myuser._id"
+                :rec="myuser"
+                field="profile.cell"
+                class="cursor-pointer"
+                :canEdit="false"
+                :disable="true"
+                :canModify="false">
+              </CMyFieldRec>
+              -->
+
 
             </div>
 

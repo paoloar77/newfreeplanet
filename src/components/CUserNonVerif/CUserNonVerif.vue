@@ -1,5 +1,12 @@
 <template>
   <div class="q-ma-md">
+    <CVerifyTelegram v-if="!TelegVerificato()">
+
+    </CVerifyTelegram>
+
+    <CVerifyEmail v-if="!isEmailVerified() && !TelegVerificato()">
+
+    </CVerifyEmail>
     <div v-if="tools.isTelegOk()">
       <q-banner inline-actions rounded class="bg-orange text-black">
         <template v-slot:avatar>

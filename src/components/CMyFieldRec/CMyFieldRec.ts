@@ -116,7 +116,7 @@ export default defineComponent({
       let columns = fieldsTable.getArrColsByTable(props.table)
 
       if (columns) {
-        col.value = columns.find((col: any) => col.field === props.field)
+        col.value = columns.find((col: any) => col.name === props.field)
       } else {
         col.value = fieldsTable.getColByTable(props.table, props.field)
       }
@@ -177,6 +177,7 @@ export default defineComponent({
     }
 
     function visuElem() {
+
       if (col.value) {
         return !!col.value.name && (props.canEdit || (!props.canEdit && getValue()))
       } else {

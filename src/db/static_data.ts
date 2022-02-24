@@ -655,8 +655,8 @@ const baseroutes: IListRoutes[] = [
     name: 'pages.calendarioeventi',
     component: () => import('@/root/calendarioeventi/calendarioeventi.vue'),
     extraclass: 'isCalendar',
-    inmenu: true,
-    infooter: true
+    inmenu: false,
+    infooter: false
   },
   {
     active: true,

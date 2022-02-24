@@ -82,7 +82,7 @@
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.string || col.fieldtype === costanti.FieldType.crypted">
-            <div v-if="visulabel || isInModif" :class="{ flex: !isInModif}">
+            <div v-if="isInModif" :class="{ flex: !isInModif}">
               <q-input
                 v-bind="$attrs"
                 v-model="myvalue"
@@ -99,8 +99,14 @@
                 :label="col.label">
               </q-input>
             </div>
+            <div v-else-if="col.tipovisu === costanti.TipoVisu.TESTO" :class="{ flex: !isInModif}">
+              <CLabel
+                v-bind="$attrs"
+                :value="myvalue"
+                :label="t(col.label_trans)"
+              />
+            </div>
             <div v-else>
-
               <q-btn v-if="col.tipovisu === costanti.TipoVisu.LINK && myvalue"
                      type="a" rounded size="md"
                      :class="{disabled: disable }"
@@ -126,7 +132,7 @@
                 v-model="myvalue"
                 :maxlength="col.maxlength ? col.maxlength : undefined"
                 @update:model-value="Savedb"
-                :label="visulabel ? col.label : ''"
+                :label="visulabel ? t(col.label_trans) : ''"
                 type="number"
                 autofocus>
 
@@ -219,7 +225,7 @@
                 :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
                 :tablesel="tablesel"
@@ -240,7 +246,7 @@
                 :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
                 :tablesel="tablesel"
@@ -258,7 +264,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.date">
             <div v-if="myvalue">
               <CDateTime
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 class="cursor-pointer"
                 v-model:value="myvalue"
                 :readonly="false"
@@ -274,12 +280,12 @@
                 dense
                 color="primary" @click="OpenEdit"
                 icon="fas fa-calendar-day"
-                />
+              />
             </div>
           </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.onlydate">
             <CDateTime
-              :label="col.label"
+              :label="col.label ? col.label : t(col.label_trans)"
               class="cursor-pointer"
               :valueDate="myvalue"
               v-model:value="myvalue"
@@ -295,7 +301,7 @@
           <div v-else-if="col.fieldtype === costanti.FieldType.binary">
             <div v-if="isInModif">
               <span v-if="insertMode">
-                {{ col.label }}:
+                {{ col.label ? col.label : t(col.label_trans) }}:
               </span>
               <CMyToggleList
                 :label="col.titlepopupedit"
@@ -328,7 +334,7 @@
                 :row="row"
                 :multiple="true"
                 :withToggle="true"
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 :filter_table="col.filter_table"
                 :filter_field="col.filter_field"
                 :value_extra="value_extra"
@@ -396,7 +402,7 @@
                 :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 v-model:value="myvalue"
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
                 :tablesel="col.fieldtype === costanti.FieldType.select_by_server ? tablesel : ''"
@@ -444,7 +450,7 @@
               :col="col"
               :row="row"
               :multiselect_by_server="true"
-              :label="col.label"
+              :label="col.label ? col.label : t(col.label_trans)"
               v-model:arrvalue="myvalue"
               @update:arrvalue="changevalRec"
               :addall="false"
@@ -469,7 +475,7 @@
                 :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
                 :filter_table="col.filter_table"
@@ -635,7 +641,7 @@
                   autofocus
                   @update:model-value="changevalRec"
                   style="max-width: 100px;"
-                  :label="col.label">
+                  :label="col.label ? col.label : t(col.label_trans)">
                 </q-input>
               </div>
               <div v-if="isFieldDb()">
@@ -668,7 +674,7 @@
                 :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 v-model:value="scope.value"
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
                 :tablesel="col.fieldtype === costanti.FieldType.select_by_server ? tablesel : ''"
@@ -688,7 +694,7 @@
                 :col="col"
                 :row="row"
                 :multiselect_by_server="true"
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 v-model:arrvalue="scope.value"
                 @update:arrvalue="changevalRec"
                 :addall="false"
@@ -744,7 +750,7 @@
                   :type_out="col.field_outtype"
                   :col="col"
                   :row="row"
-                  :label="col.label"
+                  :label="col.label ? col.label : t(col.label_trans)"
                   v-model:value="scope.value"
                   @update:value="changevalRec"
                   :tablesel="tablesel"
@@ -765,7 +771,7 @@
                   :type_out="col.field_outtype"
                   :col="col"
                   :row="row"
-                  :label="col.label"
+                  :label="col.label ? col.label : t(col.label_trans)"
                   v-model:value="scope.value"
                   @update:value="changevalRec"
                   :tablesel="tablesel"
@@ -779,7 +785,7 @@
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.date">
               <CDateTime
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 class="cursor-pointer"
                 v-model:value="myvalue"
                 :readonly="false"
@@ -792,7 +798,7 @@
             </div>
             <div v-else-if="col.fieldtype === costanti.FieldType.onlydate">
               <CDateTime
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 class="cursor-pointer"
                 :valueDate="myvalue"
                 v-model:value="myvalue"
@@ -820,7 +826,7 @@
                 :type_out="col.field_outtype"
                 :col="col"
                 :row="row"
-                :label="col.label"
+                :label="col.label ? col.label : t(col.label_trans)"
                 v-model:value="scope.value"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"

@@ -23,6 +23,7 @@ import { complexity, complexityUser, registereduser, aportadorexist } from '../.
 // import 'vue3-tel-input/dist/vue3-tel-input.css'
 import { useRoute, useRouter } from 'vue-router'
 import { static_data } from '@/db/static_data'
+import { useGlobalStore } from '@store/globalStore'
 
 // import {Loading, QSpinnerFacebook, QSpinnerGears} from 'quasar'
 
@@ -67,6 +68,9 @@ export default defineComponent({
     const iamadult = ref(false)
     const duplicate_email = ref(false)
     const duplicate_username = ref(false)
+
+
+    const globalStore = useGlobalStore()
 
     const signup = reactive(<ISignupOptions>{
       email: process.env.TEST_EMAIL || '',
@@ -137,7 +141,7 @@ export default defineComponent({
 
     function allowSubmit() {
 
-      let error = v$.value.$error || v$.value.$invalid
+      let error = v$.value.$error || v$.value.$invalid || globalStore.serverError
 
       if (props.showadultcheck)
         error = error || !iamadult.value

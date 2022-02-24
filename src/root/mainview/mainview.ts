@@ -10,8 +10,6 @@ import { CChartMap } from '@src/components/CChartMap'
 import { CUserNonVerif } from '@/components/CUserNonVerif'
 import { CCopyBtn } from '@/components/CCopyBtn'
 import { CMapsEsempio } from '@src/components/CMapsEsempio'
-import { CVerifyEmail } from '@src/components/CVerifyEmail'
-import { CVerifyTelegram } from '@src/components/CVerifyTelegram'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 import { static_data } from '@/db/static_data'
@@ -21,18 +19,13 @@ import MixinUsers from '@/mixins/mixin-users'
 
 export default defineComponent({
   name: 'mainview',
-  components: { CSkill, CChartMap, CMapsEsempio, CVerifyEmail, CVerifyTelegram, CDashboard, CUserNonVerif, CMainView, CCopyBtn },
+  components: { CSkill, CChartMap, CMapsEsempio, CDashboard, CUserNonVerif, CMainView, CCopyBtn },
   setup() {
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
     const { getValDb } = MixinBase()
-    const { isEmailVerified, TelegVerificato } = MixinUsers()
 
     const { getRefLink } = MixinUsers()
-
-    function TelegCode() {
-      return userStore.my.profile.teleg_checkcode
-    }
 
     function openrighttoolbar() {
       globalStore.rightDrawerOpen = true
@@ -56,9 +49,6 @@ export default defineComponent({
     return {
       tools,
       static_data,
-      isEmailVerified,
-      TelegCode,
-      TelegVerificato,
       isLogged,
       openrighttoolbar,
       isUserOk,
