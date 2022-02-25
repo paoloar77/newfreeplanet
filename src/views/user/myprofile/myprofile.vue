@@ -185,6 +185,7 @@
                 :canEdit="false">
               </CDateTime>
               <CLabel
+                v-if="!!myuser.profile.cell"
                 v-bind="$attrs"
                 :copy="true"
                 :value="myuser.profile.intcode_cell + myuser.profile.cell"
