@@ -217,7 +217,7 @@ const msg_it = {
       authentication: {
         telegram: {
           open: 'Clicca qui per aprire il BOT Telegram e segui le istruzioni',
-          ifclose: 'Se non si apre Telegram cliccando sul bottone oppure l\'avevi eliminato, vai su Telegram e cerca \'{botname}\' dall\'icona della lente, poi premi Start e segui le istruzioni.',
+          ifclose: 'Se non si apre Telegram cliccando sul bottone oppure l\'avevi eliminato, vai su Telegram e cerca il Bot di \'{botname}\' dall\'icona della lente, poi premi Start e segui le istruzioni.',
           openbot: 'Apri \'{botname}\' su Telegram',
         },
         login: {
@@ -829,6 +829,7 @@ const msg_it = {
       telegram_bot_name: 'BotName',
       telegram_key_test: 'Chiave Bot Test',
       telegram_bot_name_test: 'BotName Test',
+      telegram_support_chat: 'Telegram Support',
       pathreg_add: 'Suffisso',
       ask_to_verify_reg: 'Chiedi Verif. Reg',
     },
@@ -928,6 +929,9 @@ const msg_it = {
     },
     shipping: {
       name: 'Consegna'
+    },
+    otherfilters: {
+      name: 'Altri Filtri'
     }
   },
 

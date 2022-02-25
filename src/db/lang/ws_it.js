@@ -2,7 +2,7 @@ const msg_website_it = {
   ws: {
     sitename: 'InsiemeSiPuò',
     siteshortname: 'ISP',
-    botname: 'il Bot di InsiemeSiPuò',
+    botname: 'InsiemeSiPuò',
   },
   products: {
     quantity: 'Quantità',

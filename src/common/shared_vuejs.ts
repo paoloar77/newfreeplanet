@@ -166,6 +166,25 @@ export const shared_consts = {
     },
   ],
 
+  OtherFilters: [
+    {
+      label: 'AutoProduzione',
+      value: 1,
+    },
+    {
+      label: 'Ecovillaggio',
+      value: 2,
+    },
+    {
+      label: 'Azienda Prodotti Locali',
+      value: 4,
+    },
+    {
+      label: 'Upcycle',
+      value: 8,
+    },
+  ],
+
   Provinces: [
     { _id: 1, reg: 'SIC', value: 'AG', label: 'Agrigento', }, {
       _id: 2,

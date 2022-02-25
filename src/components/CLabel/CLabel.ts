@@ -18,6 +18,11 @@ export default defineComponent({
       required: true,
       default: '',
     },
+    copy: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   components: {},
   setup(props, { emit }) {

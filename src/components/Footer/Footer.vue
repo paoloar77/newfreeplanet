@@ -23,7 +23,9 @@
               <a v-if="!!TwitterPage()" :href="TwitterPage()" target="_blank">
                 <i aria-hidden="true" class="q-icon fab fa-twitter icon_contact links"> </i></a>
 
+
               <a v-if="!!TelegramSupport()" :href="TelegramSupport()" target="_blank">
+                <span class="text-h5">Supporto Tecnico: </span>
                 <i aria-hidden="true" class="q-icon fab fa-telegram icon_contact links"></i></a>
 
               <a v-if="!!Whatsapp_Cell()" :href="ChatWhatsapp()" target="_blank">

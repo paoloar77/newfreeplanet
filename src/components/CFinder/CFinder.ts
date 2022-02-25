@@ -222,8 +222,7 @@ export default defineComponent({
           table: 'statusSkills',
           key: 'idStatusSkill',
           value: 0,
-          // arrvalue: tools.getCookie(tools.COOK_SEARCH + 'statusSkills', []),
-          arrvalue: [],
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'statusSkills', []),
           type: costanti.FieldType.multiselect,
           filter: null,
           useinput: false,
@@ -240,6 +239,7 @@ export default defineComponent({
           arrvalue: [],
           filter: null,
           useinput: false,
+          icon: 'fas fa-globe-europe'
         },
         {
           label: 'Provincia',
@@ -375,8 +375,7 @@ export default defineComponent({
           table: 'statusSkills',
           key: 'idStatusSkill',
           value: 0,
-          // arrvalue: tools.getCookie(tools.COOK_SEARCH + 'statusSkills', []),
-          arrvalue: [],
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'statusSkills', []),
           type: costanti.FieldType.multiselect,
           filter: null,
           useinput: false,
@@ -393,17 +392,7 @@ export default defineComponent({
           arrvalue: [],
           filter: null,
           useinput: false,
-        },
-        {
-          label: 'Regione',
-          table: 'regions',
-          key: 'idReg',
-          type: costanti.FieldType.select,
-          value: tools.getCookie(tools.COOK_SEARCH + 'regions', costanti.FILTER_TUTTI),
-          addall: true,
-          arrvalue: [],
-          filter: null,
-          useinput: false,
+          icon: 'fas fa-globe-europe'
         },
         {
           label: 'Provincia',
@@ -504,6 +493,7 @@ export default defineComponent({
           arrvalue: [],
           filter: null,
           useinput: false,
+          icon: 'fas fa-globe-europe'
         },
         {
           label: 'Provincia',
@@ -624,6 +614,18 @@ export default defineComponent({
           //icon: 'swap_horizontal_circle',
         },
         {
+          label: 'Altri Filtri',
+          table: 'otherfilters',
+          key: 'otherfilters',
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'otherfilters', []),
+          value: 0,
+          type: costanti.FieldType.multiselect,
+          addall: false,
+          filter: null,
+          useinput: false,
+          icon: 'fas fa-filter'
+        },
+        {
           label: '',
           table: '',
           key: '',
@@ -651,6 +653,7 @@ export default defineComponent({
           arrvalue: [],
           filter: null,
           useinput: false,
+          icon: 'fas fa-globe-europe'
         },
         {
           label: 'Provincia',

@@ -2,7 +2,7 @@ const msg_website_it = {
   ws: {
     sitename: 'FreePlanet',
     siteshortname: 'FreePlanet',
-    botname: 'il Bot di FreePlanet',
+    botname: 'FreePlanet',
   },
   products: {
     quantity: 'Quantità',

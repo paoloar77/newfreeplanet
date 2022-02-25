@@ -764,6 +764,7 @@ export interface IMyGoods {
   idShipping: number[]
   idStatusSkill: number[]
   idContribType: string[]
+  otherfilters: number[]
   idCity: number[]
   photos: IGallery[]
   NumLevel: number

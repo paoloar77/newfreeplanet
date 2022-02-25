@@ -7,7 +7,7 @@
       color="blue-6"
       >
 
-      <template v-slot:prepend>
+      <template v-if="copy" v-slot:prepend>
         <q-btn round dense flat icon="far fa-copy" @click="copytoclip"/>
       </template>
       <template v-slot:control>

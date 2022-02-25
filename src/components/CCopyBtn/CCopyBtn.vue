@@ -1,7 +1,7 @@
 <template>
   <div class="q-ma-sm">
     <div class="column cursor-pointer" @click="copytoclip">
-      <q-field outlined :label="title" stack-label class="text-center cursor-pointer">
+      <q-field outlined :label="title" stack-label class="text-center cursor-pointer" label-color="text-blue">
         <template v-slot:prepend v-if="!tools.isMobile()">
           <q-btn round dense flat icon="far fa-copy"/>
         </template>

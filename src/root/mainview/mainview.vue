@@ -60,6 +60,7 @@
 
     </div>
 
+    <Footer></Footer>
   </q-page>
 
 </template>

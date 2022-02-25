@@ -99,7 +99,7 @@
                 :label="col.label">
               </q-input>
             </div>
-            <div v-else-if="col.tipovisu === costanti.TipoVisu.TESTO" :class="{ flex: !isInModif}">
+            <div v-else-if="col.tipovisu === costanti.TipoVisu.TESTO_BORDATO" :class="{ flex: !isInModif}">
               <CLabel
                 v-bind="$attrs"
                 :value="myvalue"

@@ -2,7 +2,7 @@ const msg_website_it = {
   ws: {
     sitename: 'PopoloDelNuovoMondo',
     siteshortname: 'PDNM',
-    botname: 'il Bot di PdNM',
+    botname: 'PdNM',
   },
   products: {
     quantity: 'Quantità',

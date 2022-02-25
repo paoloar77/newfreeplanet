@@ -1489,6 +1489,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       else if (table === 'regions') myarr = shared_consts.Regions
       else if (table === 'provinces') myarr = shared_consts.Provinces
       else if (table === 'shippings') myarr = shared_consts.Shippings
+      else if (table === 'otherfilters') myarr = shared_consts.OtherFilters
       else if (table === toolsext.TABCALDATE) myarr = this.getArrDateEvent()
       else if (table === toolsext.TABCALALLDATE) myarr = this.getArrAllDateEvent()
       else myarr = this.getListByTable(table)

@@ -689,6 +689,17 @@ export const colmyGoods = [
     //icon: 'fas fa-hands-helping',
     // isadvanced_field: true,
   }),
+  AddCol({
+    name: 'otherfilters',
+    label_trans: 'otherfilters.name',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'otherfilters',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    noshowlabel: true,
+    icon: 'fas fa-filter',
+    //icon: 'fas fa-hands-helping',
+    // isadvanced_field: true,
+  }),
   AddCol({ name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
     required: false,
     visible: false,
@@ -1086,6 +1097,7 @@ export const colTableSites = [
   AddCol({ name: 'email_pwd', label_trans: 'sites.email_pwd', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'telegram_key', label_trans: 'sites.telegram_key', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'telegram_bot_name', label_trans: 'sites.telegram_bot_name', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'telegram_support_chat', label_trans: 'sites.telegram_support_chat', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'telegram_key_test', label_trans: 'sites.telegram_key_test', fieldtype: costanti.FieldType.string }),
   AddCol({
     name: 'telegram_bot_name_test',
@@ -1944,7 +1956,8 @@ export const colTableUsersISP = [
   AddCol({ name: 'profile.born_province', label_trans: 'reg.born_province', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'profile.born_country', label_trans: 'reg.born_country', fieldtype: costanti.FieldType.string }),
   AddCol({
-    name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell', maxlength: 12
+    name: 'profile.cell', field: 'profile', subfield: 'cell', label_trans: 'reg.cell', maxlength: 12,
+    tipovisu: costanti.TipoVisu.TESTO_BORDATO
   }),
   AddCol({
     name: 'profile.email_paypal',
@@ -2636,6 +2649,13 @@ export const fieldsTable = {
     {
       value: 'shippings',
       label: 'Spedizione',
+      columns: colTableGeneric,
+      colkey: 'value',
+      collabel: 'label',
+    },
+    {
+      value: 'otherfilters',
+      label: 'Altri Filtri',
       columns: colTableGeneric,
       colkey: 'value',
       collabel: 'label',

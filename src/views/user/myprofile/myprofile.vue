@@ -186,6 +186,7 @@
               </CDateTime>
               <CLabel
                 v-bind="$attrs"
+                :copy="true"
                 :value="myuser.profile.intcode_cell + myuser.profile.cell"
                 label="Cellulare"
               />

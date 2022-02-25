@@ -207,6 +207,7 @@ export const costanti = {
     LINK: 2,
     BUTTON: 3,
     LINKIMG: 4,
+    TESTO_BORDATO: 5,
   },
 
 }

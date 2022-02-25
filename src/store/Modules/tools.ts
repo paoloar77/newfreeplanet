@@ -4966,6 +4966,7 @@ export const tools = {
       idSectorGood: 0,
       idGood: 0,
       idShipping: [],
+      otherfilters: [],
       idStatusSkill: [],
       idContribType: [],
       idCity: [],
