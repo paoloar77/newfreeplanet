@@ -194,11 +194,22 @@ export default defineComponent({
         }
       }
 
-      function getFilterCitiesByProvince(recCities: any, index: number, arr: any) {
+      /*function getFilterCitiesByProvince(recCities: any, index: number, arr: any) {
         const recprov: any = searchList.value.find((rec) => rec.table === 'provinces')
         // console.log('recSubSkill', recSubSkill, 'recskills', recskills)
         if (recprov) {
           return recCities.idProvince === recprov.value
+        } else {
+          return true
+        }
+      }
+
+       */
+
+      function getFilterProvinceByRegion(recProvince: any, index: number, arr: any) {
+        const recreg: any = searchList.value.find((rec) => rec.table === 'regions')
+        if (recreg) {
+          return recProvince.reg === recreg.value
         } else {
           return true
         }
@@ -219,16 +230,17 @@ export default defineComponent({
           icon: 'mood',
           filteradv: true,
         },
-        /*{
+        {
           label: 'Regione',
           table: 'regions',
           key: 'idReg',
-          value: 0,
           type: costanti.FieldType.select,
-          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'regions', [costanti.FILTER_TUTTI]),
+          value: tools.getCookie(tools.COOK_SEARCH + 'regions', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
           filter: null,
-          useinput: true,
-        },*/
+          useinput: false,
+        },
         {
           label: 'Provincia',
           table: 'provinces',
@@ -237,9 +249,10 @@ export default defineComponent({
           value: tools.getCookie(tools.COOK_SEARCH + 'provinces', costanti.FILTER_TUTTI),
           addall: true,
           arrvalue: [],
-          filter: null,
+          filter: getFilterProvinceByRegion,
           useinput: true,
           icon: 'flag',
+          tablesel: 'provinces',
         },
         {
           label: 'Comune',
@@ -370,16 +383,28 @@ export default defineComponent({
           icon: 'mood',
           filteradv: true,
         },
-        /*{
+        {
           label: 'Regione',
           table: 'regions',
           key: 'idReg',
-          value: 0,
           type: costanti.FieldType.select,
-          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'regions', [costanti.FILTER_TUTTI]),
+          value: tools.getCookie(tools.COOK_SEARCH + 'regions', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
           filter: null,
-          useinput: true,
-        },*/
+          useinput: false,
+        },
+        {
+          label: 'Regione',
+          table: 'regions',
+          key: 'idReg',
+          type: costanti.FieldType.select,
+          value: tools.getCookie(tools.COOK_SEARCH + 'regions', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          filter: null,
+          useinput: false,
+        },
         {
           label: 'Provincia',
           table: 'provinces',
@@ -388,7 +413,7 @@ export default defineComponent({
           value: tools.getCookie(tools.COOK_SEARCH + 'provinces', costanti.FILTER_TUTTI),
           addall: true,
           arrvalue: [],
-          filter: null,
+          filter: getFilterProvinceByRegion,
           useinput: true,
           icon: 'flag',
         },
@@ -469,16 +494,17 @@ export default defineComponent({
       ]
 
       searchList_Beni.value = [
-        /*{
+        {
           label: 'Regione',
           table: 'regions',
           key: 'idReg',
-          value: 0,
           type: costanti.FieldType.select,
-          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'regions', [costanti.FILTER_TUTTI]),
+          value: tools.getCookie(tools.COOK_SEARCH + 'regions', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
           filter: null,
-          useinput: true,
-        },*/
+          useinput: false,
+        },
         {
           label: 'Provincia',
           table: 'provinces',
@@ -487,7 +513,7 @@ export default defineComponent({
           value: tools.getCookie(tools.COOK_SEARCH + 'provinces', costanti.FILTER_TUTTI),
           addall: true,
           arrvalue: [],
-          filter: null,
+          filter: getFilterProvinceByRegion,
           useinput: true,
           icon: 'flag',
         },
@@ -616,6 +642,17 @@ export default defineComponent({
 
       searchList_MyGroups.value = [
         {
+          label: 'Regione',
+          table: 'regions',
+          key: 'idReg',
+          type: costanti.FieldType.select,
+          value: tools.getCookie(tools.COOK_SEARCH + 'regions', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          filter: null,
+          useinput: false,
+        },
+        {
           label: 'Provincia',
           table: 'provinces',
           key: 'idProvince',
@@ -623,7 +660,7 @@ export default defineComponent({
           value: tools.getCookie(tools.COOK_SEARCH + 'provinces', costanti.FILTER_TUTTI),
           addall: true,
           arrvalue: [],
-          filter: null,
+          filter: getFilterProvinceByRegion,
           useinput: true,
           icon: 'flag',
         },

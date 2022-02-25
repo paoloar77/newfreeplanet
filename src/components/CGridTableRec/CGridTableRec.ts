@@ -405,16 +405,19 @@ export default defineComponent({
       let filtersearch: any[] = []
       let filtersearch2: any[] = []
       let filtersearch3or: any[] = []
+      let filtersearch3and: any[] = []
       let filtercustom: any[] = [...props.filtercustom]
 
       let recSector = null
       let recSectorGood = null
       let recCities = null
+      let recRegion = null
       let recProvince = null
       let recSkill = null
       let idSector = 0
       let idSectorGood = 0
       let idProvince = 0
+      let idRegion = 0
       let idSkill = 0
       if (searchList.value) {
         recSector = searchList.value.find((item: ISearchList) => item.table === 'sectors')
@@ -429,6 +432,10 @@ export default defineComponent({
         idProvince = recProvince ? recProvince.value : 0
       }
       if (searchList.value) {
+        recRegion = searchList.value.find((item: ISearchList) => item.table === 'regions')
+        idRegion = recRegion ? recRegion.value : 0
+      }
+      if (searchList.value) {
         recCities = searchList.value.find((item: ISearchList) => item.table === 'cities')
       }
 
@@ -436,6 +443,9 @@ export default defineComponent({
         recSkill = searchList.value.find((item: ISearchList) => item.table === 'skills')
         idSkill = recSkill ? recSkill.value : 0
       }
+
+      let arrfilter_cities: any = []
+      let arrfilter_provices: any = []
 
       // console.table(searchList.value)
 
@@ -448,15 +458,26 @@ export default defineComponent({
             // console.log('        item ', item)
             let obj: any = {}
 
-            if (item.table === 'provinces') {
+            if (item.table === 'regions') {
+
+              obj['mycities.reg'] = item.value
+              if (item.value !== '' && item.value !== costanti.FILTER_TUTTI) {
+                filtersearch3and.push(obj)
+              }
+
+              if (item.value && recProvince && idRegion !== costanti.FILTER_TUTTI) {
+                arrfilter_provices.push({key: 'reg', value: idRegion })
+              }
+
+            } else if (item.table === 'provinces') {
 
               obj['mycities.prov'] = item.value
               if (item.value !== '' && item.value !== costanti.FILTER_TUTTI) {
-                filtersearch3or.push(obj)
+                filtersearch3and.push(obj)
               }
 
               if (item.value && recCities && idProvince !== costanti.FILTER_TUTTI) {
-                recCities.filter_extra = {prov: idProvince}
+                arrfilter_cities.push({key: 'prov', value: idProvince })
               }
 
             } else if (item.table === 'cities') {
@@ -464,7 +485,7 @@ export default defineComponent({
               if (item.value && item.value.hasOwnProperty('_id')) {
                 obj['idCity'] = item.value._id
                 if (item.value && item.value !== '' && item.value._id !== costanti.FILTER_TUTTI) {
-                  filtersearch3or.push(obj)
+                  filtersearch3and.push(obj)
                 }
               }
             } else if (shared_consts.TABLES_WITH_FILTER_FIELD.includes(item.table)) {
@@ -539,6 +560,23 @@ export default defineComponent({
         }
       }
 
+      if (arrfilter_cities.length > 0 && recCities) {
+        let myobjfilt: any = {}
+        for (const myrec of arrfilter_cities) {
+          myobjfilt[myrec.key] = myrec.value
+        }
+        recCities.filter_extra = myobjfilt
+      }
+
+      if (arrfilter_provices.length > 0 && recProvince) {
+        let myobjfilt: any = {}
+        for (const myrec of arrfilter_provices) {
+          myobjfilt[myrec.key] = myrec.value
+        }
+        recProvince.filter_extra = myobjfilt
+      }
+
+
       // console.log('filtersearch', filtersearch)
 
       if (props.prop_search) {
@@ -579,6 +617,7 @@ export default defineComponent({
         // @ts-ignore
         filtersearch2: filtersearch2,
         filtersearch3or: filtersearch3or,
+        filtersearch3and: filtersearch3and,
         // @ts-ignore
         filtercustom: filtercustom,
         sortBy: myobj,

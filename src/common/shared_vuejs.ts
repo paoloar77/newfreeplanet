@@ -1,4 +1,3 @@
-
 export const shared_consts = {
 
   Accepted: {
@@ -168,451 +167,282 @@ export const shared_consts = {
   ],
 
   Provinces: [
-    {
-      label: 'Agrigento',
-      value: 'AG',
-    },
-    {
-      label: 'Alessandria',
+    { _id: 1, reg: 'SIC', value: 'AG', label: 'Agrigento', }, {
+      _id: 2,
+      reg: 'PIE',
       value: 'AL',
-    },
-    {
-      label: 'Ancona',
-      value: 'AN',
-    },
-    {
-      label: 'Aosta',
+      label: 'Alessandria',
+    }, { _id: 3, reg: 'MAR', value: 'AN', label: 'Ancona', }, {
+      _id: 4,
+      reg: 'VDA',
       value: 'AO',
-    },
-    {
-      label: 'Arezzo',
-      value: 'AR',
-    },
-    {
-      label: 'Ascoli Piceno',
+      label: 'Aosta',
+    }, { _id: 5, reg: 'TOS', value: 'AR', label: 'Arezzo', }, {
+      _id: 6,
+      reg: 'MAR',
       value: 'AP',
-    },
-    {
-      label: 'Asti',
-      value: 'AT',
-    },
-    {
-      label: 'Avellino',
+      label: 'Ascoli Piceno',
+    }, { _id: 7, reg: 'PIE', value: 'AT', label: 'Asti', }, {
+      _id: 8,
+      reg: 'CAM',
       value: 'AV',
-    },
-    {
-      label: 'Bari',
-      value: 'BA',
-    },
-    {
-      label: 'Barletta-Andria-Trani',
+      label: 'Avellino',
+    }, { _id: 9, reg: 'PUG', value: 'BA', label: 'Bari', }, {
+      _id: 10,
+      reg: 'PUG',
       value: 'BT',
-    },
-    {
-      label: 'Belluno',
-      value: 'BL',
-    },
-    {
-      label: 'Benevento',
+      label: 'Barletta-Andria-Trani',
+    }, { _id: 11, reg: 'VEN', value: 'BL', label: 'Belluno', }, {
+      _id: 12,
+      reg: 'CAM',
       value: 'BN',
-    },
-    {
-      label: 'Bergamo',
-      value: 'BG',
-    },
-    {
-      label: 'Biella',
+      label: 'Benevento',
+    }, { _id: 13, reg: 'LOM', value: 'BG', label: 'Bergamo', }, {
+      _id: 14,
+      reg: 'PIE',
       value: 'BI',
-    },
-    {
-      label: 'Bologna',
-      value: 'BO',
-    },
-    {
-      label: 'Bolzano',
+      label: 'Biella',
+    }, { _id: 15, reg: 'EMR', value: 'BO', label: 'Bologna', }, {
+      _id: 16,
+      reg: 'TAA',
       value: 'BZ',
-    },
-    {
-      label: 'Brescia',
-      value: 'BS',
-    },
-    {
-      label: 'Brindisi',
+      label: 'Bolzano',
+    }, { _id: 17, reg: 'LOM', value: 'BS', label: 'Brescia', }, {
+      _id: 18,
+      reg: 'PUG',
       value: 'BR',
-    },
-    {
-      label: 'Cagliari',
-      value: 'CA',
-    },
-    {
-      label: 'Caltanissetta',
+      label: 'Brindisi',
+    }, { _id: 19, reg: 'SAR', value: 'CA', label: 'Cagliari', }, {
+      _id: 20,
+      reg: 'SIC',
       value: 'CL',
-    },
-    {
-      label: 'Campobasso',
-      value: 'CB',
-    },
-    {
-      label: 'Carbonia-Iglesias',
+      label: 'Caltanissetta',
+    }, { _id: 21, reg: 'MOL', value: 'CB', label: 'Campobasso', }, {
+      _id: 22,
+      reg: 'SAR',
       value: 'CI',
-    },
-    {
-      label: 'Caserta',
-      value: 'CE',
-    },
-    {
-      label: 'Catania',
+      label: 'Carbonia-Iglesias',
+    }, { _id: 23, reg: 'CAM', value: 'CE', label: 'Caserta', }, {
+      _id: 24,
+      reg: 'SIC',
       value: 'CT',
-    },
-    {
-      label: 'Catanzaro',
-      value: 'CZ',
-    },
-    {
-      label: 'Chieti',
+      label: 'Catania',
+    }, { _id: 25, reg: 'CAL', value: 'CZ', label: 'Catanzaro', }, {
+      _id: 26,
+      reg: 'ABR',
       value: 'CH',
-    },
-    {
-      label: 'Como',
-      value: 'CO',
-    },
-    {
-      label: 'Cosenza',
+      label: 'Chieti',
+    }, { _id: 27, reg: 'LOM', value: 'CO', label: 'Como', }, {
+      _id: 28,
+      reg: 'CAL',
       value: 'CS',
-    },
-    {
-      label: 'Cremona',
-      value: 'CR',
-    },
-    {
-      label: 'Crotone',
+      label: 'Cosenza',
+    }, { _id: 29, reg: 'LOM', value: 'CR', label: 'Cremona', }, {
+      _id: 30,
+      reg: 'CAL',
       value: 'KR',
-    },
-    {
-      label: 'Cuneo',
-      value: 'CN',
-    },
-    {
-      label: 'Enna',
+      label: 'Crotone',
+    }, { _id: 31, reg: 'PIE', value: 'CN', label: 'Cuneo', }, {
+      _id: 32,
+      reg: 'SIC',
       value: 'EN',
-    },
-    {
-      label: 'Fermo',
-      value: 'FM',
-    },
-    {
-      label: 'Ferrara',
+      label: 'Enna',
+    }, { _id: 33, reg: 'MAR', value: 'FM', label: 'Fermo', }, {
+      _id: 34,
+      reg: 'EMR',
       value: 'FE',
-    },
-    {
-      label: 'Firenze',
-      value: 'FI',
-    },
-    {
-      label: 'Foggia',
+      label: 'Ferrara',
+    }, { _id: 35, reg: 'TOS', value: 'FI', label: 'Firenze', }, {
+      _id: 36,
+      reg: 'PUG',
       value: 'FG',
-    },
-    {
-      label: 'Forli-Cesena',
-      value: 'FC',
-    },
-    {
-      label: 'Frosinone',
+      label: 'Foggia',
+    }, { _id: 37, reg: 'EMR', value: 'FC', label: 'Forli-Cesena', }, {
+      _id: 38,
+      reg: 'LAZ',
       value: 'FR',
-    },
-    {
-      label: 'Genova',
-      value: 'GE',
-    },
-    {
-      label: 'Gorizia',
+      label: 'Frosinone',
+    }, { _id: 39, reg: 'LIG', value: 'GE', label: 'Genova', }, {
+      _id: 40,
+      reg: 'FVG',
       value: 'GO',
-    },
-    {
-      label: 'Grosseto',
-      value: 'GR',
-    },
-    {
-      label: 'Imperia',
+      label: 'Gorizia',
+    }, { _id: 41, reg: 'TOS', value: 'GR', label: 'Grosseto', }, {
+      _id: 42,
+      reg: 'LIG',
       value: 'IM',
-    },
-    {
-      label: 'Isernia',
-      value: 'IS',
-    },
-    {
-      label: 'La Spezia',
+      label: 'Imperia',
+    }, { _id: 43, reg: 'MOL', value: 'IS', label: 'Isernia', }, {
+      _id: 44,
+      reg: 'LIG',
       value: 'SP',
-    },
-    {
-      label: 'L\'Aquila',
-      value: 'AQ',
-    },
-    {
-      label: 'Latina',
+      label: 'La Spezia',
+    }, { _id: 45, reg: 'ABR', value: 'AQ', label: 'L\'Aquila', }, {
+      _id: 46,
+      reg: 'LAZ',
       value: 'LT',
-    },
-    {
-      label: 'Lecce',
-      value: 'LE',
-    },
-    {
-      label: 'Lecco',
+      label: 'Latina',
+    }, { _id: 47, reg: 'PUG', value: 'LE', label: 'Lecce', }, {
+      _id: 48,
+      reg: 'LOM',
       value: 'LC',
-    },
-    {
-      label: 'Livorno',
-      value: 'LI',
-    },
-    {
-      label: 'Lodi',
+      label: 'Lecco',
+    }, { _id: 49, reg: 'TOS', value: 'LI', label: 'Livorno', }, {
+      _id: 50,
+      reg: 'LOM',
       value: 'LO',
-    },
-    {
-      label: 'Lucca',
-      value: 'LU',
-    },
-    {
-      label: 'Macerata',
+      label: 'Lodi',
+    }, { _id: 51, reg: 'TOS', value: 'LU', label: 'Lucca', }, {
+      _id: 52,
+      reg: 'MAR',
       value: 'MC',
-    },
-    {
-      label: 'Mantova',
-      value: 'MN',
-    },
-    {
-      label: 'Massa-Carrara',
+      label: 'Macerata',
+    }, { _id: 53, reg: 'LOM', value: 'MN', label: 'Mantova', }, {
+      _id: 54,
+      reg: 'TOS',
       value: 'MS',
-    },
-    {
-      label: 'Matera',
-      value: 'MT',
-    },
-    {
-      label: 'Messina',
+      label: 'Massa-Carrara',
+    }, { _id: 55, reg: 'BAS', value: 'MT', label: 'Matera', }, {
+      _id: 56,
+      reg: 'SIC',
       value: 'ME',
-    },
-    {
-      label: 'Milano',
-      value: 'MI',
-    },
-    {
-      label: 'Modena',
+      label: 'Messina',
+    }, { _id: 57, reg: 'LOM', value: 'MI', label: 'Milano', }, {
+      _id: 58,
+      reg: 'EMR',
       value: 'MO',
-    },
-    {
-      label: 'Monza e della Brianza',
-      value: 'MB',
-    },
-    {
-      label: 'Napoli',
+      label: 'Modena',
+    }, { _id: 59, reg: 'LOM', value: 'MB', label: 'Monza e della Brianza', }, {
+      _id: 60,
+      reg: 'CAM',
       value: 'NA',
-    },
-    {
-      label: 'Novara',
-      value: 'NO',
-    },
-    {
-      label: 'Nuoro',
+      label: 'Napoli',
+    }, { _id: 61, reg: 'PIE', value: 'NO', label: 'Novara', }, {
+      _id: 62,
+      reg: 'SAR',
       value: 'NU',
-    },
-    {
-      label: 'Olbia-Tempio',
-      value: 'OT',
-    },
-    {
-      label: 'Oristano',
+      label: 'Nuoro',
+    }, { _id: 63, reg: 'SAR', value: 'OT', label: 'Olbia-Tempio', }, {
+      _id: 64,
+      reg: 'SAR',
       value: 'OR',
-    },
-    {
-      label: 'Padova',
-      value: 'PD',
-    },
-    {
-      label: 'Palermo',
+      label: 'Oristano',
+    }, { _id: 65, reg: 'VEN', value: 'PD', label: 'Padova', }, {
+      _id: 66,
+      reg: 'SIC',
       value: 'PA',
-    },
-    {
-      label: 'Parma',
-      value: 'PR',
-    },
-    {
-      label: 'Pavia',
+      label: 'Palermo',
+    }, { _id: 67, reg: 'EMR', value: 'PR', label: 'Parma', }, {
+      _id: 68,
+      reg: 'LOM',
       value: 'PV',
-    },
-    {
-      label: 'Perugia',
-      value: 'PG',
-    },
-    {
-      label: 'Pesaro e Urbino',
+      label: 'Pavia',
+    }, { _id: 69, reg: 'UMB', value: 'PG', label: 'Perugia', }, {
+      _id: 70,
+      reg: 'MAR',
       value: 'PU',
-    },
-    {
-      label: 'Pescara',
-      value: 'PE',
-    },
-    {
-      label: 'Piacenza',
+      label: 'Pesaro e Urbino',
+    }, { _id: 71, reg: 'ABR', value: 'PE', label: 'Pescara', }, {
+      _id: 72,
+      reg: 'EMR',
       value: 'PC',
-    },
-    {
-      label: 'Pisa',
-      value: 'PI',
-    },
-    {
-      label: 'Pistoia',
+      label: 'Piacenza',
+    }, { _id: 73, reg: 'TOS', value: 'PI', label: 'Pisa', }, {
+      _id: 74,
+      reg: 'TOS',
       value: 'PT',
-    },
-    {
-      label: 'Pordenone',
-      value: 'PN',
-    },
-    {
-      label: 'Potenza',
+      label: 'Pistoia',
+    }, { _id: 75, reg: 'FVG', value: 'PN', label: 'Pordenone', }, {
+      _id: 76,
+      reg: 'BAS',
       value: 'PZ',
-    },
-    {
-      label: 'Prato',
-      value: 'PO',
-    },
-    {
-      label: 'Ragusa',
+      label: 'Potenza',
+    }, { _id: 77, reg: 'TOS', value: 'PO', label: 'Prato', }, {
+      _id: 78,
+      reg: 'SIC',
       value: 'RG',
-    },
-    {
-      label: 'Ravenna',
-      value: 'RA',
-    },
-    {
-      label: 'Reggio Calabria',
+      label: 'Ragusa',
+    }, { _id: 79, reg: 'EMR', value: 'RA', label: 'Ravenna', }, {
+      _id: 80,
+      reg: 'CAL',
       value: 'RC',
-    },
-    {
-      label: 'Reggio Emilia',
-      value: 'RE',
-    },
-    {
-      label: 'Repubblica di San Marino',
-      value: 'RSM',
-    },
-    {
-      label: 'Rieti',
+      label: 'Reggio CAL',
+    }, { _id: 81, reg: 'EMR', value: 'RE', label: 'Reggio Emilia', }, {
+      _id: 82,
+      reg: 'LAZ',
       value: 'RI',
-    },
-    {
-      label: 'Rimini',
-      value: 'RN',
-    },
-    {
-      label: 'Roma',
+      label: 'Rieti',
+    }, { _id: 83, reg: 'EMR', value: 'RN', label: 'Rimini', }, {
+      _id: 84,
+      reg: 'LAZ',
       value: 'RM',
-    },
-    {
-      label: 'Rovigo',
-      value: 'RO',
-    },
-    {
-      label: 'Salerno',
+      label: 'Roma',
+    }, { _id: 85, reg: 'VEN', value: 'RO', label: 'Rovigo', }, {
+      _id: 86,
+      reg: 'CAM',
       value: 'SA',
-    },
-    {
-      label: 'Medio Campidano',
-      value: 'VS',
-    },
-    {
-      label: 'Sassari',
+      label: 'Salerno',
+    }, { _id: 87, reg: 'SAR', value: 'VS', label: 'Medio Campidano', }, {
+      _id: 88,
+      reg: 'SAR',
       value: 'SS',
-    },
-    {
-      label: 'Savona',
-      value: 'SV',
-    },
-    {
-      label: 'Siena',
+      label: 'Sassari',
+    }, { _id: 89, reg: 'LIG', value: 'SV', label: 'Savona', }, {
+      _id: 90,
+      reg: 'TOS',
       value: 'SI',
-    },
-    {
-      label: 'Siracusa',
-      value: 'SR',
-    },
-    {
-      label: 'Sondrio',
+      label: 'Siena',
+    }, { _id: 91, reg: 'SIC', value: 'SR', label: 'Siracusa', }, {
+      _id: 92,
+      reg: 'LOM',
       value: 'SO',
-    },
-    {
-      label: 'Taranto',
-      value: 'TA',
-    },
-    {
-      label: 'Teramo',
+      label: 'Sondrio',
+    }, { _id: 93, reg: 'PUG', value: 'TA', label: 'Taranto', }, {
+      _id: 94,
+      reg: 'ABR',
       value: 'TE',
-    },
-    {
-      label: 'Terni',
-      value: 'TR',
-    },
-    {
-      label: 'Torino',
+      label: 'Teramo',
+    }, { _id: 95, reg: 'UMB', value: 'TR', label: 'Terni', }, {
+      _id: 96,
+      reg: 'PIE',
       value: 'TO',
-    },
-    {
-      label: 'Ogliastra',
-      value: 'OG',
-    },
-    {
-      label: 'Trapani',
+      label: 'Torino',
+    }, { _id: 97, reg: 'SAR', value: 'OG', label: 'Ogliastra', }, {
+      _id: 98,
+      reg: 'SIC',
       value: 'TP',
-    },
-    {
-      label: 'Trento',
-      value: 'TN',
-    },
-    {
-      label: 'Treviso',
+      label: 'Trapani',
+    }, { _id: 99, reg: 'TAA', value: 'TN', label: 'Trento', }, {
+      _id: 100,
+      reg: 'VEN',
       value: 'TV',
-    },
-    {
-      label: 'Trieste',
-      value: 'TS',
-    },
-    {
-      label: 'Udine',
+      label: 'Treviso',
+    }, { _id: 101, reg: 'FVG', value: 'TS', label: 'Trieste', }, {
+      _id: 102,
+      reg: 'FVG',
       value: 'UD',
-    },
-    {
-      label: 'Varese',
-      value: 'VA',
-    },
-    {
-      label: 'Venezia',
+      label: 'Udine',
+    }, { _id: 103, reg: 'LOM', value: 'VA', label: 'Varese', }, {
+      _id: 104,
+      reg: 'VEN',
       value: 'VE',
-    },
-    {
-      label: 'Verbano-Cusio-Ossola',
-      value: 'VB',
-    },
-    {
-      label: 'Vercelli',
+      label: 'Venezia',
+    }, { _id: 105, reg: 'PIE', value: 'VB', label: 'Verbano-Cusio-Ossola', }, {
+      _id: 106,
+      reg: 'PIE',
       value: 'VC',
-    },
-    {
-      label: 'Verona',
-      value: 'VR',
-    },
-    {
-      label: 'Vibo Valentia',
+      label: 'Vercelli',
+    }, { _id: 107, reg: 'VEN', value: 'VR', label: 'Verona', }, {
+      _id: 108,
+      reg: 'CAL',
       value: 'VV',
-    },
-    {
-      label: 'Vicenza',
-      value: 'VI',
-    },
-    {
-      label: 'Viterbo',
+      label: 'Vibo Valentia',
+    }, { _id: 109, reg: 'VEN', value: 'VI', label: 'Vicenza', }, {
+      _id: 110,
+      reg: 'LAZ',
       value: 'VT',
-    },
-  ],
+      label: 'Viterbo',
+    }, { _id: 111, reg: 'RSM', value: 'RSM', label: 'Repubblica di San Marino', }],
 
   Regions: [
     {
@@ -632,11 +462,11 @@ export const shared_consts = {
       label: 'Campania',
     },
     {
-      value: 'EMI',
+      value: 'EMR',
       label: 'Emilia-Romagna',
     },
     {
-      value: 'FRI',
+      value: 'FVG',
       label: 'Friuli Venezia Giulia',
     },
     {
@@ -668,6 +498,10 @@ export const shared_consts = {
       label: 'Puglia',
     },
     {
+      value: 'RSM',
+      label: 'Repubblica di San Marino',
+    },
+    {
       value: 'SAR',
       label: 'Sardegna',
     },
@@ -680,7 +514,7 @@ export const shared_consts = {
       label: 'Toscana',
     },
     {
-      value: 'TRE',
+      value: 'TAA',
       label: 'Trentino-Alto Adige',
     },
     {
@@ -688,7 +522,7 @@ export const shared_consts = {
       label: 'Umbria',
     },
     {
-      value: 'VAL',
+      value: 'VDA',
       label: 'Valle d\'Aosta',
     },
     {

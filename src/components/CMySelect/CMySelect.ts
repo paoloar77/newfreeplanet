@@ -428,6 +428,8 @@ export default defineComponent({
       update(
         async () => {
           console.log('Filter val', val, val.length)
+          console.log('props.filter_extra', props.filter_extra)
+
 
           let myarr: any = []
 

@@ -417,6 +417,7 @@ export const colProvinces = [
   // AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'label', label_trans: 'store.description' }),
   AddCol({ name: 'value', label_trans: 'city.prov' }),
+  AddCol({ name: 'reg', label_trans: 'city.reg' }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
 ]
@@ -776,6 +777,7 @@ export const colmySkills = [
     remote_table: 'mycities',
     remote_key: '_id',
     remote_field: 'comune',
+    required: true,
   }),
   AddCol({
     name: 'adType',
@@ -935,6 +937,7 @@ export const colmyBachecas = [
     remote_key: '_id',
     remote_field: 'comune',
     sortable: false,
+    required: true,
   }),
   AddCol({
     name: 'adType',
@@ -2023,7 +2026,7 @@ export const colTableUsersISP = [
     label_trans: 'reg.consiglio',
     fieldtype: costanti.FieldType.boolean,
   }),
-  AddCol({ name: 'profile.motivazioni', field: 'profile', subfield: 'motivazioni', label_trans: 'reg.motivazioni', }),
+  // AddCol({ name: 'profile.motivazioni', field: 'profile', subfield: 'motivazioni', label_trans: 'reg.motivazioni', }),
   AddCol({ name: 'profile.biografia', field: 'profile', subfield: 'biografia', label_trans: 'reg.biografia', }),
   AddCol({ name: 'profile.qualifica', field: 'profile', subfield: 'qualifica', label_trans: 'reg.qualifica', }),
   AddCol({
@@ -2588,7 +2591,7 @@ export const fieldsTable = {
     {
       value: 'provinces',
       label: 'Provincia',
-      columns: colTablePermission,
+      columns: colProvinces,
       colkey: 'value',
       collabel: 'label',
       remote: true,

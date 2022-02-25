@@ -333,9 +333,12 @@ export default defineComponent({
         let lab = tools.addslashes(rec[0])
         let val = tools.addslashes(rec[1])
         if (cmd === shared_consts.Cmd.PROVINCE) {
+          let reg = tools.addslashes(rec[1])
+          val = tools.addslashes(rec[2])
 
           strris += '{ \n'
           strris += '   _id:' + ind + ','
+          strris += '   reg:\'' + reg + '\','
           strris += '   prov:\'' + val + '\','
           strris += '   descr:\'' + lab + '\','
           strris += '}, \n'

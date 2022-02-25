@@ -229,7 +229,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       else if (table === 'friends')
         return userStore.my.profile.friends
       else if (table === 'friendsandme')
-        return [{username: userStore.my.username }, ...userStore.my.profile.friends]
+        return [{ username: userStore.my.username }, ...userStore.my.profile.friends]
       else if (table === 'mygroups')
         return userStore.groups
       else if (table === 'sendmsgs')
@@ -246,7 +246,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return state.skills
       else if (table === 'goods')
         return state.goods
-      // else if (table === 'subskills')
+        // else if (table === 'subskills')
       //   return state.subSkills
       else if (table === 'statusSkills')
         return state.statusSkills
@@ -514,7 +514,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
             }
           }
 
-        console.log('update: ', myrec)
+          console.log('update: ', myrec)
         }
       } catch (e) {
         console.error(e)
@@ -707,7 +707,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         isok = true
       }
 
-      await globalroutines( 'readall', 'config', null)
+      await globalroutines('readall', 'config', null)
 
       return isok
     },
@@ -896,7 +896,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       const ris = await this.saveTable(mydata)
 
       if (ris) {
-        this.newValueInMemoryByTable(ris, mytable);
+        this.newValueInMemoryByTable(ris, mytable)
       }
 
       console.log('saveNewRecord', ris)
@@ -1317,7 +1317,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
-    async sendEmailTest({ previewonly}:{previewonly: any}) {
+    async sendEmailTest({ previewonly }: {previewonly: any}) {
       const usertosend = {
         locale: tools.getLocale(),
         previewonly
@@ -1435,12 +1435,12 @@ export const useGlobalStore = defineStore('GlobalStore', {
     },
 
     getItemDate(num: number, day: number, mystr: string) {
-      let mydate = tools.addDays(tools.getDateNow(),  day);
-      let mydateend = tools.addDays(mydate,  7);
+      let mydate = tools.addDays(tools.getDateNow(), day)
+      let mydateend = tools.addDays(mydate, 7)
       mydate = tools.getstrYYMMDDDate(mydate)
       mydateend = tools.getstrYYMMDDDate(mydateend)
-      let filter = { dateTimeStart: {$gte: mydate, $lte: mydateend } }
-      let obj = {_id: num, datestr: mystr, filter }
+      let filter = { dateTimeStart: { $gte: mydate, $lte: mydateend } }
+      let obj = { _id: num, datestr: mystr, filter }
 
       return obj
     },
@@ -1465,8 +1465,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
       let obj = {}
 
       for (let i = 0; i < 120; i++) {
-        let mydate = tools.addDays(tools.getDateNow(), i - 30);
-        obj ={_id: mydate, datestr: tools.getstrVeryShortDate(mydate) }
+        let mydate = tools.addDays(tools.getDateNow(), i - 30)
+        obj = { _id: mydate, datestr: tools.getstrVeryShortDate(mydate) }
         arr.push(obj)
       }
 
@@ -1476,44 +1476,40 @@ export const useGlobalStore = defineStore('GlobalStore', {
     },
 
     getTableJoinByName(table: string, addall?: boolean, filter?: any) {
-      if (table === 'permissions') return [shared_consts.Permissions.Admin, shared_consts.Permissions.Manager, shared_consts.Permissions.Teacher, shared_consts.Permissions.Tutor, shared_consts.Permissions.Editor, shared_consts.Permissions.Zoomeri, shared_consts.Permissions.Department]
-      else if (table === 'accepted') return [shared_consts.Accepted.CHECK_READ_GUIDELINES, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI]
-      else if (table === 'fieldstype') return costanti.FieldTypeArr
-      else if (table === 'metodo_pagamento') return tools.SelectMetodiPagamento
-      else if (table === 'bottype') return shared_consts.BotType
-      else if (table === 'visibility') return shared_consts.Visibility
-      else if (table === 'visibilGroup') return shared_consts.VisibilGroup
-      else if (table === 'lang') return shared_consts.Lang
-      else if (table === 'regions') return shared_consts.Regions
-      else if (table === 'provinces') return shared_consts.Provinces
-      else if (table === 'shippings') return shared_consts.Shippings
-      else if (table === toolsext.TABCALDATE) return this.getArrDateEvent()
-      else if (table === toolsext.TABCALALLDATE) return this.getArrAllDateEvent()
 
-      let myarr = this.getListByTable(table)
+      let myarr: any = []
+      if (table === 'permissions') myarr = [shared_consts.Permissions.Admin, shared_consts.Permissions.Manager, shared_consts.Permissions.Teacher, shared_consts.Permissions.Tutor, shared_consts.Permissions.Editor, shared_consts.Permissions.Zoomeri, shared_consts.Permissions.Department]
+      else if (table === 'accepted') myarr = [shared_consts.Accepted.CHECK_READ_GUIDELINES, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI]
+      else if (table === 'fieldstype') myarr = costanti.FieldTypeArr
+      else if (table === 'metodo_pagamento') myarr = tools.SelectMetodiPagamento
+      else if (table === 'bottype') myarr = shared_consts.BotType
+      else if (table === 'visibility') myarr = shared_consts.Visibility
+      else if (table === 'visibilGroup') myarr = shared_consts.VisibilGroup
+      else if (table === 'lang') myarr = shared_consts.Lang
+      else if (table === 'regions') myarr = shared_consts.Regions
+      else if (table === 'provinces') myarr = shared_consts.Provinces
+      else if (table === 'shippings') myarr = shared_consts.Shippings
+      else if (table === toolsext.TABCALDATE) myarr = this.getArrDateEvent()
+      else if (table === toolsext.TABCALALLDATE) myarr = this.getArrAllDateEvent()
+      else myarr = this.getListByTable(table)
 
       if (costanti.TABLES_ARRAY.includes(table)) {
         const newarr = []
         for (const value of myarr) {
-          newarr.push({value, label:value})
+          newarr.push({ value, label: value })
         }
 
         myarr = newarr
       }
 
       if (addall)
-         myarr = [costanti.FILTER_TUTTI, ...myarr]
+        myarr = [costanti.FILTER_TUTTI, ...myarr]
 
-      if (!addall) {
-        /*if (table === 'skills') {
-          myarr = myarr.filter((rec: any) => rec._id > 0)
-        } */
-      }
       if (filter) {
+        // console.log('table', table, 'filter', filter, 'arrprima', myarr)
         myarr = myarr.filter(filter)
+        // console.log('myarr', myarr)
       }
-
-      // console.log('myarr', table, myarr)
 
       return myarr
     },
@@ -1528,7 +1524,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
           }
           try {
             return this.serverMsgError.msgerr.message
-          }catch (e) {
+          } catch (e) {
             return this.serverMsgError.msgerr
           }
         }
