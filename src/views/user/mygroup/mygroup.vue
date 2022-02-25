@@ -34,7 +34,7 @@
 
       <q-tabs v-model="tabgrp" class="text-blue">
         <q-tab label="Info" name="info" icon="fas fa-info"></q-tab>
-        <q-tab v-if="!!mygrp.note && userStore.IsMyGroupByGroupname(mygrp.groupname) || tools.iAmAdminGroup(groupname)" label="Pagina" name="page" icon="fas fa-file-word"></q-tab>
+        <q-tab v-if="!!mygrp.note" label="Pagina" name="page" icon="fas fa-file-word"></q-tab>
         <q-tab v-if="userStore.IsMyGroupByGroupname(mygrp.groupname) || tools.iAmAdminGroup(groupname)" label="Iscritti" name="membri" icon="fas fa-users"></q-tab>
         <q-tab v-if="tools.iAmAdminGroup(groupname)" label="Richieste" name="rich" icon="fas fa-user-plus"></q-tab>
       </q-tabs>
@@ -50,8 +50,8 @@
                 :columns="colmyUserGroup"
                 :rec="mygrp"
                 field="visibility"
-                :canEdit="true"
-                :canModify="true">
+                :canEdit="false"
+                :canModify="false">
               </CMyFieldRec>
             </q-card>
             <q-card>
@@ -157,8 +157,8 @@
             prop_mytitle=""
             :prop_mycolumns="colmyUserPeople"
             prop_colkey="_id"
-            col_title="username"
-            :vertical="costanti.VISUTABLE_LISTA"
+            col_title=""
+            :vertical="costanti.VISUTABLE_USER_TABGROUP"
             nodataLabel="Nessuna Richiesta in sospeso"
             :prop_search="false"
             hint="Username da trovare"

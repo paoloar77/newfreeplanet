@@ -9,7 +9,7 @@
 
     </q-footer>
     <q-bar dense class="bg-primary text-white">
-      {{ myrec.username }}
+      {{ myrec.title }} ({{ myrec.groupname }})
       <q-space/>
       <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
     </q-bar>
@@ -20,16 +20,7 @@
         <q-img
           v-if="tools.getValue(myrec, 'photos', '')"
           :src="tools.getFullFileName(tools.getValue(myrec, 'photos', ''), table, myrec.username, myrec.groupname)" class="img"
-          alt="immagine bene"></q-img>
-      </div>
-
-      <div class="text-center">
-        <q-chip :icon="fieldsTable.getIconByAdType(myrec.adType)"
-                :color="fieldsTable.getColByAdType(myrec.adType)"
-                text-color="white">{{
-            fieldsTable.getValByTabAndId(table, 'adType', myrec.adType)
-          }}
-        </q-chip>
+          alt="immagine del gruppo"></q-img>
       </div>
 
       <!--:title="t(mycol.label_trans)"-->
@@ -37,7 +28,7 @@
       <div v-for="(mycol, index) of col" :key="index">
         <div
           v-if="(mycol.visible && (tools.checkIfShowField(mycol, tools.TIPOVIS_SHOW_RECORD, false, tools.getValue(myrec, mycol.field, mycol.subfield))))">
-          <div v-if="mycol.fieldtype === costanti.FieldType.html">
+          <div v-if="mycol.fieldtype === costanti.FieldType.html && tools.getValue(myrec, mycol.field, mycol.subfield)">
             <div class="note-bacheca"
                  v-html="tools.getValue(myrec, mycol.field, mycol.subfield)">
 
@@ -48,23 +39,20 @@
               {{ tools.getValue(myrec, mycol.field, mycol.subfield) }}
             </div>
           </div>
-          <div v-else-if="mycol.name === 'dateTimeStart'" class="text-center cal">
-
-            <div v-if="myrec.dateTimeStart" class="cal__when">
-              <span class="cal__where-title">{{ $t('cal.when') }}:</span>
-              <span v-html="tools.getstrDateTimeEvent(t, myrec, true)"></span>
-            </div>
-            <!--
-            <span class="dateevent" v-if="myrec.dateTimeStart">dal <span class="datainizio">{{
-                tools.getstrVeryShortDate(myrec.dateTimeStart)
-              }}</span> al <span class="datafine">{{ tools.getstrVeryShortDate(myrec.dateTimeEnd) }}</span>
-            </span>--->
+          <div v-else-if="mycol.name === 'photos' && myrec.photos.length <= 1">
           </div>
-          <div v-else-if="mycol.name === 'dateTimeEnd'">
+          <div v-else-if="mycol.name === 'admins'">
+            <CMyFieldRec
+              title="Amministratori:"
+              :table="table"
+              :id="myrec._id"
+              :rec="myrec"
+              :field="mycol.field"
+              :canEdit="false"
+              :canModify="false">
+            </CMyFieldRec>
 
           </div>
-
-
           <CMyFieldRec
             v-else
             :table="table"
@@ -77,16 +65,23 @@
         </div>
       </div>
 
+      <div class="text-center">
+        <q-btn
+          icon="far fa-file-alt" label="Apri Pagina" color="primary" text-color="white"
+          :to="tools.getToByCol(col, table, myrec)"
+        />
+      </div>
+
       <br><br>
     </q-card-section>
 
   </q-card>
 </template>
 
-<script lang="ts" src="./CMyCardPopup.ts">
+<script lang="ts" src="./CMyCardGrpPopup.ts">
 </script>
 
 <style lang="scss" scoped>
-@import './CMyCardPopup.scss';
+@import './CMyCardGrpPopup.scss';
 </style>
 

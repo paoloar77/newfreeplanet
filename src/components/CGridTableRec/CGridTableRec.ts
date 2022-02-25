@@ -24,6 +24,7 @@ import { CMyUser } from '../CMyUser'
 import { CMyGroups } from '../CMyGroups'
 import { CMyFieldDb } from '../CMyFieldDb'
 import { CMyRecCard } from '../CMyRecCard'
+import { CMyRecGrpCard } from '../CMyRecGrpCard'
 import { CMySelect } from '../CMySelect'
 import { CTitleBanner } from '../CTitleBanner'
 
@@ -34,6 +35,7 @@ import { costanti } from '@costanti'
 import translate from '@/globalroutines/util'
 import { toolsext } from '@store/Modules/toolsext'
 import { CMyCardPopup } from '@/components/CMyCardPopup'
+import { CMyCardGrpPopup } from '@/components/CMyCardGrpPopup'
 
 export default defineComponent({
   name: 'CGridTableRec',
@@ -208,7 +210,7 @@ export default defineComponent({
       default: '',
     },
   },
-  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends, CMyGroups, CMyUser, CMyRecCard, CMyCardPopup },
+  components: { CMyPopupEdit, CTitleBanner, CMyFieldDb, CMySelect, CMyFriends, CMyGroups, CMyUser, CMyRecCard, CMyCardPopup, CMyRecGrpCard, CMyCardGrpPopup },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -341,33 +343,6 @@ export default defineComponent({
       refresh()
     }
 
-    function canModifyThisRec(rec: any) {
-      // console.log('rec', rec)
-
-      if (tablesel.value === 'mygroups') {
-        // is Admin ?
-        if (rec.admins) {
-          const trovato = rec.admins.find((myuser: any) => myuser.username === userStore.my.username)
-          if (trovato) {
-            return !!trovato
-          }
-        }
-      }
-
-      if (rec.hasOwnProperty('userId')) {
-        let userId = rec.userId
-        if (userId === userStore.my._id) {
-          // E' il mio, quindi modificalo
-          return true
-        } else {
-          return false
-        }
-      } else {
-        return false
-      }
-      if (userStore.isAdmin || userStore.isManager)
-        return true
-    }
 
     // emulate 'SELECT count(*) FROM ...WHERE...'
     function getRowsNumberCount(myfilter?: any) {
@@ -1628,7 +1603,6 @@ export default defineComponent({
       globalStore,
       searchList,
       searchval,
-      canModifyThisRec,
       checkIfShowRec,
       valoriopt,
       labelcombo,

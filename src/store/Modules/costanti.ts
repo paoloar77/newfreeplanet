@@ -98,6 +98,7 @@ export const costanti = {
   VISUTABLE_LISTA: 2,
   VISUTABLE_SCHEDA_USER: -1,
   VISUTABLE_SCHEDA_GROUP: -3,
+  VISUTABLE_USER_TABGROUP: -4,
 
   DIR_UPLOAD: 'upload/', // upload/
 

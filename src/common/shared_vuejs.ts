@@ -96,6 +96,9 @@ export const shared_consts = {
   TABLES_PERM_NEWREC: ['skills', 'goods', 'subskills', 'mygroups'],
   TABLES_REC_ID: ['skills', 'goods', 'subskills'],
 
+  // costanti.VISUTABLE_SCHEDA_USER, VISUTABLE_SCHEDA_GROUP, VISUTABLE_USER_TABGROUP
+  VERTIC_SHOW_GRID: [-1, 2, -3, -4],
+
   TABLES_ID_NUMBER: ['permissions', 'levels', 'adtypes', 'adtypegoods', 'statusSkills', 'sectors', 'sectorgoods', 'catgrps', 'skills', 'subskills', 'cities', 'provinces',
     'myskills', 'mybachecas', 'mygoods', 'mygroups'],
   TABLES_USER_ID: ['mygroups', 'myskills', 'mybachecas', 'mygoods'],
@@ -106,6 +109,9 @@ export const shared_consts = {
 
   TABLES_PERM_CHANGE_FOR_USERS: ['myskills', 'mybachecas', 'mygoods'],
   TABLES_VISU_LISTA_USER: ['myskills', 'mybachecas', 'mygoods', 'users'],
+
+  TABLES_VISU_IMG: ['myskills', 'mybachecas', 'mygoods', 'mygroups'],
+  TABLES_DIRECTORY_A_PARTE: ['mygroups'],
 
   VISIB_ALL: 0,
   VISIB_ONLYIF_VERIFIED: 1,

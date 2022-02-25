@@ -5028,12 +5028,55 @@ export const tools = {
     return ''
   },
 
-  getFullFileName(arrimage: IImgGallery[], table: string, username: string) {
-    if (arrimage && arrimage.length > 0) {
-      return 'upload/profile/' + username + '/' + table + '/' + arrimage[0].imagefile
+  getFullFileName(arrimage: IImgGallery[], table: string, username: string, groupname: string) {
+    if (shared_consts.TABLES_DIRECTORY_A_PARTE.includes(table)) {
+      return `upload/${table}/` + groupname + '/' + arrimage[0].imagefile
     } else {
-      return ''
+      if (arrimage && arrimage.length > 0) {
+        return 'upload/profile/' + username + '/' + table + '/' + arrimage[0].imagefile
+      } else {
+        return ''
+      }
     }
+  },
+  canModifyThisRec(rec: any, tablesel: string) {
+    // console.log('rec', rec)
+
+    const userStore = useUserStore()
+
+    if (tablesel === toolsext.TABMYGROUPS) {
+      // is Admin ?
+      if (rec.admins) {
+        const trovato = rec.admins.find((myuser: any) => myuser.username === userStore.my.username)
+        if (trovato) {
+          return !!trovato
+        }
+      }
+    }
+
+    if (rec.hasOwnProperty('userId')) {
+      let userId = rec.userId
+      if (userId === userStore.my._id) {
+        // E' il mio, quindi modificalo
+        return true
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
+    // if (userStore.isAdmin || userStore.isManager)
+    //   return true
+  },
+
+  getToByCol(col: IColGridTable, table: string, rec: any) {
+    if (shared_consts.TABLES_REC_ID.includes(table)) {
+      return '/' + tools.getDirectoryByTable(table) + '/' + rec['_id']
+    } else if (table === toolsext.TABMYGROUPS) {
+      return '/grp/' + rec.groupname
+    }
+
+    return ''
   },
 
 

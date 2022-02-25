@@ -734,6 +734,29 @@ export default defineComponent({
             }
           },
           lookup2: {
+            lk_tab: 'catgrps',
+            lk_LF: 'idCatGrp',
+            lk_FF: '_id',
+            lk_as: 'recCatGrp',
+            lk_proj: {
+              groupname: 1,
+              title: 1,
+              descr: 1,
+              img: 1,
+              visibility: 1,
+              admins: 1,
+              idCatGrp: 1,
+              photos: 1,
+              idCity: 1,
+              note: 1,
+              website: 1,
+              comune: 1,
+              mycities: 1,
+              sector: 1,
+              recCatGrp: 1,
+            }
+          },
+          lookup3: {
             lk_tab: 'cities',
             lk_LF: 'idCity',
             lk_FF: '_id',
@@ -753,6 +776,7 @@ export default defineComponent({
               website: 1,
               comune: 1,
               mycities: 1,
+              recCatGrp: 1,
             }
           },
 

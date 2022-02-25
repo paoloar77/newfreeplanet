@@ -677,15 +677,6 @@ export default defineComponent({
 
     }
 
-    function getToByCol(col: IColGridTable){
-      if (shared_consts.TABLES_REC_ID.includes(props.table)) {
-        return '/' + tools.getDirectoryByTable(props.table) + '/' + props.row['_id']
-      } else if (props.table === 'mygroups') {
-        return '/grp/' + props.row['groupname']
-      }
-
-      return ''
-    }
 
     onBeforeMount(mounted)
 
@@ -725,7 +716,6 @@ export default defineComponent({
       myImgGall,
       noPopupeditByCol,
       getTitleEditor,
-      getToByCol,
       t,
     }
   }

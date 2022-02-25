@@ -1,5 +1,18 @@
 <template>
   <div class="">
+    <q-banner
+      rounded
+      dense
+      class="bg-warning text-white"
+      color="primary q-title"
+      style="text-align: center;">
+      <template v-slot:avatar>
+        <q-icon name="fas fa-exclamation-triangle" color="yellow" size="xs" />
+      </template>
+      <span class="mybanner">Questa sezione è ancora in fase di test.</span>
+
+    </q-banner>
+
     <CMyGroups
       v-model="filter"
       :finder="true"

@@ -169,7 +169,7 @@
       </CTitleBanner>
       -->
 
-      <div v-if="myuser._id">
+      <div v-if="myuser._id && (userStore.IsMyFriendByUsername(myuser.username) || isMyRecord(myuser.username))">
         <CTitleBanner
           class="" :title="$t('dashboard.info')" bgcolor="bg-primary" clcolor="text-white"
           myclass="myshad" :canopen="true">

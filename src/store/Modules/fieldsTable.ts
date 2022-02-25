@@ -522,7 +522,20 @@ export const colmyUserGroup = [
     allowchar: costanti.ALLOWCHAR_CODE,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
   }),
-  AddCol({ name: 'title', label_trans: 'reg.name', required: true, noshowlabel: true, }),
+  AddCol({ name: 'title', label_trans: 'reg.name', required: true, noshowlabel: true, maxlength: 40 }),
+  AddCol({
+    name: 'idCity',
+    label_trans: 'skill.city',
+    fieldtype: costanti.FieldType.multiselect_by_server,
+    jointable: 'cities',
+    tablesel: 'cities',
+    noshowlabel: true,
+    icon: 'fas fa-map-marker-alt',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+    remote_table: 'mycities',
+    remote_key: '_id',
+    remote_field: 'comune',
+  }),
   AddCol({
     name: 'idCatGrp',
     label_trans: 'catgrps.name',
@@ -537,7 +550,7 @@ export const colmyUserGroup = [
     {
       name: 'descr', label_trans: 'proj.longdescr', required: true,
       noshowlabel: true,
-      maxlength: 40
+      maxlength: 100
     }
   ),
   AddCol({
@@ -570,25 +583,6 @@ export const colmyUserGroup = [
     fieldtype: costanti.FieldType.listimages,
     jointable: '',
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
-  }),
-  AddCol({
-    name: 'idCity',
-    label_trans: 'skill.city',
-    fieldtype: costanti.FieldType.multiselect_by_server,
-    jointable: 'cities',
-    tablesel: 'cities',
-    noshowlabel: true,
-    icon: 'fas fa-map-marker-alt',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
-    remote_table: 'mycities',
-    remote_key: '_id',
-    remote_field: 'comune',
-  }),
-  AddCol({
-    name: 'date_created', label_trans: 'reg.date_created', fieldtype: costanti.FieldType.onlydate,
-    showWhen: costanti.showWhen.InPage + costanti.showWhen.InView_OnlyifExist,
-    visible: false,
-    required: false,
   }),
   AddCol({
     name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,

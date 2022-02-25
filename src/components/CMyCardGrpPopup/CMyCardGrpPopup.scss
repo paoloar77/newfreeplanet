@@ -1,0 +1,127 @@
+.profile {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 450px;
+}
+
+.myrow{
+  display: flex;
+  @media (max-width: 600px) {
+    flex-flow: column;
+  }
+}
+
+.qualifica{
+  border: solid 2px #4198ef;
+  border-radius: 1rem;
+  padding: 5px;
+}
+
+
+.text-bacheca{
+  margin: 10px;
+  border: solid 2px #4198ef;
+  border-radius: 1rem;
+  padding: 10px;
+
+}
+
+.note-bacheca{
+  border: solid 2px #C10015;
+  border-radius: 1rem;
+  padding: 10px;
+
+}
+
+.img {
+  margin-left: auto;
+  margin-right: auto;
+
+  max-height: 350px;
+  max-width: 350px;
+  @media (max-width: 500px) {
+    max-height: 400px;
+    max-width: 400px;
+  }
+}
+
+$graytext: #555;
+.cal {
+  color: black;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  letter-spacing: 0.03333em;
+
+  &__title {
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    padding-bottom: 10px;
+  }
+
+  &__details {
+    color: black;
+  }
+
+  &__hours {
+    color: blue;
+    &-title {
+      color: $graytext;
+    }
+    &-content {
+      font-weight: 400;
+    }
+  }
+
+  &__where {
+    margin-top: 5px;
+    color: blue;
+
+    &-title {
+      color: $graytext;
+    }
+    &-content {
+      color: darkblue !important;
+    }
+  }
+
+  &__when {
+    margin-top: 5px;
+    color: blue;
+
+    &-title {
+      color: $graytext;
+    }
+    &-content {
+      color: darkblue !important;;
+    }
+  }
+
+  &__teacher {
+    margin-top: 5px;
+    &-title {
+      color: $graytext;
+    }
+    &-content {
+      color: darkblue !important;;
+    }
+  }
+
+  &__quota {
+    margin-top: 5px;
+    &-title {
+      color: $graytext;
+    }
+    &-content {
+
+    }
+  }
+
+  &__img {
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+  }
+
+}

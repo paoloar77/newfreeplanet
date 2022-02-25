@@ -3,10 +3,10 @@
 
     <q-item v-if="myrec" clickable v-ripple class="shadow-2 q-btn--rounded bg-teal-1">
 
-      <q-item-section v-if="(shared_consts.TABLES_VISU_IMG.includes(table)) && (myrec.photos.length > 0)" avatar
+      <q-item-section v-if="(shared_consts.TABLES_VISU_IMG.includes(table)) && (myrec.photos && myrec.photos.length > 0)" avatar
                       @click="cmdExt(costanti.CMD_SHOW_PAGE, myrec)">
         <q-avatar size="60px">
-          <q-img :src="tools.getFullFileName(myrec.photos, table, myrec.username, '')" :alt="myrec.descr"
+          <q-img :src="tools.getFullFileName(myrec.photos, table, myrec.username, myrec.groupname)" :alt="myrec.descr"
                  img-class="imgprofile" height="60px"/>
         </q-avatar>
       </q-item-section>
@@ -23,15 +23,15 @@
 
       <q-item-section @click="cmdExt(costanti.CMD_SHOW_PAGE, myrec)">
         <q-item-label class="full-width">
-          <span v-for="(rec, ind) of myrec.recSkill" :key="ind"> <q-chip
+          <span v-for="(rec, ind) of myrec.recCatGrp" :key="ind"> <q-chip
             dense
             class="text-center shadow-5 glossy bg-blue chipmodif">{{ rec.descr }}</q-chip></span>
-          <span v-for="(rec, ind) of myrec.myskill" :key="ind"> <q-chip
-            dense
-            class="text-center shadow-5 glossy bg-green chipmodif">{{ rec.descr }}</q-chip></span>
 
           <!--<span class="dateevent" v-if="myrec.dateTimeStart">dal <span class="datainizio">{{tools.getstrVeryShortDate(myrec.dateStart) }}</span> al <span class="datafine">{{ tools.getstrVeryShortDate(myrec.dateEnd) }}</span>
           </span>-->
+        </q-item-label>
+        <q-item-label v-if="myrec.title" lines="1" class="text_title">
+          <span class="text-weight-bold">{{ myrec.title }}</span>
         </q-item-label>
         <q-item-label lines="3" v-if="myrec.descr">{{ myrec.descr }}<br>
         </q-item-label>
@@ -41,7 +41,7 @@
         </q-item-label>
 
       </q-item-section>
-      <q-item-section side v-if="myrec.userId === userStore.my._id">
+      <q-item-section side v-if="tools.canModifyThisRec(myrec, table)">
         <q-item-label>
           <q-btn rounded icon="fas fa-pencil-alt">
             <q-menu>
@@ -73,9 +73,9 @@
 
 </template>
 
-<script lang="ts" src="./CMyRecCard.ts">
+<script lang="ts" src="./CMyRecGrpCard.ts">
 </script>
 
 <style lang="scss" scoped>
-@import './CMyRecCard.scss';
+@import './CMyRecGrpCard.scss';
 </style>

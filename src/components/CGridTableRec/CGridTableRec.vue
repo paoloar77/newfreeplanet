@@ -35,8 +35,8 @@
       <q-spinner-tail size="2em" color="primary"/>
     </q-inner-loading>
     <q-table
-      :grid="(myvertical === costanti.VISUTABLE_SCHEDA_USER || myvertical === 2 || myvertical === costanti.VISUTABLE_SCHEDA_GROUP)"
-      :grid-header="(myvertical === costanti.VISUTABLE_SCHEDA_USER || myvertical === 2 || myvertical === costanti.VISUTABLE_SCHEDA_GROUP) && shared_consts.TABLES_WITH_SORTING.includes(mytable)"
+      :grid="shared_consts.VERTIC_SHOW_GRID.includes(myvertical)"
+      :grid-header="shared_consts.VERTIC_SHOW_GRID.includes(myvertical) && shared_consts.TABLES_WITH_SORTING.includes(mytable)"
       flat
       bordered
       class="my-sticky-header-table"
@@ -321,7 +321,7 @@
                 <CMyPopupEdit
                   :table="mytable"
                   :canEdit="canEdit"
-                  :canModify="canModifyThisRec(props.row)"
+                  :canModify="tools.canModifyThisRec(props.row, tablesel)"
                   :disable="disabilita()"
                   :mycol="col"
                   v-model:row="props.row"
@@ -354,7 +354,7 @@
 
       <template v-slot:item="props">
         <div
-          v-if="showType === costanti.SHOW_MYCARD || (myvertical === costanti.VISUTABLE_LISTA && shared_consts.TABLES_VISU_CMYSRECCARD.includes(tablesel)) ">
+          v-if="showType === costanti.SHOW_MYCARD || (myvertical !== costanti.VISUTABLE_USER_TABGROUP && myvertical === costanti.VISUTABLE_LISTA && shared_consts.TABLES_VISU_CMYSRECCARD.includes(tablesel)) ">
 
           <div v-if="props.row && shared_consts.TABLES_WITH_DATE.includes(tablesel)">
 
@@ -364,7 +364,15 @@
             </div>
           </div>
 
+          <CMyRecGrpCard
+            v-if="tablesel === toolsext.TABMYGROUPS"
+            :table="tablesel"
+            :prop_myrec="props.row"
+            @cmdext="cmdExt"
+          >
+          </CMyRecGrpCard>
           <CMyRecCard
+            v-else
             :table="tablesel"
             :prop_myrec="props.row"
             @cmdext="cmdExt"
@@ -376,6 +384,7 @@
           v-else-if="((showType === costanti.SHOW_USERINFO) && myvertical !== costanti.VISUTABLE_SCHEDA_USER) || ((myvertical === 2) && (shared_consts.TABLES_VISU_LISTA_USER.includes(tablesel)))"
           class="fill-all-width">
           <div>
+
             <CMyUser
               :mycontact="props.row"
               :visu="visufind"
@@ -385,16 +394,6 @@
             >
             </CMyUser>
 
-            <!--
-            <CMyFriends
-              v-model="filter"
-              :finder="false"
-              :mycontact="props.row"
-              :visu="visufind"
-              :groupname="extrafield"
-              :labelextra="props.row[col_title]"
-            />
-            -->
             <q-separator></q-separator>
           </div>
 
@@ -421,7 +420,7 @@
 
           <q-card :class="props.selected ? 'bg-grey-2 my-card-withshadow no-padding' : 'my-card-withshadow no-padding'"
                   style="background: radial-gradient(circle, #ffffff 0%, #bbddff 100%)">
-            <q-bar v-if="!visuinpage && canModifyThisRec(props.row)" dense class="bg-primary text-white full-height">
+            <q-bar v-if="!visuinpage && tools.canModifyThisRec(props.row, tablesel)" dense class="bg-primary text-white full-height">
               <q-badge v-if="props.row['adType']" :color="fieldsTable.getColByAdType(props.row['adType'])">
                 {{ fieldsTable.getValByTabAndId(tablesel, 'adType', props.row['adType']) }}
                 <q-icon :name="fieldsTable.getIconByAdType(props.row['adType'])" color="white" class="q-ml-xs"/>
@@ -430,11 +429,11 @@
               <q-space/>
 
               <q-btn
-                v-if="canModifyThisRec(props.row)"
+                v-if="tools.canModifyThisRec(props.row, tablesel)"
                 flat round color="white" icon="fas fa-pencil-alt" size="sm"
                 @click="clickFunz(props.row, prop_mycolumns.find((rec) => rec.action === lists.MenuAction.CAN_EDIT_TABLE))"></q-btn>
               <q-btn
-                v-if="canModifyThisRec(props.row)"
+                v-if="tools.canModifyThisRec(props.row, tablesel)"
                 flat round color="white" icon="fas fa-trash-alt" size="sm"
                 @click="clickFunz(props.row, prop_mycolumns.find((rec) => rec.action === lists.MenuAction.DELETE_RECTABLE))"></q-btn>
             </q-bar>
@@ -467,7 +466,7 @@
                           <CMyPopupEdit
                             :table="mytable"
                             :canEdit="canEdit"
-                            :canModify="canModifyThisRec(props.row)"
+                            :canModify="tools.canModifyThisRec(props.row, tablesel)"
                             :disable="disabilita()"
                             :mycol="col"
                             v-model:row="props.row"
@@ -492,7 +491,14 @@
     </q-table>
 
     <q-dialog v-model="visupagedialog" @hide="hidewindow" :maximized="$q.screen.lt.sm">
+      <CMyCardGrpPopup
+        v-if="mytable === toolsext.TABMYGROUPS"
+        :table="mytable"
+        :prop_myrec="myrecdialog">
+
+      </CMyCardGrpPopup>
       <CMyCardPopup
+        v-else
         :table="mytable"
         :prop_myrec="myrecdialog">
 
@@ -522,7 +528,7 @@
               <CMyPopupEdit
                 :table="mytable"
                 :canEdit="true"
-                :canModify="canModifyThisRec(rowclicksel)"
+                :canModify="tools.canModifyThisRec(rowclicksel, tablesel)"
                 :disable="disabilita()"
                 view="field"
                 :mycol="mycol"
@@ -609,7 +615,7 @@
                 <CMyPopupEdit
                   :table="mytable"
                   :canEdit="true"
-                  :canModify="canModifyThisRec(recModif)"
+                  :canModify="tools.canModifyThisRec(recModif, tablesel)"
                   :tablesel="col.tablesel"
                   :mycol="col"
                   :isInModif="true"
