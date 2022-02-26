@@ -105,6 +105,7 @@ export interface IUserFields {
   perm?: number
   verified_email?: boolean
   verified_by_aportador?: boolean
+  notask_verif?: boolean
   trust_modified?: Date
   aportador_solidario?: string
 

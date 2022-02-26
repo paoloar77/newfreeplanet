@@ -9,7 +9,7 @@
       <template v-slot:avatar>
         <q-icon name="fas fa-exclamation-triangle" color="yellow" size="xs" />
       </template>
-      <span class="mybanner">Questa sezione è ancora in fase di test.</span>
+      <span class="mybanner">Questa sezione è ancora in fase di miglioramento.</span>
 
     </q-banner>
 

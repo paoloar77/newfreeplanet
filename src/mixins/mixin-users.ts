@@ -116,6 +116,11 @@ export default function () {
     return isVerified() && userStore.my.verified_by_aportador
   }
 
+  function notAsk_ToVerify() {
+    const userStore = useUserStore()
+    return isVerified() && userStore.my.notask_verif
+  }
+
   function paotest() {
     return 'Ciaoooooooooooooooo!'
   }
@@ -177,6 +182,7 @@ export default function () {
     mySurname,
     myCell,
     Verificato,
+    notAsk_ToVerify,
     MadeGift,
     Email,
     getMyImg,

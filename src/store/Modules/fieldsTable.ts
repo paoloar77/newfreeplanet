@@ -520,7 +520,7 @@ export const colmyUserGroup = [
     name: 'groupname', label_trans: 'reg.groupname', required: true,
     maxlength: 30,
     allowchar: costanti.ALLOWCHAR_CODE,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage,
   }),
   AddCol({ name: 'title', label_trans: 'reg.name', required: true, noshowlabel: true, maxlength: 40 }),
   AddCol({
@@ -1904,6 +1904,11 @@ export const colTableUsersISP = [
   AddCol({
     name: 'verified_by_aportador',
     label_trans: 'reg.verified_by_aportador',
+    fieldtype: costanti.FieldType.boolean
+  }),
+  AddCol({
+    name: 'notask_verif',
+    label_trans: 'reg.notAsk_ToVerify',
     fieldtype: costanti.FieldType.boolean
   }),
   AddCol({ name: 'trust_modified', label_trans: 'reg.trust_modified', fieldtype: costanti.FieldType.date }),

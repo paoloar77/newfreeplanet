@@ -380,7 +380,7 @@ export default defineComponent({
           filter: null,
           useinput: false,
           icon: 'mood',
-          filteradv: true,
+          filteradv: false,
         },
         {
           label: 'Regione',
@@ -476,7 +476,7 @@ export default defineComponent({
           filter: null,
           useinput: false,
           icon: 'fas fa-hand-holding',
-          filteradv: true,
+          filteradv: false,
           //icon: 'swap_horizontal_circle',
         },
 

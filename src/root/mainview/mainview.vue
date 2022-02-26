@@ -11,6 +11,19 @@
 
     <!--<CMapsEsempio></CMapsEsempio>-->
 
+    <q-banner
+      v-if="tools.isTest()"
+      rounded
+      dense
+      class="bg-negative text-white"
+      color="primary q-title"
+      style="text-align: center;">
+      <template v-slot:avatar>
+        <q-icon name="fas fa-exclamation-triangle" color="yellow" size="xs" />
+      </template>
+      <span class="mybanner">Questo è l'AMBIENTE DI TEST !<br> Solo per prove.</span>
+
+    </q-banner>
 
     <div v-if="isLogged()">
       <div v-if="!isUserOk()">

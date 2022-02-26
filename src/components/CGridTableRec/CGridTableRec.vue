@@ -147,7 +147,6 @@
             <CMySelect
               :col="fieldsTable.getColByTable(mytable, item.key)"
               v-if="(item.type === costanti.FieldType.select) || (item.type === costanti.FieldType.select_by_server)"
-              v-show="(item.filteradv && showfilteradv) || !item.filteradv"
               :label="labelcombo(item)"
               v-model:value="item.value"
               @update:value="searchval(item.value, item.table)"
@@ -172,7 +171,6 @@
 
             <CMySelect
               v-if="item.type === costanti.FieldType.multiselect_by_server"
-              v-show="(item.filteradv && showfilteradv) || !item.filteradv"
               :col="fieldsTable.getColByTable(mytable, item.key)"
               :multiselect_by_server="true"
               :label="labelcombo(item)"
@@ -196,7 +194,6 @@
 
             <q-select
               v-if="(item.type === costanti.FieldType.multiselect)"
-              v-show="(item.filteradv && showfilteradv) || !item.filteradv"
               v-model="item.arrvalue"
               label-color="primary"
               :label="labelcombo(item)"

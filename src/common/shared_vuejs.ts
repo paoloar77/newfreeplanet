@@ -122,6 +122,7 @@ export const shared_consts = {
   BOTTYPE_PAGE: 1,
   BOTTYPE_LINK: 2,
   BOTTYPE_TEXT: 3,
+  BOTTYPE_MENU: 4,
 
   CashType: {
     None: 0,
@@ -154,6 +155,10 @@ export const shared_consts = {
     {
       value: 3,
       label: 'Testo',
+    },
+    {
+      value: 4, // BOTTYPE_MENU
+      label: 'Menu',
     },
   ],
 
@@ -769,7 +774,7 @@ export const shared_consts = {
   },
 
   fieldsUserToChange() {
-    return ['_id', 'username', 'group', 'email', 'name', 'surname', 'perm', 'date_reg', 'verified_email', 'verified_by_aportador', 'trust_modified', 'img', 'ipaddr', 'lasttimeonline', 'profile', 'news_on']
+    return ['_id', 'username', 'group', 'email', 'name', 'surname', 'perm', 'date_reg', 'verified_email', 'notask_verif', 'verified_by_aportador', 'trust_modified', 'img', 'ipaddr', 'lasttimeonline', 'profile', 'news_on']
   },
 
 }

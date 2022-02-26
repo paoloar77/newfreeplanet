@@ -151,7 +151,7 @@
         -->
 
         <CMyFieldRec
-          :title="t('reg.residency_city')"
+          :title="t('reg.born_city')"
           table="users"
           tablesel="cities"
           :id="myuser._id"

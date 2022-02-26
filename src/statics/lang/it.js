@@ -216,9 +216,9 @@ const msg_it = {
     components: {
       authentication: {
         telegram: {
-          open: 'Clicca qui per aprire il BOT Telegram e segui le istruzioni',
-          ifclose: 'Se non si apre Telegram cliccando sul bottone oppure l\'avevi eliminato, vai su Telegram e cerca il Bot di \'{botname}\' dall\'icona della lente, poi premi Start e segui le istruzioni.',
-          openbot: 'Apri \'{botname}\' su Telegram',
+          open: 'Clicca sul bottone qui sotto, si aprirà una chat Telegram speciale (chiamata BOT)',
+          ifclose: 'poi premi "AVVIA" o "START" e segui le istruzioni indicate.',
+          openbot: 'Entra qui',
         },
         login: {
           facebook: 'Facebook',
@@ -396,6 +396,7 @@ const msg_it = {
       legenda: 'Legenda',
       aportador_solidario: 'Chi ti ha Invitato',
       verified_by_aportador: 'Verificato dall\'Invitante',
+      notAsk_ToVerify: 'Non chiedere la verifica Registrazione',
       trust_modified: 'Fiducia Modificata',
       blocked: 'Bloccato',
       username_who_block: 'Bloccato da',

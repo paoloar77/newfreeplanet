@@ -518,7 +518,7 @@ const baseroutes: IListRoutes[] = [
     materialIcon: 'fas fa-test',
     name: 'mypages.test',
     component: () => import('@/views/testServer/testServer.vue'),
-    inmenu: true,
+    inmenu: false,
     infooter: false,
   },
   {
