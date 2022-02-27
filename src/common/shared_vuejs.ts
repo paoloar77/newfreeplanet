@@ -768,6 +768,13 @@ export const shared_consts = {
     },
   ],
 
+  ConfSite: {
+    Notif_Reg_Bot: 1,
+    Notif_Reg_Push_Admin: 2,
+    Need_Aportador_On_DataReg_To_Verify_Reg: 4,
+  },
+
+
   getStatusStr(status: number) {
     const trovatorec = this.OrderStatusStr.find((rec) => rec.value === status)
     return (trovatorec) ? trovatorec.label : ''

@@ -58,6 +58,7 @@ const msg_it = {
         gallery: 'Gallerie',
         listaflotte: 'Flotte',
         bot: 'Bot',
+        confsite: 'Configura Sito',
       },
       manage: {
         menu: 'Segreteria',
@@ -515,6 +516,7 @@ const msg_it = {
       image: 'Immagine',
       date: 'Data',
       date_created: 'Creato il',
+      options: 'Opzioni',
       err: {
         required: 'è richiesto',
         email: 'inserire una email valida',

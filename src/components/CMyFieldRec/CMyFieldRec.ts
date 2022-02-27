@@ -141,7 +141,7 @@ export default defineComponent({
       console.log('showandsel CMyFieldDb', row, col, newval)
 
       if (newval !== valinitial)
-        setValDb($q, mykey.value, newval, col.value.fieldtype, false, props.table, mysubkey.value, props.id, props.indrec, mysubsubkey.value)
+        setValDb($q, mykey.value, newval, col.fieldtype, false, props.table, mysubkey.value, props.id, props.indrec, mysubsubkey.value)
     }
 
     function withBorder() {

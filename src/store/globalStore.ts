@@ -809,6 +809,40 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
+    async caricaTabella(table: string, extrapar: string) {
+
+      let myarr = []
+      const sortBy = 'descr'
+      const descending = 1
+      const myobj: any = {}
+      if (descending)
+        myobj[sortBy] = -1
+      else
+        myobj[sortBy] = 1
+
+      const params: IParamsQuery = {
+        table: '',
+        startRow: 0,
+        endRow: 10000,
+        filter: '',
+        filterand: '',
+        filtersearch: '',
+        filtersearch2: '',
+        filtercustom: '',
+        sortBy: myobj,
+        descending,
+        userId: '',
+        extrapar
+      }
+
+      params.table = table
+      return this.loadTable(params).then((data) => {
+        return data
+      }).catch((e) => {
+        return []
+      })
+    },
+
     async loadPage(path: string) {
       const userStore = useUserStore()
 
@@ -1482,6 +1516,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       else if (table === 'accepted') myarr = [shared_consts.Accepted.CHECK_READ_GUIDELINES, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI]
       else if (table === 'fieldstype') myarr = costanti.FieldTypeArr
       else if (table === 'metodo_pagamento') myarr = tools.SelectMetodiPagamento
+      else if (table === 'confsite_opt') myarr = tools.ConfSiteOpt
       else if (table === 'bottype') myarr = shared_consts.BotType
       else if (table === 'visibility') myarr = shared_consts.Visibility
       else if (table === 'visibilGroup') myarr = shared_consts.VisibilGroup

@@ -241,6 +241,22 @@ export const tools = {
     },
   ],
 
+  ConfSiteOpt: [
+    {
+      label: 'Richiede che Invitante confermi la Reg',
+      value: shared_consts.ConfSite.Need_Aportador_On_DataReg_To_Verify_Reg,
+    },
+    {
+      label: 'Notif Reg sul BOT (all\'Invitante)',
+      value: shared_consts.ConfSite.Notif_Reg_Bot,
+    },
+    {
+      label: 'Notif Reg Push (Admin)',
+      value: shared_consts.ConfSite.Notif_Reg_Push_Admin,
+    },
+
+  ],
+
   SelectMetodiPagamento: [
     {
       id: 0,
@@ -5044,6 +5060,10 @@ export const tools = {
 
     const userStore = useUserStore()
 
+    //if (tools.isTest() && (userStore.isAdmin || userStore.isManager))
+    if ((userStore.isAdmin || userStore.isManager))
+       return true
+
     if (tablesel === toolsext.TABMYGROUPS) {
       // is Admin ?
       if (rec.admins) {
@@ -5065,8 +5085,6 @@ export const tools = {
     } else {
       return false
     }
-    // if (userStore.isAdmin || userStore.isManager)
-    //   return true
   },
 
   getToByCol(col: IColGridTable, table: string, rec: any) {

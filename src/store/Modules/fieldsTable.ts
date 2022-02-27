@@ -1106,6 +1106,9 @@ export const colTableSites = [
   AddCol({ name: 'domain_provider', label_trans: 'sites.domain_provider', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'domain_expiring', label_trans: 'reg.domain_expiring', fieldtype: costanti.FieldType.onlydate }),
   AddCol({ name: 'next_payment', label_trans: 'reg.next_payment', fieldtype: costanti.FieldType.onlydate }),
+  // Configuration
+  // AddCol({ name: 'confsite.notif_reg', field: 'confsite', subfield: 'notif_reg', label_trans: 'reg.notif_reg', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'confsite.options', field: 'confsite', subfield: 'options', label_trans: 'reg.options', fieldtype: costanti.FieldType.binary, jointable: 'confsite_opt', }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
 ]
@@ -2403,9 +2406,27 @@ export const fieldsTable = {
       noshow: true,
     },
     {
+      value: 'sites',
+      label: 'Siti',
+      columns: colTableSites,
+      colkey: '_id',
+      collabel: 'name',
+      colicon: 'icon',
+      noshow: true,
+    },
+    {
       value: 'bottype',
       label: 'Tipo di Bot',
       columns: colTablePermission,
+      colkey: 'value',
+      collabel: 'label',
+      colicon: 'icon',
+      noshow: true,
+    },
+    {
+      value: 'confsite_opt',
+      label: 'Configura Opzioni Sito',
+      columns: colTableGeneric,
       colkey: 'value',
       collabel: 'label',
       colicon: 'icon',

@@ -287,6 +287,20 @@ const routes_manager: IListRoutes[] = [
   },
   {
     active: true,
+    order: 30,
+    path: '/admin/confsite',
+    materialIcon: 'fas fa-file-alt',
+    name: 'otherpages.admin.confsite',
+    component: () => import('@/rootgen/admin/confsite/confsite.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyEditor: true
+  },
+  {
+    active: true,
     path: '/admin/newsletter',
     order: 60,
     faIcon: 'fa fa-list-alt',
