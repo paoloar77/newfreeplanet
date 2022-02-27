@@ -84,6 +84,7 @@
           <div v-if="mygrp.title" class="myrow justify-evenly items-center q-pa-sm q-ma-sm">
             <q-card>
               <div class="col-6 q-ma-xs">
+
                 <q-btn
                   v-if="getLinkGrpTelegram()" icon="fab fa-telegram"
                   color="blue" type="a"

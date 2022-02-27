@@ -245,7 +245,7 @@ export default defineComponent({
 
     const serverData: any = ref([])
     const spinner_visible = ref(false)
-    const searchList = toRef(props, 'prop_searchList')
+    const searchList = ref(<ISearchList[]> [])
 
     let actual = ''
 
@@ -307,24 +307,29 @@ export default defineComponent({
     })
 
     function setCategBySector(tablecat: string, tabsector: string, newval: any) {
+
       const recSector = searchList.value.find((rec) => rec.table === tabsector)
       if (recSector)
-        tools.setCookie(tools.COOK_SEARCH + tablecat + '_' + recSector.value, newval)
+        tools.setCookie(tools.COOK_SEARCH + tabsector, newval)
 
       for (const item of searchList.value) {
         if (item.table === tablecat) {
           const valsaved = tools.getCookie(tools.COOK_SEARCH + tablecat + '_' + newval, costanti.FILTER_TUTTI)
           const rec = searchList.value.find((rec) => rec.table === tablecat) // check if exist
           let trovato = false
+          let arrvalues = []
           if (rec) {
-            const arrvalues = valoriopt.value(rec.value, false)
+            arrvalues = valoriopt.value(rec.value, false)
             if (arrvalues)
               trovato = arrvalues.find((rec: any) => rec[rec.key] === valsaved)
           }
           if (valsaved && trovato)
             item.value = valsaved
-          else
-            item.value = costanti.FILTER_TUTTI
+          else {
+            if (arrvalues) {
+              item.value = costanti.FILTER_TUTTI
+            }
+          }
         }
       }
 
@@ -334,10 +339,10 @@ export default defineComponent({
       // console.log('searchval', newval, table)
       tools.setCookie(tools.COOK_SEARCH + table, newval)
 
-      if (table === 'skills') {
-        setCategBySector(table, 'sectors', newval)
+      if (table === 'sectors') {
+        setCategBySector('skills', table, newval)
       }else if (table === 'goods') {
-        setCategBySector(table, 'sectorgoods', newval)
+        setCategBySector('sectorgoods', table, newval)
       }
 
       refresh()
@@ -417,7 +422,9 @@ export default defineComponent({
       if (searchList.value) {
         recSkill = searchList.value.find((item: ISearchList) => item.table === 'skills')
         idSkill = recSkill ? recSkill.value : 0
+        console.log('recSkill', idSkill)
       }
+
 
       let arrfilter_cities: any = []
       let arrfilter_provices: any = []
@@ -480,6 +487,8 @@ export default defineComponent({
                 filtersearch.push(objitem)
 
             } else if (item.arrvalue.length > 0) {
+
+
               const myarr = item.arrvalue.filter((value: any) => {
                 if (typeof value === 'number') {
                   return value > 0
@@ -507,21 +516,25 @@ export default defineComponent({
             } else {
               if ((item.table === 'skills') && item.value === costanti.FILTER_TUTTI) {
                 let obj2: any = {}
+
                 if (idSector > 0) {
                   // idSector
                   obj2['sector._id'] = idSector
                   filtersearch2.push(obj2)
                 }
-              }
-              if ((item.table === 'goods') && item.value === costanti.FILTER_TUTTI) {
+                if (idSkill > 0) {
+                  // idSector
+                  obj2['idSkill'] = idSkill
+                  filtersearch2.push(obj2)
+                }
+              } else if ((item.table === 'goods') && item.value === costanti.FILTER_TUTTI) {
                 let obj2: any = {}
                 if (idSectorGood > 0) {
                   // idSectorGood
                   obj2['sectorgood._id'] = idSectorGood
                   filtersearch2.push(obj2)
                 }
-              }
-              if ((item.table === 'subskills') && item.value === costanti.FILTER_TUTTI) {
+              } else if ((item.table === 'subskills') && item.value === costanti.FILTER_TUTTI) {
                 let obj2: any = {}
                 // idSector
                 if (idSkill > 0) {
@@ -977,6 +990,8 @@ export default defineComponent({
     }
 
     function mounted() {
+      searchList.value = props.prop_searchList
+
       // console.log('GridTable mounted', tablesel.value)
 
       // console.log('props.filtercustom', props.filtercustom)
@@ -1454,8 +1469,8 @@ export default defineComponent({
 
     function showColCheck(col: IColGridTable, tipovis: number, visulabel:boolean, value: any = '', record: any = null){
 
-      if (col.isadvanced_field && !showfilteradv.value)
-        return false
+      //if (col.isadvanced_field && !showfilteradv.value)
+      //  return false
 
       const check = tools.checkIfShowField(col, tipovis, visulabel, value)
 

@@ -517,6 +517,7 @@ const msg_it = {
       date: 'Data',
       date_created: 'Creato il',
       options: 'Opzioni',
+      link_telegram: 'Link al Canale/Gruppo Telegram',
       err: {
         required: 'è richiesto',
         email: 'inserire una email valida',

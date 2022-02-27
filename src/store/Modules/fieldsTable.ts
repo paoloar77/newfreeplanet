@@ -585,6 +585,15 @@ export const colmyUserGroup = [
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
   }),
   AddCol({
+    name: 'link_telegram', label_trans: 'reg.link_telegram', isadvanced_field: true, fieldtype: costanti.FieldType.link,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    icon: 'fab fa-telegram'
+  }),
+  AddCol({
+    name: 'website', label_trans: 'reg.website', isadvanced_field: true, fieldtype: costanti.FieldType.link,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist
+  }),
+  AddCol({
     name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
     titlepopupedit: 'Dettagli', field_extra1: 'groupname', subfield_extra1: ''
   }),
@@ -644,7 +653,7 @@ export const colmyGoods = [
     fieldtype: costanti.FieldType.select,
     required: true,
     jointable: 'sectorgoods',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     visible: true,
     icon: 'category',
   }),
@@ -810,7 +819,7 @@ export const colmySkills = [
     fieldtype: costanti.FieldType.select,
     required: true,
     jointable: 'sectors',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     visible: true,
     icon: 'category',
   }),
@@ -993,7 +1002,7 @@ export const colmyBachecas = [
     fieldtype: costanti.FieldType.select,
     required: true,
     jointable: 'sectors',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     visible: true,
     icon: 'category',
     sortable: false,

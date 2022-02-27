@@ -104,7 +104,7 @@ export default defineComponent({
 
       if (mygrp.value) {
         if (!!mygrp.value.link_telegram) {
-          return 'https://t.me/' + mygrp.value.link_telegram
+          return (!mygrp.value.link_telegram.startsWith('http') ? 'https://' : '') + mygrp.value.link_telegram
         }
       } else {
         return ''

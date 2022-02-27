@@ -247,11 +247,11 @@ export const tools = {
       value: shared_consts.ConfSite.Need_Aportador_On_DataReg_To_Verify_Reg,
     },
     {
-      label: 'Notif Reg sul BOT (all\'Invitante)',
-      value: shared_consts.ConfSite.Notif_Reg_Bot,
+      label: 'Notif Reg sul BOT (ai Gestori)',
+      value: shared_consts.ConfSite.Notif_Reg_Bot_ToManagers,
     },
     {
-      label: 'Notif Reg Push (Admin)',
+      label: 'Notif Reg Push (all\'Admin)',
       value: shared_consts.ConfSite.Notif_Reg_Push_Admin,
     },
 

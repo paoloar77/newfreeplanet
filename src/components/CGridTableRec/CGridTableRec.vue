@@ -556,10 +556,10 @@
           <div
             v-for="col in mycolumns" :key="col.name" class="newrec_fields">
 
-            <div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
+            <!--<div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
               <q-btn color="primary" size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'"
                      label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
-            </div>
+            </div>-->
             <div
               v-if="showColCheck(col, tools.TIPOVIS_NEW_RECORD, true, 0, newRecord) && col.foredit ">
               <div class="">
@@ -602,12 +602,12 @@
         <q-card-section class="inset-shadow">
           <div
             v-for="col in mycolumns" :key="col.name">
-            <div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
+            <!--<div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
               <q-btn color="primary" size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'"
                      label="Campi Avanzati" @click="showfilteradv = !showfilteradv"></q-btn>
-            </div>
+            </div>-->
             <div
-              v-else-if="showColCheck(col, tools.TIPOVIS_EDIT_RECORD, false) && col.foredit">
+              v-if="showColCheck(col, tools.TIPOVIS_EDIT_RECORD, false) && col.foredit">
               <div>
                 <CMyPopupEdit
                   :table="mytable"
