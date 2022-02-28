@@ -44,6 +44,13 @@ export default defineComponent({
 
     const myuser = ref(<IUserFields>{})
 
+    const actualcard = ref('mygoods')
+
+    const mycards = computed(() => {
+      return costanti.MAINCARDS.filter((rec: any) => rec.table)
+    })
+
+
     function profile() {
       return userStore.my.profile
     }
@@ -124,6 +131,8 @@ export default defineComponent({
       isMyRecord,
       getRefLink,
       fieldsTable,
+      mycards,
+      actualcard,
     }
   }
 })

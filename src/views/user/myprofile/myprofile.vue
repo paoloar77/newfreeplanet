@@ -153,27 +153,30 @@
       </div>
 
 
-      <!--
+
       <CTitleBanner
         class="" title="Competenze e Talenti" bgcolor="bg-positive" clcolor="text-white"
         myclass="myshad" :canopen="true">
 
-        <q-tabs v-model="tabgrp" class="text-blue">
-          <q-tab label="Beni" name="goods" icon="fas fa-info"></q-tab>
+        <q-tabs v-model="actualcard" class="text-blue">
+          <q-tab v-for="(card, ind) of mycards" :key="ind" :name="card.table" :label="card.title">
+
+          </q-tab>
         </q-tabs>
-        <CSkill
-          :table="table"
-          :visuinpage="false"
-          :filtercustom="filtroutente"
-          :butt_modif_new="isMyRecord(myuser.username)"
 
-        >
+        <q-tab-panels v-model="actualcard" animated>
+          <q-tab-panel v-for="(card, ind) of mycards" :key="ind" :name="card.table">
 
-        </CSkill>
-
+            <CSkill
+              :table="card.table"
+              :filtercustom="filtroutente"
+              :butt_modif_new="isMyRecord(myuser.username)"
+            />
+          </q-tab-panel>
+        </q-tab-panels>
 
       </CTitleBanner>
-      -->
+
 
 
       <div v-if="myuser._id && (userStore.IsMyFriendByUsername(myuser.username) || isMyRecord(myuser.username))">

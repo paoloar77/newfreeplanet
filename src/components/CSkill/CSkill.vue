@@ -19,7 +19,7 @@
         :defaultnewrec="getdefaultnewrec"
         :filtercustom="filtercustom"
         v-bind="$attrs"
-        :extraparams="extraparams()">
+        :extraparams="extraparams">
 
       </CGridTableRec>
     </div>

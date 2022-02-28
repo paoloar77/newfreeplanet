@@ -19,6 +19,7 @@ export const costanti = {
       icon: 'fas fa-tshirt',
       color: 'indigo',
       hint: '',
+      table: 'mygoods',
     },
     {
       title: 'Servizi',
@@ -26,6 +27,7 @@ export const costanti = {
       icon: 'fas fa-house-user',
       color: 'red',
       hint: '',
+      table: 'myskills',
     },
     {
       title: 'Mobilità',
@@ -51,6 +53,7 @@ export const costanti = {
       color: 'green',
       hint: 'eventi, last minute, offerte di lavoro',
       disable: false,
+      table: 'mybachecas',
     },
     {
       title: 'Luoghi',
