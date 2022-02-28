@@ -68,7 +68,6 @@ export default defineComponent({
       myName,
       mySurname,
       myCell,
-      Verificato,
       MadeGift,
       Email,
       getMyImg,
@@ -80,7 +79,6 @@ export default defineComponent({
       getNumMsg,
       getNumMsgUnread,
       getMsgText,
-      isVerified,
       paotest } = MixinUsers();
 
     function isonline() {
@@ -370,10 +368,6 @@ export default defineComponent({
         })
     }
 
-    function isLogged() {
-      return userStore.isLogged
-    }
-
     function clickregister() {
       rightDrawerOpen.value = false
 
@@ -432,7 +426,6 @@ export default defineComponent({
       rightCartOpen,
       lang,
       langshort,
-      isLogged,
       getnumOrdersCart,
       t,
       isonline,
@@ -457,7 +450,6 @@ export default defineComponent({
       myName,
       mySurname,
       myCell,
-      Verificato,
       MadeGift,
       Email,
       getMyImg,
@@ -472,7 +464,7 @@ export default defineComponent({
       paotest,
       logoutHandler,
       isUserNotAuth,
-      isVerified,
+      tools,
     }
   },
 

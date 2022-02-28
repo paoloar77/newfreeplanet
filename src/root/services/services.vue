@@ -2,9 +2,9 @@
   <q-page class="">
     <CTitlePage :ind="1" />
 
-    <div v-if="isLogged()">
+    <div v-if="tools.isLogged()">
 
-      <div v-if="isUserOk()">
+      <div v-if="tools.isUserOk()">
 
         <CFinder
           :table="toolsext.TABMYSKILLS"

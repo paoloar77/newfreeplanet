@@ -3128,6 +3128,18 @@ export const tools = {
     }
   },
 
+  checkErrors(mythisq: any, riscode: number, msg: string) {
+    console.log('checkErrors', riscode)
+
+    const userStore = useUserStore()
+    if (riscode === serv_constants.RIS_CODE_REC_ALREADY_EXIST_NAME) {
+      this.showNegativeNotif(mythisq, t('reg.err.rec_already_exist_name') + ' ' + msg)
+    } else if (riscode === serv_constants.RIS_CODE_REC_ALREADY_EXIST_CODE) {
+      this.showNegativeNotif(mythisq, t('reg.err.rec_already_exist_code') + ' ' + msg)
+    }
+  },
+
+
   SignUpcheckErrors(mythisq: any, $router: any, riscode: number, msg: string) {
     console.log('SignUpcheckErrors', riscode)
     const endload = true
@@ -3146,6 +3158,7 @@ export const tools = {
 
       this.showNegativeNotif(mythisq, t('reg.err.user_aportador_not_valid') + ' ' + msg)
 
+
     } else if (riscode === serv_constants.RIS_CODE_USERNAME_NOT_VALID) {
       this.showNotif(mythisq, t('reg.err.username_not_valid'))
     } else if (riscode === serv_constants.RIS_CODE_USERNAME_ALREADY_EXIST) {
@@ -3161,13 +3174,13 @@ export const tools = {
         color: 'green',
         textColor: 'black',
       }) */
-      this.showNotif(mythisq, t('components.authentication.email_verification.reg_ok', { botname: t('ws.botname') }), {
+      this.showNotif(mythisq, t('components.authentication.email_verification.reg_ok', { botname: this.getBotName() }), {
         color: 'green',
         textColor: 'black',
       })
     } else if (riscode === serv_constants.RIS_ISCRIZIONE_OK) {
       $router.push('/')
-      this.showNotif(mythisq, t('components.authentication.iscrizione_ok', { botname: t('ws.botname') }), {
+      this.showNotif(mythisq, t('components.authentication.iscrizione_ok', { botname: this.getBotName() }), {
         color: 'green',
         textColor: 'black',
       })
@@ -4110,10 +4123,63 @@ export const tools = {
     return mylist
   },
 
-  IsLogged() {
+  isLogged() {
     const userStore = useUserStore()
     if (!!userStore)
       return userStore.isLogged
+    else
+      return false
+  },
+
+  isUserOk() {
+    const userStore = useUserStore()
+    if (!!userStore)
+      return userStore.isUserOk()
+    else
+      return false
+  },
+
+  getLinkBotTelegram(): string {
+    if (this.isTest() && !process.env.DEV) {
+      return this.getValDb('TELEG_BOT_LINK_TEST', false)
+    } else {
+      return this.getValDb('TELEG_BOT_LINK', false)
+    }
+  },
+
+  getBotName(): string {
+    if (this.isTest() && !process.env.DEV) {
+      return this.getValDb('TELEG_BOT_NAME', false)
+    } else {
+      return this.getValDb('TELEG_BOT_NAME', false)
+    }
+  },
+
+  TelegVerificato(): boolean {
+    const userStore = useUserStore()
+    return userStore.my.profile ? userStore.my.profile.teleg_id! > 0 : false
+  },
+
+  isVerified(): boolean {
+    return tools.TelegVerificato()
+  },
+
+  Verificato() {
+    const userStore = useUserStore()
+    return this.isVerified() && userStore.my.verified_by_aportador
+  },
+
+
+  isEmailVerified(): boolean {
+    const userStore = useUserStore()
+    return userStore.my.verified_email!
+  },
+
+
+  TelegCode() {
+    const userStore = useUserStore()
+    if (!!userStore)
+      return userStore.my.profile.teleg_checkcode
     else
       return false
   },
@@ -4924,11 +4990,6 @@ export const tools = {
     return Array.isArray(val)
   },
 
-  isUserOk() {
-    const userStore = useUserStore()
-    return userStore.isUserOk()
-  },
-
   isTelegOk() {
     const userStore = useUserStore()
     return userStore.isTelegOk()
@@ -4959,7 +5020,7 @@ export const tools = {
   },
 
   getCitySel() {
-    const objcity = tools.getCookie(tools.COOK_SEARCH + 'cities', {_id: 0})
+    const objcity = tools.getCookie(tools.COOK_SEARCH + 'cities', { _id: 0 })
     let defcity: any = []
     if (objcity && objcity._id > 0) {
       defcity = [objcity._id]
@@ -4975,13 +5036,13 @@ export const tools = {
     const arrtable = ['sectors', 'statusSkills', 'contribtypes', 'adtypes', 'sectorgoods', 'otherfilters', 'shippings']
     const arrmultisel_tab = ['skills', 'goods']
     const arrmultisel = [
-      { table: 'skills', join: 'sectors'},
-      { table: 'goods', join: 'sectorgoods'}
-      ]
+      { table: 'skills', join: 'sectors' },
+      { table: 'goods', join: 'sectorgoods' }
+    ]
 
     if (arrtable.includes(table)) {
       return tools.getCookie(tools.COOK_SEARCH + table, mydef)
-    } else if (arrmultisel_tab.includes(table)){
+    } else if (arrmultisel_tab.includes(table)) {
       const rec = arrmultisel.find((rec) => rec.table === table)
       if (rec) {
         return tools.getCookie(tools.COOK_SEARCH + table + '_' + tools.getCookie(tools.COOK_SEARCH + rec.join, 0), mydef)
@@ -5106,7 +5167,7 @@ export const tools = {
 
     //if (tools.isTest() && (userStore.isAdmin || userStore.isManager))
     if ((userStore.isAdmin || userStore.isManager))
-       return true
+      return true
 
     if (tablesel === toolsext.TABMYGROUPS) {
       // is Admin ?
@@ -5144,6 +5205,15 @@ export const tools = {
   getPathByGroup(grp: any, table: string) {
     return '/' + tools.getDirectoryByTable(table) + '/' + grp.groupname
   },
+
+  getAportadorSolidario() {
+    const userStore = useUserStore()
+    return userStore.my ? userStore.my.aportador_solidario : ''
+  },
+
+  getLinkProfileAportador() {
+    return '/my/' + tools.getAportadorSolidario()
+  }
 
 
 // getLocale() {

@@ -58,11 +58,6 @@ export default defineComponent({
       clearInterval(polling.value)
     })
 
-    function isLogged() {
-      const userStore = useUserStore()
-      return userStore.isLogged
-    }
-
     function TelegramSupport() {
       return process.env.TELEGRAM_SUPPORT
     }
@@ -138,7 +133,6 @@ export default defineComponent({
     return {
       t,
       appname,
-      isLogged,
       TelegramSupport,
       FBPage,
       meta,

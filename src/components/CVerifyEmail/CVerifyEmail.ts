@@ -2,6 +2,7 @@ import { defineComponent } from 'vue'
 
 import { CCopyBtn } from '../CCopyBtn'
 import { useUserStore } from '@store/UserStore'
+import { tools } from '@store/Modules/tools'
 
 export default defineComponent({
   name: 'CVerifyEmail',
@@ -9,14 +10,8 @@ export default defineComponent({
   props: {},
   setup() {
 
-    const userStore = useUserStore()
-
-    function isEmailVerified(): boolean {
-      return userStore.my.verified_email!
-    }
-
     return {
-      isEmailVerified,
+      tools,
     }
   }
 })

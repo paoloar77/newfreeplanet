@@ -17,41 +17,9 @@ export default defineComponent({
 
     const userStore = useUserStore()
 
-    const { setValDb, getValDb } = MixinBase()
-
-    function TelegCode() {
-      if (userStore.my.profile) {
-        return userStore.my.profile.teleg_checkcode
-      }else {
-        return 0
-      }
-    }
-
-    function TelegVerificato(): boolean {
-      return userStore.my.profile ? userStore.my.profile.teleg_id! > 0 : false
-    }
-
-    function getLinkBotTelegram(): string {
-      if (tools.isTest() && !process.env.DEV) {
-        return getValDb('TELEG_BOT_LINK_TEST', false)
-      } else{
-        return getValDb('TELEG_BOT_LINK', false)
-      }
-    }
-    function getBotNameTelegram() {
-      return t('ws.botname');
-    }
-
-    function isEmailVerified(): boolean {
-      return userStore.my.verified_email!
-    }
 
     return {
-      TelegCode,
-      TelegVerificato,
-      getLinkBotTelegram,
-      isEmailVerified,
-      getBotNameTelegram,
+      tools,
     }
   }
 })

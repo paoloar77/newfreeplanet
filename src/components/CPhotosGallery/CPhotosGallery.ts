@@ -111,10 +111,6 @@ export default defineComponent({
       animare.value = process.env.DEV ? 0 : 8000
     }
 
-    function isLogged() {
-      return userStore.isLogged
-    }
-
     function meta() {
       return {
         keywords: { name: 'keywords', content: 'Quasar website' },
@@ -239,7 +235,6 @@ export default defineComponent({
       changeAllunga,
       getappname,
       appname,
-      isLogged,
       mystilecard,
       getenv,
       isInCostruction,

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="tools.isUserOk()">
+  <div v-if="tools.isUserOk() || (tools.isLogged() && username === tools.getAportadorSolidario())">
     <div class="q-gutter-sm q-pa-sm q-pb-md">
       <div v-if="myuser.date_reg" class="fit column no-wrap justify-evenly items-center content-start">
 
@@ -152,12 +152,18 @@
         </q-card>
       </div>
 
+
       <!--
       <CTitleBanner
         class="" title="Competenze e Talenti" bgcolor="bg-positive" clcolor="text-white"
         myclass="myshad" :canopen="true">
 
+        <q-tabs v-model="tabgrp" class="text-blue">
+          <q-tab label="Beni" name="goods" icon="fas fa-info"></q-tab>
+        </q-tabs>
         <CSkill
+          :table="table"
+          :visuinpage="false"
           :filtercustom="filtroutente"
           :butt_modif_new="isMyRecord(myuser.username)"
 
@@ -168,6 +174,7 @@
 
       </CTitleBanner>
       -->
+
 
       <div v-if="myuser._id && (userStore.IsMyFriendByUsername(myuser.username) || isMyRecord(myuser.username))">
         <CTitleBanner

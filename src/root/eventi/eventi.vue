@@ -1,9 +1,9 @@
 <template>
   <q-page class="">
 
-    <div v-if="isLogged()">
+    <div v-if="tools.isLogged()">
 
-      <div v-if="isUserOk()">
+      <div v-if="tools.isUserOk()">
         <CTitlePage :ind="4" />
 
         <CFinder

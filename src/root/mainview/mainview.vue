@@ -25,8 +25,8 @@
 
     </q-banner>
 
-    <div v-if="isLogged()">
-      <div v-if="!isUserOk()">
+    <div v-if="tools.isLogged()">
+      <div v-if="!tools.isUserOk()">
         <CUserNonVerif></CUserNonVerif>
       </div>
       <div v-else>
@@ -58,7 +58,7 @@
       </div>
 
       <div
-        v-if="!isLogged() && static_data.functionality.ENABLE_REGISTRATION && static_data.functionality.SHOW_REG_BUTTON"
+        v-if="!tools.isLogged() && static_data.functionality.ENABLE_REGISTRATION && static_data.functionality.SHOW_REG_BUTTON"
         style="margin:20px; text-align: center;">
         <q-btn rounded size="lg" color="primary" @click="openrighttoolbar">{{ $t('login.enter') }}
         </q-btn>

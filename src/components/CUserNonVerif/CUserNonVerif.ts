@@ -23,17 +23,10 @@ export default defineComponent({
   setup(props) {
 
     const userStore = useUserStore()
-    const $router = useRouter()
-    const globalStore = useGlobalStore()
-    const { t } = useI18n();
-
-    const { isEmailVerified, TelegVerificato } = MixinUsers()
 
     return {
       userStore,
       tools,
-      isEmailVerified,
-      TelegVerificato
     }
   },
 })

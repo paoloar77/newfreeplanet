@@ -1414,25 +1414,35 @@ export default defineComponent({
 
       const data = await globalStore.saveTable(mydata)
         .then((ris) => {
-          if (ris) {
-            // console.log('ris', ris)
-            newRecordBool.value = false
-            const indrec = serverData.value.findIndex((rec: any) => rec._id === ris._id)
-            console.log('indrec', indrec, serverData.value[indrec])
+          if (ris.hasOwnProperty('code')) {
+            tools.checkErrors($q, ris.code, '');
+          } else {
+            if (ris) {
+              // console.log('ris', ris)
+              newRecordBool.value = false
+              const indrec = serverData.value.findIndex((rec: any) => rec._id === ris._id)
+              console.log('indrec', indrec, serverData.value[indrec])
 
-            if (fieldsTable.tableWithUsername.includes(props.prop_mytable)) {
-              ris.username = userStore.my.username
+              if (fieldsTable.tableWithUsername.includes(props.prop_mytable)) {
+                ris.username = userStore.my.username
+              }
+
+              // console.table(serverData.value)
+              if (indrec >= 0)
+                serverData.value[indrec] = ris
+              else
+                serverData.value = [ris, ...serverData.value]
+
+              newRecord.value = null
+
+              tools.showPositiveNotif($q, t('db.recupdated'))
+              // refresh()
+            } else {
+              tools.showNegativeNotif($q, t('db.recfailed'))
             }
-
-            // console.table(serverData.value)
-            if (indrec >= 0)
-              serverData.value[indrec] = ris
-            else
-              serverData.value = [ris, ...serverData.value]
-
-            newRecord.value = null
-            // refresh()
           }
+        }).catch((e) => {
+          tools.showNegativeNotif($q, t('db.recfailed'))
         })
     }
 

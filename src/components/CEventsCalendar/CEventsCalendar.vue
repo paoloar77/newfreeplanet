@@ -1,6 +1,6 @@
 <template>
   <div class="landing">
-    <!-- <div v-if="!tools.IsLogged() && (!mysingleevent)">
+    <!-- <div v-if="!tools.isLogged() && (!mysingleevent)">
       <div class="centermydiv">
         <q-banner class="bg-secondary text-white">
           Il Calendario sarà visibile solo dopo aver effettuato l'accesso

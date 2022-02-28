@@ -895,8 +895,13 @@ export const useGlobalStore = defineStore('GlobalStore', {
       const userStore = useUserStore()
 
       return Api.SendReq('/settable', 'POST', mydata)
-        .then((res) => res.data)
+        .then((res) => {
+          this.serverError = false
+          return res.data
+        })
         .catch((error) => {
+          this.serverError = true
+          this.serverMsgError = error
           console.log('error saveTable', error)
           userStore.setErrorCatch(error)
           return null
@@ -1326,14 +1331,14 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
             }
 
-            const islogged = localStorage.getItem(toolsext.localStorage.username)
-            console.log('islogged', islogged)
+            const isLogged = localStorage.getItem(toolsext.localStorage.username)
+            console.log('isLogged', isLogged)
 
             // calendarStore.editable = userStore.isAdmin || userStore.isManager || userStore.isTutor
             if (res.data.myuser === null) {
-              if (islogged) {
+              if (isLogged) {
                 // Fai Logout
-                console.log('Fai Logout', 'islogged', islogged)
+                console.log('Fai Logout', 'isLogged', isLogged)
                 userStore.logout()
                 this.rightDrawerOpen = true
                 return false

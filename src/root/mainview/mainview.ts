@@ -32,28 +32,10 @@ export default defineComponent({
       globalStore.rightDrawerOpen = true
     }
 
-    function isLogged() {
-      return userStore.isLogged
-    }
-    function isUserOk() {
-      return userStore.isUserOk()
-    }
-
-    function getLinkBotTelegram(): string {
-      if ( tools.isTest() && !process.env.DEV) {
-        return getValDb('TELEG_BOT_LINK_TEST', false)
-      } else{
-        return getValDb('TELEG_BOT_LINK', false)
-      }
-    }
-
     return {
       tools,
       static_data,
-      isLogged,
       openrighttoolbar,
-      isUserOk,
-      getLinkBotTelegram,
       getRefLink,
       userStore,
     }

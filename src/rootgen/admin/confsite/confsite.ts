@@ -5,15 +5,14 @@ import { CCard } from '@/components/CCard'
 import { CMyPage } from '@/components/CMyPage'
 import { CTitleBanner } from '@/components/CTitleBanner'
 import { CMyFieldRec } from '@/components/CMyFieldRec'
+import { CMyFieldDb } from '@/components/CMyFieldDb'
 
-import MixinMetaTags from '@/mixins/mixin-metatags'
-import { IMyBot } from 'model'
-import { shared_consts } from '@/common/shared_vuejs'
 import { useGlobalStore } from '@store/globalStore'
+import { costanti } from '@costanti'
 
 export default defineComponent({
   name: 'Confsite',
-  components: { CImgText, CCard, CMyPage, CTitleBanner, CMyFieldRec },
+  components: { CImgText, CCard, CMyPage, CTitleBanner, CMyFieldRec, CMyFieldDb },
   setup() {
 
     const mysite = ref(null)
@@ -28,6 +27,7 @@ export default defineComponent({
 
     return {
       mysite,
+      costanti,
     }
   }
 })

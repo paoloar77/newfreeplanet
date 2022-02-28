@@ -71,7 +71,6 @@ const msg_website_es = {
     chisiamo: 'Chi Siamo',
     linkamici: 'Link Amici',
     dovesiamo: 'Dove Siamo',
-    calendarioeventi: 'Calendario Eventi',
     evento: 'Evento',
     eventodef: 'Evento:',
     prova: 'prova',

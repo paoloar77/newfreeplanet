@@ -23,6 +23,32 @@
           :canModify="true">
         </CMyFieldRec>
 
+        <CMyFieldDb title="BOT Telegram"
+                    mykey="TELEG_BOT_LINK"
+                    :serv="false"
+                    :type="costanti.FieldType.string">
+        </CMyFieldDb>
+        <CMyFieldDb title="Nome del BOT Telegram"
+                    mykey="TELEG_BOT_NAME"
+                    :serv="false"
+                    :type="costanti.FieldType.string">
+        </CMyFieldDb>
+        <CMyFieldDb title="BOT Telegram (per Test)"
+                    mykey="TELEG_BOT_LINK_TEST"
+                    :serv="false"
+                    :type="costanti.FieldType.string">
+        </CMyFieldDb>
+        <CMyFieldDb title="Chat di Supporto (Help)"
+                    mykey="TELEGRAM_SUPPORT"
+                    :serv="false"
+                    :type="costanti.FieldType.string">
+        </CMyFieldDb>
+        <CMyFieldDb title="Sito ONLINE"
+                    mykey="SITO_ONLINE"
+                    :serv="false"
+                    :type="costanti.FieldType.boolean">
+        </CMyFieldDb>
+
       </div>
 
 

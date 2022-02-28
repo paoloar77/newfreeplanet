@@ -10,10 +10,8 @@ export default defineComponent({
   props: {},
   setup() {
     const userStore = useUserStore()
-    const { isEmailVerified } = MixinUsers()
 
     return {
-      isEmailVerified,
     }
   },
 })

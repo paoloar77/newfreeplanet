@@ -534,6 +534,8 @@ const msg_it = {
         user_already_exist: 'La registrazione con questi dati (nome, cognome e cellulare) è stata già effettuata. Per accedere al sito, cliccare sul bottone LOGIN dalla HomePage.',
         user_extralist_not_found: 'Utente in archivio non trovato, inserire il Nome, Cognome e numero di cellulare comunicato nella lista nel 2019. Se questa è una nuova registrazione, dovete registrarvi tramite il LINK di chi vi sta invitando.',
         user_aportador_not_valid: 'Il link di registrazione non sembra risultare valido.',
+        rec_already_exist_name: 'Esiste già con questo Nome',
+        rec_already_exist_code: 'Esiste già con questo Codice Gruppo',
         duplicate_username: 'L\'Username è stato già utilizzato',
         username_not_valid: 'L\'Username non é valido',
         aportador_not_exist: 'L\'Username di chi ti ha invitato non è presente. Contattaci.',

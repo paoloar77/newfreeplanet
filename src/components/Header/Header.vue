@@ -100,7 +100,7 @@
         <!-- BUTTON USER BAR -->
 
         <q-btn
-          class="q-mx-xs" v-if="static_data.functionality.ENABLE_ECOMMERCE && isLogged()" round dense flat
+          class="q-mx-xs" v-if="static_data.functionality.ENABLE_ECOMMERCE && tools.isLogged()" round dense flat
           @click="rightCartOpen = !rightCartOpen" icon="fas fa-shopping-cart">
 
           <q-badge v-if="getnumItemsCart() > 0" color="red" floating transparent>
@@ -109,7 +109,7 @@
         </q-btn>
 
         <q-btn
-          class="q-mx-xs" v-if="static_data.functionality.ENABLE_ECOMMERCE && isLogged() && getnumOrdersCart() > 0"
+          class="q-mx-xs" v-if="static_data.functionality.ENABLE_ECOMMERCE && tools.isLogged() && getnumOrdersCart() > 0"
           round dense flat
           to="/orderinfo" icon="fas fa-list-ol">
 
@@ -119,11 +119,11 @@
         </q-btn>
 
         <q-btn
-          class="q-mx-xs" v-if="static_data.functionality.SHOW_USER_MENU && !isLogged()" dense flat round
+          class="q-mx-xs" v-if="static_data.functionality.SHOW_USER_MENU && !tools.isLogged()" dense flat round
           icon="menu"
           @click="rightDrawerOpen = !rightDrawerOpen">
         </q-btn>
-        <q-avatar v-else-if="static_data.functionality.SHOW_USER_MENU && isLogged() && getMyImg()"
+        <q-avatar v-else-if="static_data.functionality.SHOW_USER_MENU && tools.isLogged() && getMyImg()"
                   size="36px" class="center_img cursor-pointer"
                   @click="rightDrawerOpen = !rightDrawerOpen">
           <q-img ratio="1" fit="conver" :src="getMyImg()" :alt="Username()" img-class="imgprofile_small" stretch="false"
@@ -163,7 +163,7 @@
         class="absolute-top-right" style="margin-right: 10px; color: white;"
         dense flat round icon="close" @click="rightCartOpen = !rightCartOpen">
       </q-btn>
-      <div v-if="isLogged()" class="text-weight-bold text-cart">Carrello
+      <div v-if="tools.isLogged()" class="text-weight-bold text-cart">Carrello
       </div>
       <CMyCart></CMyCart>
     </q-drawer>
@@ -188,10 +188,10 @@
             dense flat round icon="close" @click="rightDrawerOpen = !rightDrawerOpen">
           </q-btn>
 
-          <div v-if="isLogged()" class="text-weight-bold text-user">{{ Username() }}<span v-if="myName()"> - {{ myName() }}</span>
+          <div v-if="tools.isLogged()" class="text-weight-bold text-user">{{ Username() }}<span v-if="myName()"> - {{ myName() }}</span>
           </div>
           <div class="row justify-evenly q-pa-xs-sm">
-            <div v-if="isLogged() && isAdmin()" class="text-weight-bold text-user bg-red q-px-xs">Admin</div>
+            <div v-if="tools.isLogged() && isAdmin()" class="text-weight-bold text-user bg-red q-px-xs">Admin</div>
             <div v-if="isSocio" class="text-weight-bold text-user q-px-xs">Socio</div>
             <div v-if="isSocioResidente()" class="text-weight-bold text-user q-px-xs bg-amber">Residente</div>
             <div v-if="isConsiglio()" class="text-weight-bold text-user q-px-xs bg-deep-orange-10">Consiglio</div>
@@ -199,22 +199,22 @@
             <div v-if="isTutor()" class="text-weight-bold text-user q-px-xs">Tutor</div>
             <div v-if="isTratuttrici()" class="text-weight-bold text-user q-px-xs">Editor</div>
           </div>
-          <div v-if="!isLogged()" class="text-user text-italic bg-red">
+          <div v-if="!tools.isLogged()" class="text-user text-italic bg-red">
             {{ t('user.loggati') }}
           </div>
 
-          <div v-if="isLogged() && !isVerified()" class="text-verified">{{
+          <div v-if="tools.isLogged() && !tools.isVerified()" class="text-verified">{{
               t('components.authentication.email_verification.verify_email')
             }}
           </div>
 
-          <div v-if="isLogged()"
+          <div v-if="tools.isLogged()"
             class="text-verified">
             <!-- <span class="text-white" v-if="Verificato()"> {{t('reg.verificato')}} </span> -->
-            <span class="text-user text-italic bg-red" v-if="!Verificato()"> {{t('reg.non_verificato')}} </span>
+            <span class="text-user text-italic bg-red" v-if="!tools.Verificato()"> {{t('reg.non_verificato')}} </span>
           </div>
 
-          <div v-if="isLogged()" id="user-actions" class="column justify-center q-gutter-sm q-ma-sm center-150">
+          <div v-if="tools.isLogged()" id="user-actions" class="column justify-center q-gutter-sm q-ma-sm center-150">
             <q-btn rounded color="primary" icon="person" :to="`/my/`+getMyUsername()">{{ t('pages.profile') }}</q-btn>
             <!--<q-btn round color="warning" icon="lock"></q-btn>-->
             <q-btn rounded color="negative" icon="exit_to_app" @click='logoutHandler'>{{ t('login.esci') }}</q-btn>
@@ -222,7 +222,7 @@
 
         </div>
         <div style="margin-top:120px;"></div>
-        <div v-show="!isLogged()">
+        <div v-show="!tools.isLogged()">
 
           <div class="q-ma-md" style="">
             <CSigninNoreg :showregbutt="static_data.functionality.SHOW_REG_BUTTON">
@@ -232,7 +232,7 @@
         </div>
 
       </div>
-      <div v-if="isLogged()" class="q-mt-lg"></div>
+      <div v-if="tools.isLogged()" class="q-mt-lg"></div>
 
       <slot></slot>
 

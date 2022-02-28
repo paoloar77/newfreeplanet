@@ -50,7 +50,7 @@
                       <br>
                     </div>
                     <div v-else>
-                      <div v-if="!isLogged()" style="margin: 5px; padding: 5px;" class="home">
+                      <div v-if="!tools.isLogged()" style="margin: 5px; padding: 5px;" class="home">
                         <q-btn
                           rounded size="lg" color="primary" @click="PagLogin"
                           class="btn-start">
@@ -64,7 +64,7 @@
                       </div>
                     </div>
 
-                    <div v-if="isLogged()">
+                    <div v-if="tools.isLogged()">
                       <div>
                         <!--<q-field-->
                         <!--v-if="getPermission() === 'granted'"-->
@@ -138,7 +138,7 @@
                       <br>
                     </div>
                     <div v-else>
-                      <div v-if="!isLogged()" style="margin: 5px; padding: 5px;" class="home">
+                      <div v-if="!tools.isLogged()" style="margin: 5px; padding: 5px;" class="home">
                         <q-btn
                           rounded size="lg" color="primary" @click="PagLogin"
                           class="btn-start">
@@ -152,7 +152,7 @@
                       </div>
                     </div>
 
-                    <div v-if="isLogged()">
+                    <div v-if="tools.isLogged()">
                       <div>
                         <!--<q-field-->
                         <!--v-if="getPermission() === 'granted'"-->
@@ -230,7 +230,7 @@
                       <br>
                     </div>
                     <div v-else>
-                      <div v-if="!isLogged()" style="margin: 5px; padding: 5px;" class="home">
+                      <div v-if="!tools.isLogged()" style="margin: 5px; padding: 5px;" class="home">
                         <q-btn
                           rounded size="lg" color="primary" @click="PagLogin"
                           class="btn-start">
@@ -244,7 +244,7 @@
                       </div>
                     </div>
 
-                    <div v-if="isLogged()">
+                    <div v-if="tools.isLogged()">
                       <div>
                         <!--<q-field-->
                         <!--v-if="getPermission() === 'granted'"-->

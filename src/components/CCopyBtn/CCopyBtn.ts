@@ -21,9 +21,6 @@ export default defineComponent({
   components: {},
   setup(props) {
     const $q = useQuasar()
-    const { t } = useI18n()
-    const userStore = useUserStore()
-    const globalStore = useGlobalStore()
 
     function copytoclip() {
       tools.copyStringToClipboard($q, props.texttocopy, true)

@@ -111,14 +111,9 @@ export default function () {
     return userStore.my.profile.cell
   }
 
-  function Verificato() {
-    const userStore = useUserStore()
-    return isVerified() && userStore.my.verified_by_aportador
-  }
-
   function notAsk_ToVerify() {
     const userStore = useUserStore()
-    return isVerified() && userStore.my.notask_verif
+    return tools.isVerified() && userStore.my.notask_verif
   }
 
   function paotest() {
@@ -160,20 +155,6 @@ export default function () {
     return ris
   }
 
-  function isEmailVerified() {
-    const userStore = useUserStore()
-    return userStore.my.verified_email
-  }
-
-  function TelegVerificato(): boolean {
-    const userStore = useUserStore()
-    return userStore.my.profile ? userStore.my.profile.teleg_id! > 0 : false
-  }
-
-  function isVerified() {
-    return TelegVerificato()
-  }
-
   return {
     getUsernameChatByMsg,
     getMyUsername,
@@ -181,7 +162,6 @@ export default function () {
     myName,
     mySurname,
     myCell,
-    Verificato,
     notAsk_ToVerify,
     MadeGift,
     Email,
@@ -195,9 +175,6 @@ export default function () {
     getNumMsg,
     getNumMsgUnread,
     getMsgText,
-    isEmailVerified,
-    TelegVerificato,
-    isVerified,
     paotest,
     getRefLink,
   }
