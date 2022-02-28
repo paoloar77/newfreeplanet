@@ -97,6 +97,11 @@ export default defineComponent({
       required: false,
       default: false
     },
+    addnone: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     dense: {
       type: Boolean,
       required: false,
@@ -220,7 +225,6 @@ export default defineComponent({
         // localStorage.setItem(props.tablesel + '_' + newval, valori.value[newval])
 
         if (props.type_out === costanti.FieldType.object) {
-          // debugger;
           const arrout = []
           for (const val of newval) {
             let obj: any = {}
@@ -264,7 +268,7 @@ export default defineComponent({
     }
 
     function update() {
-      // console.log('update')
+      console.log('update')
       // console.log(' #### mounted myselect', props.options, 'arrvalue', myarrvalue.value)
       let rec: any
       if (optionsreal.value) {
@@ -284,6 +288,15 @@ export default defineComponent({
           }
 
           arrtempOpt.value.push(myobj)
+        }
+        if (props.addnone) {
+          let myobj: any = {}
+          if (typeof props.optlab === 'string') {
+            myobj[props.optlab] = '[Nessuno]'
+            myobj[props.optval] = costanti.FILTER_NESSUNO
+          }
+
+          arrtempOpt.value = [myobj, ...arrtempOpt.value]
         }
         for (let i = 0; i < num; i++) {
           const itemId = parseInt(localStorage.getItem(props.tablesel + i + props.optval)!)
@@ -325,6 +338,16 @@ export default defineComponent({
           if (rec) {
             myarrvalue.value.push(rec[`${props.optval}`])
           }
+        }
+      } else {
+        if (props.addnone) {
+          let myobj: any = {}
+          if (typeof props.optlab === 'string') {
+            myobj[props.optlab] = '[Nessuno]'
+            myobj[props.optval] = costanti.FILTER_NESSUNO
+          }
+
+          myarrvalue.value = [myobj, ...myarrvalue.value]
         }
       }
 
@@ -383,7 +406,7 @@ export default defineComponent({
 
       // console.log(props.col.jointable, props.filter)
       if (props.col.jointable) {
-        optionsreal.value = globalStore.getTableJoinByName(props.col.jointable, props.col.addall, props.filter)
+        optionsreal.value = globalStore.getTableJoinByName(props.col.jointable, props.col.addall, props.col.addnone, props.filter)
         // console.log('optionsreal.value', optionsreal.value)
       } else {
         optionsreal.value = props.options
@@ -402,7 +425,13 @@ export default defineComponent({
           if (props.multiple) {
             myarr = myarr.filter((rec: any) => rec[props.filter_field] === needle)
           } else {
-            myarr = myarr.filter((rec: any) => rec[props.filter_field].includes(needle))
+
+            myarr = myarr.filter((rec: any) => {
+              if (tools.isArray(rec[props.filter_field]))
+                return rec[props.filter_field].includes(needle)
+              else
+                return false
+            })
           }
           // console.log('  RISSSSSSSSS: ', myarr)
         }
@@ -418,6 +447,17 @@ export default defineComponent({
         if (myarr)
           myarr = [myobj, ...myarr]
         // console.log('     myarr: ', myarr)
+      }
+
+      if (props.addnone) {
+        let myobj: any = {}
+        if (typeof props.optlab === 'string') {
+          myobj[props.optlab] = '[Nessuno]'
+          myobj[props.optval] = costanti.FILTER_NESSUNO
+        }
+
+        if (myarr)
+          myarr = [myobj, ...myarr]
       }
 
       // console.log('     myarr: ', myarr)
@@ -503,6 +543,15 @@ export default defineComponent({
               if (typeof props.optlab === 'string') {
                 myobj[props.optlab] = '(Tutti)'
                 myobj[props.optval] = costanti.FILTER_TUTTI
+              }
+
+              myarr = [myobj, ...myarr]
+            }
+            if (props.addnone) {
+              let myobj: any = {}
+              if (typeof props.optlab === 'string') {
+                myobj[props.optlab] = '[Nessuno]'
+                myobj[props.optval] = costanti.FILTER_NESSUNO
               }
 
               myarr = [myobj, ...myarr]

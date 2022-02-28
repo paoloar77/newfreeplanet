@@ -2,13 +2,13 @@
   <div v-if="tools.isUserOk()">
     <div v-if="grp">
       <q-item class="q-my-sm" clickable>
-        <q-item-section avatar @click="naviga(getPathByGroup(grp))">
+        <q-item-section avatar @click="naviga(tools.getPathByGroup(grp, table))">
           <q-avatar size="60px">
             <q-img :src="getImgGroup(grp)" :alt="grp.groupname" img-class="imgprofile" height="60px"/>
           </q-avatar>
         </q-item-section>
 
-        <q-item-section @click="naviga(getPathByGroup(grp))">
+        <q-item-section @click="naviga(tools.getPathByGroup(grp, table))">
           <q-item-label><strong>{{ grp.title }}</strong> ({{ grp.groupname }})
           </q-item-label>
           <q-item-label v-if="grp.descr" caption lines="1"><em>{{ grp.descr }}</em></q-item-label>

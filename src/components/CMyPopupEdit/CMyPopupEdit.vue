@@ -233,7 +233,7 @@
                 :pickup="pickup"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :useinput="false">
               </CMySelect>
             </div>
@@ -254,7 +254,7 @@
                 :pickup="pickup"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :useinput="false">
               </CMySelect>
             </div>
@@ -306,7 +306,7 @@
               </span>
               <CMyToggleList
                 :label="col.titlepopupedit"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
@@ -319,7 +319,7 @@
                 :type="costanti.FieldType.binary"
                 :value="myvalue"
                 @update:value="changevalRec"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -342,12 +342,13 @@
                 v-model:arrvalue="myvalue"
                 @update:arrvalue="changevalRec"
                 :addall="false"
+                :addnone="false"
                 label-color="primary"
                 class="combowidth"
                 color="primary"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :sola_lettura="!isInModif"
                 :useinput="col.allowNewValue"
                 :newvaluefunc="addNewValue">
@@ -363,7 +364,7 @@
                 :display-value="fieldsTable.getTitleByTable(col.jointable)"
                 emit-value
                 map-options
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 class="combowidth"
                 :option-value="fieldsTable.getKeyByTable(col.jointable)"
                 @update:model-value="changevalRec">
@@ -390,7 +391,7 @@
                 :type_out="col.field_outtype"
                 @update:value="changevalRec"
                 :value="myvalue"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -410,11 +411,12 @@
                 @update:value="changevalRec"
                 :newvaluefunc="addNewValue"
                 :filter_table="col.filter_table"
+                :addnone="col.addnone"
                 :filter_field="col.filter_field"
                 :value_extra="value_extra"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :useinput="col.allowNewValue">
               </CMySelect>
             </div>
@@ -425,7 +427,7 @@
               row: {{row}}
               col.jointable {{col.jointable}}
               myvalue {{myvalue}}
-              opt: {{globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)}}
+              opt: {{globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)}}
               val:  {{fieldsTable.getKeyByTable(col.jointable)}}
               lab: {{fieldsTable.getLabelByTable(col.jointable)}}-->
               <CMyChipList
@@ -438,7 +440,7 @@
                 :labelifblank="canEdit ? 'Selezionare' : '' "
                 :filter_table="col.filter_table"
                 :filter_field="col.filter_field"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
                 :opticon="fieldsTable.getIconByTable(col.jointable)"></CMyChipList>
@@ -455,6 +457,7 @@
               v-model:arrvalue="myvalue"
               @update:arrvalue="changevalRec"
               :addall="false"
+              :addnone="false"
               :tablesel="col.tablesel"
               :pickup="true"
               :filter_table="col.filter_table"
@@ -465,7 +468,7 @@
               color="primary"
               :optval="fieldsTable.getKeyByTable(col.jointable)"
               :optlab="fieldsTable.getLabelByTable(col.jointable)"
-              :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+              :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
               :sola_lettura="!isInModif"
               :useinput="isInModif">
             </CMySelect>
@@ -484,7 +487,7 @@
                 :value_extra="value_extra"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :useinput="false">
               </CMySelect>
             </div>
@@ -678,6 +681,7 @@
                 :label="col.label ? col.label : t(col.label_trans)"
                 v-model:value="scope.value"
                 :pickup="col.fieldtype === costanti.FieldType.select_by_server"
+                :addnone="col.addnone"
                 :tablesel="col.fieldtype === costanti.FieldType.select_by_server ? tablesel : ''"
                 :filter_table="col.filter_table"
                 :filter_field="col.filter_field"
@@ -685,7 +689,7 @@
                 :newvaluefunc="addNewValue"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :useinput="col.allowNewValue">
               </CMySelect>
             </div>
@@ -699,6 +703,7 @@
                 v-model:arrvalue="scope.value"
                 @update:arrvalue="changevalRec"
                 :addall="false"
+                :addnone="false"
                 :tablesel="tablesel"
                 :filter_table="col.filter_table"
                 :filter_field="col.filter_field"
@@ -709,7 +714,7 @@
                 color="primary"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :useinput="true">
               </CMySelect>
             </div>
@@ -724,7 +729,7 @@
                 :display-value="fieldsTable.getTitleByTable(col.jointable)"
                 emit-value
                 map-options
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 class="combowidth"
                 :useinput="col.allowNewValue"
                 :newvaluefunc="addNewValue"
@@ -816,7 +821,7 @@
 
               <CMyToggleList
                 :label="col.titlepopupedit"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 v-model:value="scope.value"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)">
@@ -831,7 +836,7 @@
                 v-model:value="scope.value"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
                 :optlab="fieldsTable.getLabelByTable(col.jointable)"
-                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.filter)"
+                :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 :useinput="false">
               </CMySelect>
             </div>

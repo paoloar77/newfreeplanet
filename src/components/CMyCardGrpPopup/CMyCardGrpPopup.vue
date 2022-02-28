@@ -19,7 +19,8 @@
 
         <q-img
           v-if="tools.getValue(myrec, 'photos', '')"
-          :src="tools.getFullFileName(tools.getValue(myrec, 'photos', ''), table, myrec.username, myrec.groupname)" class="img"
+          :src="tools.getFullFileName(tools.getValue(myrec, 'photos', ''), table, myrec.username, myrec.groupname)"
+          class="img"
           alt="immagine del gruppo"></q-img>
       </div>
 
@@ -65,11 +66,19 @@
         </div>
       </div>
 
-      <div class="text-center">
-        <q-btn
-          icon="far fa-file-alt" label="Apri Pagina" color="primary" text-color="white"
-          :to="tools.getToByCol(col, table, myrec)"
-        />
+      <div class="row q-ma-sm q-pa-sm justify-center">
+        <div class="q-ma-sm">
+          <q-btn
+            icon="far fa-file-alt" label="Apri Pagina" color="primary" text-color="white"
+            :to="tools.getToByCol(col, table, myrec)"
+          />
+
+        </div>
+        <div class="q-ma-sm">
+          <q-btn
+            color="primary" text-color="white" icon="fas fa-copy" label="Condividi Pagina"
+            @click="condividipag"></q-btn>
+        </div>
       </div>
 
       <br><br>

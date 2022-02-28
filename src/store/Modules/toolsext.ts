@@ -60,6 +60,8 @@ export const toolsext = {
   TABUSER: 'users',
   TABFRIENDS: 'friends',
   TABMYGROUPS: 'mygroups',
+  TABSKILLS: 'skills',
+  TABSECTORS: 'sectors',
   TABMYSKILLS: 'myskills',
   TABMYGOODS: 'mygoods',
   TABMYBACHECAS: 'mybachecas',

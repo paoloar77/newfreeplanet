@@ -4958,16 +4958,50 @@ export const tools = {
 
   },
 
+  getCitySel() {
+    const objcity = tools.getCookie(tools.COOK_SEARCH + 'cities', {_id: 0})
+    let defcity: any = []
+    if (objcity && objcity._id > 0) {
+      defcity = [objcity._id]
+    } else {
+      return []
+    }
+
+    return defcity
+  },
+
+  getSelectionByTable(table: string, mydef: any) {
+
+    const arrtable = ['sectors', 'statusSkills', 'contribtypes', 'adtypes', 'sectorgoods', 'otherfilters', 'shippings']
+    const arrmultisel_tab = ['skills', 'goods']
+    const arrmultisel = [
+      { table: 'skills', join: 'sectors'},
+      { table: 'goods', join: 'sectorgoods'}
+      ]
+
+    if (arrtable.includes(table)) {
+      return tools.getCookie(tools.COOK_SEARCH + table, mydef)
+    } else if (arrmultisel_tab.includes(table)){
+      const rec = arrmultisel.find((rec) => rec.table === table)
+      if (rec) {
+        return tools.getCookie(tools.COOK_SEARCH + table + '_' + tools.getCookie(tools.COOK_SEARCH + rec.join, 0), mydef)
+      }
+    }
+
+    return mydef
+  },
+
   getdefaultnewrec_MySkill(): any {
+
     return {
       _id: 0,
-      idSector: 0,
-      idSkill: 0,
-      idStatusSkill: [],
-      idContribType: [],
-      idCity: [],
+      idSector: tools.getSelectionByTable('sectors', 0),
+      idSkill: tools.getSelectionByTable('skills', 0),
+      idStatusSkill: tools.getSelectionByTable('statusSkills', []),
+      idContribType: tools.getSelectionByTable('contribtypes', []),
+      idCity: this.getCitySel(),
       NumLevel: 0,
-      adType: 0,
+      adType: tools.getSelectionByTable('adtypes', costanti.FILTER_TUTTI),
       photos: [],
       note: '',
       //**ADDFIELD_MYSKILL
@@ -4979,15 +5013,25 @@ export const tools = {
   getdefaultnewrec_MyGoods(): any {
     return {
       _id: 0,
-      idSectorGood: 0,
-      idGood: 0,
-      idShipping: [],
-      otherfilters: [],
-      idStatusSkill: [],
-      idContribType: [],
-      idCity: [],
+
+      // idSectorGood: 0,
+      // idGood: 0,
+      // idStatusSkill: [],
+      // idContribType: [],
+      // idCity: [],
+      // adType: 0
+      // idShipping: [],
+      // otherfilters: [],
+
+      idSectorGood: tools.getSelectionByTable('sectorgoods', 0),
+      idGood: tools.getSelectionByTable('goods', 0),
+      idStatusSkill: tools.getSelectionByTable('statusSkills', []),
+      idContribType: tools.getSelectionByTable('contribtypes', []),
+      idCity: this.getCitySel(),
       NumLevel: 0,
-      adType: 0,
+      adType: tools.getSelectionByTable('adtypes', costanti.FILTER_TUTTI),
+      idShipping: [tools.getSelectionByTable('shippings', [])],
+      otherfilters: tools.getSelectionByTable('otherfilters', []),
       photos: [],
       note: '',
       //**ADDFIELD_MYSKILL
@@ -5014,15 +5058,15 @@ export const tools = {
   getdefaultnewrec_MyBacheca(): any {
     return {
       _id: 0,
-      idSector: 0,
-      idSkill: 0,
-      idStatusSkill: [],
-      idContribType: [],
+      idSector: tools.getSelectionByTable('sectors', 0),
+      idSkill: tools.getSelectionByTable('skills', 0),
+      idStatusSkill: tools.getSelectionByTable('statusSkills', []),
+      idContribType: tools.getSelectionByTable('contribtypes', []),
       dateTimeStart: new Date(),
       dateTimeEnd: new Date(),
-      idCity: [],
+      idCity: this.getCitySel(),
       NumLevel: 0,
-      adType: 0,
+      adType: tools.getSelectionByTable('adtypes', costanti.FILTER_TUTTI),
       photos: [],
       note: '',
       //**ADDFIELD_MYBACHECAS
@@ -5095,6 +5139,10 @@ export const tools = {
     }
 
     return ''
+  },
+
+  getPathByGroup(grp: any, table: string) {
+    return '/' + tools.getDirectoryByTable(table) + '/' + grp.groupname
   },
 
 

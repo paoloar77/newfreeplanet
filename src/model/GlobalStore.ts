@@ -548,6 +548,7 @@ export interface IColGridTable {
   link?: string
   jointable?: string
   addall?: boolean
+  addnone?: boolean
   filter?: any
   resultjoin?: string[]
   tablesel?: string

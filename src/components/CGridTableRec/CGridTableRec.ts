@@ -280,15 +280,15 @@ export default defineComponent({
 
     const myvertical = ref(props.vertical)
 
-    const valoriopt = computed(() => (item: any, addall: boolean) => {
+    const valoriopt = computed(() => (item: any, addall: boolean, addnone: boolean) => {
       // console.log('valoriopt', item.table)
-      return globalStore.getTableJoinByName(item.table, addall, item.filter)
+      return globalStore.getTableJoinByName(item.table, addall, addnone, item.filter)
     })
 
     const labelcombo = computed(() => (item: any) => {
       let lab = item.label
       if (item.showcount)
-        lab += ' (' + valoriopt.value(item, false).length + ')'
+        lab += ' (' + valoriopt.value(item, false, false).length + ')'
       return lab
     })
 
@@ -319,7 +319,7 @@ export default defineComponent({
           let trovato = false
           let arrvalues = []
           if (rec) {
-            arrvalues = valoriopt.value(rec.value, false)
+            arrvalues = valoriopt.value(rec.value, false, false)
             if (arrvalues)
               trovato = arrvalues.find((rec: any) => rec[rec.key] === valsaved)
           }
@@ -336,11 +336,16 @@ export default defineComponent({
     }
 
     function searchval(newval: any, table: any) {
-      // console.log('searchval', newval, table)
+      console.log('searchval', newval, table)
       tools.setCookie(tools.COOK_SEARCH + table, newval)
 
-      if (table === 'sectors') {
-        setCategBySector('skills', table, newval)
+      if (table === toolsext.TABSKILLS) {
+        const recSector = searchList.value.find((rec) => rec.table === 'sectors')
+        if (recSector) {
+          tools.setCookie(tools.COOK_SEARCH + table + '_' + recSector.value, newval)
+        }
+      } else if (table === toolsext.TABSECTORS) {
+        setCategBySector(toolsext.TABSKILLS, table, newval)
       }else if (table === 'goods') {
         setCategBySector('sectorgoods', table, newval)
       }
@@ -400,7 +405,7 @@ export default defineComponent({
       let idRegion = 0
       let idSkill = 0
       if (searchList.value) {
-        recSector = searchList.value.find((item: ISearchList) => item.table === 'sectors')
+        recSector = searchList.value.find((item: ISearchList) => item.table === toolsext.TABSECTORS)
         idSector = recSector ? recSector.value : 0
       }
       if (searchList.value) {
@@ -420,7 +425,7 @@ export default defineComponent({
       }
 
       if (searchList.value) {
-        recSkill = searchList.value.find((item: ISearchList) => item.table === 'skills')
+        recSkill = searchList.value.find((item: ISearchList) => item.table === toolsext.TABSKILLS)
         idSkill = recSkill ? recSkill.value : 0
         console.log('recSkill', idSkill)
       }
@@ -514,7 +519,7 @@ export default defineComponent({
               }
 
             } else {
-              if ((item.table === 'skills') && item.value === costanti.FILTER_TUTTI) {
+              if ((item.table === toolsext.TABSKILLS) && item.value === costanti.FILTER_TUTTI) {
                 let obj2: any = {}
 
                 if (idSector > 0) {
@@ -776,12 +781,20 @@ export default defineComponent({
 
     function selItem(item: any, col: IColGridTable, inmodif?: boolean) {
       console.log('selItem', item, col)
-      rowsel = item
-      idsel = item._id
-      colsel.value = col
       if (inmodif) {
 
       }
+      if (col.jointable === toolsext.TABSECTORS) {
+        // Sbianca la select della Categoria
+
+        if (item && item.hasOwnProperty('idSkill')) {
+          item['idSkill'] = costanti.FILTER_NESSUNO
+          newRecord.value['idSkill'] = item['idSkill']
+        }
+      }
+      rowsel = item
+      idsel = item._id
+      colsel.value = col
     }
 
     function undoVal() {
@@ -1328,14 +1341,23 @@ export default defineComponent({
 
       let ok = true
 
-      mycolumns.value.forEach((col: IColGridTable) => {
+      //mycolumns.value.forEach((col: IColGridTable) => {
+      let col: IColGridTable
+
+      for (col of mycolumns.value) {
         if (col.required) {
           // console.log('newRecord.value', newRecord.value, newRecord.value[col.name])
-          if (!newRecord.value[col.name]) {
-            ok = false
+          if (tools.isArray(newRecord.value[col.name])) {
+            if (newRecord.value[col.name].length <= 0) {
+              return false
+            }
+          } else {
+            if (!newRecord.value[col.name]) {
+              return false
+            }
           }
         }
-      })
+      }
 
       return ok
     }
@@ -1347,9 +1369,15 @@ export default defineComponent({
       for (col of mycolumns.value) {
         if (col.required) {
           // console.log('newRecord.value', newRecord.value, newRecord.value[col.name])
-          if (!newRecord.value[col.name]) {
-            // console.log('col.name', col.name)
-            return translate(col.label_trans)
+          if (tools.isArray(newRecord.value[col.name])) {
+            if (newRecord.value[col.name].length <= 0){
+              return translate(col.label_trans)
+            }
+          } else {
+            if (!newRecord.value[col.name]) {
+              // console.log('col.name', col.name)
+              return translate(col.label_trans)
+            }
           }
         }
       }

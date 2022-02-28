@@ -9,6 +9,7 @@ import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 import { IParamsQuery } from 'model'
+import { toolsext } from '@store/Modules/toolsext'
 
 export default defineComponent({
   name: 'Sendpushnotif',
@@ -97,7 +98,7 @@ export default defineComponent({
       }
 
       if (true) {
-        params.table = 'sectors'
+        params.table = toolsext.TABSECTORS
         globalStore.loadTable(params).then((data) => {
           arrSector.value = data.rows
         })

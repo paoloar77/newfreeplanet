@@ -250,7 +250,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       //   return state.subSkills
       else if (table === 'statusSkills')
         return state.statusSkills
-      else if (table === 'sectors')
+      else if (table === toolsext.TABSECTORS)
         return state.sectors
       else if (table === 'sectorgoods')
         return state.sectorgoods
@@ -1509,7 +1509,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       return arr
     },
 
-    getTableJoinByName(table: string, addall?: boolean, filter?: any) {
+    getTableJoinByName(table: string, addall?: boolean, addnone?: boolean, filter?: any) {
 
       let myarr: any = []
       if (table === 'permissions') myarr = [shared_consts.Permissions.Admin, shared_consts.Permissions.Manager, shared_consts.Permissions.Teacher, shared_consts.Permissions.Tutor, shared_consts.Permissions.Editor, shared_consts.Permissions.Zoomeri, shared_consts.Permissions.Department]
@@ -1540,6 +1540,19 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       if (addall)
         myarr = [costanti.FILTER_TUTTI, ...myarr]
+
+
+      if (addnone) {
+        const mykey = fieldsTable.getKeyByTable(table)
+        const collab = fieldsTable.getLabelByTable(table)
+        let obj: any = {}
+        obj[mykey] = costanti.FILTER_NESSUNO
+        obj[collab] = '[Nessuno]'
+        obj['idSector'] = []
+
+        myarr = [obj, ...myarr]
+
+      }
 
       if (filter) {
         // console.log('table', table, 'filter', filter, 'arrprima', myarr)

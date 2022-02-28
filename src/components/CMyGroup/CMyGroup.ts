@@ -78,10 +78,6 @@ export default defineComponent({
 
     onMounted(mounted)
 
-    function getPathByGroup(grp: IMyGroup){
-      return '/' + tools.getDirectoryByTable(table.value) + '/' + grp.groupname
-    }
-
     return {
       grp,
       costanti,
@@ -92,7 +88,7 @@ export default defineComponent({
       userStore,
       tools,
       $q,
-      getPathByGroup,
+      table,
     }
   },
 })

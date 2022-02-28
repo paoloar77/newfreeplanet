@@ -151,6 +151,7 @@
               v-model:value="item.value"
               @update:value="searchval(item.value, item.table)"
               :addall="item.addall"
+              :addnone="item.addnone"
               :tablesel="item.type === costanti.FieldType.select_by_server ? item.tablesel : ''"
               :pickup="item.type === costanti.FieldType.select_by_server"
               label-color="primary"
@@ -177,6 +178,7 @@
               v-model:arrvalue="item.arrvalue"
               @update:arrvalue="searchval(item.arrvalue, item.table)"
               :addall="item.addall"
+              :addnone="item.addnone"
               :tablesel="item.tablesel"
               :pickup="true"
               :param1="item.param1"
@@ -207,7 +209,7 @@
               map-options
               stack-label
               :useinput="item.useinput"
-              :options="valoriopt(item, item.addall)"
+              :options="valoriopt(item, item.addall, item.addnone)"
               :filter="item.filter"
               class="combowidth"
               :option-value="fieldsTable.getKeyByTable(item.table)"

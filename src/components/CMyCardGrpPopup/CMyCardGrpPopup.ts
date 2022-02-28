@@ -74,6 +74,10 @@ export default defineComponent({
       load()
     }
 
+    function condividipag() {
+      return tools.copyStringToClipboard($q, self.location.host + tools.getPathByGroup(myrec.value, props.table), true)
+    }
+
     onMounted(mounted)
 
     return {
@@ -90,6 +94,7 @@ export default defineComponent({
       colCitys,
       toolsext,
       col,
+      condividipag,
     }
   }
 })

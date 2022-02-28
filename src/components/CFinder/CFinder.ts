@@ -60,7 +60,7 @@ export default defineComponent({
     /*
     const idSectorServizi = computed(() => {
       let myval: any = null
-      myval = searchList_Servizi.value.find((rec) => (rec.table === 'sectors'))
+      myval = searchList_Servizi.value.find((rec) => (rec.table === toolsext.TABSECTORS))
       if (myval) {
         const ris = myval.value || 0
         // console.log('idSectorServizi=', ris)
@@ -165,9 +165,9 @@ export default defineComponent({
 
 
       function getFilterSkills(recSkill: any, index: number, arr: any) {
-        const recsectors: any = searchList.value.find((rec) => rec.table === 'sectors')
+        const recsectors: any = searchList.value.find((rec) => rec.table === toolsext.TABSECTORS)
         // console.log('getFilterSkills', recSkill.idSector, recsectors.value)
-        if (recsectors) {
+        if (recsectors && recSkill.idSector) {
           return recSkill.idSector.includes(recsectors.value)
         } else {
           return true
@@ -177,7 +177,7 @@ export default defineComponent({
       function getFilterGoods(recGood: any, index: number, arr: any) {
         const recsectorGoods: any = searchList.value.find((rec) => rec.table === 'sectorgoods')
         // console.log('getFilterSkills', recSkill.idSector, recsectors.value)
-        if (recsectorGoods) {
+        if (recsectorGoods && recGood.idSectorGood) {
           return recGood.idSectorGood.includes(recsectorGoods.value)
         } else {
           return true
@@ -281,9 +281,9 @@ export default defineComponent({
         },
         {
           label: 'Settore',
-          table: 'sectors',
+          table: toolsext.TABSECTORS,
           key: 'idSector',
-          value: tools.getCookie(tools.COOK_SEARCH + 'sectors', 0),
+          value: tools.getCookie(tools.COOK_SEARCH + toolsext.TABSECTORS, 0),
           arrvalue: [],
           type: costanti.FieldType.select,
           filter: null,
@@ -295,7 +295,7 @@ export default defineComponent({
           label: 'Categoria',
           table: 'skills',
           key: 'idSkill',
-          value: tools.getCookie(tools.COOK_SEARCH + 'skills' + '_' + tools.getCookie(tools.COOK_SEARCH + 'sectors', costanti.FILTER_TUTTI), costanti.FILTER_TUTTI),
+          value: tools.getCookie(tools.COOK_SEARCH + 'skills' + '_' + tools.getCookie(tools.COOK_SEARCH + toolsext.TABSECTORS, costanti.FILTER_TUTTI), costanti.FILTER_TUTTI),
           arrvalue: [],
           type: costanti.FieldType.select,
           addall: true,
@@ -444,9 +444,9 @@ export default defineComponent({
         },
         {
           label: 'Settore',
-          table: 'sectors',
+          table: toolsext.TABSECTORS,
           key: 'idSector',
-          value: tools.getCookie(tools.COOK_SEARCH + 'sectors', 0),
+          value: tools.getCookie(tools.COOK_SEARCH + toolsext.TABSECTORS, 0),
           arrvalue: [],
           type: costanti.FieldType.select,
           filter: null,
@@ -458,7 +458,7 @@ export default defineComponent({
           label: 'Categoria',
           table: 'skills',
           key: 'idSkill',
-          value: tools.getCookie(tools.COOK_SEARCH + 'skills' + '_' + tools.getCookie(tools.COOK_SEARCH + 'sectors', costanti.FILTER_TUTTI), costanti.FILTER_TUTTI),
+          value: tools.getCookie(tools.COOK_SEARCH + 'skills' + '_' + tools.getCookie(tools.COOK_SEARCH + toolsext.TABSECTORS, costanti.FILTER_TUTTI), costanti.FILTER_TUTTI),
           arrvalue: [],
           type: costanti.FieldType.select,
           addall: true,
@@ -672,9 +672,9 @@ export default defineComponent({
           table: 'cities',
           key: 'idCity',
           type: costanti.FieldType.select_by_server,
-          value: 0,
+          arrvalue: [],
           addall: true,
-          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'cities', costanti.FILTER_TUTTI),
+          value: tools.getCookie(tools.COOK_SEARCH + 'cities', costanti.FILTER_TUTTI),
           useinput: true,
           filter: null,
           // filter: getFilterCitiesByProvince,
@@ -891,7 +891,7 @@ export default defineComponent({
             }
           },
           lookup3: {
-            lk_tab: 'sectors',
+            lk_tab: toolsext.TABSECTORS,
             lk_LF: 'recSkill.idSector',
             lk_FF: '_id',
             lk_as: 'sector',
@@ -952,7 +952,7 @@ export default defineComponent({
             }
           },
           lookup3: {
-            lk_tab: 'sectors',
+            lk_tab: toolsext.TABSECTORS,
             lk_LF: 'recSkill.idSector',
             lk_FF: '_id',
             lk_as: 'sector',

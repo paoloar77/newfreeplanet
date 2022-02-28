@@ -128,6 +128,7 @@ export const costanti = {
   REQ_ADD_USER_TO_GROUP: 40,
   REQ_REMOVE_USER_TO_GROUP: 41,
 
+  FILTER_NESSUNO: 0,
   FILTER_TUTTI: -100,
   TABLES_ARRAY: ['mygroups'],
   TABLES_USERNAME_DATE: ['friends', 'friendsandme'],
