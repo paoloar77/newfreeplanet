@@ -2196,9 +2196,9 @@ export const fieldsTable = {
   },
 
   getColByAdType(adType: number) {
-    if (adType === 1)
+    if (adType === costanti.AdType.OFFRO)
       return 'green'
-    else if (adType === 2)
+    else if (adType === costanti.AdType.CERCO)
       return 'red'
     else if (adType === 3)
       return 'blue'

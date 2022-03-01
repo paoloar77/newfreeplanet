@@ -41,7 +41,7 @@
         </q-item-label>
 
       </q-item-section>
-      <q-item-section side v-if="myrec.userId === userStore.my._id">
+      <q-item-section side v-if="tools.canModifyThisRec(myrec)">
         <q-item-label>
           <q-btn rounded icon="fas fa-pencil-alt">
             <q-menu>

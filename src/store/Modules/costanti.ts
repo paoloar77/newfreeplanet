@@ -1,4 +1,9 @@
 export const costanti = {
+  AdType: {
+    OFFRO: 1,
+    CERCO: 2,
+  },
+
   ShowTypeTask: {
     SHOW_LAST_N_COMPLETED: 200,
     SHOW_ONLY_TOCOMPLETE: 201,

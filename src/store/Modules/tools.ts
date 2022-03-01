@@ -5062,7 +5062,7 @@ export const tools = {
       idContribType: tools.getSelectionByTable('contribtypes', []),
       idCity: this.getCitySel(),
       NumLevel: 0,
-      adType: tools.getSelectionByTable('adtypes', costanti.FILTER_TUTTI),
+      adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
       photos: [],
       note: '',
       //**ADDFIELD_MYSKILL
@@ -5090,7 +5090,7 @@ export const tools = {
       idContribType: tools.getSelectionByTable('contribtypes', []),
       idCity: this.getCitySel(),
       NumLevel: 0,
-      adType: tools.getSelectionByTable('adtypes', costanti.FILTER_TUTTI),
+      adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
       idShipping: [tools.getSelectionByTable('shippings', [])],
       otherfilters: tools.getSelectionByTable('otherfilters', []),
       photos: [],
@@ -5127,7 +5127,7 @@ export const tools = {
       dateTimeEnd: new Date(),
       idCity: this.getCitySel(),
       NumLevel: 0,
-      adType: tools.getSelectionByTable('adtypes', costanti.FILTER_TUTTI),
+      adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
       photos: [],
       note: '',
       //**ADDFIELD_MYBACHECAS
