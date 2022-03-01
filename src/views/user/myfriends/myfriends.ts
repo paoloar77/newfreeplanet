@@ -10,6 +10,7 @@ import { colmyUserPeople } from '@store/Modules/fieldsTable'
 import { ISearchList } from 'model'
 import { costanti } from '@costanti'
 import { shared_consts } from '@/common/shared_vuejs'
+import { toolsext } from '@store/Modules/toolsext'
 
 export default defineComponent({
   name: 'myfriends',
@@ -27,7 +28,62 @@ export default defineComponent({
     const filter = ref(costanti.FIND_PEOPLE)
 
     function mounted() {
-      searchList.value = []
+      searchList.value = [
+        {
+          label: 'Regione',
+          table: 'regions',
+          key: 'idReg',
+          type: costanti.FieldType.select,
+          value: tools.getCookie(tools.COOK_SEARCH + 'regions', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          filter: null,
+          useinput: false,
+          icon: 'fas fa-globe-europe'
+        },
+        {
+          label: 'Provincia',
+          table: 'provinces',
+          key: 'idProvince',
+          type: costanti.FieldType.select,
+          value: tools.getCookie(tools.COOK_SEARCH + 'provinces', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          filter: getFilterProvinceByRegion,
+          useinput: true,
+          icon: 'flag',
+          tablesel: 'provinces',
+        },
+        {
+          label: 'Comune',
+          table: 'cities',
+          key: 'idCity',
+          type: costanti.FieldType.select_by_server,
+          value: tools.getCookie(tools.COOK_SEARCH + 'cities', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          useinput: true,
+          filter: null,
+          // filter: getFilterCitiesByProvince,
+          // param1: shared_consts.PARAM_SHOW_PROVINCE,
+          tablesel: 'cities',
+        },
+        {
+          label: 'In cambio di',
+          table: 'contribtypes',
+          key: 'idContribType',
+          value: 0,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'contribtypes', []),
+          type: costanti.FieldType.multiselect,
+          filter: null,
+          useinput: false,
+          icon: 'fas fa-hand-holding',
+          filteradv: true,
+          //icon: 'swap_horizontal_circle',
+        },
+
+      ]
+
       filtercustom.value = []
       arrfilterand.value = []
 
@@ -63,6 +119,15 @@ export default defineComponent({
       }
     }
 
+    function getFilterProvinceByRegion(recProvince: any, index: number, arr: any) {
+      const recreg: any = searchList.value.find((rec) => rec.table === 'regions')
+      if (recreg) {
+        return recProvince.reg === recreg.value
+      } else {
+        return true
+      }
+    }
+
 
     onMounted(mounted)
 
@@ -75,6 +140,7 @@ export default defineComponent({
       searchList,
       colmyUserPeople,
       extraparams,
+      getFilterProvinceByRegion,
     }
   }
 })

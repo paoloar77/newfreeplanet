@@ -517,10 +517,10 @@ const baseroutes: IListRoutes[] = [
   {
     active: true,
     order: 130,
-    path: '/mywork/:idSkill',
+    path: '/myservice/:idSkill',
     materialIcon: '',
-    name: 'pages.mywork2',
-    component: () => import('@/views/user/mywork/mywork.vue'),
+    name: 'pages.myservice2',
+    component: () => import('@/views/user/myservice/myservice.vue'),
     meta: { requiresAuth: true },
     inmenu: false,
     infooter: false,

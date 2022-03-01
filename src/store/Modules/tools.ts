@@ -4890,7 +4890,7 @@ export const tools = {
       check = check && tools.isBitActive(col.showWhen, costanti.showWhen.InEdit)
     } else if (tipovis === tools.TIPOVIS_SHOW_RECORD) {
       if (tools.isBitActive(col.showWhen, costanti.showWhen.InView_OnlyifExist)) {
-        check = check && valuePresent
+        check = check && valuePresent && valuePresent !== costanti.FILTER_NESSUNO
       } else {
         check = check && tools.isBitActive(col.showWhen, costanti.showWhen.InView)
       }
@@ -5040,16 +5040,22 @@ export const tools = {
       { table: 'goods', join: 'sectorgoods' }
     ]
 
+    let ris = mydef
+
     if (arrtable.includes(table)) {
-      return tools.getCookie(tools.COOK_SEARCH + table, mydef)
+      ris =tools.getCookie(tools.COOK_SEARCH + table, mydef)
     } else if (arrmultisel_tab.includes(table)) {
       const rec = arrmultisel.find((rec) => rec.table === table)
       if (rec) {
-        return tools.getCookie(tools.COOK_SEARCH + table + '_' + tools.getCookie(tools.COOK_SEARCH + rec.join, 0), mydef)
+        ris = tools.getCookie(tools.COOK_SEARCH + table + '_' + tools.getCookie(tools.COOK_SEARCH + rec.join, 0), mydef)
       }
     }
 
-    return mydef
+    if (ris.toString() === costanti.FILTER_TUTTI.toString()){
+      ris = ''
+    }
+
+    return ris
   },
 
   getdefaultnewrec_MySkill(): any {
@@ -5139,7 +5145,7 @@ export const tools = {
 
   getDirectoryByTable(table: string) {
     if (table === toolsext.TABMYSKILLS) {
-      return 'mywork'
+      return 'myservice'
     } else if (table === toolsext.TABMYBACHECAS) {
       return 'mypage'
     } else if (table === toolsext.TABMYGROUPS) {

@@ -469,12 +469,17 @@ export const shared_consts = {
       reg: 'CAL',
       value: 'VV',
       label: 'Vibo Valentia',
-    }, { _id: 109, reg: 'VEN', value: 'VI', label: 'Vicenza', }, {
+    },
+    { _id: 109, reg: 'VEN', value: 'VI', label: 'Vicenza', }, {
       _id: 110,
       reg: 'LAZ',
       value: 'VT',
       label: 'Viterbo',
-    }, { _id: 111, reg: 'RSM', value: 'RSM', label: 'Repubblica di San Marino', }],
+    },
+    { _id: 111, reg: 'RSM', value: 'RSM', label: 'Repubblica di San Marino', },
+    { _id: 112, reg: 'EST', value: 'EST', label: 'Estero', },
+    { _id: 113, reg: 'ONL', value: 'ONL', label: 'On Line', },
+    ],
 
   Regions: [
     {
@@ -560,6 +565,14 @@ export const shared_consts = {
     {
       value: 'VEN',
       label: 'Veneto',
+    },
+    {
+      value: 'EST',
+      label: 'Estero',
+    },
+    {
+      value: 'ONL',
+      label: 'On Line',
     },
   ],
 

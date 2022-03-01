@@ -343,7 +343,7 @@ export default defineComponent({
 
     function getUrl() {
       const myurl = tools.geturlupload() + getParamDir()
-      // console.log('myurl', myurl)
+      console.log('myurl', myurl)
       return myurl
     }
 

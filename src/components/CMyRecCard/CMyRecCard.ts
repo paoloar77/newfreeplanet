@@ -9,7 +9,7 @@ import { toolsext } from '@store/Modules/toolsext'
 import { useQuasar } from 'quasar'
 import { useI18n } from '@/boot/i18n'
 import { CMyCardPopup } from '@/components/CMyCardPopup'
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'CMyRecCard',
@@ -32,7 +32,7 @@ export default defineComponent({
     const userStore = useUserStore()
     // const $q = useQuasar()
     const { t } = useI18n()
-    // const $router = useRouter()
+    const $router = useRouter()
 
     const myrec = ref(<any | null>null)
 
@@ -61,9 +61,9 @@ export default defineComponent({
       return userStore.getImgByProfile(profile)
     }
 
-    /*function naviga(path: string) {
+    function naviga(path: string) {
       $router.push(path)
-    }*/
+    }
 
     function setCmd($q: any, cmd: number, myusername: string, value: any, groupname: string) {
       emit('setCmd', $q, cmd, myusername, value, groupname)
@@ -80,7 +80,7 @@ export default defineComponent({
       myrec,
       costanti,
       getImgUser,
-      // naviga,
+      naviga,
       setCmd,
       shared_consts,
       userStore,

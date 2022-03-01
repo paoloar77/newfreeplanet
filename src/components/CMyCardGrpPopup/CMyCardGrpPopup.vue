@@ -1,4 +1,7 @@
 <template>
+  <div v-if="!tools.isLogged()">
+    <CCheckIfIsLogged></CCheckIfIsLogged>
+  </div>
 
   <q-card class="dialog_card q-mb-lg" v-if="myrec">
     <q-footer

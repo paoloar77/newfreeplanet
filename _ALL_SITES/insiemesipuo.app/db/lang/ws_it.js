@@ -25,7 +25,7 @@ const msg_website_it = {
     profile: 'Profilo',
     profile2: 'ProfiloU',
     mypage2: 'mypage2',
-    mywork2: 'mywork2',
+    myservice2: 'myservice2',
     test: 'Test',
     projects: 'Progetti',
     report: 'Report Ore',

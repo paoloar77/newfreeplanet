@@ -627,8 +627,18 @@ export default defineComponent({
     }
     function getDirectoryGall() {
       let ris = ''
+      let username = myrow.value.hasOwnProperty('username') ? myrow.value['username'] : ''
+      let userId = myrow.value.hasOwnProperty('userId') ? myrow.value['userId'] : ''
+
+      if (username === '') {
+        if (userId === userStore.my._id)
+          username = userStore.my.username
+      }
+      if (username === '') {
+        username = userStore.my.username
+      }
       if (fieldsTable.tableForUsers.includes(props.table)) {
-        ris = 'profile/' + myrow.value['username'] + '/' + props.table
+        ris = 'profile/' + username + '/' + props.table
       }else if (props.table === 'users') {
         ris = 'profile/' + userStore.my.username
       }else if (props.table === 'mygroups') {
@@ -637,6 +647,7 @@ export default defineComponent({
       } else {
         ris = props.table
       }
+      console.log('getDirectoryGall', ris)
       return ris
     }
 

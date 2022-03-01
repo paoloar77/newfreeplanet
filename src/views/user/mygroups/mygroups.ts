@@ -9,7 +9,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { useGlobalStore } from '@store/globalStore'
 import { useI18n } from '@/boot/i18n'
 import { colmyUserGroup } from '@store/Modules/fieldsTable'
-import { ISearchList } from 'model'
 import { costanti } from '@costanti'
 import { shared_consts } from '@/common/shared_vuejs'
 

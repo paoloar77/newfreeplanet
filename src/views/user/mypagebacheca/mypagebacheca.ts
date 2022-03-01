@@ -4,11 +4,14 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from '@/boot/i18n'
 import { useQuasar } from 'quasar'
 import { CMyCardPopup } from '@/components/CMyCardPopup'
+import { CMyPage } from '@/components/CMyPage'
+import { CCheckIfIsLogged } from '@/components/CCheckIfIsLogged'
 import { toolsext } from '@store/Modules/toolsext'
+import { tools } from '@store/Modules/tools'
 
 export default defineComponent({
   name: 'mypagebacheca',
-  components: { CMyCardPopup },
+  components: { CMyCardPopup, CMyPage, CCheckIfIsLogged },
   props: {},
   setup() {
     const userStore = useUserStore()
@@ -22,6 +25,7 @@ export default defineComponent({
       t,
       idBacheca,
       toolsext,
+      tools,
     }
   }
 })

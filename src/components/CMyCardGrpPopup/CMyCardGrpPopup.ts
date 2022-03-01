@@ -5,6 +5,7 @@ import { CTitleBanner } from '@/components/CTitleBanner'
 import { CProfile } from '@/components/CProfile'
 import { CDateTime } from '@/components/CDateTime'
 import { CMyPage } from '@/components/CMyPage'
+import { CCheckIfIsLogged } from '@/components/CCheckIfIsLogged'
 import { CMyFieldRec } from '@/components/CMyFieldRec'
 import { tools } from '@store/Modules/tools'
 import { useUserStore } from '@store/UserStore'
@@ -19,7 +20,7 @@ import { colCitys, fieldsTable } from '@store/Modules/fieldsTable'
 
 export default defineComponent({
   name: 'CMyCardGrpPopup',
-  components: { CProfile, CTitleBanner, CMyFieldDb, CDateTime, CMyPage, CMyFieldRec },
+  components: { CProfile, CTitleBanner, CMyFieldDb, CDateTime, CMyPage, CMyFieldRec, CCheckIfIsLogged },
   props: {
     table: {
       type: String,
@@ -54,7 +55,7 @@ export default defineComponent({
 
     function load() {
       // Carica il profilo di quest'utente
-      if (props.idRec > 0) {
+      if (props.idRec && props.idRec > 0) {
         userStore.loadGeneric(props.table, props.idRec).then((ris) => {
           myrec.value = ris
         })

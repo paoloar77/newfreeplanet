@@ -1,8 +1,11 @@
 <template>
-
   <CMyPage
-    :title='myskill.username' imgbackground="images/calendario_eventi.jpg"
+    :title="username" imgbackground="images/calendario_eventi.jpg"
     sizes="max-height: 120px" styleadd="bottom: -20px !important;">
+
+    <div v-if="!tools.isLogged()">
+      <CCheckIfIsLogged></CCheckIfIsLogged>
+    </div>
 
     <div class="q-ma-sm q-gutter-sm q-pa-xs">
       <div v-if="!!myskill.note" v-html="myskill.note"></div>
@@ -47,10 +50,10 @@
   </CMyPage>
 </template>
 
-<script lang="ts" src="./mywork.ts">
+<script lang="ts" src="./myservice.ts">
 </script>
 
 <style lang="scss" scoped>
-@import './mywork.scss';
+@import './myservice.scss';
 </style>
 

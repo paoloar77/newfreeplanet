@@ -3,6 +3,7 @@ import { CMyFriends } from '@/components/CMyFriends'
 import { CMyUser } from '@/components/CMyUser'
 import { CTitleBanner } from '@/components/CTitleBanner'
 import { CProfile } from '@/components/CProfile'
+import { CCheckIfIsLogged } from '@/components/CCheckIfIsLogged'
 import { CMyFieldRec } from '@/components/CMyFieldRec'
 import { CSkill } from '@/components/CSkill'
 import { CDateTime } from '@/components/CDateTime'
@@ -22,7 +23,7 @@ import { colmyUserPeople, colmyUserGroup } from '@store/Modules/fieldsTable'
 
 export default defineComponent({
   name: 'mygroup',
-  components: { CProfile, CTitleBanner, CMyFieldRec, CSkill, CDateTime, CMyFriends, CGridTableRec, CMyUser },
+  components: { CProfile, CTitleBanner, CMyFieldRec, CSkill, CDateTime, CMyFriends, CGridTableRec, CMyUser, CCheckIfIsLogged },
   props: {},
   setup() {
     const userStore = useUserStore()

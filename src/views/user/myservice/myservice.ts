@@ -3,6 +3,7 @@ import { CTitleBanner } from '@/components/CTitleBanner'
 import { CProfile } from '@/components/CProfile'
 import { CDateTime } from '@/components/CDateTime'
 import { CMyPage } from '@/components/CMyPage'
+import { CCheckIfIsLogged } from '@/components/CCheckIfIsLogged'
 import { CSkill } from '@/components/CSkill'
 import { tools } from '@store/Modules/tools'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
@@ -21,8 +22,8 @@ import { colCitys } from '@store/Modules/fieldsTable'
 
 
 export default defineComponent({
-  name: 'mywork',
-  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CMyPage },
+  name: 'myservice',
+  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CMyPage, CCheckIfIsLogged },
   props: {},
   setup() {
     const userStore = useUserStore()
@@ -41,6 +42,8 @@ export default defineComponent({
     const showPic = ref(false)
 
     const myskill = ref(<IMySkill>{})
+
+    const username = computed(() => (myskill.value && myskill.value.username) ? myskill.value.username : 'Pagina')
 
     function profile() {
       return userStore.my.profile
@@ -97,6 +100,7 @@ export default defineComponent({
       fieldsTable,
       colCitys,
       table,
+      username,
     }
   }
 })

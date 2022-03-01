@@ -757,6 +757,8 @@ export interface IMySkill {
   descr: string
   date_created?: Date,
   date_updated?: Date,
+
+  username?: string
 }
 
 export interface IMyGoods {

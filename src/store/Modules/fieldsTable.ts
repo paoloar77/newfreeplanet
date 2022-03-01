@@ -669,7 +669,7 @@ export const colmyGoods = [
     filter_field: 'idSectorGood',
     noshowlabel: true,
     icon: 'engineering',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     allowNewValue: false,
   }),
   AddCol({
@@ -835,7 +835,7 @@ export const colmySkills = [
     noshowlabel: true,
     addnone: true,
     icon: 'engineering',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     allowNewValue: false,
     required: false,
   }),
