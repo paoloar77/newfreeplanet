@@ -6,6 +6,7 @@ import { tools } from '@src/store/Modules/tools'
 import { toolsext } from '@src/store/Modules/toolsext'
 import { CSkill } from '@/components/CSkill'
 import { CFinder } from '@/components/CFinder'
+import { Footer } from '@/components/Footer'
 import { CDashboard } from '@/components/CDashboard'
 import { CChartMap } from '@src/components/CChartMap'
 import { CUserNonVerif } from '@/components/CUserNonVerif'
@@ -23,7 +24,7 @@ import { colmyBachecas } from '@store/Modules/fieldsTable'
 
 export default defineComponent({
   name: 'eventi',
-  components: { CSkill, CChartMap, CMapsEsempio, CFinder, CVerifyEmail, CVerifyTelegram, CDashboard, CUserNonVerif, CTitlePage },
+  components: { CSkill, CChartMap, CMapsEsempio, CFinder, CVerifyEmail, CVerifyTelegram, CDashboard, CUserNonVerif, CTitlePage, Footer },
   setup() {
     return {
       colmyBachecas,

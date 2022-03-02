@@ -29,14 +29,9 @@ export default defineComponent({
 
     const { getRefLink } = MixinUsers()
 
-    function openrighttoolbar() {
-      globalStore.rightDrawerOpen = true
-    }
-
     return {
       tools,
       static_data,
-      openrighttoolbar,
       getRefLink,
       userStore,
     }

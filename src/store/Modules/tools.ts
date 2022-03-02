@@ -81,6 +81,7 @@ export const tools = {
   IDAPP_SIP: '9',
   IDAPP_CNM: '10',
   IDAPP_FREEPLANET: '1',
+  IDAPP_RISO: '13',
 
   TipoMsg: {
     SEND_LINK_CHAT_DONATORI: 1,
@@ -3508,9 +3509,9 @@ export const tools = {
 
       return ''
     } else {
-      console.log('keystr', keystr, 'serv', serv)
+      // console.log('keystr', keystr, 'serv', serv)
       const ris = globalStore.getValueSettingsByKey(keystr, serv)
-      console.log('...ris', ris)
+      // console.log('...ris', ris)
 
       if (ris === '')
         if (def !== undefined)
@@ -5097,7 +5098,7 @@ export const tools = {
       idCity: this.getCitySel(),
       NumLevel: 0,
       adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
-      idShipping: [tools.getSelectionByTable('shippings', [])],
+      idShipping: tools.getSelectionByTable('shippings', []),
       otherfilters: tools.getSelectionByTable('otherfilters', []),
       photos: [],
       note: '',
@@ -5219,7 +5220,12 @@ export const tools = {
 
   getLinkProfileAportador() {
     return '/my/' + tools.getAportadorSolidario()
-  }
+  },
+
+  openrighttoolbar() {
+    const globalStore = useGlobalStore()
+    globalStore.rightDrawerOpen = true
+  },
 
 
 // getLocale() {

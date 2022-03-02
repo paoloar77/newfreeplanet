@@ -10,6 +10,7 @@ import { useI18n } from '@src/boot/i18n'
 import { useGlobalStore } from '@store/globalStore'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@store/UserStore'
+import { tools } from '@store/Modules/tools'
 
 
 export default defineComponent({
@@ -61,14 +62,10 @@ export default defineComponent({
         })
     }
 
-    function openrighttoolbar() {
-      globalStore.rightDrawerOpen = true
-    }
-
     load()
 
     return {
-      openrighttoolbar,
+      tools,
       verificatook,
       giaverificato,
       myrisultato,

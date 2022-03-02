@@ -32,3 +32,7 @@ yarn-error.log
 !/_ALL_SITES/insiemesipuo.app/.env.test
 !/_ALL_SITES/insiemesipuo.app/.env.production
 !/_ALL_SITES/insiemesipuo.app/.env.development
+!/_ALL_SITES/riso.app/.env.test
+!/_ALL_SITES/riso.app/.env.production
+!/_ALL_SITES/riso.app/.env.development
+

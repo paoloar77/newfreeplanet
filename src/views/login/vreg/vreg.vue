@@ -37,7 +37,7 @@
       </transition>
 
       <div class="text-center q-mt-md">
-        <q-btn rounded size="lg" color="primary" @click="openrighttoolbar">{{ $t('login.enter') }}
+        <q-btn rounded size="lg" color="primary" @click="tools.openrighttoolbar()">{{ $t('login.enter') }}
         </q-btn>
 
       </div>
