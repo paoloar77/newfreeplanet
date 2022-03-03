@@ -9,6 +9,7 @@ import { CDashboard } from '@/components/CDashboard'
 import { CChartMap } from '@src/components/CChartMap'
 import { Footer } from '@src/components/Footer'
 import { CUserNonVerif } from '@/components/CUserNonVerif'
+import { CStatusReg } from '@/components/CStatusReg'
 import { CCopyBtn } from '@/components/CCopyBtn'
 import { CCheckIfIsLogged } from '@/components/CCheckIfIsLogged'
 import { CMapsEsempio } from '@src/components/CMapsEsempio'
@@ -21,7 +22,7 @@ import MixinUsers from '@/mixins/mixin-users'
 
 export default defineComponent({
   name: 'mainview',
-  components: { CSkill, CChartMap, CMapsEsempio, CDashboard, CUserNonVerif, CMainView, CCopyBtn, Footer, CCheckIfIsLogged },
+  components: { CSkill, CChartMap, CMapsEsempio, CDashboard, CUserNonVerif, CMainView, CCopyBtn, Footer, CCheckIfIsLogged, CStatusReg },
   setup() {
     const globalStore = useGlobalStore()
     const userStore = useUserStore()

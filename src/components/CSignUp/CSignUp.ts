@@ -56,6 +56,11 @@ export default defineComponent({
       required: false,
       default: true,
     },
+    need_Telegram: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const $q = useQuasar()
@@ -289,6 +294,7 @@ export default defineComponent({
       signup,
       iamadult,
       v$,
+      t,
       allowSubmit,
       myRuleEmail,
     }

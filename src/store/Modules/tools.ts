@@ -4252,6 +4252,9 @@ export const tools = {
       'black': '#000000',
       'blanchedalmond': '#ffebcd',
       'blue': '#0000ff',
+      'blue-3': '#90caf9',
+      'blue-4': '#64b5f6',
+      'blue-6': '#2196f3',
       'blueviolet': '#8a2be2',
       'brown': '#a52a2a',
       'burlywood': '#deb887',
@@ -4294,10 +4297,16 @@ export const tools = {
       'goldenrod': '#daa520',
       'gray': '#808080',
       'green': '#008000',
+      'green-3': '#a5d6a7',
+      'green-4': '#81c784',
+      'green-6': '#4caf50',
       'greenyellow': '#adff2f',
       'honeydew': '#f0fff0',
       'hotpink': '#ff69b4',
       'indianred ': '#cd5c5c',
+      'indigo-3': '#9fa8da',
+      'indigo-4': '#7986cb',
+      'indigo-6': '#3f51b5',
       'indigo': '#4b0082',
       'ivory': '#fffff0',
       'khaki': '#f0e68c',
@@ -4319,6 +4328,9 @@ export const tools = {
       'lightsteelblue': '#b0c4de',
       'lightyellow': '#ffffe0',
       'lime': '#00ff00',
+      'lime-3': '#e6ee9c',
+      'lime-4': '#dce775',
+      'lime-6': '#cddc39',
       'limegreen': '#32cd32',
       'linen': '#faf0e6',
       'magenta': '#ff00ff',
@@ -4342,6 +4354,9 @@ export const tools = {
       'olive': '#808000',
       'olivedrab': '#6b8e23',
       'orange': '#ffa500',
+      'orange-3': '#ffcc80',
+      'orange-4': '#ffb74d',
+      'orange-6': '#ff9800',
       'orangered': '#ff4500',
       'orchid': '#da70d6',
       'palegoldenrod': '#eee8aa',
@@ -4357,6 +4372,9 @@ export const tools = {
       'purple': '#800080',
       'rebeccapurple': '#663399',
       'red': '#ff0000',
+      'red-3': '#ef9a9a',
+      'red-4': '#e57373',
+      'red-6': '#f44336',
       'rosybrown': '#bc8f8f',
       'royalblue': '#4169e1',
       'saddlebrown': '#8b4513',
@@ -5044,7 +5062,7 @@ export const tools = {
     let ris = mydef
 
     if (arrtable.includes(table)) {
-      ris =tools.getCookie(tools.COOK_SEARCH + table, mydef)
+      ris = tools.getCookie(tools.COOK_SEARCH + table, mydef)
     } else if (arrmultisel_tab.includes(table)) {
       const rec = arrmultisel.find((rec) => rec.table === table)
       if (rec) {
@@ -5052,7 +5070,7 @@ export const tools = {
       }
     }
 
-    if (ris.toString() === costanti.FILTER_TUTTI.toString()){
+    if (ris.toString() === costanti.FILTER_TUTTI.toString()) {
       ris = ''
     }
 
@@ -5225,6 +5243,25 @@ export const tools = {
   openrighttoolbar() {
     const globalStore = useGlobalStore()
     globalStore.rightDrawerOpen = true
+  },
+
+  getbackgroundGradient(color: string, degree: number) {
+    const mycol = tools.colourNameToHex(color)
+    const arrcol = color.split('-')
+    let newcol = arrcol[0] + '-4'
+    const mycolchiaro = tools.colourNameToHex(newcol)
+
+    return 'background: ' + mycol +
+      ' background: -webkit-linear-gradient('+degree+'deg, ' + mycol + ', ' + mycolchiaro + ') !important; ' +
+      ' background: linear-gradient('+degree+'deg, ' + mycol + ', ' + mycolchiaro + ') !important;'
+  },
+
+  getCurrentUrl(){
+    return window.location.pathname
+  },
+
+  isCurrentUrlSignUp(){
+    return window.location.pathname.indexOf('signup') >= 0
   },
 
 

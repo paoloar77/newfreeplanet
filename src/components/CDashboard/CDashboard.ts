@@ -6,25 +6,37 @@ import { useRouter } from 'vue-router'
 import { useGlobalStore } from '../../store/globalStore'
 import { useI18n } from '../../boot/i18n'
 
+import { shared_consts } from '@src/common/shared_vuejs'
+import { costanti, IMainCard } from '@store/Modules/costanti'
+
 import { tools } from '@store/Modules/tools'
 
 export default defineComponent({
   name: 'CDashboard',
-  props: {
-  },
+  props: {},
   setup(props) {
 
     const userStore = useUserStore()
     const $router = useRouter()
     const globalStore = useGlobalStore()
-    const { t } = useI18n();
+    const { t } = useI18n()
 
-    const calcstat = computed(() => userStore.my.calcstat ? userStore.my.calcstat : {numUsersReg: 0, numMySkills: 0, numMyGoods: 0, numMyBachecas: 0} )
+    const calcstat = computed(() => userStore.my.calcstat ? userStore.my.calcstat : {
+      numUsersReg: 0,
+      numByTab: {},
+    })
+
+    const visustat = computed(() => {
+      // @ts-ignore
+      return costanti.MAINCARDS.filter((rec: IMainCard) => rec.visuonstat)
+    })
 
     return {
       userStore,
       tools,
-      calcstat
+      calcstat,
+      shared_consts,
+      visustat,
     }
   },
 })

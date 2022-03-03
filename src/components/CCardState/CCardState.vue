@@ -4,7 +4,7 @@
                 show-value
                 :font-size="fontsize"
                 :value="myperc"
-                :size="getsize"
+                :size="getsize()"
                 :thickness="0.25"
                 :color="mycolor"
                 track-color="grey-3"

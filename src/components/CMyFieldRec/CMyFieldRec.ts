@@ -85,6 +85,11 @@ export default defineComponent({
       tupe: Boolean,
       required: false,
       default: false,
+    },
+    fieldtype: {
+      tupe: String,
+      required: false,
+      default: '',
     }
   },
   components: { CMyPopupEdit },
@@ -141,7 +146,7 @@ export default defineComponent({
       console.log('showandsel CMyFieldDb', row, col, newval)
 
       if (newval !== valinitial)
-        setValDb($q, mykey.value, newval, col.fieldtype, false, props.table, mysubkey.value, props.id, props.indrec, mysubsubkey.value)
+        setValDb($q, mykey.value, newval, props.fieldtype || col.fieldtype, false, props.table, mysubkey.value, props.id, props.indrec, mysubsubkey.value)
     }
 
     function withBorder() {

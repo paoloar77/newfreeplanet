@@ -908,6 +908,10 @@ export const useGlobalStore = defineStore('GlobalStore', {
         })
     },
 
+    isErroreDispositivoServer() {
+      return this.serverMsgError.code === -2
+    },
+
     async saveSubRec(mydata: any) {
       // console.log('saveTable', mydata)
       const userStore = useUserStore()
@@ -1464,11 +1468,11 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       return Api.SendReq('/site/load', 'POST', paramquery)
         .then((res) => {
-          console.log('res', res)
+          // console.log('datastat', res)
           this.datastat = res.data.datastat
           return this.datastat
         }).catch((error) => {
-          return null
+          return {}
         })
 
     },

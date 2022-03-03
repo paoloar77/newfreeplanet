@@ -21,7 +21,7 @@
                :href="tools.getLinkBotTelegram()" target="_blank"></q-btn>
         <br>
       </div>
-      <strong>{{ $t('components.authentication.telegram.ifclose', {botname: tools.getBotName() })}}</strong>
+      <strong v-if="!tools.TelegCode()">{{ $t('components.authentication.telegram.ifclose', {botname: tools.getBotName() })}}</strong>
       <div class="q-my-sm">
         <!--<q-img src="images/ayni_bot.jpg" class="" :alt="$t('ws.sitename')" style="height: 100px; width: 250px;">
         </q-img>-->

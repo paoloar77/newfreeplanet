@@ -1,3 +1,15 @@
+export interface IMainCard {
+  visible: boolean
+  title: string
+  to?: string
+  icon?: string
+  color: string
+  hint?: string
+  table: string
+  visuonstat?: boolean,
+  small?: boolean,
+}
+
 export const costanti = {
   AdType: {
     OFFRO: 1,
@@ -19,82 +31,111 @@ export const costanti = {
 
   MAINCARDS: [
     {
+      visible: true,
       title: ' Beni ',
       to: '/goods',
       icon: 'fas fa-tshirt',
-      color: 'indigo',
+      color: 'indigo-6',
       hint: '',
       table: 'mygoods',
+      visuonstat: true,
+      small: false,
     },
     {
+      visible: true,
       title: 'Servizi',
       to: '/services',
       icon: 'fas fa-house-user',
-      color: 'red',
+      color: 'red-6',
       hint: '',
       table: 'myskills',
+      visuonstat: true,
+      small: false,
     },
     {
+      visible: true,
       title: 'Mobilità',
       to: '/places',
       icon: 'fas fa-taxi',
-      color: 'lime-7',
+      color: 'lime-6',
       textcolor: '',
       hint: '',
       disable: true,
+      small: false,
     },
     {
+      visible: true,
       title: 'Scuola',
       to: '/school',
       icon: 'fas fa-book-open',
-      color: 'orange',
+      color: 'orange-6',
       hint: '',
       disable: true,
+      small: false,
     },
     {
+      visible: true,
       title: 'Eventi',
       to: '/events',
       icon: 'event',
-      color: 'green',
+      color: 'green-6',
       hint: 'eventi, last minute, offerte di lavoro',
       disable: false,
       table: 'mybachecas',
+      visuonstat: true,
+      small: false,
     },
     {
+      visible: true,
       title: 'Luoghi',
       to: '/places',
       icon: 'fas fa-map-marker-alt',
-      color: 'blue',
+      color: 'blue-6',
       hint: '',
       disable: true,
+      small: false,
     },
     {
+      visible: true,
       title: 'Tue&nbsp;Idee',
       to: '/ideas',
       icon: 'fas fa-lightbulb',
-      color: 'red-7',
+      color: 'red-6',
       textcolor: '',
       hint: '',
       disable: true,
       small: true,
     },
     {
+      visible: true,
       title: 'Help',
       to: '/help',
       icon: 'fas fa-users',
-      color: 'green-7',
+      color: 'green-6',
       hint: '',
       disable: true,
       small: true,
     },
     {
+      visible: true,
       title: 'Social',
       to: '/socialising',
       icon: 'fas fa-users',
-      color: 'blue-7',
+      color: 'blue-6',
       hint: '',
       disable: true,
       small: true,
+    },
+    {
+      visible: false,
+      title: 'Gruppi',
+      to: '',
+      icon: 'fas fa-users',
+      color: 'blue-6',
+      hint: '',
+      disable: true,
+      small: true,
+      visuonstat: true,
     },
   ],
 

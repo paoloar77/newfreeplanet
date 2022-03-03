@@ -11,6 +11,9 @@
       </template>
       <span class="mybanner">Errore di Connessione al Server</span>
       <p v-if="globalStore.serverMsgError" class="errore">{{globalStore.getMsgServerError()}}</p>
+      <p v-if="tools.isCurrentUrlSignUp() && globalStore.isErroreDispositivoServer()" class="errore">Se l'Errore persiste, significa che questo browser non riesce a collegarsi col Server.<br>
+        Soluzione: Provare ad installare un altro browser:<br>
+        👉🏻 Clicca per installare <a href="https://play.google.com/store/apps/details?id=com.opera.browser&hl=it&gl=IT">Opera per Android</a>. </p>
 
       <q-btn
         size="md"

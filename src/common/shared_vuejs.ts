@@ -110,8 +110,6 @@ export const shared_consts = {
   TABLES_PERM_CHANGE_FOR_USERS: ['myskills', 'mybachecas', 'mygoods'],
   TABLES_VISU_LISTA_USER: ['myskills', 'mybachecas', 'mygoods', 'users'],
 
-
-
   TABLES_VISU_IMG: ['myskills', 'mybachecas', 'mygoods', 'mygroups'],
   TABLES_DIRECTORY_A_PARTE: ['mygroups'],
 

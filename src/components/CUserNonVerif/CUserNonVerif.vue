@@ -4,9 +4,9 @@
 
     </CVerifyTelegram>
 
-    <CVerifyEmail v-if="!tools.isEmailVerified() && !tools.TelegVerificato()">
+    <!--<CVerifyEmail v-if="!tools.isEmailVerified() && !tools.TelegVerificato()">
 
-    </CVerifyEmail>
+    </CVerifyEmail>-->
     <div v-if="tools.isTelegOk()" class="centeritems">
       <q-banner inline-actions rounded class="bg-orange text-black">
         <template v-slot:avatar>

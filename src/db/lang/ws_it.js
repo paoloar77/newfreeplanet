@@ -45,6 +45,7 @@ const msg_website_it = {
     presentazione2: 'Presentazione',
     invita: 'Invita Persone',
     SignUp: 'Nuova Registrazione',
+    need_Telegram: 'Per poter utilizzare la Piattaforma occorre avere Telegram installato.<br><a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank">Clicca qui per scaricarlo</a>',
     SignUpIscrizione: 'Diventa Socio CNM',
     SignUp_alreadylista: 'Registrazione per quelli che erano già nella lista di Notevole (del 2019) !',
     SignUp2: 'Registrazione',

@@ -38,6 +38,10 @@
 
         </CCopyBtn>
 
+        <CStatusReg>
+
+        </CStatusReg>
+
         <div>Versione: {{tools.getvers()}}</div>
 
       </div>

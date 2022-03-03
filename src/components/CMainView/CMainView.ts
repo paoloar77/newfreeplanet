@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { useGlobalStore } from '@store/globalStore'
 import { useI18n } from '@/boot/i18n'
 import { tools } from '@store/Modules/tools'
-import { costanti } from '@store/Modules/costanti'
+import { costanti, IMainCard } from '@store/Modules/costanti'
 import { CBigBtn } from '@/components/CBigBtn'
 
 
@@ -22,11 +22,12 @@ export default defineComponent({
     const showInfo = ref(false)
 
     const cardsbig = computed(() => {
-      return costanti.MAINCARDS.filter((rec: any) => !rec.small)
+      // @ts-ignore
+      return costanti.MAINCARDS.filter((rec: IMainCard) => !rec.small && rec.visible)
     })
 
     const cardssmall = computed(() => {
-      return costanti.MAINCARDS.filter((rec: any) => rec.small)
+      return costanti.MAINCARDS.filter((rec: any) => rec.small && rec.visible)
     })
 
     return {

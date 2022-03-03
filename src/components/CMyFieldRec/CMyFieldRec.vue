@@ -28,7 +28,7 @@
         :field="mykey"
         :subfield="mysubkey"
         :mysubsubkey="mysubsubkey"
-        :type="col.fieldtype"
+        :type="fieldtype || col.fieldtype"
         :serv="false"
         :disable="disable"
         :jointable="jointable"

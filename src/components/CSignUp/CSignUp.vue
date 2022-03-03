@@ -4,6 +4,14 @@
       <p>
         <logo></logo>
         <CTitleBanner :title="$t('pages.SignUp')"></CTitleBanner>
+
+        <q-banner
+          rounded
+          class="bg-warning text-black"
+          style="text-align: center;"
+        >
+          <span class="mybanner" v-html="t('pages.need_Telegram')"></span>
+        </q-banner>
       </p>
     </div>
 
