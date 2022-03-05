@@ -527,6 +527,17 @@ const baseroutes: IListRoutes[] = [
   },
   {
     active: true,
+    order: 132,
+    path: '/mygood/:idGood',
+    materialIcon: '',
+    name: 'pages.mygood2',
+    component: () => import('@/views/user/mypagegood/mypagegood.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
     order: 400,
     path: '/test',
     materialIcon: 'fas fa-test',

@@ -25,6 +25,8 @@
           :label="`Profilo di ` + tools.getAportadorSolidario()">
         </q-btn>
 
+
+
       </q-banner>
     </div>
   </div>

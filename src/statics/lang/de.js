@@ -306,6 +306,8 @@ const msg_de = {
       booked_error: 'Reservation failed. Try again later',
       sendmsg_error: 'Message not sent. Try again later',
       sendmsg_sent: 'Message sent',
+      sendmsg_sent_sharedlink: 'Il Messaggio da inviare lo trovi nella Chat Telegram',
+      sendmsgs_sent: 'Messages sent',
       booking: 'Book the Event',
       titlebooking: 'Reservation',
       modifybooking: 'Modify Reservation',

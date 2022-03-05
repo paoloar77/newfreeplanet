@@ -122,12 +122,19 @@
               :href="getLinkWebSite()" target="__blank">
             </q-btn>
           </div>
-
-          <CCopyBtn v-if="myuser.username === myusername()" :title="$t('reg.link_reg')"
-                    :texttocopy="getRefLink(username)">
-
-          </CCopyBtn>
-
+        </div>
+        <div class="myrow justify-evenly items-center q-pa-sm q-ma-sm">
+          <div v-if="myuser._id" class="col-12">
+            <q-btn
+              v-if="myuser.username === myusername()"
+              icon="fas fa-share-alt"
+              color="blue"
+              size="md"
+              rounded
+              :label="$t('reg.link_reg_and_msg')"
+              @click="tools.sendMsgTelegramCmd($q, $t, shared_consts.MsgTeleg.SHARE_MSGREG)">
+            </q-btn>
+          </div>
         </div>
       </div>
       <div v-else class="fit column no-wrap justify-evenly items-center content-start">

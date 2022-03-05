@@ -128,11 +128,11 @@ export default defineComponent({
     }
 
     function extraparams() {
-      let lk_tab = ''
-      let lk_LF = ''
-      let lk_FF = ''
-      let lk_as = ''
-      let af_objId_tab = ''
+      let lk_tab = 'users'
+      let lk_LF = 'userId'
+      let lk_FF = '_id'
+      let lk_as = 'user'
+      let af_objId_tab = 'myId'
 
       return {
         lookup1: {

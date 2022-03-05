@@ -12,7 +12,7 @@ import {
   ITodo,
   IUserFields,
   Privacy,
-  TipoVisu, IGroup, IMySkill, IMyBacheca, IImgGallery,
+  TipoVisu, IGroup, IMySkill, IMyBacheca, IImgGallery, IMsgGlobParam,
 } from '@model'
 
 import { addToDate } from '@quasar/quasar-ui-qcalendar'
@@ -5167,6 +5167,8 @@ export const tools = {
       return 'myservice'
     } else if (table === toolsext.TABMYBACHECAS) {
       return 'mypage'
+    } else if (table === toolsext.TABMYGOODS) {
+      return 'mygood'
     } else if (table === toolsext.TABMYGROUPS) {
       return 'grp'
     }
@@ -5231,6 +5233,10 @@ export const tools = {
     return '/' + tools.getDirectoryByTable(table) + '/' + grp.groupname
   },
 
+  getPathByTable(table: string, pagename: string) {
+    return '/' + tools.getDirectoryByTable(table) + '/' + pagename
+  },
+
   getAportadorSolidario() {
     const userStore = useUserStore()
     return userStore.my ? userStore.my.aportador_solidario : ''
@@ -5262,6 +5268,28 @@ export const tools = {
 
   isCurrentUrlSignUp(){
     return window.location.pathname.indexOf('signup') >= 0
+  },
+
+  async sendMsgTelegram($q: any, $t: any, mydata: IMsgGlobParam) {
+    const userStore = useUserStore()
+
+    return userStore.sendMsgToBotTelegram($q, $t, mydata)
+  },
+
+  async sendMsgTelegramCmd($q: any, $t: any, cmd: number) {
+
+    let mydata: IMsgGlobParam = {
+      typemsg: 0,
+      typesend: shared_consts.TypeSend.TELEGRAM,
+      cmd,
+    }
+
+    if (cmd === shared_consts.CmdToSend.SHARE_MSGREG) {
+      mydata.typemsg = shared_consts.TypeMsg.SEND_TO_MYSELF
+    }
+
+    return this.sendMsgTelegram($q, $t, mydata)
+
   },
 
 

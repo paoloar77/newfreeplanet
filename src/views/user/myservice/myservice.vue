@@ -6,7 +6,17 @@
     <div v-if="!tools.isLogged()">
       <CCheckIfIsLogged></CCheckIfIsLogged>
     </div>
+    <div v-else>
+      <CMyCardPopup
+        v-if="!!idSkill"
+        :table="toolsext.TABMYSKILLS"
+        :nopopup="true"
+        :idRec="idSkill">
 
+      </CMyCardPopup>
+    </div>
+
+    <!--
     <div class="q-ma-sm q-gutter-sm q-pa-xs">
       <div v-if="!!myskill.note" v-html="myskill.note"></div>
 
@@ -27,20 +37,8 @@
         </CSkill>
       </div>
 
-      <!--
-      <div class="row justify-evenly q-mt-md">
-        <q-btn
-          type="a" rounded size="md"
-          color="white" text-color="blue" :icon="`img:`+userStore.getImgByUsername(myskill.username)"
-          :to="'/my/'+myskill.username"
-          :label="myskill.username"
-        >
-        </q-btn>
-
-      </div>
-      -->
-
     </div>
+    -->
 
 
 

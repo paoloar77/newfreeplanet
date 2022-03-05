@@ -612,6 +612,22 @@ export interface IDataPass {
   fieldsvalue: any
 }
 
+export interface IMsgGlobParam {
+  typemsg: number,
+  title?: string,
+  content?: string,
+  openUrl?: string,
+  openUrl2?: string,
+  tag?: string,
+  actions?: any[],
+  cmd?: number
+  usernameOrig?: string
+  usernameDest?: string
+  groupnameDest?: string
+  text?: string
+  typesend: number
+}
+
 export interface IDataToSet {
   id?: string | null
   username?: string

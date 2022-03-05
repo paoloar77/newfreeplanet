@@ -1,14 +1,16 @@
 <template>
 
-  <q-card class="dialog_card q-mb-lg" v-if="myrec">
+  <q-card class="dialog_card q-mb-lg" v-if="myrec._id">
+
     <q-footer
+      v-if="!nopopup"
       class="bg-white small-screen-only text-center"
       bordered
     >
       <q-btn push rounded color="primary" icon="close" label="Chiudi" v-close-popup></q-btn>
 
     </q-footer>
-    <q-bar dense class="bg-primary text-white">
+    <q-bar v-if="!nopopup" dense class="bg-primary text-white">
       {{ myrec.username }}
       <q-space/>
       <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
@@ -74,6 +76,36 @@
             :canEdit="false"
             :canModify="false">
           </CMyFieldRec>
+        </div>
+      </div>
+
+      <br>
+      <div v-if="myrec.date_created" class="row justify-center">
+        <span class="cal__where-title"> {{ $t('reg.pub_created') }}:</span>
+        <span v-html="tools.getstrDate(myrec.date_created)"></span>
+      </div>
+      <div v-if="tools.getstrDate(myrec.date_updated) !== tools.getstrDate(myrec.date_created)" class="row justify-center">
+        <span class="cal__where-title"> {{ $t('reg.pub_updated') }}:</span>
+        <span v-html="tools.getstrDate(myrec.date_updated)"></span>
+      </div>
+
+
+      <div v-if="!nopopup"
+           class="row q-ma-sm q-pa-sm justify-center">
+        <div class="q-ma-sm">
+          <q-btn
+            icon="far fa-file-alt" label="Apri Pagina" color="primary" text-color="white"
+            :to="tools.getToByCol(col, table, myrec)"
+          />
+
+        </div>
+      </div>
+      <div v-if="myrec._id"
+           class="row q-ma-sm q-pa-sm justify-center">
+        <div class="q-ma-sm">
+          <q-btn
+            color="primary" text-color="white" icon="fas fa-copy" label="Condividi Pagina"
+            @click="condividipag"></q-btn>
         </div>
       </div>
 

@@ -516,6 +516,8 @@ const msg_pt = {
       booked_error: 'Prenotazione non avvenuta. Riprovare più tardi',
       sendmsg_error: 'Messaggio non inviato. Riprovare più tardi',
       sendmsg_sent: 'Messaggio Inviato',
+      sendmsg_sent_sharedlink: 'Il Messaggio da inviare lo trovi nella Chat Telegram',
+      sendmsgs_sent: 'Messaggi Inviati',
       booking: 'Prenota Evento',
       titlebooking: 'Prenotazione',
       modifybooking: 'Modifica Prenotazione',

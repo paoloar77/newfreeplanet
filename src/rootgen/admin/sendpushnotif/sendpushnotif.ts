@@ -8,6 +8,7 @@ import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
+import { IMsgGlobParam } from 'model'
 
 export default defineComponent({
   name: 'Sendpushnotif',
@@ -66,24 +67,16 @@ export default defineComponent({
     }
 
     function SendMsgToParam(typemsg: any) {
-      interface IPushParam {
-        typemsg: string,
-        title: string,
-        content: string,
-        openUrl: string,
-        openUrl2: string,
-        tag: string,
-        actions: any[],
-      }
 
-      let param: IPushParam = {
+      let param: IMsgGlobParam = {
         typemsg,
         title: title.value,
         content: content.value,
         openUrl: openUrl.value,
         openUrl2: openUrl2.value,
         tag: tag.value,
-        actions: []
+        actions: [],
+        typesend: shared_consts.TypeSend.PUSH_NOTIFICATION
       }
 
       param.actions = []

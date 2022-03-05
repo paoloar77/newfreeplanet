@@ -34,7 +34,12 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 0
-    }
+    },
+    nopopup: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
   },
   setup(props) {
 
@@ -45,7 +50,7 @@ export default defineComponent({
 
     const showPic = ref(false)
 
-    const myrec = ref({})
+    const myrec = ref(<any>{})
     const col = ref(<IColGridTable>{})
 
     function profile() {
@@ -74,6 +79,10 @@ export default defineComponent({
       load()
     }
 
+    function condividipag() {
+      return tools.copyStringToClipboard($q, self.location.host + tools.getPathByTable(props.table, myrec.value._id), true)
+    }
+
     onMounted(mounted)
 
     return {
@@ -90,6 +99,7 @@ export default defineComponent({
       colCitys,
       toolsext,
       col,
+      condividipag,
     }
   }
 })

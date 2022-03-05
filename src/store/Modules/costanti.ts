@@ -130,6 +130,7 @@ export const costanti = {
       visible: false,
       title: 'Gruppi',
       to: '',
+      table: 'mygroups',
       icon: 'fas fa-users',
       color: 'blue-6',
       hint: '',

@@ -1,5 +1,5 @@
 <template>
-  <CMyPage title="Evento"
+  <CMyPage title="Bene"
            imgbackground="images/calendario_eventi.jpg"
            sizes="max-height: 120px" styleadd="bottom: -20px !important;">
 
@@ -8,10 +8,10 @@
     </div>
 
     <CMyCardPopup
-      v-if="!!idBacheca"
-      :table="toolsext.TABMYBACHECAS"
+      v-if="!!idGood"
+      :table="toolsext.TABMYGOODS"
       :nopopup="true"
-      :idRec="idBacheca">
+      :idRec="idGood">
 
     </CMyCardPopup>
 
@@ -21,10 +21,10 @@
   </CMyPage>
 </template>
 
-<script lang="ts" src="./mypagebacheca.ts">
+<script lang="ts" src="./mypagegood.ts">
 </script>
 
 <style lang="scss" scoped>
-@import './mypagebacheca.scss';
+@import './mypagegood.scss';
 </style>
 

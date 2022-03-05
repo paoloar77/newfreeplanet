@@ -79,6 +79,9 @@ module.exports = {
     SEND_TO_CONSIGLIO: 5,
     SEND_TO_NON_SOCI: 10,
     SEND_TO_PAOLO: 20,
+    SEND_TO_USER: 25,
+    SEND_TO_GROUP: 30,
+    SEND_TO_MYSELF: 40,
   },
 
   TypeMsg_Actions: {
@@ -114,6 +117,19 @@ module.exports = {
     PAYED: 4,
     RECEIVED: 6,
     CANCELED: 10,
+  },
+
+  MsgTeleg: {
+    SHARE_MSGREG: 1
+  },
+
+  TypeMsgTemplate: {
+    MSG_BENVENUTO_SHARE_LINK: 2000
+  },
+
+  TypeSend: {
+    PUSH_NOTIFICATION: 1,
+    TELEGRAM: 2,
   },
 
   fieldsUserToChange() {

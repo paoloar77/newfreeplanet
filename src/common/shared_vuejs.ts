@@ -39,6 +39,7 @@ export const shared_consts = {
   FILTER_MISSING_PAYMENT: 262144,
   FILTER_TO_MAKE_MEMBERSHIP_CARD: 524288,
   FILTER_MEMBERSHIP_CARD_OK: 1048576,
+  FILTER_USER_NO_VERIFIED_APORTADOR: 2097152,
 
   OPTIONS_SEARCH_ONLY_FULL_WORDS: 1,
   OPTIONS_SEARCH_USER_ONLY_FULL_WORDS: 2,
@@ -94,7 +95,7 @@ export const shared_consts = {
   TABLES_WITH_DATE: ['mybachecas'],
   TABLES_WITH_SORTING: ['mybachecas'],
   TABLES_PERM_NEWREC: ['skills', 'goods', 'subskills', 'mygroups'],
-  TABLES_REC_ID: ['skills', 'goods', 'subskills'],
+  TABLES_REC_ID: ['skills', 'goods', 'subskills', 'myskills', 'mybachecas', 'mygoods'],
 
   // costanti.VISUTABLE_SCHEDA_USER, VISUTABLE_SCHEDA_GROUP, VISUTABLE_USER_TABGROUP
   VERTIC_SHOW_GRID: [-1, 2, -3, -4],
@@ -667,12 +668,19 @@ export const shared_consts = {
     Notify_ByPushNotification: 4,
   },
 
+  CmdToSend: {
+    SHARE_MSGREG: 1,
+  },
+
   TypeMsg: {
     SEND_TO_ALL: 1,
     SEND_TO_SOCI: 2,
     SEND_TO_SOCIO_RESIDENTE: 3,
     SEND_TO_NON_SOCI: 10,
     SEND_TO_PAOLO: 20,
+    SEND_TO_USER: 25,
+    SEND_TO_GROUP: 30,
+    SEND_TO_MYSELF: 40,
   },
 
   TypeMsg_Actions: {
@@ -787,6 +795,19 @@ export const shared_consts = {
     Need_Aportador_On_DataReg_To_Verify_Reg: 4,
   },
 
+  MsgTeleg: {
+    SHARE_MSGREG: 1
+  },
+
+  TypeMsgTemplate: {
+    MSG_BENVENUTO: 2010,
+    MS_SHARE_LINK: 2000
+  },
+
+  TypeSend: {
+    PUSH_NOTIFICATION: 1,
+    TELEGRAM: 2,
+  },
 
   getStatusStr(status: number) {
     const trovatorec = this.OrderStatusStr.find((rec) => rec.value === status)

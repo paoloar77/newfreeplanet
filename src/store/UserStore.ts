@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 import {
-  IFriends,
+  IFriends, IMsgGlobParam,
   ISigninOptions,
   ISignupOptions, IUserFields, IUserProfile, IUserState,
 } from '@src/model'
@@ -880,7 +880,17 @@ export const useUserStore = defineStore('UserStore', {
               verified_by_aportador,
               made_gift,
               perm,
-              profile: { img, teleg_id, myshares: [], friends: [], req_friends: [], asked_friends: [], mygroups: [], asked_groups: [], manage_mygroups: [] },
+              profile: {
+                img,
+                teleg_id,
+                myshares: [],
+                friends: [],
+                req_friends: [],
+                asked_friends: [],
+                mygroups: [],
+                asked_groups: [],
+                manage_mygroups: []
+              },
             })
 
             isLogged = true
@@ -1002,6 +1012,25 @@ export const useUserStore = defineStore('UserStore', {
           return {}
         })
 
+    },
+
+    async sendMsgToBotTelegram($q: any, t: any, mydata: IMsgGlobParam) {
+      return Api.SendReq('/users/mgt', 'POST', { mydata })
+        .then((res) => {
+          console.log('res', res)
+          let msgok = (res.data.nummsgsent === 1) ? res.data.nummsgsent + ' ' + t('cal.sendmsg_sent') : res.data.nummsgsent + ' ' + t('cal.sendmsgs_sent')
+          if (mydata.cmd === shared_consts.MsgTeleg.SHARE_MSGREG) {
+            msgok = t('cal.sendmsg_sent_sharedlink') + ' ' + tools.getBotName()
+          }
+          if (res.data.nummsgsent >= 0) {
+            tools.showPositiveNotif($q, msgok)
+            return true
+          }
+          return false
+        }).catch((error) => {
+          tools.showNegativeNotif($q, t('cal.err_sendmsg'))
+          return {}
+        })
     },
 
     async importToServerCmd($q: any, t: any, cmd: number, data: any) {

@@ -465,6 +465,8 @@ const msg_si = {
       booked_error: 'Rezervacija ni možna. Poskusi kasneje.',
       sendmsg_error: 'Sporočilo ni bilo poslano. Poskusi kasneje.',
       sendmsg_sent: 'Sporočilo Poslano',
+      sendmsg_sent_sharedlink: 'Il Messaggio da inviare lo trovi nella Chat Telegram',
+      sendmsgs_sent: 'Messaggi Inviati',
       booking: 'Rezerviraj Dogodek',
       titlebooking: 'Rezervacija',
       modifybooking: 'Popravilo rezervacije',

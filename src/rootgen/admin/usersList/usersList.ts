@@ -31,6 +31,10 @@ export default defineComponent({
             value: shared_consts.FILTER_USER_NO_INVITANTE
           },
           {
+            label: 'Non sono stati Approvati dall\'Invitante',
+            value: shared_consts.FILTER_USER_NO_VERIFIED_APORTADOR
+          },
+          {
             label: 'No Telegram ID',
             value: shared_consts.FILTER_USER_NO_TELEGRAM_ID
           },

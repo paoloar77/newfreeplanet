@@ -3,6 +3,7 @@ import { CTitleBanner } from '@/components/CTitleBanner'
 import { CProfile } from '@/components/CProfile'
 import { CDateTime } from '@/components/CDateTime'
 import { CMyPage } from '@/components/CMyPage'
+import { CMyCardPopup } from '@/components/CMyCardPopup'
 import { CCheckIfIsLogged } from '@/components/CCheckIfIsLogged'
 import { CSkill } from '@/components/CSkill'
 import { tools } from '@store/Modules/tools'
@@ -23,7 +24,7 @@ import { colCitys } from '@store/Modules/fieldsTable'
 
 export default defineComponent({
   name: 'myservice',
-  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CMyPage, CCheckIfIsLogged },
+  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CMyPage, CCheckIfIsLogged, CMyCardPopup },
   props: {},
   setup() {
     const userStore = useUserStore()
@@ -43,7 +44,7 @@ export default defineComponent({
 
     const myskill = ref(<IMySkill>{})
 
-    const username = computed(() => (myskill.value && myskill.value.username) ? myskill.value.username : 'Pagina')
+    const username = computed(() => (myskill.value && myskill.value.username) ? myskill.value.username : 'Servizio')
 
     function profile() {
       return userStore.my.profile
@@ -56,6 +57,7 @@ export default defineComponent({
     function loadSkill() {
       // Carica il profilo di quest'utente
       if (idSkill.value) {
+        /*
         userStore.loadSkill(idSkill.value).then((ris) => {
           myskill.value = ris
           if (ris.userId) {
@@ -63,7 +65,7 @@ export default defineComponent({
 
           }
         })
-
+*/
       }
     }
 
@@ -88,6 +90,7 @@ export default defineComponent({
       tools,
       costanti,
       myskill,
+      toolsext,
       shared_consts,
       checkifShow,
       globalStore,
@@ -101,6 +104,7 @@ export default defineComponent({
       colCitys,
       table,
       username,
+      idSkill,
     }
   }
 })
