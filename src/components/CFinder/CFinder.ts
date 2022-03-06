@@ -74,7 +74,21 @@ export default defineComponent({
 
     watch(() => myrecfiltertoggle.value, (value: any, oldval: any) => {
         if (value === tools.FILTER_MYREC) {
-          filtercustom.value = [{ userId: userStore.my._id }]
+          if (props.table === toolsext.TABMYGROUPS) {
+            filtercustom.value = [{
+              'admins': {
+                $elemMatch: { username: { $eq: userStore.my.username } }
+              },
+            }]
+
+          } else {
+            filtercustom.value = [{ userId: userStore.my._id }]
+          }
+
+        } else if (value === tools.FILTER_MYFOLLOW) {
+          if (props.table === toolsext.TABMYGROUPS) {
+
+          }
         } else {
           filtercustom.value = []
         }

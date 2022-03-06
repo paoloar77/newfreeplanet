@@ -55,7 +55,7 @@ export default defineComponent({
         if (props.modelValue === costanti.GROUPS) {
           arr = userStore.my.profile.mygroups
         } else if (props.modelValue === costanti.MY_GROUPS) {
-          arr = userStore.my.profile.mygroups
+          arr = userStore.groups.filter((grp: IMyGroup) => userStore.my.profile.mygroups.findIndex((rec: IMyGroup) => rec.groupname === grp.groupname) >= 0)
         } else if (props.modelValue === costanti.MANAGE_GROUPS) {
           arr = userStore.my.profile.manage_mygroups
         } else if (props.modelValue === costanti.ASK_SENT_GROUP) {
@@ -71,7 +71,7 @@ export default defineComponent({
     const myoptions = computed(() => {
       const mybutt = []
       mybutt.push({ label: t('mypages.find_group'), value: costanti.FIND_GROUP })
-      mybutt.push({ label: t('mypages.manage_my_groups') + ' (' + numManageGroups.value + ')', value: costanti.MANAGE_GROUPS })
+      // mybutt.push({ label: t('mypages.manage_my_groups') + ' (' + numManageGroups.value + ')', value: costanti.MANAGE_GROUPS })
       mybutt.push({ label: t('mypages.follow_groups') + ' (' + numMyGroups.value + ')', value: costanti.MY_GROUPS })
 
       if (numAskSentGroups.value > 0 || props.modelValue === costanti.ASK_SENT_GROUP)
@@ -135,6 +135,7 @@ export default defineComponent({
       listgroupsfiltered,
       updateValue,
       myoptions,
+      userStore,
     }
   }
 })

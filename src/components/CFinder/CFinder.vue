@@ -12,6 +12,7 @@
           :options="[
           {label: 'Tutti', value: tools.FILTER_ALL},
           {label: 'Personali', value: tools.FILTER_MYREC},
+          // {label: 'Seguo', value: tools.FILTER_MYFOLLOW},
         ]"
         />
       </div>

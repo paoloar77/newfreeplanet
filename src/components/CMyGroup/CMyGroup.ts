@@ -87,7 +87,6 @@ export default defineComponent({
       shared_consts,
       userStore,
       tools,
-      $q,
       table,
     }
   },

@@ -28,6 +28,21 @@
             color="primary" :label="$t('groups.ask_group')"
             @click="tools.setRequestGroup($q, userStore.my.username, mygrp.groupname, true)"
           />
+          <q-btn
+            v-if="userStore.IsMyGroupByGroupname(mygrp.groupname)"
+            rounded icon="fas fa-ellipsis-h">
+            <q-menu>
+              <q-list v-if="true" style="min-width: 150px">
+                <q-item clickable v-close-popup
+                        @click="tools.removeFromMyGroups($q, userStore.my.username, mygrp.groupname, $t('db.domanda_exit_fromgroup', {groupname: mygrp.groupname }))">
+                  <q-item-section avatar>
+                    <q-icon color="negative" name="fas fa-user-minus"/>
+                  </q-item-section>
+                  <q-item-section>{{ $t('groups.exit_group') }}</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
 
           <q-btn
             v-if="userStore.IsAskedGroupByGroupname(mygrp.groupname) && !userStore.IsMyGroupByGroupname(mygrp.groupname)"
@@ -35,7 +50,18 @@
             flat :label="$t('groups.cancel_ask_group_short')"
             @click="tools.cancelReqGroups($q, userStore.my.username, mygrp.groupname)"
           />
+
         </div>
+
+        <!--
+        <q-btn
+          v-if="tools.iAmAdminGroup(groupname)" icon="fas fa-pencil-alt"
+          color="blue"
+          size="md"
+          :label="$t('otherpages.modifgrp')"
+          to="/editgrp">
+        </q-btn>
+        -->
 
         <q-tabs v-model="tabgrp" class="text-blue">
           <q-tab label="Info" name="info" icon="fas fa-info"></q-tab>
@@ -189,14 +215,6 @@
             </CGridTableRec>
           </q-tab-panel>
         </q-tab-panels>
-
-        <q-btn
-          v-if="mygrp.admins.includes(userStore.my.username)" icon="fas fa-pencil-alt"
-          color="blue"
-          size="md"
-          :label="$t('otherpages.modifgrp')"
-          to="/editgrp">
-        </q-btn>
 
       </div>
       <div v-else class="fit column no-wrap justify-evenly items-center content-start">

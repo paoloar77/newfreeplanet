@@ -20,7 +20,7 @@
 
       <CFinder
         :table="toolsext.TABMYGROUPS"
-        :showFilterPersonal="false"
+        :showFilterPersonal="true"
       />
 
       <!--

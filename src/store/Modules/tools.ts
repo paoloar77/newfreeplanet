@@ -57,6 +57,7 @@ export const tools = {
 
   FILTER_ALL: 0,
   FILTER_MYREC: 1,
+  FILTER_MYFOLLOW: 2,
 
   COOK_SEARCH: 'SEARCH_',
 
@@ -4651,11 +4652,11 @@ export const tools = {
     })
   },
 
-  removeFromMyGroups($q: any, username: string, groupnameDest: string) {
+  removeFromMyGroups($q: any, username: string, groupnameDest: string, domanda: any = '') {
     const userStore = useUserStore()
 
     $q.dialog({
-      message: t('db.domanda_removegroup', { username }),
+      message: domanda ? domanda : t('db.domanda_removegroup', { username }),
       ok: { label: t('dialog.yes'), push: true },
       cancel: { label: t('dialog.cancel') },
       title: t('db.domanda')
