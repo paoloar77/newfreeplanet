@@ -537,7 +537,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       }
     },
 
-    createPushSubscription() {
+    async createPushSubscription() {
 
       // If Already subscribed, don't send to the Server DB
       // if (state.wasAlreadySubOnDb) {

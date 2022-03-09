@@ -4141,7 +4141,7 @@ export const tools = {
         return userStore.my.username
       else
         return false
-    }catch (e) {
+    } catch (e) {
       return ''
     }
   },
@@ -5033,6 +5033,10 @@ export const tools = {
     return userStore.isUsernameTelegOk()
   },
 
+  notFinishReg() {
+    return !this.isUserOk()
+  },
+
   getParamsByTable(table: string) {
 
     let obj = {
@@ -5277,15 +5281,15 @@ export const tools = {
     const mycolchiaro = tools.colourNameToHex(newcol)
 
     return 'background: ' + mycol +
-      ' background: -webkit-linear-gradient('+degree+'deg, ' + mycol + ', ' + mycolchiaro + ') !important; ' +
-      ' background: linear-gradient('+degree+'deg, ' + mycol + ', ' + mycolchiaro + ') !important;'
+      ' background: -webkit-linear-gradient(' + degree + 'deg, ' + mycol + ', ' + mycolchiaro + ') !important; ' +
+      ' background: linear-gradient(' + degree + 'deg, ' + mycol + ', ' + mycolchiaro + ') !important;'
   },
 
-  getCurrentUrl(){
+  getCurrentUrl() {
     return window.location.pathname
   },
 
-  isCurrentUrlSignUp(){
+  isCurrentUrlSignUp() {
     return window.location.pathname.indexOf('signup') >= 0
   },
 

@@ -240,6 +240,7 @@ module.exports = configure((ctx) => ({
       'Notify',
       'Cookies',
       'Loading',
+      'AppVisibility',
     ],
     iconSet: 'fontawesome-v5',
     lang: 'it', // Quasar language

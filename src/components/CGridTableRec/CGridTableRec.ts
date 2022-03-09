@@ -335,6 +335,52 @@ export default defineComponent({
 
     }
 
+    function setProvinceByRegion(tableprov: string, tabregion: string, newval: any) {
+
+      const recRegion = searchList.value.find((rec) => rec.table === tabregion)
+      if (recRegion)
+        tools.setCookie(tools.COOK_SEARCH + tabregion, newval)
+
+      for (const item of searchList.value) {
+        if (item.table === tableprov) {
+          const valsaved = tools.getCookie(tools.COOK_SEARCH + tableprov + '_' + newval, costanti.FILTER_TUTTI)
+          const rec = searchList.value.find((rec) => rec.table === tableprov) // check if exist
+          let trovato = false
+          let arrvalues = []
+          if (rec) {
+            arrvalues = valoriopt.value(rec.value, false, false)
+            if (arrvalues)
+              trovato = arrvalues.find((rec: any) => rec[rec.key] === valsaved)
+          }
+          if (valsaved && trovato)
+            item.value = valsaved
+          else {
+            if (arrvalues) {
+              item.value = costanti.FILTER_TUTTI
+            }
+          }
+        } else if (item.table === toolsext.TABCITIES) {
+          const valsaved = tools.getCookie(tools.COOK_SEARCH + toolsext.TABCITIES + '_' + newval, costanti.FILTER_TUTTI)
+          const rec = searchList.value.find((rec) => rec.table === toolsext.TABCITIES) // check if exist
+          let trovato = false
+          let arrvalues = []
+          if (rec) {
+            arrvalues = valoriopt.value(rec.value, false, false)
+            if (arrvalues)
+              trovato = arrvalues.find((rec: any) => rec[rec.key] === valsaved)
+          }
+          if (valsaved && trovato)
+            item.value = valsaved
+          else {
+            if (arrvalues) {
+              item.value = costanti.FILTER_TUTTI
+            }
+          }
+        }
+      }
+
+    }
+
     function searchval(newval: any, table: any) {
       console.log('searchval', newval, table)
       tools.setCookie(tools.COOK_SEARCH + table, newval)
@@ -346,6 +392,8 @@ export default defineComponent({
         }
       } else if (table === toolsext.TABSECTORS) {
         setCategBySector(toolsext.TABSKILLS, table, newval)
+      } else if (table === toolsext.TABREGIONS) {
+        setProvinceByRegion(toolsext.TABPROVINCE, table, newval)
       }else if (table === 'goods') {
         setCategBySector('sectorgoods', table, newval)
       }

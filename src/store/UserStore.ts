@@ -263,7 +263,7 @@ export const useUserStore = defineStore('UserStore', {
     },
 
     isUserOk(): boolean {
-      return this.my.profile.teleg_id! > 0 && this.my.verified_by_aportador!
+      return this.my.profile.teleg_id! > 0 && this.my.verified_by_aportador! && this.isUsernameTelegOk()
       // return this.my.verified_email! && this.my.profile.teleg_id! > 0 && this.my.verified_by_aportador!
     },
 
@@ -838,7 +838,7 @@ export const useUserStore = defineStore('UserStore', {
       // console.log('setGlobal: END')
     },
 
-    async autologin_FromLocalStorage($router: Router) {
+    async autologin_FromLocalStorage($router: Router, $q: any) {
       try {
         const globalStore = useGlobalStore()
 
@@ -903,6 +903,27 @@ export const useUserStore = defineStore('UserStore', {
         }
 
         return await this.setGlobal($router, isLogged)
+          .then((loadstorage: any) => {
+            if (loadstorage) {
+
+              if ($q.screen.gt.sm) {
+                globalStore.setleftDrawerOpen(true)
+              }
+
+              /*if (toolsext.getLocale() !== '') {
+                // console.log('SETLOCALE :', this.$i18n.locale)
+                $i18n.locale = toolsext.getLocale()    // Set Lang
+              } else {
+                userStore.setlang($router, this.$i18n.locale)
+              }*/
+
+
+              //++Todo PWA:  globalroutines('loadapp', '')
+
+              // Create Subscription to Push Notification
+              globalStore.createPushSubscription()
+            }
+          })
 
         // console.log('autologin _id STATE ', this._id)
 

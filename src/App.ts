@@ -71,30 +71,7 @@ export default {
 
         if (chiamaautologin) {
           // console.log('CHIAMA autologin_FromLocalStorage')
-          await userStore.autologin_FromLocalStorage($router)
-            .then((loadstorage: any) => {
-              if (loadstorage) {
-
-                if ($q.screen.gt.sm) {
-                  globalStore.setleftDrawerOpen(true)
-                }
-
-                /*if (toolsext.getLocale() !== '') {
-                  // console.log('SETLOCALE :', this.$i18n.locale)
-                  $i18n.locale = toolsext.getLocale()    // Set Lang
-                } else {
-                  userStore.setlang($router, this.$i18n.locale)
-                }*/
-
-
-                // console.log('lang CARICATO:', this.$i18n.locale)
-
-                //++Todo PWA:  globalroutines('loadapp', '')
-
-                // Create Subscription to Push Notification
-                globalStore.createPushSubscription()
-              }
-            })
+          await userStore.autologin_FromLocalStorage($router, $q)
         } else {
           globalStore.finishLoading = true
         }

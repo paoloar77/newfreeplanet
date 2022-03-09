@@ -9,14 +9,14 @@ import { useQuasar } from 'quasar'
 
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js'
 
-import { LineChart, useLineChart } from 'vue-chart-3'
+import { BarChart, useBarChart } from 'vue-chart-3'
 
 
 Chart.register(...registerables)
 
 export default defineComponent({
-  name: 'CLineChart',
-  components: { LineChart },
+  name: 'CBarChart',
+  components: { BarChart },
   props: {
     mydata: { required: false, default: [] },
     title: { required: false, default: false },
@@ -38,14 +38,14 @@ export default defineComponent({
     const myarrsum = ref(<any>[])
 
     // @ts-ignore
-    const chartData = computed<ChartData<'line'>>(() => ({
+    const chartData = computed<ChartData<'bar'>>(() => ({
       labels: myarrlabel.value,
       datasets: [
-        {
+        /*{
           label: 'Totali',
           data: myarrsum.value,
           backgroundColor: tools.colourNameToHex('green'),
-        },
+        },*/
         {
           label: props.title,
           data: myarrdata.value,
@@ -56,18 +56,20 @@ export default defineComponent({
       ],
     }))
 
-    const options = computed<ChartOptions<'line'>>(() => ({
-      elements: {
-        line: {
-          tension: 0.4
-        }
+    const options = computed<ChartOptions<'bar'>>(() => ({
+      bar: {
       },
       interaction: {
         intersect: false
       },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
     }))
 
-    const { lineChartProps, lineChartRef } = useLineChart({
+    const { barChartProps, barChartRef } = useBarChart({
       chartData,
       options,
 
@@ -84,7 +86,7 @@ export default defineComponent({
 
       let rec: any
 
-      let ind = 1
+      let ind = ''
 
       for (rec of props.mydata) {
         if (props.sum) {
@@ -92,11 +94,14 @@ export default defineComponent({
         } else {
           somma = rec.count
         }
+
+        let day = rec._id.split('-')
+        ind = day[2] + '/' + day[1]
         //myarrlabel.value.push(rec._id)
         myarrlabel.value.push(ind)
         myarrdata.value.push(rec.count)
         myarrsum.value.push(somma)
-        ind++
+        // ind++
       }
     }
 
@@ -111,8 +116,8 @@ export default defineComponent({
       getoffset,
       q,
       options,
-      lineChartProps,
-      lineChartRef,
+      barChartProps,
+      barChartRef,
       myarrdata,
       myarrlabel,
     }

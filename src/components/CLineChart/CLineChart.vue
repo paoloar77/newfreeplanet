@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LineChart v-bind="lineChartProps" />
+    <BarChart v-bind="barChartProps" />
     <!--<DoughnutChart ref="doughnutRef" :chartData="objdata" :options="options" />-->
 
 

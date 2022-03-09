@@ -2661,7 +2661,7 @@ export const fieldsTable = {
       value: 'provinces',
       label: 'Provincia',
       columns: colProvinces,
-      colkey: '_id',
+      colkey: 'prov',
       collabel: 'descr',
       remote: true,
     },
