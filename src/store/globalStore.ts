@@ -128,7 +128,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     sectors: [],
     sectorgoods: [],
     catgrps: [],
-    cities: [],
+    provinces: [],
   }),
 
   getters: {
@@ -256,6 +256,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return state.sectorgoods
       else if (table === 'catgrps')
         return state.catgrps
+      else if (table === 'provinces')
+        return state.provinces
       else {
         return ris
       }
@@ -1304,7 +1306,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.statusSkills = (res.data.statusSkills) ? [...res.data.statusSkills] : []
             this.sectors = (res.data.sectors) ? [...res.data.sectors] : []
             this.sectorgoods = (res.data.sectorgoods) ? [...res.data.sectorgoods] : []
-            this.cities = (res.data.cities) ? [...res.data.cities] : []
+            this.provinces = (res.data.provinces) ? [...res.data.provinces] : []
             this.catgrps = (res.data.catgrps) ? [...res.data.catgrps] : []
             this.adtypes = (res.data.adtypes) ? [...res.data.adtypes] : []
             this.adtypegoods = (res.data.adtypegoods) ? [...res.data.adtypegoods] : []
@@ -1531,7 +1533,6 @@ export const useGlobalStore = defineStore('GlobalStore', {
       else if (table === 'visibilGroup') myarr = shared_consts.VisibilGroup
       else if (table === 'lang') myarr = shared_consts.Lang
       else if (table === 'regions') myarr = shared_consts.Regions
-      else if (table === 'provinces') myarr = shared_consts.Provinces
       else if (table === 'shippings') myarr = shared_consts.Shippings
       else if (table === 'otherfilters') myarr = shared_consts.OtherFilters
       else if (table === toolsext.TABCALDATE) myarr = this.getArrDateEvent()

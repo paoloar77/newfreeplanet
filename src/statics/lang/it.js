@@ -64,7 +64,7 @@ const msg_it = {
         menu: 'Segreteria',
         manager: 'Segreteria',
         nessuno: 'Nessuno',
-        sendpushnotif: 'Invia Msg Push',
+        sendpushnotif: 'Invia Messaggi',
         importfile: 'Importa File',
       },
       messages: {
@@ -946,7 +946,13 @@ const msg_it = {
     },
     otherfilters: {
       name: 'Altri Filtri'
+    },
+    city: {
+      prov: 'Provincia',
+      reg: 'Regione',
+      link_grp: 'Link Territoriale',
     }
+
   },
 
 };

@@ -41,6 +41,7 @@ const msg_website_de = {
     dbop: 'Operazioni',
     statusreg: {
       reg: 'Partecipanti',
+      verifieds: 'Verificati',
       passeggeri: 'Passeggeri Navi',
       giainlista: 'Gia in Lista',
       newreg: 'Ultime Registrazioni:',

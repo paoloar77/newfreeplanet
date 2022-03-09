@@ -23,6 +23,8 @@ export interface INotData {
   num_imbarcati?: number
   email_non_verif?: number
   num_teleg_attivo?: number
+  num_autorizzare?: number
+  num_autorizzati?: number
   num_teleg_pending?: number
   num_part_zoom?: number
   num_part_accepted?: number
@@ -299,7 +301,7 @@ export interface IGlobalState {
   sectors: ISector[],
   sectorgoods: ISectorGood[],
   catgrps: ICatGrp[],
-  cities: ICity[],
+  provinces: IProvince[],
   datastat?: INotData
 }
 
@@ -626,6 +628,7 @@ export interface IMsgGlobParam {
   groupnameDest?: string
   text?: string
   typesend: number
+  sendreally?: boolean
 }
 
 export interface IDataToSet {
@@ -754,6 +757,14 @@ export interface ICity {
   istat: string
   comune: string
   prov: string
+}
+
+export interface IProvince {
+  _id: number
+  prov: string
+  reg: string
+  descr: string
+  link_grp: string
 }
 
 export interface IMySkill {

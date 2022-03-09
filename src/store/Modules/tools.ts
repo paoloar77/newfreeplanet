@@ -2024,6 +2024,7 @@ export const tools = {
         mylang = 'si'
       }
 
+
       if (!(static_data.arrLangUsed.includes(mylang))) {
         // console.log('non incluso ', mylang)
         // mylang = static_data.arrLangUsed[0]
@@ -4133,6 +4134,18 @@ export const tools = {
       return false
   },
 
+  getUsername() {
+    const userStore = useUserStore()
+    try {
+      if (!!userStore)
+        return userStore.my.username
+      else
+        return false
+    }catch (e) {
+      return ''
+    }
+  },
+
   isUserOk() {
     const userStore = useUserStore()
     if (!!userStore)
@@ -5013,6 +5026,11 @@ export const tools = {
   isTelegOk() {
     const userStore = useUserStore()
     return userStore.isTelegOk()
+  },
+
+  isUsernameTelegOk() {
+    const userStore = useUserStore()
+    return userStore.isUsernameTelegOk()
   },
 
   getParamsByTable(table: string) {

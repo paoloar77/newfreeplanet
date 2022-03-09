@@ -554,6 +554,7 @@
           <q-space/>
           <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
         </q-bar>
+
         <q-card-section class="inset-shadow">
           <div
             v-for="col in mycolumns" :key="col.name" class="newrec_fields">

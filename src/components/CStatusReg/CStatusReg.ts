@@ -43,6 +43,8 @@ export default defineComponent({
       num_passeggeri: 0,
       num_imbarcati: 0,
       num_teleg_attivo: 0,
+      num_autorizzare: 0,
+      num_autorizzati: 0,
       email_non_verif: 0,
       num_teleg_pending: 0,
       lastsreg: [],

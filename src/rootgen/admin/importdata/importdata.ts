@@ -32,6 +32,7 @@ export default defineComponent({
 
     const inputfile = ref('')
     const risultato = ref('')
+    const risraw = ref('')
 
     const caricaDatiToggle = ref(false)
 
@@ -395,6 +396,32 @@ export default defineComponent({
       userStore.importToServerCmd($q, t, cosafare.value, null)
     }
 
+    function createProvLink() {
+      let str = ''
+
+      const arr = globalStore.provinces
+
+      let regione = ''
+      let regid = ''
+
+      for (const prov of arr) {
+        if (prov.link_grp) {
+          if (prov.reg !== regid) {
+            const myreg = shared_consts.Regions.find((rec: any) => rec.value === prov.reg)
+            if (myreg) {
+              regid = myreg.value
+              regione = myreg.label
+              str += '<br><div class="text-subtitle1">' + regione + '</div>'
+            }
+          }
+          str += '<a class="prov" href="' + prov.link_grp + '" target="_blank">' + prov.descr + '</a><br>'
+        }
+      }
+
+      risultato.value = str
+      risraw.value = str
+    }
+
     onMounted(created)
 
     return {
@@ -407,6 +434,8 @@ export default defineComponent({
       eseguiCmd,
       caricaDatiToggle,
       caricadati,
+      createProvLink,
+      risraw,
     }
   }
 })

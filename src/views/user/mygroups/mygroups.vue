@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <q-banner
+    <!--<q-banner
       rounded
       dense
       class="bg-warning text-white"
@@ -11,7 +11,7 @@
       </template>
       <span class="mybanner">Questa sezione è ancora in fase di miglioramento.</span>
 
-    </q-banner>
+    </q-banner>-->
 
     <CMyGroups
       v-model="filter"

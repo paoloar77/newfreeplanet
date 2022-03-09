@@ -73,6 +73,7 @@ export default defineComponent({
     const iamadult = ref(false)
     const duplicate_email = ref(false)
     const duplicate_username = ref(false)
+    const visureg = ref(false)
 
 
     const globalStore = useGlobalStore()
@@ -297,6 +298,7 @@ export default defineComponent({
       t,
       allowSubmit,
       myRuleEmail,
+      visureg,
     }
   },
 })

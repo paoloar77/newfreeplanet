@@ -8,13 +8,15 @@
 
       <q-banner rounded class="bg-primary text-white">
         <div class="text-h6 text-center">
-          Accedi al menu inserendo le tue credenziali 🔑<br><br>
+          Accedi al menu inserendo le tue credenziali per entrare 🔑<br>
+          <div class="text-center">
+            <q-btn color="white" text-color="blue" label="Clicca qui per Accedere" @click="tools.openrighttoolbar()"/>
+          </div>
+          <br>
           📝 Non sei <strong>Registrato</strong>?<br>
           👉🏻 Chiedi in chat il link a chi ti ha <strong>invitato</strong>.<br>
         </div>
-        <template v-slot:action>
-          <q-btn flat color="white" label="Accedi al Login" @click="tools.openrighttoolbar()"/>
-        </template>
+        <br>
       </q-banner>
     </div>
 

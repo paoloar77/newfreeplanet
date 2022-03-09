@@ -415,6 +415,17 @@ export const colCitys = [
 ]
 
 export const colProvinces = [
+  AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'reg', label_trans: 'city.reg' }),
+  AddCol({ name: 'prov', label_trans: 'city.prov' }),
+  AddCol({ name: 'descr', label_trans: 'store.description' }),
+  AddCol({ name: 'link_grp', label_trans: 'city.link_grp' }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+/*
+export const colProvinces = [
   // AddCol({ name: '_id', label_trans: 'index', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'label', label_trans: 'store.description' }),
   AddCol({ name: 'value', label_trans: 'city.prov' }),
@@ -422,6 +433,7 @@ export const colProvinces = [
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
 ]
+*/
 
 export const colTableCountry = [
   AddCol({ name: 'id', label_trans: 'index', fieldtype: costanti.FieldType.string }),
@@ -2006,6 +2018,12 @@ export const colTableUsersISP = [
   AddCol({
     name: 'profile.teleg_id', field: 'profile', subfield: 'teleg_id', label_trans: 'reg.teleg_id',
   }),
+  AddCol({
+    name: 'profile.teleg_id_old',
+    field: 'profile',
+    subfield: 'teleg_id_old',
+    label_trans: 'reg.teleg_id_old',
+  }),
 
   AddCol({
     name: 'profile.teleg_checkcode',
@@ -2643,8 +2661,8 @@ export const fieldsTable = {
       value: 'provinces',
       label: 'Provincia',
       columns: colProvinces,
-      colkey: 'value',
-      collabel: 'label',
+      colkey: '_id',
+      collabel: 'descr',
       remote: true,
     },
     {

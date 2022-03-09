@@ -951,6 +951,9 @@ export default defineComponent({
         // @ts-ignore
         newRecord.value = props.defaultnewrec()
       }
+      if (!newRecord.value) {
+        newRecord.value = {}
+      }
       newRecord.value['userId'] = userStore.my._id
       newRecord.value['idapp'] = process.env.APP_ID
       // globalStore.saveTable(mydata).then(ris => console.log('RISULT', ris))

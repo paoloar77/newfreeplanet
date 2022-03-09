@@ -96,19 +96,6 @@ const routes_admin: IListRoutes[] = [
   },
   {
     active: true,
-    order: 1030,
-    path: '/admin/sendpushnotif',
-    materialIcon: 'event_seat',
-    name: 'otherpages.manage.sendpushnotif',
-    component: () => import('@/rootgen/admin/sendpushnotif/sendpushnotif.vue'),
-    level_parent: 0.0,
-    level_child: 0.5,
-    inmenu: true,
-    submenu: true,
-    onlyAdmin: true
-  },
-  {
-    active: true,
     order: 1040,
     path: '/admin/importfile',
     materialIcon: 'event_seat',
@@ -335,6 +322,20 @@ const routes_manager: IListRoutes[] = [
     onlyAdmin: true,
     onlyManager: true
     // onlyTutor: true
+  },
+  {
+    active: true,
+    order: 1030,
+    path: '/admin/sendpushnotif',
+    materialIcon: 'event_seat',
+    name: 'otherpages.manage.sendpushnotif',
+    component: () => import('@/rootgen/admin/sendpushnotif/sendpushnotif.vue'),
+    level_parent: 0.0,
+    level_child: 0.5,
+    inmenu: true,
+    submenu: true,
+    onlyAdmin: true,
+    onlyManager: true,
   },
   {
     active: true,

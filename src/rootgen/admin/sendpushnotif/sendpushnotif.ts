@@ -1,9 +1,10 @@
 import { CMyPage } from '../../../components/CMyPage/index'
+import { CMyEditor } from '../../../components/CMyEditor/index'
 
 import { shared_consts } from '@src/common/shared_vuejs'
 import { tools } from '@src/store/Modules/tools'
 
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref, onMounted, watch } from 'vue'
 import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
@@ -12,7 +13,7 @@ import { IMsgGlobParam } from 'model'
 
 export default defineComponent({
   name: 'Sendpushnotif',
-  components: { CMyPage },
+  components: { CMyPage, CMyEditor },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -29,13 +30,68 @@ export default defineComponent({
     const opz2= ref('')
     const tag= ref('')
     const actiontype = ref(shared_consts.TypeMsg_Actions.NORMAL)
-    const destination = ref(shared_consts.TypeMsg.SEND_TO_ALL)
+    const whatMsg = ref(shared_consts.whatMsgToSend.MSG_TEXT)
+    const destination = ref(shared_consts.TypeMsg.SEND_TO_MYSELF)
+    const sendreally = ref(false)
+    const templmsgid = ref(0)
+    const mytempl = ref(<any>null)
+
+    const mytab = ref('telegram')
+    const arrTemplate = ref(<any>[])
+    const recMsgTempl = ref(<any>[])
+    const mymsg = ref('')
+    const msgold = ref('')
+
+    watch(() => whatMsg.value, (newval: any, oldval) => {
+
+      if (whatMsg.value !== shared_consts.whatMsgToSend.MSG_TEXT) {
+        msgold.value = mymsg.value
+      } else {
+        mymsg.value = msgold.value
+      }
+
+      load()
+
+    })
+
+    watch(() => templmsgid.value, (newval: any, oldval) => {
+
+      if (newval && recMsgTempl.value.length > 0) {
+        mytempl.value = recMsgTempl.value.find((rec: any) => rec._id === newval)
+        mymsg.value = mytempl.value.msg_it
+      }
+
+    })
+
+    async function load() {
+      if (whatMsg.value === shared_consts.whatMsgToSend.MSG_OF_TEMPLATE) {
+        recMsgTempl.value = await globalStore.GetMsgTemplates()
+
+        for (const rec of recMsgTempl.value) {
+          arrTemplate.value.push({id: rec._id, value: rec._id, label: rec.title})
+        }
+
+        if (templmsgid.value) {
+          if (recMsgTempl.value.length > 0) {
+            templmsgid.value = recMsgTempl.value[0]._id;
+          }
+        }
+        if (templmsgid.value) {
+          mytempl.value = recMsgTempl.value.find((rec: any) => rec._id === templmsgid.value)
+          mymsg.value = ''
+          mymsg.value = mytempl.value.msg_it
+        }
+      }
+
+    }
 
     function created() {
       title.value = t('ws.sitename')
       openUrl.value = '/'
       openUrl2.value = ''
       tag.value = 'msg'
+
+      load()
     }
 
     function SendMsg(params: any) {
@@ -66,7 +122,7 @@ export default defineComponent({
       })
     }
 
-    function SendMsgToParam(typemsg: any) {
+    function SendMsgToParam(typemsg: any, typesend: number = shared_consts.TypeSend.PUSH_NOTIFICATION, sendreally: any = false) {
 
       let param: IMsgGlobParam = {
         typemsg,
@@ -76,8 +132,14 @@ export default defineComponent({
         openUrl2: openUrl2.value,
         tag: tag.value,
         actions: [],
-        typesend: shared_consts.TypeSend.PUSH_NOTIFICATION
+        typesend,
+        sendreally
       }
+
+      if (typesend === shared_consts.TypeSend.TELEGRAM) {
+        param.content = mymsg.value
+      }
+
 
       param.actions = []
 
@@ -100,9 +162,9 @@ export default defineComponent({
       return SendMsg(param)
     }
 
-    function SendMsgToAll() {
+    function SendMsgToAll(typesend: number) {
 
-      SendMsgToParam(destination.value)
+      SendMsgToParam(destination.value, typesend, sendreally.value)
     }
 
     onMounted(created)
@@ -113,13 +175,20 @@ export default defineComponent({
       openUrl,
       openUrl2,
       actiontype,
+      whatMsg,
       destination,
+      sendreally,
       SendMsgToAll,
       opz1,
       opz2,
       content,
       shared_consts,
       incaricamento,
+      mytab,
+      templmsgid,
+      arrTemplate,
+      mytempl,
+      mymsg,
     }
   }
 })

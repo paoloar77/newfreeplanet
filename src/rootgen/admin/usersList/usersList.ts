@@ -31,7 +31,7 @@ export default defineComponent({
             value: shared_consts.FILTER_USER_NO_INVITANTE
           },
           {
-            label: 'Non sono stati Approvati dall\'Invitante',
+            label: 'No Approv. Invitante',
             value: shared_consts.FILTER_USER_NO_VERIFIED_APORTADOR
           },
           {
@@ -39,7 +39,15 @@ export default defineComponent({
             value: shared_consts.FILTER_USER_NO_TELEGRAM_ID
           },
           {
-            label: 'Verifica Telegram interrotta',
+            label: 'SI Telegram ID',
+            value: shared_consts.FILTER_USER_SI_TELEGRAM_ID
+          },
+          {
+            label: 'NO Username Teleg',
+            value: shared_consts.FILTER_USER_WITHOUT_USERNAME_TELEGRAM
+          },
+          {
+            label: 'Verifica Teleg interrotta',
             value: shared_consts.FILTER_USER_CODICE_AUTH_TELEGRAM
           },
           {

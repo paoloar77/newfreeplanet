@@ -20,8 +20,15 @@
       label="Esegui"
       @click="eseguiCmd"></q-btn>
 
+      <br>
+      <q-btn
+        label="Genera HTML Province Territoriali"
+        @click="createProvLink"></q-btn>
+
+
       <br><br>
 
+      <div>{{ risraw }}</div>
 
       <div v-html="risultato"></div>
       <br>

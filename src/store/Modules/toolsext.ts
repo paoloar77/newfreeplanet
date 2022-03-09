@@ -236,6 +236,7 @@ export const toolsext = {
         mylang = 'si'
       }
 
+
       if (!(static_data.arrLangUsed.includes(mylang))) {
         // console.log('non incluso ', mylang)
         // mylang = static_data.arrLangUsed[0]

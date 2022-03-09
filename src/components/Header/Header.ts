@@ -128,6 +128,7 @@ export default defineComponent({
     }
 
     function setLangAtt(mylang: string) {
+
       console.log('LANG =', mylang)
       // console.log('PRIMA $q.lang.isoName', $q.lang.isoName)
 
@@ -189,11 +190,11 @@ export default defineComponent({
         // tools.showNotif($q, 'IMPOSTA LANG= ' + $i18n.locale)
         // console.log('IMPOSTA LANG= ' + $i18n.locale)
 
-        userStore.setlang($router, $q.lang.getLocale())
-
         let mylangtopass = mylang
 
         mylangtopass = toolsext.checkLangPassed($q, $router, mylangtopass)
+
+        userStore.setlang($router, mylangtopass)
 
         setshortlang(mylangtopass)
 

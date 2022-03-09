@@ -82,6 +82,9 @@ const msg_website_enUs = {
     favproj: 'Favoriti',
     statusreg: {
       reg: 'Participants',
+      verifieds: 'Verificati',
+      autorizzati: 'Autorizzati',
+      autorizzare: 'In attesa di Abilitazione',
       passeggeri: 'Passengers Ships',
       giainlista: 'Already in the List',
       newreg: 'New registrations:',

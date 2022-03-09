@@ -40,6 +40,8 @@ export const shared_consts = {
   FILTER_TO_MAKE_MEMBERSHIP_CARD: 524288,
   FILTER_MEMBERSHIP_CARD_OK: 1048576,
   FILTER_USER_NO_VERIFIED_APORTADOR: 2097152,
+  FILTER_USER_SI_TELEGRAM_ID: 4194304,
+  FILTER_USER_WITHOUT_USERNAME_TELEGRAM: 8388608,
 
   OPTIONS_SEARCH_ONLY_FULL_WORDS: 1,
   OPTIONS_SEARCH_USER_ONLY_FULL_WORDS: 2,
@@ -196,289 +198,6 @@ export const shared_consts = {
       value: 8,
     },
   ],
-
-  Provinces: [
-    { _id: 1, reg: 'SIC', value: 'AG', label: 'Agrigento', }, {
-      _id: 2,
-      reg: 'PIE',
-      value: 'AL',
-      label: 'Alessandria',
-    }, { _id: 3, reg: 'MAR', value: 'AN', label: 'Ancona', }, {
-      _id: 4,
-      reg: 'VDA',
-      value: 'AO',
-      label: 'Aosta',
-    }, { _id: 5, reg: 'TOS', value: 'AR', label: 'Arezzo', }, {
-      _id: 6,
-      reg: 'MAR',
-      value: 'AP',
-      label: 'Ascoli Piceno',
-    }, { _id: 7, reg: 'PIE', value: 'AT', label: 'Asti', }, {
-      _id: 8,
-      reg: 'CAM',
-      value: 'AV',
-      label: 'Avellino',
-    }, { _id: 9, reg: 'PUG', value: 'BA', label: 'Bari', }, {
-      _id: 10,
-      reg: 'PUG',
-      value: 'BT',
-      label: 'Barletta-Andria-Trani',
-    }, { _id: 11, reg: 'VEN', value: 'BL', label: 'Belluno', }, {
-      _id: 12,
-      reg: 'CAM',
-      value: 'BN',
-      label: 'Benevento',
-    }, { _id: 13, reg: 'LOM', value: 'BG', label: 'Bergamo', }, {
-      _id: 14,
-      reg: 'PIE',
-      value: 'BI',
-      label: 'Biella',
-    }, { _id: 15, reg: 'EMR', value: 'BO', label: 'Bologna', }, {
-      _id: 16,
-      reg: 'TAA',
-      value: 'BZ',
-      label: 'Bolzano',
-    }, { _id: 17, reg: 'LOM', value: 'BS', label: 'Brescia', }, {
-      _id: 18,
-      reg: 'PUG',
-      value: 'BR',
-      label: 'Brindisi',
-    }, { _id: 19, reg: 'SAR', value: 'CA', label: 'Cagliari', }, {
-      _id: 20,
-      reg: 'SIC',
-      value: 'CL',
-      label: 'Caltanissetta',
-    }, { _id: 21, reg: 'MOL', value: 'CB', label: 'Campobasso', }, {
-      _id: 22,
-      reg: 'SAR',
-      value: 'CI',
-      label: 'Carbonia-Iglesias',
-    }, { _id: 23, reg: 'CAM', value: 'CE', label: 'Caserta', }, {
-      _id: 24,
-      reg: 'SIC',
-      value: 'CT',
-      label: 'Catania',
-    }, { _id: 25, reg: 'CAL', value: 'CZ', label: 'Catanzaro', }, {
-      _id: 26,
-      reg: 'ABR',
-      value: 'CH',
-      label: 'Chieti',
-    }, { _id: 27, reg: 'LOM', value: 'CO', label: 'Como', }, {
-      _id: 28,
-      reg: 'CAL',
-      value: 'CS',
-      label: 'Cosenza',
-    }, { _id: 29, reg: 'LOM', value: 'CR', label: 'Cremona', }, {
-      _id: 30,
-      reg: 'CAL',
-      value: 'KR',
-      label: 'Crotone',
-    }, { _id: 31, reg: 'PIE', value: 'CN', label: 'Cuneo', }, {
-      _id: 32,
-      reg: 'SIC',
-      value: 'EN',
-      label: 'Enna',
-    }, { _id: 33, reg: 'MAR', value: 'FM', label: 'Fermo', }, {
-      _id: 34,
-      reg: 'EMR',
-      value: 'FE',
-      label: 'Ferrara',
-    }, { _id: 35, reg: 'TOS', value: 'FI', label: 'Firenze', }, {
-      _id: 36,
-      reg: 'PUG',
-      value: 'FG',
-      label: 'Foggia',
-    }, { _id: 37, reg: 'EMR', value: 'FC', label: 'Forli-Cesena', }, {
-      _id: 38,
-      reg: 'LAZ',
-      value: 'FR',
-      label: 'Frosinone',
-    }, { _id: 39, reg: 'LIG', value: 'GE', label: 'Genova', }, {
-      _id: 40,
-      reg: 'FVG',
-      value: 'GO',
-      label: 'Gorizia',
-    }, { _id: 41, reg: 'TOS', value: 'GR', label: 'Grosseto', }, {
-      _id: 42,
-      reg: 'LIG',
-      value: 'IM',
-      label: 'Imperia',
-    }, { _id: 43, reg: 'MOL', value: 'IS', label: 'Isernia', }, {
-      _id: 44,
-      reg: 'LIG',
-      value: 'SP',
-      label: 'La Spezia',
-    }, { _id: 45, reg: 'ABR', value: 'AQ', label: 'L\'Aquila', }, {
-      _id: 46,
-      reg: 'LAZ',
-      value: 'LT',
-      label: 'Latina',
-    }, { _id: 47, reg: 'PUG', value: 'LE', label: 'Lecce', }, {
-      _id: 48,
-      reg: 'LOM',
-      value: 'LC',
-      label: 'Lecco',
-    }, { _id: 49, reg: 'TOS', value: 'LI', label: 'Livorno', }, {
-      _id: 50,
-      reg: 'LOM',
-      value: 'LO',
-      label: 'Lodi',
-    }, { _id: 51, reg: 'TOS', value: 'LU', label: 'Lucca', }, {
-      _id: 52,
-      reg: 'MAR',
-      value: 'MC',
-      label: 'Macerata',
-    }, { _id: 53, reg: 'LOM', value: 'MN', label: 'Mantova', }, {
-      _id: 54,
-      reg: 'TOS',
-      value: 'MS',
-      label: 'Massa-Carrara',
-    }, { _id: 55, reg: 'BAS', value: 'MT', label: 'Matera', }, {
-      _id: 56,
-      reg: 'SIC',
-      value: 'ME',
-      label: 'Messina',
-    }, { _id: 57, reg: 'LOM', value: 'MI', label: 'Milano', }, {
-      _id: 58,
-      reg: 'EMR',
-      value: 'MO',
-      label: 'Modena',
-    }, { _id: 59, reg: 'LOM', value: 'MB', label: 'Monza e della Brianza', }, {
-      _id: 60,
-      reg: 'CAM',
-      value: 'NA',
-      label: 'Napoli',
-    }, { _id: 61, reg: 'PIE', value: 'NO', label: 'Novara', }, {
-      _id: 62,
-      reg: 'SAR',
-      value: 'NU',
-      label: 'Nuoro',
-    }, { _id: 63, reg: 'SAR', value: 'OT', label: 'Olbia-Tempio', }, {
-      _id: 64,
-      reg: 'SAR',
-      value: 'OR',
-      label: 'Oristano',
-    }, { _id: 65, reg: 'VEN', value: 'PD', label: 'Padova', }, {
-      _id: 66,
-      reg: 'SIC',
-      value: 'PA',
-      label: 'Palermo',
-    }, { _id: 67, reg: 'EMR', value: 'PR', label: 'Parma', }, {
-      _id: 68,
-      reg: 'LOM',
-      value: 'PV',
-      label: 'Pavia',
-    }, { _id: 69, reg: 'UMB', value: 'PG', label: 'Perugia', }, {
-      _id: 70,
-      reg: 'MAR',
-      value: 'PU',
-      label: 'Pesaro e Urbino',
-    }, { _id: 71, reg: 'ABR', value: 'PE', label: 'Pescara', }, {
-      _id: 72,
-      reg: 'EMR',
-      value: 'PC',
-      label: 'Piacenza',
-    }, { _id: 73, reg: 'TOS', value: 'PI', label: 'Pisa', }, {
-      _id: 74,
-      reg: 'TOS',
-      value: 'PT',
-      label: 'Pistoia',
-    }, { _id: 75, reg: 'FVG', value: 'PN', label: 'Pordenone', }, {
-      _id: 76,
-      reg: 'BAS',
-      value: 'PZ',
-      label: 'Potenza',
-    }, { _id: 77, reg: 'TOS', value: 'PO', label: 'Prato', }, {
-      _id: 78,
-      reg: 'SIC',
-      value: 'RG',
-      label: 'Ragusa',
-    }, { _id: 79, reg: 'EMR', value: 'RA', label: 'Ravenna', }, {
-      _id: 80,
-      reg: 'CAL',
-      value: 'RC',
-      label: 'Reggio CAL',
-    }, { _id: 81, reg: 'EMR', value: 'RE', label: 'Reggio Emilia', }, {
-      _id: 82,
-      reg: 'LAZ',
-      value: 'RI',
-      label: 'Rieti',
-    }, { _id: 83, reg: 'EMR', value: 'RN', label: 'Rimini', }, {
-      _id: 84,
-      reg: 'LAZ',
-      value: 'RM',
-      label: 'Roma',
-    }, { _id: 85, reg: 'VEN', value: 'RO', label: 'Rovigo', }, {
-      _id: 86,
-      reg: 'CAM',
-      value: 'SA',
-      label: 'Salerno',
-    }, { _id: 87, reg: 'SAR', value: 'VS', label: 'Medio Campidano', }, {
-      _id: 88,
-      reg: 'SAR',
-      value: 'SS',
-      label: 'Sassari',
-    }, { _id: 89, reg: 'LIG', value: 'SV', label: 'Savona', }, {
-      _id: 90,
-      reg: 'TOS',
-      value: 'SI',
-      label: 'Siena',
-    }, { _id: 91, reg: 'SIC', value: 'SR', label: 'Siracusa', }, {
-      _id: 92,
-      reg: 'LOM',
-      value: 'SO',
-      label: 'Sondrio',
-    }, { _id: 93, reg: 'PUG', value: 'TA', label: 'Taranto', }, {
-      _id: 94,
-      reg: 'ABR',
-      value: 'TE',
-      label: 'Teramo',
-    }, { _id: 95, reg: 'UMB', value: 'TR', label: 'Terni', }, {
-      _id: 96,
-      reg: 'PIE',
-      value: 'TO',
-      label: 'Torino',
-    }, { _id: 97, reg: 'SAR', value: 'OG', label: 'Ogliastra', }, {
-      _id: 98,
-      reg: 'SIC',
-      value: 'TP',
-      label: 'Trapani',
-    }, { _id: 99, reg: 'TAA', value: 'TN', label: 'Trento', }, {
-      _id: 100,
-      reg: 'VEN',
-      value: 'TV',
-      label: 'Treviso',
-    }, { _id: 101, reg: 'FVG', value: 'TS', label: 'Trieste', }, {
-      _id: 102,
-      reg: 'FVG',
-      value: 'UD',
-      label: 'Udine',
-    }, { _id: 103, reg: 'LOM', value: 'VA', label: 'Varese', }, {
-      _id: 104,
-      reg: 'VEN',
-      value: 'VE',
-      label: 'Venezia',
-    }, { _id: 105, reg: 'PIE', value: 'VB', label: 'Verbano-Cusio-Ossola', }, {
-      _id: 106,
-      reg: 'PIE',
-      value: 'VC',
-      label: 'Vercelli',
-    }, { _id: 107, reg: 'VEN', value: 'VR', label: 'Verona', }, {
-      _id: 108,
-      reg: 'CAL',
-      value: 'VV',
-      label: 'Vibo Valentia',
-    },
-    { _id: 109, reg: 'VEN', value: 'VI', label: 'Vicenza', }, {
-      _id: 110,
-      reg: 'LAZ',
-      value: 'VT',
-      label: 'Viterbo',
-    },
-    { _id: 111, reg: 'RSM', value: 'RSM', label: 'Repubblica di San Marino', },
-    { _id: 112, reg: 'EST', value: 'EST', label: 'Estero', },
-    { _id: 113, reg: 'ONL', value: 'ONL', label: 'On Line', },
-    ],
 
   Regions: [
     {
@@ -681,6 +400,8 @@ export const shared_consts = {
     SEND_TO_USER: 25,
     SEND_TO_GROUP: 30,
     SEND_TO_MYSELF: 40,
+    SEND_TO_TELEG_NO_USERNAME_TELEG: 50,
+    SEND_TO_TELEG_NO_VERIF_BY_APORTADOR: 60,
   },
 
   TypeMsg_Actions: {
@@ -688,6 +409,24 @@ export const shared_consts = {
     YESNO: 1,
     OPZ1_2: 2,
   },
+
+  whatMsgToSend: {
+    MSG_OF_TEMPLATE: 1,
+    MSG_TEXT: 2,
+  },
+
+  selectwhatMsgToSend: [
+    {
+      id: 1,
+      label: 'Messaggio su Template',
+      value: 1,  //MSG_OF_TEMPLATE
+    },
+    {
+      id: 2,
+      label: 'Messaggio di Testo',
+      value: 2,  // MSG_TEXT
+    },
+  ],
 
   selectActions: [
     {
@@ -707,6 +446,18 @@ export const shared_consts = {
     },
   ],
 
+  selectSendReally: [
+    {
+      id: 0,
+      label: 'Vedi quanti msg saranno inviati',
+      value: false,
+    },
+    {
+      id: 1,
+      label: 'Invia il messaggio veramente',
+      value: true,
+    },
+  ],
   selectDestination: [
     {
       id: 0,
@@ -732,6 +483,35 @@ export const shared_consts = {
       id: 4,
       label: 'a Paolo (test)',
       value: 20,
+    },
+    {
+      id: 5,
+      label: 'a un Utente',
+      value: 25,  //TypeMsg.SEND_TO_USER
+    },
+    {
+      id: 6,
+      label: 'a un Gruppo',
+      value: 30,  //SEND_TO_GROUP: 30,
+
+    },
+    {
+      id: 7,
+      label: 'a me stesso',
+      value: 40,  //SEND_TO_MYSELF: 40,
+
+    },
+    {
+      id: 8,
+      label: 'Abilitati Telegram (senza Username telegram)',
+      value: 50,  //SEND_TO_TELEG_NO_USERNAME_TELEG: 50,
+
+    },
+    {
+      id: 9,
+      label: 'Abilitati Telegram (Non Verificati dall\'Invitante)',
+      value: 60,  //SEND_TO_TELEG_NO_VERIF_BY_APORTADOR: 60,
+
     },
   ],
 
