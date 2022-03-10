@@ -4962,6 +4962,7 @@ export const tools = {
   },
 
   setCmd($q: any, cmd: number, username: string, value: any, dest: string) {
+    console.log('setcmd', cmd)
     if (cmd === shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP) {
       tools.removeFromMyGroups($q, username, dest)
     } else if (cmd === shared_consts.GROUPSCMD.BLOCK_GROUP) {

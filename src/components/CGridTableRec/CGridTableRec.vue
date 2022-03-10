@@ -385,6 +385,7 @@
           <div>
 
             <CMyUser
+              :notsetcmd="true"
               :mycontact="props.row"
               :visu="visufind"
               :groupname="extrafield"

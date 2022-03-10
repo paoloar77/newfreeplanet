@@ -8,10 +8,14 @@
         <div class="flex flex-center">
 
           <CCardState :mytext="$t('pages.statusreg.verifieds')" :myval="datastat.num_teleg_attivo"
+                      mycolor="blue"
                       :myperc="(datastat.num_teleg_attivo / datastat.num_reg) * 100"></CCardState>
 
+          <CCardState :mytext="$t('pages.statusreg.online_today')" :myval="datastat.online_today"
+                      mycolor="green" :myperc="(datastat.online_today / datastat.num_reg) * 100"></CCardState>
+
           <CCardState :mytext="$t('pages.statusreg.autorizzare')" :myval="datastat.num_autorizzare"
-                      :myperc="(datastat.num_autorizzare / datastat.num_teleg_attivo) * 100"></CCardState>
+                      mycolor="yellow" :myperc="(datastat.num_autorizzare / datastat.num_teleg_attivo) * 100"></CCardState>
 
           <div class="q-pa-xs" v-if="datastat.num_part_accepted > 1">
             <CCardStat :mytext="$t('stat.accepted')" :myval="datastat.num_part_accepted"></CCardStat>

@@ -84,6 +84,7 @@ const msg_website_it = {
     statusreg: {
       reg: 'Partecipanti',
       verifieds: 'Verificati',
+      online_today: 'On Line Oggi',
       autorizzati: 'Autorizzati',
       autorizzare: 'In attesa di Abilitazione',
       passeggeri: 'Passeggeri Navi',

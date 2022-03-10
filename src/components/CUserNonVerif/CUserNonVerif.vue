@@ -1,6 +1,6 @@
 <template>
   <div class="q-ma-md">
-    <CVerifyTelegram v-if="!tools.TelegVerificato()">
+    <CVerifyTelegram v-if="!tools.TelegVerificato() || !tools.isUsernameTelegOk()">
 
     </CVerifyTelegram>
 
@@ -16,7 +16,7 @@
 
         💬 In questo modo le persone potranno contattarti (sia su Telegram sia dalla APP) <strong>senza aver bisogno di condividere il tuo numero di cellulare</strong>.<br>
         <br>
-        👉🏻 1. Vai su Telegram, e nella pagina iniziale (dove vedi tutte le chat), premi sull'icona (tre linee orizzontali) del menu principale in alto a sinistra.<br>
+        👉🏻 1. Vai su Telegram, e nella pagina iniziale (dove vedi tutte le chat), premi sull'icona (tre linee orizzontali) del menu principale in alto a sinistra (sull'iPhone si chiama "Impostazioni").<br>
         👉🏻 2. Seleziona la voce <b>Impostazioni</b> nel menu.<br>
         👉🏻 3. Premi su <b>Username</b> nella sezione account.<br>
         👉🏻 4. Digita un <strong>username qualsiasi</strong> a tua scelta (deve essere un nome ancora libero e non già usato da altri, <u>non deve per forza coincidere con l'username che hai scelto per la APP</u>).<br>

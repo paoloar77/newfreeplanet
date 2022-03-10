@@ -20,6 +20,7 @@ import { costanti } from '@costanti'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 import { useI18n } from '@/boot/i18n'
+import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name: 'CStatusReg',
@@ -27,11 +28,12 @@ export default defineComponent({
   components: { CTitleBanner, CCardState, CCardStat, CLineChart, CMyFieldRec },
   setup(props, { attrs, slots, emit }) {
     const { t } = useI18n()
+    const $q = useQuasar()
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
 
-    const NUMSEC_TO_POLLING = ref(300)
-    const MAXNUM_POLLING = ref(10)
+    const NUMSEC_TO_POLLING = ref(60)
+    const MAXNUM_POLLING = ref(1000)
 
     const myloadingload = ref(false)
     const eseguipolling = ref(false)
@@ -40,6 +42,7 @@ export default defineComponent({
 
     const datastat = ref(<any>{
       num_reg: 0,
+      online_today: 0,
       num_passeggeri: 0,
       num_imbarcati: 0,
       num_teleg_attivo: 0,
@@ -67,6 +70,19 @@ export default defineComponent({
       return datastat.value.lastsreg
     })
 
+    watch(() => $q.appVisible, (value: any, oldval: any) => {
+      // console.log('visible', value)
+
+      if (value && !oldval) {
+        // console.log('Ora è visibile !')
+        riaggiorna()
+      }
+      if (!value && oldval) {
+        // console.log('Ora è invisibile !')
+        beforeDestroy()
+      }
+    })
+
     function checkifpolling() {
       if (userStore.my.profile) {
         if (!tools.isUserOk() && tools.appid() === tools.IDAPP_RISO)
@@ -74,9 +90,8 @@ export default defineComponent({
       }
 
       if (eseguipolling.value) {
-        clearInterval(polling.value)
-        polling.value = null
-        if (numpolled.value > 100) {
+        beforeDestroy()
+        if (numpolled.value > 200) {
           NUMSEC_TO_POLLING.value = 60 * 5
         }
         if (numpolled.value < MAXNUM_POLLING.value) {
@@ -91,12 +106,15 @@ export default defineComponent({
     }
 
     function beforeDestroy() {
-      clearInterval(polling.value)
+      if (polling.value) {
+        clearInterval(polling.value)
+        polling.value = null
+      }
     }
 
     function created() {
       if (tools.isManager()) {
-        MAXNUM_POLLING.value = 100
+        MAXNUM_POLLING.value = 10000
       }
       load()
     }
@@ -106,15 +124,8 @@ export default defineComponent({
       myloadingload.value = true
       datastat.value = await globalStore.getStatSite()
 
-      // console.log('datastat.value.lastsreg')
-      // console.table(datastat.value.lastsreg)
-
-      // console.log('newsstate')
-      // console.table('GlobalStore.state.serv_settings', GlobalStore.state.serv_settings)
-
       eseguipolling.value = true
 
-      // console.log('eseguipolling', eseguipolling)
       myloadingload.value = false
 
       if (userStore.my) {

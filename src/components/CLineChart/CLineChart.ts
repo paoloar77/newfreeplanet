@@ -35,6 +35,7 @@ export default defineComponent({
 
     const myarrlabel = ref(<any>[])
     const myarrdata = ref(<any>[])
+    const myarrbg = ref(<any>[])
     const myarrsum = ref(<any>[])
 
     // @ts-ignore
@@ -50,7 +51,7 @@ export default defineComponent({
           label: props.title,
           data: myarrdata.value,
           borderColor: tools.colourNameToHex('red'),
-          backgroundColor: tools.colourNameToHex(props.color),
+          backgroundColor: myarrbg.value,
           fill: true,
         },
       ],
@@ -77,6 +78,7 @@ export default defineComponent({
 
     function mounted() {
       myarrdata.value = []
+      myarrbg.value = []
       myarrlabel.value = []
       myarrsum.value = []
 
@@ -87,6 +89,8 @@ export default defineComponent({
       let rec: any
 
       let ind = ''
+
+      let num = 1
 
       for (rec of props.mydata) {
         if (props.sum) {
@@ -100,7 +104,13 @@ export default defineComponent({
         //myarrlabel.value.push(rec._id)
         myarrlabel.value.push(ind)
         myarrdata.value.push(rec.count)
+        if (num === props.mydata.length) {
+          myarrbg.value.push(tools.colourNameToHex('green'))
+        } else {
+          myarrbg.value.push(tools.colourNameToHex(props.color))
+        }
         myarrsum.value.push(somma)
+        num++
         // ind++
       }
     }

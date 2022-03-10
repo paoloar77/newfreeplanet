@@ -19,6 +19,7 @@ export interface ICheckUser {
 
 export interface INotData {
   num_reg?: number
+  online_today?: number
   num_passeggeri?: number
   num_imbarcati?: number
   email_non_verif?: number
