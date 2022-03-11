@@ -495,9 +495,13 @@ export default defineComponent({
 
             if (item.table === 'regions') {
 
-              obj['mycities.reg'] = item.value
-              if (item.value !== '' && item.value !== costanti.FILTER_TUTTI) {
-                filtersearch3and.push(obj)
+              let myfield = tools.getFieldSearchByTable(mytable.value, item.table, 'mycities.reg')
+              obj[myfield] = item.value
+              if (myfield) {
+                obj['mycities.reg'] = item.value
+                if (item.value !== '' && item.value !== costanti.FILTER_TUTTI) {
+                  filtersearch3and.push(obj)
+                }
               }
 
               if (item.value && recProvince && idRegion !== costanti.FILTER_TUTTI) {
@@ -506,9 +510,12 @@ export default defineComponent({
 
             } else if (item.table === 'provinces') {
 
-              obj['mycities.prov'] = item.value
-              if (item.value !== '' && item.value !== costanti.FILTER_TUTTI) {
-                filtersearch3and.push(obj)
+              let myfield = tools.getFieldSearchByTable(mytable.value, item.table, 'mycities.prov')
+              obj[myfield] = item.value
+              if (myfield) {
+                if (item.value !== '' && item.value !== costanti.FILTER_TUTTI) {
+                  filtersearch3and.push(obj)
+                }
               }
 
               if (item.value && recCities && idProvince !== costanti.FILTER_TUTTI) {
@@ -518,9 +525,12 @@ export default defineComponent({
             } else if (item.table === 'cities') {
 
               if (item.value && item.value.hasOwnProperty('_id')) {
-                obj['idCity'] = item.value._id
-                if (item.value && item.value !== '' && item.value._id !== costanti.FILTER_TUTTI) {
-                  filtersearch3and.push(obj)
+                let myfield = tools.getFieldSearchByTable(mytable.value, item.table, 'idCity')
+                if (myfield) {
+                  obj[myfield] = item.value._id
+                  if (item.value && item.value !== '' && item.value._id !== costanti.FILTER_TUTTI) {
+                    filtersearch3and.push(obj)
+                  }
                 }
               }
             } else if (shared_consts.TABLES_WITH_FILTER_FIELD.includes(item.table)) {

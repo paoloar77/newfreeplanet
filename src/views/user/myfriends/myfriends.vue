@@ -13,6 +13,7 @@
 
     </q-banner>
     <CMyFriends
+      v-if="searchList.length > 0"
       v-model="filter"
       :finder="true"
     >
@@ -34,7 +35,6 @@
         noresultLabel="Username non trovato"
         :arrfilters="arrfilterand"
         :filtercustom="filtercustom"
-        :prop_searchList="searchList"
         :showType="costanti.SHOW_USERINFO"
         :showCol="false"
         :extraparams="extraparams()">
@@ -43,6 +43,7 @@
     </CMyFriends>
   </div>
 </template>
+<!--:prop_searchList="searchList"-->
 
 <script lang="ts" src="./myfriends.ts">
 </script>

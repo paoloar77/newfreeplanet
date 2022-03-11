@@ -22,12 +22,12 @@
               <q-menu>
                 <q-list style="min-width: 150px">
                   <q-item clickable icon="fas fa-user-minus" v-close-popup
-                          @click="setCmd($q, shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS, contact.username, '', '')">
+                          @click="setCmd($q, shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS, userStore.my.username, '', contact.username)">
                     <q-item-section>{{ $t('friends.remove_from_myfriends') }}</q-item-section>
                   </q-item>
                 </q-list>
                 <q-list style="min-width: 150px">
-                  <q-item clickable icon="fas fa-ban" v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.BLOCK_USER, contact.username, '', '')">
+                  <q-item clickable icon="fas fa-ban" v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.BLOCK_USER, userStore.my.username, '', contact.username)">
                     <q-item-section>{{ $t('friends.block_user') }}</q-item-section>
                   </q-item>
                 </q-list>
@@ -40,13 +40,13 @@
             <q-btn rounded icon="fas fa-ellipsis-h">
               <q-menu>
                 <q-list v-if="true" style="min-width: 150px">
-                  <q-item clickable v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.SETFRIEND, contact.username, '', '')">
+                  <q-item clickable v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.SETFRIEND, userStore.my.username, '', contact.username)">
                     <q-item-section>{{ $t('friends.accept_friend') }}</q-item-section>
                   </q-item>
                 </q-list>
                 <q-list style="min-width: 150px">
                   <q-item clickable icon="fas fa-user-minus" v-close-popup
-                          @click="setCmd($q, shared_consts.FRIENDSCMD.REQFRIEND, contact.username, false, '')">
+                          @click="setCmd($q, shared_consts.FRIENDSCMD.REQFRIEND, userStore.my.username, false, contact.username, false)">
                     <q-item-section>{{ $t('friends.reject_ask_friend') }}</q-item-section>
                   </q-item>
                 </q-list>
@@ -104,7 +104,7 @@
               <q-menu>
                 <q-list style="min-width: 150px">
                   <q-item clickable icon="fas fa-user-minus" v-close-popup
-                          @click="setCmd($q, shared_consts.FRIENDSCMD.CANCEL_REQ_FRIEND, contact.username, '', '')">
+                          @click="setCmd($q, shared_consts.FRIENDSCMD.CANCEL_REQ_FRIEND, userStore.my.username, '', contact.username, '')">
                     <q-item-section>{{ $t('friends.cancel_ask_friend') }}</q-item-section>
                   </q-item>
                 </q-list>
@@ -114,10 +114,10 @@
         </q-item-section>
         <q-item-section side v-else-if="visu === costanti.ASK_TRUST">
           <q-item-label>
-            <q-btn color="positive" :label="$t('friends.accept_trust')" @click="setCmd($q, shared_consts.FRIENDSCMD.SETTRUST, contact.username, true, '')"/>
+            <q-btn color="positive" :label="$t('friends.accept_trust')" @click="setCmd($q, shared_consts.FRIENDSCMD.SETTRUST, userStore.my.username, true, contact.username)"/>
           </q-item-label>
           <q-item-label>
-            <q-btn color="negative" :label="$t('friends.refuse_trust')" @click="setCmd($q, shared_consts.FRIENDSCMD.SETTRUST, contact.username, false, '')"/>
+            <q-btn color="negative" :label="$t('friends.refuse_trust')" @click="setCmd($q, shared_consts.FRIENDSCMD.SETTRUST, userStore.my.username, false, contact.username)"/>
           </q-item-label>
         </q-item-section>
         <q-item-section side v-else-if="visu === costanti.TRUSTED">
@@ -125,12 +125,12 @@
             <q-btn rounded icon="fas fa-ellipsis-h">
               <q-menu>
                 <q-list v-if="!userStore.IsMyFriendByUsername(contact.username)" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.REQFRIEND, contact.username, true, '')">
+                  <q-item clickable icon="fas fa-user-plus" v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.REQFRIEND, userStore.my.username, true, contact.username)">
                     <q-item-section>{{ $t('friends.ask_friend') }}</q-item-section>
                   </q-item>
                 </q-list>
                 <q-list style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.SETTRUST, contact.username, false, '')">
+                  <q-item clickable icon="fas fa-user-minus" v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.SETTRUST, userStore.my.username, false, contact.username)">
                     <q-item-section>{{ $t('friends.reject_trust') }}</q-item-section>
                   </q-item>
                 </q-list>
@@ -140,20 +140,31 @@
         </q-item-section>
         <q-item-section side v-else-if="visu === costanti.FIND_PEOPLE">
           <q-item-label>
+
             <q-btn v-if="contact.username !== userStore.my.username" rounded :icon="userStore.IsMyFriendByUsername(contact.username) ? `fas fa-ellipsis-h` : `fas fa-user`">
               <q-menu>
                 <q-list v-if="(!userStore.IsMyFriendByUsername(contact.username) && !userStore.IsAskedFriendByUsername(contact.username))" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.REQFRIEND, contact.username, true, '')">
+                  <q-item clickable v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.REQFRIEND, userStore.my.username, true, contact.username)">
+                    <q-item-section avatar>
+                      <q-icon color="positive" name="fas fa-user-plus" />
+                    </q-item-section>
                     <q-item-section>{{ $t('friends.ask_friend') }}</q-item-section>
                   </q-item>
                 </q-list>
                 <q-list v-else-if="(!userStore.IsMyFriendByUsername(contact.username) && userStore.IsAskedFriendByUsername(contact.username))" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.REQFRIEND, contact.username, false, '')">
+
+                  <q-item clickable v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.REQFRIEND, userStore.my.username, false, contact.username)">
+                    <q-item-section avatar>
+                      <q-icon color="negative" name="fas fa-user-minus" />
+                    </q-item-section>
                     <q-item-section>{{ $t('friends.cancel_ask_friend') }}</q-item-section>
                   </q-item>
                 </q-list>
                 <q-list v-else-if="userStore.IsMyFriendByUsername(contact.username)" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS, contact.username, '', '')">
+                  <q-item clickable v-close-popup @click="setCmd($q, shared_consts.FRIENDSCMD.REMOVE_FROM_MYFRIENDS, userStore.my.username, '', contact.username)">
+                    <q-item-section avatar>
+                      <q-icon color="negative" name="fas fa-user-minus" />
+                    </q-item-section>
                     <q-item-section>{{ $t('friends.remove_from_myfriends') }}</q-item-section>
                   </q-item>
                 </q-list>
@@ -167,7 +178,7 @@
               <q-menu>
                 <q-list style="min-width: 200px">
                   <q-item clickable icon="fas fa-user-minus" v-close-popup
-                          @click="setCmd($q, shared_consts.FRIENDSCMD.SETTRUST, contact.username, true, '')">
+                          @click="setCmd($q, shared_consts.FRIENDSCMD.SETTRUST, userStore.my.username, true, contact.username)">
                     <q-item-section>{{ $t('friends.accept_trust') }}</q-item-section>
                   </q-item>
                 </q-list>

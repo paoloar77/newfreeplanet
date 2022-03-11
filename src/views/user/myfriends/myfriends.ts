@@ -28,6 +28,7 @@ export default defineComponent({
     const filter = ref(costanti.FIND_PEOPLE)
 
     function mounted() {
+      console.log('mounted')
       searchList.value = [
         {
           label: 'Regione',
@@ -57,7 +58,7 @@ export default defineComponent({
         {
           label: 'Comune',
           table: 'cities',
-          key: 'idCity',
+          key: 'profile.born_city_id',
           type: costanti.FieldType.select_by_server,
           value: tools.getCookie(tools.COOK_SEARCH + 'cities', costanti.FILTER_TUTTI),
           addall: true,
@@ -113,9 +114,31 @@ export default defineComponent({
             username: 1,
             name: 1,
             'profile.img': 1,
+            'profile.born_city_id': 1,
             'profile.qualifica': 1,
           }
-        }
+        },
+        lookup2: {
+          lk_tab: 'cities',
+          lk_LF: 'profile.born_city_id',
+          lk_FF: '_id',
+          lk_as: 'comune',
+          af_objId_tab: '',
+          lk_proj: {
+            idCity: 1,
+            numLevel: 1,
+            comune: 1,
+            userId: 1,
+            username: 1,
+            name: 1,
+            surname: 1,
+            mycities: 1,
+            'profile.img': 1,
+            'profile.qualifica': 1,
+            'profile.born_city_id': 1,
+          }
+        },
+
       }
     }
 

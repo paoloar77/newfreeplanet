@@ -278,7 +278,7 @@ export default defineComponent({
       } else if (tools.isTest()) {
         strv = 'TEST '
       }
-      return `[${strv} ver. ${process.env.APP_VERSION}]`
+      return `${strv}v. ${process.env.APP_VERSION}`
     }
 
     function getLangAtt() {

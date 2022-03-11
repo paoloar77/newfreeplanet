@@ -523,6 +523,15 @@ export const colmyUserPeople = [
     name: 'profile.img', field: 'profile', subfield: 'img', label_trans: 'reg.img', sortable: false,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
   }),
+  AddCol({
+    name: 'profile.born_city_id', label_trans: 'reg.born_city', fieldtype: costanti.FieldType.select_by_server,
+    jointable: 'cities',
+    tablesel: 'cities',
+    remote_table: 'mycities',
+    remote_key: '_id',
+    remote_field: 'comune',
+    noshowlabel: true,
+  }),
   // AddCol({ name: 'sospeso', label_trans: 'reg.sospeso', fieldtype: costanti.FieldType.boolean }),
   // AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
 ]
@@ -2169,6 +2178,15 @@ export const fieldsTable = {
     if (tablerec) {
       // console.log('tablerec', tablerec.columns)
       const mycol = tablerec.columns.find((col: any) => col.name === namecol)
+      // console.log('mycol = ', mycol)
+      return mycol
+    } else
+      return null
+  },
+  getColByColumns(mycolumns: any, namecol: string) {
+    if (mycolumns) {
+      // console.log('tablerec', tablerec.columns)
+      const mycol = mycolumns.find((col: any) => col.name === namecol)
       // console.log('mycol = ', mycol)
       return mycol
     } else

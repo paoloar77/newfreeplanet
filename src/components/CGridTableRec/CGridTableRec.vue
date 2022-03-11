@@ -145,7 +145,7 @@
             </div>-->
 
             <CMySelect
-              :col="fieldsTable.getColByTable(mytable, item.key)"
+              :col="fieldsTable.getColByColumns(mycolumns, item.key)"
               v-if="(item.type === costanti.FieldType.select) || (item.type === costanti.FieldType.select_by_server)"
               :label="labelcombo(item)"
               v-model:value="item.value"
@@ -172,7 +172,7 @@
 
             <CMySelect
               v-if="item.type === costanti.FieldType.multiselect_by_server"
-              :col="fieldsTable.getColByTable(mytable, item.key)"
+              :col="fieldsTable.getColByColumns(mycolumns, item.key)"
               :multiselect_by_server="true"
               :label="labelcombo(item)"
               v-model:arrvalue="item.arrvalue"

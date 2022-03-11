@@ -5316,6 +5316,24 @@ export const tools = {
 
   },
 
+  getFieldSearchByTable: function (mytable: string, tablejoin: string, field: string) {
+    let ris = field
+    if (mytable === 'users') {
+      if (tablejoin === 'cities') {
+        ris = 'profile.born_city_id'
+      }
+      if (tablejoin === 'provinces') {
+        ris = 'profile.born_province'
+      }
+      if (tablejoin === 'regions') {
+        ris = ''
+      }
+    }
+
+    return ris
+  },
+
+
 
 // getLocale() {
   //   if (navigator.languages && navigator.languages.length > 0) {

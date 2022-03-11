@@ -88,11 +88,11 @@ export default defineComponent({
       $router.push(path)
     }
 
-    function setCmd($q: any, cmd: number, myusername: string, value: any, groupname: string) {
+    function setCmd($q: any, cmd: number, myusername: string, value: any, dest: string) {
       if (props.notsetcmd) {
-        tools.setCmd($q, cmd, myusername, value, groupname)
+        tools.setCmd($q, cmd, myusername, value, dest)
       }else {
-        emit('setCmd', $q, cmd, myusername, value, groupname)
+        emit('setCmd', $q, cmd, myusername, value, dest)
       }
     }
 
