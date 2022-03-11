@@ -25,7 +25,7 @@
 
 
               <a v-if="!!TelegramSupport()" :href="TelegramSupport()" target="_blank">
-                <span class="text-h5">Supporto Tecnico: </span>
+                <span class="text-h5 text-white">Supporto Tecnico: </span>
                 <i aria-hidden="true" class="q-icon fab fa-telegram icon_contact links"></i></a>
 
               <a v-if="!!Whatsapp_Cell()" :href="ChatWhatsapp()" target="_blank">
@@ -158,14 +158,14 @@ class="footer_link" @click="navigate" @keypress.enter="navigate"
         </div>
       </div>
     </section>
-    <q-page-scroller position="bottom-right" :scroll-offset="850" :offset="[18, 78]" style="opacity: 0.3">
-      <q-btn fab icon="keyboard_arrow_up" color="accent"/>
-    </q-page-scroller>
-    <q-page-sticky v-if="ChatWhatsapp()" position="bottom-right" :offset="[18, 18]">
+    <q-page-sticky v-if="ChatWhatsapp()" position="bottom-right" :offset="[18, 78]">
       <q-btn
         fab icon="fab fa-whatsapp" color="green" type="a" :href="ChatWhatsapp()" target="__blank"
         class="mybtn_sticky"/>
     </q-page-sticky>
+    <q-page-scroller position="bottom-right" :scroll-offset="850" :offset="[18, 18]" style="opacity: 0.3">
+      <q-btn fab icon="keyboard_arrow_up" color="accent"/>
+    </q-page-scroller>
   </div>
 </template>
 

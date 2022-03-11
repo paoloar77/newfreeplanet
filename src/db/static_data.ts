@@ -180,7 +180,7 @@ const routes_manager: IListRoutes[] = [
     submenu: functionality.BOOKING_EVENTS,
     level_parent: 0,
     level_child: 0.5,
-    infooter: true,
+    infooter: false,
     onlyManager: true,
     onlyConsiglio: true,
     onlyAdmin: true
@@ -427,7 +427,7 @@ const baseroutes: IListRoutes[] = [
     inmenu: true,
     infooter: true,
   },
-  /*{
+  {
     active: true,
     order: 100,
     path: '/presentazione',
@@ -437,7 +437,7 @@ const baseroutes: IListRoutes[] = [
     reqauth: false,
     inmenu: true,
     infooter: true,
-  },*/
+  },
   {
     active: true,
     order: 120,
@@ -567,7 +567,7 @@ const baseroutes: IListRoutes[] = [
     inmenu: true,
     routes2: routes_admin,
     solotitle: true,
-    infooter: true,
+    infooter: false,
     onlyAdmin: true
   },
   ...routes_admin,
@@ -580,7 +580,7 @@ const baseroutes: IListRoutes[] = [
     inmenu: true,
     routes2: routes_manager,
     solotitle: true,
-    infooter: true,
+    infooter: false,
     onlyAdmin: true,
     onlyManager: true,
     onlyTutor: true,

@@ -146,10 +146,6 @@ export default defineComponent({
 
     }
 
-    function isInCostruction() {
-      return process.env.IN_CONSTRUCTION === '1'
-    }
-
     function getPermission() {
       return Notification.permission
     }
@@ -237,7 +233,6 @@ export default defineComponent({
       appname,
       mystilecard,
       getenv,
-      isInCostruction,
       getPermission,
       NotServiceWorker,
       PagLogin,

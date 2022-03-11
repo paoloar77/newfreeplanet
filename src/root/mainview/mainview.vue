@@ -73,6 +73,7 @@
 
     </div>
     <div v-else>
+      <CPresentazione></CPresentazione>
       <CCheckIfIsLogged></CCheckIfIsLogged>
 
       <!--

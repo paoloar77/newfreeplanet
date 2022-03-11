@@ -19,11 +19,11 @@ import { static_data } from '@/db/static_data'
 import MixinBase from '@/mixins/mixin-base'
 import MixinUsers from '@/mixins/mixin-users'
 import { shared_consts } from '@/common/shared_vuejs'
-
+import { CPresentazione } from '@/components'
 
 export default defineComponent({
   name: 'mainview',
-  components: { CSkill, CChartMap, CMapsEsempio, CDashboard, CUserNonVerif, CMainView, CCopyBtn, Footer, CCheckIfIsLogged, CStatusReg },
+  components: { CSkill, CChartMap, CMapsEsempio, CDashboard, CUserNonVerif, CMainView, CCopyBtn, Footer, CCheckIfIsLogged, CStatusReg, CPresentazione },
   setup() {
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
