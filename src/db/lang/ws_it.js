@@ -145,8 +145,8 @@ const msg_website_it = {
   },
   homepage: {
     descrapp_title1: 'Uniti per Evolvere e Sperimentare',
-    descrapp_pag1: 'Riscopri come il valore della <strong>Condivisione</strong> e della <strong>Cooperazione</strong>, possa aiutarci a ritrovare il profondo '
-      + 'senso della <strong>Vita</strong>, perduto in questa società consumista, e riporti quei <strong>Sani Pricìpi Naturali</strong> ed Umani di <strong>Fratellanza</strong>'
+    descrapp_pag1: 'Siamo la Rete Italiana di Scambio Orizzontale, abbiamo creato questa piattaforma per metterla al servizio di chi vuole riscoprire il valore della <strong>condivisione</strong> e della <strong>cooperazione</strong>. ' +
+      'Valori semplici e profondi che ci aiutano a ritrovare il <strong>Senso della Vita</strong>, perduto in questa società consumista, e riporti quei <strong>Sani Pricìpi Naturali</strong> ed Umani di <strong>Fratellanza</strong>'
       + ' che intere popolazioni antiche conoscevano bene.',
     descrapp_pag2: 'E\' giunta l\'ora di utilizzare i nuovi strumenti <strong>Tecnologici</strong> a nostro <strong>favore</strong>, per <strong>Liberarci</strong> '
       + 'così piano piano dalla <strong>schiavitù</strong> del <strong>"Lavoro per generare Denaro"</strong> e trasformando le nostre <strong>Capacitá</strong> in '
