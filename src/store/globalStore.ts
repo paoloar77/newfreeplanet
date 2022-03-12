@@ -432,7 +432,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
     setleftDrawerOpen(bool: boolean) {
       this.leftDrawerOpen = bool
-      localStorage.setItem(toolsext.localStorage.leftDrawerOpen, bool.toString())
+      tools.localStSetItem(toolsext.localStorage.leftDrawerOpen, bool.toString())
     },
 
     setCategorySel(cat: string | null) {
@@ -646,7 +646,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
           if (res)
             console.log('saveNewSubscriptionToServer: OK')
 
-          localStorage.setItem(toolsext.localStorage.wasAlreadySubOnDb, String(this.wasAlreadySubOnDb))
+          tools.localStSetItem(toolsext.localStorage.wasAlreadySubOnDb, String(this.wasAlreadySubOnDb))
         })
         .catch((e) => {
           console.log('Error during Subscription!', e)

@@ -168,7 +168,7 @@ const msg_website_it = {
     },
     coin: {
       title: 'RIS - Credito Alternativo',
-      descr: '<strong>Stiamo lavorando</strong> anche per creare una sorta di "moneta alternativa" per conteggiare gli scambi che avvengono tra di noi, quand il semplice baratto risulta non applicabile.<br>' +
+      descr: '<strong>Stiamo lavorando</strong> anche per creare una sorta di "moneta alternativa" per conteggiare gli scambi che avvengono tra di noi, quando il semplice baratto risulta non applicabile.<br>' +
         'Partendo dalle basi del <strong>Si.Cre.Na.C.C - Sistema di Credito Naturale a Copertura Certa</strong>.<br>' +
         '<em>Ciascun operatore potrà creare moneta all\'occorrenza, se il saldo del suo conto non sarà sufficiente a coprire la spesa. Potrà quindi mandare il suo conto in "scoperto", accollandosi il conseguente' +
         ' Debito, accreditando l\'equivalente somma all\'operatore ricevente, il quale la annovera nel suo conto in qualità di Credito. ' +

@@ -84,11 +84,11 @@ async function Request(type: string, path: string, payload: any): Promise<Types.
             }
             if (setAuthToken) {
               userStore.UpdatePwd(x_auth_token)
-              localStorage.setItem(toolsext.localStorage.token, x_auth_token)
+              tools.localStSetItem(toolsext.localStorage.token, x_auth_token)
             }
 
             userStore.setAuth(x_auth_token)
-            localStorage.setItem(toolsext.localStorage.token, x_auth_token)
+            tools.localStSetItem(toolsext.localStorage.token, x_auth_token)
           }
 
           globalStore.setStateConnection(ricevuto ? 'online' : 'offline')

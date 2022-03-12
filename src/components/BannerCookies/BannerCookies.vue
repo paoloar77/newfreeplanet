@@ -6,11 +6,11 @@
                     {{t('cookies')}}
                     <template v-slot:action>
                         <div class="row justify-center margin_buttons_cook q-gutter-lg text-center" >
-                            <q-btn
-                              v-if="disableDecline === false" flat color="white" label="Declina"
-                                   @click="decline"></q-btn>
-                            <q-btn flat color="white" label="INFO" type="a" :href="urlInfo" @click="clickInfo"></q-btn>
-                            <q-btn flat color="white" label="OK" @click="accept"></q-btn>
+                          <q-btn label="INFO" to="/policy"></q-btn>
+                          <q-btn
+                              color="red" label="RIFIUTA"
+                              @click="decline"></q-btn>
+                            <q-btn color="green" label="ACCETTA" @click="accept"></q-btn>
                         </div>
                     </template>
                 </q-banner>

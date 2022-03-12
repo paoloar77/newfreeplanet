@@ -413,7 +413,7 @@ export const useUserStore = defineStore('UserStore', {
           // mutations.setServerCode(myres);
           if (res.data.code === serv_constants.RIS_CODE_EMAIL_VERIFIED) {
             console.log('VERIFICATO !!')
-            localStorage.setItem(toolsext.localStorage.verified_email, String(true))
+            tools.localStSetItem(toolsext.localStorage.verified_email, String(true))
           } else {
             console.log('Risultato di vreg: ', res.data.code)
           }
@@ -532,22 +532,22 @@ export const useUserStore = defineStore('UserStore', {
 
       // const expirationDate = new Date(now.getTime() + myres.data.expiresIn * 1000);
       const expirationDate = new Date(now.getTime() * 1000)
-      localStorage.setItem(toolsext.localStorage.lang, this.lang)
-      localStorage.setItem(toolsext.localStorage.userId, myuser._id)
-      localStorage.setItem(toolsext.localStorage.username, myuser.username)
-      localStorage.setItem(toolsext.localStorage.name, myuser.name)
-      localStorage.setItem(toolsext.localStorage.surname, myuser.surname)
-      localStorage.setItem(toolsext.localStorage.perm, String(myuser.perm) || '')
-      if (myuser.profile !== undefined) localStorage.setItem(toolsext.localStorage.img, (myuser.profile.img) ? String(myuser.profile.img) || '' : '')
-      else localStorage.setItem(toolsext.localStorage.img, '')
-      localStorage.setItem(toolsext.localStorage.token, this.x_auth_token)
-      localStorage.setItem(toolsext.localStorage.expirationDate, expirationDate.toString())
-      localStorage.setItem(toolsext.localStorage.isLogged, String(true))
-      localStorage.setItem(toolsext.localStorage.verified_email, String(myuser.verified_email))
-      localStorage.setItem(toolsext.localStorage.verified_by_aportador, String(myuser.verified_by_aportador))
-      localStorage.setItem(toolsext.localStorage.teleg_id, String(myuser.profile.teleg_id))
-      localStorage.setItem(toolsext.localStorage.made_gift, String(myuser.made_gift))
-      localStorage.setItem(toolsext.localStorage.wasAlreadySubOnDb, String(globalStore.wasAlreadySubOnDb))
+      tools.localStSetItem(toolsext.localStorage.lang, this.lang)
+      tools.localStSetItem(toolsext.localStorage.userId, myuser._id)
+      tools.localStSetItem(toolsext.localStorage.username, myuser.username)
+      tools.localStSetItem(toolsext.localStorage.name, myuser.name)
+      tools.localStSetItem(toolsext.localStorage.surname, myuser.surname)
+      tools.localStSetItem(toolsext.localStorage.perm, String(myuser.perm) || '')
+      if (myuser.profile !== undefined) tools.localStSetItem(toolsext.localStorage.img, (myuser.profile.img) ? String(myuser.profile.img) || '' : '')
+      else tools.localStSetItem(toolsext.localStorage.img, '')
+      tools.localStSetItem(toolsext.localStorage.token, this.x_auth_token)
+      tools.localStSetItem(toolsext.localStorage.expirationDate, expirationDate.toString())
+      tools.localStSetItem(toolsext.localStorage.isLogged, String(true))
+      tools.localStSetItem(toolsext.localStorage.verified_email, String(myuser.verified_email))
+      tools.localStSetItem(toolsext.localStorage.verified_by_aportador, String(myuser.verified_by_aportador))
+      tools.localStSetItem(toolsext.localStorage.teleg_id, String(myuser.profile.teleg_id))
+      tools.localStSetItem(toolsext.localStorage.made_gift, String(myuser.made_gift))
+      tools.localStSetItem(toolsext.localStorage.wasAlreadySubOnDb, String(globalStore.wasAlreadySubOnDb))
     },
 
     setusersList(usersList: IUserFields[]) {
@@ -560,7 +560,7 @@ export const useUserStore = defineStore('UserStore', {
       console.log('SETLANG', newstr)
       this.lang = newstr
       toolsext.setLangAtt($router, newstr)
-      localStorage.setItem(toolsext.localStorage.lang, this.lang)
+      tools.localStSetItem(toolsext.localStorage.lang, this.lang)
     },
 
     signup(authData: ISignupOptions) {
@@ -595,15 +595,15 @@ export const useUserStore = defineStore('UserStore', {
                 const now = tools.getDateNow()
                 // const expirationDate = new Date(now.getTime() + myres.data.expiresIn * 1000);
                 const expirationDate = new Date(now.getTime() * 1000)
-                localStorage.setItem(toolsext.localStorage.lang, this.lang)
-                localStorage.setItem(toolsext.localStorage.userId, newuser._id)
-                localStorage.setItem(toolsext.localStorage.username, newuser.username)
-                localStorage.setItem(toolsext.localStorage.name, newuser.name)
-                localStorage.setItem(toolsext.localStorage.surname, newuser.surname)
-                localStorage.setItem(toolsext.localStorage.token, this.x_auth_token)
-                localStorage.setItem(toolsext.localStorage.expirationDate, expirationDate.toString())
-                localStorage.setItem(toolsext.localStorage.verified_email, String(false))
-                localStorage.setItem(toolsext.localStorage.verified_by_aportador, String(false))
+                tools.localStSetItem(toolsext.localStorage.lang, this.lang)
+                tools.localStSetItem(toolsext.localStorage.userId, newuser._id)
+                tools.localStSetItem(toolsext.localStorage.username, newuser.username)
+                tools.localStSetItem(toolsext.localStorage.name, newuser.name)
+                tools.localStSetItem(toolsext.localStorage.surname, newuser.surname)
+                tools.localStSetItem(toolsext.localStorage.token, this.x_auth_token)
+                tools.localStSetItem(toolsext.localStorage.expirationDate, expirationDate.toString())
+                tools.localStSetItem(toolsext.localStorage.verified_email, String(false))
+                tools.localStSetItem(toolsext.localStorage.verified_by_aportador, String(false))
 
                 // Even if you has registered, you have to SignIn first
                 this.isLogged = false

@@ -597,7 +597,7 @@ export default defineComponent({
       // console.log('selectGroup', selectGroup)
 
       // Set last category selected
-      // localStorage.setItem(tools.localStorage.categorySel, categoryAtt)
+      // tools.localStSetItem(tools.localStorage.categorySel, categoryAtt)
 
       checkUpdate_everytime()
     }

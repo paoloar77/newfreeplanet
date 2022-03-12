@@ -2,13 +2,13 @@
     <q-page class="">
         <div class="landing">
             <PagePolicy
-                    owneremail=""
-                    SiteName=""
-                    ownerDataName=""
-                    managerData=""
-                    includeData="dati anagrafici (ragione sociale, nome, cognome), recapiti (telefono, indirizzo email)"
-                    url=""
-                    lastdataupdate=""
+                    owneremail="info@riso.app"
+                    SiteName="Riso.app"
+                    ownerDataName="RISO"
+                    managerData="Paolo Arena"
+                    includeData="recapiti (indirizzo email, telefono (facoltativo))"
+                    url="riso.app"
+                    lastdataupdate="12/03/2022"
                     country="Italia"
             >
 

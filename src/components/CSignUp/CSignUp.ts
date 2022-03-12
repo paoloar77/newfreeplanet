@@ -7,6 +7,7 @@ import { Logo } from '../../components/logo'
 // import 'vue-country-code/dist/vue-country-code.css'
 
 import { CTitleBanner } from '../CTitleBanner'
+import { PagePolicy } from '../PagePolicy'
 import { computed, defineComponent, reactive, ref, watch } from 'vue'
 import { CSignIn } from '@/components/CSignIn'
 import { useQuasar } from 'quasar'
@@ -29,7 +30,7 @@ import { useGlobalStore } from '@store/globalStore'
 
 export default defineComponent({
   name: 'CSignUp',
-  components: { Logo, CTitleBanner },
+  components: { Logo, CTitleBanner, PagePolicy },
   props: {
     showadultcheck: {
       type: Boolean,
@@ -74,7 +75,7 @@ export default defineComponent({
     const duplicate_email = ref(false)
     const duplicate_username = ref(false)
     const visureg = ref(false)
-
+    const showpolicy = ref(false)
 
     const globalStore = useGlobalStore()
 
@@ -299,6 +300,7 @@ export default defineComponent({
       allowSubmit,
       myRuleEmail,
       visureg,
+      showpolicy,
     }
   },
 })

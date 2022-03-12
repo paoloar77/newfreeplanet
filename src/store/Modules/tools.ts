@@ -3357,8 +3357,18 @@ export const tools = {
     }
   },
 
+  localStSetItem(item: string, value : string) {
+    if (localStorage.getItem('cookie-id') === 'decline')
+      return null
+
+    localStorage.setItem(item, value)
+  },
+
   setCookie(mytok: any, value: string) {
     // console.log('setCookie', mytok, value)
+    if (localStorage.getItem('cookie-id') === 'decline')
+      return null
+
     return Cookies.set(mytok, value)
   },
 

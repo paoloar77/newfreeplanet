@@ -207,11 +207,11 @@ export default defineComponent({
               // console.log('-----------  valori.value', valori.value)
               // console.log('-----------  arrtempOpt.value', arrtempOpt.value)
 
-              localStorage.setItem(props.tablesel + num + props.optval, id)
-              localStorage.setItem(props.tablesel + num + props.optlab, tools.getValueByFunzOrVal(rec, props.optlab))
+              tools.localStSetItem(props.tablesel + num + props.optval, id)
+              tools.localStSetItem(props.tablesel + num + props.optlab, tools.getValueByFunzOrVal(rec, props.optlab))
 
               num += 1
-              localStorage.setItem(props.tablesel + 'NUM', num.toString())
+              tools.localStSetItem(props.tablesel + 'NUM', num.toString())
             }
           }
         }
@@ -222,7 +222,7 @@ export default defineComponent({
     function changeval(newval: any) {
       console.log(' ½½½½½½½ changeval', newval)
       if (props.multiple || props.multiselect_by_server) {
-        // localStorage.setItem(props.tablesel + '_' + newval, valori.value[newval])
+        // tools.localStSetItem(props.tablesel + '_' + newval, valori.value[newval])
 
         if (props.type_out === costanti.FieldType.object) {
           const arrout = []

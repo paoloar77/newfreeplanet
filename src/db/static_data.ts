@@ -12,7 +12,7 @@ const functionality: IFunctionality = {
   SHOW_REG_BUTTON: false,
   ENABLE_REGISTRATION: true, // Cambiare con true
   SHOW_NEWSLETTER: false,
-  SHOW_ONLY_POLICY: false,
+  SHOW_ONLY_POLICY: true,
   ENABLE_TODOS_LOADING: false,
   ENABLE_PROJECTS_LOADING: false,
   SHOW_IF_IS_SERVER_CONNECTION: false,
@@ -598,13 +598,16 @@ const baseroutes: IListRoutes[] = [
     infooter: false
   },
 
-  // --- NOT IN MENU: ---
-  /*{
-    order: 8,
+  {
+    active: true,
+    order: 2000,
     path: '/policy',
+    materialIcon: 'fas fa-user',
     name: 'pages.policy',
     component: () => import('@src/root/policy/policy.vue'),
-  },*/
+    inmenu: false,
+    infooter: true
+  },
   {
     active: functionality.ENABLE_REGISTRATION,
     order: 1000,
@@ -637,6 +640,7 @@ const baseroutes: IListRoutes[] = [
     inmenu: true,
     infooter: true
   },
+  // --- NOT IN MENU: ---
   {
     active: true,
     order: 1000,

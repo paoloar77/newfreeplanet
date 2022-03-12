@@ -429,9 +429,7 @@
               if a processing operation is in progress, obtain access to the data and information relating to the
               processing and request a copy of the data;
               obtain rectification of inaccurate data and integration of incomplete personal data;
-
-
-
+          </p>
 
 
           <p class="text-subtitle2">8. Access rights, deletion, restriction and portability.</p>

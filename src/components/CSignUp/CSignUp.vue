@@ -204,9 +204,6 @@
 
         </q-input>
 
-        <div v-if="!tools.isMobile()"><br></div>
-
-
         <!--<vue-tel-input
           v-if="showcell"
           @country-changed="intcode_change()"
@@ -218,6 +215,34 @@
           wrapperClasses="clCellCode">
         </vue-tel-input>-->
 
+        <div class="text-center">
+          <q-btn label="Mostra Privacy" @click="showpolicy = true"></q-btn>
+        </div>
+
+        <q-dialog v-model="showpolicy">
+          <q-card class="dialog_card">
+            <q-toolbar class="bg-primary text-white">
+              <q-toolbar-title>
+                Privacy Policy
+              </q-toolbar-title>
+              <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
+            </q-toolbar>
+            <q-card-section class="inset-shadow">
+              <PagePolicy
+                owneremail="info@riso.app"
+                SiteName="Riso.app"
+                ownerDataName="RISO"
+                managerData="Paolo Arena"
+                includeData="recapiti (indirizzo email, telefono (facoltativo))"
+                url="riso.app"
+                lastdataupdate="12/03/2022"
+                country="Italia"
+              >
+
+              </PagePolicy>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
 
         <q-checkbox
           v-model="signup.terms"

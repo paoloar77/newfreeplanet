@@ -823,7 +823,7 @@ const msg_it = {
       wrongerr: 'Email non valida',
     },
     privacy_policy: 'Privacy Policy',
-    cookies: 'Usiamo i Cookie per una migliore prestazione web.',
+    cookies: 'Usiamo i Cookie per una migliore prestazione web. Accetti l\'utilizzo?',
     sites: {
       active: 'Attivo',
       idapp: 'IdApp',
