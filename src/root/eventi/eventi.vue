@@ -7,6 +7,7 @@
         <CTitlePage :ind="4" />
 
         <CFinder
+          :ind="4"
           :table="toolsext.TABMYBACHECAS">
 
         </CFinder>

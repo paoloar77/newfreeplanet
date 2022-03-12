@@ -1479,9 +1479,9 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
     },
 
-    getItemDate(num: number, day: number, mystr: string) {
+    getItemDate(num: number, day: number, numdays: number, mystr: string) {
       let mydate = tools.addDays(tools.getDateNow(), day)
-      let mydateend = tools.addDays(mydate, 7)
+      let mydateend = tools.addDays(mydate, numdays)
       mydate = tools.getstrYYMMDDDate(mydate)
       mydateend = tools.getstrYYMMDDDate(mydateend)
       let filter = { dateTimeStart: { $gte: mydate, $lte: mydateend } }
@@ -1495,9 +1495,9 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       let obj = {}
 
-      arr.push(this.getItemDate(1, -7, 'Settimana Scorsa'))
-      arr.push(this.getItemDate(2, 0, 'Da Oggi a 7 gg.'))
-      arr.push(this.getItemDate(3, 7, 'La settimana prossima'))
+      arr.push(this.getItemDate(1, -30, 30,  'Eventi Passati'))
+      arr.push(this.getItemDate(2, 0, 14, 'Da Oggi a 2 sett.'))
+      arr.push(this.getItemDate(3, 14, 60, 'Eventi Futuri'))
 
       // console.log('Days', arr)
 

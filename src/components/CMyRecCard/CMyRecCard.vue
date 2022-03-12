@@ -6,7 +6,7 @@
 
       <q-item-section v-if="(shared_consts.TABLES_VISU_IMG.includes(table)) && (myrec.photos.length > 0)" avatar
                       @click="cmdExt(costanti.CMD_SHOW_PAGE, myrec)">
-        <q-badge v-if="showBadge" class="q-my-xs self-center" :color="fieldsTable.getColByAdType(myrec.adType)">
+        <q-badge v-if="showBadge()" class="q-my-xs self-center" :color="fieldsTable.getColByAdType(myrec.adType)">
           {{ fieldsTable.getValByTabAndId(table, 'adType', myrec.adType) }}
           <q-icon :name="fieldsTable.getIconByAdType(myrec.adType)" color="white"
                   class="q-ml-xs"/>
@@ -18,7 +18,7 @@
       </q-item-section>
       <q-item-section v-else avatar @click="naviga(`/my/` + myrec.username)">
 
-        <q-badge v-if="showBadge" class="q-my-xs self-center" :color="fieldsTable.getColByAdType(myrec.adType)">
+        <q-badge v-if="showBadge()" class="q-my-xs self-center" :color="fieldsTable.getColByAdType(myrec.adType)">
           {{ fieldsTable.getValByTabAndId(table, 'adType', myrec.adType) }}
           <q-icon :name="fieldsTable.getIconByAdType(myrec.adType)" color="white"
                   class="q-ml-xs"/>

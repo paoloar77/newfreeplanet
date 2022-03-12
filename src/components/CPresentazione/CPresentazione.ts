@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { useGlobalStore } from '@store/globalStore'
 import { useI18n } from '@/boot/i18n'
 import { tools } from '@store/Modules/tools'
-import { Footer, Logo } from "@components"
+import { Footer, Logo } from '@components'
 
 
 export default defineComponent({

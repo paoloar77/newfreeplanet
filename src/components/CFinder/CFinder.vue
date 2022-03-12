@@ -10,8 +10,8 @@
           glossy
           toggle-color="primary"
           :options="[
-          {label: 'Tutti', value: tools.FILTER_ALL},
-          {label: 'Personali', value: tools.FILTER_MYREC},
+          {label: '🌎 Tutti', value: tools.FILTER_ALL},
+          {label: '👤 Personali', value: tools.FILTER_MYREC},
           // {label: 'Seguo', value: tools.FILTER_MYFOLLOW},
         ]"
         />
@@ -43,6 +43,7 @@
         :nodataLabel="noMsgRecord"
         :prop_search="true"
         :finder="true"
+        :labelBtnAddExtra="`Aggiungi ${strextra}`"
         :choose_visutype="visuType"
         :butt_modif_new="true"
         noresultLabel="Il filtro selezionato non ha trovato nessun risultato"

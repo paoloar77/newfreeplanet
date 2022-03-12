@@ -7,6 +7,7 @@
         <CTitlePage :ind="0" />
 
         <CFinder
+          :ind="0"
           :table="toolsext.TABMYGOODS"
         />
 

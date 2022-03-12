@@ -7,6 +7,7 @@
       <div v-if="tools.isUserOk()">
 
         <CFinder
+          :ind="1"
           :table="toolsext.TABMYSKILLS"
         />
 

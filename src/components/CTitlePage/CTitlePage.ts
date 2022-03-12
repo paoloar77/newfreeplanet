@@ -1,5 +1,6 @@
 import { computed, defineComponent, onMounted, PropType, ref } from 'vue'
 import { costanti } from '@costanti'
+import { tools } from '@store/Modules/tools'
 
 export default defineComponent({
   name: 'CTitlePage',
@@ -36,7 +37,7 @@ export default defineComponent({
       } else {
         mytitle.value = costanti.MAINCARDS[props.ind].title
         myicon.value = costanti.MAINCARDS[props.ind].icon
-        mycolor.value = costanti.MAINCARDS[props.ind].color
+        mycolor.value = tools.colourNameToHex(costanti.MAINCARDS[props.ind].color)
       }
     }
 

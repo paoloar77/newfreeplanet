@@ -28,6 +28,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true,
+    },
+    ind: {
+      type: Number,
+      required: false,
+      default: -1,
     }
   },
   components: {
@@ -53,6 +58,8 @@ export default defineComponent({
     const col_title = ref('descr')
     const col_footer = ref('idCity')
     const col_tabfooter = ref('mycities')
+
+    const strextra = ref('')
 
 
     const col = ref(<IColGridTable>{})
@@ -97,7 +104,7 @@ export default defineComponent({
 
     const mypagination = computed(() => {
       if (props.table === toolsext.TABMYBACHECAS)
-        return { sortBy: 'dateStart', descending: false, page: 1, rowsNumber: 20, rowsPerPage: 20 }
+        return { sortBy: 'dateTimeStart', descending: false, page: 1, rowsNumber: 20, rowsPerPage: 20 }
 
       return { sortBy: 'date_created', descending: true, page: 1, rowsNumber: 20, rowsPerPage: 20 }
     })
@@ -169,6 +176,10 @@ export default defineComponent({
     function mounted() {
 
       let obj = tools.getParamsByTable(props.table)
+
+      if (props.ind >= 0) {
+        strextra.value = costanti.MAINCARDS[props.ind].strsingolo!
+      }
 
       col.value = fieldsTable.getArrColsByTable(props.table)
 
@@ -435,21 +446,10 @@ export default defineComponent({
           tablesel: 'cities',
         },
         {
-          label: 'Offro/Cerco',
-          table: 'adtypes',
-          key: 'adType',
-          value: tools.getCookie(tools.COOK_SEARCH + 'adtypes', costanti.FILTER_TUTTI),
-          arrvalue: [],
-          addall: true,
-          type: costanti.FieldType.select,
-          filter: null,
-          useinput: false,
-        },
-        {
           label: 'Data Inizio',
           table: 'caldate',
           key: 'dateTimeStart',
-          value: tools.getCookie(tools.COOK_SEARCH + 'datetimestart', costanti.FILTER_TUTTI),
+          value: 2,
           arrvalue: [],
           type: costanti.FieldType.select,
           addall: true,
@@ -1026,6 +1026,7 @@ export default defineComponent({
       showType,
       visuType,
       hint,
+      strextra,
     }
   },
 })

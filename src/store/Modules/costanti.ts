@@ -1,5 +1,6 @@
 export interface IMainCard {
   visible: boolean
+  strsingolo?: string
   title: string
   to?: string
   icon?: string
@@ -33,6 +34,7 @@ export const costanti = {
     {
       visible: true,
       title: ' Beni ',
+      strsingolo: 'Bene',
       to: '/goods',
       icon: 'fas fa-tshirt',
       color: 'indigo-6',
@@ -43,6 +45,7 @@ export const costanti = {
     },
     {
       visible: true,
+      strsingolo: 'Servizio',
       title: 'Servizi',
       to: '/services',
       icon: 'fas fa-house-user',
@@ -55,6 +58,7 @@ export const costanti = {
     {
       visible: true,
       title: 'Mobilità',
+      strsingolo: 'Mobilità',
       to: '/places',
       icon: 'fas fa-taxi',
       color: 'lime-6',
@@ -66,6 +70,7 @@ export const costanti = {
     {
       visible: true,
       title: 'Scuola',
+      strsingolo: 'Scuola',
       to: '/school',
       icon: 'fas fa-book-open',
       color: 'orange-6',
@@ -76,6 +81,7 @@ export const costanti = {
     {
       visible: true,
       title: 'Eventi',
+      strsingolo: 'Evento',
       to: '/events',
       icon: 'event',
       color: 'green-6',
@@ -87,6 +93,7 @@ export const costanti = {
     },
     {
       visible: true,
+      strsingolo: 'Luogo',
       title: 'Luoghi',
       to: '/places',
       icon: 'fas fa-map-marker-alt',
@@ -97,6 +104,7 @@ export const costanti = {
     },
     {
       visible: true,
+      strsingolo: 'Idea',
       title: 'Tue&nbsp;Idee',
       to: '/ideas',
       icon: 'fas fa-lightbulb',

@@ -982,17 +982,6 @@ export const colmyBachecas = [
     sortable: false,
     required: true,
   }),
-  AddCol({
-    name: 'adType',
-    label_trans: 'adTypes.name',
-    fieldtype: costanti.FieldType.select,
-    required: true,
-    jointable: 'adtypes',
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
-    icon: 'fas fa-bullhorn',
-    noshowlabel: true,
-    sortable: false,
-  }),
   AddCol(
     {
       name: 'dateTimeStart',

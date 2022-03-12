@@ -22,12 +22,11 @@
         </q-btn>
         <q-btn
           v-if="mytable" rounded size="md" color="primary"
-          class="centermydiv"
-          label="Aggiungi"
+          class="centermydiv q-mb-sm"
+          :label="labelBtnAddExtra"
           :disable="loading"
           icon="fas fa-plus"
           @click="createNewRecord">
-
         </q-btn>
       </div>
     </div>

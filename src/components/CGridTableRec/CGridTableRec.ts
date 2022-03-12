@@ -121,6 +121,11 @@ export default defineComponent({
       required: false,
       default: 'Aggiungi',
     },
+    labelBtnAddExtra: {
+      type: String,
+      required: false,
+      default: 'Aggiungi',
+    },
     noresultLabel: {
       type: String,
       required: false,
