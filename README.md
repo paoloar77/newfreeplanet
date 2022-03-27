@@ -77,12 +77,19 @@ npm run pwa
 
 ### Build the app for test Server
 ```bash
+cp .env.example.production .env.test
+nano .env.test
+# and change SERVERPW_WEBSITE and PUBLICKEY_PUSH keys in this file
+
 ./deploy_on_test_server.sh
 ```
 
 
 ### Build the app for production
 ```bash
+cp .env.example.production .env.production
+nano .env.production
+# and change SERVERPW_WEBSITE and PUBLICKEY_PUSH keys in this file
 ./deploy_on_production.sh
 ```
 
