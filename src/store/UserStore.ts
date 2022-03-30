@@ -540,8 +540,8 @@ export const useUserStore = defineStore('UserStore', {
       tools.localStSetItem(toolsext.localStorage.perm, String(myuser.perm) || '')
       if (myuser.profile !== undefined) tools.localStSetItem(toolsext.localStorage.img, (myuser.profile.img) ? String(myuser.profile.img) || '' : '')
       else tools.localStSetItem(toolsext.localStorage.img, '')
-      tools.localStSetItem(toolsext.localStorage.token, this.x_auth_token)
-      tools.localStSetItem(toolsext.localStorage.expirationDate, expirationDate.toString())
+      localStorage.setItem(toolsext.localStorage.token, this.x_auth_token)
+      localStorage.setItem(toolsext.localStorage.expirationDate, expirationDate.toString())
       tools.localStSetItem(toolsext.localStorage.isLogged, String(true))
       tools.localStSetItem(toolsext.localStorage.verified_email, String(myuser.verified_email))
       tools.localStSetItem(toolsext.localStorage.verified_by_aportador, String(myuser.verified_by_aportador))
@@ -600,8 +600,8 @@ export const useUserStore = defineStore('UserStore', {
                 tools.localStSetItem(toolsext.localStorage.username, newuser.username)
                 tools.localStSetItem(toolsext.localStorage.name, newuser.name)
                 tools.localStSetItem(toolsext.localStorage.surname, newuser.surname)
-                tools.localStSetItem(toolsext.localStorage.token, this.x_auth_token)
-                tools.localStSetItem(toolsext.localStorage.expirationDate, expirationDate.toString())
+                localStorage.setItem(toolsext.localStorage.token, this.x_auth_token)
+                localStorage.setItem(toolsext.localStorage.expirationDate, expirationDate.toString())
                 tools.localStSetItem(toolsext.localStorage.verified_email, String(false))
                 tools.localStSetItem(toolsext.localStorage.verified_by_aportador, String(false))
 
@@ -815,6 +815,8 @@ export const useUserStore = defineStore('UserStore', {
 
         this.isLogged = isok && isLogged
 
+        console.log('this.isLogged', this.isLogged, 'isok', isok, 'isLogged', isLogged)
+
         if (static_data.functionality.ENABLE_TODOS_LOADING)
           await todos.dbLoad({ checkPending: true })
 
@@ -842,7 +844,7 @@ export const useUserStore = defineStore('UserStore', {
       try {
         const globalStore = useGlobalStore()
 
-        // console.log('*** autologin_FromLocalStorage ***')
+        console.log('*** autologin_FromLocalStorage ***')
         // INIT
 
         let isLogged = false
@@ -850,7 +852,23 @@ export const useUserStore = defineStore('UserStore', {
         this.lang = tools.getItemLS(toolsext.localStorage.lang)
 
         const token = localStorage.getItem(toolsext.localStorage.token)
+
         if (token) {
+          const expirationDateStr = localStorage.getItem(toolsext.localStorage.expirationDate)
+          const expirationDate = new Date(String(expirationDateStr))
+          const now = tools.getDateNow()
+          if (now < expirationDate) {
+            this.setAuth(token)
+            isLogged = true
+
+          } else {
+            // ++ ?? che fare qui
+          }
+        } else {
+          isLogged = tools.isLogged()
+        }
+
+        /*if (token) {
           const expirationDateStr = localStorage.getItem(toolsext.localStorage.expirationDate)
           const expirationDate = new Date(String(expirationDateStr))
           const now = tools.getDateNow()
@@ -900,7 +918,9 @@ export const useUserStore = defineStore('UserStore', {
 
             isLogged = true
           }
-        }
+        }*/
+
+
 
         return await this.setGlobal($router, isLogged)
           .then((loadstorage: any) => {

@@ -3364,6 +3364,10 @@ export const tools = {
     localStorage.setItem(item, value)
   },
 
+  localStReal(item: string, value : string) {
+    localStorage.setItem(item, value)
+  },
+
   setCookie(mytok: any, value: string) {
     // console.log('setCookie', mytok, value)
     if (localStorage.getItem('cookie-id') === 'decline')
@@ -4138,8 +4142,9 @@ export const tools = {
 
   isLogged() {
     const userStore = useUserStore()
+    const globalStore = useGlobalStore()
     if (!!userStore)
-      return userStore.isLogged
+      return userStore.isLogged && !globalStore.serverError
     else
       return false
   },

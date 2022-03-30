@@ -23,9 +23,11 @@ export default defineComponent({
   setup(props) {
 
     const userStore = useUserStore()
+    const globalStore = useGlobalStore()
 
     return {
       userStore,
+      globalStore,
       tools,
     }
   },

@@ -76,7 +76,8 @@ export default defineComponent({
     }
 
     function condividipag() {
-      return tools.copyStringToClipboard($q, self.location.host + tools.getPathByGroup(myrec.value, props.table), true)
+      const msg = self.location.host + tools.getPathByGroup(myrec.value, props.table)
+      return tools.copyStringToClipboard($q, msg, true)
     }
 
     onMounted(mounted)

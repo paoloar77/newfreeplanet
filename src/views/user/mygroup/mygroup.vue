@@ -99,7 +99,7 @@
                   <CMyUser
                     :mycontact="user"
                     :visu="costanti.FIND_PEOPLE"
-                    @setCmd="setCmd"
+                    @setCmd="tools.setCmd"
                   >
                   </CMyUser>
                 </div>
