@@ -212,8 +212,9 @@ const msg_website_it = {
         + 'Dopo la registrazione chiederà di aggiungerlo allo schermo (o cliccare sul menu del browser "Installa APP")',
     },
     free: {
-      title: 'Gratuita, Open Source (Codice aperto) e Niente Pubblicità',
-      descr: 'Questa App <strong>non è in vendita</strong>, non ha scopi commerciali, quindi <strong>non ha prezzo</strong> e nessun dato contenuto in esso verrà mai venduto, in quanto appartiene a <strong>Tutti Noi</strong> ed a nessuno in particolare.<br>Chiunque potrá utilizzarla e beneficiarne da essa.<br>'
+      title: 'Gratuita, Open Source e Niente Pubblicità',
+      descr: 'Questa App <strong>non è in vendita</strong>, non ha scopi commerciali, quindi <strong>non ha prezzo</strong> e nessun dato contenuto in esso verrà mai venduto, in quanto appartiene a <strong>Tutti Noi</strong> ed a nessuno in particolare.<br>Chiunque potrá utilizzarla e beneficiarne da essa.<br>' +
+        '<em>Progetto Open Source su <a href="https://github.com/paoloar77/newfreeplanet" target="_blank">GitHub</a>.</em><br><br>'
         + '<strong>Grazie a Tutti per il sostegno</strong>. ',
     },
     titlecontatti: 'Contatti',

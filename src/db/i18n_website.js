@@ -116,7 +116,7 @@ const msg_website = {
       free: {
         title: 'Gratuita, Open Source e Niente Pubblicità',
         descr: 'Questa App <strong>non è in vendita</strong>, non ha scopi commerciali, <strong>non ha prezzo</strong> ed appartiene al <strong>Popolo del Nuovo Mondo</strong>.<br>Chiunque potrá utilizzarla e beneficiarne.<br>A me il compito di gestirla e proteggerla. '
-          + 'Verranno accettate solo donazioni Libere di privati ed Associazioni no-profit, in linea con i Principi, che serviranno per coprire le spese.<br>'
+          + 'Verranno accettate solo donazioni Libere di privati ed Associazioni no-profit, in linea con i Principi, che serviranno per coprire le spese.<br>' +
           + '<strong>Grazie a Tutti per il sostegno</strong>. ',
       },
       contacts: 'Contatti',
