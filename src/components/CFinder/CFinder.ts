@@ -796,7 +796,13 @@ export default defineComponent({
               recCatGrp: 1,
             }
           },
-
+          lookup5: {
+            lk_tab: 'cities',
+            lk_LF: 'idCity',
+            lk_FF: '_id',
+            lk_as: 'mycities',
+            af_objId_tab: '',
+          },
         }
 
       } else if (props.table === toolsext.TABMYGOODS) {

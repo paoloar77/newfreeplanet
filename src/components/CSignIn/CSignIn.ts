@@ -118,13 +118,14 @@ export default defineComponent({
         })
         .then((riscode: number) => {
           if (riscode === tools.OK) {
-            // console.log('  -> eseguo emit(loginOk)')
+            console.log('  -> eseguo emit(loginOk)')
 
             emit('loginOk')
 
             globalStore.createPushSubscription()
 
           } else {
+            console.log('  -> eseguo emit(checkErrors)')
             emit('checkErrors', riscode)
           }
 

@@ -312,6 +312,7 @@ export default defineComponent({
 
         // Check if exist other array:
         if (props.col) {
+
           if (props.col.remote_table && props.col.remote_key && props.col.remote_field) {
 
             try {

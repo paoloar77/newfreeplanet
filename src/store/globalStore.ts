@@ -1327,17 +1327,21 @@ export const useGlobalStore = defineStore('GlobalStore', {
               this.mypage = (res.data.mypage) ? [...res.data.mypage] : []
             }
 
+            let isLogged = false
+
             // console.log('res.data.myuser', res.data.myuser)
             if (res.data.myuser) {
               userStore.authUser(res.data.myuser)
 
               userStore.updateLocalStorage(res.data.myuser)
+
+              isLogged = !!res.data.myuser.username
             } else {
               // User not exist !!
 
             }
 
-            const isLogged = localStorage.getItem(toolsext.localStorage.username)
+            // const isLogged = localStorage.getItem(toolsext.localStorage.username)
             console.log('isLogged', isLogged)
 
             // calendarStore.editable = userStore.isAdmin || userStore.isManager || userStore.isTutor

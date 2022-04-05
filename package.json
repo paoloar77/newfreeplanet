@@ -119,15 +119,15 @@
     "crypto": false
   },
   "browserslist": [
-    "last 13 Chrome versions",
-    "last 13 Firefox versions",
+    "last 16 Chrome versions",
+    "last 16 Firefox versions",
     "last 4 Edge versions",
     "last 13 Safari versions",
-    "last 14 Android versions",
-    "last 14 ChromeAndroid versions",
-    "last 14 FirefoxAndroid versions",
-    "last 10 iOS versions",
-    "last 5 Opera versions"
+    "last 16 Android versions",
+    "last 16 ChromeAndroid versions",
+    "last 16 FirefoxAndroid versions",
+    "last 12 iOS versions",
+    "last 7 Opera versions"
   ],
   "engines": {
     "node": ">= 16.14.0",

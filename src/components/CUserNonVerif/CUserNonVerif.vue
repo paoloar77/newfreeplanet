@@ -1,5 +1,5 @@
 <template>
-  <div class="q-ma-md">
+  <div v-if="!globalStore.serverError" class="q-ma-md">
     <CVerifyTelegram v-if="!tools.TelegVerificato() || !tools.isUsernameTelegOk()">
 
     </CVerifyTelegram>
