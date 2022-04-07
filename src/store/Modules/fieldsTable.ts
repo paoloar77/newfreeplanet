@@ -2157,6 +2157,36 @@ export const colTableSubCashCategory = [
   AddCol({ name: 'notes', label_trans: 'reg.note' }),
 ]
 
+export const colTableCircuit = [
+  AddCol({ name: 'nome_circuito', label_trans: 'circuit.nome_circuito' }),
+  AddCol({ name: 'sotto_nome', label_trans: 'circuit.sotto_nome' }),
+  AddCol({ name: 'descr', label_trans: 'circuit.descr' }),
+  AddCol({ name: 'systemUserDescr', label_trans: 'circuit.systemUserDescr' }),
+  AddCol({ name: 'systemUserId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users', }),
+  AddCol({ name: 'founderUserId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users', }),
+  AddCol({ name: 'totCircolante', label_trans: 'circuit.totCircolante', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'totTransato', label_trans: 'circuit.totTransato', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'nome_valuta', label_trans: 'circuit.nome_valuta' }),
+  AddCol({ name: 'simbolo', label_trans: 'circuit.simbolo' }),
+  AddCol({ name: 'sigla', label_trans: 'circuit.sigla' }),
+  AddCol({ name: 'compara_valuta', label_trans: 'circuit.compara_valuta', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'compara_euro', label_trans: 'circuit.compara_euro', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'valuta_per_euro', label_trans: 'circuit.valuta_per_euro', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'fido_scoperto_default', label_trans: 'circuit.fido_scoperto_default', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'data_costituz', label_trans: 'circuit.data_costituz', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'deperimento', label_trans: 'circuit.deperimento', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'freq_deper', label_trans: 'circuit.freq_deper' }),
+  AddCol({ name: 'minuto_deper', label_trans: 'circuit.minuto_deper', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'ora_deper', label_trans: 'circuit.ora_deper', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'giorno_deper', label_trans: 'circuit.giorno_deper', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'mese_deper', label_trans: 'circuit.mese_deper', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'ultimo_deper', label_trans: 'circuit.ultimo_deper', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'durata_deper', label_trans: 'circuit.durata_deper', fieldtype: costanti.FieldType.number }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
+]
+
+
 
 export const fieldsTable = {
   getrecTableList(mytable: string) {
