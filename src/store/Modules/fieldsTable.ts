@@ -2158,8 +2158,8 @@ export const colTableSubCashCategory = [
 ]
 
 export const colTableCircuit = [
-  AddCol({ name: 'nome_circuito', label_trans: 'circuit.nome_circuito' }),
-  AddCol({ name: 'sotto_nome', label_trans: 'circuit.sotto_nome' }),
+  AddCol({ name: 'name', label_trans: 'circuit.name' }),
+  AddCol({ name: 'subname', label_trans: 'circuit.subname' }),
   AddCol({ name: 'descr', label_trans: 'circuit.descr' }),
   AddCol({ name: 'systemUserDescr', label_trans: 'circuit.systemUserDescr' }),
   AddCol({ name: 'systemUserId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users', }),
@@ -2167,8 +2167,8 @@ export const colTableCircuit = [
   AddCol({ name: 'totCircolante', label_trans: 'circuit.totCircolante', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'totTransato', label_trans: 'circuit.totTransato', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'nome_valuta', label_trans: 'circuit.nome_valuta' }),
-  AddCol({ name: 'simbolo', label_trans: 'circuit.simbolo' }),
-  AddCol({ name: 'sigla', label_trans: 'circuit.sigla' }),
+  AddCol({ name: 'symbol', label_trans: 'circuit.symbol' }),
+  AddCol({ name: 'abbrev', label_trans: 'circuit.abbrev' }),
   AddCol({ name: 'compara_valuta', label_trans: 'circuit.compara_valuta', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'compara_euro', label_trans: 'circuit.compara_euro', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'valuta_per_euro', label_trans: 'circuit.valuta_per_euro', fieldtype: costanti.FieldType.number }),
@@ -2185,8 +2185,6 @@ export const colTableCircuit = [
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
 ]
-
-
 
 export const fieldsTable = {
   getrecTableList(mytable: string) {
@@ -2752,6 +2750,13 @@ export const fieldsTable = {
       columns: colTableGeneric,
       colkey: 'value',
       collabel: 'label',
+    },
+    {
+      value: 'circuits',
+      label: 'Circuiti',
+      columns: colTableCircuit,
+      colkey: '_id',
+      collabel: 'name',
     },
   ],
 
