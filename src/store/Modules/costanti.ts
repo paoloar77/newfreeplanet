@@ -57,8 +57,8 @@ export const costanti = {
     },
     {
       visible: true,
-      title: 'Mobilità',
-      strsingolo: 'Mobilità',
+      title: 'Scambio Ospitalità',
+      strsingolo: 'Scambio Ospitalità',
       to: '/places',
       icon: 'fas fa-taxi',
       color: 'lime-6',

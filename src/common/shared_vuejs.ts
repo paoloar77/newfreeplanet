@@ -87,33 +87,29 @@ export const shared_consts = {
 
   TABLES_MYSKILLS: 'myskills',
   TABLES_MYBACHECAS: 'mybachecas',
+  TABLES_MYHOSPS: 'myhosps',
   TABLES_MYGOODS: 'mygoods',
 
-  TABLES_ENABLE_GETREC_BYID: ['mybachecas'],
+  TABLES_ENABLE_GETREC_BYID: ['mybachecas', 'myhosps'],
 
   TABLES_USER_INCLUDE_MY: ['mygroups'],
-  TABLES_GETCOMPLETEREC: ['myskills', 'mybachecas', 'mygoods'],
+  TABLES_GETCOMPLETEREC: ['myskills', 'mybachecas', 'myhosps', 'mygoods'],
   TABLES_WITH_FILTER_FIELD: ['caldate'],
-  TABLES_WITH_DATE: ['mybachecas'],
-  TABLES_WITH_SORTING: ['mybachecas'],
-  TABLES_PERM_NEWREC: ['skills', 'goods', 'subskills', 'mygroups'],
-  TABLES_REC_ID: ['skills', 'goods', 'subskills', 'myskills', 'mybachecas', 'mygoods'],
+  TABLES_WITH_DATE: ['mybachecas', 'myhosps'],
+  TABLES_WITH_SORTING: ['mybachecas', 'myhosps'],
+  TABLES_REC_ID: ['skills', 'goods', 'subskills', 'myskills', 'mybachecas', 'myhosps', 'mygoods'],
 
   // costanti.VISUTABLE_SCHEDA_USER, VISUTABLE_SCHEDA_GROUP, VISUTABLE_USER_TABGROUP
   VERTIC_SHOW_GRID: [-1, 2, -3, -4],
 
-  TABLES_ID_NUMBER: ['permissions', 'levels', 'adtypes', 'adtypegoods', 'statusSkills', 'sectors', 'sectorgoods', 'catgrps', 'skills', 'subskills', 'cities', 'provinces',
-    'myskills', 'mybachecas', 'mygoods', 'mygroups'],
-  TABLES_USER_ID: ['mygroups', 'myskills', 'mybachecas', 'mygoods'],
-  TABLES_UPDATE_LASTIFIED: ['myskills', 'mybachecas', 'mygoods', 'mybots'],
-  TABLES_FINDER: ['myskills', 'mybachecas', 'mygoods', 'mygroups'],
-  TABLES_VISU_CMYSRECCARD: ['myskills', 'mybachecas', 'mygoods', 'mygroups'],
-  TABLES_SHOW_ADTYPE: ['myskills', 'mygoods'],
+  TABLES_UPDATE_LASTIFIED: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'mybots'],
+  TABLES_FINDER: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'mygroups'],
+  TABLES_VISU_CMYSRECCARD: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'mygroups'],
+  TABLES_SHOW_ADTYPE: ['myskills', 'mygoods', 'myhosps'],
 
-  TABLES_PERM_CHANGE_FOR_USERS: ['myskills', 'mybachecas', 'mygoods'],
-  TABLES_VISU_LISTA_USER: ['myskills', 'mybachecas', 'mygoods', 'users'],
+  TABLES_VISU_LISTA_USER: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'users'],
 
-  TABLES_VISU_IMG: ['myskills', 'mybachecas', 'mygoods', 'mygroups'],
+  TABLES_VISU_IMG: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'mygroups'],
   TABLES_DIRECTORY_A_PARTE: ['mygroups'],
 
   VISIB_ALL: 0,

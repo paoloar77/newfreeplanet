@@ -3,6 +3,7 @@ const msg_website = {
     pages: {
       home: 'Principale',
       SignUp: 'Registrazione',
+      SignUp2: 'Registrazione2',
       SignIn: 'Login',
       vreg: 'Verifica Reg',
       Test: 'Test',

@@ -800,6 +800,7 @@ const msg_es = {
       friends: 'Amici',
       bacheca: 'Bacheca',
       services: 'Servizi',
+      hosp: 'Scambio Ospitalità',
       events: 'Eventi',
       goods: 'Beni',
       test: 'Test',

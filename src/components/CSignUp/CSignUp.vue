@@ -80,6 +80,25 @@
         </q-input> -->
 
         <q-input
+          v-model="signup.username"
+          :readonly="true"
+          rounded outlined
+          @blur="v$.username.$touch"
+          @update:model-value="changeusername"
+          :error="v$.username.$error"
+          @keydown.space="(event) => event.preventDefault()"
+          maxlength="20"
+          debounce="1000"
+          :error-message="tools.errorMsg( 'username', v$.username)"
+          :label="$t('reg.username_reg')">
+
+          <template v-slot:prepend>
+            <q-icon name="person"/>
+          </template>
+
+        </q-input>
+
+        <q-input
           v-model="signup.email"
           rounded outlined
           @update:model-value="changeemail()"
@@ -91,25 +110,6 @@
 
           <template v-slot:prepend>
             <q-icon name="email"/>
-          </template>
-
-        </q-input>
-
-        <q-input
-          v-model="signup.username"
-          rounded outlined
-          @blur="v$.username.$touch"
-          @update:model-value="changeusername"
-          :error="v$.username.$error"
-          @keydown.space="(event) => event.preventDefault()"
-          maxlength="20"
-          :hint="$t('reg.username_hint')"
-          debounce="1000"
-          :error-message="tools.errorMsg( 'username', v$.username)"
-          :label="$t('reg.username_reg')">
-
-          <template v-slot:prepend>
-            <q-icon name="person"/>
           </template>
 
         </q-input>

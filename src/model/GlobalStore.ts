@@ -831,3 +831,24 @@ export interface IMyBacheca {
 }
 
 
+export interface IMyHosp {
+  _id: number
+  idSector: number
+  idSkill: number
+  // idSubSkill: number[]
+  idStatusSkill: number[]
+  idContribType: string[]
+  dateTimeStart: Date
+  dateTimeEnd: Date
+  idCity: number[]
+  photos: IGallery[]
+  NumLevel: number
+  adType: number
+  note: string
+  website: string
+  descr: string
+  date_created?: Date,
+  date_updated?: Date,
+}
+
+

@@ -339,6 +339,8 @@ export default defineComponent({
         return tools.getdefaultnewrec_MySkill()
       } else if (props.table === toolsext.TABMYBACHECAS) {
         return tools.getdefaultnewrec_MyBacheca()
+      } else if (props.table === toolsext.TABMYHOSPS) {
+        return tools.getdefaultnewrec_MyHosp()
       } else if (props.table === toolsext.TABMYGOODS) {
         return tools.getdefaultnewrec_MyGoods()
       }

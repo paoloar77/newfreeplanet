@@ -2,7 +2,7 @@ import { tools } from '@store/Modules/tools'
 
 import { ISignupOptions } from 'model'
 
-import { Logo } from '../../components/logo'
+import { Logo } from '@/components/logo'
 
 // import 'vue-country-code/dist/vue-country-code.css'
 
@@ -133,6 +133,8 @@ export default defineComponent({
     const v$ = useVuelidate(validations, signup)
 
     const invited = ref($route.params.invited)
+    const usernameteleg = ref($route.params.usernameteleg)
+    const idteleg = ref($route.params.idteleg)
 
     watch(() => invited, (to: any, from: any) => {
       if (props.showaportador) {
@@ -240,8 +242,12 @@ export default defineComponent({
 
       console.log('$route.params', $route.params)
 
-      // @ts-ignore
-      signup.aportador_solidario = $route.params.invited
+      signup.aportador_solidario = !!$route.params.invited ? $route.params.invited.toString() : ''
+      signup.username = !!$route.params.usernameteleg ? $route.params.usernameteleg.toString() : ''
+      signup.profile.username_telegram = signup.username
+      if (!!$route.params.idteleg) {
+        signup.profile.teleg_id = $route.params.idteleg ? parseInt($route.params.idteleg.toString()) : 0
+      }
 
       console.log('1) aportador_solidario', signup.aportador_solidario)
 
@@ -253,6 +259,10 @@ export default defineComponent({
       }
 
       console.log('signup.aportador_solidario', signup.aportador_solidario)
+
+      if (!signup.username || !signup.profile.teleg_id) {
+        window.location.href = tools.getLinkBotTelegram()
+      }
     }
 
     function myRuleEmail(val: string) {

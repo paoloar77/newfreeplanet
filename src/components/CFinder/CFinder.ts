@@ -50,6 +50,7 @@ export default defineComponent({
     const searchList_Beni = ref(<ISearchList[]>[])
     const searchList_MyGroups = ref(<ISearchList[]>[])
     const searchList_Events = ref(<ISearchList[]>[])
+    const searchList_Hosp = ref(<ISearchList[]>[])
 
     const search = ref('')
     const myrecfiltertoggle = ref(tools.FILTER_ALL)
@@ -118,6 +119,8 @@ export default defineComponent({
         return searchList_MyGroups.value
       else if (props.table === toolsext.TABMYBACHECAS)
         return searchList_Events.value
+      else if (props.table === toolsext.TABMYHOSPS)
+        return searchList_Hosp.value
 
       return searchList_Servizi.value
     })
@@ -142,6 +145,8 @@ export default defineComponent({
         return 'nome del Gruppo da cercare'
       else if (props.table === toolsext.TABMYBACHECAS)
         return 'nome dell\'Evento da cercare'
+      else if (props.table === toolsext.TABMYHOSPS)
+        return 'nome dell\'Ospitalità da cercare'
 
       return 'nome da cercare'
     })
@@ -168,6 +173,8 @@ export default defineComponent({
         return 'Nessun Gruppo trovato con i filtri selezionati'
       else if (props.table === toolsext.TABMYBACHECAS)
         return 'Nessun Evento trovato con i filtri selezionati'
+      else if (props.table === toolsext.TABMYHOSPS)
+        return 'Nessuna Ospitalità trovata con i filtri selezionati'
 
       return 'Nessun dato trovato con i filtri selezionati'
     })
@@ -395,6 +402,108 @@ export default defineComponent({
       ]
 
       searchList_Events.value = [
+        {
+          label: 'Stato',
+          table: 'statusSkills',
+          key: 'idStatusSkill',
+          value: 0,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'statusSkills', []),
+          type: costanti.FieldType.multiselect,
+          filter: null,
+          useinput: false,
+          icon: 'mood',
+          filteradv: false,
+        },
+        {
+          label: 'Regione',
+          table: 'regions',
+          key: 'idReg',
+          type: costanti.FieldType.select,
+          value: tools.getCookie(tools.COOK_SEARCH + 'regions', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          filter: null,
+          useinput: false,
+          icon: 'fas fa-globe-europe'
+        },
+        {
+          label: 'Provincia',
+          table: 'provinces',
+          key: 'idProvince',
+          type: costanti.FieldType.select,
+          value: tools.getCookie(tools.COOK_SEARCH + 'provinces', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          filter: getFilterProvinceByRegion,
+          useinput: true,
+          icon: 'flag',
+        },
+        {
+          label: 'Comune',
+          table: 'cities',
+          key: 'idCity',
+          type: costanti.FieldType.select_by_server,
+          value: tools.getCookie(tools.COOK_SEARCH + 'cities', costanti.FILTER_TUTTI),
+          addall: true,
+          arrvalue: [],
+          useinput: true,
+          filter: null,
+          // filter: getFilterCitiesByProvince,
+          // param1: shared_consts.PARAM_SHOW_PROVINCE,
+          tablesel: 'cities',
+        },
+        {
+          label: 'Data Inizio',
+          table: 'caldate',
+          key: 'dateTimeStart',
+          value: 2,
+          arrvalue: [],
+          type: costanti.FieldType.select,
+          addall: true,
+          filter: null,
+          useinput: false,
+        },
+        {
+          label: 'Settore',
+          table: toolsext.TABSECTORS,
+          key: 'idSector',
+          value: tools.getCookie(tools.COOK_SEARCH + toolsext.TABSECTORS, 0),
+          arrvalue: [],
+          type: costanti.FieldType.select,
+          filter: null,
+          addall: true,
+          notinsearch: true,
+          useinput: false,
+        },
+        {
+          label: 'Categoria',
+          table: 'skills',
+          key: 'idSkill',
+          value: tools.getCookie(tools.COOK_SEARCH + 'skills' + '_' + tools.getCookie(tools.COOK_SEARCH + toolsext.TABSECTORS, costanti.FILTER_TUTTI), costanti.FILTER_TUTTI),
+          arrvalue: [],
+          type: costanti.FieldType.select,
+          addall: true,
+          filter: getFilterSkills,
+          showcount: true,
+          useinput: false,
+        },
+        {
+          label: 'In cambio di',
+          table: 'contribtypes',
+          key: 'idContribType',
+          value: 0,
+          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'contribtypes', []),
+          type: costanti.FieldType.multiselect,
+          filter: null,
+          useinput: false,
+          icon: 'fas fa-hand-holding',
+          filteradv: false,
+          //icon: 'swap_horizontal_circle',
+        },
+
+      ]
+
+      searchList_Hosp.value = [
         {
           label: 'Stato',
           table: 'statusSkills',
@@ -926,6 +1035,69 @@ export default defineComponent({
           },
         }
 
+      } else if (props.table === toolsext.TABMYHOSPS) {
+        return {
+          // Servizi
+          lookup1: {
+            lk_tab: 'users',
+            lk_LF: 'userId',
+            lk_FF: '_id',
+            lk_as: 'user',
+            af_objId_tab: 'myId',
+          },
+          lookup2: {
+            lk_tab: 'skills',
+            lk_LF: 'idSkill',
+            lk_FF: '_id',
+            lk_as: 'recSkill',
+            af_objId_tab: '',
+            lk_proj: {
+              recSkill: 1,
+              sector: 1,
+              idSector: 1,
+              idSkill: 1,
+              // idSubSkill: 1,
+              myskill: 1,
+              idStatusSkill: 1,
+              idContribType: 1,
+              idCity: 1,
+              dateTimeStart: 1,
+              dateTimeEnd: 1,
+              numLevel: 1,
+              adType: 1,
+              photos: 1,
+              note: 1,
+              website: 1,
+              //**ADDFIELD_MYSKILL
+              descr: 1,
+              date_created: 1,
+              date_updated: 1,
+              userId: 1,
+              username: 1,
+              name: 1,
+              surname: 1,
+              comune: 1,
+              mycities: 1,
+              'profile.img': 1,
+              'profile.qualifica': 1,
+            }
+          },
+          lookup3: {
+            lk_tab: toolsext.TABSECTORS,
+            lk_LF: 'recSkill.idSector',
+            lk_FF: '_id',
+            lk_as: 'sector',
+            af_objId_tab: '',
+          },
+          lookup5: {
+            lk_tab: 'cities',
+            lk_LF: 'idCity',
+            lk_FF: '_id',
+            lk_as: 'mycities',
+            af_objId_tab: '',
+          },
+        }
+
       } else {
         return {
           // Servizi
@@ -994,6 +1166,8 @@ export default defineComponent({
         return tools.getdefaultnewrec_MySkill()
       } else if (props.table === toolsext.TABMYBACHECAS) {
         return tools.getdefaultnewrec_MyBacheca()
+      } else if (props.table === toolsext.TABMYHOSPS) {
+        return tools.getdefaultnewrec_MyHosp()
       } else if (props.table === toolsext.TABMYGOODS) {
         return tools.getdefaultnewrec_MyGoods()
       } else if (props.table === toolsext.TABMYGROUPS) {

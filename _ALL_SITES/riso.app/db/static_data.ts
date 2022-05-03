@@ -596,7 +596,7 @@ const baseroutes: IListRoutes[] = [
   {
     active: functionality.ENABLE_REGISTRATION,
     order: 1000,
-    path: '/signup/:invited',
+    path: '/signup/:un/:tid',
     materialIcon: 'how_to_reg',
     name: 'pages.SignUp',
     component: () => import('@/views/login/signup/signup.vue'),
