@@ -221,6 +221,7 @@ const msg_it = {
           open: 'Clicca sul bottone qui sotto, si aprirà una chat Telegram speciale (chiamata BOT)',
           ifclose: 'poi premi "AVVIA" o "START" e segui le istruzioni indicate.',
           openbot: 'Entra qui',
+          regbot: 'Verifica Telegram',
         },
         login: {
           facebook: 'Facebook',
@@ -437,6 +438,7 @@ const msg_it = {
       teleg_id_old: 'OLD Tel ID',
       teleg_auth: 'Codice Autorizzazione',
       click_per_copiare: 'Cliccaci sopra per copiarlo sugli appunti',
+      invitante: 'Username di chi ti ha invitato',
       link_reg: 'Clicca per copiare il link da condividere agli Amici',
       link_reg_and_msg: 'Condividi Link ad Amici',
       copia_messaggio: 'Copia Messaggio',

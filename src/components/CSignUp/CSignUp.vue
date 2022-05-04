@@ -23,24 +23,50 @@
          class="text-center">
       <div>
 
-        <p>
+        <div>
           <logo></logo>
 
           <q-btn class="q-ma-sm" color="positive" icon="fas fa-home" label="Se sei già Registrato CLICCA QUI" to="/"></q-btn>
 
-          <CTitleBanner :title="$t('pages.SignUp')"></CTitleBanner>
+          <div v-if="!isalreadyReg">
+            <CTitleBanner :title="$t('pages.SignUp')"></CTitleBanner>
 
-          <q-banner
-            rounded
-            class="bg-warning text-black"
-            style="text-align: center;"
-          >
-            <span class="mybanner" v-html="t('pages.need_Telegram')"></span>
-          </q-banner>
-        </p>
+            <q-banner
+              rounded
+              class="bg-warning text-black"
+              style="text-align: center;"
+            >
+              <span class="mybanner" v-html="t('pages.need_Telegram')"></span>
+            </q-banner>
+          </div>
+
+        </div>
       </div>
 
-      <div class="q-gutter-sm">
+      <div v-if="visubuttBOT" class="q-gutter-md">
+        <q-banner
+          rounded
+          class="bg-green-5 text-white"
+          style="text-align: center;"
+        >
+          <span class="mybanner" v-html="t('pages.Registrazione_Con_Bot')"></span>
+
+          <CCopyBtn :title="$t('reg.invitante')" :texttocopy="signup.aportador_solidario">
+
+          </CCopyBtn>
+
+          <span class="myuserinvitante">{{}}</span>
+          <div class="q-ma-md">
+            <q-btn rounded color="primary" icon="fab fa-telegram" :label="$t('components.authentication.telegram.regbot', {botname: tools.getBotName() })"
+                   type="a"
+                   :href="tools.getLinkBotTelegram()" target="_blank"></q-btn>
+            <br>
+          </div>
+        </q-banner>
+
+      </div>
+
+      <div v-else-if="!isalreadyReg" class="q-gutter-sm">
 
         <q-input
           v-if="showaportador && signup.aportador_solidario !== tools.APORTADOR_NONE"
@@ -81,7 +107,7 @@
 
         <q-input
           v-model="signup.username"
-          :readonly="true"
+          :readonly="tools.getAskToVerifyReg()"
           rounded outlined
           @blur="v$.username.$touch"
           @update:model-value="changeusername"
@@ -89,7 +115,7 @@
           @keydown.space="(event) => event.preventDefault()"
           maxlength="20"
           debounce="1000"
-          :error-message="tools.errorMsg( 'username', v$.username)"
+          :error-message="tools.errorMsg( 'username', v$.username) || (isalreadyReg ? 'L\'Username è gia stato registrato!' : '')"
           :label="$t('reg.username_reg')">
 
           <template v-slot:prepend>

@@ -3357,14 +3357,14 @@ export const tools = {
     }
   },
 
-  localStSetItem(item: string, value : string) {
+  localStSetItem(item: string, value: string) {
     if (localStorage.getItem('cookie-id') === 'decline')
       return null
 
     localStorage.setItem(item, value)
   },
 
-  localStReal(item: string, value : string) {
+  localStReal(item: string, value: string) {
     localStorage.setItem(item, value)
   },
 
@@ -4557,6 +4557,22 @@ export const tools = {
 
   },
 
+  async registeredusername(username: string) {
+
+    const VALIDATE_USER_URL = tools.getServerHost() + ''
+
+    let onSuccess = (res: AxiosResponse) => {
+      return res.status === PayloadMessageTypes.statusfound
+    }
+
+    return Axios.get(VALIDATE_USER_URL + '/users/' + process.env.APP_ID + '/' + username)
+      .then(onSuccess)
+      .catch((err) => {
+        return false
+      })
+
+  },
+
   isEmail(email: string) {
     const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return res.test(String(email).toLowerCase())
@@ -5359,7 +5375,7 @@ export const tools = {
 
   },
 
-  getFieldSearchByTable: function (mytable: string, tablejoin: string, field: string) {
+  getFieldSearchByTable(mytable: string, tablejoin: string, field: string) {
     let ris = field
     if (mytable === 'users') {
       if (tablejoin === 'cities') {
@@ -5376,6 +5392,22 @@ export const tools = {
     return ris
   },
 
+  getConfSiteOptionEnabled(option: number): any {
+
+    const globalStore = useGlobalStore()
+
+    if (globalStore.site) {
+      if (globalStore.site.confsite.hasOwnProperty('options')) {
+        return this.isBitActive(globalStore.site.confsite.options, option)
+      }
+    }
+
+    return false
+  },
+
+  getAskToVerifyReg(): boolean {
+    return this.getConfSiteOptionEnabled(shared_consts.ConfSite.Need_Aportador_On_DataReg_To_Verify_Reg)
+  },
 
 
 // getLocale() {

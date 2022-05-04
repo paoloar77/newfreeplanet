@@ -47,6 +47,7 @@ const msg_website_it = {
     invita: 'Invita Persone',
     SignUp: 'Nuova Registrazione',
     need_Telegram: 'Per poter utilizzare la Piattaforma occorre avere Telegram installato.<br><a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank">Clicca qui per scaricarlo</a>',
+    Registrazione_Con_Bot: 'Per Registrarsi occorre prima verificarsi su Telegram sul <strong>BOT RISO</strong>',
     SignUpIscrizione: 'Diventa Socio CNM',
     SignUp_alreadylista: 'Registrazione per quelli che erano già nella lista di Notevole (del 2019) !',
     SignUp2: 'Registrazione',

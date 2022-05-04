@@ -128,6 +128,11 @@ export const useGlobalStore = defineStore('GlobalStore', {
     sectors: [],
     sectorgoods: [],
     catgrps: [],
+    site: {
+      confsite: {
+        options: 0
+      },
+    },
     provinces: [],
   }),
 
@@ -1308,6 +1313,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.sectorgoods = (res.data.sectorgoods) ? [...res.data.sectorgoods] : []
             this.provinces = (res.data.provinces) ? [...res.data.provinces] : []
             this.catgrps = (res.data.catgrps) ? [...res.data.catgrps] : []
+            this.site = (res.data.site) ? res.data.site : {}
             this.adtypes = (res.data.adtypes) ? [...res.data.adtypes] : []
             this.adtypegoods = (res.data.adtypegoods) ? [...res.data.adtypegoods] : []
 
@@ -1499,7 +1505,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
 
       let obj = {}
 
-      arr.push(this.getItemDate(1, -30, 30,  'Eventi Passati'))
+      arr.push(this.getItemDate(1, -30, 30, 'Eventi Passati'))
       arr.push(this.getItemDate(2, 0, 14, 'Da Oggi a 2 sett.'))
       arr.push(this.getItemDate(3, 14, 60, 'Eventi Futuri'))
 

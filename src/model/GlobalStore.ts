@@ -147,6 +147,10 @@ export interface IMyPage {
   internalpage?: boolean
 }
 
+export interface IOption {
+  options: number
+}
+
 export interface ISites {
   _id?: string
   attiva?: boolean
@@ -166,6 +170,7 @@ export interface ISites {
   telegram_key_test?: string
   telegram_bot_name_test?: string
   pathreg_add?: string
+  confsite: IOption
 }
 
 export interface INewsToSent {
@@ -304,6 +309,7 @@ export interface IGlobalState {
   catgrps: ICatGrp[],
   provinces: IProvince[],
   datastat?: INotData
+  site?: ISites,
 }
 
 export interface IMenuList {

@@ -7,6 +7,7 @@ import { Logo } from '@/components/logo'
 // import 'vue-country-code/dist/vue-country-code.css'
 
 import { CTitleBanner } from '../CTitleBanner'
+import { CCopyBtn } from '../CCopyBtn'
 import { PagePolicy } from '../PagePolicy'
 import { computed, defineComponent, reactive, ref, watch } from 'vue'
 import { CSignIn } from '@/components/CSignIn'
@@ -30,7 +31,7 @@ import { useGlobalStore } from '@store/globalStore'
 
 export default defineComponent({
   name: 'CSignUp',
-  components: { Logo, CTitleBanner, PagePolicy },
+  components: { Logo, CTitleBanner, PagePolicy, CCopyBtn },
   props: {
     showadultcheck: {
       type: Boolean,
@@ -76,6 +77,8 @@ export default defineComponent({
     const duplicate_username = ref(false)
     const visureg = ref(false)
     const showpolicy = ref(false)
+    const visubuttBOT = ref(false)
+    const isalreadyReg = ref(false)
 
     const globalStore = useGlobalStore()
 
@@ -238,12 +241,15 @@ export default defineComponent({
       signup.username = value.trim()
     }
 
-    function created() {
+    async function created() {
 
       console.log('$route.params', $route.params)
 
+
       signup.aportador_solidario = !!$route.params.invited ? $route.params.invited.toString() : ''
       signup.username = !!$route.params.usernameteleg ? $route.params.usernameteleg.toString() : ''
+      if (signup.username)
+        isalreadyReg.value = await tools.registeredusername(signup.username);
       signup.profile.username_telegram = signup.username
       if (!!$route.params.idteleg) {
         signup.profile.teleg_id = $route.params.idteleg ? parseInt($route.params.idteleg.toString()) : 0
@@ -260,10 +266,16 @@ export default defineComponent({
 
       console.log('signup.aportador_solidario', signup.aportador_solidario)
 
-      if (!signup.username || !signup.profile.teleg_id) {
-        window.location.href = tools.getLinkBotTelegram()
+      if (tools.getAskToVerifyReg()) {
+
+        if (!signup.username || !signup.profile.teleg_id) {
+          tools.copyStringToClipboard($q, signup.aportador_solidario, true)
+          visubuttBOT.value = true
+          // window.location.href = tools.getLinkBotTelegram()
+        }
       }
     }
+
 
     function myRuleEmail(val: string) {
 
@@ -311,6 +323,8 @@ export default defineComponent({
       myRuleEmail,
       visureg,
       showpolicy,
+      visubuttBOT,
+      isalreadyReg,
     }
   },
 })
