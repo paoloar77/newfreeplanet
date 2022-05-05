@@ -1202,7 +1202,7 @@ export default defineComponent({
     }
 
     function visuIntestazCol(col: IColGridTable) {
-      if (col.fieldtype === costanti.FieldType.html || col.fieldtype === costanti.FieldType.listimages || col.noshowlabel) {
+      if (col.fieldtype === costanti.FieldType.html || col.fieldtype === costanti.FieldType.listimages || col.fieldtype === costanti.FieldType.listobj || col.noshowlabel) {
         return false
       } else {
         return true

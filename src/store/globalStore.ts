@@ -1547,6 +1547,10 @@ export const useGlobalStore = defineStore('GlobalStore', {
       else if (table === 'otherfilters') myarr = shared_consts.OtherFilters
       else if (table === toolsext.TABCALDATE) myarr = this.getArrDateEvent()
       else if (table === toolsext.TABCALALLDATE) myarr = this.getArrAllDateEvent()
+      else if (table === toolsext.TABTYPEHOSP) myarr = shared_consts.TypeHosps
+      else if (table === toolsext.TABPEOPLE) myarr = shared_consts.People
+      else if (table === toolsext.TABTYPEACCOM) myarr = shared_consts.TypeAccom
+      else if (table === toolsext.TABLOCACCOM) myarr = shared_consts.LocationAccom
       else myarr = this.getListByTable(table)
 
       if (costanti.TABLES_ARRAY.includes(table)) {

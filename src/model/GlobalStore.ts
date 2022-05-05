@@ -836,23 +836,23 @@ export interface IMyBacheca {
   date_updated?: Date,
 }
 
+export interface IAccomodation {
+  type: number  // Letto matrimoniale / letto singolo / divano-letto / almaca / a terra sul tappeto (per sacco a pelo)
+  location: number  // in camera privata / in camera condivisa / in soggiorno / in camper / in tenda / in giardino / all'aperto
+  num: number
+}
 
 export interface IMyHosp {
   _id: number
-  idSector: number
-  idSkill: number
-  // idSubSkill: number[]
-  idStatusSkill: number[]
+  typeHosp: number
+  numMaxPeopleHosp: number
+  accomodation: IAccomodation[]
+  preferences: number[]
   idContribType: string[]
-  dateTimeStart: Date
-  dateTimeEnd: Date
   idCity: number[]
-  photos: IGallery[]
-  NumLevel: number
-  adType: number
+  descr: string
   note: string
   website: string
-  descr: string
   date_created?: Date,
   date_updated?: Date,
 }

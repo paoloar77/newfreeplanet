@@ -954,7 +954,15 @@ const msg_it = {
       prov: 'Provincia',
       reg: 'Regione',
       link_grp: 'Link Territoriale',
-    }
+    },
+    hosps: {
+      typeHosp: 'Tipologia',
+      numMaxPeopleHosp: 'Numero Massimo di Ospiti',
+      accomodation: {
+        title: 'Tipo di Ospitalità',
+        type: 'Tipo'
+      }
+    },
 
   },
 

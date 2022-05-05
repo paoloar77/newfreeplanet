@@ -5088,7 +5088,7 @@ export const tools = {
       obj.col_footer = 'idCity'
       obj.col_tabfooter = 'mycities'
     } else if (table === toolsext.TABMYHOSPS) {
-      obj.prop_colkey = 'idHosp'
+      obj.prop_colkey = 'descr'
       obj.col_title = 'descr'
       obj.col_footer = 'idCity'
       obj.col_tabfooter = 'mycities'
@@ -5225,20 +5225,13 @@ export const tools = {
   getdefaultnewrec_MyHosp(): any {
     return {
       _id: 0,
-      idSector: tools.getSelectionByTable('sectors', 0),
-      idHosp: tools.getSelectionByTable('hosps', 0),
-      idStatusSkill: tools.getSelectionByTable('statusSkills', []),
+      typeHosp: tools.getSelectionByTable(toolsext.TABTYPEHOSP, 2),
       idContribType: tools.getSelectionByTable('contribtypes', []),
-      dateTimeStart: new Date(),
-      dateTimeEnd: new Date(),
       idCity: this.getCitySel(),
-      NumLevel: 0,
-      adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
       photos: [],
-      note: '',
-      //**ADDFIELD_MYBACHECAS
-      website: '',
       descr: '',
+      note: '',
+      website: '',
 
     }
   },

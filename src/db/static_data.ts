@@ -419,7 +419,7 @@ const baseroutes: IListRoutes[] = [
   {
     active: true,
     order: 15,
-    path: '/services',
+    path: '/hosps',
     materialIcon: 'fas fa-house-user',
     name: 'mypages.hosp',
     component: () => import('@/root/hosp/hosp.vue'),

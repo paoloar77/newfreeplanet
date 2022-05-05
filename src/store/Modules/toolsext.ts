@@ -85,11 +85,16 @@ export const toolsext = {
   TABTEMPLEMAIL: 'templemail',
   TABOPZEMAIL: 'opzemail',
   TABSHAREWITHUS: 'sharewithus',
+  TABTYPEHOSP: 'typehosps',
+  TABTYPEACCOM: 'typeaccoms',
+  TABLOCACCOM: 'locaccoms',
+  TABPEOPLE: 'people',
   SERVKEY_VERS: 'vers',
 
   ERR_GENERICO: -1,
   ERR_SERVERFETCH: -2,
   ERR_AUTHENTICATION: -5,
+
 
   localStorage: {
     teleg_id: 'ti',

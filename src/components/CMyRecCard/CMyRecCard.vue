@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <div class="q-py-xs centermydiv cardrec" :style="`max-width: `+ (tools.getwidth($q) - 20) +`px; ` + ($q.screen.lt.sm ? (`min-width: `+ (tools.getwidth($q) - 20) +`px;`) : ``)">
 

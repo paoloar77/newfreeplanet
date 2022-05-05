@@ -12,6 +12,7 @@ import { CMyToggleList } from '../CMyToggleList'
 import { CMySelect } from '../CMySelect'
 import { CMyEditor } from '../CMyEditor'
 import { CGallery } from '../CGallery'
+import { CAccomodation } from '../CAccomodation'
 import { tools } from '@store/Modules/tools'
 import { costanti } from '@costanti'
 
@@ -174,7 +175,7 @@ export default defineComponent({
       default: false,
     },
   },
-  components: { CMyChipList, CDateTime, CDate, CMyToggleList, CMySelect, CMyEditor, CGallery, CLabel },
+  components: { CMyChipList, CDateTime, CDate, CMyToggleList, CMySelect, CMyEditor, CGallery, CLabel, CAccomodation },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -671,6 +672,7 @@ export default defineComponent({
       return (mycol.fieldtype !== costanti.FieldType.html
         && mycol.fieldtype !== costanti.FieldType.image
         && mycol.fieldtype !== costanti.FieldType.listimages
+        && mycol.fieldtype !== costanti.FieldType.listobj
         && mycol.fieldtype !== costanti.FieldType.number
       )
     }

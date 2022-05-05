@@ -59,16 +59,16 @@ export const costanti = {
       visible: true,
       title: 'Scambio Ospitalità',
       strsingolo: 'Scambio Ospitalità',
-      to: '/places',
+      to: '/hosps',
       icon: 'fas fa-taxi',
       color: 'lime-6',
       textcolor: '',
       hint: '',
-      disable: true,
+      disable: false,
       small: false,
     },
     {
-      visible: true,
+      visible: false,
       title: 'Scuola',
       strsingolo: 'Scuola',
       to: '/school',
@@ -92,7 +92,7 @@ export const costanti = {
       small: false,
     },
     {
-      visible: true,
+      visible: false,
       strsingolo: 'Luogo',
       title: 'Luoghi',
       to: '/places',
@@ -249,6 +249,7 @@ export const costanti = {
     separator: 11000,
     username_chip: 12000,
     link: 12500,
+    listobj: 13000,
   },
 
   FieldTypeArr: [

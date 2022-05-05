@@ -179,6 +179,15 @@
               @showandsave="Savedb">
             </CGallery>
           </div>
+          <div v-else-if="col.fieldtype === costanti.FieldType.listobj" style="text-align: center;">
+            <CAccomodation
+              :mylist="myvalue"
+              :isInModif="isInModif"
+              :edit="isviewfield() && isInModif"
+              :canModify="canModify && isInModif"
+              @showandsave="Savedb">
+            </CAccomodation>
+          </div>
           <div v-else-if="col.fieldtype === costanti.FieldType.image">
             <div v-if="canEdit">
               {{ $t('reg.photo') }}

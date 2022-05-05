@@ -39,7 +39,7 @@ export function Debounce(func: Function, wait?: number, immediate?: boolean) {
     }
   }
 
-  return function a2() {
+  /*return function a2() {
     // @ts-ignore
     context = this
     // @ts-ignore
@@ -55,5 +55,5 @@ export function Debounce(func: Function, wait?: number, immediate?: boolean) {
     }
 
     return result
-  }
+  }*/
 }
