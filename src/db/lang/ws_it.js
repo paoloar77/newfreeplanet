@@ -25,6 +25,7 @@ const msg_website_it = {
     profile2: 'ProfiloU',
     mypage2: 'mypage2',
     myservice2: 'myservice2',
+    myhosps2: 'myhosps2',
     mygood2: 'mygood2',
     test: 'Test',
     projects: 'Progetti',

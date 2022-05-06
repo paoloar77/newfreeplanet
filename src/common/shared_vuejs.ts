@@ -105,7 +105,7 @@ export const shared_consts = {
   TABLES_UPDATE_LASTIFIED: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'mybots'],
   TABLES_FINDER: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'mygroups'],
   TABLES_VISU_CMYSRECCARD: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'mygroups'],
-  TABLES_SHOW_ADTYPE: ['myskills', 'mygoods', 'myhosps'],
+  TABLES_SHOW_ADTYPE: ['myskills', 'mygoods'],
 
   TABLES_VISU_LISTA_USER: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'users'],
 
@@ -209,15 +209,35 @@ export const shared_consts = {
   TypeAccom: [
     {
       value: 1,
-      label: 'Letto matrimoniale',
+      label: 'Letti matrimoniali',
     },
     {
       value: 2,
-      label: 'Letto singolo',
+      label: 'Letti singoli',
     },
     {
       value: 3,
-      label: 'Divano-letto',
+      label: 'Divani-letto',
+    },
+    {
+      value: 4,
+      label: 'Almaca',
+    },
+    {
+      value: 5,
+      label: 'sul materasso',
+    },
+    {
+      value: 6,
+      label: 'sul tappeto',
+    },
+    {
+      value: 7,
+      label: 'sacco a pelo',
+    },
+    {
+      value: 8,
+      label: 'Culla',
     },
   ],
 
@@ -233,6 +253,22 @@ export const shared_consts = {
     {
       value: 3,
       label: 'Soggiorno',
+    },
+    {
+      value: 4,
+      label: 'in camper',
+    },
+    {
+      value: 5,
+      label: 'in tenda',
+    },
+    {
+      value: 6,
+      label: 'in giardino',
+    },
+    {
+      value: 7,
+      label: 'all\'aperto',
     },
   ],
 
@@ -302,6 +338,41 @@ export const shared_consts = {
     {
       value: 15,
       label: '15',
+    },
+  ],
+
+  Preferences: [
+    {
+      value: 1,
+      label: 'Si accettano bambini',
+    },
+    {
+      value: 2,
+      label: 'Si accettano cani',
+    },
+    {
+      value: 3,
+      label: 'Si accettano gatti',
+    },
+    {
+      value: 4,
+      label: 'E\' consentito fumare in casa',
+    },
+    {
+      value: 5,
+      label: 'Accessibile con sedia a rotelle',
+    },
+    {
+      value: 6,
+      label: 'Parcheggio gratuito nella proprietà',
+    },
+    {
+      value: 7,
+      label: 'Wi-fi disponibile',
+    },
+    {
+      value: 8,
+      label: 'Sono permessi soggiorni a lungo termine',
     },
   ],
 
@@ -697,6 +768,11 @@ export const shared_consts = {
 
   getStatusStr(status: number) {
     const trovatorec = this.OrderStatusStr.find((rec) => rec.value === status)
+    return (trovatorec) ? trovatorec.label : ''
+  },
+
+  getLabelByValueAndArr(value: number, array: any) {
+    const trovatorec = array.find((rec: any) => rec.value === value)
     return (trovatorec) ? trovatorec.label : ''
   },
 

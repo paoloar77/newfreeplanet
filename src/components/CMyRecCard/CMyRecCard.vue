@@ -5,7 +5,7 @@
     <q-item v-if="myrec" clickable v-ripple class="shadow-2 q-btn--rounded bg-teal-1">
 
 
-      <q-item-section v-if="(shared_consts.TABLES_VISU_IMG.includes(table)) && (myrec.photos.length > 0)" avatar
+      <q-item-section v-if="(shared_consts.TABLES_VISU_IMG.includes(table)) && (myrec.photos && myrec.photos.length > 0)" avatar
                       @click="cmdExt(costanti.CMD_SHOW_PAGE, myrec)">
         <q-badge v-if="showBadge()" class="q-my-xs self-center" :color="fieldsTable.getColByAdType(myrec.adType)">
           {{ fieldsTable.getValByTabAndId(table, 'adType', myrec.adType) }}

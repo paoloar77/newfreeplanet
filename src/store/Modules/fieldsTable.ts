@@ -988,6 +988,18 @@ export const colmyHosp = [
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
     sortable: false,
   }),
+  AddCol({
+    name: 'preferences',
+    label_trans: 'hosps.preferences',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: toolsext.TABPREF,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    noshowlabel: true,
+    icon: 'fas fa-asterisk',
+    //icon: 'fas fa-hands-helping',
+    isadvanced_field: false,
+    sortable: false,
+  }),
 
   AddCol({
     name: 'idCity',
@@ -1043,6 +1055,11 @@ export const colmyHosp = [
     sortable: false,
   }),
   //**ADDFIELD_MYBACHECAS
+  AddCol({
+    name: 'link_maplocation', label_trans: 'reg.link_maplocation', isadvanced_field: true, fieldtype: costanti.FieldType.link,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    sortable: false,
+  }),
   AddCol({
     name: 'website', label_trans: 'reg.website', isadvanced_field: true, fieldtype: costanti.FieldType.link,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
@@ -2912,6 +2929,15 @@ export const fieldsTable = {
     {
       value: toolsext.TABLOCACCOM,
       label: 'Locazione',
+      columns: colTableGeneric,
+      colkey: 'value',
+      collabel: 'label',
+      colicon: 'icon',
+      noshow: true,
+    },
+    {
+      value: toolsext.TABPREF,
+      label: 'Preferenze',
       columns: colTableGeneric,
       colkey: 'value',
       collabel: 'label',

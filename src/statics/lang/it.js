@@ -418,6 +418,7 @@ const msg_it = {
       email: 'Email',
       email_reg: 'la tua Email',
       website: 'Sito Web',
+      link_maplocation: 'Link posizione su mappa',
       intcode_cell: 'Prefisso Int.',
       cell: 'Cellulare',
       cellreg: 'Cellulare con cui ti eri registrato',
@@ -960,8 +961,11 @@ const msg_it = {
       numMaxPeopleHosp: 'Numero Massimo di Ospiti',
       accomodation: {
         title: 'Tipo di Ospitalità',
-        type: 'Tipo'
-      }
+        location: 'Spazio',
+        type: 'Tipo',
+        num: 'Num',
+      },
+      preferences: 'Preferenze',
     },
 
   },

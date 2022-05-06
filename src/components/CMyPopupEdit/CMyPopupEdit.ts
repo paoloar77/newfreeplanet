@@ -369,6 +369,15 @@ export default defineComponent({
             list: []
           }
         }
+      }else if (col.value.fieldtype === costanti.FieldType.listobj) {
+        if (myvalue.value === '' || myvalue.value === undefined) {
+          // console.log('set default myvalue.value ')
+          myvalue.value = [{
+            type: 0,  // Letto matrimoniale / letto singolo / divano-letto / almaca / a terra sul tappeto (per sacco a pelo)
+            location: 0,  // in camera privata / in camera condivisa / in soggiorno / in camper / in tenda / in giardino / all'aperto
+            num: 0,
+          }]
+        }
       }
       // console.log('myvalue.value', myvalue.value)
       myvalueprec.value = myvalue.value
@@ -457,7 +466,7 @@ export default defineComponent({
 
 
     function Savedb(newVal: any, valinitial: any) {
-      console.log('Savedb')
+      console.log('Savedb', newVal)
 
       if (col.value.fieldtype === costanti.FieldType.boolean) {
         // console.log('myvalue', myvalue, newVal, myvalueprec)
@@ -473,6 +482,10 @@ export default defineComponent({
       if (col.value.fieldtype === costanti.FieldType.image) {
         console.log('newVal.imagefile', newVal)
         myvalue.value = newVal
+      }
+
+      if (col.value.fieldtype === costanti.FieldType.listobj) {
+        myvalue.value.accomodation = newVal
       }
 
       // console.log('Savedb', newVal)

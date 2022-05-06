@@ -505,18 +505,6 @@ export default defineComponent({
 
       searchList_Hosp.value = [
         {
-          label: 'Stato',
-          table: 'statusSkills',
-          key: 'idStatusSkill',
-          value: 0,
-          arrvalue: tools.getCookie(tools.COOK_SEARCH + 'statusSkills', []),
-          type: costanti.FieldType.multiselect,
-          filter: null,
-          useinput: false,
-          icon: 'mood',
-          filteradv: false,
-        },
-        {
           label: 'Regione',
           table: 'regions',
           key: 'idReg',
@@ -567,7 +555,7 @@ export default defineComponent({
           icon: 'flag',
         },
         {
-          label: 'Numero Massimo di Ospiti',
+          label: 'Max. Ospiti',
           table: toolsext.TABPEOPLE,
           key: 'numMaxPeopleHosp',
           type: costanti.FieldType.select,
@@ -576,7 +564,19 @@ export default defineComponent({
           arrvalue: [],
           filter: null,
           useinput: false,
-          icon: 'flag',
+          icon: 'fas fa-users',
+        },
+        {
+          label: 'Preferenze',
+          table: toolsext.TABPREF,
+          key: 'preferences',
+          type: costanti.FieldType.multiselect,
+          value: tools.getCookie(tools.COOK_SEARCH + 'preferences', costanti.FILTER_TUTTI),
+          addall: false,
+          arrvalue: [],
+          filter: null,
+          useinput: false,
+          icon: 'fas fa-asterisk',
         },
         {
           label: 'In cambio di',
@@ -1049,6 +1049,7 @@ export default defineComponent({
               idCity: 1,
               note: 1,
               website: 1,
+              link_maplocation: 1,
               descr: 1,
               date_created: 1,
               date_updated: 1,

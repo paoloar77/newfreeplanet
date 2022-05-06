@@ -527,6 +527,17 @@ const baseroutes: IListRoutes[] = [
   },
   {
     active: true,
+    order: 135,
+    path: '/myhosps/:idHosp',
+    materialIcon: '',
+    name: 'pages.myhosps2',
+    component: () => import('@/views/user/mypagehosp/mypagehosp.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
     order: 400,
     path: '/test',
     materialIcon: 'fas fa-test',

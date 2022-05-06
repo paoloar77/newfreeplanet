@@ -25,7 +25,7 @@
           alt="immagine bene"></q-img>
       </div>
 
-      <div class="text-center">
+      <div v-if="showBadge()" class="text-center">
         <q-chip :icon="fieldsTable.getIconByAdType(myrec.adType)"
                 :color="fieldsTable.getColByAdType(myrec.adType)"
                 text-color="white">{{
@@ -50,6 +50,11 @@
               {{ tools.getValue(myrec, mycol.field, mycol.subfield) }}
             </div>
           </div>
+          <div v-else-if="mycol.name === 'numMaxPeopleHosp'">
+            <div class="text-bacheca">
+              <span class="accom_maxosp">{{tools.getValue(myrec, mycol.field, mycol.subfield) }}</span>{{ t('hosps.numMaxPeopleHosp') }}
+            </div>
+          </div>
           <div v-else-if="mycol.name === 'dateTimeStart'" class="text-center cal">
 
             <div v-if="myrec.dateTimeStart" class="cal__when">
@@ -62,11 +67,18 @@
               }}</span> al <span class="datafine">{{ tools.getstrVeryShortDate(myrec.dateTimeEnd) }}</span>
             </span>--->
           </div>
+          <div v-else-if="mycol.name === 'accomodation'">
+            <CAccomodation
+              v-if="!!myrec.accomodation"
+              :mylist="myrec.accomodation"
+              :isInModif="false"
+              :edit="false"
+              :canModify="false">
+            </CAccomodation>
+          </div>
           <div v-else-if="mycol.name === 'dateTimeEnd'">
 
           </div>
-
-
           <CMyFieldRec
             v-else
             :table="table"

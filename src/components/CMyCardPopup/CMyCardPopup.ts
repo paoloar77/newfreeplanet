@@ -6,6 +6,7 @@ import { CProfile } from '@/components/CProfile'
 import { CDateTime } from '@/components/CDateTime'
 import { CMyPage } from '@/components/CMyPage'
 import { CMyFieldRec } from '@/components/CMyFieldRec'
+import { CAccomodation } from '@/components/CAccomodation'
 import { tools } from '@store/Modules/tools'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
@@ -19,7 +20,7 @@ import { colCitys, fieldsTable } from '@store/Modules/fieldsTable'
 
 export default defineComponent({
   name: 'CMyCardPopup',
-  components: { CProfile, CTitleBanner, CMyFieldDb, CDateTime, CMyPage, CMyFieldRec },
+  components: { CProfile, CTitleBanner, CMyFieldDb, CDateTime, CMyPage, CMyFieldRec, CAccomodation },
   props: {
     table: {
       type: String,
@@ -83,6 +84,14 @@ export default defineComponent({
       return tools.copyStringToClipboard($q, self.location.host + tools.getPathByTable(props.table, myrec.value._id), true)
     }
 
+    function showBadge() {
+      if (shared_consts.TABLES_SHOW_ADTYPE.includes(props.table)) {
+        return true
+      }
+
+      return false
+    }
+
     onMounted(mounted)
 
     return {
@@ -100,6 +109,7 @@ export default defineComponent({
       toolsext,
       col,
       condividipag,
+      showBadge,
     }
   }
 })

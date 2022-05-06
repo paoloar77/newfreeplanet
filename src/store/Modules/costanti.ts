@@ -60,7 +60,7 @@ export const costanti = {
       title: 'Scambio Ospitalità',
       strsingolo: 'Scambio Ospitalità',
       to: '/hosps',
-      icon: 'fas fa-taxi',
+      icon: 'fas fa-bed',
       color: 'lime-6',
       textcolor: '',
       hint: '',

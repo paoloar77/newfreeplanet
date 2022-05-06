@@ -8,6 +8,8 @@ import { tools } from '@store/Modules/tools'
 import { shared_consts } from '@src/common/shared_vuejs'
 import { useGlobalStore } from '@store/globalStore'
 import { costanti } from '@costanti'
+import { CMySelect } from '../CMySelect'
+import { CTitleBanner } from '../CTitleBanner'
 
 export default defineComponent({
   name: 'CAccomodation',
@@ -27,12 +29,12 @@ export default defineComponent({
     },
     title: String,
     mylist: {
-      type: Object as PropType<IAccomodation[] | string | undefined | null>,
+      type: [Array, String, undefined, null] as PropType<IAccomodation[] | string | undefined | null>,
       required: true,
     },
   },
   emits: ['showandsave'],
-  components: {  },
+  components: { CMySelect, CTitleBanner },
   setup(props, { emit }) {
     const $q = useQuasar()
     const { t } = useI18n()
@@ -41,7 +43,7 @@ export default defineComponent({
 
     const displayGall = ref(false)
 
-    const listobj = ref(<IImgGallery[]>[])
+    const listobj = ref(<IAccomodation[]>[])
     const maximizedToggle = ref(true)
 
 
@@ -66,21 +68,16 @@ export default defineComponent({
     })
 
     function created() {
-      // console.log('created cgallery')
+      console.log('created CAccomodation', props.mylist)
       if (isValid(props.mylist)) {
         // @ts-ignore
         let myarr: any = props.mylist
         listobj.value = []
         if (Array.isArray(myarr)) {
-          myarr.forEach((pic: any) => {
-            if (pic.imagefile) {
-              listobj.value.push(pic)
-            }
-          })
+          listobj.value = myarr
         }
       } else {
-        listobj.value = [
-            ]
+        listobj.value = []
       }
 
     }
@@ -100,7 +97,7 @@ export default defineComponent({
     function getlist() {
       if (listobj.value)
         // return listobj.value.slice().sort((a: any, b: any) => a.order! - b.order!)
-        return listobj.value
+        return listobj.value.filter((rec) => rec.num > 0)
       else
         return null
     }
@@ -144,7 +141,7 @@ export default defineComponent({
     }
 
     function save() {
-      console.log('CGallery save', listobj.value)
+      console.log('CAccomodation save', listobj.value)
       if (listobj.value.length > 0) {
         emit('showandsave', listobj.value)
       } else {
@@ -154,6 +151,17 @@ export default defineComponent({
 
     function close() {
       return ''
+    }
+
+    function add_newbed() {
+      const rec: IAccomodation = {
+        type: 2,
+        location: 2,
+        num: 1,
+      }
+      listobj.value.push(rec)
+
+      save()
     }
 
     onMounted(created)
@@ -174,6 +182,7 @@ export default defineComponent({
       isListImgValid,
       costanti,
       shared_consts,
+      add_newbed,
     }
   }
 })

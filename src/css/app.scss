@@ -878,7 +878,8 @@ $heightBtn: 100%;
 .combowidth {
   min-width: 190px;
   @media (max-width: 450px) {
-    min-width: 250px;
+    min-width: 40px;
+    white-space: nowrap;
   }
 }
 
@@ -971,4 +972,27 @@ $heightBtn: 100%;
 
 .regione{
 
+}
+
+.bordo_stondato_small{
+  margin: 4px;
+  border-radius: 1rem;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: solid 2px #49b502;
+}
+
+.accom_num, .accom_maxosp {
+  font-size: 1.25rem;
+  background-color: green;
+  font-weight: bold;
+  color: white;
+  margin-right: 10px;
+  padding: 10px;
+}
+
+.accom_maxosp {
+  background-color: blue !important;
 }

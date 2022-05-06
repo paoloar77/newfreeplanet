@@ -88,6 +88,7 @@ export const toolsext = {
   TABTYPEHOSP: 'typehosps',
   TABTYPEACCOM: 'typeaccoms',
   TABLOCACCOM: 'locaccoms',
+  TABPREF: 'hosps_preferences',
   TABPEOPLE: 'people',
   SERVKEY_VERS: 'vers',
 
