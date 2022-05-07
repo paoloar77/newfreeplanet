@@ -66,6 +66,7 @@ export const costanti = {
       hint: '',
       disable: false,
       small: false,
+      table: 'myhosps',
       visuonstat: true,
     },
     {
