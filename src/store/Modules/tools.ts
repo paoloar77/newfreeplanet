@@ -3268,7 +3268,7 @@ export const tools = {
   },
 
   getwidthscale(mythis: any, mywidthpass: string, maxwidth: string): number {
-    let mywidth = parseInt(mywidthpass)
+    let mywidth = parseInt(mywidthpass, 10)
     if (this.isMobile()) {
       // if (mywidth > this.getwidth(mythis) - 20)
       mywidth = this.getwidth(mythis, false, false) - 32
@@ -3279,8 +3279,8 @@ export const tools = {
       // console.log('this.getwidth(mythis) = ', this.getwidth(mythis))
       let myw: number = mywidth + ((this.getwidth(mythis, true) - mywidth) * 0.6)
       // console.log('myw1 = ', myw)
-      if (myw > parseInt(maxwidth))
-        myw = parseInt(maxwidth)
+      if (myw > parseInt(maxwidth, 10))
+        myw = parseInt(maxwidth, 10)
       if (myw > this.getwidth(mythis) - 24)
         myw = this.getwidth(mythis) - 24
 
@@ -3292,7 +3292,7 @@ export const tools = {
   getheightbywidth(mythis: any, mywidth: string, myheight: string, maxwidth: string) {
     // console.log('getheightbywidth')
     const myw = this.getwidthscale(mythis, mywidth, maxwidth)
-    return myw * (parseInt(myheight) / parseInt(mywidth))
+    return myw * (parseInt(myheight, 10) / parseInt(mywidth))
   },
 
   isIsoDate(str: string) {
@@ -3347,9 +3347,36 @@ export const tools = {
     else
       return 'primary'
   },
-  getCookie(mytok: any, def?: any) {
+
+  convstrToNum(myval: any) {
+
+    if (typeof myval == 'number' && !isNaN(myval)) {
+      if (Number.isInteger(myval)) {
+        return myval
+      } else {
+        // @ts-ignore
+        return parseFloat(myval)
+      }
+    }
+  },
+
+  getCookie(mytok: any, def?: any, convertint: any = false) {
     const ris = Cookies.get(mytok)
     // console.log('getCookie', mytok, ris)
+    if (ris === 'null')
+      return def
+
+    if (ris === '-100')
+      return -100
+
+    if (convertint && !!ris) {
+      return parseInt(ris, 10)
+    }
+
+    // if (typeof(ris) == 'number') {
+    //   return this.convstrToNum(ris)
+    // }
+
     if (!!ris) {
       return ris
     } else {

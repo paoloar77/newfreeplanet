@@ -1,3 +1,5 @@
+import { costanti } from '@costanti'
+
 const msg_it = {
   it: {
     words: {
@@ -45,6 +47,8 @@ const msg_it = {
         eventlist: 'Le tue Prenotazioni',
         usereventlist: 'Prenotazioni Utenti',
         userlist: 'Lista Utenti',
+        circuitslist: 'Lista Circuiti',
+        accountslist: 'Lista Conti',
         iscritticonacreis: 'Iscritti Conacreis',
         zoomlist: 'Calendario Zoom',
         extralist: 'Lista Extra',
@@ -905,10 +909,10 @@ const msg_it = {
       goods: 'Beni',
       test: 'Test',
       groups: 'Gruppi',
-      request_friends: 'Rich. Amicizia',
-      request_sent_friends: 'Rich. Inviate',
-      request_sent_groups: 'Rich. Inviate',
-      request_trust: 'Rich. Fiducia',
+      request_friends: 'Richieste Amicizia',
+      request_sent_friends: 'Richieste Inviate',
+      request_sent_groups: 'Richieste Inviate',
+      request_trust: 'Richieste Fiducia',
       trusted: 'Fiducia Accettata',
       rejected: 'Rifiutati',
     },
@@ -966,6 +970,53 @@ const msg_it = {
         num: 'Num',
       },
       preferences: 'Preferenze',
+    },
+    circuit: {
+      name: 'Nome Circuito',
+      subname: 'SottoNome',
+      descr: 'Descrizione',
+      systemUserDescr: 'Descr Utente di Sistema',
+      systemUserId: 'ID Utente di Sistema',
+      founderUserId: 'ID Fondatore',
+      totCircolante: 'Totale Circolante',
+      totTransato: 'Totale Transato',
+      nome_valuta: 'Nome Valuta',
+      symbol: 'Simbolo',
+      abbrev: 'Abbreviaz.',
+      compara_valuta: 'Compara Valuta',
+      compara_euro: 'Compara Euro',
+      valuta_per_euro: 'Valuta per Euro',
+      fido_scoperto_default: 'Fido scoperto default',
+      data_costituz: 'Data Costituzione',
+      deperimento: 'Deperimento',
+      freq_deper: 'Frequenza Deperimento',
+      minuto_deper: 'Minuto Dep.',
+      ora_deper: 'Ora Dep.',
+      giorno_deper: 'Giorno Dep.',
+      mese_deper: 'Mese Dep.',
+      ultimo_deper: 'Ultimo Dep.',
+      durata_deper: 'Durata Dep.',
+      img_logo: 'NomeFile Logo',
+    },
+
+    account: {
+      deperibile: 'Deperibile',
+      importo_iniziale: 'Importo Iniziale',
+      saldo: 'Saldo',
+      user: 'Utente',
+    },
+
+    movement: {
+      transactionDate: '',
+      accountFromId: '',
+      accountToId: '',
+      amount: '',
+      causal: '',
+      causal_table: '',
+      causal_IdRec: '',
+      residual: '',
+      expiringDate: '',
+
     },
 
   },

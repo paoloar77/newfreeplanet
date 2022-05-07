@@ -24,7 +24,7 @@ export default defineComponent({
         return []
       }
     },
-    value: [String, Number],
+    value: [String, Number, Object],
     label: {
       type: String,
       required: true,
@@ -152,7 +152,7 @@ export default defineComponent({
     const optFiltered = ref(<any>[])
     const valori = ref(<any>[])
 
-    const myvalue = ref(<string | number>'')
+    const myvalue = ref(<string | number | object>'')
     const myarrvalue = ref(<any[]>[])
     const arrtempOpt = ref(<any[]>[])
 
@@ -199,7 +199,7 @@ export default defineComponent({
                 if (!num) {
                   num = 0
                 } else {
-                  num = parseInt(num.toString())
+                  num = parseInt(num.toString(), 10)
                 }
               } catch (e) {
                 num = 0
@@ -268,7 +268,7 @@ export default defineComponent({
     }
 
     function update() {
-      console.log('update')
+      console.log('update', props.value, props)
       // console.log(' #### mounted myselect', props.options, 'arrvalue', myarrvalue.value)
       let rec: any
       if (optionsreal.value) {
@@ -277,7 +277,7 @@ export default defineComponent({
         }
       }
       if (props.multiselect_by_server) {
-        const num = parseInt(localStorage.getItem(props.tablesel + 'NUM')!)
+        const num = parseInt(localStorage.getItem(props.tablesel + 'NUM')!, 10)
         // console.log('num LOADED ', num)
         arrtempOpt.value = []
         if (props.addall) {
@@ -299,7 +299,7 @@ export default defineComponent({
           arrtempOpt.value = [myobj, ...arrtempOpt.value]
         }
         for (let i = 0; i < num; i++) {
-          const itemId = parseInt(localStorage.getItem(props.tablesel + i + props.optval)!)
+          const itemId = parseInt(localStorage.getItem(props.tablesel + i + props.optval)!, 10)
           const itemlab = localStorage.getItem(props.tablesel + i + props.optlab)
           if (itemId) {
             let obj: any = {}
@@ -403,6 +403,7 @@ export default defineComponent({
     }
 
     function updateArrOptions() {
+
       let myarr: any = []
 
       // console.log(props.col.jointable, props.filter)

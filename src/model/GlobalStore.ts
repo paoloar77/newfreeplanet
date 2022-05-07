@@ -847,6 +847,7 @@ export interface IMyHosp {
   typeHosp: number
   numMaxPeopleHosp: number
   accomodation: IAccomodation[]
+  photos: IGallery[]
   preferences: number[]
   idContribType: string[]
   idCity: number[]
@@ -857,4 +858,33 @@ export interface IMyHosp {
   date_updated?: Date,
 }
 
+
+export interface ICircuit {
+  _id: number
+  name: string
+  subname: string
+  descr: string
+  systemUserDescr: string
+  systemUserId: string
+  founderUserId: string
+  totCircolante?: number
+  totTransato?: number
+  nome_valuta: string
+  symbol: string
+  abbrev: string
+  compara_valuta?: number
+  compara_euro?: number
+  valuta_per_euro?: number
+  fido_scoperto_default?: number
+  data_costituz?: Date
+  deperimento: boolean
+  freq_deper?: string
+  minuto_deper?: string
+  ora_deper?: string
+  giorno_deper?: string
+  mese_deper?: string
+  ultimo_deper?: Date
+  durata_deper?: number
+  img_logo?: string
+}
 

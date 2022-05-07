@@ -199,6 +199,34 @@ const routes_manager: IListRoutes[] = [
     onlyManager: true,
     onlyTutor: true
   },
+  {
+    active: true,
+    order: 11,
+    path: '/admin/circuitslist',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.circuitslist',
+    component: () => import('@/rootgen/admin/circuitsList/circuitsList.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyTutor: true
+  },
+  {
+    active: true,
+    order: 12,
+    path: '/admin/accountslist',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.accountslist',
+    component: () => import('@/rootgen/admin/accountsList/accountsList.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyTutor: true
+  },
   /*
   {
     active: true,

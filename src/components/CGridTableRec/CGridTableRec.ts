@@ -399,7 +399,7 @@ export default defineComponent({
         setCategBySector(toolsext.TABSKILLS, table, newval)
       } else if (table === toolsext.TABREGIONS) {
         setProvinceByRegion(toolsext.TABPROVINCE, table, newval)
-      }else if (table === 'goods') {
+      } else if (table === 'goods') {
         setCategBySector('sectorgoods', table, newval)
       }
 
@@ -1303,35 +1303,37 @@ export default defineComponent({
         colVisib.value = []
 
         let elem: IColGridTable
-        for (elem of mycolumns.value) {
-          if (elem.field !== costanti.NOFIELD) {
-            if (checkIfColShow(elem.field)) {
-              colVisib.value.push(elem.field! + elem.subfield!)
+        if (tools.isArray(mycolumns.value)) {
+          for (elem of mycolumns.value) {
+            if (elem.field !== costanti.NOFIELD) {
+              if (checkIfColShow(elem.field)) {
+                colVisib.value.push(elem.field! + elem.subfield!)
+              }
             }
           }
-        }
 
 
-        if (!!myselcol && myselcol.length > 0) {
-          const arrselcol = myselcol.split('|')
+          if (!!myselcol && myselcol.length > 0) {
+            const arrselcol = myselcol.split('|')
 
-          for (const col of arrselcol) {
-            const arrv = col.split(',')
-            if (arrv.length > 1) {
-              let field = arrv[0]
-              let visib = arrv[1]
-              const rec = mycolumns.value.find((rec: any) => (rec.field + rec.subfield) === field)
+            for (const col of arrselcol) {
+              const arrv = col.split(',')
+              if (arrv.length > 1) {
+                let field = arrv[0]
+                let visib = arrv[1]
+                const rec = mycolumns.value.find((rec: any) => (rec.field + rec.subfield) === field)
 
 
-              if (rec) {
-                if (field) {
-                  if (visib === '1') {
-                    if (!colVisib.value.includes(field))
-                      colVisib.value.push(field)  // se non incluso allora lo aggiungi
-                  } else if (visib === '0') {
-                    // Se da togliere, lo togli
-                    if (colVisib.value.includes(field))
-                      colVisib.value = colVisib.value.filter((rec: any) => rec !== field)
+                if (rec) {
+                  if (field) {
+                    if (visib === '1') {
+                      if (!colVisib.value.includes(field))
+                        colVisib.value.push(field)  // se non incluso allora lo aggiungi
+                    } else if (visib === '0') {
+                      // Se da togliere, lo togli
+                      if (colVisib.value.includes(field))
+                        colVisib.value = colVisib.value.filter((rec: any) => rec !== field)
+                    }
                   }
                 }
               }

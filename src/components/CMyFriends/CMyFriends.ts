@@ -208,8 +208,8 @@ export default defineComponent({
     }
 
 
-    function setCmd($q: any, cmd: number, usernameDest: string, value: any, groupname: string) {
-      tools.setCmd($q, cmd, username.value, value, usernameDest)
+    function setCmd($q: any, cmd: number, username: string, value: any, usernameDest: string) {
+      tools.setCmd($q, cmd, username, value, usernameDest)
 
       if (cmd === shared_consts.FRIENDSCMD.SETTRUST) {
         setRequestTrust(usernameDest, value)

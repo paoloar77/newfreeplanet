@@ -264,9 +264,7 @@ export const getcolorderscart = [
   AddCol({ name: 'created_at', label_trans: 'order.created_at', fieldtype: costanti.FieldType.date }),
   AddCol({ name: 'status', label_trans: 'order.status' }),
   AddCol({ name: 'items', label_trans: 'order.items' }),
-  AddCol({
-    name: 'userId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users',
-  }),
+  AddCol({ name: 'userId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users', }),
   AddCol({ name: 'note', label_trans: 'order.note' }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
@@ -1044,8 +1042,9 @@ export const colmyHosp = [
     fieldtype: costanti.FieldType.listimages,
     jointable: '',
     showpicprofile_ifnotset: true,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
-    isadvanced_field: false,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+    isadvanced_field: true,
+    sortable: false,
   }),
   AddCol({
     name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
@@ -2294,8 +2293,8 @@ export const colTableCircuit = [
   AddCol({ name: 'subname', label_trans: 'circuit.subname' }),
   AddCol({ name: 'descr', label_trans: 'circuit.descr' }),
   AddCol({ name: 'systemUserDescr', label_trans: 'circuit.systemUserDescr' }),
-  AddCol({ name: 'systemUserId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users', }),
-  AddCol({ name: 'founderUserId', label_trans: 'order.users', fieldtype: costanti.FieldType.select, jointable: 'users', }),
+  AddCol({ name: 'systemUserId', label_trans: 'circuit.systemUserId', fieldtype: costanti.FieldType.select, jointable: 'users', }),
+  AddCol({ name: 'founderUserId', label_trans: 'circuit.founderUserId', fieldtype: costanti.FieldType.select, jointable: 'users', }),
   AddCol({ name: 'totCircolante', label_trans: 'circuit.totCircolante', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'totTransato', label_trans: 'circuit.totTransato', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'nome_valuta', label_trans: 'circuit.nome_valuta' }),
@@ -2314,8 +2313,31 @@ export const colTableCircuit = [
   AddCol({ name: 'mese_deper', label_trans: 'circuit.mese_deper', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'ultimo_deper', label_trans: 'circuit.ultimo_deper', fieldtype: costanti.FieldType.date }),
   AddCol({ name: 'durata_deper', label_trans: 'circuit.durata_deper', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'img_logo', label_trans: 'circuit.img_logo' }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
+]
+
+export const colTableAccount = [
+  AddCol({ name: 'circuitId', label_trans: 'account.circuitId', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'userId', label_trans: 'account.users', fieldtype: costanti.FieldType.select, jointable: 'users', }),
+  AddCol({ name: 'name', label_trans: 'circuit.name' }),
+  AddCol({ name: 'deperibile', label_trans: 'account.deperibile', fieldtype: costanti.FieldType.boolean }),
+  AddCol({ name: 'importo_iniziale', label_trans: 'account.importo_iniziale', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'saldo', label_trans: 'account.saldo', fieldtype: costanti.FieldType.number }),
+]
+
+export const colTableMovement = [
+  AddCol({ name: 'transactionDate', label_trans: 'movement.transactionDate', fieldtype: costanti.FieldType.date }),
+  AddCol({ name: 'accountFromId', label_trans: 'movement.accountFromId', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'accountToId', label_trans: 'movement.accountToId', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'amount', label_trans: 'movement.amount', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'causal', label_trans: 'movement.causal' }),
+  AddCol({ name: 'causal_table', label_trans: 'movement.causal_table' }),
+  AddCol({ name: 'causal_IdRec', label_trans: 'movement.causal_IdRec', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'residual', label_trans: 'movement.residual', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'expiringDate', label_trans: 'movement.expiringDate', fieldtype: costanti.FieldType.date }),
+
 ]
 
 export const fieldsTable = {
@@ -2408,7 +2430,7 @@ export const fieldsTable = {
     'myskills',
     'mygoods',
     'mybachecas',
-    'myhosp',
+    'myhosps',
   ],
 
   tableRemotePickup: [
@@ -2421,8 +2443,16 @@ export const fieldsTable = {
     'myskills',
     'mygoods',
     'mybachecas',
-    'myhosp',
+    'myhosps',
   ],
+
+  circuitslist() {
+    return colTableCircuit
+  },
+
+  accountslist() {
+    return colTableAccount
+  },
 
   userlist() {
     if (static_data.functionality.ENABLE_REG_AYNI) {

@@ -252,7 +252,7 @@ export default defineComponent({
         isalreadyReg.value = await tools.registeredusername(signup.username);
       signup.profile.username_telegram = signup.username
       if (!!$route.params.idteleg) {
-        signup.profile.teleg_id = $route.params.idteleg ? parseInt($route.params.idteleg.toString()) : 0
+        signup.profile.teleg_id = $route.params.idteleg ? parseInt($route.params.idteleg.toString(), 10) : 0
       }
 
       console.log('1) aportador_solidario', signup.aportador_solidario)
