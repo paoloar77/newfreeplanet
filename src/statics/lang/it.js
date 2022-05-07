@@ -958,7 +958,7 @@ const msg_it = {
     },
     hosps: {
       typeHosp: 'Tipologia',
-      numMaxPeopleHosp: 'Numero Massimo di Ospiti',
+      numMaxPeopleHosp: 'N° max Ospiti',
       accomodation: {
         title: 'Tipo di Ospitalità',
         location: 'Spazio',

@@ -4360,6 +4360,7 @@ export const tools = {
       'lime-3': '#e6ee9c',
       'lime-4': '#dce775',
       'lime-6': '#cddc39',
+      'lime-8': '#afb42b',
       'limegreen': '#32cd32',
       'linen': '#faf0e6',
       'magenta': '#ff00ff',

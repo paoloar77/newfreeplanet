@@ -10,8 +10,7 @@
                   calcstat.numUsersReg
                 }}
               </q-item-label>
-              <q-item-label :class="!$q.dark.isActive? 'text-grey-7':'text-white'" style="letter-spacing: 1px;">Persone
-                Iscritte
+              <q-item-label :class="!$q.dark.isActive? 'text-grey-7':'text-white'" style="letter-spacing: 1px;">Persone Iscritte
               </q-item-label>
             </q-item-section>
 

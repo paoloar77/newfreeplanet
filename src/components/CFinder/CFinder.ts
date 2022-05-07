@@ -555,7 +555,7 @@ export default defineComponent({
           icon: 'flag',
         },
         {
-          label: 'Max. Ospiti',
+          label: 'N° max Ospiti',
           table: toolsext.TABPEOPLE,
           key: 'numMaxPeopleHosp',
           type: costanti.FieldType.select,

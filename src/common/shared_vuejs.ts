@@ -256,19 +256,27 @@ export const shared_consts = {
     },
     {
       value: 4,
-      label: 'in camper',
+      label: 'Camper',
     },
     {
       value: 5,
-      label: 'in tenda',
+      label: 'Roulotte',
     },
     {
       value: 6,
-      label: 'in giardino',
+      label: 'Tenda',
     },
     {
       value: 7,
-      label: 'all\'aperto',
+      label: 'Casetta sull\'Albero',
+    },
+    {
+      value: 8,
+      label: 'Giardino',
+    },
+    {
+      value: 9,
+      label: 'Aria aperta',
     },
   ],
 
@@ -277,7 +285,7 @@ export const shared_consts = {
   People: [
     {
       value: 0,
-      label: 'Nessuna',
+      label: 'Nessuno',
     },
     {
       value: 1,
@@ -328,16 +336,12 @@ export const shared_consts = {
       label: '12',
     },
     {
-      value: 13,
-      label: '13',
-    },
-    {
-      value: 14,
-      label: '14',
-    },
-    {
       value: 15,
       label: '15',
+    },
+    {
+      value: 20,
+      label: '20',
     },
   ],
 
@@ -373,6 +377,14 @@ export const shared_consts = {
     {
       value: 8,
       label: 'Sono permessi soggiorni a lungo termine',
+    },
+    {
+      value: 9,
+      label: 'Cucina Vegetariana',
+    },
+    {
+      value: 10,
+      label: 'Cucina Vegana',
     },
   ],
 
