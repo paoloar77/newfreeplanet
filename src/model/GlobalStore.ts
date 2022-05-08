@@ -344,6 +344,7 @@ export interface IListRoutes {
   solotitle?: boolean
   infooter?: boolean
   submenu?: boolean
+  noroute?: boolean
   onlyAdmin?: boolean
   onlyif_logged?: boolean
   onlyManager?: boolean
@@ -522,6 +523,7 @@ export interface IParamsQuery {
   filtersearch: string
   filtersearch2: string
   filtercustom: string
+  filter_gte: string
   lookup1?: IParLookup
   lookup2?: IParLookup
   lookup3?: IParLookup
@@ -844,6 +846,7 @@ export interface IAccomodation {
 
 export interface IMyHosp {
   _id: number
+  visibile: boolean
   typeHosp: number
   numMaxPeopleHosp: number
   accomodation: IAccomodation[]

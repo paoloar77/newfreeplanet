@@ -38,7 +38,7 @@
       </template>
       <template v-slot:append>
         <q-icon v-if="canEdit" name="event" class="cursor-pointer">
-          <q-popup-proxy v-model="showDateTimeScroller" @before-show="Opening" @before-hide="Closing">
+          <q-popup-proxy transition-show="flip-up" v-model="showDateTimeScroller" @before-show="Opening" @before-hide="Closing">
 
             <div class="q-gutter-md row items-start">
               <q-date

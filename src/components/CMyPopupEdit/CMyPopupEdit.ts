@@ -395,6 +395,12 @@ export default defineComponent({
       emit('show')
     }
 
+    function OpenEditDateToday() {
+      // console.log('OpenEdit')
+      myvalue.value = new Date()
+      emit('show')
+    }
+
     /*function getval() {
       let myval: any = 'false'
 
@@ -721,6 +727,7 @@ export default defineComponent({
       changevalRecHours,
       updatedata,
       OpenEdit,
+      OpenEditDateToday,
       SaveValueInt,
       annulla,
       Savedb,

@@ -95,6 +95,7 @@ export const shared_consts = {
   TABLES_USER_INCLUDE_MY: ['mygroups'],
   TABLES_GETCOMPLETEREC: ['myskills', 'mybachecas', 'myhosps', 'mygoods'],
   TABLES_WITH_FILTER_FIELD: ['caldate'],
+  COL_WITH_FILTER_GTE: ['numMaxPeopleHosp'],
   TABLES_WITH_DATE: ['mybachecas', 'myhosps'],
   TABLES_WITH_SORTING: ['mybachecas', 'myhosps'],
   TABLES_REC_ID: ['skills', 'goods', 'subskills', 'myskills', 'mybachecas', 'myhosps', 'mygoods'],
@@ -347,10 +348,6 @@ export const shared_consts = {
 
   Preferences: [
     {
-      value: 1,
-      label: 'Si accettano bambini',
-    },
-    {
       value: 2,
       label: 'Si accettano cani',
     },
@@ -385,6 +382,42 @@ export const shared_consts = {
     {
       value: 10,
       label: 'Cucina Vegana',
+    },
+    {
+      value: 11,
+      label: 'Uso della Cucina',
+    },
+    {
+      value: 12,
+      label: 'Uso della Lavatrice',
+    },
+    {
+      value: 13,
+      label: 'Aria condizionata',
+    },
+    {
+      value: 14,
+      label: 'Ventilatore',
+    },
+    {
+      value: 15,
+      label: 'Doccia all\'aperto',
+    },
+    {
+      value: 16,
+      label: 'TV',
+    },
+    {
+      value: 17,
+      label: 'Eventi consentiti',
+    },
+    {
+      value: 18,
+      label: 'Adatto a bambini da 2 a 12 anni',
+    },
+    {
+      value: 19,
+      label: 'Adatto ai neonati (fino ai 2 anni)',
     },
   ],
 

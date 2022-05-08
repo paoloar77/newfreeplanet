@@ -68,6 +68,7 @@ export default defineComponent({
         filtersearch: '',
         filtersearch2: '',
         filtercustom: '',
+        filter_gte: '',
         sortBy: myobj,
         descending,
         userId: userStore.my._id

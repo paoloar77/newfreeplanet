@@ -1025,8 +1025,15 @@ export default defineComponent({
         }
 
       } else if (props.table === toolsext.TABMYHOSPS) {
+        let obj2: any = {}
+
+        if (myrecfiltertoggle.value === tools.FILTER_ALL) {
+          obj2['visibile'] = true
+        }
+
         return {
           // Servizi
+          filtersearch2: [obj2],
           lookup1: {
             lk_tab: 'users',
             lk_LF: 'userId',
@@ -1041,6 +1048,7 @@ export default defineComponent({
             lk_as: 'mycities',
             af_objId_tab: '',
             lk_proj: {
+              visibile: 1,
               typeHosp: 1,
               numMaxPeopleHosp: 1,
               accomodation: 1,

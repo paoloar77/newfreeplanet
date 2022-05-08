@@ -28,16 +28,17 @@
 
           <q-btn class="q-ma-sm" color="positive" icon="fas fa-home" label="Se sei già Registrato CLICCA QUI" to="/"></q-btn>
 
+          <q-banner
+            rounded
+            class="bg-warning text-black"
+            style="text-align: center;"
+          >
+            <span class="mybanner" v-html="t('pages.need_Telegram')"></span>
+          </q-banner>
+
           <div v-if="!isalreadyReg">
             <CTitleBanner :title="$t('pages.SignUp')"></CTitleBanner>
 
-            <q-banner
-              rounded
-              class="bg-warning text-black"
-              style="text-align: center;"
-            >
-              <span class="mybanner" v-html="t('pages.need_Telegram')"></span>
-            </q-banner>
           </div>
 
         </div>

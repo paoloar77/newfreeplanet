@@ -47,8 +47,9 @@ const msg_it = {
         eventlist: 'Le tue Prenotazioni',
         usereventlist: 'Prenotazioni Utenti',
         userlist: 'Lista Utenti',
-        circuitslist: 'Lista Circuiti',
-        accountslist: 'Lista Conti',
+        circuitslist: 'Circuiti',
+        accountslist: 'Conti',
+        movslist: 'Movimenti',
         iscritticonacreis: 'Iscritti Conacreis',
         zoomlist: 'Calendario Zoom',
         extralist: 'Lista Extra',
@@ -57,6 +58,7 @@ const msg_it = {
         navi: 'Navi',
         listadoni_navi: 'Lista Doni Navi',
         newsletter: 'Newsletter',
+        monete: 'Monete',
         pages: 'Pagine',
         media: 'Media',
         gallery: 'Gallerie',
@@ -792,6 +794,9 @@ const msg_it = {
       typol_code: 'Codice Tipologia',
       order: 'Ordinamento',
     },
+    ris: {
+      menu: 'Ris',
+    },
     newsletter: {
       title: 'Desideri ricevere la nostra Newsletter?',
       name: 'Il tuo Nome',
@@ -961,6 +966,7 @@ const msg_it = {
       link_grp: 'Link Territoriale',
     },
     hosps: {
+      visibile: 'Pubblica',
       typeHosp: 'Tipologia',
       numMaxPeopleHosp: 'N° max Ospiti',
       accomodation: {
@@ -1007,15 +1013,15 @@ const msg_it = {
     },
 
     movement: {
-      transactionDate: '',
-      accountFromId: '',
-      accountToId: '',
-      amount: '',
-      causal: '',
-      causal_table: '',
-      causal_IdRec: '',
-      residual: '',
-      expiringDate: '',
+      transactionDate: 'Data Transaz',
+      accountFromId: 'Dal Conto',
+      accountToId: 'Al Conto',
+      amount: 'Quantità',
+      causal: 'Causale',
+      causal_table: 'Tabella Causale',
+      causal_IdRec: 'Id Record Causale',
+      residual: 'Residuo',
+      expiringDate: 'Data Scadenza',
 
     },
 

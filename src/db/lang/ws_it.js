@@ -46,7 +46,7 @@ const msg_website_it = {
     presentazione: 'Presentazione',
     presentazione2: 'Presentazione',
     invita: 'Invita Persone',
-    SignUp: 'Nuova Registrazione',
+    SignUp: 'Modulo di Registrazione:',
     need_Telegram: 'Per poter utilizzare la Piattaforma occorre avere Telegram installato.<br><a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank">Clicca qui per scaricarlo</a>',
     Registrazione_Con_Bot: 'Per Registrarsi occorre prima verificarsi su Telegram sul <strong>BOT RISO</strong>',
     SignUpIscrizione: 'Diventa Socio CNM',

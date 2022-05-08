@@ -392,6 +392,16 @@ export const useGlobalStore = defineStore('GlobalStore', {
         static_data.routes = [...static_data.baseroutes, ...arrpagesroute, last]
       }
 
+      for (const menu of static_data.routes) {
+        if (menu.active && menu.routes2) {
+          for (const menu2 of menu.routes2) {
+            if (menu2.active && !menu2.noroute) {
+              arrpagesroute.push(menu2)
+            }
+          }
+        }
+      }
+
       // Sort array
       static_data.routes = static_data.routes.sort((a, myb) => a.order - myb.order)
 
@@ -836,6 +846,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
         filtersearch: '',
         filtersearch2: '',
         filtercustom: '',
+        filter_gte: '',
         sortBy: myobj,
         descending,
         userId: '',

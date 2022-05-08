@@ -76,7 +76,7 @@ export default defineComponent({
     }
 
     function Opening() {
-      // console.log('Opening', 'myvalue', myvalue, 'value', value)
+      console.log('Opening', 'myvalue', myvalue.value)
       saveit.value = false
       valueprec.value = myvalue.value
       if (myvalue.value === '') {

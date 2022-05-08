@@ -109,64 +109,111 @@ const routes_admin: IListRoutes[] = [
   }
 ]
 
+
 const routes_newsletter: IListRoutes[] = [
   {
     active: true,
     order: 10,
     name: 'newsletter.template', path: '/admin/newsletter/templemail', materialIcon: 'fas fa-users',
     component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
-    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true, noroute: true
   },
   {
     active: true,
     order: 20,
     name: 'newsletter.sendemail', path: '/admin/newsletter/newnewsletter', materialIcon: 'fas fa-users',
     component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
-    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true, noroute: true
   },
   {
     active: true,
     order: 30,
     name: 'newsletter.check', path: '/admin/newsletter/check', materialIcon: 'fas fa-users',
     component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
-    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true, noroute: true
   },
   {
     active: true,
     order: 40,
     name: 'newsletter.sent', path: '/admin/newsletter/newslist', materialIcon: 'fas fa-users',
     component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
-    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true, noroute: true
   },
   {
     active: true,
     order: 50,
     name: 'newsletter.mailinglist', path: '/admin/newsletter/mailinglist', materialIcon: 'fas fa-users',
     component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
-    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true, noroute: true
   },
   {
     active: true,
     order: 60,
     name: 'newsletter.settings', path: '/admin/newsletter/settings', materialIcon: 'fas fa-users',
     component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
-    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true, noroute: true
   },
   {
     active: true,
     order: 70,
     name: 'newsletter.serversettings', path: '/admin/newsletter/main_settings', materialIcon: 'fas fa-users',
     component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
-    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true, noroute: true
   },
   {
     active: true,
     order: 80,
     name: 'newsletter.others', path: '/admin/newsletter/events', materialIcon: 'fas fa-users',
     component: () => import('@/rootgen/admin/newsletter/newsletter.vue'),
-    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true
+    inmenu: true, submenu: true, level_parent: 0.5, level_child: 0.5, onlyManager: true, noroute: true
   }
 ]
+
+const routes_ris: IListRoutes[] = [
+  {
+    active: true,
+    order: 10,
+    path: '/admin/ris/circuitslist',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.circuitslist',
+    component: () => import('@/rootgen/admin/circuitsList/circuitsList.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0.5,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyTutor: true
+  },
+  {
+    active: true,
+    order: 20,
+    path: '/admin/ris/accountslist',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.accountslist',
+    component: () => import('@/rootgen/admin/accountsList/accountsList.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0.5,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyTutor: true
+  },
+  {
+    active: true,
+    order: 30,
+    path: '/admin/ris/movslist',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.movslist',
+    component: () => import('@/rootgen/admin/movsList/movsList.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0.5,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyTutor: true
+  },
+]
+
 
 const routes_manager: IListRoutes[] = [
   {
@@ -199,34 +246,6 @@ const routes_manager: IListRoutes[] = [
     onlyManager: true,
     onlyTutor: true
   },
-  {
-    active: true,
-    order: 11,
-    path: '/admin/circuitslist',
-    materialIcon: 'fas fa-users',
-    name: 'otherpages.admin.circuitslist',
-    component: () => import('@/rootgen/admin/circuitsList/circuitsList.vue'),
-    inmenu: true,
-    submenu: true,
-    level_parent: 0,
-    level_child: 0.5,
-    onlyManager: true,
-    onlyTutor: true
-  },
-  {
-    active: true,
-    order: 12,
-    path: '/admin/accountslist',
-    materialIcon: 'fas fa-users',
-    name: 'otherpages.admin.accountslist',
-    component: () => import('@/rootgen/admin/accountsList/accountsList.vue'),
-    inmenu: true,
-    submenu: true,
-    level_parent: 0,
-    level_child: 0.5,
-    onlyManager: true,
-    onlyTutor: true
-  },
   /*
   {
     active: true,
@@ -246,6 +265,22 @@ const routes_manager: IListRoutes[] = [
    */
   {
     active: true,
+    path: '/admin/ris',
+    order: 60,
+    faIcon: 'fa fa-list-alt',
+    materialIcon: 'fas fa-users',
+    name: 'otherpages.admin.monete',
+    routes2: routes_ris,
+    inmenu: false,
+    submenu: true,
+    level_parent: 0.5,
+    level_child: 0.5,
+    solotitle: true,
+    onlyAdmin: true,
+    onlyManager: true
+  },
+  {
+    active: false,
     order: 10,
     path: '/admin/zoomlist',
     materialIcon: 'fas fa-users',

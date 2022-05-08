@@ -5252,6 +5252,7 @@ export const tools = {
 
   getdefaultnewrec_MyHosp(): any {
     return {
+      visibile: true,
       _id: 0,
       typeHosp: tools.getSelectionByTable(toolsext.TABTYPEHOSP, 2),
       idContribType: tools.getSelectionByTable('contribtypes', []),

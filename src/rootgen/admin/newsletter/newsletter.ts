@@ -56,7 +56,7 @@ export default defineComponent({
     const emailtextheader = ref('')
     const eseguipolling = ref(false)
 
-    const idparam = computed( () => $route.params.idparam.toString())
+    const idparam = computed( () => $route.params.idparam ? $route.params.idparam.toString() : '')
 
 
     async function mounted() {

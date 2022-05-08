@@ -540,7 +540,7 @@ export const colmyUserGroup = [
     name: 'groupname', label_trans: 'reg.groupname', required: true,
     maxlength: 30,
     allowchar: costanti.ALLOWCHAR_CODE,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
   }),
   AddCol({ name: 'title', label_trans: 'reg.name', required: true, noshowlabel: true, maxlength: 40 }),
   AddCol({
@@ -592,16 +592,20 @@ export const colmyUserGroup = [
     jointable: 'friendsandme',
     field_outtype: costanti.FieldType.object,
   }),
-  AddCol({ name: 'date_created', label_trans: 'reg.pub_created', fieldtype: costanti.FieldType.onlydate,
+  AddCol({
+    name: 'date_created', label_trans: 'reg.pub_created', fieldtype: costanti.FieldType.onlydate,
     required: false,
     visible: false,
     sortable: true,
-    showWhen: 0}),
-  AddCol({ name: 'date_updated', label_trans: 'reg.pub_updated', fieldtype: costanti.FieldType.onlydate,
+    showWhen: 0
+  }),
+  AddCol({
+    name: 'date_updated', label_trans: 'reg.pub_updated', fieldtype: costanti.FieldType.onlydate,
     required: false,
     visible: false,
     sortable: true,
-    showWhen: 0}),
+    showWhen: 0
+  }),
   AddCol({
     name: 'photos',
     label_trans: 'skill.photos',
@@ -729,11 +733,13 @@ export const colmyGoods = [
     //icon: 'fas fa-hands-helping',
     // isadvanced_field: true,
   }),
-  AddCol({ name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
+  AddCol({
+    name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
     required: false,
     visible: false,
     sortable: true,
-    showWhen: 0}),
+    showWhen: 0
+  }),
   AddCol({
     name: 'photos',
     label_trans: 'skill.photos',
@@ -911,11 +917,13 @@ export const colmySkills = [
     icon: 'grading',
     isadvanced_field: true,
   }),
-  AddCol({ name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
+  AddCol({
+    name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
     required: false,
     visible: false,
     sortable: true,
-    showWhen: 0}),
+    showWhen: 0
+  }),
   AddCol({
     name: 'photos',
     label_trans: 'skill.photos',
@@ -952,6 +960,11 @@ export const colmyHosp = [
     noshowlabel: true,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
     sortable: false,
+  }),
+
+  AddCol({
+    name: 'visibile', label_trans: 'hosps.visibile', fieldtype: costanti.FieldType.boolean,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
   }),
 
   AddCol({
@@ -1064,11 +1077,13 @@ export const colmyHosp = [
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
     sortable: false,
   }),
-  AddCol({ name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
+  AddCol({
+    name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
     required: false,
     visible: false,
     sortable: true,
-    showWhen: 0}),
+    showWhen: 0
+  }),
   AddCol(DuplicateRec),
   AddCol(ModifRec),
   AddCol(DeleteRec),
@@ -1191,11 +1206,13 @@ export const colmyBachecas = [
     visible: false,
     sortable: false,
   }),*/
-  AddCol({ name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
+  AddCol({
+    name: 'date_created', label_trans: 'event.dateCreated', fieldtype: costanti.FieldType.onlydate,
     required: false,
     visible: false,
     sortable: true,
-    showWhen: 0}),
+    showWhen: 0
+  }),
   AddCol({
     name: 'photos',
     label_trans: 'skill.photos',
@@ -1267,7 +1284,14 @@ export const colTableSites = [
   AddCol({ name: 'next_payment', label_trans: 'reg.next_payment', fieldtype: costanti.FieldType.onlydate }),
   // Configuration
   // AddCol({ name: 'confsite.notif_reg', field: 'confsite', subfield: 'notif_reg', label_trans: 'reg.notif_reg', fieldtype: costanti.FieldType.boolean }),
-  AddCol({ name: 'confsite.options', field: 'confsite', subfield: 'options', label_trans: 'reg.options', fieldtype: costanti.FieldType.binary, jointable: 'confsite_opt', }),
+  AddCol({
+    name: 'confsite.options',
+    field: 'confsite',
+    subfield: 'options',
+    label_trans: 'reg.options',
+    fieldtype: costanti.FieldType.binary,
+    jointable: 'confsite_opt',
+  }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
 ]
@@ -2325,19 +2349,22 @@ export const colTableAccount = [
   AddCol({ name: 'deperibile', label_trans: 'account.deperibile', fieldtype: costanti.FieldType.boolean }),
   AddCol({ name: 'importo_iniziale', label_trans: 'account.importo_iniziale', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'saldo', label_trans: 'account.saldo', fieldtype: costanti.FieldType.number }),
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
 ]
 
 export const colTableMovement = [
   AddCol({ name: 'transactionDate', label_trans: 'movement.transactionDate', fieldtype: costanti.FieldType.date }),
-  AddCol({ name: 'accountFromId', label_trans: 'movement.accountFromId', fieldtype: costanti.FieldType.number }),
-  AddCol({ name: 'accountToId', label_trans: 'movement.accountToId', fieldtype: costanti.FieldType.number }),
-  AddCol({ name: 'amount', label_trans: 'movement.amount', fieldtype: costanti.FieldType.number }),
+  AddCol({ name: 'accountFromId', label_trans: 'movement.accountFromId', fieldtype: costanti.FieldType.number, required: true }),
+  AddCol({ name: 'accountToId', label_trans: 'movement.accountToId', fieldtype: costanti.FieldType.number, required: true }),
+  AddCol({ name: 'amount', label_trans: 'movement.amount', fieldtype: costanti.FieldType.number, required: true }),
   AddCol({ name: 'causal', label_trans: 'movement.causal' }),
   AddCol({ name: 'causal_table', label_trans: 'movement.causal_table' }),
   AddCol({ name: 'causal_IdRec', label_trans: 'movement.causal_IdRec', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'residual', label_trans: 'movement.residual', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'expiringDate', label_trans: 'movement.expiringDate', fieldtype: costanti.FieldType.date }),
-
+  AddCol(DeleteRec),
+  AddCol(DuplicateRec),
 ]
 
 export const fieldsTable = {
@@ -2452,6 +2479,10 @@ export const fieldsTable = {
 
   accountslist() {
     return colTableAccount
+  },
+
+  movslist() {
+    return colTableMovement
   },
 
   userlist() {

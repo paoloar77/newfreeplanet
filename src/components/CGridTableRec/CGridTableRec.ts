@@ -445,6 +445,7 @@ export default defineComponent({
       let filtersearch3or: any[] = []
       let filtersearch3and: any[] = []
       let filtercustom: any[] = [...props.filtercustom]
+      let filter_gte: any[] = []
 
       let recSector = null
       let recSectorGood = null
@@ -550,6 +551,10 @@ export default defineComponent({
 
                 }
               }
+            } else if (shared_consts.COL_WITH_FILTER_GTE.includes(item.key)) {
+              objitem[item.key] = item.value
+              filter_gte.push(objitem)
+
             } else if (item.value > 0) {
               objitem[item.key] = item.value
                 filtersearch.push(objitem)
@@ -676,6 +681,8 @@ export default defineComponent({
         filtersearch3and: filtersearch3and,
         // @ts-ignore
         filtercustom: filtercustom,
+        // @ts-ignore
+        filter_gte,
         sortBy: myobj,
         descending,
         userId: userStore.my._id,
