@@ -25,6 +25,7 @@ const msg_website_it = {
     profile2: 'ProfiloU',
     mypage2: 'mypage2',
     myservice2: 'myservice2',
+    myhosps2: 'myhosps2',
     mygood2: 'mygood2',
     test: 'Test',
     projects: 'Progetti',
@@ -45,7 +46,9 @@ const msg_website_it = {
     presentazione: 'Presentazione',
     presentazione2: 'Presentazione',
     invita: 'Invita Persone',
-    SignUp: 'Nuova Registrazione',
+    SignUp: 'Modulo di Registrazione:',
+    need_Telegram: 'Per poter utilizzare la Piattaforma occorre avere Telegram installato.<br><a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank">Clicca qui per scaricarlo</a>',
+    Registrazione_Con_Bot: 'Per Registrarsi occorre prima verificarsi su Telegram sul <strong>BOT RISO</strong>',
     SignUpIscrizione: 'Diventa Socio CNM',
     SignUp_alreadylista: 'Registrazione per quelli che erano già nella lista di Notevole (del 2019) !',
     SignUp2: 'Registrazione',
@@ -82,6 +85,10 @@ const msg_website_it = {
     favproj: 'Favoriti',
     statusreg: {
       reg: 'Partecipanti',
+      verifieds: 'Verificati',
+      online_today: 'On Line Oggi',
+      autorizzati: 'Autorizzati',
+      autorizzare: 'In attesa di Abilitazione',
       passeggeri: 'Passeggeri Navi',
       giainlista: 'Gia in Lista',
       newreg: 'Ultime Registrazioni:',
@@ -140,14 +147,14 @@ const msg_website_it = {
   },
   homepage: {
     descrapp_title1: 'Uniti per Evolvere e Sperimentare',
-    descrapp_pag1: 'Riscopri come il valore della <strong>Condivisione</strong> e della <strong>Cooperazione</strong>, possa aiutarci a ritrovare il profondo '
-      + 'senso della <strong>Vita</strong>, perduto in questa società consumista, e riporti quei <strong>Sani Pricìpi Naturali</strong> ed Umani di <strong>Fratellanza</strong>'
+    descrapp_pag1: 'Siamo la <strong>Rete Italiana di Scambio Orizzontale</strong>, abbiamo creato questa piattaforma per metterla al servizio di chi vuole riscoprire il valore della <strong>condivisione</strong> e della <strong>cooperazione</strong>. ' +
+      'Valori semplici e profondi che ci aiutano a ritrovare il <strong>Senso della Vita</strong>, perduto in questa società consumista, e riporti quei <strong>Sani Pricìpi Naturali</strong> ed Umani di <strong>Fratellanza</strong>'
       + ' che intere popolazioni antiche conoscevano bene.',
     descrapp_pag2: 'E\' giunta l\'ora di utilizzare i nuovi strumenti <strong>Tecnologici</strong> a nostro <strong>favore</strong>, per <strong>Liberarci</strong> '
       + 'così piano piano dalla <strong>schiavitù</strong> del <strong>"Lavoro per generare Denaro"</strong> e trasformando le nostre <strong>Capacitá</strong> in '
       + '<strong>Risorse Umane</strong> per poterci sostenere e vivere in <strong>Armonia</strong> con gli altri.',
     freesocial: {
-      title: 'Free Social',
+      title: 'Social',
       descr: 'Una Community organizzata per <strong>Categorie</strong>, dove potrai unirti a <strong>Gruppi Tematici</strong>, '
         + 'Condividere <strong>Esperienze</strong> e unire Competenze per organizzare e sostenere <strong>Progetti Innovativi</strong> per il Popolo.<br><br>'
         + 'Verranno evidenziati sviluppi <strong>Etici</strong> come l\'<strong>Auto-Produzione</strong>, la <strong>Sostenibilitá</strong>, '
@@ -156,39 +163,26 @@ const msg_website_it = {
         + ' e realizzare insieme i <strong>Cambiamenti</strong> necessari alla nostra Società.',
     },
     freetalent: {
-      title: 'Free Talent',
+      title: 'Beni e Servizi',
       descr: 'Condividi i tuoi <strong>Talenti</strong> e <strong>Abilità</strong>, '
-        + 'al posto del denaro guadagnagnerai <strong>Tempo</strong>.<br> '
-        + '<strong>"1 ora"</strong> diventa moneta di scambio, uguale per tutti.<br>'
-        + 'Potrai utilizzare questi tuoi <strong>"Crediti Tempo"</strong> per soddisfare le tue necessità, cercando nelle <strong>Competenze Disponibili</strong>.<br>'
-        + 'Nel Dare e Ricevere, si creeranno così legami di <strong>Amicizia, Solidarietà, Cooperazione e Divertimento</strong><br><br>'
-        + 'Questo progetto vuole diffondere, ora in maniera informatizzata, questa realtà che gia esiste da tanti anni, e viene chiamata <strong>"Banca del Tempo"</strong>. '
-        + 'Le <strong>segreterie</strong> sparse in tutto il mondo, serviranno a dare maggiore <strong>affidabilità</strong> e <strong>fiducia</strong> negli scambi di talenti tra persone sconosciute. '
-        + 'Creeremo così una <strong>rete di fiducia</strong> nel vicinato, come giá viene praticato in numerosi <strong>Ecovillaggi</strong> e Comunità del mondo.',
+        + 'Nel Dare e Ricevere, si creeranno così legami di <strong>Amicizia, Solidarietà, Cooperazione e Divertimento</strong><br><br>' +
+        'Favoriamo lo scambio locale di <strong>Beni e Servizi</strong> grazie ad un sistema di baratto organizzato, in cui la comunità stessa si pone come garante.'
     },
-    freegas: {
-      title: 'Free G.A.S.',
-      descr: 'Ti piacerebbe utilizzare una App che ti permetta facilmente di acquistare Prodotti Locali direttamente dal <strong>Produttore</strong>?<br>'
-        + 'Con i <strong>Gruppi di Acquisto Solidale</strong> si evitano intermediazioni inutili, ottenendo parecchi benefici tra cui:<br>'
-        + '<ul class="mylist" style="padding-left: 20px;"><li><strong>Qualitá Superiore</strong> del prodotto</li>'
-        + '<li>Le <strong>Recensioni</strong> dei consumatori favoriranno i Produttori con Sani Intenti</li>'
-        + '<li>Possiblità d\'interagire con il Produttore</li>'
-        + '<li>Apertura alle Relazioni tra persone, condividendo <strong>Ricette</strong> e <strong>Consigli</strong> preziosi</li>'
-        + '<li><strong>Risparmio</strong> di soldi (prezzi all\'Ingrosso)</li>'
-        + '<li>Valorizzare il <strong>Territorio</strong> e l\'Economia <strong>Locale</strong></li>'
-        + '<li>Condizioni <strong>Eque</strong> per i Lavoratori</li>'
-        + '<li>Ridotto <strong>Impatto Ambientale</strong></ul>',
+    coin: {
+      title: 'RIS - Credito Alternativo',
+      descr: '<strong>Stiamo lavorando</strong> anche per creare una sorta di "moneta alternativa" per conteggiare gli scambi che avvengono tra di noi, quando il semplice baratto risulta non applicabile.<br>' +
+        'Partendo dalle basi del <strong>Si.Cre.Na.C.C - Sistema di Credito Naturale a Copertura Certa</strong>.<br>' +
+        '<em>Ciascun operatore potrà creare moneta all\'occorrenza, se il saldo del suo conto non sarà sufficiente a coprire la spesa. Potrà quindi mandare il suo conto in "scoperto", accollandosi il conseguente' +
+        ' Debito, accreditando l\'equivalente somma all\'operatore ricevente, il quale la annovera nel suo conto in qualità di Credito. ' +
+        'L\'equilibrio tra il credito dell\'uno ed il debito dell\'altro ha come conseguenza che il debitore dovrà lavorare per rifondere il debito, mentre il ricevente potrà usare il credito come moneta.</em><br>' +
+        'Per maggiori informazioni consultare il libro gratuito <a href="https://sicrenacc.info/" target="_blank">cliccando qui</a>.'
+
+
     },
     freeliving: {
-      title: 'Free Co-Living',
-      descr: 'Unire più realtà, condividendo l\'esperienza di abitare insieme, per un periodo definito:<br>'
-        + '1) C\'è chi <strong>Vive solo</strong> ed ha una casa.<br>'
-        + '2) Chi ha bisogno di un <strong>alloggio</strong> temporaneo.<br><br>'
-        + 'Oggi sempre più persone <strong>abitano da sole</strong> e vorrebbero continuare a vivere nella propria abitazione.<br>'
-        + 'Altre persone invece hanno bisogno di una <strong>stanza</strong>, per scelta o per necessita, ed in cambio sono disponibili a '
-        + '<strong>contribuire alle spese</strong> per le utenze domestiche o magari <strong>aiutare</strong> la persona a <strong>fare la spesa</strong>, cucinare, <strong>pulire casa</strong> oppure offrendogli semplicemente <strong>compagnia</strong>.<br><br>'
-        + 'Tramite questo strumento, le persone potranno trovarsi, mettersi in contatto e decidere in che forma <strong>co-abitare</strong> e per quanto tempo. Le <strong>recensioni</strong> rilasciate ed il <strong>dettaglio</strong> dei profili utenti, '
-        + 'aiuterà nella scelta della persona più in <strong>sintonia</strong>.',
+      title: 'Gruppi Territoriali',
+      descr: 'Questo progetto vuole diffondere la creazione di Gruppi Territoriali Provinciali,'
+        + 'per poter favorire progetti condivisi in ambito territoriale e creare così una <strong>Rete di Fiducia</strong> fino al vicinato, come giá viene praticato in piccolo, in numerosi <strong>Ecovillaggi</strong> e Comunità del mondo.',
 
     },
     freecollabora: {
@@ -200,29 +194,29 @@ const msg_website_it = {
         + '<li>Gruppi che intendono promuovere <strong>Progetti Sociali Innovativi</strong> per una <strong>Decrescita Felice</strong></li>'
         + '<li>Chi gestisce un <strong>Gruppo di Acquisto Solidale (G.A.S.)</strong></li>'
         + '<li><strong>Produttori Locali Etici</strong></li>'
-        + '<li>Chi gestisce una <strong>Banca del Tempo</strong></li>'
         + '<li><strong>Chiunque voglia partecipare</strong>, nella forma che ritiene più opportuna.</li>'
         + '</ul>',
     },
     freesostieni: {
       title: 'Come Sostenere il progetto?',
       descr: '<ul class="mylist" style="padding-left: 20px;">'
-        + '<li><strong>Condividendolo</strong> a tutti coloro che vogliono far parte insieme della crescita e sviluppo di una Nuova Era</li>'
-        + '<li>Rispondendo ai <strong>Sondaggi Popolari</strong> e lasciando <strong>Feedback</strong></li>'
-        + '<li>Tramite una piccola <strong>donazione</strong> per le spese dei Server<br>'
-        + '</ul>'
-        + 'Vedo un <strong>futuro</strong> dove non si utilizzerà più denaro. Dove le persone si <strong>aiuteranno</strong> a vicenda e non avranno bisogno di "possedere" cose, ma le <strong>condivideranno</strong> con gli altri.<br>',
+        + '<li>📱<strong>Condividendo la APP</strong> a tutti coloro che vogliono far parte insieme della crescita e sviluppo di una Nuova Era</li>'
+        + '<li>👥 Aiutando a creare Gruppi Territoriali nella vostra città, impegnandosi a realizzare progetti per il Bene Comune, in onore ai principi Amorevoli e di condivisione.</li>'
+        + '<li>🌱 Sostenendo le persone attorno a voi, e rispettando la nostra vera Casa: Madre Natura e Tutti gli Esseri Viventi. ❤️</li>'
+        + '<li>👨🏻‍💻 Tramite una piccola donazione per le spese dei Server.<br>'
+        + '</ul><br>'
+        + 'Vediamo un <strong>futuro</strong> dove non si utilizzerà più denaro. Dove le persone si <strong>aiuteranno</strong> a vicenda e non avranno bisogno di "possedere" cose, ma le <strong>condivideranno e scambieranno</strong> con gli altri.<br>',
     },
     multiplatform: {
       title: 'Multi-piattaforma',
-      descr: 'E\' compatibile con Google Chrome, Firefox, Safari, iOS, Android e PC. L\'Applicazione s\'installa facilmente, senza passare dallo store. '
-        + 'basta condividere il nome del sito <strong>www.freeplanet.app</strong>.<br>'
-        + 'Dopo la registrazione chiederà di aggiungerlo alla lista delle applicazioni e sullo sfondo',
+      descr: 'E\' compatibile con Google Chrome, Firefox, Opera, Safari, iPhone, Android e PC. L\'Applicazione s\'installa facilmente, senza passare dallo store. '
+        + 'basta entrare sul sito <strong>www.riso.app</strong>.<br>'
+        + 'Dopo la registrazione chiederà di aggiungerlo allo schermo (o cliccare sul menu del browser "Installa APP")',
     },
     free: {
       title: 'Gratuita, Open Source e Niente Pubblicità',
-      descr: 'Questa App <strong>non è in vendita</strong>, non ha scopi commerciali, <strong>non ha prezzo</strong> ed appartiene al <strong>Popolo del Nuovo Mondo</strong>.<br>Chiunque potrá utilizzarla e beneficiarne.<br>A me il compito di gestirla e proteggerla. '
-        + 'Verranno accettate solo donazioni Libere di privati ed Associazioni no-profit, in linea con i Principi, che serviranno per coprire le spese.<br>'
+      descr: 'Questa App <strong>non è in vendita</strong>, non ha scopi commerciali, quindi <strong>non ha prezzo</strong> e nessun dato contenuto in esso verrà mai venduto, in quanto appartiene a <strong>Tutti Noi</strong> ed a nessuno in particolare.<br>Chiunque potrá utilizzarla e beneficiarne da essa.<br>' +
+        '<em>Progetto Open Source su <a href="https://github.com/paoloar77/newfreeplanet" target="_blank">GitHub</a>.</em><br><br>'
         + '<strong>Grazie a Tutti per il sostegno</strong>. ',
     },
     titlecontatti: 'Contatti',

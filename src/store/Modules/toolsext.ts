@@ -80,7 +80,7 @@ export const toolsext = {
   TABMAILINGLIST: 'mailinglist',
   TABGROUPS: 'groups',
   TABMYPAGE: 'mypage',
-  TABMYBOT: 'mybots',
+  TABMYBOT: 'bots',
   TABCALZOOM: 'calzoom',
   TABTEMPLEMAIL: 'templemail',
   TABOPZEMAIL: 'opzemail',

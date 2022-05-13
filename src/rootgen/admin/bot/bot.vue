@@ -4,7 +4,7 @@
     <div class="q-ma-sm q-gutter-sm q-pa-xs">
       <CTitleBanner title="Bot"></CTitleBanner>
       <CGridTableRec
-        prop_mytable="mybots"
+        prop_mytable="bots"
         prop_mytitle="Configura Bot"
         :prop_mycolumns="colmybot"
         prop_colkey="_id"

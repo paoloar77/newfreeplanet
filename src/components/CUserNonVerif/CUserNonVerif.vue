@@ -1,8 +1,10 @@
 <template>
   <div v-if="!globalStore.serverError" class="q-ma-md">
+    <!--
     <CVerifyTelegram v-if="!tools.TelegVerificato() || !tools.isUsernameTelegOk()">
 
     </CVerifyTelegram>
+    -->
 
     <!--<CVerifyEmail v-if="!tools.isEmailVerified() && !tools.TelegVerificato()">
 

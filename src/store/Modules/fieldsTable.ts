@@ -536,13 +536,13 @@ export const colmyUserPeople = [
 
 export const colmyUserGroup = [
   // AddCol({ name: '_id', label_trans: 'reg.id' }),
+  AddCol({ name: 'title', label_trans: 'reg.name', required: true, noshowlabel: true, maxlength: 40 }),
   AddCol({
     name: 'groupname', label_trans: 'reg.groupname', required: true,
     maxlength: 30,
     allowchar: costanti.ALLOWCHAR_CODE,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage,
   }),
-  AddCol({ name: 'title', label_trans: 'reg.name', required: true, noshowlabel: true, maxlength: 40 }),
   AddCol({
     name: 'idCity',
     label_trans: 'skill.city',

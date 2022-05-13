@@ -3,6 +3,7 @@ const msg_website = {
     pages: {
       home: 'Principale',
       SignUp: 'Registrazione',
+      SignUp2: 'Registrazione2',
       SignIn: 'Login',
       vreg: 'Verifica Reg',
       Test: 'Test',
@@ -34,8 +35,8 @@ const msg_website = {
     },
     homepage: {
       descrapp_title1: 'Uniti per Evolvere e Sperimentare',
-      descrapp_pag1: 'Riscopri come il valore della <strong>Condivisione</strong> e della <strong>Cooperazione</strong>, possa aiutarci a ritrovare il profondo '
-        + 'senso della <strong>Vita</strong>, perduto in questa società consumista, e riporti quei <strong>Sani Pricìpi Naturali</strong> ed Umani di <strong>Fratellanza</strong>'
+      descrapp_pag1: 'Siamo la <strong>Rete Italiana di Scambio Orizzontale</strong>, abbiamo creato questa pittaforma per metterla al servizio di chi vuole riscoprire il valore della <strong>condivisione</strong> e della <strong>cooperazione</strong>. ' +
+        'Valori semplici e profondi che ci aiutano a ritrovare il <strong>senso della vita</strong>, perduto in questa società consumista, e riporti quei <strong>Sani Pricìpi Naturali</strong> ed Umani di <strong>Fratellanza</strong>'
         + ' che intere popolazioni antiche conoscevano bene.',
       descrapp_pag2: 'E\' giunta l\'ora di utilizzare i nuovi strumenti <strong>Tecnologici</strong> a nostro <strong>favore</strong>, per <strong>Liberarci</strong> '
         + 'così piano piano dalla <strong>schiavitù</strong> del <strong>"Lavoro per generare Denaro"</strong> e trasformando le nostre <strong>Capacitá</strong> in '
@@ -116,7 +117,7 @@ const msg_website = {
       free: {
         title: 'Gratuita, Open Source e Niente Pubblicità',
         descr: 'Questa App <strong>non è in vendita</strong>, non ha scopi commerciali, <strong>non ha prezzo</strong> ed appartiene al <strong>Popolo del Nuovo Mondo</strong>.<br>Chiunque potrá utilizzarla e beneficiarne.<br>A me il compito di gestirla e proteggerla. '
-          + 'Verranno accettate solo donazioni Libere di privati ed Associazioni no-profit, in linea con i Principi, che serviranno per coprire le spese.<br>'
+          + 'Verranno accettate solo donazioni Libere di privati ed Associazioni no-profit, in linea con i Principi, che serviranno per coprire le spese.<br>' +
           + '<strong>Grazie a Tutti per il sostegno</strong>. ',
       },
       contacts: 'Contatti',

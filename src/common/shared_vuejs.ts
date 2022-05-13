@@ -103,7 +103,7 @@ export const shared_consts = {
   // costanti.VISUTABLE_SCHEDA_USER, VISUTABLE_SCHEDA_GROUP, VISUTABLE_USER_TABGROUP
   VERTIC_SHOW_GRID: [-1, 2, -3, -4],
 
-  TABLES_UPDATE_LASTIFIED: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'mybots'],
+  TABLES_UPDATE_LASTIFIED: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'bots'],
   TABLES_FINDER: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'mygroups'],
   TABLES_VISU_CMYSRECCARD: ['myskills', 'mybachecas', 'myhosps', 'mygoods', 'mygroups'],
   TABLES_SHOW_ADTYPE: ['myskills', 'mygoods'],

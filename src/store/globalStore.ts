@@ -1369,6 +1369,14 @@ export const useGlobalStore = defineStore('GlobalStore', {
                 userStore.logout()
                 this.rightDrawerOpen = true
                 return false
+              } else {
+                // Sbianca cmq i dati
+                const token = localStorage.getItem(toolsext.localStorage.token)
+                if (token) {
+                  userStore.logout()
+                  this.rightDrawerOpen = true
+                  return false
+                }
               }
             }
           }

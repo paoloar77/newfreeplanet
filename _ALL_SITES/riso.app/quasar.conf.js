@@ -240,6 +240,7 @@ module.exports = configure((ctx) => ({
       'Notify',
       'Cookies',
       'Loading',
+      'AppVisibility',
     ],
     iconSet: 'fontawesome-v5',
     lang: 'it', // Quasar language
@@ -306,6 +307,11 @@ module.exports = configure((ctx) => ({
         {
           src: 'images/riso-android-icon-192x192.png',
           sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: 'images/riso-android-icon-384x384.png',
+          sizes: '384x384',
           type: 'image/png',
         },
         {
