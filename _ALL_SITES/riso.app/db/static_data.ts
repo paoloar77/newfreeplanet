@@ -21,6 +21,7 @@ const functionality: IFunctionality = {
   ENABLE_ECOMMERCE: false,
   ENABLE_REG_ISP: true,
   ENABLE_GROUPS: true,
+  SHOW_COMPETENZE: true,
 }
 
 // const SHOW_PROJINTHEMENU = false

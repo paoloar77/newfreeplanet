@@ -1,8 +1,8 @@
 const msg_website_si = {
   ws: {
-    sitename: 'TerraDellaVisione',
-    siteshortname: 'TerraDellaVisione',
-    botname: 'TerraDellaVisione BOT',
+    sitename: 'Terra Della Visione',
+    siteshortname: 'Terra Della Visione',
+    botname: 'Terra Della Visione BOT',
   },
   pages: {
     home: 'Domača stran',

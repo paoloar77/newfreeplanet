@@ -21,6 +21,7 @@ const functionality: IFunctionality = {
   ENABLE_ECOMMERCE: false,
   ENABLE_REG_ISP: true,
   ENABLE_GROUPS: true,
+  SHOW_COMPETENZE: false,
 }
 
 // const SHOW_PROJINTHEMENU = false
@@ -664,7 +665,7 @@ const baseroutes: IListRoutes[] = [
 ]
 export function firstimagehome() {
 
-  let img = 'statics/images/background.jpg'
+  let img = 'images/foto1.jpg'
   return img
 }
 

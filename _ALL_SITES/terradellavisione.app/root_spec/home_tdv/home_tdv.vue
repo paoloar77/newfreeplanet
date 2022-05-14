@@ -117,7 +117,7 @@
                 </section>
 
                 <div class="q-pa-md q-gutter-md">
-                    <div v-if="isLogged && !isVerified" class="text-verified">{{
+                    <div v-if="tools.isLogged() && !tools.isVerified()" class="text-verified">{{
                         $t('components.authentication.email_verification.link_sent') }}
                     </div>
 

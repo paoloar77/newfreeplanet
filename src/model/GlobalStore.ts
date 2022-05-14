@@ -494,6 +494,7 @@ export interface IFunctionality {
   ENABLE_REG_ISP?: boolean
   SHOW_NAMESURNAME?: boolean
   ENABLE_GROUPS?: boolean
+  SHOW_COMPETENZE?: boolean
 }
 
 export interface IParLookup {

@@ -162,6 +162,7 @@
 
 
       <CTitleBanner
+        v-if="static_data.functionality.SHOW_COMPETENZE"
         class="" title="Competenze e Talenti" bgcolor="bg-positive" clcolor="text-white"
         myclass="myshad" :canopen="true">
 
