@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="tools.isLogged() && tools.getUsername()" class="text-center">
+    <div v-if="need_Telegram && tools.isLogged() && tools.getUsername()" class="text-center">
       <q-banner
         rounded
         class="bg-green text-white"
@@ -29,6 +29,7 @@
           <q-btn class="q-ma-sm" color="positive" icon="fas fa-home" label="Se sei già Registrato CLICCA QUI" to="/"></q-btn>
 
           <q-banner
+            v-if="need_Telegram"
             rounded
             class="bg-warning text-black"
             style="text-align: center;"
@@ -44,7 +45,7 @@
         </div>
       </div>
 
-      <div v-if="visubuttBOT" class="q-gutter-md">
+      <div v-if="visubuttBOT && need_Telegram" class="q-gutter-md">
         <q-banner
           rounded
           class="bg-green-5 text-white"

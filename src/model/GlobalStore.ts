@@ -495,6 +495,10 @@ export interface IFunctionality {
   SHOW_NAMESURNAME?: boolean
   ENABLE_GROUPS?: boolean
   SHOW_COMPETENZE?: boolean
+  ENABLE_VIEW_GROUPS?: boolean
+  ENABLE_VIEW_USERS?: boolean
+  ENABLE_VIEW_PROFILE?: boolean
+  ENABLE_VIEW_BOOKINGS?: boolean
 }
 
 export interface IParLookup {
@@ -552,6 +556,7 @@ export interface IColGridTable {
   action?: any
   askaction?: string
   foredit?: boolean
+  isInModif?: boolean
   fieldtype?: number
   fieldtype_real?: number
   field_outtype?: number

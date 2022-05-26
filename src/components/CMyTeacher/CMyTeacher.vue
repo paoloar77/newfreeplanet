@@ -1,20 +1,20 @@
 <template>
     <span>
-        <q-dialog v-model="showuserdetails" v-if="myop">
+        <q-dialog v-model="showuserdetails" v-if="myop" :maximized="$q.screen.lt.sm">
             <q-card class="dialog_card">
                 <q-toolbar class="bg-primary text-white">
                     <q-toolbar-title>
-                        {{ myop.name }} {{ myop.surname }}
+                        {{ myop.name }} {{ myop.surname ? myop.surname : '' }}
                     </q-toolbar-title>
                     <q-btn flat round color="white" icon="close" v-close-popup></q-btn>
                 </q-toolbar>
                 <q-card-section class="text-center inset-shadow">
-                    <div style="width: 200px; float: left;">
-                        <q-img :src="`images/` + myop.img" class="myimg" :alt="`${myop.name} ${myop.surname}`">
-                        </q-img>
-                    </div>
+                  <div class="column justify-center" style="min-width: 280px">
+                    <q-img
+                      :src="`images/` + myop.img" class="img_effetto_3d" :alt="`${myop.name} ${myop.surname}`">
+                    </q-img>
 
-                    <div class="text-h6 text-trans">{{ myop.name }} {{ myop.surname }}</div>
+                    <div class="title_shadow">{{ myop.name }} {{ myop.surname ? myop.surname : '' }}</div>
                     <div class="text-subtitle-carica text-trans">{{ myop.qualification }}</div>
                     <div class="text-subtitle-carica">{{ myop.disciplines }}</div>
                     <div v-if="myop.certifications" class="text-subtitle-certificato">{{ myop.certifications }}</div>
@@ -59,6 +59,7 @@
 
                     <br>
                     <div class="op__storia" v-html="myop.info"></div>
+                  </div>
 
                 </q-card-section>
                 <q-card-actions align="center">

@@ -17,6 +17,7 @@ import { CCardCarousel, CEventsCalendar, COpenStreetMap } from '@components'
 import MixinBase from '@src/mixins/mixin-base'
 import { firstimagehome } from '@src/db/static_data'
 import MixinMetaTags from '@/mixins/mixin-metatags'
+import { IGallery } from 'model'
 
 export default defineComponent({
   name: 'Home_tdv',
@@ -25,13 +26,13 @@ export default defineComponent({
   setup() {
     const animare = ref(0)
     const slide = ref('first')
-    const slide2 = ref(1)
+    const slide2 = ref(0)
 
     const getImmagini = ref([
       {
         title: '', subtitle: '',
-        alt: 'Elisa e Cristina insieme',
-        img: '../../statics/images/eventi_esterni/IMG_6035.jpg'
+        alt: 'Noi insieme',
+        img: 'images/terradellavisione_noi.jpg'
       },
     ])
 
@@ -56,6 +57,26 @@ export default defineComponent({
       return globalStore.disciplines.filter((rec: any) => rec.showinhome)
     }
 
+    function getGall(): any {
+      return globalStore.gallery.find((rec: any) => rec.title === 'slidehome')
+    }
+
+    function getArrImgSlideHome() {
+      const mygall: any = getGall()
+      if (!!mygall) {
+        return mygall.list
+      }
+      return []
+    }
+
+    function getdirectory() {
+      const mygall: any = getGall()
+      if (!!mygall) {
+        return 'upload/' + mygall.directory
+      }
+      return []
+    }
+
     created()
 
     return {
@@ -67,7 +88,9 @@ export default defineComponent({
       slide2,
       getheightgallery,
       getArrDisciplines,
+      getArrImgSlideHome,
       getImmagini,
+      getdirectory,
       getValDb,
       firstimagehome,
       getsrcbyimg,

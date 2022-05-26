@@ -1,6 +1,15 @@
 <template>
   <q-page class="">
 
+        <span>{{
+            setmeta({
+              title: $t('ws.sitename'),
+              description: $t('ws.siteshortname'),
+              keywords: $t('ws.keywords'),
+            })
+          }}
+        </span>
+
     <!--<CChartMap
       title="Mappa"
       subtitle="cartina..."

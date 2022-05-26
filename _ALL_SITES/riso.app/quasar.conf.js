@@ -288,12 +288,17 @@ module.exports = configure((ctx) => ({
     manifest: {
       name: 'Riso',
       short_name: 'Riso',
-      description: 'Riso',
+      description: 'Siamo la Rete Italiana di Scambio Orizzontale, abbiamo creato questa piattaforma per metterla al servizio di chi vuole riscoprire il valore della condivisione e della cooperazione. Valori semplici e profondi che ci aiutano a ritrovare il Senso della Vita, perduto in questa società consumista, e riporti quei Sani Pricìpi Naturali ed Umani di Fratellanza che intere popolazioni antiche conoscevano bene.',
       display: 'standalone',
       orientation: 'portrait',
       background_color: '#ffffff',
       theme_color: '#027be3',
       icons: [
+        {
+          src: 'images/riso-android-icon-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
         {
           src: 'images/riso-android-icon-96x96.png',
           sizes: '96x96',
@@ -312,11 +317,6 @@ module.exports = configure((ctx) => ({
         {
           src: 'images/riso-android-icon-384x384.png',
           sizes: '384x384',
-          type: 'image/png',
-        },
-        {
-          src: 'images/riso-android-icon-512x512.png',
-          sizes: '512x512',
           type: 'image/png',
         },
       ],

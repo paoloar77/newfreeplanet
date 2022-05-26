@@ -19,6 +19,11 @@ export default defineComponent({
       Type: Object as PropType<IDiscipline>,
       required: true,
     },
+    directory: {
+      type: String,
+      required: false,
+      default: '',
+    },
     mystyle: {
       type: String,
       required: false,

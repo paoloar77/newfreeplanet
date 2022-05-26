@@ -1,10 +1,10 @@
 <template>
   <CMyPage
-    title="Events" keywords="" description="" imgbackground="images/calendario_eventi.jpg"
+    :title="gettitle()" keywords="" description="" imgbackground="images/calendario_eventi.jpg"
     sizes="max-height: 120px">
 
     <div class="q-ma-sm q-pa-xs">
-      <div v-if="!showall" class="text-h6 bg-red text-white text-center q-pa-xs shadow-max">Lista delle tue
+      <div v-if="!showall()" class="text-h6 bg-red text-white text-center q-pa-xs shadow-max">Lista delle tue
         prenotazioni agli Eventi:
       </div>
 
@@ -20,17 +20,17 @@
         <th>{{ $t('cal.data') }}</th>
         <th>{{ $t('cal.event') }}</th>
         <th v-if="!tools.isMobile()">{{ $t('cal.teachertitle') }}</th>
-        <th v-if="showall">
+        <th v-if="showall()">
           <span v-if="!tools.isMobile()">{{ $t('cal.selnumpeople') }}</span>
           <span v-else>{{ $t('cal.selnumpeople_short') }}</span>
         </th>
-        <th v-if="showall">
+        <th v-if="showall()">
           {{ $t('cal.selnumpeopleLunch') }}
         </th>
-        <th v-if="showall">
+        <th v-if="showall()">
           {{ $t('cal.selnumpeopleDinner') }}
         </th>
-        <th v-if="showall">
+        <th v-if="showall()">
           {{ $t('cal.selnumpeopleDinnerShared') }}
         </th>
         <th>{{ $t('cal.peoplebooked') }}</th>
@@ -51,25 +51,25 @@
               <span v-if="isValidUsername(event.teacher4)"> - {{ getTeacherByUsername(event.teacher4) }}</span>
             </div>
           </td>
-          <td v-if="showall">
+          <td v-if="showall()">
             <div class="text-center">{{
                 calendarStore.getNumParticipants(event, showall, tools.peopleWhere.participants)
               }}
             </div>
           </td>
-          <td v-if="showall">
+          <td v-if="showall()">
             <div class="text-center">{{
                 calendarStore.getNumParticipants(event, showall, tools.peopleWhere.lunch)
               }}
             </div>
           </td>
-          <td v-if="showall">
+          <td v-if="showall()">
             <div class="text-center">{{
                 calendarStore.getNumParticipants(event, showall, tools.peopleWhere.dinner)
               }}
             </div>
           </td>
-          <td v-if="showall">
+          <td v-if="showall()">
             <div class="text-center">{{
                 calendarStore.getNumParticipants(event, showall, tools.peopleWhere.dinnerShared)
               }}

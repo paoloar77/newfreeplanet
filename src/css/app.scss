@@ -996,3 +996,39 @@ $heightBtn: 100%;
 .accom_maxosp {
   background-color: blue !important;
 }
+
+.img_effetto_3d{
+  border-radius: 10px !important;
+  height: 300px;
+  max-width:300px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+@font-face {
+  font-family: WalterTurncoat;
+  src: url(./fonts/walterturncoat.woff);
+}
+
+.title_shadow{
+  font-family: WalterTurncoat,handwriting, Arial, sans-serif;
+  font-size: 1.25rem;
+  color: #8300e9!important;
+  font-weight: 500;
+  text-shadow: .1rem .1rem .1rem $grayshadow;
+}
+
+.text-normal {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.7em;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+.carousel_img {
+  //background-image: url(../../public/images/cibo_sano.jpg);
+  background-size: contain  !important;
+  background-position: 50% center !important;
+  background-repeat: no-repeat !important;
+}

@@ -1,6 +1,7 @@
 <template>
   <div>
     <div v-if="mypath && !!rec">
+
       <div class="q-ma-sm q-gutter-sm q-pa-xs">
         <div v-if="!!rec.img1" class="text-center">
           <q-img :src="``+ rec.img1" class="img"></q-img>
@@ -29,6 +30,7 @@
 
     </div>
     <div v-else>
+
       <div v-if="!!title">
         <CTitle
           v-if="imgbackground" :imgbackground="imgbackground"

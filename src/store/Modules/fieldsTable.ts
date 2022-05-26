@@ -68,6 +68,7 @@ function AddCol(params: IColGridTable) {
     icon: (params.icon === undefined) ? '' : params.icon,
     action: (params.action === undefined) ? '' : params.action,
     foredit: (params.foredit === undefined) ? true : params.foredit,
+    isInModif: (params.isInModif === undefined) ? false : params.isInModif,
     fieldtype: (params.fieldtype === undefined) ? costanti.FieldType.string : params.fieldtype,
     fieldtype_real: (params.fieldtype_real === undefined) ? ((params.fieldtype === undefined) ? costanti.FieldType.string : params.fieldtype) : params.fieldtype_real,
     field_outtype: (params.field_outtype === undefined) ? costanti.FieldType.string : params.field_outtype,
@@ -112,6 +113,8 @@ export const colgallery = [
     label_trans: 'gallery.list',
     fieldtype: costanti.FieldType.listimages,
     jointable: '',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
+    isInModif: true,
   }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
@@ -1558,10 +1561,17 @@ const colTableGeneric = [
   AddCol({ name: 'label', label_trans: 'proj.longdescr' }),
 ]
 
-const colTableOperator = [
+export const colTableOperator = [
   AddCol({ name: 'username', label_trans: 'reg.username_short' }),
   AddCol({ name: 'name', label_trans: 'reg.name' }),
   AddCol({ name: 'surname', label_trans: 'reg.surname' }),
+  AddCol({ name: 'showInTeam', label_trans: 'op.showInTeam', fieldtype: costanti.FieldType.boolean }),
+  AddCol({
+    name: 'arrDisciplines',
+    label_trans: 'op.arrDisciplines',
+    fieldtype: costanti.FieldType.multiselect,
+    jointable: 'disciplines',
+  }),
   AddCol({ name: 'email', label_trans: 'reg.email' }),
   AddCol({ name: 'img', label_trans: 'event.img' }),
   AddCol({ name: 'cell', label_trans: 'reg.cell' }),
@@ -2485,6 +2495,14 @@ export const fieldsTable = {
     return colTableMovement
   },
 
+  colOperators() {
+    return colTableOperator
+  },
+
+  colDisciplines() {
+    return coldisciplines
+  },
+
   userlist() {
     if (static_data.functionality.ENABLE_REG_AYNI) {
       return colTableUsers
@@ -2581,34 +2599,6 @@ export const fieldsTable = {
       columns: colworkers,
       colkey: '_id',
       collabel: (rec: any) => `${rec.name} ${rec.surname}`,
-    },
-    {
-      value: 'navi',
-      label: 'Navi',
-      columns: colnavi,
-      colkey: '_id',
-      collabel: (rec: any) => `${rec.riga}.${rec.col}`,
-    },
-    {
-      value: 'flotte',
-      label: 'Flotte',
-      columns: colflotte,
-      colkey: '_id',
-      collabel: (rec: any) => `${rec.riga}.${rec.col_prima} ${rec.riga}.${rec.col_ultima}`,
-    },
-    {
-      value: 'navepersistente',
-      label: 'Navi Persistenti',
-      columns: colnavepersistente,
-      colkey: '_id',
-      collabel: (rec: any) => `${rec.riga}.${rec.col}`,
-    },
-    {
-      value: 'listaingressos',
-      label: 'Lista Ingresso',
-      columns: collistaingresso,
-      colkey: '_id',
-      collabel: 'ind_order',
     },
     {
       value: 'graduatorias',
@@ -2927,7 +2917,7 @@ export const fieldsTable = {
     },
     {
       value: 'friendsandme',
-      label: 'Amici',
+      label: 'Amici_and_me',
       columns: colTableUsersGeneric,
       colkey: 'username',
       collabel: 'username',

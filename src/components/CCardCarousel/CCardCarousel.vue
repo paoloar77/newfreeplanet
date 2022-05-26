@@ -12,9 +12,9 @@
             <q-item
               clickable v-ripple
               :to="disc.linkpage">
-              <q-item-section avatar v-if="tools.getimgev(disc)">
+              <q-item-section avatar v-if="getimgdisc(disc)">
                 <q-avatar>
-                  <img :src="tools.getimgev(disc)" :alt="disc.label">
+                  <img :src="getimgdisc(disc)" :alt="disc.label">
                 </q-avatar>
               </q-item-section>
               <q-item-section>{{ disc.label }}</q-item-section>
@@ -71,11 +71,11 @@
       <q-carousel-slide
         v-for="(myrec, index) in myarr"
         :key="index"
-        :img-src="myrec.img_small"
+        :img-src="directory + myrec.img_small"
         :alt="myrec.label"
         :name="index">
         <div class="row q-ma-xs">
-          <CCardDiscipline :discipline="myrec" mystyle="height: 500px" autoplay.sync="globalStore.autoplaydisc">
+          <CCardDiscipline :directory=directory :discipline="myrec" mystyle="height: 500px" autoplay.sync="globalStore.autoplaydisc">
 
           </CCardDiscipline>
         </div>

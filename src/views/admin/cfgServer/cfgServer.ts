@@ -80,6 +80,7 @@ export default defineComponent({
       columns,
       filter,
       provaval,
+      globalStore,
     }
   },
 })

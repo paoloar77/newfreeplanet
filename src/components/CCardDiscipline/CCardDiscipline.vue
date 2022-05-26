@@ -1,7 +1,7 @@
 <template>
   <div class="my-card-shadow yes_shadow" style="opacity: 1 !important;">
     <q-card class="my-card-discipline text-center inset-shadow" :style="mystyle">
-      <q-img :src="`public/` + discipline.img_small" class="myimg" :alt="discipline.label">
+      <q-img :src="directory + discipline.img_small" class="myimg" :alt="discipline.label">
         <div class="absolute-bottom text-spacetrans">
           <q-btn rounded :to="discipline.linkpage">
             <div class="text-h5 disc__title shadow-max">{{ discipline.label }}</div>
@@ -32,6 +32,7 @@
       </q-card-section>
 
       <q-btn
+        v-if="discipline.linkpage"
         class="q-mb-md" rounded size="md" color="primary" :to="discipline.linkpage"
         :label="$t('cal.readall')"></q-btn>
     </q-card>

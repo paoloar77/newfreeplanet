@@ -286,14 +286,19 @@ module.exports = configure((ctx) => ({
     },
 
     manifest: {
-      name: 'TerraDellaVisione',
-      short_name: 'TerraDellaVisione',
-      description: 'TerraDellaVisione',
+      name: 'Terra Della Visione',
+      short_name: 'Terra della Visione',
+      description: 'Centro per ritiri CurArte: un viaggio nella Natura per incontrare il tuo essere potrai partecipare a sessioni di yoga, meditazione, massaggi, danze, eventi musicali, cibo naturale vegetariano/vegano, laboratori artigianali',
       display: 'standalone',
       orientation: 'portrait',
       background_color: '#ffffff',
       theme_color: '#027be3',
       icons: [
+        {
+          src: 'images/tdv-android-icon-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
         {
           src: 'images/tdv-android-icon-96x96.png',
           sizes: '96x96',
@@ -312,11 +317,6 @@ module.exports = configure((ctx) => ({
         {
           src: 'images/tdv-android-icon-384x384.png',
           sizes: '384x384',
-          type: 'image/png',
-        },
-        {
-          src: 'images/tdv-android-icon-512x512.png',
-          sizes: '512x512',
           type: 'image/png',
         },
       ],

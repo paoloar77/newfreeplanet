@@ -9,7 +9,7 @@ const functionality: IFunctionality = {
   PWA: true,
   SHOW_USER_MENU: true, // Cambiare con true
   SHOW_PROFILE: true,
-  SHOW_REG_BUTTON: false,
+  SHOW_REG_BUTTON: true,
   ENABLE_REGISTRATION: true, // Cambiare con true
   SHOW_NEWSLETTER: false,
   SHOW_ONLY_POLICY: true,
@@ -20,7 +20,12 @@ const functionality: IFunctionality = {
   BOOKING_EVENTS: true,
   ENABLE_ECOMMERCE: false,
   ENABLE_REG_ISP: true,
-  ENABLE_GROUPS: true,
+  ENABLE_GROUPS: false,
+  SHOW_COMPETENZE: false,
+  ENABLE_VIEW_GROUPS: false,
+  ENABLE_VIEW_USERS: false,
+  ENABLE_VIEW_PROFILE: false,
+  ENABLE_VIEW_BOOKINGS: true,
 }
 
 // const SHOW_PROJINTHEMENU = false
@@ -324,6 +329,34 @@ const routes_manager: IListRoutes[] = [
   {
     active: true,
     order: 30,
+    path: '/admin/operators',
+    materialIcon: 'fas fa-file-alt',
+    name: 'otherpages.admin.operators',
+    component: () => import('@/rootgen/admin/operators/operators.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyEditor: true
+  },
+  {
+    active: true,
+    order: 30,
+    path: '/admin/disciplines',
+    materialIcon: 'fas fa-file-alt',
+    name: 'otherpages.admin.disciplines',
+    component: () => import('@/rootgen/admin/disciplines/disciplines.vue'),
+    inmenu: true,
+    submenu: true,
+    level_parent: 0,
+    level_child: 0.5,
+    onlyManager: true,
+    onlyEditor: true
+  },
+  {
+    active: true,
+    order: 30,
     path: '/admin/bot',
     materialIcon: 'fas fa-file-alt',
     name: 'otherpages.admin.bot',
@@ -542,21 +575,10 @@ const baseroutes: IListRoutes[] = [
   {
     active: functionality.ENABLE_REGISTRATION,
     order: 1000,
-    path: '/signup/:invited/:usernameteleg/:idteleg',
+    path: '/signup',
     materialIcon: 'how_to_reg',
     name: 'pages.SignUp',
-    component: () => import('@/views/login/signup/signup.vue'),
-    inmenu: false,
-    infooter: false,
-    separator: false
-  },
-  {
-    active: true,
-    order: 1001,
-    path: '/signup/:invited',
-    materialIcon: 'how_to_reg',
-    name: 'pages.SignUp2',
-    component: () => import('@/views/login/signup/signup.vue'),
+    component: () => import('@/views/login/signup_noteleg/signup_noteleg.vue'),
     inmenu: false,
     infooter: false,
     separator: false
@@ -615,9 +637,19 @@ const baseroutes: IListRoutes[] = [
     active: true,
     path: '/separator',
     name: 'separator',
-    order: 35,
+    order: 1010,
     isseparator: true,
     inmenu: true,
+  },
+  {
+    active: true,
+    order: 70,
+    path: '/chisiamo',
+    materialIcon: 'event',
+    name: 'pages.chisiamo',
+    component: () => import('@/rootgen/operators/operators.vue'),
+    inmenu: true,
+    infooter: true
   },
   {
     active: true,
@@ -627,8 +659,8 @@ const baseroutes: IListRoutes[] = [
     name: 'pages.calendarioeventi',
     component: () => import('@/root/calendarioeventi/calendarioeventi.vue'),
     extraclass: 'isCalendar',
-    inmenu: false,
-    infooter: false
+    inmenu: true,
+    infooter: true
   },
   {
     active: true,
@@ -660,11 +692,21 @@ const baseroutes: IListRoutes[] = [
     inmenu: false,
     infooter: false
   },
+  {
+    active: true,
+    order: 130,
+    path: '/admin/eventlist',
+    materialIcon: 'fas fa-calendar-plus',
+    name: 'otherpages.admin.eventlist',
+    component: () => import('@/rootgen/admin/eventlist/eventlist.vue'),
+    inmenu: true,
+    infooter: true
+  },
 
 ]
 export function firstimagehome() {
 
-  let img = 'statics/images/background.jpg'
+  let img = 'images/foto1.jpg'
   return img
 }
 

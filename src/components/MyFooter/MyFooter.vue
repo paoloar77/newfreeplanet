@@ -14,14 +14,22 @@
         icon="fas fa-home"
       />
       <q-route-tab
+        v-if="static_data.functionality.ENABLE_VIEW_GROUPS"
         to="/groups"
         icon="fas fa-users"
       />
       <q-route-tab
+        v-if="static_data.functionality.ENABLE_VIEW_USERS"
         to="/friends"
         icon="fas fa-user-friends"
       />
       <q-route-tab
+        v-if="static_data.functionality.ENABLE_VIEW_BOOKINGS"
+        to="/admin/eventlist"
+        icon="fas fa-calendar-plus"
+      />
+      <q-route-tab
+        v-if="static_data.functionality.ENABLE_VIEW_PROFILE"
         :to="`/my/`+getMyUsername()"
         icon="person"
       />

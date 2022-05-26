@@ -461,7 +461,6 @@
                       <div class="tdclass">
                         <div :class="getclrow(props.row)">
 
-
                           <CMyPopupEdit
                             :table="mytable"
                             :canEdit="canEdit"
@@ -529,6 +528,7 @@
                 :canEdit="true"
                 :canModify="tools.canModifyThisRec(rowclicksel, tablesel)"
                 :disable="disabilita()"
+                :isInModif="mycol.isInModif"
                 view="field"
                 :mycol="mycol"
                 :showall="true"

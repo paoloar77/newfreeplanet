@@ -16,6 +16,11 @@ export default function () {
     return calendarStore.operators
   }
 
+  function getOperatorsInHome() {
+    const calendarStore = useCalendarStore()
+    return calendarStore.operators.filter((rec: any) => rec.showInTeam)
+  }
+
   function getOperatorByUsername(username: string) {
     const calendarStore = useCalendarStore()
     return calendarStore.getOperatorByUsername(username)
@@ -29,7 +34,7 @@ export default function () {
   function getTeacherByUsername(username: string) {
     const op = getOperatorByUsername(username)
     if (!!op) {
-      return op.name + ' ' + op.surname
+      return op.name ? op.name : '' + ' ' + op.surname ? op.surname : ''
     } else {
       return ''
     }
@@ -42,5 +47,6 @@ export default function () {
     getOperatorByUsername,
     getImgTeacherByUsername,
     getTeacherByUsername,
+    getOperatorsInHome,
   }
 }

@@ -750,8 +750,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
           this.networkDataReceived = true
 
           // console.log('******* checkUpdates RES :', res.data.cfgServer)
-          if (res.data.cfgServer) {
-            this.cfgServer = [...res.data.cfgServer]
+          if (res.data.CfgServer) {
+            this.cfgServer = [...res.data.CfgServer]
             // console.log('res.data.cfgServer', res.data.cfgServer)
           }
 

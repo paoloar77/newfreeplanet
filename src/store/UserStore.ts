@@ -210,8 +210,15 @@ export const useUserStore = defineStore('UserStore', {
       // Check if is this User!
       if (this.my.username === username) return this.my
 
-      let trovato = null
+      let trovato:any = null
       if (this.usersList) trovato = this.usersList.find((item: any) => item.username === username)
+
+      if (trovato) {
+        if (trovato.surname === 'undefined')
+          trovato.surname = ''
+        if (trovato.name === 'undefined')
+          trovato.name = ''
+      }
 
       return (trovato) || null
     },
@@ -280,13 +287,13 @@ export const useUserStore = defineStore('UserStore', {
     getNameSurnameByUserId(userId: string): string {
 
       const user = this.getUserByUserId(userId)
-      if (user) return `${user.name} ${user.surname}`
+      if (user) return `${user.name} ` + !!user.surname ? user.surname : ''
       return `(${userId})`
     },
 
     getNameSurnameByUsername(username: string): string {
-      const user = this.getUserByUsername(username)
-      if (user) return `${user.name} ${user.surname}`
+      let user = this.getUserByUsername(username)
+      if (user) return `${user.name} ` + !!user.surname ? user.surname : ''
       return `(${username})`
     },
 
@@ -294,9 +301,16 @@ export const useUserStore = defineStore('UserStore', {
       // Check if is this User!
       if (this.my._id === userId) return this.my
 
-      let trovato = null
+      let trovato:any = null
 
       if (this.usersList) trovato = this.usersList.find((item: any) => item._id === userId)
+
+      if (trovato) {
+        if (trovato.surname === undefined)
+          trovato.surname = ''
+        if (trovato.name === undefined)
+          trovato.name = ''
+      }
 
       return (trovato) || null
     },

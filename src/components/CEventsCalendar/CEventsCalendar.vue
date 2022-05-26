@@ -10,7 +10,7 @@
     </div>-->
     <div>
       <!-- display an myevent -->
-      <q-dialog v-model="displayEvent">
+      <q-dialog v-model="displayEvent"  :maximized="$q.screen.lt.sm">
         <q-card v-if="myevent" class="dialog_card">
           <q-toolbar class="bg-primary text-white">
             <!--<q-toolbar :class="tools.displayClasses(myevent)"-->

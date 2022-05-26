@@ -1,7 +1,7 @@
 const msg_website_it = {
   ws: {
-    sitename: 'TerraDellaVisione',
-    siteshortname: 'TerraDellaVisione',
+    sitename: 'Terra Della Visione',
+    siteshortname: 'TDV',
   },
   products: {
     quantity: 'Quantità',

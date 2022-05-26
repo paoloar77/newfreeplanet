@@ -16,7 +16,7 @@
             height="100%"
             width="100%"
           >
-            <q-carousel-slide name="first" img-src="images/cover.jpg">
+            <q-carousel-slide name="first" img-src="images/cover.jpg" class="carousel_img_3">
               <div class="landing__header"></div>
               <div class="landing__hero-content row justify-center q-gutter-xs clgutter">
                 <div class="row">
@@ -87,7 +87,7 @@
                 </div>
               </div>
             </q-carousel-slide>
-            <q-carousel-slide name="second" img-src="images/hand_people.jpg">
+            <q-carousel-slide name="second" img-src="images/hand_people.jpg" class="carousel_img_3">
               <div class="landing__header"></div>
               <div class="landing__hero-content row justify-center q-gutter-xs clgutter">
                 <div class="row">
@@ -337,6 +337,6 @@
 <script lang="ts" src="./CPresentazione.ts">
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './CPresentazione.scss';
 </style>

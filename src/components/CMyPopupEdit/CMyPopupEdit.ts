@@ -191,7 +191,13 @@ export default defineComponent({
 
     const myImgGall = ref(<IImgGallery[]>[{}])
 
-    const col = ref(<IColGridTable> { name: 'test', fieldtype: 0, showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView, visible: true, maxlength: props.mycol ? props.mycol.maxlength : 0 })
+    const col = ref(<IColGridTable>{
+      name: 'test',
+      fieldtype: 0,
+      showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView,
+      visible: true,
+      maxlength: props.mycol ? props.mycol.maxlength : 0
+    })
 
     const { setValDb, getValDb } = MixinBase()
     const { getMyUsername } = MixinUsers()
@@ -204,7 +210,7 @@ export default defineComponent({
 
 
     const myrow = computed(() => {
-        return props.rec && props.isrec ? props.rec : props.row
+      return props.rec && props.isrec ? props.rec : props.row
     })
 
     function crea() {
@@ -253,7 +259,7 @@ export default defineComponent({
     })
 
 
-    function isFieldDb(){
+    function isFieldDb() {
       return props.type !== 0
     }
 
@@ -369,7 +375,7 @@ export default defineComponent({
             list: []
           }
         }
-      }else if (col.value.fieldtype === costanti.FieldType.listobj) {
+      } else if (col.value.fieldtype === costanti.FieldType.listobj) {
         if (myvalue.value === '' || myvalue.value === undefined) {
           // console.log('set default myvalue.value ')
           myvalue.value = [{
@@ -426,7 +432,7 @@ export default defineComponent({
       // console.log('SaveValueInt', newVal, valinitial)
 
       if (isFieldDb()) {
-        savefield(newVal, valinitial, $q);
+        savefield(newVal, valinitial, $q)
       } else {
         // Update value in table memory
         if (props.subfield !== '') {
@@ -581,7 +587,7 @@ export default defineComponent({
           if (col.link)
             mylink = col.link.replace(col.name, val)
           if (col.tipovisu === costanti.TipoVisu.LINK && col.link) {
-            return "<a href='"+mylink+"'>" + val + '</a>'
+            return "<a href='" + mylink + "'>" + val + '</a>'
           } else if (col.tipovisu === costanti.TipoVisu.BUTTON && col.link) {
             return ''
           }
@@ -642,9 +648,10 @@ export default defineComponent({
       if (fieldsTable.tableForUsers.includes(props.table)) {
         return 'Profilo'
       } else {
-        return fieldsTable.getTitleImgByTable(props.table);
+        return fieldsTable.getTitleImgByTable(props.table)
       }
     }
+
     function getDirectoryGall() {
       let ris = ''
       let username = myrow.value.hasOwnProperty('username') ? myrow.value['username'] : ''
@@ -659,11 +666,13 @@ export default defineComponent({
       }
       if (fieldsTable.tableForUsers.includes(props.table)) {
         ris = 'profile/' + username + '/' + props.table
-      }else if (props.table === 'users') {
+      } else if (props.table === 'users') {
         ris = 'profile/' + userStore.my.username
-      }else if (props.table === 'mygroups') {
+      } else if (props.table === 'mygroups') {
         if (myrow.value.hasOwnProperty('groupname'))
           ris = 'mygroups/' + myrow.value['groupname']
+      } else if (!!myrow.value && !!myrow.value.directory) {
+        ris = myrow.value.directory
       } else {
         ris = props.table
       }
@@ -674,7 +683,7 @@ export default defineComponent({
     function uploaded(info: any) {
 
       if (info.files) {
-        myvalue.value = tools.geturlrelativeprofile()+ '/' + getMyUsername() + '/' + info.files[0].name
+        myvalue.value = tools.geturlrelativeprofile() + '/' + getMyUsername() + '/' + info.files[0].name
         console.log('uploaded', myvalue.value)
         savefield(myvalue.value, '', $q)
       }
@@ -702,7 +711,8 @@ export default defineComponent({
       if (!!col.field_extra1) {
         try {
           title = tools.getValue(row, col.field_extra1, col.subfield_extra1!)
-        }catch (e){}
+        } catch (e) {
+        }
       }
 
       return title

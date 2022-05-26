@@ -20,6 +20,7 @@ import MixinBase from '@/mixins/mixin-base'
 import MixinUsers from '@/mixins/mixin-users'
 import { shared_consts } from '@/common/shared_vuejs'
 import { CPresentazione } from '@/components'
+import MixinMetaTags from '@/mixins/mixin-metatags'
 
 export default defineComponent({
   name: 'mainview',
@@ -28,6 +29,8 @@ export default defineComponent({
     const globalStore = useGlobalStore()
     const userStore = useUserStore()
     const { getValDb } = MixinBase()
+
+    const { setmeta } = MixinMetaTags()
 
     const { getRefLink } = MixinUsers()
 
@@ -38,6 +41,7 @@ export default defineComponent({
       userStore,
       shared_consts,
       globalStore,
+      setmeta,
     }
   },
 })

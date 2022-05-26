@@ -22,6 +22,9 @@ const functionality: IFunctionality = {
   ENABLE_REG_ISP: true,
   ENABLE_GROUPS: true,
   SHOW_COMPETENZE: true,
+  ENABLE_VIEW_GROUPS: true,
+  ENABLE_VIEW_USERS: true,
+  ENABLE_VIEW_PROFILE: true,
 }
 
 // const SHOW_PROJINTHEMENU = false
@@ -622,6 +625,16 @@ const baseroutes: IListRoutes[] = [
     meta: { requiresAuth: true },
     inmenu: false,
     infooter: false,
+  },
+  {
+    active: true,
+    order: 150,
+    path: '/fundraising',
+    materialIcon: 'fas fa-hand-holding',
+    name: 'pages.fundraising',
+    component: () => import('@src/root/fundraising/fundraising.vue'),
+    inmenu: true,
+    infooter: true,
   },
   {
     active: true,

@@ -2,6 +2,8 @@ const msg_website_it = {
   ws: {
     sitename: 'Riso',
     siteshortname: 'RISO',
+    description: 'Siamo la Rete Italiana di Scambio Orizzontale, abbiamo creato questa piattaforma per metterla al servizio di chi vuole riscoprire il valore della condivisione e della cooperazione. Valori semplici e profondi che ci aiutano a ritrovare il Senso della Vita, perduto in questa società consumista, e riporti quei Sani Pricìpi Naturali ed Umani di Fratellanza che intere popolazioni antiche conoscevano bene.',
+    keywords: 'riso, piattaforma di scambio, rete italiana scambio orizzontale, riso app, riso piattaforma, scambio e baratto, momenta RIS',
   },
   products: {
     quantity: 'Quantità',
@@ -27,6 +29,7 @@ const msg_website_it = {
     myservice2: 'myservice2',
     myhosps2: 'myhosps2',
     mygood2: 'mygood2',
+    fundraising: 'Sostieni il Progetto',
     test: 'Test',
     projects: 'Progetti',
     report: 'Report Ore',
@@ -198,14 +201,25 @@ const msg_website_it = {
         + '</ul>',
     },
     freesostieni: {
-      title: 'Come Sostenere il progetto?',
+      title: 'Come Sostenere il progetto <strong>Riso.app</strong>?',
       descr: '<ul class="mylist" style="padding-left: 20px;">'
         + '<li>📱<strong>Condividendo la APP</strong> a tutti coloro che vogliono far parte insieme della crescita e sviluppo di una Nuova Era</li>'
         + '<li>👥 Aiutando a creare Gruppi Territoriali nella vostra città, impegnandosi a realizzare progetti per il Bene Comune, in onore ai principi Amorevoli e di condivisione.</li>'
         + '<li>🌱 Sostenendo le persone attorno a voi, e rispettando la nostra vera Casa: Madre Natura e Tutti gli Esseri Viventi. ❤️</li>'
-        + '<li>👨🏻‍💻 Tramite una piccola donazione per le spese dei Server.<br>'
-        + '</ul><br>'
-        + 'Vediamo un <strong>futuro</strong> dove non si utilizzerà più denaro. Dove le persone si <strong>aiuteranno</strong> a vicenda e non avranno bisogno di "possedere" cose, ma le <strong>condivideranno e scambieranno</strong> con gli altri.<br>',
+        + '<li>👨🏻‍💻 Con una <strong>piccola donazione</strong> per le spese dei Server</li></ul>' +
+        '<strong>Tramite Paypal:</strong><br><em>clicca sull\'importo per fare una donazione. </em><br>' +
+        '<div style="font-size: 1.5rem; background-color: white; color: blue; border: solid 2px #f00; margin: 10px; padding: 10px; border-radius: 10px; " ' +
+        'class="row justify-around">' +
+        '<span><a href="https://paypal.me/paoloarena/1" target="_blank">1€</a></span>' +
+        '<span><a href="https://paypal.me/paoloarena/2" target="_blank">2€</a></span>' +
+        '<span><a href="https://paypal.me/paoloarena/5" target="_blank">5€</a></span>' +
+        '<span><a href="https://paypal.me/paoloarena/10" target="_blank">10€</a></span>' +
+        '<span><a href="https://paypal.me/paoloarena" target="_blank">scegli</a></span>' +
+        '</div><br>' +
+        'In alternativa inventati una forma di scambio da donare a Paolo (soprannome <a href="https://t.me/surya1977" target="_blank">Surya</a>)<br />' +
+        '<span style="color: red; font-size: 2rem;">❤</span> Sono graditi messaggi sia di suggerimenti che di apprezzamenti.<br>' +
+        'Grazie Mille per l\'Aiuto' +
+        '<br>',
     },
     multiplatform: {
       title: 'Multi-piattaforma',

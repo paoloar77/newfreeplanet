@@ -94,11 +94,11 @@
                       :href="tools.getemailto(rec.email)" target="__blank">
                     </q-btn>
                     <q-btn
-                      v-if="tools.getHttpForWhatsapp(rec.phone)" fab-mini
+                      v-if="!!rec.wa && tools.getHttpForWhatsapp(rec.wa)" fab-mini
                       icon="fab fa-whatsapp"
                       color="green" type="a"
                       size="sm"
-                      :href="tools.getHttpForWhatsapp(rec.phone)" target="__blank">
+                      :href="tools.getHttpForWhatsapp(rec.wa)" target="__blank">
                     </q-btn>
 
                     <q-btn

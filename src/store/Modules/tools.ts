@@ -2953,13 +2953,17 @@ export const tools = {
   },
 
   getimgev(ev: IEvents) {
-    if (!!ev.img_small)
-      return '' + ev.img_small
-    else if (!!ev.img)
-      return '' + ev.img
-    else
-      return ''
+    if (!!ev) {
+      if (!!ev.img_small)
+        return '' + ev.img_small
+      else if (!!ev.img)
+        return '' + ev.img
+      else
+        return ''
+    }
+    return ''
   },
+
 
   convertHTMLtoText(myhtml: string) {
     let msg = myhtml

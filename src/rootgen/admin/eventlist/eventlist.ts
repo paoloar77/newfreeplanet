@@ -63,7 +63,7 @@ export default defineComponent({
 
         let add = true
 
-        if (!showall) {
+        if (!showall()) {
           add = calendarStore.getNumParticipants(myevent, showall(), tools.peopleWhere.participants) > 0
         }
 
@@ -108,7 +108,7 @@ export default defineComponent({
 
         let add = true
 
-        if (!showall) {
+        if (!showall()) {
           add = calendarStore.getNumParticipants(myevent, showall(), tools.peopleWhere.participants) > 0
         }
 
@@ -167,7 +167,7 @@ export default defineComponent({
       isValidUsername,
       gettitle,
       change_rec,
-      $q,
+      showPrev,
     }
   }
 })
