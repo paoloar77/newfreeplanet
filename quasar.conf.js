@@ -147,7 +147,7 @@ module.exports = configure((ctx) => ({
   },
   devServer: {
     https: false,
-    port: 8085,
+    port: 8084,
     open: false, // opens browser window automatically
   },
 
@@ -286,36 +286,36 @@ module.exports = configure((ctx) => ({
     },
 
     manifest: {
-      name: 'Terra Della Visione',
-      short_name: 'Terra della Visione',
-      description: 'Centro per ritiri CurArte: un viaggio nella Natura per incontrare il tuo essere potrai partecipare a sessioni di yoga, meditazione, massaggi, danze, eventi musicali, cibo naturale vegetariano/vegano, laboratori artigianali',
+      name: 'Riso',
+      short_name: 'Riso',
+      description: 'Siamo la Rete Italiana di Scambio Orizzontale, abbiamo creato questa piattaforma per metterla al servizio di chi vuole riscoprire il valore della condivisione e della cooperazione. Valori semplici e profondi che ci aiutano a ritrovare il Senso della Vita, perduto in questa società consumista, e riporti quei Sani Pricìpi Naturali ed Umani di Fratellanza che intere popolazioni antiche conoscevano bene.',
       display: 'standalone',
       orientation: 'portrait',
       background_color: '#ffffff',
       theme_color: '#027be3',
       icons: [
         {
-          src: 'images/tdv-android-icon-512x512.png',
+          src: 'images/riso-android-icon-512x512.png',
           sizes: '512x512',
           type: 'image/png',
         },
         {
-          src: 'images/tdv-android-icon-96x96.png',
+          src: 'images/riso-android-icon-96x96.png',
           sizes: '96x96',
           type: 'image/png',
         },
         {
-          src: 'images/tdv-android-icon-144x144.png',
+          src: 'images/riso-android-icon-144x144.png',
           sizes: '144x144',
           type: 'image/png',
         },
         {
-          src: 'images/tdv-android-icon-192x192.png',
+          src: 'images/riso-android-icon-192x192.png',
           sizes: '192x192',
           type: 'image/png',
         },
         {
-          src: 'images/tdv-android-icon-384x384.png',
+          src: 'images/riso-android-icon-384x384.png',
           sizes: '384x384',
           type: 'image/png',
         },

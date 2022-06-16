@@ -7,7 +7,7 @@
 
         <div class="flex flex-center">
 
-          <CCardState :mytext="$t('pages.statusreg.verifieds')" :myval="datastat.num_teleg_attivo"
+          <CCardState :mytext="$t('pages.statusreg.reg')" :myval="datastat.num_teleg_attivo"
                       mycolor="blue"
                       :myperc="(datastat.num_teleg_attivo / datastat.num_reg) * 100"></CCardState>
 

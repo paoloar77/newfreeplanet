@@ -6,6 +6,7 @@ import { CLabel } from '@/components/CLabel'
 import { CCopyBtn } from '@/components/CCopyBtn'
 import { CSkill } from '@/components/CSkill'
 import { CDateTime } from '@/components/CDateTime'
+import { CMyGroup } from '@/components/CMyGroup'
 import { CUserNonVerif } from '@/components/CUserNonVerif'
 import { tools } from '@store/Modules/tools'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
@@ -16,7 +17,7 @@ import { useI18n } from '@/boot/i18n'
 import { toolsext } from '@store/Modules/toolsext'
 import { useQuasar } from 'quasar'
 import { costanti } from '@costanti'
-import { IUserFields } from 'model'
+import { IMyGroup, IUserFields } from 'model'
 import { shared_consts } from '@/common/shared_vuejs'
 import { static_data } from '@/db/static_data'
 import { fieldsTable } from '@store/Modules/fieldsTable'
@@ -25,10 +26,14 @@ import MixinUsers from '@/mixins/mixin-users'
 
 export default defineComponent({
   name: 'myprofile',
-  components: { CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CCopyBtn, CUserNonVerif, CMyFieldRec, CLabel },
+  components: {
+    CProfile, CTitleBanner, CMyFieldDb, CSkill, CDateTime, CCopyBtn, CUserNonVerif, CMyFieldRec,
+    CMyGroup, CLabel
+  },
   props: {},
   setup() {
     const userStore = useUserStore()
+    const globalStore = useGlobalStore()
     const $route = useRoute()
     const $q = useQuasar()
     const { t } = useI18n()
@@ -41,14 +46,17 @@ export default defineComponent({
 
     const filtroutente = ref(<any[]>[])
     const showPic = ref(false)
+    const caricato = ref(false)
 
-    const myuser = ref(<IUserFields>{})
+    const myuser = ref(<IUserFields | null>null)
 
     const actualcard = ref('mygoods')
 
     const mycards = computed(() => {
       return costanti.MAINCARDS.filter((rec: any) => rec.table)
     })
+
+    const listgroupsfiltered = ref(<IMyGroup[]>[])
 
 
     function profile() {
@@ -59,18 +67,32 @@ export default defineComponent({
       return userStore.my.username
     }
 
-    function loadProfile() {
+    async function loadProfile() {
       // Carica il profilo di quest'utente
       if (username.value) {
-        userStore.loadUserProfile(username.value).then((ris) => {
+        await userStore.loadUserProfile(username.value).then((ris) => {
           myuser.value = ris
-          filtroutente.value = [{ userId: myuser.value._id }]
+          if (myuser.value) {
+            filtroutente.value = [{ userId: myuser.value._id }]
+
+            try {
+              listgroupsfiltered.value = globalStore.mygroups.filter((grp: IMyGroup) => myuser.value!.profile.mygroups.findIndex((rec: IMyGroup) => rec.groupname === grp.groupname) >= 0)
+            } catch (e) {
+              listgroupsfiltered.value = []
+            }
+
+          }
         })
 
       }
+      caricato.value = true
     }
 
     watch(() => username.value, (to: any, from: any) => {
+      loadProfile()
+    })
+
+    watch(() => actualcard.value, (to: any, from: any) => {
       loadProfile()
     })
 
@@ -79,7 +101,10 @@ export default defineComponent({
     }
 
     function getImgUser() {
-      return userStore.getImgByProfile(myuser.value)
+      if (myuser.value)
+        return userStore.getImgByProfile(myuser.value)
+      else
+        return ''
     }
 
     function checkifShow(col: string) {
@@ -89,22 +114,30 @@ export default defineComponent({
 
     function getLinkUserTelegram() {
 
-      if (!!myuser.value.profile.username_telegram) {
-        return 'https://t.me/' + myuser.value.profile.username_telegram
+      if (myuser.value) {
+        if (!!myuser.value.profile.username_telegram) {
+          return 'https://t.me/' + myuser.value.profile.username_telegram
+        }
+      } else {
+        return ''
       }
     }
 
     function getLinkWebSite() {
-      let site = myuser.value.profile.website!
-      if (site) {
-        if (!site.startsWith('http')) {
-          site = 'https://' + site
+      if (myuser.value) {
+        let site = myuser.value.profile.website!
+        if (site) {
+          if (!site.startsWith('http')) {
+            site = 'https://' + site
+          }
         }
+        return site
+      } else {
+        return ''
       }
-      return site
     }
 
-    function isMyRecord(username: string){
+    function isMyRecord(username: string) {
       return username === userStore.my.username
     }
 
@@ -133,6 +166,8 @@ export default defineComponent({
       fieldsTable,
       mycards,
       actualcard,
+      caricato,
+      listgroupsfiltered,
     }
   }
 })

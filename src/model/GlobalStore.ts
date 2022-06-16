@@ -310,6 +310,7 @@ export interface IGlobalState {
   provinces: IProvince[],
   datastat?: INotData
   site?: ISites,
+  mygroups: IMyGroup[],
 }
 
 export interface IMenuList {
@@ -478,6 +479,7 @@ export interface IParamDialog {
 export interface IFunctionality {
   PWA?: boolean
   ENABLE_REGISTRATION?: boolean
+  ENABLE_REG_NEED_TELEGRAM?: boolean
   SHOW_REG_BUTTON?: boolean
   SHOW_PROFILE?: boolean
   SHOW_USER_MENU?: boolean
@@ -782,7 +784,7 @@ export interface IProvince {
   link_grp: string
 }
 
-export interface IMySkill {
+export interface IMySkill extends IMyMain{
   _id: number
   idSector: number
   idSkill: number
@@ -803,7 +805,11 @@ export interface IMySkill {
   username?: string
 }
 
-export interface IMyGoods {
+export interface IMyMain {
+  pub_to_share?: number
+}
+
+export interface IMyGoods extends IMyMain{
   _id: number
   idSector: number
   idSkill: number
@@ -823,7 +829,7 @@ export interface IMyGoods {
   date_updated?: Date,
 }
 
-export interface IMyBacheca {
+export interface IMyBacheca extends IMyMain {
   _id: number
   idSector: number
   idSkill: number
@@ -850,7 +856,7 @@ export interface IAccomodation {
   num: number
 }
 
-export interface IMyHosp {
+export interface IMyHosp extends IMyMain {
   _id: number
   visibile: boolean
   typeHosp: number

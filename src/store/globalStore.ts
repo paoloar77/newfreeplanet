@@ -134,6 +134,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       },
     },
     provinces: [],
+    mygroups: [],
   }),
 
   getters: {
@@ -1325,6 +1326,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
             this.provinces = (res.data.provinces) ? [...res.data.provinces] : []
             this.catgrps = (res.data.catgrps) ? [...res.data.catgrps] : []
             this.site = (res.data.site) ? res.data.site : {}
+            this.mygroups = (res.data.mygroups) ? [...res.data.mygroups] : []
             this.adtypes = (res.data.adtypes) ? [...res.data.adtypes] : []
             this.adtypegoods = (res.data.adtypegoods) ? [...res.data.adtypegoods] : []
 
@@ -1559,6 +1561,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       else if (table === 'confsite_opt') myarr = tools.ConfSiteOpt
       else if (table === 'bottype') myarr = shared_consts.BotType
       else if (table === 'visibility') myarr = shared_consts.Visibility
+      else if (table === 'pub_to_share') myarr = shared_consts.Pub_to_Share
       else if (table === 'visibilGroup') myarr = shared_consts.VisibilGroup
       else if (table === 'lang') myarr = shared_consts.Lang
       else if (table === 'regions') myarr = shared_consts.Regions

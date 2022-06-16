@@ -125,7 +125,7 @@
         </div>
 
 
-        <section class="maxwidth padding_gallery bg-white text-grey-10 text-center">
+        <section class="padding_gallery bg-white text-grey-10 text-center">
 
           <q-carousel
             swipeable
@@ -135,7 +135,7 @@
             arrows
             thumbnails
             infinite
-            :height="tools.heightgallery()">
+            >
             <q-carousel-slide v-for="(rec, index) in getArrImgSlideHome()" :key="index" :name="index"
                               :img-src="getdirectory() + '/' + rec.imagefile"
                               :alt="rec.description"

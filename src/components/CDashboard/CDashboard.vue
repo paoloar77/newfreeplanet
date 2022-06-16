@@ -1,7 +1,7 @@
 <template>
   <div class="q-ma-md">
     <div class="row q-my-md shadow" style="border-radius: 4px;border: 1px solid rgba(0, 0, 0, 0.12);">
-      <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12 box_4" style="border-left: 1px solid #efefef;"
+      <!--<div class="col-md-3 col-lg-3 col-sm-12 col-xs-12 box_4" style="border-left: 1px solid #efefef;"
            v-bind:class="{'border-top': $q.platform.is.mobile}">
         <q-card class="no-shadow q-pa-sm">
           <q-item class="q-pb-none q-pt-xs">
@@ -26,24 +26,24 @@
             </q-item-section>
           </q-item>
         </q-card>
-      </div>
+      </div>-->
 
       <div v-for="(rec, index) of visustat" :class="`col-md-3 col-lg-3 col-sm-6 col-xs-6 text-` + rec.color"
            style="border-left: 1px solid #efefef;" :key="index"
       >
         <q-card class="no-shadow q-pa-sm">
-          <q-item class="q-pb-none q-pt-xs">
+          <q-item class="q-pb-none q-pt-xs cursor-pointer" :to="rec.to">
             <q-item-section>
               <q-item-label class="text-h4" style="font-weight: 500;letter-spacing: 3px;">
                 {{ calcstat.numByTab[rec.table] }}
               </q-item-label>
-              <q-item-label :class="!$q.dark.isActive? 'text-grey-7':'text-white'" style="letter-spacing: 1px;">
+              <q-item-label :class="(!$q.dark.isActive? 'text-grey-7':'text-white') + ` title_view_shadow`" style="letter-spacing: 1px;">
                 {{ rec.title }}
               </q-item-label>
             </q-item-section>
 
             <q-item-section side>
-              <q-icon :name="rec.icon" :class="`text-` + rec.color" size="60px"></q-icon>
+              <q-icon :name="rec.icon" :class="`text-` + rec.color" size="50px"></q-icon>
             </q-item-section>
           </q-item>
           <q-item class="q-py-xs" style="min-height: unset">
@@ -55,6 +55,26 @@
           </q-item>
         </q-card>
       </div>
+    </div>
+    <div class="row q-my-md shadow" style="border-radius: 4px;border: 1px solid rgba(0, 0, 0, 0.12);">
+      <div v-for="(rec, index) of visulinks" :class="`col-md-3 col-lg-3 col-sm-6 col-xs-6 text-` + rec.color"
+           style="border-left: 1px solid #efefef;" :key="index"
+      >
+        <q-card class="no-shadow q-pa-sm">
+          <q-item class="q-pb-none q-pt-xs cursor-pointer" :to="rec.to">
+            <q-item-section>
+              <q-item-label :class="(!$q.dark.isActive? 'text-grey-7':'text-white') + ` title_view_shadow`" style="letter-spacing: 0.5px;">
+                {{ rec.title }}
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side>
+              <q-icon :name="rec.icon" :class="`text-` + rec.color" size="50px"></q-icon>
+            </q-item-section>
+          </q-item>
+        </q-card>
+      </div>
+
     </div>
   </div>
 </template>

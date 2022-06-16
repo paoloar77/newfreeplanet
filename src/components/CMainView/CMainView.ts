@@ -23,11 +23,15 @@ export default defineComponent({
 
     const cardsbig = computed(() => {
       // @ts-ignore
-      return costanti.MAINCARDS.filter((rec: IMainCard) => !rec.small && rec.visible)
+      return costanti.MAINCARDS.filter((rec: IMainCard) => !rec.small && rec.visible && !rec.link && !rec.visuonstat)
     })
 
     const cardssmall = computed(() => {
-      return costanti.MAINCARDS.filter((rec: any) => rec.small && rec.visible)
+      return costanti.MAINCARDS.filter((rec: any) => rec.small && rec.visible && !rec.link && !rec.visuonstat)
+    })
+
+    const arrlinks = computed(() => {
+      return costanti.MAINCARDS.filter((rec: any) => rec.link && rec.visible)
     })
 
     return {
@@ -36,6 +40,7 @@ export default defineComponent({
       costanti,
       cardsbig,
       cardssmall,
+      arrlinks,
       showInfo,
     }
   }

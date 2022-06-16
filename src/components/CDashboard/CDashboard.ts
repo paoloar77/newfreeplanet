@@ -31,12 +31,18 @@ export default defineComponent({
       return costanti.MAINCARDS.filter((rec: IMainCard) => rec.visuonstat)
     })
 
+    const visulinks = computed(() => {
+      // @ts-ignore
+      return costanti.MAINCARDS.filter((rec: IMainCard) => rec.link)
+    })
+
     return {
       userStore,
       tools,
       calcstat,
       shared_consts,
       visustat,
+      visulinks,
     }
   },
 })

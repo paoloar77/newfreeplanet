@@ -533,7 +533,7 @@
                 <q-btn
                   v-if="myvalue && col.field_extra1"
                   icon="far fa-file-alt" :label="col.titlepopupedit" color="primary" text-color="white"
-                  :to="getToByCol(col)"
+                  :to="tools.getToByCol(col)"
                 >
                 </q-btn>
               </div>

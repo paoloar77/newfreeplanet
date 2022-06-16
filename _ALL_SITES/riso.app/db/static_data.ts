@@ -11,6 +11,7 @@ const functionality: IFunctionality = {
   SHOW_PROFILE: true,
   SHOW_REG_BUTTON: false,
   ENABLE_REGISTRATION: true, // Cambiare con true
+  ENABLE_REG_NEED_TELEGRAM: true,
   SHOW_NEWSLETTER: false,
   SHOW_ONLY_POLICY: true,
   ENABLE_TODOS_LOADING: false,
@@ -630,7 +631,7 @@ const baseroutes: IListRoutes[] = [
     active: true,
     order: 150,
     path: '/fundraising',
-    materialIcon: 'fas fa-hand-holding',
+    materialIcon: 'fas fa-hand-holding-heart',
     name: 'pages.fundraising',
     component: () => import('@src/root/fundraising/fundraising.vue'),
     inmenu: true,

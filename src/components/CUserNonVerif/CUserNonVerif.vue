@@ -60,6 +60,17 @@
 
       </q-banner>
     </div>
+    <div v-else-if="userStore.isOldRegNotFinished()">
+      <div v-if="static_data.functionality.ENABLE_REG_NEED_TELEGRAM && !tools.isTelegOk()">
+        <h3>La Verifica su Telegram non è stata completata, pertanto se ancora non avete inserito nessun annuncio (Bene, Servizio, ecc...), è consigliato cancellare la vecchia registrazione per ripetere con una nuova registrazione.</h3><br>
+        <h3>Per contattare il supporto tecnico e farvi cancellare la registrazione: "Help - RISO", clicca qui sotto:</h3><br>
+        <h4><a href="https://t.me/+dTHFNIwkc_phNmQ8" target="_blank"><strong>Entra in Supporto Tecnico su Telegram: (Help - RISO)</strong></a></h4>
+        <br><br>
+
+
+      </div>
+
+    </div>
   </div>
 </template>
 

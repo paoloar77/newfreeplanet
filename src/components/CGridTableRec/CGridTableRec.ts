@@ -104,13 +104,13 @@ export default defineComponent({
       required: false,
       default: '',
     },
-/*    keyMain: {
-      type: String,
-      required: false,
-      default: '',
-    },
+    /*    keyMain: {
+          type: String,
+          required: false,
+          default: '',
+        },
 
- */
+     */
     nodataLabel: {
       type: String,
       required: false,
@@ -250,7 +250,7 @@ export default defineComponent({
 
     const serverData: any = ref([])
     const spinner_visible = ref(false)
-    const searchList = ref(<ISearchList[]> [])
+    const searchList = ref(<ISearchList[]>[])
 
     let actual = ''
 
@@ -511,7 +511,7 @@ export default defineComponent({
               }
 
               if (item.value && recProvince && idRegion !== costanti.FILTER_TUTTI) {
-                arrfilter_provices.push({key: 'reg', value: idRegion })
+                arrfilter_provices.push({ key: 'reg', value: idRegion })
               }
 
             } else if (item.table === 'provinces') {
@@ -525,7 +525,7 @@ export default defineComponent({
               }
 
               if (item.value && recCities && idProvince !== costanti.FILTER_TUTTI) {
-                arrfilter_cities.push({key: 'prov', value: idProvince })
+                arrfilter_cities.push({ key: 'prov', value: idProvince })
               }
 
             } else if (item.table === 'cities') {
@@ -551,13 +551,18 @@ export default defineComponent({
 
                 }
               }
+            } else if (shared_consts.TABLES_WITH_SPECIAL_FILTER.includes(item.table)) {
+
+              objitem[item.key] = item.value
+              filtercustom.push(objitem)
+
             } else if (shared_consts.COL_WITH_FILTER_GTE.includes(item.key)) {
               objitem[item.key] = item.value
               filter_gte.push(objitem)
 
             } else if (item.value > 0) {
               objitem[item.key] = item.value
-                filtersearch.push(objitem)
+              filtersearch.push(objitem)
 
             } else if (item.arrvalue.length > 0) {
 
@@ -592,7 +597,8 @@ export default defineComponent({
 
                 if (idSector > 0) {
                   // idSector
-                  obj2['sector._id'] = idSector
+                  // obj2['sector._id'] = idSector
+                  obj2['idSector'] = idSector
                   filtersearch2.push(obj2)
                 }
                 if (idSkill > 0) {
@@ -1047,7 +1053,7 @@ export default defineComponent({
     function saveFieldValue(mydata: any) {
       // console.log('saveFieldValue', mydata)
 
-      if (newRecordBool.value){
+      if (newRecordBool.value) {
         return false
       }
 
@@ -1138,14 +1144,14 @@ export default defineComponent({
         const funccancel = 0
         const par = {
           param1: item._id,
-          param2: {...item},
+          param2: { ...item },
         }
 
         if (col.action === lists.MenuAction.CAN_EDIT_TABLE) {
           console.log('Edit', item)
           selItem(item, col)
-          recModif.value = {...item}
-          recSaved.value = {...item}
+          recModif.value = { ...item }
+          recSaved.value = { ...item }
           editRecordBool.value = true
         } else {
 
@@ -1230,7 +1236,7 @@ export default defineComponent({
       // console.log('changecol', mytable.value)
       if (!!mytable.value) {
         let arrcol = []
-        let col: IColGridTable = {name: '', sortable: false}
+        let col: IColGridTable = { name: '', sortable: false }
         for (col of mycolumns.value) {
           if (col.field !== costanti.NOFIELD) {
             let obj = {
@@ -1445,7 +1451,7 @@ export default defineComponent({
         if (col.required) {
           // console.log('newRecord.value', newRecord.value, newRecord.value[col.name])
           if (tools.isArray(newRecord.value[col.name])) {
-            if (newRecord.value[col.name].length <= 0){
+            if (newRecord.value[col.name].length <= 0) {
               return translate(col.label_trans)
             }
           } else {
@@ -1490,7 +1496,7 @@ export default defineComponent({
       const data = await globalStore.saveTable(mydata)
         .then((ris) => {
           if (ris.hasOwnProperty('code')) {
-            tools.checkErrors($q, ris.code, '');
+            tools.checkErrors($q, ris.code, '')
           } else {
             if (ris) {
               // console.log('ris', ris)
@@ -1522,7 +1528,7 @@ export default defineComponent({
     }
 
     function cancelrecModif() {
-      recModif.value = {...recSaved.value}
+      recModif.value = { ...recSaved.value }
 
       editRecordBool.value = false
       /*if (recModif.value._id) {
@@ -1580,7 +1586,7 @@ export default defineComponent({
       return ((rec._id > 0 && typeof rec._id === 'number') || rec._id !== 'number') && rec !== -100
     }
 
-    function showColCheck(col: IColGridTable, tipovis: number, visulabel:boolean, value: any = '', record: any = null){
+    function showColCheck(col: IColGridTable, tipovis: number, visulabel: boolean, value: any = '', record: any = null) {
 
       //if (col.isadvanced_field && !showfilteradv.value)
       //  return false
@@ -1657,6 +1663,7 @@ export default defineComponent({
       }
       return false
     }
+
     function getActualDate(mydate: any) {
       return actualDate.value
     }

@@ -189,7 +189,7 @@ export const colmybot = [
     name: 'visibility',
     label_trans: 'bot.visibility',
     fieldtype: costanti.FieldType.binary,
-    jointable: 'visibility'
+    jointable: 'visibility',
   }),
   AddCol({ name: 'date_updated', label_trans: 'bot.date_updated', fieldtype: costanti.FieldType.date }),
   AddCol(DeleteRec),
@@ -660,6 +660,14 @@ export const colmyGoods = [
     required: true,
   }),
   AddCol({
+    name: 'pub_to_share',
+    label_trans: 'skill.pub_to_share',
+    fieldtype: costanti.FieldType.select,
+    jointable: 'pub_to_share',
+    icon: 'fas fa-users',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+  }),
+  AddCol({
     name: 'adType',
     label_trans: 'adTypes.name',
     fieldtype: costanti.FieldType.select,
@@ -827,6 +835,14 @@ export const colmySkills = [
     remote_key: '_id',
     remote_field: 'comune',
     required: true,
+  }),
+  AddCol({
+    name: 'pub_to_share',
+    label_trans: 'skill.pub_to_share',
+    fieldtype: costanti.FieldType.select,
+    jointable: 'pub_to_share',
+    icon: 'fas fa-users',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
   }),
   AddCol({
     name: 'adType',
@@ -1031,6 +1047,14 @@ export const colmyHosp = [
     required: true,
   }),
   AddCol({
+    name: 'pub_to_share',
+    label_trans: 'skill.pub_to_share',
+    fieldtype: costanti.FieldType.select,
+    jointable: 'pub_to_share',
+    icon: 'fas fa-users',
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+  }),
+  AddCol({
     name: 'idContribType',
     label_trans: 'contribtype.name',
     fieldtype: costanti.FieldType.multiselect,
@@ -1130,6 +1154,13 @@ export const colmyBachecas = [
     remote_field: 'comune',
     sortable: false,
     required: true,
+  }),
+  AddCol({
+    name: 'pub_to_share',
+    label_trans: 'skill.pub_to_share',
+    fieldtype: costanti.FieldType.select,
+    icon: 'fas fa-users',
+    jointable: 'pub_to_share',
   }),
   AddCol(
     {
@@ -1896,6 +1927,7 @@ export const colTableUsers = [
     name: 'profile.myshares',
     field: 'profile',
     subfield: 'myshares',
+    icon: 'fas fa-users',
     label_trans: 'reg.myshares',
   }),
   AddCol({
@@ -2323,6 +2355,7 @@ export const colTableSubCashCategory = [
 ]
 
 export const colTableCircuit = [
+  AddCol({ name: 'Num', label_trans: 'circuit.num', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'name', label_trans: 'circuit.name' }),
   AddCol({ name: 'subname', label_trans: 'circuit.subname' }),
   AddCol({ name: 'descr', label_trans: 'circuit.descr' }),
@@ -2699,6 +2732,15 @@ export const fieldsTable = {
     {
       value: 'visibility',
       label: 'Visibilità Permessi',
+      columns: colTablePermission,
+      colkey: 'value',
+      collabel: 'label',
+      colicon: 'icon',
+      noshow: true,
+    },
+    {
+      value: 'pub_to_share',
+      label: 'Visibilità',
       columns: colTablePermission,
       colkey: 'value',
       collabel: 'label',

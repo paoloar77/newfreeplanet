@@ -4,13 +4,15 @@ import {
   IFunctionality,
   IPreloadImages,
 } from '@model'
+import { func } from '@store/Modules/fieldsTable'
 
 const functionality: IFunctionality = {
   PWA: true,
   SHOW_USER_MENU: true, // Cambiare con true
   SHOW_PROFILE: true,
-  SHOW_REG_BUTTON: true,
-  ENABLE_REGISTRATION: true, // Cambiare con true
+  SHOW_REG_BUTTON: false,
+  ENABLE_REGISTRATION: true,
+  ENABLE_REG_NEED_TELEGRAM: true,
   SHOW_NEWSLETTER: false,
   SHOW_ONLY_POLICY: true,
   ENABLE_TODOS_LOADING: false,
@@ -20,12 +22,11 @@ const functionality: IFunctionality = {
   BOOKING_EVENTS: true,
   ENABLE_ECOMMERCE: false,
   ENABLE_REG_ISP: true,
-  ENABLE_GROUPS: false,
-  SHOW_COMPETENZE: false,
-  ENABLE_VIEW_GROUPS: false,
-  ENABLE_VIEW_USERS: false,
-  ENABLE_VIEW_PROFILE: false,
-  ENABLE_VIEW_BOOKINGS: true,
+  ENABLE_GROUPS: true,
+  SHOW_COMPETENZE: true,
+  ENABLE_VIEW_GROUPS: true,
+  ENABLE_VIEW_USERS: true,
+  ENABLE_VIEW_PROFILE: true,
 }
 
 // const SHOW_PROJINTHEMENU = false
@@ -329,34 +330,6 @@ const routes_manager: IListRoutes[] = [
   {
     active: true,
     order: 30,
-    path: '/admin/operators',
-    materialIcon: 'fas fa-file-alt',
-    name: 'otherpages.admin.operators',
-    component: () => import('@/rootgen/admin/operators/operators.vue'),
-    inmenu: true,
-    submenu: true,
-    level_parent: 0,
-    level_child: 0.5,
-    onlyManager: true,
-    onlyEditor: true
-  },
-  {
-    active: true,
-    order: 30,
-    path: '/admin/disciplines',
-    materialIcon: 'fas fa-file-alt',
-    name: 'otherpages.admin.disciplines',
-    component: () => import('@/rootgen/admin/disciplines/disciplines.vue'),
-    inmenu: true,
-    submenu: true,
-    level_parent: 0,
-    level_child: 0.5,
-    onlyManager: true,
-    onlyEditor: true
-  },
-  {
-    active: true,
-    order: 30,
     path: '/admin/bot',
     materialIcon: 'fas fa-file-alt',
     name: 'otherpages.admin.bot',
@@ -485,8 +458,107 @@ const baseroutes: IListRoutes[] = [
     path: '/',
     materialIcon: 'home',
     name: 'pages.home',
-    component: () => import('@src/root_spec/home_tdv/home_tdv.vue'),
+    component: () => import('@src/root/mainview/mainview.vue'),
     reqauth: false,
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
+    order: 12,
+    path: '/goods',
+    materialIcon: 'fas fa-tshirt',
+    name: 'mypages.goods',
+    component: () => import('@/root/goods/goods.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
+    order: 15,
+    path: '/services',
+    materialIcon: 'fas fa-house-user',
+    name: 'mypages.services',
+    component: () => import('@/root/services/services.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
+    order: 15,
+    path: '/hosps',
+    materialIcon: 'fas fa-bed',
+    name: 'mypages.hosp',
+    component: () => import('@/root/hosp/hosp.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
+    order: 20,
+    path: '/events',
+    materialIcon: 'fas fa-bullhorn',
+    name: 'mypages.events',
+    component: () => import('@/root/eventi/eventi.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
+    order: 100,
+    path: '/presentazione',
+    materialIcon: 'fas fa-info',
+    name: 'pages.presentazione',
+    component: () => import('@src/root/presentazione/presentazione.vue'),
+    reqauth: false,
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
+    order: 120,
+    path: '/myprofile',
+    materialIcon: 'fas fa-user',
+    name: 'pages.profile',
+    component: () => import('@/views/user/myprofile/myprofile.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: true,
+    order: 120,
+    path: '/editprofile',
+    materialIcon: 'fas fa-user',
+    name: 'pages.profile3',
+    component: () => import('@/views/user/editprofile/editprofile.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
+    order: 130,
+    path: '/friends',
+    materialIcon: 'fas fa-user-friends',
+    name: 'mypages.friends',
+    component: () => import('@/views/user/myfriends/myfriends.vue'),
+    meta: { requiresAuth: true },
+    inmenu: true,
+    infooter: true,
+  },
+  {
+    active: functionality.ENABLE_GROUPS,
+    order: 132,
+    path: '/groups',
+    materialIcon: 'fas fa-users',
+    name: 'mypages.groups',
+    component: () => import('@/views/user/mygroups/mygroups.vue'),
+    meta: { requiresAuth: true },
     inmenu: true,
     infooter: true,
   },
@@ -500,6 +572,71 @@ const baseroutes: IListRoutes[] = [
     meta: { requiresAuth: true },
     inmenu: false,
     infooter: false,
+  },
+  {
+    active: true,
+    order: 136,
+    path: '/grp/:groupname',
+    materialIcon: 'fas fa-user',
+    name: 'proj.group2',
+    component: () => import('@/views/user/mygroup/mygroup.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
+    order: 130,
+    path: '/mypage/:idBacheca',
+    materialIcon: 'fas fa-user',
+    name: 'pages.mypage2',
+    component: () => import('@/views/user/mypagebacheca/mypagebacheca.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
+    order: 130,
+    path: '/myservice/:idSkill',
+    materialIcon: '',
+    name: 'pages.myservice2',
+    component: () => import('@/views/user/myservice/myservice.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
+    order: 135,
+    path: '/myhosps/:idHosp',
+    materialIcon: '',
+    name: 'pages.myhosps2',
+    component: () => import('@/views/user/mypagehosp/mypagehosp.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
+    order: 132,
+    path: '/mygood/:idGood',
+    materialIcon: '',
+    name: 'pages.mygood2',
+    component: () => import('@/views/user/mypagegood/mypagegood.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
+    order: 150,
+    path: '/fundraising',
+    materialIcon: 'fas fa-hand-holding-heart',
+    name: 'pages.fundraising',
+    component: () => import('@src/root/fundraising/fundraising.vue'),
+    inmenu: true,
+    infooter: true,
   },
   {
     active: true,
@@ -573,12 +710,34 @@ const baseroutes: IListRoutes[] = [
     infooter: true
   },
   {
-    active: functionality.ENABLE_REGISTRATION,
+    active: functionality.ENABLE_REGISTRATION && functionality.ENABLE_REG_NEED_TELEGRAM,
+    order: 1000,
+    path: '/signup/:invited/:usernameteleg/:idteleg',
+    materialIcon: 'how_to_reg',
+    name: 'pages.SignUp',
+    component: () => import('@/views/login/signup/signup.vue'),
+    inmenu: false,
+    infooter: false,
+    separator: false
+  },
+  /*{
+    active: functionality.ENABLE_REGISTRATION && !functionality.ENABLE_REG_NEED_TELEGRAM,
     order: 1000,
     path: '/signup',
     materialIcon: 'how_to_reg',
     name: 'pages.SignUp',
-    component: () => import('@/views/login/signup_noteleg/signup_noteleg.vue'),
+    component: () => import('@/views/login/signup/signup_noteleg.vue'),
+    inmenu: false,
+    infooter: false,
+    separator: false
+  },*/
+  {
+    active: true,
+    order: 1001,
+    path: '/signup/:invited',
+    materialIcon: 'how_to_reg',
+    name: 'pages.SignUp2',
+    component: () => import('@/views/login/signup/signup.vue'),
     inmenu: false,
     infooter: false,
     separator: false
@@ -637,19 +796,9 @@ const baseroutes: IListRoutes[] = [
     active: true,
     path: '/separator',
     name: 'separator',
-    order: 1010,
+    order: 35,
     isseparator: true,
     inmenu: true,
-  },
-  {
-    active: true,
-    order: 70,
-    path: '/chisiamo',
-    materialIcon: 'event',
-    name: 'pages.chisiamo',
-    component: () => import('@/rootgen/operators/operators.vue'),
-    inmenu: true,
-    infooter: true
   },
   {
     active: true,
@@ -659,8 +808,8 @@ const baseroutes: IListRoutes[] = [
     name: 'pages.calendarioeventi',
     component: () => import('@/root/calendarioeventi/calendarioeventi.vue'),
     extraclass: 'isCalendar',
-    inmenu: true,
-    infooter: true
+    inmenu: false,
+    infooter: false
   },
   {
     active: true,
@@ -692,30 +841,20 @@ const baseroutes: IListRoutes[] = [
     inmenu: false,
     infooter: false
   },
-  {
-    active: true,
-    order: 130,
-    path: '/admin/eventlist',
-    materialIcon: 'fas fa-calendar-plus',
-    name: 'otherpages.admin.eventlist',
-    component: () => import('@/rootgen/admin/eventlist/eventlist.vue'),
-    inmenu: true,
-    infooter: true
-  },
 
 ]
-export function firstimagehome() {
-
-  let img = 'images/foto1.jpg'
-  return img
-}
-
 
 const arrLangUsed = [
   'it',
   // 'enUs',
   // 'es',
 ]
+
+export function firstimagehome() {
+
+  let img = 'statics/images/background.jpg'
+  return img
+}
 
 const lang_available: ILang[] = [
   {
@@ -738,7 +877,6 @@ const preLoadImages: IPreloadImages[] = []
 export const preloadedimages = []
 
 export const routes = baseroutes
-
 
 export const static_data = {
   baseroutes,

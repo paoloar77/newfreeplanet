@@ -54,7 +54,7 @@ export default defineComponent({
       try {
         if (props.modelValue === costanti.GROUPS) {
           arr = userStore.my.profile.mygroups
-        } else if (props.modelValue === costanti.MY_GROUPS) {
+        } else if (props.modelValue === costanti.MY_GROUPS || props.modelValue === costanti.USER_GROUPS) {
           arr = userStore.groups.filter((grp: IMyGroup) => userStore.my.profile.mygroups.findIndex((rec: IMyGroup) => rec.groupname === grp.groupname) >= 0)
         } else if (props.modelValue === costanti.MANAGE_GROUPS) {
           arr = userStore.my.profile.manage_mygroups
@@ -98,20 +98,10 @@ export default defineComponent({
       return (arr) ? arr.length : 0
     })
 
-    function loadGroups() {
+    async function loadGroups() {
       // Carica il profilo di quest'utente
       if (username.value) {
-        userStore.loadGroups(username.value).then((ris) => {
-          // console.log('ris', ris)
-          if (ris) {
-            userStore.my.profile.mygroups = ris.mygroups ? ris.mygroups : []
-            userStore.my.profile.list_usersgroup = ris.listUsersGroup ? ris.listUsersGroup : []
-            userStore.groups = ris.listgroups ? ris.listgroups : []
-            userStore.my.profile.asked_groups = ris.listSentRequestGroups ? ris.listSentRequestGroups : []
-            filtroutente.value = [{ userId: userStore.my._id }]
-          }
-        })
-
+        filtroutente.value = await tools.loadGroupsByUsername(username.value)
       }
     }
 

@@ -11,6 +11,7 @@ const functionality: IFunctionality = {
   SHOW_PROFILE: true,
   SHOW_REG_BUTTON: true,
   ENABLE_REGISTRATION: true, // Cambiare con true
+  ENABLE_REG_NEED_TELEGRAM: false,
   SHOW_NEWSLETTER: false,
   SHOW_ONLY_POLICY: true,
   ENABLE_TODOS_LOADING: false,
@@ -578,7 +579,7 @@ const baseroutes: IListRoutes[] = [
     path: '/signup',
     materialIcon: 'how_to_reg',
     name: 'pages.SignUp',
-    component: () => import('@/views/login/signup_noteleg/signup_noteleg.vue'),
+    component: () => import('@/views/login/signup/signup_noteleg.vue'),
     inmenu: false,
     infooter: false,
     separator: false
@@ -645,7 +646,7 @@ const baseroutes: IListRoutes[] = [
     active: true,
     order: 70,
     path: '/chisiamo',
-    materialIcon: 'event',
+    materialIcon: 'fa fa-users',
     name: 'pages.chisiamo',
     component: () => import('@/rootgen/operators/operators.vue'),
     inmenu: true,

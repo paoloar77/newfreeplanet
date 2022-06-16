@@ -5027,7 +5027,7 @@ export const tools = {
   setCmd($q: any, cmd: number, username: string, value: any, dest: string) {
     console.log('setcmd', cmd)
     if (cmd === shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP) {
-      tools.removeFromMyGroups($q, username, dest)
+      tools.removeFromMyGroups($q, username, dest, t('db.domanda_exit_fromgroup', { username }))
     } else if (cmd === shared_consts.GROUPSCMD.BLOCK_GROUP) {
       tools.blockGroup($q, username, dest)
     } else if (cmd === shared_consts.GROUPSCMD.SETGROUP) {
@@ -5144,17 +5144,23 @@ export const tools = {
 
   getSelectionByTable(table: string, mydef: any) {
 
-    const arrtable = ['sectors', 'statusSkills', 'contribtypes', 'adtypes', 'sectorgoods', 'otherfilters', 'shippings']
+    const arrtable = ['sectors', 'statusSkills', 'contribtypes', 'adtypes', 'sectorgoods', 'otherfilters', 'shippings', 'pub_to_share']
     const arrmultisel_tab = ['skills', 'goods']
     const arrmultisel = [
       { table: 'skills', join: 'sectors' },
       { table: 'goods', join: 'sectorgoods' }
     ]
 
+    let convertiint = false
+
+    if (table === 'pub_to_share') {
+      convertiint = true
+    }
+
     let ris = mydef
 
     if (arrtable.includes(table)) {
-      ris = tools.getCookie(tools.COOK_SEARCH + table, mydef)
+      ris = tools.getCookie(tools.COOK_SEARCH + table, mydef, convertiint)
     } else if (arrmultisel_tab.includes(table)) {
       const rec = arrmultisel.find((rec) => rec.table === table)
       if (rec) {
@@ -5180,6 +5186,7 @@ export const tools = {
       idCity: this.getCitySel(),
       NumLevel: 0,
       adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
+      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL),
       photos: [],
       note: '',
       //**ADDFIELD_MYSKILL
@@ -5210,6 +5217,7 @@ export const tools = {
       adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
       idShipping: tools.getSelectionByTable('shippings', []),
       otherfilters: tools.getSelectionByTable('otherfilters', []),
+      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL),
       photos: [],
       note: '',
       //**ADDFIELD_MYSKILL
@@ -5245,6 +5253,7 @@ export const tools = {
       idCity: this.getCitySel(),
       NumLevel: 0,
       adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
+      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL),
       photos: [],
       note: '',
       //**ADDFIELD_MYBACHECAS
@@ -5261,6 +5270,7 @@ export const tools = {
       typeHosp: tools.getSelectionByTable(toolsext.TABTYPEHOSP, 2),
       idContribType: tools.getSelectionByTable('contribtypes', []),
       idCity: this.getCitySel(),
+      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL),
       photos: [],
       descr: '',
       note: '',
@@ -5361,14 +5371,18 @@ export const tools = {
   },
 
   getbackgroundGradient(color: string, degree: number) {
-    const mycol = tools.colourNameToHex(color)
-    const arrcol = color.split('-')
-    let newcol = arrcol[0] + '-4'
-    const mycolchiaro = tools.colourNameToHex(newcol)
+    if (color !== '-1') {
+      const mycol = tools.colourNameToHex(color)
+      const arrcol = color.split('-')
+      let newcol = arrcol[0] + '-4'
+      const mycolchiaro = tools.colourNameToHex(newcol)
 
-    return 'background: ' + mycol +
-      ' background: -webkit-linear-gradient(' + degree + 'deg, ' + mycol + ', ' + mycolchiaro + ') !important; ' +
-      ' background: linear-gradient(' + degree + 'deg, ' + mycol + ', ' + mycolchiaro + ') !important;'
+      return 'background: ' + mycol +
+        ' background: -webkit-linear-gradient(' + degree + 'deg, ' + mycol + ', ' + mycolchiaro + ') !important; ' +
+        ' background: linear-gradient(' + degree + 'deg, ' + mycol + ', ' + mycolchiaro + ') !important;'
+    } else {
+      return ''
+    }
   },
 
   getCurrentUrl() {
@@ -5433,6 +5447,27 @@ export const tools = {
 
   getAskToVerifyReg(): boolean {
     return this.getConfSiteOptionEnabled(shared_consts.ConfSite.Need_Aportador_On_DataReg_To_Verify_Reg)
+  },
+
+  async loadGroupsByUsername(username: string) {
+    const userStore = useUserStore()
+    // Carica il profilo di quest'utente
+
+    if (username) {
+      await userStore.loadGroups(username).then((ris) => {
+        // console.log('ris', ris)
+        if (ris) {
+          userStore.my.profile.mygroups = ris.mygroups ? ris.mygroups : []
+          userStore.my.profile.list_usersgroup = ris.listUsersGroup ? ris.listUsersGroup : []
+          userStore.groups = ris.listgroups ? ris.listgroups : []
+          userStore.my.profile.asked_groups = ris.listSentRequestGroups ? ris.listSentRequestGroups : []
+          return [{ userId: userStore.my._id }]
+        }
+      })
+
+    }
+
+    return []
   },
 
 

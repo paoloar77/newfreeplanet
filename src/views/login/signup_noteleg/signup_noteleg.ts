@@ -7,7 +7,7 @@ import { useRoute } from 'vue-router'
 import { tools } from '@store/Modules/tools'
 
 export default defineComponent({
-  name: 'SignUp',
+  name: 'SignUp_noteleg',
   components: { CSignUp },
   props: {},
   setup() {

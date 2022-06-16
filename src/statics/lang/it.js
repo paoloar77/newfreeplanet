@@ -865,6 +865,7 @@ const msg_it = {
     skill: {
       name: 'Categoria',
       city: 'Comune',
+      pub_to_share: 'Visibilità',
       photos: 'Foto',
       note: 'Note',
       short_node: 'Breve Nota',
@@ -908,7 +909,7 @@ const msg_it = {
       find_people: 'Cerca Persone',
       find_group: 'Cerca Gruppo',
       manage_my_groups: 'Gruppi che Gestisco',
-      follow_groups: 'Gruppi che Seguo',
+      follow_groups: 'Miei Gruppi (di cui fai parte)',
       create_group: 'Crea Gruppo',
       friends: 'Amici',
       bacheca: 'Bacheca',

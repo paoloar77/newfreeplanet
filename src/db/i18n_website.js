@@ -40,7 +40,7 @@ const msg_website = {
         + ' che intere popolazioni antiche conoscevano bene.',
       descrapp_pag2: 'E\' giunta l\'ora di utilizzare i nuovi strumenti <strong>Tecnologici</strong> a nostro <strong>favore</strong>, per <strong>Liberarci</strong> '
         + 'così piano piano dalla <strong>schiavitù</strong> del <strong>"Lavoro per generare Denaro"</strong> e trasformando le nostre <strong>Capacitá</strong> in '
-        + '<strong>TerraDellaVisionerse Umane</strong> per poterci sostenere e vivere in <strong>Armonia</strong> con gli altri.',
+        + '<strong>Risorse Umane</strong> per poterci sostenere e vivere in <strong>Armonia</strong> con gli altri.',
       freesocial: {
         title: 'Free Social',
         descr: 'Una Community organizzata per <strong>Categorie</strong>, dove potrai unirti a <strong>Gruppi Tematici</strong>, '

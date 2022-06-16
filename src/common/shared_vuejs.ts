@@ -69,6 +69,11 @@ export const shared_consts = {
     FIND_GROUP: 1166,
   },
 
+  PUBTOSHARE: {
+    ALL: 0,
+    ONLY_GROUPS_FOLLOW: 1,
+  },
+
   REPORT_FILT_RESP: 1,
   REPORT_FILT_ATTIVITA: 2,
 
@@ -95,6 +100,7 @@ export const shared_consts = {
   TABLES_USER_INCLUDE_MY: ['mygroups'],
   TABLES_GETCOMPLETEREC: ['myskills', 'mybachecas', 'myhosps', 'mygoods'],
   TABLES_WITH_FILTER_FIELD: ['caldate'],
+  TABLES_WITH_SPECIAL_FILTER: ['pub_to_share'],
   COL_WITH_FILTER_GTE: ['numMaxPeopleHosp'],
   TABLES_WITH_DATE: ['mybachecas', 'myhosps'],
   TABLES_WITH_SORTING: ['mybachecas', 'myhosps'],
@@ -545,6 +551,18 @@ export const shared_consts = {
       label: 'Admin',
     },
   ],
+
+  Pub_to_Share: [
+    {
+      value: 0,
+      label: 'Tutti',
+    },
+    {
+      value: 1,
+      label: 'Miei Gruppi',
+    },
+  ],
+
 
   VisibilGroup: [
     {

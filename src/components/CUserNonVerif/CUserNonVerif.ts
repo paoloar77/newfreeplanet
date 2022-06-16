@@ -10,6 +10,9 @@ import { tools } from '@store/Modules/tools'
 
 import { CVerifyEmail } from '@src/components/CVerifyEmail'
 import { CVerifyTelegram } from '@src/components/CVerifyTelegram'
+
+import { static_data } from '@src/db/static_data'
+
 import MixinUsers from '@/mixins/mixin-users'
 
 
@@ -29,6 +32,7 @@ export default defineComponent({
       userStore,
       globalStore,
       tools,
+      static_data,
     }
   },
 })

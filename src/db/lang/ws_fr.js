@@ -1,8 +1,8 @@
 const msg_website_fr = {
   ws: {
-    sitename: 'TerraDellaVisione',
-    siteshortname: 'TerraDellaVisione',
-    botname: 'TerraDellaVisione BOT',
+    sitename: 'Riso',
+    siteshortname: 'RISO',
+    botname: 'Riso BOT',
   },
   homepage: {
     titlecontatti: 'CONTACTS',

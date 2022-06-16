@@ -76,6 +76,10 @@ export default defineComponent({
       emit('setCmd', cmd, myusername, value)
     }
 
+    function myusername() {
+      return userStore.my.username
+    }
+
     onMounted(mounted)
 
     return {
@@ -88,6 +92,7 @@ export default defineComponent({
       userStore,
       tools,
       table,
+      myusername,
     }
   },
 })

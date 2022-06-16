@@ -53,9 +53,9 @@
         <CUserNonVerif></CUserNonVerif>
       </div>
       <div v-else>
-        <CMainView></CMainView>
 
         <CDashboard></CDashboard>
+        <CMainView></CMainView>
 
         <div class="row justify-evenly items-center q-pa-sm q-ma-sm">
           <q-btn

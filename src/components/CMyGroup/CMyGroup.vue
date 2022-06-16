@@ -33,6 +33,29 @@
             </q-btn>
           </q-item-label>
         </q-item-section>
+        <q-item-section side v-if="visu === costanti.USER_GROUPS">
+          <q-item-label>
+            <q-btn rounded :icon="userStore.IsMyGroupByGroupname(grp.groupname) ? `fas fa-ellipsis-h` : `fas fa-user`">
+              <q-menu>
+                <q-list v-if="(!userStore.IsMyGroupByGroupname(grp.groupname) && !userStore.IsAskedGroupByGroupname(grp.groupname))" style="min-width: 200px">
+                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.REQGROUP, myusername(), true, grp.groupname)">
+                    <q-item-section>{{ $t('groups.ask_group') }}</q-item-section>
+                  </q-item>
+                </q-list>
+                <q-list v-else-if="(!userStore.IsMyGroupByGroupname(grp.groupname) && userStore.IsAskedGroupByGroupname(grp.groupname))" style="min-width: 200px">
+                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.REQGROUP, myusername(), false, grp.groupname)">
+                    <q-item-section>{{ $t('groups.cancel_ask_group') }}</q-item-section>
+                  </q-item>
+                </q-list>
+                <q-list v-else-if="userStore.IsMyGroupByGroupname(grp.groupname)" style="min-width: 200px">
+                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP, myusername(), '', grp.groupname)">
+                    <q-item-section>{{ $t('groups.exit_group') }}</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </q-item-label>
+        </q-item-section>
         <q-item-section side v-if="visu === costanti.REQ_GROUP">
           <q-item-label>
             <q-btn rounded icon="fas fa-ellipsis-h">
@@ -76,8 +99,8 @@
                   </q-item>
                 </q-list>
                 <q-list v-else-if="userStore.IsMyGroupByGroupname(grp.groupname)" style="min-width: 200px">
-                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUPS, myusername(), '', grp.groupname)">
-                    <q-item-section>{{ $t('groups.remove_from_mygroups') }}</q-item-section>
+                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP, myusername(), '', grp.groupname)">
+                    <q-item-section>{{ $t('groups.exit_group') }}</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>

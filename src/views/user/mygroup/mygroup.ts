@@ -144,6 +144,7 @@ export default defineComponent({
           lk_proj: {
             'username': 1,
             'profile.img': 1,
+            'profile.mygroups': 1,
             'profile.qualifica': 1,
           }
         },
