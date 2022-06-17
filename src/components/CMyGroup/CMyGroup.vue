@@ -24,8 +24,13 @@
                     <q-item-section>{{ $t('groups.remove_from_mygroups') }}</q-item-section>
                   </q-item>
                 </q-list>
+                <q-list v-if="tools.iAmAdminGroup(grp.groupname)" style="min-width: 200px">
+                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.DELETE_GROUP, myusername(), '', grp.groupname)">
+                    <q-item-section>{{ $t('groups.delete_group') }}</q-item-section>
+                  </q-item>
+                </q-list>
                 <q-list style="min-width: 150px">
-                  <q-item clickable icon="fas fa-ban" v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.BLOCK_GROUP, myusername(), '', grp.groupname)">
+                  <q-item v-if="!tools.iAmAdminGroup(grp.groupname)" clickable icon="fas fa-ban" v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.BLOCK_GROUP, myusername(), '', grp.groupname)">
                     <q-item-section>{{ $t('groups.block_group') }}</q-item-section>
                   </q-item>
                 </q-list>
@@ -50,6 +55,11 @@
                 <q-list v-else-if="userStore.IsMyGroupByGroupname(grp.groupname)" style="min-width: 200px">
                   <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP, myusername(), '', grp.groupname)">
                     <q-item-section>{{ $t('groups.exit_group') }}</q-item-section>
+                  </q-item>
+                </q-list>
+                <q-list v-if="tools.iAmAdminGroup(grp.groupname)" style="min-width: 200px">
+                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.DELETE_GROUP, myusername(), '', grp.groupname)">
+                    <q-item-section>{{ $t('groups.delete_group') }}</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -101,6 +111,11 @@
                 <q-list v-else-if="userStore.IsMyGroupByGroupname(grp.groupname)" style="min-width: 200px">
                   <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP, myusername(), '', grp.groupname)">
                     <q-item-section>{{ $t('groups.exit_group') }}</q-item-section>
+                  </q-item>
+                </q-list>
+                <q-list v-if="tools.iAmAdminGroup(grp.groupname)" style="min-width: 200px">
+                  <q-item clickable v-close-popup @click="tools.setCmd($q, shared_consts.GROUPSCMD.DELETE_GROUP, myusername(), '', grp.groupname)">
+                    <q-item-section>{{ $t('groups.delete_group') }}</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>

@@ -41,6 +41,8 @@ export default defineComponent({
     const mygrp = ref(<IMyGroup|null>{})
     const users_in_group = ref(<IFriends[]>[])
 
+    const loading = ref(false)
+
     const tabgrp = ref('info')
     const tab = ref('membri')
 
@@ -68,6 +70,8 @@ export default defineComponent({
             mygrp.value = null
             users_in_group.value = []
           }
+
+          loading.value = false
           // filtroutente.value = [{ userId: userStore.my._id }]
         })
 
@@ -79,6 +83,7 @@ export default defineComponent({
     })
 
     async function mounted() {
+      loading.value = true
       await loadGroup()
 
       searchList.value = []
@@ -202,6 +207,7 @@ export default defineComponent({
       numAdmins,
       listaAdmins,
       users_in_group,
+      loading,
     }
   }
 })

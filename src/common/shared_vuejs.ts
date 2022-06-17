@@ -67,6 +67,7 @@ export const shared_consts = {
     CANCEL_REQ_GROUP: 1146,
     BLOCK_GROUP: 1155,
     FIND_GROUP: 1166,
+    DELETE_GROUP: 1170,
   },
 
   PUBTOSHARE: {

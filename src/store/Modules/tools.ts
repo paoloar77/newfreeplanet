@@ -4749,6 +4749,27 @@ export const tools = {
     })
   },
 
+  DeleteGroup($q: any, username: string, groupnameDest: string, domanda: any = '') {
+    const userStore = useUserStore()
+
+    $q.dialog({
+      message: domanda ? domanda : t('db.domanda_remove_group', { username }),
+      ok: { label: t('dialog.yes'), push: true },
+      cancel: { label: t('dialog.cancel') },
+      title: t('db.domanda')
+    }).onOk(() => {
+
+      userStore.setGroupsCmd($q, t, username, groupnameDest, shared_consts.GROUPSCMD.DELETE_GROUP, null).then((res) => {
+        if (res) {
+          if (userStore.my.profile.mygroups) {
+            userStore.my.profile.mygroups = userStore.my.profile.mygroups.filter((rec: IMyGroup) => rec.groupname !== groupnameDest)
+            tools.showPositiveNotif($q, t('db.deletedgroup'))
+          }
+        }
+      })
+    })
+  },
+
   setRequestFriendship($q: any, username: string, usernameDest: string, value: boolean) {
 
     const userStore = useUserStore()
@@ -5028,6 +5049,8 @@ export const tools = {
     console.log('setcmd', cmd)
     if (cmd === shared_consts.GROUPSCMD.REMOVE_FROM_MYGROUP) {
       tools.removeFromMyGroups($q, username, dest, t('db.domanda_exit_fromgroup', { username }))
+    } else if (cmd === shared_consts.GROUPSCMD.DELETE_GROUP) {
+      tools.DeleteGroup($q, username, dest)
     } else if (cmd === shared_consts.GROUPSCMD.BLOCK_GROUP) {
       tools.blockGroup($q, username, dest)
     } else if (cmd === shared_consts.GROUPSCMD.SETGROUP) {

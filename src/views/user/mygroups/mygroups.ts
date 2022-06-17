@@ -24,7 +24,8 @@ export default defineComponent({
 
     function mounted() {
 
-      const filt_loaded = tools.getCookie(tools.COOK_SEARCH + tools.GROUP_SEARCH)
+      const filt_loaded = tools.getCookie(tools.COOK_SEARCH + tools.GROUP_SEARCH, costanti.FIND_GROUP, true)
+      console.log('filt_loaded', filt_loaded)
       filter.value = filt_loaded ? filt_loaded : costanti.FIND_GROUP
     }
 

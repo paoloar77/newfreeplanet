@@ -1,6 +1,6 @@
 import { defineComponent, onMounted, PropType, ref, watch } from 'vue'
 import { useUserStore } from '@store/UserStore'
-import { IMyGroup, IImgGallery, IUserFields, IUserProfile } from 'model'
+import { IMyGroup, IImgGallery, IUserFields, IUserProfile, IFriends } from 'model'
 import { costanti } from '@costanti'
 import { shared_consts } from '@/common/shared_vuejs'
 import { tools } from '@store/Modules/tools'
