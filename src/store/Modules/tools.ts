@@ -5165,7 +5165,7 @@ export const tools = {
     return defcity
   },
 
-  getSelectionByTable(table: string, mydef: any) {
+  getSelectionByTable(table: string, mydef: any, convertint: any = false) {
 
     const arrtable = ['sectors', 'statusSkills', 'contribtypes', 'adtypes', 'sectorgoods', 'otherfilters', 'shippings', 'pub_to_share']
     const arrmultisel_tab = ['skills', 'goods']
@@ -5174,16 +5174,10 @@ export const tools = {
       { table: 'goods', join: 'sectorgoods' }
     ]
 
-    let convertiint = false
-
-    if (table === 'pub_to_share') {
-      convertiint = true
-    }
-
     let ris = mydef
 
     if (arrtable.includes(table)) {
-      ris = tools.getCookie(tools.COOK_SEARCH + table, mydef, convertiint)
+      ris = tools.getCookie(tools.COOK_SEARCH + table, mydef, convertint)
     } else if (arrmultisel_tab.includes(table)) {
       const rec = arrmultisel.find((rec) => rec.table === table)
       if (rec) {
@@ -5202,14 +5196,14 @@ export const tools = {
 
     return {
       _id: 0,
-      idSector: tools.getSelectionByTable('sectors', 0),
-      idSkill: tools.getSelectionByTable('skills', 0),
+      idSector: tools.getSelectionByTable('sectors', 0, true),
+      idSkill: tools.getSelectionByTable('skills', 0, true),
       idStatusSkill: tools.getSelectionByTable('statusSkills', []),
       idContribType: tools.getSelectionByTable('contribtypes', []),
       idCity: this.getCitySel(),
       NumLevel: 0,
       adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
-      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL),
+      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL, true),
       photos: [],
       note: '',
       //**ADDFIELD_MYSKILL
@@ -5240,7 +5234,7 @@ export const tools = {
       adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
       idShipping: tools.getSelectionByTable('shippings', []),
       otherfilters: tools.getSelectionByTable('otherfilters', []),
-      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL),
+      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL, true),
       photos: [],
       note: '',
       //**ADDFIELD_MYSKILL
@@ -5267,8 +5261,8 @@ export const tools = {
   getdefaultnewrec_MyBacheca(): any {
     return {
       _id: 0,
-      idSector: tools.getSelectionByTable('sectors', 0),
-      idSkill: tools.getSelectionByTable('skills', 0),
+      idSector: tools.getSelectionByTable('sectors', 0, true),
+      idSkill: tools.getSelectionByTable('skills', 0, true),
       idStatusSkill: tools.getSelectionByTable('statusSkills', []),
       idContribType: tools.getSelectionByTable('contribtypes', []),
       dateTimeStart: new Date(),
@@ -5276,7 +5270,7 @@ export const tools = {
       idCity: this.getCitySel(),
       NumLevel: 0,
       adType: tools.getSelectionByTable('adtypes', costanti.AdType.OFFRO),
-      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL),
+      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL, true),
       photos: [],
       note: '',
       //**ADDFIELD_MYBACHECAS
@@ -5293,7 +5287,7 @@ export const tools = {
       typeHosp: tools.getSelectionByTable(toolsext.TABTYPEHOSP, 2),
       idContribType: tools.getSelectionByTable('contribtypes', []),
       idCity: this.getCitySel(),
-      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL),
+      pub_to_share: tools.getSelectionByTable('pub_to_share', shared_consts.PUBTOSHARE.ALL, true),
       photos: [],
       descr: '',
       note: '',

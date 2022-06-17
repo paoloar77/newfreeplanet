@@ -916,7 +916,7 @@ const msg_it = {
       friends: 'Amici',
       bacheca: 'Bacheca',
       services: 'Servizi',
-      hosp: 'Scambio Ospitalità',
+      hosp: 'Ospitalità',
       events: 'Eventi',
       goods: 'Beni',
       test: 'Test',

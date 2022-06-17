@@ -557,7 +557,8 @@
 
         <q-card-section class="inset-shadow">
           <div
-            v-for="col in mycolumns" :key="col.name" class="newrec_fields">
+            :class="$q.screen.lt.sm ? `` : `row`  + ` text-blue `"
+            v-for="col in mycolumns" :key="col.name">
 
             <!--<div class="text-center q-my-xs" v-if="(col.fieldtype === costanti.FieldType.separator)">
               <q-btn color="primary" size="md" dense :icon="!showfilteradv ? 'fas fa-arrow-down' : 'fas fa-arrow-up'"
