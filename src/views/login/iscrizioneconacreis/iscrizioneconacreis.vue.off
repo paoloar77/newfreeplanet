@@ -14,7 +14,7 @@
         </CSignUpIscrizioneConacreis>
       </div>
 
-      <Footer></Footer>
+      <LandingFooter></LandingFooter>
     </q-page>
   </div>
 </template>

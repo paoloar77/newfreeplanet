@@ -120,6 +120,14 @@ export interface IUserFields {
   calcstat?: ICalcStat|null
 }
 
+export interface IUserExport {
+  _id: string
+  email?: string
+  username: string
+  username_telegram: string
+  firstname_telegram: string
+  lastname_telegram: string
+}
 /*
 password?: string
  lang

@@ -4,14 +4,14 @@ import {
 
 import { IMyPage } from '@src/model'
 import { useGlobalStore } from '@store/globalStore'
-import { Footer } from '@/components/Footer'
+import { LandingFooter } from '@/components/LandingFooter'
 
 import { CImgTitle } from '../CImgTitle/index'
 import { CTitle } from '../CTitle/index'
 
 export default defineComponent({
   name: 'CMyPage',
-  components: { Footer, CImgTitle, CTitle },
+  components: { LandingFooter, CImgTitle, CTitle },
   props: {
     title: String,
     mypath: {

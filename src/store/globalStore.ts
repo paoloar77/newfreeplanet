@@ -30,6 +30,7 @@ import urlBase64ToUint8Array from '@src/js/utility'
 import translate from '@src/globalroutines/util'
 import { useTodoStore } from '@store/Todos'
 import { useMessageStore } from './MessageStore'
+import { useNotifStore } from './NotifStore'
 
 
 const stateConnDefault = 'online'
@@ -201,6 +202,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       const calendarStore = useCalendarStore()
       const userStore = useUserStore()
       const messageStore = useMessageStore()
+      const notifStore = useNotifStore()
 
       if (table === costanti.TABEVENTS)
         return calendarStore.eventlist
@@ -240,6 +242,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
         return userStore.groups
       else if (table === 'sendmsgs')
         return messageStore.last_msgs
+      else if (table === 'sendnotifs')
+        return notifStore.last_notifs
       else if (table === 'settings')
         return state.settings
       else if (table === 'levels')
@@ -808,6 +812,19 @@ export const useGlobalStore = defineStore('GlobalStore', {
           console.log('error loadTable', error)
           userStore.setErrorCatch(error)
           return null
+        })
+    },
+
+    async loadExp(params: any) {
+      // console.log('loadTable', params)
+      params.filtersearch2 = 'fdsgas1'
+
+      return Api.SendReq('/getexp', 'POST', params)
+        .then((res) => {
+          return res.data ? res.data : []
+        })
+        .catch((error) => {
+          return []
         })
     },
 

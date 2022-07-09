@@ -4,7 +4,7 @@ import { BannerCookies } from '@/components/BannerCookies'
 import { useI18n } from '@src/boot/i18n'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
-import { Header } from '@/components/Header'
+import { MyHeader } from '@/components/MyHeader'
 import { MyFooter } from '@/components/MyFooter'
 import { CFirstPageApp } from '@/components/CFirstPageApp'
 import { computed } from 'vue'
@@ -13,7 +13,7 @@ import { tools } from '@store/Modules/tools'
 
 export default {
   components: {
-    appHeader: Header,
+    appHeader: MyHeader,
     appFooter: MyFooter,
     CFirstPageApp,
     CProvaPao,

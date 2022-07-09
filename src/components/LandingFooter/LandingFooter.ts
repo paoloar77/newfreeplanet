@@ -16,7 +16,7 @@ import { CFacebookFrame } from '@/components/CFacebookFrame'
 import MixinBase from '../../mixins/mixin-base'
 
 export default defineComponent({
-  name: 'Footer',
+  name: 'LandingFooter',
   components: { Logo, FormNewsletter, CFacebookFrame },
 
   setup() {
@@ -25,7 +25,7 @@ export default defineComponent({
 
     const { getarrValDb, getValDb } = MixinBase()
 
-    console.log('Footer - INIT')
+    console.log('LandingFooter - INIT')
 
     function TelegramSupport() {
       return globalStore.getValueSettingsByKey('TELEGRAM_SUPPORT', false)

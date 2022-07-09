@@ -29,7 +29,7 @@
         </q-avatar>
       </q-item-section>
 
-      <q-item-section @click="cmdExt(costanti.CMD_SHOW_PAGE, myrec)">
+      <q-item-section @click="navigaExt(myrec)">
         <q-item-label class="full-width">
           <span v-for="(rec, ind) of myrec.recSkill" :key="ind"> <q-chip
             dense

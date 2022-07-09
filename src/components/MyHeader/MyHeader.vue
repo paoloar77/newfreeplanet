@@ -91,6 +91,9 @@
         <div v-if="static_data.functionality.SHOW_MESSAGES">
           <message-popover></message-popover>
         </div>
+        <div v-if="static_data.functionality.SHOW_NOTIF">
+          <notif-popover></notif-popover>
+        </div>
 
         <!--
         <div class="right-itens">
@@ -240,9 +243,9 @@
   </div>
 </template>
 
-<script lang="ts" src="./Header.ts">
+<script lang="ts" src="./MyHeader.ts">
 </script>
 
 <style lang="scss" scoped>
-@import './Header.scss';
+@import './MyHeader.scss';
 </style>

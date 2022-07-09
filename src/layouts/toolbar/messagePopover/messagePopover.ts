@@ -17,9 +17,13 @@ export default defineComponent({
 
   setup(props) {
     const $router = useRouter()
+
+    const { getNumMsgUnread, getNumMsg, getUsernameChatByMsg, getImgByMsg, getNumNotifUnread } = MixinUsers()
+
     // function lasts_messages (state: IUserState) => IMessage[] {
     //
     // }
+
 
     function lasts_messages() {
       // ++Todo: lasts_messages
@@ -28,10 +32,6 @@ export default defineComponent({
 
     function clickChat(msg: IMessage) {
       // $router.replace(`/messages/${ msg.dest.username}`)
-    }
-
-    function getNumNotifUnread() {
-      return 0
     }
 
     function randomDate(): Date {
@@ -69,6 +69,12 @@ export default defineComponent({
     return {
       lasts_messages,
       clickChat,
+      getNumMsgUnread,
+      getNumMsg,
+      getUsernameChatByMsg,
+      getImgByMsg,
+      getNumNotifUnread,
+      tools,
     }
   },
 })

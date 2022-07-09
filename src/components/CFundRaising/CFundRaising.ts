@@ -4,12 +4,12 @@ import { useRouter } from 'vue-router'
 import { useGlobalStore } from '@store/globalStore'
 import { useI18n } from '@/boot/i18n'
 import { tools } from '@store/Modules/tools'
-import { Footer, Logo } from '@components'
+import { LandingFooter, Logo } from '@components'
 
 
 export default defineComponent({
   name: 'CFundRaising',
-  components: {Logo, Footer},
+  components: {Logo, LandingFooter},
   props: {},
   setup() {
     const { t } = useI18n();

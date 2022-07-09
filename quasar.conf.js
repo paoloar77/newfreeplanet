@@ -300,13 +300,8 @@ module.exports = configure((ctx) => ({
           type: 'image/png',
         },
         {
-          src: 'images/riso-android-icon-96x96.png',
-          sizes: '96x96',
-          type: 'image/png',
-        },
-        {
-          src: 'images/riso-android-icon-144x144.png',
-          sizes: '144x144',
+          src: 'images/riso-android-icon-384x384.png',
+          sizes: '384x384',
           type: 'image/png',
         },
         {
@@ -315,8 +310,13 @@ module.exports = configure((ctx) => ({
           type: 'image/png',
         },
         {
-          src: 'images/riso-android-icon-384x384.png',
-          sizes: '384x384',
+          src: 'images/riso-android-icon-144x144.png',
+          sizes: '144x144',
+          type: 'image/png',
+        },
+        {
+          src: 'images/riso-android-icon-96x96.png',
+          sizes: '96x96',
           type: 'image/png',
         },
       ],
@@ -353,7 +353,7 @@ module.exports = configure((ctx) => ({
     builder: {
       // https://www.electron.build/configuration/configuration
 
-      appId: 'InsiemeSiPuo',
+      appId: 'Riso',
     },
 
     // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

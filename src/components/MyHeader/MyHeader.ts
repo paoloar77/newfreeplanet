@@ -11,6 +11,7 @@ import { boot } from 'quasar/wrappers'
 import { useRouter } from 'vue-router'
 import { static_data } from '@/db/static_data'
 import messagePopover from '../../layouts/toolbar/messagePopover/messagePopover.vue'
+import notifPopover from '../../layouts/toolbar/notifPopover/notifPopover.vue'
 import drawer from '../../layouts/drawer/drawer.vue'
 import { CMyAvatar } from '@/components/CMyAvatar'
 import { toolsext } from '@store/Modules/toolsext'
@@ -22,9 +23,9 @@ import MixinUsers from '../../mixins/mixin-users'
 import { CMyCart, CSigninNoreg } from '@/components'
 
 export default defineComponent({
-  name: 'Header',
+  name: 'MyHeader',
   components: {
-    drawer, messagePopover, CMyAvatar, CSigninNoreg, CMyCart
+    drawer, messagePopover, CMyAvatar, CSigninNoreg, CMyCart, notifPopover
   },
   props: {
     extraContent: {
@@ -344,7 +345,7 @@ export default defineComponent({
     }
 
     function getappname() {
-      return tools.getappname(tools.isMobile()) + ' ' + getAppVersion()
+      return tools.getappname(tools.isMobile())
 
     }
 

@@ -257,6 +257,7 @@ if (workbox) {
         return fetch(args.event.request)
           .then((res) => caches.open('dynamic')
             .then((cache) => {
+              console.log('cache', args.event.request.url)
               cache.put(args.event.request.url, res.clone())
               return res
             }))

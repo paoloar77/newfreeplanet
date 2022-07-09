@@ -169,9 +169,9 @@ class="footer_link" @click="navigate" @keypress.enter="navigate"
   </div>
 </template>
 
-<script lang="ts" src="./Footer.ts">
+<script lang="ts" src="./LandingFooter.ts">
 </script>
 
 <style lang="scss" scoped>
-@import './Footer.scss';
+@import './LandingFooter.scss';
 </style>

@@ -4,13 +4,14 @@ import {
   IFunctionality,
   IPreloadImages,
 } from '@model'
+import { func } from '@store/Modules/fieldsTable'
 
 const functionality: IFunctionality = {
   PWA: true,
   SHOW_USER_MENU: true, // Cambiare con true
   SHOW_PROFILE: true,
   SHOW_REG_BUTTON: false,
-  ENABLE_REGISTRATION: true, // Cambiare con true
+  ENABLE_REGISTRATION: true,
   ENABLE_REG_NEED_TELEGRAM: true,
   SHOW_NEWSLETTER: false,
   SHOW_ONLY_POLICY: true,
@@ -18,6 +19,7 @@ const functionality: IFunctionality = {
   ENABLE_PROJECTS_LOADING: false,
   SHOW_IF_IS_SERVER_CONNECTION: false,
   SHOW_MESSAGES: false,
+  SHOW_NOTIF: true,
   BOOKING_EVENTS: true,
   ENABLE_ECOMMERCE: false,
   ENABLE_REG_ISP: true,
@@ -579,7 +581,7 @@ const baseroutes: IListRoutes[] = [
     materialIcon: 'fas fa-user',
     name: 'proj.group2',
     component: () => import('@/views/user/mygroup/mygroup.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, newpage: true },
     inmenu: false,
     infooter: false,
   },
@@ -590,7 +592,7 @@ const baseroutes: IListRoutes[] = [
     materialIcon: 'fas fa-user',
     name: 'pages.mypage2',
     component: () => import('@/views/user/mypagebacheca/mypagebacheca.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, newpage: true },
     inmenu: false,
     infooter: false,
   },
@@ -601,7 +603,7 @@ const baseroutes: IListRoutes[] = [
     materialIcon: '',
     name: 'pages.myservice2',
     component: () => import('@/views/user/myservice/myservice.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, newpage: true },
     inmenu: false,
     infooter: false,
   },
@@ -612,7 +614,7 @@ const baseroutes: IListRoutes[] = [
     materialIcon: '',
     name: 'pages.myhosps2',
     component: () => import('@/views/user/mypagehosp/mypagehosp.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, newpage: true },
     inmenu: false,
     infooter: false,
   },
@@ -623,7 +625,7 @@ const baseroutes: IListRoutes[] = [
     materialIcon: '',
     name: 'pages.mygood2',
     component: () => import('@/views/user/mypagegood/mypagegood.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, newpage: true },
     inmenu: false,
     infooter: false,
   },
@@ -709,7 +711,7 @@ const baseroutes: IListRoutes[] = [
     infooter: true
   },
   {
-    active: functionality.ENABLE_REGISTRATION,
+    active: functionality.ENABLE_REGISTRATION && functionality.ENABLE_REG_NEED_TELEGRAM,
     order: 1000,
     path: '/signup/:invited/:usernameteleg/:idteleg',
     materialIcon: 'how_to_reg',
@@ -719,6 +721,17 @@ const baseroutes: IListRoutes[] = [
     infooter: false,
     separator: false
   },
+  /*{
+    active: functionality.ENABLE_REGISTRATION && !functionality.ENABLE_REG_NEED_TELEGRAM,
+    order: 1000,
+    path: '/signup',
+    materialIcon: 'how_to_reg',
+    name: 'pages.SignUp',
+    component: () => import('@/views/login/signup/signup_noteleg.vue'),
+    inmenu: false,
+    infooter: false,
+    separator: false
+  },*/
   {
     active: true,
     order: 1001,

@@ -299,11 +299,11 @@
               <p class="feat-descr" v-html="t('homepage.freecollabora.descr')"></p></div>
           </div>
           <div class="col-12 col-sm-5">
-            <div class="feature-item"><i
-              aria-hidden="true"
-              class="q-icon fas fa-hands-helping"> </i><h4>
-              {{ t('homepage.freesostieni.title') }}</h4>
-              <p class="feat-descr" v-html="t('homepage.freesostieni.descr')"></p></div>
+
+            <div class="feature-item" style="margin-top: 0px !important;">
+              <div class="text-big" style="margin: 0px !important; padding: 2px !important;" v-html="t('homepage.freesostieni.title')"></div>
+              <p class="feat-descr" v-html="t('homepage.freesostieni.descr')"></p>
+            </div>
           </div>
           <div class="col-12 col-sm-5">
             <div class="feature-item"><i
@@ -329,7 +329,7 @@
         </div>
       </section>
 
-      <Footer></Footer>
+      <LandingFooter></LandingFooter>
     </div>
   </q-page>
 </template>

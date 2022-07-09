@@ -43,7 +43,7 @@
     <br>
     <br>
 
-    <Footer></Footer>
+    <LandingFooter></LandingFooter>
   </q-page>
 </template>
 

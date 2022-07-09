@@ -43,6 +43,7 @@ export default defineComponent({
       mounted()
     })
 
+
     function mounted() {
       if (props.prop_myrec) {
         myrec.value = props.prop_myrec
@@ -73,6 +74,14 @@ export default defineComponent({
       emit('cmdext', cmd, val1, val2)
     }
 
+    function navigaExt(obj: any) {
+      cmdExt(costanti.CMD_SHOW_PAGE, obj, null)
+      //let link = tools.getDirectoryByTable(props.table) + '/' + obj._id
+      //console.log('link', link)
+      //$router.push(link)
+    }
+
+
     onMounted(mounted)
 
     return {
@@ -81,6 +90,7 @@ export default defineComponent({
       costanti,
       getImgUser,
       naviga,
+      navigaExt,
       setCmd,
       shared_consts,
       userStore,

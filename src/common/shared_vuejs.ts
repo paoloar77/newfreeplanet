@@ -280,10 +280,14 @@ export const shared_consts = {
     },
     {
       value: 8,
-      label: 'Giardino',
+      label: 'Yurta',
     },
     {
       value: 9,
+      label: 'Giardino',
+    },
+    {
+      value: 10,
       label: 'Aria aperta',
     },
   ],
@@ -425,6 +429,22 @@ export const shared_consts = {
     {
       value: 19,
       label: 'Adatto ai neonati (fino ai 2 anni)',
+    },
+    {
+      value: 20,
+      label: 'Biancheria inclusa',
+    },
+    {
+      value: 21,
+      label: 'Biancheria su richiesta (a parte)',
+    },
+    {
+      value: 22,
+      label: 'Asciugamani',
+    },
+    {
+      value: 23,
+      label: 'Asciugacapelli',
     },
   ],
 

@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { Footer } from '@/components/Footer'
+import { LandingFooter } from '@/components/LandingFooter'
 import { toolsext } from '@store/Modules/toolsext'
 
 export default defineComponent({
@@ -14,7 +14,7 @@ export default defineComponent({
     lastdataupdate: [String],
     country: [String],
   },
-  components: { Footer },
+  components: { LandingFooter },
   setup(props, { emit }) {
 
     return {

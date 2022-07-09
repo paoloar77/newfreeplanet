@@ -44,7 +44,7 @@
                        color="white" text-color="blue"
                        :icon="col.icon ? col.icon : `fas fa-globe`"
                        :href="tools.getlinkstd(myvalue)"
-                       :label="myvalue"
+                       :label="tools.firstchars(myvalue, 40)"
                        target="_blank"
                 >
                 </q-btn>
@@ -613,6 +613,7 @@
                 counter
                 :type="col.fieldtype === costanti.FieldType.crypted ? 'password' : 'text'"
                 :maxlength="col.maxlength ? col.maxlength : undefined"
+                :minlength="col.minlength ? col.minlength : undefined"
                 v-model="scope.value"
                 :autogrow="col.fieldtype !== costanti.FieldType.crypted"
                 @keyup.enter.stop
@@ -841,6 +842,7 @@
               <q-input
                 v-model="scope.value"
                 :maxlength="col.maxlength ? col.maxlength : undefined"
+                :minlength="col.minlength ? col.minlength : undefined"
                 type="password"
                 @keyup.enter="scope.set"
                 autofocus>

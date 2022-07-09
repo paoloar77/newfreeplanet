@@ -36,6 +36,7 @@ import translate from '@/globalroutines/util'
 import { toolsext } from '@store/Modules/toolsext'
 import { CMyCardPopup } from '@/components/CMyCardPopup'
 import { CMyCardGrpPopup } from '@/components/CMyCardGrpPopup'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'CGridTableRec',
@@ -248,6 +249,8 @@ export default defineComponent({
 
     const startsearch = ref(false)
 
+    const $router = useRouter()
+
     const serverData: any = ref([])
     const spinner_visible = ref(false)
     const searchList = ref(<ISearchList[]>[])
@@ -309,6 +312,16 @@ export default defineComponent({
     watch(() => props.filtercustom, (to: any, from: any) => {
       // console.log('filtercustom', to)
       refresh()
+    })
+
+    $router.beforeResolve((to: any) => {
+      // console.log('beforeResolve', visupagedialog.value, 'to', to)
+
+      if (visupagedialog.value && !to.meta.newpage) {
+        visupagedialog.value = false
+        return false
+      }
+
     })
 
     function setCategBySector(tablecat: string, tabsector: string, newval: any) {
@@ -1418,44 +1431,70 @@ export default defineComponent({
       }
     }
 
-    function enableSaveNewRec() {
+    function enableSaveNewRec(newrec: boolean) {
 
       let ok = true
+
+      const showmsg = true
+
+      let myrec = recModif.value
+      if (newrec) {
+        myrec = newRecord.value
+      }
 
       //mycolumns.value.forEach((col: IColGridTable) => {
       let col: IColGridTable
 
+      let msg = ''
+
       for (col of mycolumns.value) {
-        if (col.required) {
-          // console.log('newRecord.value', newRecord.value, newRecord.value[col.name])
-          if (tools.isArray(newRecord.value[col.name])) {
-            if (newRecord.value[col.name].length <= 0) {
-              return false
+        if (!msg) {
+          if (col.required) {
+            // console.log('newRecord.value', newRecord.value, newRecord.value[col.name])
+            if (tools.isArray(myrec[col.name])) {
+              if (myrec[col.name].length <= 0) {
+                msg = 'Si prega di compilare il campo \'' + getColMissing(myrec) + '\''
+              }
+            } else {
+              if (!myrec[col.name]) {
+                msg = 'Si prega di compilare il campo \'' + getColMissing(myrec) + '\''
+              }
             }
-          } else {
-            if (!newRecord.value[col.name]) {
-              return false
+          }
+          if (!msg && col.maxlength! > 0) {
+            if (myrec[col.name].length > col.maxlength!) {
+              msg = t('annunci.maxlength', { name: translate(col.label_trans), maxlength: col.maxlength })
+            }
+          }
+          if (!msg && col.minlength! > 0) {
+            if (myrec[col.name].length < col.minlength!) {
+              msg = t('annunci.minlength', { name: translate(col.label_trans), minlength: col.minlength })
             }
           }
         }
       }
 
+      if (showmsg && msg) {
+        tools.showNegativeNotif($q, msg, 5000)
+        return false
+      }
+
       return ok
     }
 
-    function getColMissing() {
+    function getColMissing(myrec: any) {
 
       let col: IColGridTable
 
       for (col of mycolumns.value) {
         if (col.required) {
           // console.log('newRecord.value', newRecord.value, newRecord.value[col.name])
-          if (tools.isArray(newRecord.value[col.name])) {
-            if (newRecord.value[col.name].length <= 0) {
+          if (tools.isArray(myrec[col.name])) {
+            if (myrec[col.name].length <= 0) {
               return translate(col.label_trans)
             }
           } else {
-            if (!newRecord.value[col.name]) {
+            if (!myrec[col.name]) {
               // console.log('col.name', col.name)
               return translate(col.label_trans)
             }
@@ -1469,9 +1508,7 @@ export default defineComponent({
     async function saveNewRecord() {
       // check if the field are setted
 
-      if (!enableSaveNewRec()) {
-        tools.showNeutralNotif($q, 'Si prega di compilare il campo \'' + getColMissing() + '\'', 5000)
-
+      if (!enableSaveNewRec(true)) {
         return false
       }
 
@@ -1547,6 +1584,11 @@ export default defineComponent({
         table: mytable.value,
         data: {}
       }
+
+      if (!enableSaveNewRec(false)) {
+        return false
+      }
+
 
       mydata.data = recModif.value
 

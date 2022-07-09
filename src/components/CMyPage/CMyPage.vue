@@ -41,7 +41,7 @@
         </div>
         <slot></slot>
         <div v-if="!nofooter">
-          <Footer></Footer>
+          <LandingFooter></LandingFooter>
         </div>
       </div>
     </div>

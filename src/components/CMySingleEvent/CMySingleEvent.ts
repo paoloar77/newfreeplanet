@@ -2,7 +2,7 @@ import { defineComponent, PropType, ref } from 'vue'
 
 import { Logo } from '../../components/logo/index'
 
-import { Footer } from '../../components/Footer/index'
+import { LandingFooter } from '../../components/LandingFooter/index'
 
 import { tools } from '../../store/Modules/tools'
 import { static_data } from '@src/db/static_data'
@@ -14,7 +14,7 @@ import MixinEvents from '@/mixins/mixin-events'
 
 export default defineComponent({
   name: 'CMySingleEvent',
-  components: { Logo, Footer, CImgText, CCard, CMyPage, CMyAvatar, CMyTeacher },
+  components: { Logo, LandingFooter, CImgText, CCard, CMyPage, CMyAvatar, CMyTeacher },
   props: {
     myevent: {
       type: Object as PropType<IEvents>,

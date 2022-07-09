@@ -1,4 +1,4 @@
-import { IMessage } from '@src/model'
+import { IMessage, INotif } from '@src/model'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useProducts } from '@store/Products'
@@ -155,6 +155,60 @@ export default function () {
     return ris
   }
 
+  function getNotifText(notif: INotif) {
+
+    return notif.descr
+  }
+
+  function getNumNotif() {
+    // ++Todo: conv
+    /*
+    return NotifStore.getlasts_messages().length
+    */
+
+    return 0
+  }
+
+  function getNumNotifUnread() {
+    // return userStore.getlasts_messages().length
+    // ++Todo: conv
+    // return NotifStore.getnumMsgUnread()
+    return 0
+  }
+
+  function getUsernameChatByNotif(msg: INotif) {
+    if (msg) {
+      if (msg.dest) {
+        return msg.dest
+      }
+    } else {
+      return ''
+    }
+    return ''
+  }
+
+   function getTypeNotif(msg: INotif) {
+    if (msg) {
+      if (msg.type) {
+        return msg.type
+      }
+    } else {
+      return ''
+    }
+    return ''
+  }
+
+  function getImgByNotif(msg: INotif) {
+    const userStore = useUserStore()
+
+    //++Todo: Notif
+    return ''
+    // @ts-ignore
+    // return `${userStore.getImgByUsername(this.getUsernameChatByMsg(msg))}`
+  }
+
+
+
   return {
     getUsernameChatByMsg,
     getMyUsername,
@@ -177,5 +231,11 @@ export default function () {
     getMsgText,
     paotest,
     getRefLink,
+    getNumNotifUnread,
+    getNumNotif,
+    getUsernameChatByNotif,
+    getTypeNotif,
+    getImgByNotif,
+    getNotifText,
   }
 }

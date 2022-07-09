@@ -89,6 +89,7 @@ function AddCol(params: IColGridTable) {
     remote_key: (params.remote_key === undefined) ? '' : params.remote_key,
     remote_field: (params.remote_field === undefined) ? '' : params.remote_field,
     maxlength: (params.maxlength === undefined) ? 0 : params.maxlength,
+    minlength: (params.minlength === undefined) ? 0 : params.minlength,
     filter_field: (params.filter_field === undefined) ? '' : params.filter_field,
     isadvanced_field: (params.isadvanced_field === undefined) ? false : params.isadvanced_field,
   }
@@ -688,6 +689,14 @@ export const colmyGoods = [
     sortable: false,
   }),
   AddCol({
+    name: 'note', label_trans: 'proj.descrapprof', fieldtype: costanti.FieldType.html,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '',
+    minlength: 50,
+    isadvanced_field: true,
+    required: true,
+  }),
+  AddCol({
     name: 'idSectorGood',
     label_trans: 'sectors.name',
     fieldtype: costanti.FieldType.select,
@@ -784,12 +793,6 @@ export const colmyGoods = [
 
    */
 
-  AddCol({
-    name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '',
-    isadvanced_field: true,
-  }),
   //**ADDFIELD_MYSKILL
   AddCol({
     name: 'website', label_trans: 'reg.website', isadvanced_field: true, fieldtype: costanti.FieldType.link,
@@ -863,6 +866,13 @@ export const colmySkills = [
     maxlength: 120,
     required: true,
     sortable: false,
+  }),
+  AddCol({
+    name: 'note', label_trans: 'proj.descrapprof', fieldtype: costanti.FieldType.html,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '',
+    required: true,
+    isadvanced_field: true,
   }),
   AddCol({
     name: 'idSector',
@@ -950,12 +960,6 @@ export const colmySkills = [
     jointable: '',
     showpicprofile_ifnotset: true,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
-    isadvanced_field: true,
-  }),
-  AddCol({
-    name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '',
     isadvanced_field: true,
   }),
   //**ADDFIELD_MYSKILL
@@ -1077,19 +1081,20 @@ export const colmyHosp = [
     sortable: false,
   }),
   AddCol({
+    name: 'note', label_trans: 'proj.descrapprof', fieldtype: costanti.FieldType.html,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '',
+    isadvanced_field: true,
+    required: true,
+    sortable: false,
+  }),
+  AddCol({
     name: 'photos',
     label_trans: 'skill.photos',
     fieldtype: costanti.FieldType.listimages,
     jointable: '',
     showpicprofile_ifnotset: true,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
-    isadvanced_field: true,
-    sortable: false,
-  }),
-  AddCol({
-    name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '',
     isadvanced_field: true,
     sortable: false,
   }),
@@ -1195,6 +1200,14 @@ export const colmyBachecas = [
     sortable: false,
   }),
   AddCol({
+    name: 'note', label_trans: 'proj.descrapprof', fieldtype: costanti.FieldType.html,
+    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
+    titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '',
+    required: true,
+    isadvanced_field: true,
+    sortable: false,
+  }),
+  AddCol({
     name: 'idSector',
     label_trans: 'sectors.name',
     fieldtype: costanti.FieldType.select,
@@ -1254,13 +1267,6 @@ export const colmyBachecas = [
     jointable: '',
     showpicprofile_ifnotset: true,
     showWhen: costanti.showWhen.NewRec + costanti.showWhen.InPage + costanti.showWhen.InEdit + costanti.showWhen.InView,
-    isadvanced_field: true,
-    sortable: false,
-  }),
-  AddCol({
-    name: 'note', label_trans: 'proj.longdescr', fieldtype: costanti.FieldType.html,
-    showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView_OnlyifExist,
-    titlepopupedit: 'Dettagli', field_extra1: 'username', subfield_extra1: '',
     isadvanced_field: true,
     sortable: false,
   }),

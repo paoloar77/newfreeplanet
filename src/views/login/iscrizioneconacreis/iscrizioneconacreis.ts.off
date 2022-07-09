@@ -5,7 +5,7 @@ import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
 
 import { CMyPage } from '../../../components/CMyPage'
-import { Footer } from '../../../components/Footer'
+import { LandingFooter } from '../../../components/LandingFooter'
 import { CTitleBanner } from '../../../components/CTitleBanner'
 
 
@@ -28,7 +28,7 @@ export default defineComponent({
       default: false,
     },
   },
-  components: { CSignUpIscrizioneConacreis, CMyPage, Footer, CTitleBanner },
+  components: { CSignUpIscrizioneConacreis, CMyPage, LandingFooter, CTitleBanner },
   setup(props, { emit }) {
     const userStore = useUserStore()
 

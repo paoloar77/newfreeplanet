@@ -47,6 +47,7 @@ const msg_it = {
         eventlist: 'Le tue Prenotazioni',
         usereventlist: 'Prenotazioni Utenti',
         userlist: 'Lista Utenti',
+        userpanel: 'Pannello Utenti',
         circuitslist: 'Circuiti',
         accountslist: 'Conti',
         movslist: 'Movimenti',
@@ -535,6 +536,7 @@ const msg_it = {
       pub_updated: 'Aggiornato il',
       options: 'Opzioni',
       link_telegram: 'Link al Canale/Gruppo Telegram',
+      refuse_cookie: 'Sei sicuro di rifiutare i Cookies? Se continui dovrai reinserire username e password tutte le volte che entri. I cookies servono per riproporti i filtri che utilizzi solitamente. (E\' Consigliato ACCETTARE i Cookies)',
       err: {
         required: 'è richiesto',
         email: 'inserire una email valida',
@@ -648,7 +650,8 @@ const msg_it = {
       newproj: 'Titolo Progetto',
       newsubproj: 'Titolo Sotto-Progetto',
       insertbottom: 'Inserisci Nuovo Project',
-      shortdescr: 'Descrizione',
+      shortdescr: 'Descrizione Breve',
+      descrapprof: 'Descrizione Approfondita',
       longdescr: 'Testo',
       note: 'Note',
       hoursplanned: 'Ore Preventivate',
@@ -741,6 +744,13 @@ const msg_it = {
       message: 'Messaggio',
       messages: 'Messaggi',
       nomessage: 'Nessun Messaggio',
+    },
+    notifs: {
+      telegrammsg: 'Telegram',
+      notif: 'Notifica',
+      notifs: 'Notifiche',
+      nonotif: 'Nessuna Notifica',
+      warn_province: 'Avvisami se nuovo annuncio in provincia',
     },
     event: {
       _id: 'id',
@@ -841,7 +851,7 @@ const msg_it = {
       wrongerr: 'Email non valida',
     },
     privacy_policy: 'Privacy Policy',
-    cookies: 'Usiamo i Cookie per una migliore prestazione web. Accetti l\'utilizzo?',
+    cookies: 'Usiamo i Cookie per una migliore prestazione web. Accetti l\'utilizzo? (Consigliato ACCETTA)',
     sites: {
       active: 'Attivo',
       idapp: 'IdApp',
@@ -972,6 +982,10 @@ const msg_it = {
       prov: 'Provincia',
       reg: 'Regione',
       link_grp: 'Link Territoriale',
+    },
+    annunci: {
+      maxlength: 'Il campo "{name}" dev\'essere non più lungo di {maxlength} caratteri',
+      minlength: 'Compilare il campo "{name}" lungo almeno {minlength} caratteri',
     },
     hosps: {
       visibile: 'Pubblica',

@@ -44,7 +44,7 @@
 
                 <q-item-section>
                     <q-item-label>{{rec.title}}</q-item-label>
-                    <q-item-label caption v-html="rec.description"></q-item-label>
+                    <q-item-label caption><span v-html="rec.description"></span></q-item-label>
                     <q-item-label>
                         <span class="est__price">{{getPrice(rec)}} €</span>
                     </q-item-label>

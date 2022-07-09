@@ -7,7 +7,7 @@ import { CSkill } from '@/components/CSkill'
 import { CMainView } from '@/components/CMainView'
 import { CDashboard } from '@/components/CDashboard'
 import { CChartMap } from '@src/components/CChartMap'
-import { Footer } from '@src/components/Footer'
+import { LandingFooter } from '@src/components/LandingFooter'
 import { CUserNonVerif } from '@/components/CUserNonVerif'
 import { CStatusReg } from '@/components/CStatusReg'
 import { CCopyBtn } from '@/components/CCopyBtn'
@@ -24,7 +24,7 @@ import MixinMetaTags from '@/mixins/mixin-metatags'
 
 export default defineComponent({
   name: 'mainview',
-  components: { CSkill, CChartMap, CMapsEsempio, CDashboard, CUserNonVerif, CMainView, CCopyBtn, Footer, CCheckIfIsLogged, CStatusReg, CPresentazione },
+  components: { CSkill, CChartMap, CMapsEsempio, CDashboard, CUserNonVerif, CMainView, CCopyBtn, LandingFooter, CCheckIfIsLogged, CStatusReg, CPresentazione },
   setup() {
     const globalStore = useGlobalStore()
     const userStore = useUserStore()

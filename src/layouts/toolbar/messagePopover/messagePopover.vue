@@ -1,16 +1,16 @@
 <template>
     <div>
-        <q-btn flat round dense icon="fas fa-comment" class="q-mx-xs" >
-            <q-badge v-if="getNumMsgUnread > 0" floating color="red">{{getNumMsgUnread}}</q-badge>
+        <q-btn flat round dense icon="fas fa-comment" class="q-mx-xs">
+            <q-badge v-if="getNumMsgUnread() > 0" floating color="red">{{getNumMsgUnread()}}</q-badge>
             <q-menu self="top right">
                 <q-list bordered class="rounded-borders" style="max-width: 350px; min-width: 250px;">
-                    <q-item-label header>{{t('msgs.messages')}}</q-item-label>
+                    <q-item-label header>{{$t('msgs.messages')}}</q-item-label>
 
                     <q-separator/>
 
-                    <div v-if="getNumMsg === 0">
+                    <div v-if="getNumMsg() === 0">
                         <q-item>
-                            {{t('msgs.nomessage')}}
+                            {{$t('msgs.nomessage')}}
 
                         </q-item>
                     </div>
@@ -39,8 +39,8 @@
                 </q-list>
             </q-menu>
         </q-btn>
-        <q-btn v-if="false" flat round dense icon="fas fa-bell">
-            <q-badge v-if="getNumNotifUnread > 0" floating color="red">{{getNumNotifUnread}}</q-badge>
+        <q-btn v-if="false" flat round dense icon="fas fa-comment">
+            <q-badge v-if="getNumNotifUnread() > 0" floating color="red">{{getNumNotifUnread()}}</q-badge>
         </q-btn>
     </div>
 </template>

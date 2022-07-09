@@ -2,7 +2,7 @@ import { defineComponent, onBeforeUnmount, onMounted, ref } from 'vue'
 
 import { Logo } from '../../components/logo'
 
-import { Footer } from '../../components/Footer'
+import { LandingFooter } from '../../components/LandingFooter'
 
 import { toolsext } from '@src/store/Modules/toolsext'
 import { CImgTitle } from '../../components/CImgTitle/index'
@@ -17,7 +17,7 @@ import { IColl } from 'model'
 
 export default defineComponent({
   name: 'PhotosGallery',
-  components: { Logo, Footer, CImgTitle },
+  components: { Logo, LandingFooter, CImgTitle },
   props: {
     mygallery: {
       type: Array,

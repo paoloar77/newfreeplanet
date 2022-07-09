@@ -21,7 +21,7 @@
 
     </div>
 
-    <Footer></Footer>
+    <LandingFooter></LandingFooter>
   </q-page>
 
 </template>

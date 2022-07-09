@@ -991,6 +991,21 @@ export const useUserStore = defineStore('UserStore', {
 
     },
 
+    async loadUserPanel(username: string) {
+      const data = {
+        username
+      }
+
+      return Api.SendReq('/users/panel', 'POST', data)
+        .then((ris) => {
+          console.log('out:', ris)
+          return ris.data
+        }).catch((error) => {
+          return {}
+        })
+
+    },
+
     async loadGroup(groupname: string) {
       const data = {
         groupname

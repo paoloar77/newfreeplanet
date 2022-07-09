@@ -14,7 +14,7 @@
 
             </PagePolicy>
 
-            <Footer></Footer>
+            <LandingFooter></LandingFooter>
         </div>
 
     </q-page>

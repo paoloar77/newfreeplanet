@@ -12,7 +12,7 @@ import {
   ITodo,
   IUserFields,
   Privacy,
-  TipoVisu, IGroup, IMySkill, IMyBacheca, IImgGallery, IMsgGlobParam,
+  TipoVisu, IGroup, IMySkill, IMyBacheca, IImgGallery, IMsgGlobParam, IUserExport,
 } from '@model'
 
 import { addToDate } from '@quasar/quasar-ui-qcalendar'
@@ -1945,8 +1945,8 @@ export const tools = {
     this.showNotif(q, msg, { color: 'positive', icon: 'notifications' })
   },
 
-  showNegativeNotif(q: any, msg: string) {
-    this.showNotif(q, msg, { color: 'negative', icon: 'notifications' }, 10000)
+  showNegativeNotif(q: any, msg: string, time = 5000) {
+    this.showNotif(q, msg, { color: 'negative', icon: 'notifications' }, time)
   },
 
   showNeutralNotif(q: any, msg: string, time = 10000) {
@@ -3022,7 +3022,7 @@ export const tools = {
   },
 
   loginOk($router: Router, route: any, mythisq: any, ispageLogin: boolean) {
-    // console.log('loginOk')
+    console.log('loginOk')
     const userStore = useUserStore()
 
     if (toolsext.getLocale() !== '') {
@@ -5486,6 +5486,63 @@ export const tools = {
 
     return []
   },
+
+  loadrecProfile() {
+
+    const userStore = useUserStore()
+    const globalStore = useGlobalStore()
+
+    const params: any = {
+      table: 'exp',
+      userId: userStore.my._id
+    }
+
+    console.log('loadrecProfile', params)
+
+    return globalStore.loadExp(params)
+
+  },
+
+  async exportListaEmail() {
+
+    let myrec = await this.loadrecProfile()
+
+    const sep = ';'
+
+    let mystr = ''
+
+    mystr += 'username' + sep + 'username_telegram' + sep + 'nome_telegram' + sep + 'cognome_telegram' + sep + 'email' + sep + 'verificato_telegram' + sep + 'verificato_invitante' + '\n'
+    let index = 1
+    for (const rec of myrec) {
+      mystr += rec.username + sep
+      mystr += rec.profile.username_telegram + sep
+      mystr += rec.profile.firstname_telegram + sep
+      mystr += rec.profile.lastname_telegram + sep
+      mystr += rec.email + sep
+      mystr += (rec.profile.teleg_id) ? 'SI' : 'NO'
+      mystr += (rec.verified_by_aportador) ? 'SI' : 'NO'
+      mystr += '\n'
+      index++
+    }
+
+    // tools.copyStringToClipboard(this, mystr, false)
+
+    return mystr
+  },
+
+  get_SI_NO(myvalue: boolean) {
+    return myvalue ? 'SI' : 'NO'
+  },
+
+  getvalueAll(myval: string | Date) {
+    const mydate = new Date(myval);
+    if (mydate instanceof Date && !isNaN(mydate.valueOf())) {
+      return this.getstrDateTime(mydate)
+    } else {
+      return myval
+    }
+
+  }
 
 
 // getLocale() {

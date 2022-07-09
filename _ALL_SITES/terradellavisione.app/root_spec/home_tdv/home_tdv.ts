@@ -6,7 +6,7 @@ import { useUserStore } from '@store/UserStore'
 
 import { Logo } from '../../components/logo'
 
-import { Footer } from '../../components/Footer'
+import { LandingFooter } from '../../components/LandingFooter'
 import { CMyPage } from '../../components/CMyPage/index'
 
 import { tools } from '@src/store/Modules/tools'
@@ -21,7 +21,7 @@ import { IGallery } from 'model'
 
 export default defineComponent({
   name: 'Home_tdv',
-  components: { Logo, Footer, CMyPage, CCardCarousel, CEventsCalendar, COpenStreetMap },
+  components: { Logo, LandingFooter, CMyPage, CCardCarousel, CEventsCalendar, COpenStreetMap },
 
   setup() {
     const animare = ref(0)

@@ -6,7 +6,7 @@ import { useQuasar } from 'quasar'
 import { colors, Screen, Platform, date } from 'quasar'
 import { EState, IBookedEvent, IBookedEventPage, IEvents, IMessage, IMessagePage, IParamDialog } from '@model'
 import { Logo } from '../logo'
-import { Footer } from '../Footer'
+import { LandingFooter } from '../LandingFooter'
 import { CTitle } from '../CTitle'
 import { CImgText } from '../CImgText'
 import { CMyEditor } from '../CMyEditor'
@@ -44,7 +44,7 @@ export default defineComponent({
   },
   components: {
     Logo,
-    Footer,
+    LandingFooter,
     CTitle,
     CImgText,
     CMySelect,

@@ -207,7 +207,7 @@ const msg_website_it = {
         + '<li>👥 Aiutando a creare Gruppi Territoriali nella vostra città, impegnandosi a realizzare progetti per il Bene Comune, in onore ai principi Amorevoli e di condivisione.</li>'
         + '<li>🌱 Sostenendo le persone attorno a voi, e rispettando la nostra vera Casa: Madre Natura e Tutti gli Esseri Viventi. ❤️</li>'
         + '<li>👨🏻‍💻 Con una <strong>piccola donazione</strong> per le spese dei Server</li></ul>' +
-        '<strong>Tramite Paypal:</strong><br><em>clicca sull\'importo per fare una donazione. </em><br>' +
+        '<strong>Tramite Paypal:</strong><br>' +
         '<div style="font-size: 1.5rem; background-color: white; color: blue; border: solid 2px #f00; margin: 10px; padding: 10px; border-radius: 10px; " ' +
         'class="row justify-around">' +
         '<span><a href="https://paypal.me/paoloarena/1" target="_blank">1€</a></span>' +
@@ -215,7 +215,7 @@ const msg_website_it = {
         '<span><a href="https://paypal.me/paoloarena/5" target="_blank">5€</a></span>' +
         '<span><a href="https://paypal.me/paoloarena/10" target="_blank">10€</a></span>' +
         '<span><a href="https://paypal.me/paoloarena" target="_blank">scegli</a></span>' +
-        '</div><br>' +
+        '</div><em>clicca sull\'importo per fare una <strong>donazione</strong> </em><br>' +
         'In alternativa inventati una forma di scambio da donare a Paolo (soprannome <a href="https://t.me/surya1977" target="_blank">Surya</a>)<br />' +
         '<span style="color: red; font-size: 2rem;">❤</span> Sono graditi messaggi sia di suggerimenti che di apprezzamenti.<br>' +
         'Grazie Mille per l\'Aiuto' +

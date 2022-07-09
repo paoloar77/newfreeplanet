@@ -13,7 +13,7 @@ import { CTitlePage } from '@/components/CTitlePage'
 import { CMapsEsempio } from '@src/components/CMapsEsempio'
 import { CVerifyEmail } from '@src/components/CVerifyEmail'
 import { CVerifyTelegram } from '@src/components/CVerifyTelegram'
-import { Footer } from '@/components/Footer'
+import { LandingFooter } from '@/components/LandingFooter'
 import { useGlobalStore } from '@store/globalStore'
 import { useUserStore } from '@store/UserStore'
 import { static_data } from '@/db/static_data'
@@ -22,7 +22,7 @@ import MixinUsers from '@/mixins/mixin-users'
 
 export default defineComponent({
   name: 'Goods',
-  components: { CSkill, CChartMap, CMapsEsempio, CFinder, CVerifyEmail, CVerifyTelegram, CDashboard, CUserNonVerif, CTitlePage, Footer },
+  components: { CSkill, CChartMap, CMapsEsempio, CFinder, CVerifyEmail, CVerifyTelegram, CDashboard, CUserNonVerif, CTitlePage, LandingFooter },
   setup() {
 
     return {

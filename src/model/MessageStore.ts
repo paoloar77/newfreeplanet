@@ -50,6 +50,19 @@ export const MsgDefault: IMessage = {
   status: StatusMessage.None,
 }
 
+export const NotifDefault: INotif = {
+  _id: '',
+  idapp: '',
+  type: 0,
+  sender: '',
+  dest: '',
+  descr: '',
+  datenotif: new Date(),
+  read: false,
+  deleted: false,
+  status: StatusMessage.None,
+}
+
 export interface IMessage {
   _id?: any
   idapp?: string
@@ -62,6 +75,19 @@ export interface IMessage {
   deleted?: boolean
   status?: StatusMessage
   options?: number
+}
+
+export interface INotif {
+  _id?: any
+  idapp?: string
+  type: number
+  sender: string,
+  dest: string,
+  descr: string
+  datenotif?: Date
+  status?: StatusMessage
+  read?: boolean
+  deleted?: boolean
 }
 
 export interface IChat {
@@ -78,4 +104,8 @@ export interface IMsgUsers {
 export interface IMessageState {
   last_msgs: IMessage[]
   users_msg: IMsgUsers[]
+}
+
+export interface INotifState {
+  last_notifs: INotif[]
 }

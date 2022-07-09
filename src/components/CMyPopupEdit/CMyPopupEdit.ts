@@ -196,7 +196,8 @@ export default defineComponent({
       fieldtype: 0,
       showWhen: costanti.showWhen.NewRec + costanti.showWhen.InEdit + costanti.showWhen.InView,
       visible: true,
-      maxlength: props.mycol ? props.mycol.maxlength : 0
+      maxlength: props.mycol ? props.mycol.maxlength : 0,
+      minlength: props.mycol ? props.mycol.minlength : undefined
     })
 
     const { setValDb, getValDb } = MixinBase()

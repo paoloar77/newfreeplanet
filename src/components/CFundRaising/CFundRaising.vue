@@ -13,7 +13,7 @@
         </div>
       </section>
 
-      <Footer></Footer>
+      <LandingFooter></LandingFooter>
     </div>
   </q-page>
 </template>

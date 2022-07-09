@@ -490,6 +490,7 @@ export interface IFunctionality {
   SHOW_NEWSLETTER?: boolean
   SHOW_ONLY_POLICY?: boolean
   SHOW_MESSAGES?: boolean
+  SHOW_NOTIF?: boolean
   BOOKING_EVENTS?: boolean
   ENABLE_REG_AYNI?: boolean
   ENABLE_REG_CNM?: boolean
@@ -575,6 +576,7 @@ export interface IColGridTable {
   isadvanced_field?: boolean
   showWhen?: number
   maxlength?: number
+  minlength?: number
   allowchar?: number
   filter_table?: string
   filter_field?: string

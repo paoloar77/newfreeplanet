@@ -2,6 +2,7 @@ import {
   defineComponent, onMounted,  ref,
 } from 'vue'
 import { useI18n } from '@src/boot/i18n'
+import { useQuasar } from 'quasar'
 
 // PropType,
 
@@ -17,6 +18,8 @@ export default defineComponent({
 
   setup(props, context) {
     const { t } = useI18n();
+
+    const $q = useQuasar()
 
     const elementId = ref<string>('id');
     const disableDecline = ref<boolean>(true);
@@ -95,13 +98,33 @@ export default defineComponent({
     }
 
     const decline = (): void => {
-      if (!debug.value) {
-        setCookieStatus('decline')
-      }
 
-      status.value = 'decline'
-      isOpen.value = false
-      context.emit('clicked-decline')
+      const mytitle = 'Cookies'
+      const mytext = t('reg.refuse_cookie')
+
+      return $q.dialog({
+        message: mytext,
+        html: true,
+        ok: {
+          label: 'Rifiuta Cookies',
+          push: true,
+        },
+        title: mytitle,
+        cancel: true,
+        persistent: false,
+      }).onOk(() => {
+        if (!debug.value) {
+          setCookieStatus('decline')
+        }
+
+        status.value = 'decline'
+        isOpen.value = false
+        context.emit('clicked-decline')
+
+      }).onCancel(() => {
+        //
+      })
+
     }
 
     const clickInfo = (): void => {
