@@ -7,7 +7,7 @@
         </template>
 
         <template v-slot:control>
-          <div class="self-center full-width no-outline text-center wrapword text-h5" tabindex="0">{{texttocopy}}</div>
+          <div class="self-center full-width no-outline text-center wrapword text-h5" tabindex="0">{{tools.firstchars(texttocopy, 300)}}</div>
         </template>
       </q-field>
     </div>

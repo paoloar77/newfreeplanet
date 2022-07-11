@@ -1571,7 +1571,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     getTableJoinByName(table: string, addall?: boolean, addnone?: boolean, filter?: any) {
 
       let myarr: any = []
-      if (table === 'permissions') myarr = [shared_consts.Permissions.Admin, shared_consts.Permissions.Manager, shared_consts.Permissions.Teacher, shared_consts.Permissions.Tutor, shared_consts.Permissions.Editor, shared_consts.Permissions.Zoomeri, shared_consts.Permissions.Department]
+      if (table === 'permissions') myarr = [shared_consts.Permissions.Admin, shared_consts.Permissions.Manager, shared_consts.Permissions.Teacher, shared_consts.Permissions.Facilitatore, shared_consts.Permissions.Editor, shared_consts.Permissions.Zoomeri, shared_consts.Permissions.Department]
       else if (table === 'accepted') myarr = [shared_consts.Accepted.CHECK_READ_GUIDELINES, shared_consts.Accepted.CHECK_SEE_VIDEO_PRINCIPI]
       else if (table === 'fieldstype') myarr = costanti.FieldTypeArr
       else if (table === 'metodo_pagamento') myarr = tools.SelectMetodiPagamento

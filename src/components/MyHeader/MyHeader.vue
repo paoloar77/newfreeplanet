@@ -199,7 +199,7 @@
             <div v-if="isSocioResidente()" class="text-weight-bold text-user q-px-xs bg-amber">Residente</div>
             <div v-if="isConsiglio()" class="text-weight-bold text-user q-px-xs bg-deep-orange-10">Consiglio</div>
             <div v-if="isManager()" class="text-weight-bold text-user bg-blue q-px-xs">Segreteria</div>
-            <div v-if="isTutor()" class="text-weight-bold text-user q-px-xs">Tutor</div>
+            <div v-if="isTutor()" class="text-weight-bold text-user q-px-xs">Facilitatore</div>
             <div v-if="isTratuttrici()" class="text-weight-bold text-user q-px-xs">Editor</div>
           </div>
           <div v-if="!tools.isLogged()" class="text-user text-italic bg-red">

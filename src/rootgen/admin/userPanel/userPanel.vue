@@ -1,6 +1,12 @@
 <template>
   <CMyPage img="" :title="$t('otherpages.admin.userpanel')" keywords="" :description="$t('otherpages.admin.userpanel')">
 
+    <q-btn color="green" label="Esporta Lista Email" @click="exportListaEmail"></q-btn>
+
+    <!--<CCopyBtn title="Copia Dati" :texttocopy="risultato"></CCopyBtn>-->
+
+    <div v-html="risultato"></div>
+
     <div
       class="row justify-center vertical-middle">
 

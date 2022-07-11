@@ -189,7 +189,7 @@ const routes_ris: IListRoutes[] = [
     level_parent: 0.5,
     level_child: 0.5,
     onlyManager: true,
-    onlyTutor: true
+    onlyFacilitatore: true
   },
   {
     active: true,
@@ -203,7 +203,7 @@ const routes_ris: IListRoutes[] = [
     level_parent: 0.5,
     level_child: 0.5,
     onlyManager: true,
-    onlyTutor: true
+    onlyFacilitatore: true
   },
   {
     active: true,
@@ -217,7 +217,7 @@ const routes_ris: IListRoutes[] = [
     level_parent: 0.5,
     level_child: 0.5,
     onlyManager: true,
-    onlyTutor: true
+    onlyFacilitatore: true
   },
 ]
 
@@ -251,7 +251,7 @@ const routes_manager: IListRoutes[] = [
     level_parent: 0,
     level_child: 0.5,
     onlyManager: true,
-    onlyTutor: true
+    onlyFacilitatore: true
   },
   /*
   {
@@ -266,7 +266,7 @@ const routes_manager: IListRoutes[] = [
     level_parent: 0,
     level_child: 0.5,
     onlyManager: true,
-    onlyTutor: true
+    onlyFacilitatore: true
   },
 
    */
@@ -298,7 +298,7 @@ const routes_manager: IListRoutes[] = [
     level_parent: 0,
     level_child: 0.5,
     onlyManager: true,
-    onlyTutor: false
+    onlyFacilitatore: false
   },
   {
     active: true,
@@ -405,7 +405,7 @@ const routes_manager: IListRoutes[] = [
     level_child: 0.5,
     onlyAdmin: true,
     onlyManager: true
-    // onlyTutor: true
+    // onlyFacilitatore: true
   },
   {
     active: true,
@@ -685,7 +685,7 @@ const baseroutes: IListRoutes[] = [
     infooter: false,
     onlyAdmin: true,
     onlyManager: true,
-    onlyTutor: true,
+    onlyFacilitatore: true,
     onlyEditor: true
   },
   ...routes_manager,

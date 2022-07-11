@@ -353,7 +353,7 @@ export interface IListRoutes {
   onlyConsiglio?: boolean
   onlyNotSoci?: boolean
   onlyDepartment?: boolean
-  onlyTutor?: boolean
+  onlyFacilitatore?: boolean
   color?: string
   onlyEditor?: boolean
   extraclass?: string

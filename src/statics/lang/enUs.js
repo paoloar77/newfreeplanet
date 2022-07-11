@@ -280,16 +280,16 @@ const msg_enUs = {
       nave_in_partenza: 'on Departure on',
       nave_in_chiusura: 'Closing Gift Chat',
       nave_partita: 'departed on',
-      tutor: 'Tutor',
-      /* sonomediatore: 'When you become a Medalist you are contacted by a <strong>TUTOR</strong>, with him you must:<br><ol class="list">' +
-      '<li>Open your <strong>Gift Chat</strong> (you as owner and the Tutor as administrator) with this name:<br><strong>{nomenave}</strong></li>' +
-      '<li>Click on the chat name at the top -> Edit -> Administrators -> "Add Administrator", select the Tutor in the list.</li>' +
+      facilitatore: 'Facilitatore',
+      /* sonomediatore: 'When you become a Medalist you are contacted by a <strong>FACILITATORE</strong>, with him you must:<br><ol class="list">' +
+      '<li>Open your <strong>Gift Chat</strong> (you as owner and the Facilitatore as administrator) with this name:<br><strong>{nomenave}</strong></li>' +
+      '<li>Click on the chat name at the top -> Edit -> Administrators -> "Add Administrator", select the Facilitatore in the list.</li>' +
       '<li>You have to configure the chat so that whoever enters also sees the previous posts (click on the chat name at the top, click on edit,' +
       'change "new members\' history" from hidden to visible.</li>' +
       '<li>To find the <strong>link to the newly created Chat</strong>: Click on the Chat name at the top, click on the Pencil -> "Group Type" -> "invite to group via link", click on "copy link" and paste it in the <strong>"Link Gift Chat"</strong></li>" + box below.' +
       '<li>Send the Gift Chat Link to all Donors by clicking on the button below.</li></ol>.',
       */
-      sonomediatore: 'When you are a MEDIATOR you will be contacted by <strong>TUTOR AYNI</strong> by message Chat <strong>AYNI BOT</strong>',
+      sonomediatore: 'When you are a MEDIATOR you will be contacted by <strong>FACILITATORE AYNI</strong> by message Chat <strong>AYNI BOT</strong>',
       superchat: 'Note: ONLY if you have PAYMENT problems, or if you want to be REPLACED, two Tutors are waiting to help you on the Chat:<br><a href="{link_superchat}"  target="_blank">Get into Gift Chat</a>.',
       sonodonatore: '<ol class="lista"><li>When you are in this position, you will be invited (via a message on <strong>AYNI BOT</strong>) to make the Gift. You will no longer need to enter a Chat.</li>'
         + '<li>You will have 3 days to make the Gift (then you will be replaced), in the payment method that you will find written on the message in <strong>AYNI BOT</strong>.<br></ol>',

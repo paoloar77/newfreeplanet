@@ -229,17 +229,17 @@ const msg_pt = {
       nave_in_partenza: 'em Partida em',
       nave_in_chiusura: 'Encerramento Gift Chat',
       nave_partita: 'que partiu em',
-      tutor: 'Tutor',
-      /* Quando você se torna um mediador, um <strong>TUTOR</strong> entra em contato com você, e deve:<br>' +
-           '<ol class="lista"><li>Abrir seu <strong>bate-papo</strong> do presente (você como proprietário e o tutor como administrador) com este nome: <br><strong>{nomenave}</strong></li>' +
-           '<li>Clique no nome do bate-papo na parte superior - > Editar -> Administradores -> "Adicionar administrador", selecione o Tutor na lista.</li>' +
+      facilitatore: 'Facilitatore',
+      /* Quando você se torna um mediador, um <strong>FACILITATORE</strong> entra em contato com você, e deve:<br>' +
+           '<ol class="lista"><li>Abrir seu <strong>bate-papo</strong> do presente (você como proprietário e o facilitatore como administrador) com este nome: <br><strong>{nomenave}</strong></li>' +
+           '<li>Clique no nome do bate-papo na parte superior - > Editar -> Administradores -> "Adicionar administrador", selecione o Facilitatore na lista.</li>' +
        '<li>Você deve configurar o bate-papo de forma que quem entra depois também veja as postagens anteriores (clique no nome do bate-papo na parte superior, clique em editar' +
         ' altere o "histórico de novos membros" de oculto para visível.</li>' +
         '<li>Para encontrar o link Bate-papo Recém-criado: Clique no nome do bate-papo na parte superior, clique no lápis -> "Tipo de grupo" -> "Convidar grupo via link", clique em "Copiar link" e cole-o abaixo' +
         ', na caixa "Link do bate-papo para presente"'+
         'Envie o link do bate-papo para presente a todos os doadores, clicando no botão abaixo.</li></ol>',
       */
-      sonomediatore: 'Quando você for um MEDIATOR será contactado por <strong>TUTOR AYNI</strong> através de uma mensagem no Chat <strong>AYNI BOT</strong>.',
+      sonomediatore: 'Quando você for um MEDIATOR será contactado por <strong>FACILITATORE AYNI</strong> através de uma mensagem no Chat <strong>AYNI BOT</strong>.',
       superchat: 'Nota: SOMENTE se tiver problemas de PAGAMENTO, ou se quiser ser REPRESENTADO, dois Tutores estão à espera para o ajudar no Chat:<br>a href="{link_superchat}" target="_blank">Entre no Gift Chat</a>.',
       sonodonatore: '<ol class="lista"><li>Quando você estiver nessa posição, você será convidado (por meio de uma mensagem em <strong>AYNI BOT</strong>) a entrar em um bate-papo de presentes (Telegram) e aqui também encontrará os outros 7 doadores, o mediador, o sonhador e um representante da equipe.</li>'
       + '<li>Você terá 3 dias para entrar no bate-papo para fazer seu presente.<br></ol>',

@@ -617,9 +617,9 @@ export const shared_consts = {
       icon: 'fas fa-user-tie',
       color: 'blue',
     },
-    Tutor: {
+    Facilitatore: {
       value: 8,
-      label: 'dashboard.tutor',
+      label: 'dashboard.facilitatore',
       icon: 'fas fa-user-tie',
       color: 'fuchsia',
     },

@@ -82,7 +82,7 @@ export default defineComponent({
         if (elem.onlySocioResidente) menu += ' isSocioResidente'
         if (elem.onlyConsiglio) menu += ' isConsiglio'
         if (elem.onlyDepartment) menu += ' isDepartment'
-        if (elem.onlyTutor) menu += ' isTutor'
+        if (elem.onlyFacilitatore) menu += ' isTutor'
         if (elem.onlyEditor) menu += ' isEditor'
       }
 

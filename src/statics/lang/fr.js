@@ -219,7 +219,7 @@ const msg_fr = {
       nave_in_partenza: 'part le',
       nave_in_chiusura: 'Clôture Gift Chat',
       nave_partita: 'parti sur',
-      tutor: 'Tuteur',
+      facilitatore: 'Tuteur',
       /* Quand vous devenez Médiateur vous êtes contacté par un <strong>TUTEUR</strong>, avec lui vous devez:<br><ol class="lista">' +
       '<li>Ouvrir votre <strong>Gift Chat</strong> (vous comme propriétaire et le Tuteur ' +
       'comme administrateur) avec ce nom:<br><strong>{nomenave}</strong></li>' +
@@ -229,7 +229,7 @@ const msg_fr = {
       '<li>Pour trouver le <strong>link du Chat à peine crée</strong>: cliquez sur le nom du chat en haut, cliquez sur le Crayon -> "Type de Groupe" -> "invitez dans le groupe à travers le link", cliquez sur "copiez link" et collez-le ci-dessous, dans la case <strong>"Link Gift Chat"</strong></li>' +
       '<li>Envoyez le Link de la Gift Chat à tous les Donateurs, en cliquant sur le boutton ci-dessous .</li></ol>',
       */
-      sonomediatore: 'Lorsque vous êtes un MEDIATEUR, vous serez contacté par <strong>TUTOR AYNI</strong> via un message sur le Chat <strong>AYNI BOT</strong>.',
+      sonomediatore: 'Lorsque vous êtes un MEDIATEUR, vous serez contacté par <strong>FACILITATORE AYNI</strong> via un message sur le Chat <strong>AYNI BOT</strong>.',
       superchat: 'Note : SEULEMENT si vous avez des problèmes de PAIEMENT, ou si vous voulez être REMPLACÉ, deux tuteurs vous attendent pour vous aider sur le Chat:<br><a href="{link_superchat}" target="_blank">Get into Gift Chat</a>.',
       sonodonatore: '<ol class="lista"><li>Quand vous êtes dans cette position, vous serez invité pour faire votre cadeau</li>'
       + '<li>Vous aurez <strong>3 jours</strong> pour faire votre cadeau.<br></ol>',

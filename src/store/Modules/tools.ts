@@ -1735,10 +1735,10 @@ export const tools = {
       || (elem.onlySocioResidente && userStore.my.profile.socioresidente)
       || (elem.onlyConsiglio && userStore.my.profile.consiglio)
       || (elem.onlyNotSoci && !userStore.my.profile.socio)
-      || (elem.onlyTutor && userStore.isTutor)
+      || (elem.onlyFacilitatore && userStore.isTutor)
       || (elem.onlyEditor && userStore.isEditor)
       || (elem.onlyDepartment && userStore.isDepartment)
-      || ((!elem.onlyAdmin) && (!elem.onlyManager) && (!elem.onlyTutor) && (!elem.onlyEditor) && (!elem.onlyDepartment)
+      || ((!elem.onlyAdmin) && (!elem.onlyManager) && (!elem.onlyFacilitatore) && (!elem.onlyEditor) && (!elem.onlyDepartment)
         && (!elem.onlySocioResidente) && (!elem.onlyConsiglio) && (!elem.onlyNotSoci))) && elem.active
 
     if (!this.isLoggedToSystem()) {
@@ -5487,7 +5487,7 @@ export const tools = {
     return []
   },
 
-  loadrecProfile() {
+  async loadrecProfile() {
 
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
@@ -5499,13 +5499,15 @@ export const tools = {
 
     console.log('loadrecProfile', params)
 
-    return globalStore.loadExp(params)
+    return await globalStore.loadExp(params)
 
   },
 
   async exportListaEmail() {
 
     let myrec = await this.loadrecProfile()
+
+    console.log('myrec', myrec)
 
     const sep = ';'
 
@@ -5516,11 +5518,11 @@ export const tools = {
     for (const rec of myrec) {
       mystr += rec.username + sep
       mystr += rec.profile.username_telegram + sep
-      mystr += rec.profile.firstname_telegram + sep
-      mystr += rec.profile.lastname_telegram + sep
+      mystr += !!rec.profile.firstname_telegram ? rec.profile.firstname_telegram + sep : sep
+      mystr += !!rec.profile.lastname_telegram ? rec.profile.lastname_telegram + sep : sep
       mystr += rec.email + sep
-      mystr += (rec.profile.teleg_id) ? 'SI' : 'NO'
-      mystr += (rec.verified_by_aportador) ? 'SI' : 'NO'
+      mystr += ((rec.profile.teleg_id) ? 'SI' : 'NO') + sep
+      mystr += ((rec.verified_by_aportador) ? 'SI' : 'NO') + sep
       mystr += '\n'
       index++
     }

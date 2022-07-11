@@ -528,7 +528,7 @@ export const useUserStore = defineStore('UserStore', {
 
         this.isAdmin = tools.isBitActive(this.my.perm, shared_consts.Permissions.Admin.value)
         this.isManager = tools.isBitActive(this.my.perm, shared_consts.Permissions.Manager.value)
-        this.isTutor = tools.isBitActive(this.my.perm, shared_consts.Permissions.Tutor.value)
+        this.isTutor = tools.isBitActive(this.my.perm, shared_consts.Permissions.Facilitatore.value)
         this.isZoomeri = tools.isBitActive(this.my.perm, shared_consts.Permissions.Zoomeri.value)
         this.isDepartment = tools.isBitActive(this.my.perm, shared_consts.Permissions.Department.value)
         this.isTeacher = tools.isBitActive(this.my.perm, shared_consts.Permissions.Teacher.value)

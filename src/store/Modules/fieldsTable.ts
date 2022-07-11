@@ -1494,7 +1494,7 @@ const colnavi = [
   AddCol({ name: 'num_tess', label_trans: 'num_tess', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'note', label_trans: 'note', fieldtype: costanti.FieldType.string }),
   // AddCol({ name: 'note_interne', label_trans: 'note_interne', fieldtype: costanti.FieldType.string }),
-  // AddCol({ name: 'tutor', label_trans: 'tutor', fieldtype: costanti.FieldType.string }),
+  // AddCol({ name: 'facilitatore', label_trans: 'facilitatore', fieldtype: costanti.FieldType.string }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
 ]
@@ -1516,7 +1516,7 @@ const colnavepersistente = [
   AddCol({ name: 'DoniConfermati', label_trans: 'note_bot', fieldtype: costanti.FieldType.number }),
   AddCol({ name: 'DoniTotali', label_trans: 'note_bot', fieldtype: costanti.FieldType.string }),
   AddCol({ name: 'note_interne', label_trans: 'note_interne', fieldtype: costanti.FieldType.string }),
-  AddCol({ name: 'tutor', label_trans: 'tutor', fieldtype: costanti.FieldType.string }),
+  AddCol({ name: 'facilitatore', label_trans: 'facilitatore', fieldtype: costanti.FieldType.string }),
   AddCol(DeleteRec),
   AddCol(DuplicateRec),
 ]

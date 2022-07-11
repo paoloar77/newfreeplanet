@@ -299,20 +299,20 @@ const msg_it = {
       nave_in_partenza: 'La Nave salperà il',
       nave_in_chiusura: 'Chiusura Gift Chat',
       nave_partita: 'Partita il',
-      tutor: 'Tutor',
+      facilitatore: 'Facilitatore',
       Editor: 'Editor',
       zoomeri: 'Zoomeri',
-      /*      sonomediatore: 'Quando diventi Meditore vieni contattato da un <strong>TUTOR</strong>, con lui devi:<br><ol class="lista">' +
-      '<li>Aprire la tua <strong>Gift Chat</strong> (tu come proprietario e il Tutor ' +
+      /*      sonomediatore: 'Quando diventi Meditore vieni contattato da un <strong>FACILITATORE</strong>, con lui devi:<br><ol class="lista">' +
+      '<li>Aprire la tua <strong>Gift Chat</strong> (tu come proprietario e il Facilitatore ' +
       'come amministratore) con questo nome:<br><strong>{nomenave}</strong></li>' +
-      '<li>Clicca sul nome della chat in alto -> Modifica -> Amministratori -> "Aggiungi Amministratore", seleziona il Tutor nell’elenco.</li>' +
+      '<li>Clicca sul nome della chat in alto -> Modifica -> Amministratori -> "Aggiungi Amministratore", seleziona il Facilitatore nell’elenco.</li>' +
       '<li>Devi configurare la chat in modo che chi entra vede anche i post precedenti (clicca sul nome della chat in alto, clicca su modifica, ' +
       'cambia la "cronologia per i nuovi membri" da nascosta a visibile.</li>' +
       '<li>Per trovare il <strong>link della Chat appena creata</strong>: clicca sul nome della chat in alto, clicca sulla Matita -> "Tipo di Gruppo" -> "invita nel gruppo tramite link", clicca su "copia link" e incollalo qui sotto, sulla casella <strong>"Link Gift Chat"</strong></li>' +
       '<li>Invia il Link della Gift Chat a tutti i Donatori, cliccando sul bottone qui sotto.</li></ol>',
 */
-      sonomediatore: 'Quando sei MEDIATORE verrai contattato dai <strong>TUTOR AYNI</strong> tramite un messaggio sulla Chat <strong>AYNI BOT</strong> !',
-      superchat: 'Nota Bene: Non inviarci la ricevuta, non ci occorre. Attendi il messaggio di conferma da parte del Sognatore (sulla Chat AYNI BOT).<br>SOLO se hai problemi di PAGAMENTO, o ti manca la conferma del SOGNATORE (dopo aver atteso almeno 12 ore) o se vuoi essere SOSTITUITO, due Tutor ti aspettano per aiutarti sulla Chat:<br><a href="{link_superchat}" target="_blank">Entra nella Gift Chat</a>',
+      sonomediatore: 'Quando sei MEDIATORE verrai contattato dai <strong>FACILITATORE AYNI</strong> tramite un messaggio sulla Chat <strong>AYNI BOT</strong> !',
+      superchat: 'Nota Bene: Non inviarci la ricevuta, non ci occorre. Attendi il messaggio di conferma da parte del Sognatore (sulla Chat AYNI BOT).<br>SOLO se hai problemi di PAGAMENTO, o ti manca la conferma del SOGNATORE (dopo aver atteso almeno 12 ore) o se vuoi essere SOSTITUITO, due Facilitatore ti aspettano per aiutarti sulla Chat:<br><a href="{link_superchat}" target="_blank">Entra nella Gift Chat</a>',
       sonodonatore: '<ol class="lista"><li>Quando sei in questa posizione, verrai invitato (tramite un messaggio su <strong>AYNI BOT</strong>) ad effettuare il Dono. Non sarà più necessario entrare in una Chat.</li>'
       + '<li><strong>Avrai tempo 3 giorni per fare il Regalo</strong> (poi verrai sostituito), nella modalità di pagamento che troverai scritto sul messaggio in <strong>AYNI BOT</strong> .<br></ol>',
       sonodonatore_seconda_tessitura: '<ol class="lista"><li>Qui tu sei Mediatore e anche Donatore, ma essendo la seconda Tessitura (il Ritorno), non avrai bisogno di effettuare nuovamente il dono<br></ol>',

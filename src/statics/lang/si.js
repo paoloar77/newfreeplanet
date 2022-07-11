@@ -223,9 +223,9 @@ const msg_si = {
       nave_in_partenza: 'ladja v odhodu',
       nave_in_chiusura: 'Zapiranje Gift- Darilni klepet',
       nave_partita: 'levo naprej',
-      tutor: 'Tutor',
-      /* Ko postaneš Mediator te kontaktira en <strong>TUTOR</strong>, z njim moraš:<br><ol class="lista">' +
-      '<li>Odpret svoj <strong>Gift- Darilni klepet</strong> (ti kot lastnik in Tutor ' +
+      facilitatore: 'Facilitatore',
+      /* Ko postaneš Mediator te kontaktira en <strong>FACILITATORE</strong>, z njim moraš:<br><ol class="lista">' +
+      '<li>Odpret svoj <strong>Gift- Darilni klepet</strong> (ti kot lastnik in Facilitatore ' +
       'kot administrator) s tem imenom:<br><strong>{nomenave}</strong></li>' +
       '<li>Klikni na ime klepeta na vrhu-> Popravi -> Administratorji -> "Dodaj Administratorja", izberi Tutorja v imeniku.</li>' +
       '<li>Moraš nastaviti klepet na način, da vsak, ki vstopi vidi predhodne objave(klikni na ime klepeta na vrhu, klikni na popravi, ' +
@@ -233,7 +233,7 @@ const msg_si = {
       '<li>Da najdeš <strong>link pravkar ustvarjenega klepeta </strong>: klikni na ime klepeta na vrhu, klikni na svinčnik -> "Vrsta Skupine" -> "z linkom povabi v skupino", klikni na"kopiraj link" in prilepi tu spodaj, v okvir<strong>"Link Gift Klepet"</strong></li>' +
       '<li>Pošlji Link Gift Klepeta vsem Donatorjem, tako, da klikneš na spodnji gumb.</li></ol>',
       */
-      sonomediatore: 'Ko ste MEDIATOR, vas bo <strong>TUTOR AYNI</strong> poklical preko sporočila na klepetu <strong>AYNI BOT</strong>',
+      sonomediatore: 'Ko ste MEDIATOR, vas bo <strong>FACILITATORE AYNI</strong> poklical preko sporočila na klepetu <strong>AYNI BOT</strong>',
       superchat: 'Pozorno preberi: SAMO če imaš težave s PLAČILOM, ali želiš biti ZAMENJAN, te dva Tutorja pričakujeta, da ti lahko pomagata v Klepetu:<br><a href="{link_superchat}" target="_blank">Vstopi v Super Klepet</a>',
       sonodonatore: '<ol class="lista"><li>Ko si na tej poziciji, boš povabljen, da vstopiš v <strong>Gift Klepet</strong> (Telegram) in tam boš našel še ostalih 7 Donatorjev, Mediatorja, Sanjača in enega predstavnika Tima.</li>'
       + '<li>Imel boš 3 dni časa v za izpeljati vplačilo.<br></ol>',

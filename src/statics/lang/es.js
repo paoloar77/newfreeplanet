@@ -249,19 +249,19 @@ const msg_es = {
       nave_in_partenza: 'que Sale el',
       nave_in_chiusura: 'Cierre Gift Chat',
       nave_partita: 'partió en',
-      tutor: 'Tutor',
+      facilitatore: 'Facilitatore',
       Editor: 'Editor',
-      /* Cuando te conviertes en Mediador vienes contactado por un <strong>TUTOR</strong>, con él debes:<br><ol class="lista">' +
-      '<li>Abrir tu <strong>Gift Chat</strong> (tu como propietario, y el Tutor ' +
+      /* Cuando te conviertes en Mediador vienes contactado por un <strong>FACILITATORE</strong>, con él debes:<br><ol class="lista">' +
+      '<li>Abrir tu <strong>Gift Chat</strong> (tu como propietario, y el Facilitatore ' +
       'como administrador) con este nombre:<br><strong>{nomenave}</strong></li>' +
-      '<li>Haz clic en tu nombre en la chat en la parte de arriba-> Modifica -> Administradores -> "Agregar Administrador", selecciona el Tutor en el elenco.</li>' +
+      '<li>Haz clic en tu nombre en la chat en la parte de arriba-> Modifica -> Administradores -> "Agregar Administrador", selecciona el Facilitatore en el elenco.</li>' +
       '<li>Debes configurar la chat en modo que quien entre vea también los post precedentes (haz clic en el nombre en la chat arriba, haz clic en modificar, ' +
       'cambia la "cronología para los nuevos miembros" de oculto a visible.</li>' +
       '<li>Para encontrar el <strong>link de la Chat recién creada</strong>: haz clic en el nombre de la chat en la parte de arriba, haz clic sobre el Lápiz-> "Tipo de Grupo" -> "invita al grupo tràmite link", haz clic en "copiar link" y pégalo aquí abajo, sobre la casilla <strong>"Link Gift Chat"</strong></li>' +
       '<li>Envía el Link de la Gift Chat a todos los Donadores, haciendo clic en el botón aquí abajo.</li></ol>',
       */
 
-      sonomediatore: 'Cuando seas un MEDIADOR serás contactado por <strong>TUTOR AYNI</strong> a través de un mensaje en el Chat <strong>AYNI BOT</strong>.',
+      sonomediatore: 'Cuando seas un MEDIADOR serás contactado por <strong>FACILITATORE AYNI</strong> a través de un mensaje en el Chat <strong>AYNI BOT</strong>.',
       superchat: 'Nota: SOLO si tienes problemas de PAGO, o si quieres ser REEMPLAZADO, dos Tutores están esperando para ayudarte en el Chat:<br><a href="{link_superchat}" target="_blank">Entrar en el Chat de Regalos</a>.',
       sonodonatore: '<ol class="lista"><li>Cuando estás en esta posición, vendrás invitado (desde un mensaje en el Chat AYNI BOT) para hacer tu regalo. </li>'
       + '<li> Tendrás <strong>3 días</strong> para hacer tu regalo, en la modalidad de pago que encontrarás escrita en el mensaje. <br></ol>',
