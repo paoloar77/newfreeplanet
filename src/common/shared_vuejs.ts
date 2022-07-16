@@ -293,7 +293,6 @@ export const shared_consts = {
   ],
 
 
-
   People: [
     {
       value: 0,
@@ -849,6 +848,35 @@ export const shared_consts = {
     PUSH_NOTIFICATION: 1,
     TELEGRAM: 2,
   },
+
+  UsersNotif: {
+    NEW_ADV_PROVINCE: 1,
+    NEW_ADV_CITY: 2,
+    NEW_ADV_MY_GROUPS: 4,
+    NEW_ADV_MY_RIS_CIRCUIT: 8,
+
+
+  },
+
+  UsersNotif_Adv_List: [
+    {
+      value: 1, // NEW_ADV_PROVINCE
+      label: 'notifs.warn_province',
+    },
+    {
+      value: 2, // NEW_ADV_CITY
+      label: 'notifs.warn_city',
+    },
+    {
+      value: 4, // NEW_ADV_MY_GROUPS
+      label: 'notifs.warn_my_groups',
+    },
+    {
+      value: 8, // NEW_ADV_MY_RIS_CIRCUIT
+      label: 'notifs.warn_my_ris_circuit',
+    },
+  ],
+
 
   getStatusStr(status: number) {
     const trovatorec = this.OrderStatusStr.find((rec) => rec.value === status)

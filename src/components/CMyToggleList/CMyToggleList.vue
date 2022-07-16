@@ -4,7 +4,7 @@
       <q-toggle
         v-if="rec.label"
         v-model="rec.valbool"
-        :label="rec.label"
+        :label="rec.label ? rec.label : ''"
         :color="tools.getColorByIndexBest(index)"
         keep-color
         @update:model-value="changeval">

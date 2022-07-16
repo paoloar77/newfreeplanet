@@ -106,7 +106,7 @@
         table="users"
         mykey="profile"
         mysubkey="qualifica"
-        maxlength="40"
+        maxlength="100"
         :showall="true"
         :type="costanti.FieldType.string">
       </CMyFieldDb>
@@ -116,7 +116,7 @@
         table="users"
         mykey="profile"
         mysubkey="biografia"
-        maxlength="300"
+        maxlength="1000"
         hint="Scrivi chi sei e quale percorso formativo hai fatto"
         :showall="true"
         :type="costanti.FieldType.string">

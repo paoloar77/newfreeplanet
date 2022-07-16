@@ -8,7 +8,7 @@
         class="q-pa-xs" :title="$t('steps.video_intro_1', {sitename: $t('ws.sitename')})"
         bgcolor="bg-primary"
         clcolor="text-white"
-        myclass="myshad" canopen="true" :visible="true">
+        myclass="myshad" :canopen="true" :visible="true">
 
         <div v-if="showconditions">
           <CVideo myvideokey="DWfQzbOCK3s"></CVideo>

@@ -2303,6 +2303,13 @@ export const colTableUsersISP = [
     jointable: 'permissions',
     titlepopupedit: 'Permessi'
   }),
+  AddCol({
+    name: 'notifs',
+    label_trans: 'reg.notifs',
+    fieldtype: costanti.FieldType.binary,
+    jointable: 'usernotifs',
+    titlepopupedit: 'Notifiche'
+  }),
   AddCol({ name: 'ipaddr', label_trans: 'reg.ipaddr' }),
   AddCol({ name: 'deleted', label_trans: 'reg.deleted', fieldtype: costanti.FieldType.boolean }),
   AddCol(DeleteRec),
@@ -2695,6 +2702,15 @@ export const fieldsTable = {
       value: 'permissions',
       label: 'Permessi',
       columns: colTablePermission,
+      colkey: 'value',
+      collabel: 'label',
+      colicon: 'icon',
+      noshow: true,
+    },
+    {
+      value: 'usernotifs',
+      label: 'Notifiche',
+      columns: colTableGeneric,
       colkey: 'value',
       collabel: 'label',
       colicon: 'icon',

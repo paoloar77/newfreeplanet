@@ -750,7 +750,10 @@ const msg_it = {
       notif: 'Notifica',
       notifs: 'Notifiche',
       nonotif: 'Nessuna Notifica',
-      warn_province: 'Avvisami se nuovo annuncio in provincia',
+      warn_province: 'in Provincia',
+      warn_city: 'in Città',
+      warn_my_groups: 'miei Gruppi',
+      warn_my_ris_circuit: 'miei Circuiti',
     },
     event: {
       _id: 'id',

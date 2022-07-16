@@ -5,7 +5,7 @@
         v-if="listasharewithus && listasharewithus.length > 0" class="q-pa-xs"
         :title="$t('pages.sharewithus')"
         bgcolor="bg-white" clcolor="text-blue"
-        mystyle="" myclass="myshad" canopen="true">
+        mystyle="" myclass="myshad" :canopen="true">
 
 
         <div class="flex flex-center">
@@ -55,7 +55,7 @@
         v-if="listasharewithus() && listasharewithus().length > 0" class="q-pa-xs"
         title="Graduatoria Attuale"
         bgcolor="bg-white" clcolor="text-blue"
-        mystyle="" myclass="myshad" canopen="true">
+        mystyle="" myclass="myshad" :canopen="true">
 
 
         <div class="flex flex-center text-center">

@@ -1591,6 +1591,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       else if (table === toolsext.TABTYPEACCOM) myarr = shared_consts.TypeAccom
       else if (table === toolsext.TABLOCACCOM) myarr = shared_consts.LocationAccom
       else if (table === toolsext.TABPREF) myarr = shared_consts.Preferences
+      else if (table === 'usernotifs') myarr = shared_consts.UsersNotif_Adv_List
       else myarr = this.getListByTable(table)
 
       if (costanti.TABLES_ARRAY.includes(table)) {

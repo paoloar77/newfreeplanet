@@ -1,4 +1,5 @@
 <template>
+
   <div v-if="visuElem()" :class="mytitle ? `row items-center justify-center q-ma-xs text-center` : ``">
 
     <div v-if="mytitle" class="q-ma-xs">

@@ -2,6 +2,7 @@
   <CMyPage img="" :title="$t('otherpages.admin.userpanel')" keywords="" :description="$t('otherpages.admin.userpanel')">
 
     <q-btn color="green" label="Esporta Lista Email" @click="exportListaEmail"></q-btn>
+    <q-btn color="green" label="Invia Notifica a " @click="sendNotifToUser"></q-btn>
 
     <!--<CCopyBtn title="Copia Dati" :texttocopy="risultato"></CCopyBtn>-->
 

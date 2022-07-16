@@ -2,7 +2,7 @@
   <div class="text-center">
     <div class="row items-center justify-center q-gutter-md q-ma-xs">
 
-      <div class="q-ma-xs">
+      <div v-if="title" class="q-ma-xs">
         <q-field rounded outlined bg-color="blue-1" dense style="min-width:110px;">
           <template v-slot:control>
             <div class="centermydiv">
@@ -21,6 +21,7 @@
       </div>
 
       <div :class="` q-ma-sm q-pa-sm col-grow popupedit `" :style="withBorder() ? `` : ``">
+
         <CMyPopupEdit
           v-bind="$attrs"
           :rec="rec"

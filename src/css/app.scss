@@ -528,6 +528,11 @@ $heightBtn: 100%;
   display: block;
 }
 
+.centermydiv2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .text-verified {
   font-size: 1.25rem;
   text-shadow: .05rem .05rem .15rem #fff;
@@ -636,6 +641,12 @@ $heightBtn: 100%;
   border-radius: 16px;
   font-size: 1rem;
   padding: 8px;
+}
+
+.clBorderSperator {
+  background-color: blue;
+  font-size: 1rem;
+  padding: 4px;
 }
 
 .clBorderZoom {

@@ -54,6 +54,7 @@ export const DefaultUser: IUserFields = {
     manage_mygroups: [],
     asked_friends: [],
     asked_groups: [],
+    notifs: 15,
   },
   cart: {
     userId: '',
@@ -99,6 +100,7 @@ export const DefaultProfile: IUserProfile = {
   manage_mygroups: [],
   asked_friends: [],
   asked_groups: [],
+  notifs: 15,
 }
 
 export const useUserStore = defineStore('UserStore', {
@@ -988,6 +990,21 @@ export const useUserStore = defineStore('UserStore', {
         }).catch((error) => {
           return {}
         })
+
+    },
+
+    async setUserNotifs(notifs: number) {
+      const data = {
+        notifs
+      }
+
+      return Api.SendReq('/users/notifs', 'POST', data)
+        .then((ris) => {
+          return ris.data
+        }).catch((error) => {
+          return {}
+        })
+
 
     },
 

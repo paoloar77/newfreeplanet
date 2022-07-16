@@ -302,7 +302,7 @@
                 {{ col.label ? col.label : t(col.label_trans) }}:
               </span>
               <CMyToggleList
-                :label="col.titlepopupedit"
+                :label="col.titlepopupedit ? col.titlepopupedit : ''"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 v-model:value="myvalue"
                 @update:value="changevalRec"
@@ -818,7 +818,7 @@
             <div v-else-if="col.fieldtype === costanti.FieldType.binary">
 
               <CMyToggleList
-                :label="col.titlepopupedit"
+                :label="col.titlepopupedit ? col.titlepopupedit : ''"
                 :options="globalStore.getTableJoinByName(col.jointable, col.addall, col.addnone, col.filter)"
                 v-model:value="scope.value"
                 :optval="fieldsTable.getKeyByTable(col.jointable)"
