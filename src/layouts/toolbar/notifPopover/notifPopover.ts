@@ -5,7 +5,6 @@ import {
   IMessage, IMsgUsers, INotif,
 } from '@model'
 
-import './notifPopover.scss'
 import { tools } from '@src/store/Modules/tools'
 
 import { useRouter } from 'vue-router'
@@ -39,7 +38,11 @@ export default defineComponent({
 
     const myuser = ref({})
 
-    const lasts_notifs = computed(() => notifStore.getlasts_notifs)
+    const show_all = ref(true)
+    const username = computed(() => userStore.my.username)
+
+    const lasts_notifs = computed(() => notifStore.getlasts_notifs().filter((rec) => show_all.value ? true : !rec.read))
+    const num_notifs_unread = computed(() => notifStore.getnumNotifUnread())
     const usernotifs = computed(() => userStore.my.profile.notifs)
 
     const userId = ref('')
@@ -50,12 +53,11 @@ export default defineComponent({
       datenotif: new Date()
     })
 
-    const { getNumNotifUnread, getNumNotif, getUsernameChatByNotif, getImgByNotif, getNotifText } = MixinUsers()
+    const { getNumNotifUnread, getNumNotif, getUsernameChatByNotif, getImgByNotif, getNotifText, getTypeNotif } = MixinUsers()
 
     // function lasts_notifs (state: IUserState) => IMessage[] {
     //
     // }
-
 
     watch(() => usernotifs.value, async (to: any, from: any) => {
 
@@ -70,8 +72,20 @@ export default defineComponent({
       }
     })
 
-    function clickChat(msg: IMessage) {
-      // $router.replace(`/notifs/${ msg.dest.username}`)
+    watch(() => userStore.my.username, async (to: any, from: any) => {
+      if (userStore.my.username) {
+        await refreshdata(userStore.my.username)
+      }
+    })
+
+    function clickNotif(notif: INotif) {
+      if (notif.link) {
+        let mylink = tools.updateQueryStringParameter(notif.link, 'idnotif', notif._id)
+        console.log('mylink', mylink, notif._id)
+        if (mylink) {
+          $router.replace(mylink)
+        }
+      }
     }
 
     function getlastnotif(username: string): any {
@@ -98,44 +112,50 @@ export default defineComponent({
     }
 
 
-    function refreshdata(username: string) {
+    async function refreshdata(username: string) {
       loading.value = true
       userId.value = userStore.my._id
 
       notifsel.value.dest = ''
 
-      return notifStore.updateNotifDataFromServer({
-        username,
-        lastdataread: getlastdataread(username)
-      }).then((ris) => {
-        notifsel.value.dest = username
-        loading.value = false
+      if (!!username) {
 
-        const element = document.getElementById('last')
-        tools.scrollToElement(element)
+        return notifStore.updateNotifDataFromServer({
+          username,
+          lastdataread: getlastdataread(username)
+        }).then((ris) => {
 
-        // changemsgs('', '')
+          notifsel.value.dest = username
+          loading.value = false
 
-      }).catch((err) => {
-        loading.value = false
-      })
+          const element = document.getElementById('last')
+          tools.scrollToElement(element)
+
+          // changemsgs('', '')
+
+        }).catch((err) => {
+          loading.value = false
+        })
+      }
     }
 
-    function mounted() {
+    async function mounted() {
       myuser.value = userStore.my
-      refreshdata(userStore.my.username)
+      await refreshdata(userStore.my.username)
     }
 
     onMounted(mounted)
 
     return {
       lasts_notifs,
-      clickChat,
+      num_notifs_unread,
+      clickNotif,
       getNumNotifUnread,
       getNumNotif,
       getUsernameChatByNotif,
       getImgByNotif,
       getNotifText,
+      getTypeNotif,
       tools,
       usernotifs,
       shared_consts,
@@ -143,6 +163,10 @@ export default defineComponent({
       myuser,
       costanti,
       open,
+      notifStore,
+      show_all,
+      t,
+      username,
     }
   },
 })

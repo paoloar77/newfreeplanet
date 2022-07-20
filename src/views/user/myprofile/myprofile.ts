@@ -21,6 +21,7 @@ import { IMyGroup, IUserFields } from 'model'
 import { shared_consts } from '@/common/shared_vuejs'
 import { static_data } from '@/db/static_data'
 import { fieldsTable } from '@store/Modules/fieldsTable'
+import { useNotifStore } from '@store/NotifStore'
 import MixinUsers from '@/mixins/mixin-users'
 
 
@@ -43,6 +44,7 @@ export default defineComponent({
     const animation = ref('fade')
 
     const username = computed(() => $route.params.username ? $route.params.username.toString() : userStore.my.username)
+    const idnotif = computed(() => $route.query.idnotif ? $route.query.idnotif.toString() : '')
 
     const filtroutente = ref(<any[]>[])
     const showPic = ref(false)
@@ -51,6 +53,8 @@ export default defineComponent({
     const myuser = ref(<IUserFields | null>null)
 
     const actualcard = ref('mygoods')
+
+    const notifStore = useNotifStore()
 
     const mycards = computed(() => {
       return costanti.MAINCARDS.filter((rec: any) => rec.table)
@@ -70,10 +74,11 @@ export default defineComponent({
     async function loadProfile() {
       // Carica il profilo di quest'utente
       if (username.value) {
-        await userStore.loadUserProfile(username.value).then((ris) => {
+        await userStore.loadUserProfile({ username: username.value, idnotif: idnotif.value }).then((ris) => {
           myuser.value = ris
           if (myuser.value) {
             filtroutente.value = [{ userId: myuser.value._id }]
+            notifStore.setAsRead(idnotif.value)
 
             try {
               listgroupsfiltered.value = globalStore.mygroups.filter((grp: IMyGroup) => myuser.value!.profile.mygroups.findIndex((rec: IMyGroup) => rec.groupname === grp.groupname) >= 0)
@@ -97,6 +102,7 @@ export default defineComponent({
     })
 
     function mounted() {
+      console.log('idnotif', idnotif)
       loadProfile()
     }
 
@@ -168,6 +174,7 @@ export default defineComponent({
       actualcard,
       caricato,
       listgroupsfiltered,
+      idnotif,
     }
   }
 })

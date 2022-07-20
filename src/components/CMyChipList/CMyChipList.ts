@@ -164,6 +164,7 @@ export default defineComponent({
 
           } else {
             if (tools.isBitActive(myval.value, rec[props.optval])) {
+              // console.log('rec', rec, 'props.optlab', props.optlab)
               const mydata = {
                 label: t(tools.getValueByFunzOrVal(rec, props.optlab)),
                 value: rec[props.optval],

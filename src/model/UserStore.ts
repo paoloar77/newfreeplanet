@@ -35,6 +35,13 @@ export interface ICalcStat {
   numByTab: {}
 }
 
+export interface IUserNotifType {
+  _id: number
+  dir: number
+  value: number
+}
+
+
 export interface IUserProfile {
   img?: string
   nationality?: string
@@ -78,7 +85,7 @@ export interface IUserProfile {
   req_friends: IFriends[]
   mygroups: IMyGroup[]
   manage_mygroups: IMyGroup[]
-  notifs: number
+  notifs: IUserNotifType[]
 
   // in memory
   asked_friends: any[]

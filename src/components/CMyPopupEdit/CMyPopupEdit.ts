@@ -3,7 +3,7 @@ import { useI18n } from '@src/boot/i18n'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
-import { IColGridTable, IImgGallery } from 'model'
+import { IColGridTable, IImgGallery, ISpecialField } from 'model'
 import { CMyChipList } from '../CMyChipList'
 import { CDate } from '../CDate'
 import { CDateTime } from '../CDateTime'
@@ -89,6 +89,11 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    specialField: {
+      type: Object as PropType<ISpecialField>,
+      required: false,
+      default: null,
+    },
     serv: {
       type: Boolean,
       required: false,
@@ -133,6 +138,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: '',
+    },
+    filter: {
+      type: [String, Function],
+      required: false,
+      default: null,
     },
     field_extra: {
       type: String,
@@ -231,9 +241,11 @@ export default defineComponent({
 
           // console.table(props)
 
-          myvalue.value = getValDb(props.field, props.serv, '', props.table, props.subfield, props.id, props.idmain)
+          myvalue.value = getValDb(props.field, props.serv, '', props.table, props.subfield, props.id, props.idmain, props.indrec, props.mysubsubkey, props.specialField)
           // console.log('myvalue.value', myvalue.value)
           col.value.jointable = props.jointable
+          if (props.filter)
+            col.value.filter = props.filter
           col.value.fieldtype = props.type
           col.value.label = props.title
 
@@ -459,7 +471,7 @@ export default defineComponent({
     function savefield(value: any, initialval: any, myq: any) {
       if (!props.insertMode) {
         myvalue.value = value
-        setValDb(myq, props.field, myvalue.value, props.type, props.serv, props.table, props.subfield, props.id, props.indrec, props.mysubsubkey)
+        setValDb(myq, props.field, myvalue.value, props.type, props.serv, props.table, props.subfield, props.id, props.indrec, props.mysubsubkey, props.specialField)
       }
     }
 
@@ -474,7 +486,7 @@ export default defineComponent({
       else
         myvalue.value = value
 
-      setValDb($q, props.field, myvalue, props.type, props.serv, props.table, props.subfield, props.id, props.indrec, props.mysubsubkey)
+      setValDb($q, props.field, myvalue, props.type, props.serv, props.table, props.subfield, props.id, props.indrec, props.mysubsubkey, props.specialField)
     }
 
 

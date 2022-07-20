@@ -540,6 +540,13 @@ export interface IParamsQuery {
   extrapar?: string
 }
 
+export interface ISpecialField {
+  findsubkey?: any
+  paramtosetsubkey?: any
+  paramdef?: any
+  defaultnewrec?: object
+}
+
 export interface IColGridTable {
   name: string
   subfield?: string

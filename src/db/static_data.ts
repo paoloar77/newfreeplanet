@@ -655,6 +655,17 @@ const baseroutes: IListRoutes[] = [
   },
   {
     active: true,
+    order: 200,
+    path: '/notifs',
+    materialIcon: 'fas fa-user',
+    name: 'pages.notifs',
+    component: () => import('@/views/user/usernotifs/usernotifs.vue'),
+    meta: { requiresAuth: true },
+    inmenu: false,
+    infooter: false,
+  },
+  {
+    active: true,
     order: 400,
     path: '/test',
     materialIcon: 'fas fa-test',

@@ -30,6 +30,7 @@ const msg_website_it = {
     myhosps2: 'myhosps2',
     mygood2: 'mygood2',
     fundraising: 'Sostieni il Progetto',
+    notifs: 'Configura le Notifiche',
     test: 'Test',
     projects: 'Progetti',
     report: 'Report Ore',

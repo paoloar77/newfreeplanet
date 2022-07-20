@@ -80,7 +80,7 @@ export default defineComponent({
 
     function loadProfile() {
       // Carica il profilo di quest'utente
-      userStore.loadUserProfile(userStore.my.username).then((ris) => {
+      userStore.loadUserProfile({username: userStore.my.username}).then((ris) => {
         myuser.value = ris
       })
     }

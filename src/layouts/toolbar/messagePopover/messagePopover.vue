@@ -40,7 +40,7 @@
             </q-menu>
         </q-btn>
         <q-btn v-if="false" flat round dense icon="fas fa-comment">
-            <q-badge v-if="getNumNotifUnread() > 0" floating color="red">{{getNumNotifUnread()}}</q-badge>
+            <q-badge v-if="getNumMsgUnread() > 0" floating color="red">{{getNumMsgUnread()}}</q-badge>
         </q-btn>
     </div>
 </template>

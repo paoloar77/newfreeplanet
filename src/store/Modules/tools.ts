@@ -12,7 +12,7 @@ import {
   ITodo,
   IUserFields,
   Privacy,
-  TipoVisu, IGroup, IMySkill, IMyBacheca, IImgGallery, IMsgGlobParam, IUserExport,
+  TipoVisu, IGroup, IMySkill, IMyBacheca, IImgGallery, IMsgGlobParam, IUserExport, ISpecialField,
 } from '@model'
 
 import { addToDate } from '@quasar/quasar-ui-qcalendar'
@@ -3527,7 +3527,7 @@ export const tools = {
   },
 
 
-  getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any): any {
+  getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any, specialField?: ISpecialField): any {
     const globalStore = useGlobalStore()
     const todos = useTodoStore()
     const userStore = useUserStore()
@@ -5544,7 +5544,17 @@ export const tools = {
       return myval
     }
 
-  }
+  },
+
+  updateQueryStringParameter(uri: string, key: string, value: string) {
+    const re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i')
+    const separator = uri.indexOf('?') !== -1 ? '&' : '?'
+    if (uri.match(re)) {
+      return uri.replace(re, '$1' + key + '=' + value + '$2')
+    } else {
+      return uri + separator + key + '=' + value
+    }
+  },
 
 
 // getLocale() {

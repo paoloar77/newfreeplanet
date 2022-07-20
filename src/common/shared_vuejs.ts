@@ -854,26 +854,68 @@ export const shared_consts = {
     NEW_ADV_CITY: 2,
     NEW_ADV_MY_GROUPS: 4,
     NEW_ADV_MY_RIS_CIRCUIT: 8,
-
-
   },
+
+  typeNotifs: [
+    {
+      value: 1, //
+      labeltrans: 'typenotifs.new_rec_bacheca',
+      descr: 'typenotifs.new_rec_bacheca_descr',
+    },
+    {
+      value: 2, //
+      labeltrans: 'typenotifs.events',
+      descr: 'typenotifs.events_descr',
+    },
+    {
+      value: 3, //
+      labeltrans: 'typenotifs.friends',
+      descr: 'typenotifs.friends_descr',
+    },
+    {
+      value: 4, //
+      labeltrans: 'typenotifs.circuits',
+      descr: 'typenotifs.circuits_descr',
+    },
+    {
+      value: 5, //
+      labeltrans: 'typenotifs.booking',
+      descr: '',
+    },
+  ],
+
+
 
   UsersNotif_Adv_List: [
     {
       value: 1, // NEW_ADV_PROVINCE
-      label: 'notifs.warn_province',
+      labeltrans: 'notifs.warn_province',
+      directory: 1,
     },
     {
       value: 2, // NEW_ADV_CITY
-      label: 'notifs.warn_city',
+      labeltrans: 'notifs.warn_city',
+      directory: 1,
     },
     {
       value: 4, // NEW_ADV_MY_GROUPS
-      label: 'notifs.warn_my_groups',
+      labeltrans: 'notifs.warn_my_groups',
+      directory: 1,
     },
     {
       value: 8, // NEW_ADV_MY_RIS_CIRCUIT
-      label: 'notifs.warn_my_ris_circuit',
+      labeltrans: 'notifs.warn_my_ris_circuit',
+      directory: 1,
+    },
+    {
+      value: 1, //
+      labeltrans: 'notifs.new_event',
+      directory: 2,
+    },
+    {
+      value: 1, //
+      labeltrans: 'notifs.new_friends',
+      directory: 3,
     },
   ],
 

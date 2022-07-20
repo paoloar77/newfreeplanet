@@ -5,6 +5,7 @@ import { static_data } from '@/db/static_data'
 import { useGlobalStore } from '@store/globalStore'
 import { useTodoStore } from '@store/Todos'
 import { Router } from 'vue-router'
+import { ISpecialField } from 'model'
 
 export const func_tools = {
   getLocale(vero ?: boolean): string {
@@ -155,7 +156,7 @@ export const toolsext = {
     // this.$q.lang.set(mylang)
   },
 
-  getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: string, id?: any, idmain?: any, indrec?: number, subsubkey?: string): any | undefined {
+  getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: string, id?: any, idmain?: any, indrec?: number, subsubkey?: string, specialField?: ISpecialField): any | undefined {
 
     const todos = useTodoStore()
     const userStore = useUserStore()
@@ -168,8 +169,23 @@ export const toolsext = {
             // @ts-ignore
             return userStore.my.profile[subkey][indrec][subsubkey]
           } else {
-            // @ts-ignore
-            return userStore.my.profile[subkey]
+
+            if (specialField && specialField.findsubkey && !!subkey) {
+              // @ts-ignore
+              const myrec = userStore.my.profile[subkey].filter(specialField.findsubkey)
+              // console.log('loaded', myrec)
+              if (myrec && myrec.length > 0 && !!specialField.paramtosetsubkey) {
+                // @ts-ignore
+                return myrec[0][specialField.paramtosetsubkey]
+              } else {
+                return ''
+              }
+
+            } else {
+
+              // @ts-ignore
+              return userStore.my.profile[subkey]
+            }
           }
         }
       } else if (keystr) { // @ts-ignore

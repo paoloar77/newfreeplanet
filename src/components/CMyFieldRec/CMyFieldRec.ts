@@ -6,7 +6,7 @@ import { fieldsTable } from '@store/Modules/fieldsTable'
 import { tools } from '@store/Modules/tools'
 import { costanti } from '@costanti'
 import { CMyPopupEdit } from '@/components/CMyPopupEdit'
-import { IColGridTable } from 'model'
+import { IColGridTable, ISpecialField } from 'model'
 import MixinBase from '@/mixins/mixin-base'
 
 
@@ -35,6 +35,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: '',
+    },
+    specialField: {
+      type: Object as PropType<ISpecialField>,
+      required: false,
+      default: null,
     },
     myimg: {
       type: String,
@@ -146,7 +151,7 @@ export default defineComponent({
       console.log('showandsel CMyFieldDb', row, col, newval)
 
       if (newval !== valinitial)
-        setValDb($q, mykey.value, newval, props.fieldtype || col.fieldtype, false, props.table, mysubkey.value, props.id, props.indrec, mysubsubkey.value)
+        setValDb($q, mykey.value, newval, props.fieldtype || col.fieldtype, false, props.table, mysubkey.value, props.id, props.indrec, mysubsubkey.value, props.specialField)
     }
 
     function withBorder() {

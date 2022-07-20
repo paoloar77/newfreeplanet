@@ -1,5 +1,6 @@
 import { IMessage, INotif } from '@src/model'
 import { useUserStore } from '@store/UserStore'
+import { useNotifStore } from '@store/NotifStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useProducts } from '@store/Products'
 import { serv_constants } from '@store/Modules/serv_constants'
@@ -161,19 +162,18 @@ export default function () {
   }
 
   function getNumNotif() {
-    // ++Todo: conv
-    /*
-    return NotifStore.getlasts_messages().length
-    */
+    const notifStore = useNotifStore()
+    const mynotifs = notifStore.getlasts_notifs
+    if (!!mynotifs)
+      return mynotifs.length
 
     return 0
   }
 
   function getNumNotifUnread() {
-    // return userStore.getlasts_messages().length
-    // ++Todo: conv
-    // return NotifStore.getnumMsgUnread()
-    return 0
+    const notifStore = useNotifStore()
+
+    return notifStore.getnumNotifUnread
   }
 
   function getUsernameChatByNotif(msg: INotif) {
@@ -198,13 +198,11 @@ export default function () {
     return ''
   }
 
-  function getImgByNotif(msg: INotif) {
+  function getImgByNotif(notif: INotif) {
     const userStore = useUserStore()
+    const notifStore = useNotifStore()
 
-    //++Todo: Notif
-    return ''
-    // @ts-ignore
-    // return `${userStore.getImgByUsername(this.getUsernameChatByMsg(msg))}`
+    return `${userStore.getImgByUsername(notif.sender)}`
   }
 
 

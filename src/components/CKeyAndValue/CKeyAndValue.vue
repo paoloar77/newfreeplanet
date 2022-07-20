@@ -17,6 +17,7 @@
           <span v-if="mydate">
                 <CDateTime
                   v-model:value="mydate"
+                  label=""
                   :canEdit="false">
                 </CDateTime>
           </span>

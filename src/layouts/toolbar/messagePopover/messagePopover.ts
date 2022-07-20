@@ -18,7 +18,7 @@ export default defineComponent({
   setup(props) {
     const $router = useRouter()
 
-    const { getNumMsgUnread, getNumMsg, getUsernameChatByMsg, getImgByMsg, getNumNotifUnread } = MixinUsers()
+    const { getNumMsgUnread, getNumMsg, getUsernameChatByMsg, getImgByMsg } = MixinUsers()
 
     // function lasts_messages (state: IUserState) => IMessage[] {
     //
@@ -73,7 +73,6 @@ export default defineComponent({
       getNumMsg,
       getUsernameChatByMsg,
       getImgByMsg,
-      getNumNotifUnread,
       tools,
     }
   },

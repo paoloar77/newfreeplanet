@@ -86,6 +86,7 @@ export interface INotif {
   descr: string
   datenotif?: Date
   status?: StatusMessage
+  link?: string
   read?: boolean
   deleted?: boolean
 }
@@ -108,4 +109,5 @@ export interface IMessageState {
 
 export interface INotifState {
   last_notifs: INotif[]
+  show_all: boolean
 }

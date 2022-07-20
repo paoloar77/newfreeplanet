@@ -9,9 +9,13 @@ import { static_data } from '@/db/static_data'
 
 import { fieldsTable } from '@src/store/Modules/fieldsTable'
 import { shared_consts } from '@/common/shared_vuejs'
-import { useUserStore } from '@store/UserStore'
+import { DefaultProfile, useUserStore } from '@store/UserStore'
 import { costanti } from '@costanti'
 import { useQuasar } from 'quasar'
+import { useNotifStore } from '@store/NotifStore'
+import { INotif } from 'model'
+import { IUserFields } from '@model/UserStore'
+import { useI18n } from '@/boot/i18n'
 
 export default defineComponent({
   name: 'userPanel',
@@ -24,15 +28,28 @@ export default defineComponent({
     const search = ref('')
     const colVisib = ref('')
     const mycolumns = ref([])
-    const myuser = ref({})
+    const myuser = ref(<IUserFields>{_id: '', username: '', name: '', surname: '', profile: DefaultProfile})
     const risultato = ref('')
+    const mynotif = ref('')
+    const mylink = ref('')
+    const notiftype = ref(1)
+
+    const listnotif = ref(<any>[])
+    const { t } = useI18n();
+
 
     const userStore = useUserStore()
+    const notifStore = useNotifStore()
 
     async function mounted() {
       //
       search.value = tools.getCookie(tools.COOK_SEARCH + 'searchpanel')
       await refresh()
+
+      listnotif.value = shared_consts.UsersNotif_Adv_List
+      for (const rec of listnotif.value) {
+        rec.label = t(rec.labeltrans)
+      }
     }
 
     function changeCol(newval: any) {
@@ -43,7 +60,7 @@ export default defineComponent({
       if (!!search.value)
         myuser.value = await userStore.loadUserPanel(search.value)
       else
-        myuser.value = {}
+        myuser.value = {_id: '', username: '', name: '', surname: '', profile: DefaultProfile}
 
     }
 
@@ -62,6 +79,21 @@ export default defineComponent({
       tools.copyStringToClipboard($q, risultato.value, false)
     }
 
+    async function sendNotifToUser() {
+
+      if (!!myuser.value) {
+        const notif: INotif = {
+          type: notiftype.value,
+          sender: userStore.my.username,
+          dest: myuser.value.username,
+          descr: mynotif.value,
+          link: mylink.value,
+        }
+        await notifStore.SendNotifEvent(notif)
+
+      }
+    }
+
     onMounted(mounted)
 
     return {
@@ -69,6 +101,7 @@ export default defineComponent({
       fieldsTable,
       search,
       tools,
+      shared_consts,
       doSearch,
       changeCol,
       myuser,
@@ -76,7 +109,12 @@ export default defineComponent({
       mycolumns,
       colVisib,
       exportListaEmail,
+      sendNotifToUser,
       risultato,
+      mynotif,
+      mylink,
+      notiftype,
+      listnotif,
     }
   }
 })

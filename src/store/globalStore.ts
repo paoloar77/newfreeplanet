@@ -30,7 +30,7 @@ import urlBase64ToUint8Array from '@src/js/utility'
 import translate from '@src/globalroutines/util'
 import { useTodoStore } from '@store/Todos'
 import { useMessageStore } from './MessageStore'
-import { useNotifStore } from './NotifStore'
+import { useNotifStore } from '@store/NotifStore'
 
 
 const stateConnDefault = 'online'
@@ -1592,6 +1592,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       else if (table === toolsext.TABLOCACCOM) myarr = shared_consts.LocationAccom
       else if (table === toolsext.TABPREF) myarr = shared_consts.Preferences
       else if (table === 'usernotifs') myarr = shared_consts.UsersNotif_Adv_List
+      else if (table === 'typenotifs') myarr = shared_consts.typeNotifs
       else myarr = this.getListByTable(table)
 
       if (costanti.TABLES_ARRAY.includes(table)) {

@@ -2,7 +2,19 @@
   <CMyPage img="" :title="$t('otherpages.admin.userpanel')" keywords="" :description="$t('otherpages.admin.userpanel')">
 
     <q-btn color="green" label="Esporta Lista Email" @click="exportListaEmail"></q-btn>
-    <q-btn color="green" label="Invia Notifica a " @click="sendNotifToUser"></q-btn>
+    <div class="q-ma-sm row">
+      <q-select rounded outlined v-model="notiftype" :options="listnotif" label="Tipo di Notifica" emit-value map-options>
+      </q-select>
+
+      <q-input
+        v-model="mynotif" type="textarea" autofocus label="Notifica da Inviare"
+        input-class="myinput-area"
+        style="height: 100px; width: 500px;"></q-input>
+      <q-input
+        v-model="mylink" label="Link"></q-input>
+      <q-btn color="green" :label="`Invia Notifica a ` + myuser.username" @click="sendNotifToUser"></q-btn>
+    </div>
+
 
     <!--<CCopyBtn title="Copia Dati" :texttocopy="risultato"></CCopyBtn>-->
 

@@ -265,6 +265,7 @@ export const costanti = {
     username_chip: 12000,
     link: 12500,
     listobj: 13000,
+
   },
 
   FieldTypeArr: [
@@ -276,6 +277,11 @@ export const costanti = {
     { label: 'Select', value: 32 },
     { label: 'Number', value: 64 },
     { label: 'crypted', value: 9000 },
+    { label: 'object', value: 10000 },
+    { label: 'separator', value: 11000 },
+    { label: 'username_chip', value: 12000 },
+    { label: 'link', value: 12500 },
+    { label: 'listobj', value: 13000 },
   ],
 
   TipoVisu: {

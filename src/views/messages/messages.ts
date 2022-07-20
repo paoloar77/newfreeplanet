@@ -78,6 +78,8 @@ export default defineComponent({
       const myrec = msgchat(username)
       // Get msg for this chat
       const lastdata: any = (myrec) ? myrec.lastdataread : tools.getLastDateReadReset()
+      if (!lastdata)
+        return null
       console.table(myrec)
       let mydate = ''
       if (!tools.isIsoDate(lastdata))

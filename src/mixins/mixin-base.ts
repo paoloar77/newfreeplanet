@@ -8,7 +8,7 @@ import MixinMetaTags from '@src/mixins/mixin-metatags'
 import { useUserStore } from '@store/UserStore'
 import { useGlobalStore } from '@store/globalStore'
 import { useQuasar } from 'quasar'
-import { IDataPass } from '@model'
+import { IDataPass, ISpecialField } from '@model'
 import { tools } from '../store/Modules/tools'
 import { costanti } from '@costanti'
 import { fieldsTable } from '@store/Modules/fieldsTable'
@@ -28,9 +28,9 @@ export default function () {
     return fieldsTable
   }
 
-  function getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any, indrec?: number, subsubkey?: string) {
+  function getValDb(keystr: string, serv: boolean, def?: any, table?: string, subkey?: any, id?: any, idmain?: any, indrec?: number, subsubkey?: string, specialField?: ISpecialField) {
     // console.log('getValDb')
-    return toolsext.getValDb(keystr, serv, def, table, subkey, id, idmain, indrec, subsubkey)
+    return toolsext.getValDb(keystr, serv, def, table, subkey, id, idmain, indrec, subsubkey, specialField)
   }
 
 
@@ -40,12 +40,12 @@ export default function () {
     return ris
   }
 
-  async function setValDb($q: any, key: string, value: any, type: any, serv: boolean, table?: string, subkey?: string, id?: any, indrec?: number, subsubkey?: string) {
+  async function setValDb($q: any, key: string, value: any, type: any, serv: boolean, table?: string, subkey?: string, id?: any, indrec?: number, subsubkey?: string, specialField?: ISpecialField) {
     const userStore = useUserStore()
     const globalStore = useGlobalStore()
     const { t } = useI18n()
 
-    console.log('setValDb', key, value, serv, table, subkey, indrec, subsubkey, indrec, subsubkey)
+    // console.log('setValDb', key, value, serv, table, subkey, indrec, subsubkey, specialField)
     let mydatatosave: IDataPass | null = null
 
     if (table === 'users') {
@@ -55,24 +55,51 @@ export default function () {
 
       if (key === 'profile') {
 
-        if (subsubkey && indrec) {
+        if (subsubkey && !!indrec && indrec >= 0) {
           // @ts-ignore
           userStore.my.profile[subkey][indrec][subsubkey] = value
-        }else {
-          // @ts-ignore
-          userStore.my.profile[subkey] = value
+
+        } else {
+
+          if (!!specialField && subkey) {
+            // @ts-ignore
+            const myrec = userStore.my.profile[subkey].filter(specialField.findsubkey)
+            if (myrec && tools.isArray(myrec) && myrec.length > 0 && !!specialField.paramtosetsubkey) {
+              myrec[0][specialField.paramtosetsubkey] = value
+              // console.log('myrec[specialField.paramtosetsubkey]', myrec[0][specialField.paramtosetsubkey], myrec)
+              // @ts-ignore
+            } else {
+              //let mynewrec = tools.getDefaultRecByTableAndSpecialField(table, specialField)
+              // @ts-ignore
+              let mynewrec = specialField.defaultnewrec
+              // @ts-ignore
+              mynewrec[specialField.paramtosetsubkey] = value
+              // console.log('mynewrec', mynewrec)
+              // @ts-ignore
+              userStore.my.profile[subkey].push(mynewrec)
+            }
+
+            // @ts-ignore
+            // console.log('saved', userStore.my.profile[subkey])
+          } else {
+            // @ts-ignore
+            userStore.my.profile[subkey] = value
+          }
         }
+
+        // Save to the DB:
+        // @ts-ignore
+        myfield[`${key}.${subkey}`] = userStore.my.profile[subkey]
+
       } else {
+        // Save to the DB:
+        myfield[key] = value
+
         // @ts-ignore
         userStore.my[key] = value
       }
 
       // Save to the DB:
-      if (subkey) {
-        myfield[`${key}.${subkey}`] = value
-      } else {
-        myfield[key] = value
-      }
 
       // console.log('myfield', myfield)
 
@@ -102,7 +129,7 @@ export default function () {
       globalStore.setValueSettingsByKey({ key, value, serv })
 
       let myrec = globalStore.getrecSettingsByKey(key, serv)
-      console.log('settings... myrec ', myrec, 'key=', key, 'serv', serv)
+      // console.log('settings... myrec ', myrec, 'key=', key, 'serv', serv)
       if (myrec === undefined) {
         myrec = {
           idapp: process.env.APP_ID,
@@ -128,7 +155,7 @@ export default function () {
           },
         )
       }
-      console.log('myrec', myrec)
+      // console.log('myrec', myrec)
 
       mydatatosave = {
         // @ts-ignore

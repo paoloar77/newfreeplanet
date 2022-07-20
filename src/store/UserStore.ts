@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import {
   IFriends, IMsgGlobParam,
   ISigninOptions,
-  ISignupOptions, IUserFields, IUserProfile, IUserState,
+  ISignupOptions, IUserFields, IUserNotifType, IUserProfile, IUserState,
 } from '@src/model'
 import { tools } from '@store/Modules/tools'
 import translate from '@src/globalroutines/util'
@@ -54,7 +54,7 @@ export const DefaultUser: IUserFields = {
     manage_mygroups: [],
     asked_friends: [],
     asked_groups: [],
-    notifs: 15,
+    notifs: [],
   },
   cart: {
     userId: '',
@@ -100,7 +100,7 @@ export const DefaultProfile: IUserProfile = {
   manage_mygroups: [],
   asked_friends: [],
   asked_groups: [],
-  notifs: 15,
+  notifs: [],
 }
 
 export const useUserStore = defineStore('UserStore', {
@@ -975,9 +975,10 @@ export const useUserStore = defineStore('UserStore', {
       }
     },
 
-    async loadUserProfile(username: string) {
+    async loadUserProfile({username, idnotif}: {username: string, idnotif?: string}) {
       const data = {
-        username
+        username,
+        idnotif
       }
 
       return Api.SendReq('/users/profile', 'POST', data)
@@ -993,7 +994,7 @@ export const useUserStore = defineStore('UserStore', {
 
     },
 
-    async setUserNotifs(notifs: number) {
+    async setUserNotifs(notifs: IUserNotifType[]) {
       const data = {
         notifs
       }

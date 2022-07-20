@@ -1598,6 +1598,11 @@ const colTableGeneric = [
   AddCol({ name: 'label', label_trans: 'proj.longdescr' }),
 ]
 
+const colTableGenTrans = [
+  AddCol({ name: 'value', label_trans: 'others.value' }),
+  AddCol({ name: 'labeltrans', label_trans: 'proj.longdescr' }),
+]
+
 export const colTableOperator = [
   AddCol({ name: 'username', label_trans: 'reg.username_short' }),
   AddCol({ name: 'name', label_trans: 'reg.name' }),
@@ -2710,9 +2715,18 @@ export const fieldsTable = {
     {
       value: 'usernotifs',
       label: 'Notifiche',
-      columns: colTableGeneric,
+      columns: colTableGenTrans,
       colkey: 'value',
-      collabel: 'label',
+      collabel: 'labeltrans',
+      colicon: 'icon',
+      noshow: true,
+    },
+    {
+      value: 'typenotifs',
+      label: 'Tipi di Notifiche',
+      columns: colTableGenTrans,
+      colkey: 'value',
+      collabel: 'labeltrans',
       colicon: 'icon',
       noshow: true,
     },

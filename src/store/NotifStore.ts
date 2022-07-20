@@ -12,19 +12,21 @@ import { useUserStore } from '@store/UserStore'
 export const useNotifStore = defineStore('NotifStore', {
   state: (): INotifState => ({
     last_notifs: [],
+    show_all: true
   }),
 
   getters: {
 
     getlasts_notifs: (mystate: INotifState) => (): INotif[] => {
-      const ctrec = (mystate.last_notifs) ? mystate.last_notifs.slice(0, 5) : []
+      const ctrec = (mystate.last_notifs) ? mystate.last_notifs.slice(0, 5).filter((rec) => mystate.show_all ? true : !rec.read) : []
       // const ctrec = (mystate.notifs) ? mystate.notifs.slice().reverse().slice(0, 5) : []
       return (ctrec)
 
     },
 
     getnumNotifUnread: (mystate: INotifState) => () => {
-      return mystate.last_notifs.filter((notif) => !notif.read).length
+      const myarr = mystate.last_notifs.filter((notif) => !notif.read)
+      return (tools.isArray(myarr) ? myarr.length : 0)
     },
 
   },
@@ -37,12 +39,50 @@ export const useNotifStore = defineStore('NotifStore', {
       }
     },
 
+    setAsRead(idnotif: string) {
+      const rec = this.last_notifs.find((rec: any) => rec._id === idnotif)
+      if (rec) {
+        rec.read = true
+      }
+    },
+
+    setAllRead(username: string) {
+      return Api.SendReq(`/sendnotif/setall/${username}/${process.env.APP_ID}`, 'GET', null)
+        .then((res) => {
+          // console.log('res', res)
+          if (res) {
+            for (const rec of this.last_notifs) {
+              rec.read = true
+            }
+          }
+
+        })
+        .catch((error) => {
+          console.error(error)
+          return false
+        })
+
+    },
+
+    deleteRec(id: string) {
+
+    },
+
+    deactivateRec(id: string) {
+
+    },
+
     async updateNotifDataFromServer({ username, lastdataread }: {username: string, lastdataread: Date}) {
       // console.log('updateNotifDataFromServer', username, lastdataread)
 
       return Api.SendReq(`/sendnotif/${username}/${lastdataread}/${process.env.APP_ID}`, 'GET', null)
         .then((res) => {
           // console.log('res', res)
+          if (!!res.data && !!res.data.arrnotif) {
+            this.last_notifs = res.data.arrnotif
+          } else {
+            this.last_notifs = []
+          }
           return true
         })
         .catch((error) => {
@@ -61,6 +101,7 @@ export const useNotifStore = defineStore('NotifStore', {
       data.sender = notif.sender
       data.dest = notif.dest
       data.descr = notif.descr
+      data.link = notif.link
       data.datenotif = tools.getDateNow()
       data.read = false
 
